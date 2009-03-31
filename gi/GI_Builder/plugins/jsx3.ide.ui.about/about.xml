@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+ <onAfterDeserialize><![CDATA[
+
+  var str =  "This release of @gi.productname.full@ includes:<br/>";
+  str += "General Interface&#8482; Framework &#8211; @build.gi.name.edition@ (@gi.version.full@)<br/>";
+  str += "General Interface&#8482; Builder &#8211; @build.gi.name.edition@ (@gi.version.full@)<br/><br/>";
+  str += "&#169; 2001-2009, TIBCO Software Inc.";
+  
+  var block = objJSX.getDescendantOfName("jsx_about_copy");
+  block.setText(block.getServer().getDynamicProperty('_abt_copyright') + "<br/><br/><br/>" + str, true);
+
+]]></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+   <dynamics jsxbgcolor="@Solid Medium"/>
+   <variants jsxwidth="732" jsxheight="331" jsxresize="0"/>
+   <strings jsxname="jsx_about_dialog" jsxhelpid="ide.about"/>
+    <object type="jsx3.gui.WindowBar">
+     <dynamics jsxtext="_abt_cbar"/>
+     <variants/>
+     <strings jsxname="jsx_about_caption"/>
+      <object type="jsx3.gui.ToolbarButton">
+       <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+       <variants/>
+       <strings jsxname="jsxtbb"/>
+       <events jsxexecute="this.getParent().getParent().doToggleState();"/>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+       <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"/>
+       <variants/>
+       <strings jsxname="jsxtbb"/>
+       <events jsxexecute="this.getParent().getParent().doClose();"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+     <variants jsxwidth="234" jsxheight="18" jsxrelativeposition="0" jsxleft="480" jsxtop="8"/>
+     <strings jsxname="jsx_about_img" jsxtagname="IMG"/>
+     <properties src="JSX/images/icons/logo_234_18.gif"/>
+    </object>
+    <object type="jsx3.gui.Block">
+     <dynamics />
+     <variants jsxwidth="700" jsxrelativeposition="0" jsxleft="10" jsxtop="50"/>
+     <strings jsxname="jsx_about_copy"/>
+    </object>
+  </object>
+</serialization>

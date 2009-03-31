@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<plugin xmlns="http://www.tibco.com/gi/amp"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugin.xsd"
+        id="net.sf.editarea"
+        name="EditArea Library Plug-In"
+        version="0.7.2.1">
+
+  <requires>
+  </requires>
+
+  <resources>
+    <script id="main" path="edit_area_full.js"/>
+  </resources>
+
+</plugin>
