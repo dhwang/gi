@@ -20,39 +20,16 @@ function _jsx_onLoad() {
     var Event = me.opener ? me.opener.jsx3.gui.Event : null;
 
     if (openerDoc && objWindow) {
-      me.document.title = objWindow.getTitle();
-
       me.onbeforeunload = new Function("if (window._jsxwindow) window._jsxwindow.onBeforeUnload();");
       me.onfocus = new Function("if (window._jsxwindow) window._jsxwindow.onFocus();");
       me.onresize = new Function("if (window._jsxwindow) window._jsxwindow.onResize();");
 
+      // Cancel native browser right click according to the same setting as the main window
+      if (objWindow.getServer().getEnv("cancelrightclick"))
+        doc.oncontextmenu = new Function("return false;");
+
       if (me.opener.onerror)
         me.onerror = me.opener.onerror;
-
-      var dependent = objWindow.isDependent();
-
-      Event.subscribe(Event.UNLOAD, function() {
-        if (dependent) {
-          // dependent jsx3.gui.Window instances close automatically when their parent closes
-          if(me && me.close) {
-            try {
-              me.close();
-            } catch(e) {}
-          }
-        } else {
-          //3.5.1 moved to else block...
-          try {
-            Event._deregisterWindow(me);
-          } catch (e) {};
-          // non-dependent windows support the window.onparentunload hook
-          me.location = "about:blank";
-          me._jsxwindow = null;
-          me.onerror = null;
-        }
-      });
-
-      // ensure that events that bubble up to this window eventually bubble up to the parent window
-      Event._registerWindow(me);
 
       // special handling of keydown event ensures that the Window's root block can capture any keydown events for the
       // purpose of handling hot keys
@@ -66,8 +43,6 @@ function _jsx_onLoad() {
       };
 
       objWindow.onLoad(me);
-    } else {
-      // TODO: how shall we address this?
     }
   }, 0);
 }

@@ -178,14 +178,26 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
 
 
   /**
-   * Closes the browser window of this window instance.
+   * Closes the browser window of this window instance. Call to properly close the window and perform all necessary resource cleanup.
+   * Note: due to differences across the various browsers, calling this method to close the browser window is preferable to allowing the user
+   * to close the window via the native browser close button in the window's caption bar.
    * @return {boolean} <code>true</code> if the window successfully closed or <code>false</code> if it didn't close
    *    because of JavaScript security constraints or user interaction.
    * @throws {jsx3.Exception} if the window is already closed.
    */
   Window_prototype.close = function() {
     if (this._jsxwindow != null && !this._jsxwindow.closed) {
-      this._jsxwindow.close();
+      var objWindow = this._jsxwindow;
+      objWindow.location = "about:blank";
+      var me = this;
+      window.setTimeout(function() {
+        try {
+           objWindow.close();
+         } catch(e) {
+           var strMsg = jsx3._msg("gui.win.rm", me, jsx3.lang.NativeError.wrap(e).getMessage());
+           LOG.warn(strMsg);
+         }
+      },500);
       return true;
     } else {
       throw new Exception(jsx3._msg("gui.win.cl", this));
@@ -200,14 +212,17 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
    * @since 3.7
    */
   Window_prototype.doClose = function() {
-    //try to close the window; repor the error if thrown
+    //decrease the total number of HTML nodes on the page by removing all child content (this seems to help with GC)
+    this.getRootBlock().removeChildren();
+
+    //try to close the native window; report the error if thrown
     try {
       this.close();
     } catch(e) {
       var strMsg = jsx3._msg("gui.win.rm", this, jsx3.lang.NativeError.wrap(e).getMessage());
       LOG.warn(strMsg);
     }
-    //conclude by removing the DOM branch
+    //conclude by removing the DOM branch (this)
     if(this.getParent())
       this.getParent().removeChild(this);
   };
@@ -310,11 +325,28 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
   };
 
   // event handlers
+  /** @package */
+  Window_prototype.onunload = function() {
+    //this method is subscribed to the unload event of the parent opener. If this window is dependent it will be closed
+    //when the parent opener closes
+    if (this.isDependent() && this._jsxwindow && this._jsxwindow.close) {
+      try {
+        this._jsxwindow.close();
+      } catch(e) {
+      }
+    }
+  };
 
   /** @private */
   Window_prototype.onLoad = function(w) {
     if (LOG.isLoggable(Logger.DEBUG))
       LOG.debug("onLoad " + this);
+
+    //subscribe to the unload event for the main/parent window, so the popup can be closed if it is dependent
+    jsx3.gui.Event.subscribe(jsx3.gui.Event.UNLOAD, this, "onunload");
+
+    // ensure that events that bubble up to this window eventually bubble up to the parent window
+    jsx3.gui.Event._registerWindow(w);
 
     var doc = w.document;
     var mainWindow = w.opener;
@@ -367,10 +399,15 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
     if (LOG.isLoggable(Logger.DEBUG))
       LOG.debug("onBeforeUnload " + this);
 
+    try {
+      jsx3.gui.Event.unsubscribe(jsx3.gui.Event.UNLOAD, this, "onunload");
+    } catch(e) {};
+
     if (jsx3.gui.Event._isWindowRegistered(this._jsxwindow)) {
       jsx3.gui.Event._deregisterWindow(this._jsxwindow);
 
       // garbage collection
+      this._jsxwindow.document.onkeydown = null;
       for (var f in this._jsxwindow) {
         try {
           if(typeof(this._jsxwindow[f]) == "function")
