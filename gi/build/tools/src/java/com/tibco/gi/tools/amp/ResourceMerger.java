@@ -63,11 +63,7 @@ public class ResourceMerger {
             for (Element rsrcNode : rsrcNodes) {
               String path = rsrcNode.getAttribute("path");
               if (path != null && path.length() > 0) {
-                if (pluginDir.isDirectory()) {
-                  doResource(pluginNode, rsrcNode, pluginDir);
-                } else {
-                  LOG.warning("No plug-in directory for plug-in " + id);
-                }
+                doResource(pluginNode, rsrcNode, pluginDir);
               }
             }
           }
@@ -99,6 +95,11 @@ public class ResourceMerger {
     String rsrcId = pluginNode.getAttribute("id") + "." + rsrcNode.getAttribute("id");
 
     if (idMatches(rsrcId)) {
+      if (!pluginDir.isDirectory()) {
+        LOG.warning("No plug-in directory for plug-in " + pluginNode.getAttribute("id"));
+        return;
+      }
+
       File rsrcFile = new File(pluginDir.toURI().resolve(rsrcNode.getAttribute("path")));
 
       if (rsrcFile.isFile()) {
@@ -168,7 +169,7 @@ public class ResourceMerger {
   /**
    * Adds an ID pattern for merging.
    * @param p
-   * @see #addIdPattern(String) 
+   * @see #addIdPattern(String)
    */
   public void addIdPattern(Pattern p) {
     idsToMerge.add(p);

@@ -88,9 +88,9 @@ public class FileEmbedder {
     Utils.serializeDocument(doc, contents, 0);
 
     if (condense)
-      return "'" + contents.toString().replaceAll("'", "\\\\'").replaceAll("\\s*\n\\s*", "") + "'";
+      return "'" + contents.toString().replaceAll("'", "\\\\'").replaceAll("\\s*(\n|\r\n|\r)\\s*", "") + "'";
     else
-      return "'" + contents.toString().replaceAll("'", "\\\\'").replaceAll("\n", "\\\\n") + "'";
+      return "'" + contents.toString().replaceAll("'", "\\\\'").replaceAll("(\n|\r\n|\r)", "\\\\n") + "'";
   }
 
   private static String txtToJsString(File f) throws IOException {

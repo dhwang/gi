@@ -514,7 +514,7 @@ public class LocaleCompiler {
               try {
                 DateFormat df = new SimpleDateFormat(newValue);
                 setLocaleProperty(node, prefix + length, newValue, false);
-                LOG.info("Corrected format \"" + value + "\" to \"" + newValue + "\"");
+                LOG.fine("Corrected format \"" + value + "\" to \"" + newValue + "\"");
               } catch (Exception e1) {
                 LOG.warning("Error parsing date format \"" + value + "\": " + e);
               }

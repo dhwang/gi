@@ -19,6 +19,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.jaxen.dom.DOMXPath;
+import org.jaxen.JaxenException;
 
 /**
  * Merges multiple plugin.xml plug-in descriptor files into a single plugins.xml plug-in registration file.
@@ -42,7 +44,7 @@ public class PluginMerger {
    *
    * @throws IOException
    */
-  public void run() throws IOException {
+  public void run() throws IOException, JaxenException {
     if (pluginsFile == null) throw new NullPointerException("Must set pluginsFile property");
     if (!pluginsFile.isFile()) throw new IllegalArgumentException("pluginsFile property must be an existing file");
 
@@ -62,6 +64,11 @@ public class PluginMerger {
         String id = plugInElement.getAttribute("id");
         if (id != null) {
           if (all || plugins.contains(id)) {
+            if ((new DOMXPath("*")).selectNodes(plugInElement).size() > 0) {
+              LOG.fine("Skipping merged plug-in: " + id);
+              continue;
+            }
+
             String relativePath = plugInElement.getAttribute("path");
             if (relativePath.length() > 0 && !relativePath.endsWith(File.separator))
               relativePath += File.separator;
