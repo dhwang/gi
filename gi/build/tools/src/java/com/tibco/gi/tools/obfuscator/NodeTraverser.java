@@ -4,10 +4,6 @@
  */
 package com.tibco.gi.tools.obfuscator;
 
-import com.tibco.gi.tools.javascript.Language;
-import org.mozilla.javascript.Node;
-import org.mozilla.javascript.Token;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +17,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Logger;
+
+import com.tibco.gi.tools.Utils;
+import com.tibco.gi.tools.javascript.Language;
+import org.mozilla.javascript.Node;
+import org.mozilla.javascript.Token;
 
 /**
  * @author Jesse Costello-Good
@@ -379,7 +380,7 @@ public class NodeTraverser {
             n.getParent().replaceChild(n, toReplace.get(n));
 
           List<String> keyList = new ArrayList<String>();
-          for (String key : stringNodes.keySet()) {
+          for (String key : Utils.sortedKeys(stringNodes)) {
             keyList.add(key);
             objIndex.appendChild(stringNodes.get(key));
           }

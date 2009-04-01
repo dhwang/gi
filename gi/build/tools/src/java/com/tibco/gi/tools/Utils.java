@@ -21,9 +21,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -216,6 +218,12 @@ public class Utils {
     }
 
     return u2;
+  }
+
+  public static <K extends Comparable, V> List<K> sortedKeys(Map<K, V> map) {
+    List<K> sorted = new ArrayList<K>(map.keySet());
+    Collections.sort(sorted);
+    return sorted;
   }
 
 }

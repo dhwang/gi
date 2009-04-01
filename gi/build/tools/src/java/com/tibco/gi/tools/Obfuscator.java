@@ -243,7 +243,7 @@ public class Obfuscator {
       if (!mapOutFile.isFile()) mapOutFile.createNewFile();
 
       PrintStream printer = new PrintStream(new FileOutputStream(mapOutFile));
-      for (String key : mappings.keySet()) {
+      for (String key : Utils.sortedKeys(mappings)) {
         printer.println(key + " " + mappings.get(key));
       }
     }

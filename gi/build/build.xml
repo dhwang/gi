@@ -349,16 +349,31 @@
     <delete dir="${tmp.dir}"/>    
   </target>
 
-  <target name="obfuscate" depends="obfuscate-jsx, obfuscate-charting, obfuscate-amp, obfuscate-ide">
-    <delete file="${build.dir}/obfuscate/clobber-map.tmp"/>
+  <target name="obfuscate" depends="obfuscate-setup, obfuscate-jsx, obfuscate-charting, obfuscate-amp, obfuscate-ide">
+    <move file="${build.obf.tmpmapfile}" tofile="${build.obf.mapfileout}/"/>
+  </target>
+
+  <target name="obfuscate-setup" depends="init">
+    <property name="build.obf.tmpmapfile" value="${build.dir}/obfuscate/clobber-map.tmp"/>
+    <property name="build.obf.mapfileout" value="${dist.dirbase}/obfuscation-map.txt"/>
+
+    <!-- delete the old temp file in case it exists still -->
+    <delete file="${build.obf.tmpmapfile}"/>
+    <!-- if available, copy the mapping input file to the temp location, where it will be used by each obfuscation -->
+    <if>
+      <available file="${build.dir}/${build.source.obf.name-map}"/>
+      <then>
+        <copy file="${build.dir}/${build.source.obf.name-map}" tofile="${build.obf.tmpmapfile}"/>
+      </then>
+    </if>
   </target>
 
   <target name="obfuscate-jsx" depends="init, init-tools" if="build.set.obfuscate.jsx">
     <gi-obfuscate optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         clobberfile="obfuscate/jsx-clobber.txt"
-        inmap="${build.dir}/obfuscate/clobber-map.tmp"
-        outmap="${build.dir}/obfuscate/clobber-map.tmp">
+        inmap="${build.obf.tmpmapfile}"
+        outmap="${build.obf.tmpmapfile}">
       <fileset dir="${dist.dir}/JSX" includes="${build.source.obf.jsx-inc}" excludes="${build.source.obf.jsx-exc}"/>
     </gi-obfuscate>
   </target>
@@ -371,8 +386,8 @@
     <gi-obfuscate optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         clobberfile="${build.dir}/obfuscate/charting-clobber.txt.tmp"
-        inmap="${build.dir}/obfuscate/clobber-map.tmp"
-        outmap="${build.dir}/obfuscate/clobber-map.tmp">
+        inmap="${build.obf.tmpmapfile}"
+        outmap="${build.obf.tmpmapfile}">
       <fileset dir="${dist.dir}/JSX/addins/charting" includes="${build.source.obf.chart-inc}" excludes="${build.source.obf.chart-exc}"/>
     </gi-obfuscate>
     <delete file="${build.dir}/obfuscate/charting-clobber.txt.tmp"/>
@@ -394,8 +409,8 @@
 
     <gi-obfuscate optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
-        inmap="${build.dir}/obfuscate/clobber-map.tmp"
-        outmap="${build.dir}/obfuscate/clobber-map.tmp">
+        inmap="${build.obf.tmpmapfile}"
+        outmap="${build.obf.tmpmapfile}">
       <fileset dir="${dist.dir}/JSX/addins/amp" includes="${build.source.obf.amp-inc}" excludes="${build.source.obf.amp-exc}"/>
     </gi-obfuscate>
   </target>
@@ -404,8 +419,8 @@
     <gi-obfuscate optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         clobberfile="obfuscate/ide-clobber.txt"
-        inmap="${build.dir}/obfuscate/clobber-map.tmp"
-        outmap="${build.dir}/obfuscate/clobber-map.tmp">
+        inmap="${build.obf.tmpmapfile}"
+        outmap="${build.obf.tmpmapfile}">
       <fileset dir="${dist.dir}/GI_Builder" includes="${build.source.obf.ide-inc}" excludes="${build.source.obf.ide-exc}"/>
     </gi-obfuscate>
   </target>

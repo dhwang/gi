@@ -118,7 +118,7 @@ public class ResourceInjector {
       bundle = ResourceBundle.getBundle(bundleResource, locale);
 
       boolean first = false;
-      for (String key : defaultValues.keySet()) {
+      for (String key : Utils.sortedKeys(defaultValues)) {
         String value = bundle.getString(key);
 		// TODO -  native2ascii already converted the native strings to unicode, 
 		// but reading back using ResourceBundle with locale param makes it a native encoding string.
