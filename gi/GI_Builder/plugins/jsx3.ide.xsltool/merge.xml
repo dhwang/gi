@@ -37,8 +37,8 @@ objJSX.onBrowseChoose = function(objFile, appFolder, objTarget, bSave) {
     jsx3.ide.writeUserFile(objFile, objTarget.getValue());
   } else {
     //resolve to the jsxapp namesapce
-    var strPath = appFolder.relativePathTo(objFile);
-    objTarget.setValue("jsxapp:///" + strPath);
+    var strPath = jsx3.ide.getSystemDirFile().relativePathTo(objFile);
+    objTarget.setValue(jsx3.net.URIResolver.USER.relativizeURI(strPath));
   }
 };
 

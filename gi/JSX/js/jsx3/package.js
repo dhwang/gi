@@ -954,7 +954,9 @@ jsx3.Class.defineInterface("jsx3.net.URIResolver", null, function(URIResolver, U
   };  
   
   URIResolver.USER.relativizeURI = function(strURI, bRel) {
-    var relative = URIResolver._getHomePathUri().relativize(strURI);
+    var loc = jsx3.app.Browser.getLocation();
+
+    var relative = loc.resolve(jsx3.getEnv("jsxhomepath")).relativize(loc.resolve(strURI));
     if (relative.isAbsolute() || bRel)
       return relative;
     else
