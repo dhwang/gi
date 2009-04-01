@@ -444,7 +444,7 @@ jsx3.Class.defineClass("jsx3.util.WeakMap", null, null, function(WeakMap, WeakMa
   WeakMap_prototype.set = function(strKey, strValue) {
     this._map[strKey] = strValue;
     this._dirty = true;
-    if (! WeakMap._TO) 
+    if (! WeakMap._TO)
       WeakMap._TO = window.setTimeout(WeakMap.expire, 0);
   };
 
@@ -455,6 +455,174 @@ jsx3.Class.defineClass("jsx3.util.WeakMap", null, null, function(WeakMap, WeakMa
     delete this._map;
     delete WeakMap._ALL[this._serial];
   };
+
+});
+
+/**
+ * Reports various memory statistics for the GI runtime. <b>This class is only available in the source and "debug"
+ * builds.</b>
+ * <p/>
+ * This class prints the memory statistics to the logger <code>bench.jsx3.util.MemStats</code> at an interval of 15s.
+ * By default the logging message is level <code>TRACE</code>. Every 12th message is <code>DEBUG</code> and every
+ * 60th is <code>INFO</code>.
+ *
+ * @since 3.7.1
+ * @package
+ */
+jsx3.Class.defineClass("jsx3.util.MemStats", null, null, function(MemStats, MemStats_prototype) {
+
+  MemStats.INTERVAL = 15000;
+
+  /** @private @jsxobf-clobber */
+  MemStats._DEBUG = 12;
+  /** @private @jsxobf-clobber */
+  MemStats._INFO = 60;
+  /** @private @jsxobf-clobber */
+  MemStats._SERIAL = 0;
+
+  /** @private @jsxobf-clobber */
+  MemStats._interval = function() {
+    var Logger = jsx3.util.Logger;
+    if (Logger) {
+      var level = (MemStats._SERIAL % MemStats._INFO == 0) ? Logger.INFO :
+                  ((MemStats._SERIAL % MemStats._DEBUG == 0) ? Logger.DEBUG : Logger.TRACE);
+      MemStats._log(level);
+      MemStats._SERIAL++;
+    }
+  };
+
+  /**
+   * Logs the memory statistics immediately with level WARN.
+   */
+  MemStats.log = function() {
+    MemStats._log(jsx3.util.Logger.WARN);
+  };
+
+  /**
+   * Returns the memory statistics with the following object schema:
+   * <pre>
+   * {
+   *   systemcache: [count, bytes],
+   *   sharedcache: [count, bytes],
+   *   jss: count,
+   *   apps: [
+   *     {
+   *       ns: "namespace",
+   *       cache: [count, bytes],
+   *       html: bytes,
+   *       dom: count,
+   *       jss: count
+   *     }, ...
+   *   ],
+   *   statstime: millis
+   * }
+   * </pre>
+   */
+  MemStats.getStats = function() {
+    var o = {};
+    var t1 = new Date();
+
+    o.systemcache = MemStats._cacheSize(jsx3.getSystemCache());
+    o.sharedcache = MemStats._cacheSize(jsx3.getSharedCache());
+    o.jss = MemStats._jssSize(jsx3.System.JSS);
+    o.apps = [];
+
+    var s = jsx3.app.Server.allServers();
+    jsx3.$A(s).each(function(e) {
+      var rend = e.getRootBlock().getRendered();
+
+      o.apps.push({
+        ns: e.getEnv("namespace"),
+        cache: MemStats._cacheSize(e.getCache()),
+        html: rend ? rend.parentNode.innerHTML.length : 0,
+        dom: MemStats._domSize(e.JSXROOT) + MemStats._domSize(e.INVISIBLE),
+        jss: e.JSS.getKeys().length + MemStats._jssSize(e.LJSS)
+      });
+    });
+
+    o.statstime = (new Date()).getTime() - t1.getTime();
+
+    return o;
+  };
+
+  /** @private @jsxobf-clobber */
+  MemStats._cacheSize = function(objCache) {
+    var size = 0;
+    var count = 0;
+    var keys = objCache.keys();
+    jsx3.$A(keys).each(function(e) {
+      var d = objCache.getDocument(e);
+      if (d) {
+        count++;
+        size += d.toString().length;
+      }
+    });
+    return [count, size];
+  };
+
+  /** @private @jsxobf-clobber */
+  MemStats._domSize = function(objNode) {
+    if (!objNode) return 0;
+    var s = 1;
+    var c = objNode.getChildren();
+    for (var i = 0; i < c.length; i++)
+      s += MemStats._domSize(c[i]);
+    return s;
+  };
+
+  /** @private @jsxobf-clobber */
+  MemStats._jssSize = function(jss) {
+    var s = jss.getKeys().length;
+    var c = jss.getParents();
+    for (var i = 0; i < c.length; i++)
+      s += MemStats._jssSize(c[i]);
+    return s;
+  };
+
+  /** @private @jsxobf-clobber */
+  MemStats._log = function(intLevel) {
+    var Logger = jsx3.util.Logger;
+    if (Logger) {
+      var log = Logger.getLogger("bench." + MemStats.jsxclass.getName());
+      if (log.isLoggable(intLevel)) {
+        var stat = MemStats.getStats();
+        var s = "sys-cache:" + MemStats._kb(stat.systemcache[1]) +
+                " shr-cache:" + MemStats._kb(stat.sharedcache[1]) +
+                " sys-jss:" + stat.jss;
+
+        jsx3.$A(stat.apps).each(function(e) {
+          s += " [@" + e.ns + " dom:" + e.dom + " html:" + MemStats._kb(e.html) +
+               " cache:" + MemStats._kb(e.cache[1]) + " jss:" + e.jss + "]";
+        });
+
+        s += " time: " + MemStats._ts(stat.statstime);
+
+        log.log(intLevel, s);
+      }
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  MemStats._kb = function(bytes) {
+    if (bytes < 1024)
+			return bytes + "B";
+		bytes = Math.ceil(bytes/1024);
+		if (bytes < 1024)
+			return bytes + "K";
+		bytes /= 1024;
+		if (bytes < 1024)
+			return (Math.round(bytes*10)/10) + "M";
+		bytes = Math.ceil(bytes/1024);
+
+		return (Math.round(bytes*10)/10) + "G";
+  };
+
+  /** @private @jsxobf-clobber */
+  MemStats._ts = function(ms) {
+    return Math.round(ms/100)/10 + "s";
+  };
+
+  window.setInterval(MemStats._interval, MemStats.INTERVAL);
 
 });
 
