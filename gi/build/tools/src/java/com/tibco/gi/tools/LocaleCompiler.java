@@ -8,7 +8,6 @@ package com.tibco.gi.tools;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -228,7 +227,7 @@ public class LocaleCompiler {
     if (!key.equals(defaultLocale))
       locNode.setAttribute("key", key);
 
-	LOG.info("Merging .. " + key);
+	LOG.fine("Merging .. " + key);
     // For each source document, merge the contents into the <locale> element.
     for (URL uri : uris)
       mergeSourceToNode(uri, locNode, getLocale(key));
