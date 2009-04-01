@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
-  ~ Copyright (c) 1991-2007 Unicode, Inc. All rights reserved.
-  -->
 <!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.103 $"/>
-		<generation date="$Date: 2007/07/24 23:39:15 $"/>
+		<version number="$Revision: 1.105 $"/>
+		<generation date="$Date: 2007/11/14 16:26:58 $"/>
 		<language type="zh"/>
 	</identity>
 	<localeDisplayNames>
@@ -1418,18 +1415,41 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="wide">
-							<month type="1">一月</month>
-							<month type="2">二月</month>
-							<month type="3">三月</month>
-							<month type="4">四月</month>
-							<month type="5">五月</month>
-							<month type="6">六月</month>
-							<month type="7">七月</month>
-							<month type="8">八月</month>
-							<month type="9">九月</month>
-							<month type="10">十月</month>
-							<month type="11">十一月</month>
-							<month type="12">十二月</month>
+							<month type="1">1</month>
+							<month type="1" alt="proposed-x1001" draft="unconfirmed">一月</month>
+							<month type="1" alt="proposed-x1002" draft="unconfirmed">1 月</month>
+							<month type="2">2</month>
+							<month type="2" alt="proposed-x1001" draft="unconfirmed">二月</month>
+							<month type="2" alt="proposed-x1002" draft="unconfirmed">2 月</month>
+							<month type="3">3</month>
+							<month type="3" alt="proposed-x1001" draft="unconfirmed">三月</month>
+							<month type="3" alt="proposed-x1002" draft="unconfirmed">3 月</month>
+							<month type="4">4</month>
+							<month type="4" alt="proposed-x1001" draft="unconfirmed">四月</month>
+							<month type="4" alt="proposed-x1002" draft="unconfirmed">4 月</month>
+							<month type="5">5</month>
+							<month type="5" alt="proposed-x1001" draft="unconfirmed">五月</month>
+							<month type="5" alt="proposed-x1002" draft="unconfirmed">5 月</month>
+							<month type="6">6</month>
+							<month type="6" alt="proposed-x1001" draft="unconfirmed">六月</month>
+							<month type="6" alt="proposed-x1002" draft="unconfirmed">6 月</month>
+							<month type="7">7</month>
+							<month type="7" alt="proposed-x1001" draft="unconfirmed">七月</month>
+							<month type="7" alt="proposed-x1002" draft="unconfirmed">7 月</month>
+							<month type="8">8</month>
+							<month type="8" alt="proposed-x1001" draft="unconfirmed">八月</month>
+							<month type="8" alt="proposed-x1002" draft="unconfirmed">8 月</month>
+							<month type="9">9</month>
+							<month type="9" alt="proposed-x1001" draft="unconfirmed">九月</month>
+							<month type="9" alt="proposed-x1002" draft="unconfirmed">9 月</month>
+							<month type="10">10</month>
+							<month type="10" alt="proposed-x1001" draft="unconfirmed">10 月</month>
+							<month type="11">11</month>
+							<month type="11" alt="proposed-x1001" draft="unconfirmed">11 月</month>
+							<month type="11" alt="proposed-x1002" draft="unconfirmed">十一月</month>
+							<month type="12">12</month>
+							<month type="12" alt="proposed-x1001" draft="unconfirmed">十二月</month>
+							<month type="12" alt="proposed-x1002" draft="unconfirmed">12 月</month>
 						</monthWidth>
 					</monthContext>
 					<monthContext type="stand-alone">
@@ -3152,12 +3172,8 @@
 					<daylight alt="proposed-x1001" draft="unconfirmed">Acre 夏令时</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">ACT</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">ACST</generic>
-					<standard draft="provisional">ACST</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">ACT</standard>
-					<daylight draft="provisional">ACDT</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">ACST</daylight>
+					<standard draft="provisional">ACT (Acre)</standard>
+					<daylight draft="provisional">ACST (Acre)</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3165,16 +3181,9 @@
 				<long>
 					<generic>非洲中部时间</generic>
 					<standard>中部非洲标准时间</standard>
-					<daylight>非洲中部夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">非洲中部白昼时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">CAT</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">ACT</generic>
-					<standard draft="provisional">CAST</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">CAT</standard>
-					<daylight draft="provisional">CADT</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">ACDT</daylight>
+					<standard draft="provisional">CAT</standard>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3182,30 +3191,9 @@
 				<long>
 					<generic>非洲东部时间</generic>
 					<standard>东部非洲标准时间</standard>
-					<daylight>非洲东部夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">非洲东部白昼时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">EAT</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">AET</generic>
-					<standard draft="provisional">EAST</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">EAT</standard>
-					<daylight draft="provisional">EADT</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">AEDT</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
-			</metazone>
-			<metazone type="Africa_FarWestern">
-				<long>
-					<generic>非洲西部时间</generic>
-					<standard>非洲西部标准时间</standard>
-					<daylight>非洲西部夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">非洲西部白昼时间</daylight>
-				</long>
-				<short>
-					<generic alt="proposed-x1001" draft="unconfirmed">AFT</generic>
-					<standard alt="proposed-x1001" draft="unconfirmed">AFST</standard>
-					<daylight alt="proposed-x1001" draft="unconfirmed">AFDT</daylight>
+					<standard draft="provisional">EAT</standard>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3213,15 +3201,11 @@
 				<long>
 					<generic>非洲南部时间</generic>
 					<standard>南部非洲标准时间</standard>
-					<daylight>非洲南部夏令时间</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">非洲南部白昼时间</daylight>
 				</long>
 				<short>
 					<generic draft="provisional">SAT</generic>
 					<generic alt="proposed-x1001" draft="unconfirmed">AST</generic>
 					<standard draft="provisional">SAST</standard>
-					<daylight draft="provisional">SADT</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">ASDT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3234,12 +3218,8 @@
 					<daylight alt="proposed-x1001" draft="unconfirmed">西部非洲白昼时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">WAT</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">AWT</generic>
-					<standard draft="provisional">WAST</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">WAT</standard>
-					<daylight draft="provisional">WADT</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">WAST</daylight>
+					<standard draft="provisional">WAT</standard>
+					<daylight draft="provisional">WAST</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3251,12 +3231,8 @@
 					<daylight alt="proposed-x1001" draft="unconfirmed">阿尔卑斯夏令时</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">AKTT</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">AT</generic>
-					<standard draft="provisional">AKTST</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">AKTT</standard>
-					<daylight draft="provisional">AKTDT</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">AKTST</daylight>
+					<standard draft="provisional">AKTT</standard>
+					<daylight draft="provisional">AKTST</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3298,9 +3274,8 @@
 					<daylight alt="proposed-x1001" draft="unconfirmed">Almaty 白昼时间</daylight>
 				</long>
 				<short>
-					<generic alt="proposed-x1001" draft="unconfirmed">AT</generic>
-					<standard alt="proposed-x1001" draft="unconfirmed">AST</standard>
-					<daylight alt="proposed-x1001" draft="unconfirmed">ADT</daylight>
+					<standard alt="proposed-x1001" draft="unconfirmed">ALMT</standard>
+					<daylight alt="proposed-x1001" draft="unconfirmed">ALMST</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3312,9 +3287,8 @@
 					<daylight alt="proposed-x1001" draft="unconfirmed">亚马逊白昼时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">AMT</generic>
-					<standard draft="provisional">AMST</standard>
-					<daylight draft="provisional">AMDT</daylight>
+					<standard draft="provisional">AMT</standard>
+					<daylight draft="provisional">AMST</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -3833,16 +3807,12 @@
 			</metazone>
 			<metazone type="GMT">
 				<long>
-					<generic draft="provisional">格林尼治时间</generic>
 					<standard>格林尼治标准时间</standard>
 					<standard alt="proposed-x1001" draft="unconfirmed">格林威治标准时间</standard>
-					<daylight draft="provisional">格林尼治夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">GMT</generic>
 					<standard>GMT</standard>
 					<standard alt="proposed-x1001" draft="unconfirmed">格林尼治标准时间</standard>
-					<daylight draft="provisional">GDT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">true</commonlyUsed>
 			</metazone>
@@ -3932,81 +3902,48 @@
 					<standard draft="provisional">GST</standard>
 				</short>
 			</metazone>
-			<metazone type="Hawaii">
-				<long>
-					<generic draft="provisional">夏威夷时间</generic>
-					<standard>夏威夷标准时间</standard>
-					<daylight>夏威夷夏令时间</daylight>
-				</long>
-				<short>
-					<generic draft="provisional">HT</generic>
-					<standard>HST</standard>
-					<daylight>HDT</daylight>
-				</short>
-				<commonlyUsed draft="provisional">false</commonlyUsed>
-			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<generic draft="provisional">夏威夷—阿留申时间</generic>
 					<standard draft="provisional">夏威夷—阿留申标准时间</standard>
-					<daylight draft="provisional">夏威夷—阿留申夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">HAT</generic>
-					<standard draft="provisional">HAST</standard>
-					<daylight draft="provisional">HADT</daylight>
+					<standard draft="provisional">HST</standard>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="India">
 				<long>
-					<generic draft="provisional">印度时间</generic>
 					<standard draft="provisional">印度标准时间</standard>
-					<daylight draft="provisional">印度夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">IT</generic>
 					<standard draft="provisional">IST</standard>
-					<daylight draft="provisional">IDT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="provisional">印度尼西亚中部时间</generic>
 					<standard draft="provisional">印度尼西亚中部标准时间</standard>
-					<daylight draft="provisional">印度尼西亚中部夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">CIT</generic>
-					<standard draft="provisional">CIST</standard>
-					<daylight draft="provisional">CIDT</daylight>
+					<standard draft="provisional">CIT</standard>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="provisional">印度尼西亚东部时间</generic>
 					<standard draft="provisional">印度尼西亚东部标准时间</standard>
-					<daylight draft="provisional">印度尼西亚东部夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">EIT</generic>
-					<standard draft="provisional">EIST</standard>
-					<daylight draft="provisional">EIDT</daylight>
+					<standard draft="provisional">EIT</standard>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="provisional">印度尼西亚西部时间</generic>
 					<standard draft="provisional">印度尼西亚西部标准时间</standard>
-					<daylight draft="provisional">印度尼西亚西部夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">WIT</generic>
-					<standard draft="provisional">WIST</standard>
-					<daylight draft="provisional">WIDT</daylight>
+					<standard draft="provisional">WIT</standard>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -4017,7 +3954,7 @@
 					<daylight>以色列夏令时间</daylight>
 				</long>
 				<short>
-					<standard>IST</standard>
+					<standard>IST (Israel)</standard>
 					<daylight>IDT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
@@ -4047,14 +3984,10 @@
 			</metazone>
 			<metazone type="Kashgar">
 				<long>
-					<generic draft="provisional">喀什时间</generic>
 					<standard draft="provisional">喀什标准时间</standard>
-					<daylight draft="provisional">喀什夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">KAT</generic>
 					<standard draft="provisional">KAST</standard>
-					<daylight draft="provisional">KADT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -4062,12 +3995,10 @@
 				<long>
 					<generic draft="provisional">哈萨克斯坦东部时间</generic>
 					<standard draft="provisional">哈萨克斯坦东部标准时间</standard>
-					<daylight draft="provisional">哈萨克斯坦东部夏令时间</daylight>
 				</long>
 				<short>
 					<generic draft="provisional">EKT</generic>
 					<standard draft="provisional">EKST</standard>
-					<daylight draft="provisional">EKDT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -4075,12 +4006,10 @@
 				<long>
 					<generic draft="provisional">哈萨克斯坦西部时间</generic>
 					<standard draft="provisional">哈萨克斯坦西部标准时间</standard>
-					<daylight draft="provisional">哈萨克斯坦西部夏令时间</daylight>
 				</long>
 				<short>
 					<generic draft="provisional">WKT</generic>
 					<standard draft="provisional">WKST</standard>
-					<daylight draft="provisional">WKDT</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
@@ -4462,9 +4391,8 @@
 					<daylight draft="provisional">土耳其夏令时间</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">TRT</generic>
-					<standard draft="provisional">TRST</standard>
-					<daylight draft="provisional">TRDT</daylight>
+					<standard draft="provisional">TRT</standard>
+					<daylight draft="provisional">TRST</daylight>
 				</short>
 				<commonlyUsed draft="provisional">false</commonlyUsed>
 			</metazone>
