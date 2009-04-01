@@ -95,7 +95,11 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getAllResponseHeaders = function() {
-    return this._request.getAllResponseHeaders();
+    try {
+      return this._request.getAllResponseHeaders();
+    } catch (e) {
+      return null;
+    }
   };
 
   /**
@@ -116,7 +120,11 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getStatusText = function() {
-    return this._request.statusText;
+    try {
+      return this._request.statusText;
+    } catch (e) {
+      return null;
+    }
   };
 
   /**
@@ -125,6 +133,11 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    */
   Request_prototype.getStatus = function() {
     var s = this._status != null ? this._status : this._request.status;
+/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
+    // When request fails on Firefox status code can be OK, but attempt to read statusText or responseHeader property triggers native error.
+    if (this.getStatusText() == null && s == 0) s = Request.STATUS_ERROR;
+/* @JSC */ }
+      
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
     // HACK: http://bugs.webkit.org/show_bug.cgi?id=14831
     if (s < 0 || s == 112 || s >= 600) s = Request.STATUS_ERROR;
