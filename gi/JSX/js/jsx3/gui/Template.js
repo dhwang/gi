@@ -1435,7 +1435,7 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
   //ADD the 'box' resolvers
   Template.addLibrary("$box",[{id:"$bgcolor"},{id:"$bg"},{id:"$padding"},{id:"$margin"},{id:"$border"},{id:"$textalign"},{id:"$overflow"},{id:"$attribute-group"}]);
   Template.addResolver(null,"$bgcolor",new Function('return this.jsxbgcolor;'),{type:"css",name:"background-color",triggers:["jsxbgcolor"]});
-  Template.addResolver(null,"$bg",new Function('var bg = this.getBackground() || "";var bgc = "background-color:" + (jsx3.gui.Template.RESOLVERS["jsx3.gui.Template"]["$bgcolor"].apply(this) || "") + ";";return (bg + bgc).replace(/background(?:-color|-image|-repeat|-attachment|-position)?\\s*:\\s*([^;]*);/gi,"$1 ") + ";";'),{type:"css",name:"background",triggers:["jsxbgcolor","jsxbg"]});
+  Template.addResolver(null,"$bg",new Function('var bg = this.getBackground() || "";var bgc = "background-color:" + (jsx3.gui.Template.RESOLVERS["jsx3.gui.Template"]["$bgcolor"].apply(this) || "") + ";";return (bg + bgc).replace(/background(?:-color|-image|-repeat|-attachment|-position)?\\s*:\\s*([^;]*);/gi,"$1 ");'),{type:"css",name:"background",triggers:["jsxbgcolor","jsxbg"]});
 
   //TODO: provide default resolver that can handle the unique aspects of the IE filter...remember to add to the library when complete
   Template.addResolver(null,"$padding",new Function('return !jsx3.util.strEmpty(this.jsxpadding) ? this.jsxpadding : null;'),{type:"box",name:"padding",triggers:["jsxpadding"]});
