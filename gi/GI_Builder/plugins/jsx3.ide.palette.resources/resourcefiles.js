@@ -75,7 +75,7 @@ updateResources: jsx3.$F(function() {
     if (!jsx3.util.List.wrap(oldValue).equals(jsx3.util.List.wrap(newValue))) {
       // Deleting a row from the tree will cause the tree value to update but will not publish
       // a model event in resourcefiles.xml
-      jsx3.log(oldValue + " => " + newValue)
+      //jsx3.log(oldValue + " => " + newValue)
       this.publish({subject:"selection", values:newValue});
     }
 
