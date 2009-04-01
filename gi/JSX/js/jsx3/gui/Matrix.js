@@ -3826,8 +3826,24 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //resolve the index (pass the model index, not the display index)
     var intIndex = this._getActiveColumnIndex(intIndex);
 
-    LOG.trace('...still need logic here to find the widest cell and make the column exactly as wide, ' + intIndex);
+    //LOG.trace('...still need logic here to find the widest cell and make the column exactly as wide, ' + intIndex);
+    // Add resizing logic -dhwang
+    var charWidth = Math.round((this.getFontSize() || jsx3.gui.Block.DEFAULTFONTSIZE) * 3/4);
+    var col = this.getChild(this._getActiveColumnIndex());
+    var att = col.getPath();
+    
+    var maxLength = 0;
+    var objXML = this.getXML();
+    var itrNodes = objXML.selectNodeIterator("//record");
+    while (itrNodes.hasNext()) {
+      var node = itrNodes.next();
+      maxLength = Math.max( node.getAttribute(att).length, maxLength) ;
+    }
 
+    var intNewWidth = charWidth * maxLength;
+    
+    this.getChild(this._getActiveColumnIndex()).setWidth(intNewWidth, true);
+    this._updateScrollOnPaint();
     //cancel the event
     objEvent.cancelAll();
   };
@@ -4413,7 +4429,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   };
 
   /**
-   * Called by scrolling up/down
+   * Called by scrolling left right
    * @param objEvent {jsx3.gui.Event}
    * @param objGUI {HTMLElement} the horizontal scroller
    * @private
