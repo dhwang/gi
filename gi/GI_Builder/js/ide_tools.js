@@ -108,7 +108,7 @@ playSound: function(strName, intVolume) {
 },
 
 onContextHelp: function(objEvent) {
-//  jsx3.ide.LOG.info("onContextHelp " + objEvent.helpid);
+  jsx3.ide.LOG.debug("Open context sensitive help: " + objEvent.helpid);
 
   var xml = new jsx3.xml.CDF.Document().load("jsx:///../doc/html/ctx/context.xml");
   if (! xml.hasError()) {

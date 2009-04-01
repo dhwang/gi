@@ -24,7 +24,7 @@ objJSX.onShowMe = function() {
 			<strings jsxname="mode_sourcefmt" jsxhelpid="ide.editor.dynprop.xmlro"/>
 			<events jsxshow="this.onShowMe();" />
 				<object type="jsx3.gui.Block">
-					<variants jsxoverflow="2" jsxrelativeposition="0" />
+					<variants jsxoverflow="2" jsxrelativeposition="0" jsxindex="0"/>
 					<strings jsxname="bordertop" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#ffffff" jsxborder="inset 1px;0px;0px;0px" />
 						<object type="jsx3.gui.BlockX">
 							<variants jsxoverflow="1" jsxrelativeposition="0" jsxfontsize="11" />

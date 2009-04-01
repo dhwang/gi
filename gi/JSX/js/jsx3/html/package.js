@@ -836,7 +836,14 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
         if (myJSX != null)
           return myJSX;
       }
-      objGUI = objGUI.parentNode;
+
+      // Traverse IFrames correctly
+      if (!objGUI.parentNode) {
+        var objWindow = objGUI.parentWindow || objGUI.defaultView;
+        objGUI = objWindow ? objWindow.frameElement : null;       
+      } else {
+        objGUI = objGUI.parentNode;
+      }
     }
     return null;
   };
