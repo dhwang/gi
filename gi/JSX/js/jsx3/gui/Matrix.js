@@ -3905,8 +3905,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var intNewWidth = this._getConstrainedWidth();
 
       //resolve the 'model' index against the 'displayed child' index (only expose the model)
-      var intIndex = jsx3.util.arrIndexOf(this.getChildren(),
-          this._getDisplayedChildren()[this._getActiveColumnIndex()]);
+      var intIndex = this._getActiveColumnIndex();
 
       // fire the 'afterresize' event code
       var bContinue = this.doEvent(Interactive.AFTER_RESIZE,
