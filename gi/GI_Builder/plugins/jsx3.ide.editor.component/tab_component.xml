@@ -26,7 +26,7 @@ jsxtab_componenteditor_main.registerHotKey('doDeleteDom',  8, false, true, false
         <object type="jsx3.gui.Block">
           <dynamics jsxbgcolor="@Solid Medium" />
           <variants jsxoverflow="2" />
-          <strings jsxname="content" jsxpadding="8 0 0 0"/>
+          <strings jsxname="content" jsxpadding="8 0 0 0" jsxhelpid="ide.editor.component"/>
             <object type="jsx3.gui.LayoutGrid">
               <variants jsxrelativeposition="0" />
               <strings jsxname="jsxtab_component_layout" jsxrows="*,22"/>

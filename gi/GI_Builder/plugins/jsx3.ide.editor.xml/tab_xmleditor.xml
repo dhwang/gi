@@ -38,7 +38,7 @@ objJSX.getModePane = function() {
 };
 
 ]]></onAfterDeserialize>
-        <object type="jsx3.gui.Block">
+        <object type="jsx3.gui.Block" jsxhelpid="ide.editor.xml">
           <dynamics jsxbgcolor="@Solid Medium" />
           <variants jsxoverflow="2" jsxrelativeposition="0" />
           <strings jsxname="content" jsxwidth="100%" jsxheight="100%" jsxpadding="8 0 0 0"/>

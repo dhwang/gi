@@ -40,7 +40,8 @@ objMatrix.getChild(0).setFormatHandler(
 ]]></onAfterDeserialize>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" />
-          <strings jsxname="content" jsxwidth="100%" jsxoverflow="2" jsxheight="100%" jsxbgcolor="#e8e8f5" jsxpadding="8 0 0 0"/>
+          <strings jsxname="content" jsxwidth="100%" jsxoverflow="2" jsxheight="100%" jsxbgcolor="#e8e8f5" jsxpadding="8 0 0 0"
+              jsxhelpid="ide.editor.dynprop"/>
             <object type="jsx3.gui.LayoutGrid">
               <variants />
               <strings jsxname="mylayout" jsxwidth="100%" jsxheight="100%" jsxrows="*,22"/>

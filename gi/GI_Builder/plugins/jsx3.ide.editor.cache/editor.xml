@@ -41,7 +41,7 @@ objJSX.getModePane = function() {
         <object type="jsx3.gui.Block">
           <dynamics jsxbgcolor="@Solid Medium" />
           <variants jsxoverflow="2" jsxrelativeposition="0" />
-          <strings jsxname="content" jsxwidth="100%" jsxheight="100%" jsxpadding="8 0 0 0"/>
+          <strings jsxname="content" jsxwidth="100%" jsxheight="100%" jsxpadding="8 0 0 0" jsxhelpid="ide.editor.cache"/>
             <object type="jsx3.gui.LayoutGrid">
               <variants jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
               <strings jsxname="mylayout" jsxwidth="100%" jsxheight="100%" jsxbgcolor="" jsxrows="*,22"/>
