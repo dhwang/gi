@@ -30,7 +30,7 @@ objMatrix.getChild(2).setFormatHandler(myAutoRowFormatter);
 </onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
     <variants jsxwidth="600" jsxheight="400" jsxzindex="5000" jsxwindowstate="1" jsxminx="400" jsxminy="200" jsxmaxx="800" jsxmaxy="600" jsxmodal="1"/>
-    <strings jsxname="dialog" jsxhelpid="ide.palette.props.columneditor"/>
+    <strings jsxname="dialog" jsxhelpid="ide.palette.props"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">
       <variants/>
