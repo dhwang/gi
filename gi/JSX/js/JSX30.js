@@ -1128,7 +1128,8 @@ window['jsx_main'] = function() {
        * <ul>
        *   <li><code>ie6</code> - Microsoft Internet Explorer versions 6.x</li>
        *   <li><code>ie7</code> - Microsoft Internet Explorer versions 7.x</li>
-       *   <li><code>ie8</code> - Microsoft Internet Explorer all versions above 7.x</li>
+       *   <li><code>ie8</code> - Microsoft Internet Explorer versions 8.x</li>
+       *   <li><code>ie9</code> - Microsoft Internet Explorer all versions above 8.x</li>
        *   <li><code>ie</code> - Microsoft Internet Explorer earlier or unrecognized version</li>
        *   <li><code>fx1_5</code> - Mozilla Firefox versions 1.5.x</li>
        *   <li><code>fx2</code> - Mozilla Firefox versions 2.x</li>
