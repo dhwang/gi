@@ -1386,7 +1386,8 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
    * Sets whether this menu renders a visual divider on its left side. The divider is useful for
    * visually separating this menu from the next menu to the left.
    * @param intDivider {int} <code>jsx3.Boolean.TRUE</code> or <code>jsx3.Boolean.FALSE</code>.
-   * @return {jsx3.gui.Menu} this objectt.
+   * @param bRecalc {Boolean} if <code>true</code>, the view will be updated without requiring a repaint.
+   * @return {jsx3.gui.Menu} this object.
    */
   Menu_prototype.setDivider = function(intDivider, bRecalc) {
     this.jsxdivider = intDivider;

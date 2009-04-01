@@ -825,7 +825,12 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
   };
 
   /**
+   * Returns <code>STATEVALID</code> if this date picker is not required or if it is required and its value is not
+   * <code>null</code>, otherwise returns <code>STATEINVALID</code>.
+   *
    * @return {int}
+   * @see jsx3.gui.Form#STATEVALID
+   * @see jsx3.gui.Form#STATEINVALID
    */
   DatePicker_prototype.doValidate = function() {
     var state = this.getDate() != null || this.getRequired() == jsx3.gui.Form.OPTIONAL ?

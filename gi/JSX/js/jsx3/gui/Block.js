@@ -702,8 +702,8 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
    * compass position, <b>without</b> the pixel designation.  For example, to specify a top padding of 8 pixels, use <code>8 0 0 0</code>. CSS syntax is
    * supported, but requires that pixels be designated.  For example, using <code>padding:5px;padding-left:10px;</code>, is equivalent to
    * <code>5 5 5 10</code>.
-   * @param bUpdateView {Boolean} if true, the view will be updated with requiring a repaint
-   * @return {jsx3.gui.Block} this object
+   * @param bUpdateView {Boolean} if <code>true</code>, the view will be updated without requiring a repaint.
+   * @return {jsx3.gui.Block} this object.
    */
   Block_prototype.setPadding = function(strCSS,bUpdateView) {
     this.jsxpadding = strCSS;
