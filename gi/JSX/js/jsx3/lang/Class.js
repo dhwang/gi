@@ -130,12 +130,6 @@ window._jsxtmp = function(Class, Class_prototype) {
   
   /** @private @jsxobf-clobber */
   Class._define = function(strName, objExtends, arrImplements, fctBody, bInterface) {
-    //3.6: added the following check at the outset of the class to stop a race condition with Fx3b4
-    if(Class.forName && Class.forName(strName)) {
-      jsx3.CLASS_LOADER._classDidLoad(Class.forName(strName));
-      return;
-    }
-    
     if (Class._LOG == null && Class.forName && Class.forName("jsx3.util.Logger.Manager")
         && jsx3.util.Logger.Manager.getManager())
       Class._LOG = jsx3.util.Logger.getLogger("jsx3.lang.Class");

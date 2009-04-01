@@ -304,6 +304,13 @@ jsx3.Package.definePackage("jsx3", function() {
 /* @JSC :: end */
 
     jsx3.tcf(function() {
+// Sync XHR may cause timeouts to fire in Forefox 3.0, fixed in 3.1
+// https://bugzilla.mozilla.org/show_bug.cgi?id=340345
+/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
+      if (jsx3.net.Request.INSYNC)
+        return;
+/* @JSC */ }
+
       var q = jsx3._SLEEP_QUEUE;
       jsx3._SLEEP_QUEUE = [];
 

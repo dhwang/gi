@@ -375,6 +375,12 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     var bError = false;
 
     try {
+// Sync XHR may cause timeouts to fire in Forefox 3.0, fixed in 3.1
+// https://bugzilla.mozilla.org/show_bug.cgi?id=340345
+/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
+      if (!this._async) Request.INSYNC = true;
+/* @JSC */ }
+
       this._request.send(strContent);
 
       if (this._async)
@@ -388,6 +394,10 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
       this._status = Request.STATUS_ERROR; // Firefox seems to still report status as 0 when error on local file access.
       Request._log(2, jsx3._msg("req.err_send", this._url, jsx3.NativeError.wrap(e)));
       bError = this;
+    } finally {
+/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
+      Request.INSYNC = false;
+/* @JSC */ }
     }
 
     // if this async, add the request object to the array of
