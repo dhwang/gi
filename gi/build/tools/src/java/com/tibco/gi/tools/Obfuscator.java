@@ -246,6 +246,8 @@ public class Obfuscator {
       for (String key : Utils.sortedKeys(mappings)) {
         printer.println(key + " " + mappings.get(key));
       }
+
+      printer.close();
     }
   }
 
