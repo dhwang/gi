@@ -35,11 +35,14 @@ objJSX.setTextValue = function(s) {
 objJSX._setEAVal = function(s) {
   if (jsxcodeeditor_content.getRendered())
     editAreaLoader.setValue(jsxcodeeditor_content.getRendered().id, s);
-  else
+  else {
+    // set this value so that an immediate call to getTextValue() returns the right thing
+    jsxcodeeditor_content.setValue(s);
     jsx3.sleep(function() {
       if (jsxcodeeditor_content.getRendered())
         editAreaLoader.setValue(jsxcodeeditor_content.getRendered().id, s);
     });
+  }
 };
 
 objJSX._getPlugIn = function() {
