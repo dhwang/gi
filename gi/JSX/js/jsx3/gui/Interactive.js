@@ -997,8 +997,10 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
         this._jsxunspystyles[f] = objGUI.style[f];
     }
 
-    for (var f in this._jsxcachedspystyles)
-      objGUI.style[f] = this._jsxcachedspystyles[f];
+    try {
+      for (var f in this._jsxcachedspystyles)
+        objGUI.style[f] = this._jsxcachedspystyles[f];
+    } catch (e) {}
   };
 
 
@@ -1007,8 +1009,10 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
    * @private
    */
   Interactive_prototype.removeSpyStyle = function(objGUI) {
-    for (var f in this._jsxunspystyles)
-      objGUI.style[f] = this._jsxunspystyles[f];
+    try {
+      for (var f in this._jsxunspystyles)
+        objGUI.style[f] = this._jsxunspystyles[f];
+    } catch (e) {}
   };
 
 
