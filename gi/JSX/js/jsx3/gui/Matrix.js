@@ -5346,6 +5346,9 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       //use cached value where possible.
       return this._jsxrowcount.maxlen;
     } else {
+      // transform() below will throw an exception if xml has error
+      if (this.getXML().hasError()) return 0;
+      
       //call standard template in 'count' mode. pass the starting context and the rendering model
       var objParams = {};
       objParams.jsx_mode = "count";
