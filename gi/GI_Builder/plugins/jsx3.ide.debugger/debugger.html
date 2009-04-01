@@ -8,7 +8,7 @@
 <TITLE>JSX Step Through Debugger (Read Only)</TITLE>
 
 <style type="text/css">
-  .jsxscrollbar {scrollbar-arrow-color:window;scrollbar-3dlight-color:threedface;scrollbar-shadow-color:scrollbar;scrollbar-darkshadow-color:threedshadow;scrollbar-base-color:scrollbar;scrollbar-highlight-color:window	;scrollbar-face-color:threedface;}
+  .jsxscrollbar {scrollbar-arrow-color:window;scrollbar-3dlight-color:threedface;scrollbar-shadow-color:scrollbar;scrollbar-darkshadow-color:threedshadow;scrollbar-base-color:scrollbar;scrollbar-highlight-color:window  ;scrollbar-face-color:threedface;}
 
 </style>
 
@@ -30,15 +30,15 @@ window.returnValue = 0;
 //initialization function to display variables passed from parent window and enable/disable various buttons
 function fnInit(){
   //THE FOLLOWING ARRAY INDECES DENOTE WHAT IS PASSED FROM THE PARENT WINDOW
-  //[0]	entire expression object
+  //[0]  entire expression object
   //[1] current SUBexpression object
   //[2] current index of child statement about to be executed (-1 is passed if just about to enter an expression)
   //[3] value returned when the last statment of code was executed in the parent window; if an [object] is passed, users can inspect for additional values
   //[4] flag denoting which actions will be enabled for the developer (step into, step out, etc)
         //0 = execution failed or has completed; only cancel/close button will be enabled
-	//1 = stepinto
-	//2 = step out
-	//4 = execute all
+  //1 = stepinto
+  //2 = step out
+  //4 = execute all
   //[5] reference to parent window (typically a hidden IFRAME, but can be any HTML window)
 
 
@@ -125,7 +125,7 @@ window.onbeforeunload = doProcessMove;
 
 
 //converts the JSX expression object to a string representation (as HTML) of the function being stepped through
-function convertExpressionToString(objExpression,strIndent,objIteration,intIndex) {	
+function convertExpressionToString(objExpression,strIndent,objIteration,intIndex) {
   if(intIndex == -1 && objIteration == objExpression) {
     var strExpression = "<div id='mrYellow' tabindex='0' style='background-color:yellow;white-space:nowrap;'>" + strIndent + fixMe(objExpression["strConditionStart"]) + "</div>";
   } else {

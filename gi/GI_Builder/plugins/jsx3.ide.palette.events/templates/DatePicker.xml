@@ -5,14 +5,14 @@
   -->
 <data jsxid="jsxroot">
 
-	<record jsxid="jsxchange" jsxtext="Change"
-			jsxtip="Fires after the user changes the value of this date picker. Canceling this event prevents the change from occurring."
-			vetoable="1">
-		<record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+  <record jsxid="jsxchange" jsxtext="Change"
+      jsxtip="Fires after the user changes the value of this date picker. Canceling this event prevents the change from occurring."
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
     <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
     <record jsxid="oldDATE" type="Date" jsxtext="the old value."/>
     <record jsxid="newDATE" type="Date" jsxtext="the new value."/>
-	</record>
+  </record>
 
   <record jsxid="jsxinput" jsxtext="Input"
       jsxtip="Fires after the user types text in the date field and before the change is committed. Canceling this event prevents committing the input."
@@ -57,13 +57,15 @@
       vetoable="1">
     <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
     <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
-    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="the menu to display." jsxreturntext="use this field to override the default menu with an instance of &lt;code&gt;jsx3.gui.Menu&lt;/code&gt;."/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="the menu to display."
+        jsxreturntext="use this field to override the default menu with an instance of &lt;code&gt;jsx3.gui.Menu&lt;/code&gt;."/>
   </record>
 
   <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
-			jsxtip="Fires after this date picker is removed from the DOM.">
-		<record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
-		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this date picker before it is removed from the DOM."/>
-	</record>
+      jsxtip="Fires after this date picker is removed from the DOM.">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objPARENT" type="jsx3.app.Model"
+        jsxtext="the parent of this date picker before it is removed from the DOM."/>
+  </record>
 
 </data>

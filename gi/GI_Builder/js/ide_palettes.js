@@ -18,94 +18,94 @@ rebalanceAllPaletteDocks: function(newContainer, oldParent) {
 
 _rebalancePaletteDocks1: function(strAffectedQuadrant) {
   var ch1 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q1').getChildren().length;
-	var ch2 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q2').getChildren().length;
-	var ch3 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q3').getChildren().length;
-	var ch4 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q4').getChildren().length;
-	var ch5 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q5').getChildren().length;
-	
-	if (strAffectedQuadrant == 'jsx_ide_quadrant_q1') {
-		this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter3'), jsx3.IDE.getJSXByName('jsx_ide_splitter2'),
-				ch1, ch2, '0%', '100%', '0%', '20%');
-	} else if (strAffectedQuadrant == 'jsx_ide_quadrant_q2') {
-		this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter3'), jsx3.IDE.getJSXByName('jsx_ide_splitter2'),
-				ch2, ch1, '100%', '0%', '0%', '20%');
-	} else if (strAffectedQuadrant == 'jsx_ide_quadrant_q3') {
-		this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter5'), jsx3.IDE.getJSXByName('jsx_ide_splitter4'),
-				ch3, ch4, '0%', '100%', '100%', '75%');
-	} else if (strAffectedQuadrant == 'jsx_ide_quadrant_q4') {
-		this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter5'), jsx3.IDE.getJSXByName('jsx_ide_splitter4'),
-				ch4, ch3, '100%', '0%', '100%', '75%');
-	} else {
-		// close any unneeded splitters after startup
-		if (ch1 == 0) {
-			jsx3.IDE.getJSXByName('jsx_ide_splitter3').setSubcontainer1Pct('0%',true);
-			if (ch2 == 0) {
-				jsx3.IDE.getJSXByName('jsx_ide_splitter2').setSubcontainer1Pct('0%',true);
-			}
-		} else if (ch2 == 0) {
-			jsx3.IDE.getJSXByName('jsx_ide_splitter3').setSubcontainer1Pct('100%',true);			
-		}
-		if (ch3 == 0) {
-			jsx3.IDE.getJSXByName('jsx_ide_splitter5').setSubcontainer1Pct('0%',true);
-			if (ch4 == 0) {
-				jsx3.IDE.getJSXByName('jsx_ide_splitter4').setSubcontainer1Pct('100%',true);
-			}
-		} else if (ch4 == 0) {
-			jsx3.IDE.getJSXByName('jsx_ide_splitter5').setSubcontainer1Pct('100%',true);
-		}
-	}
+  var ch2 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q2').getChildren().length;
+  var ch3 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q3').getChildren().length;
+  var ch4 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q4').getChildren().length;
+  var ch5 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q5').getChildren().length;
+
+  if (strAffectedQuadrant == 'jsx_ide_quadrant_q1') {
+    this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter3'), jsx3.IDE.getJSXByName('jsx_ide_splitter2'),
+        ch1, ch2, '0%', '100%', '0%', '20%');
+  } else if (strAffectedQuadrant == 'jsx_ide_quadrant_q2') {
+    this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter3'), jsx3.IDE.getJSXByName('jsx_ide_splitter2'),
+        ch2, ch1, '100%', '0%', '0%', '20%');
+  } else if (strAffectedQuadrant == 'jsx_ide_quadrant_q3') {
+    this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter5'), jsx3.IDE.getJSXByName('jsx_ide_splitter4'),
+        ch3, ch4, '0%', '100%', '100%', '75%');
+  } else if (strAffectedQuadrant == 'jsx_ide_quadrant_q4') {
+    this._rebalancePaletteDock2(jsx3.IDE.getJSXByName('jsx_ide_splitter5'), jsx3.IDE.getJSXByName('jsx_ide_splitter4'),
+        ch4, ch3, '100%', '0%', '100%', '75%');
+  } else {
+    // close any unneeded splitters after startup
+    if (ch1 == 0) {
+      jsx3.IDE.getJSXByName('jsx_ide_splitter3').setSubcontainer1Pct('0%',true);
+      if (ch2 == 0) {
+        jsx3.IDE.getJSXByName('jsx_ide_splitter2').setSubcontainer1Pct('0%',true);
+      }
+    } else if (ch2 == 0) {
+      jsx3.IDE.getJSXByName('jsx_ide_splitter3').setSubcontainer1Pct('100%',true);
+    }
+    if (ch3 == 0) {
+      jsx3.IDE.getJSXByName('jsx_ide_splitter5').setSubcontainer1Pct('0%',true);
+      if (ch4 == 0) {
+        jsx3.IDE.getJSXByName('jsx_ide_splitter4').setSubcontainer1Pct('100%',true);
+      }
+    } else if (ch4 == 0) {
+      jsx3.IDE.getJSXByName('jsx_ide_splitter5').setSubcontainer1Pct('100%',true);
+    }
+  }
 },
 
 _rebalancePaletteDock2: function(splitterHalf, splitterSide, child1, child2,
-		halfClosed, halfOpen, sideClosed, sideOpen) {
-	if (child1 == 0) {
-		splitterHalf.setSubcontainer1Pct(halfClosed,true);
-		if (child2 == 0)
-			splitterSide.setSubcontainer1Pct(sideClosed, true);
-	} else if (child2 == 0) {
-		splitterHalf.setSubcontainer1Pct(halfOpen,true);
-	} else {
-		var halfSplit = parseInt(splitterHalf.getSubcontainer1Pct());
-		if (halfSplit < 5 || halfSplit > 95) 
-			splitterHalf.setSubcontainer1Pct('50%', true);
-	}
-	
-	var sideSplit = parseInt(splitterSide.getSubcontainer1Pct());
-	var sideClosedInt = parseInt(sideClosed);
-	if ((child1+child2) > 0 && ((sideClosedInt >= 50 && sideSplit > 95) 
-			|| (sideClosedInt < 50 &&  sideSplit < 5)))
-		splitterSide.setSubcontainer1Pct(sideOpen, true);
+    halfClosed, halfOpen, sideClosed, sideOpen) {
+  if (child1 == 0) {
+    splitterHalf.setSubcontainer1Pct(halfClosed,true);
+    if (child2 == 0)
+      splitterSide.setSubcontainer1Pct(sideClosed, true);
+  } else if (child2 == 0) {
+    splitterHalf.setSubcontainer1Pct(halfOpen,true);
+  } else {
+    var halfSplit = parseInt(splitterHalf.getSubcontainer1Pct());
+    if (halfSplit < 5 || halfSplit > 95)
+      splitterHalf.setSubcontainer1Pct('50%', true);
+  }
+
+  var sideSplit = parseInt(splitterSide.getSubcontainer1Pct());
+  var sideClosedInt = parseInt(sideClosed);
+  if ((child1+child2) > 0 && ((sideClosedInt >= 50 && sideSplit > 95)
+      || (sideClosedInt < 50 &&  sideSplit < 5)))
+    splitterSide.setSubcontainer1Pct(sideOpen, true);
 },
 
 toggleStageOnly: function(bShowPalettes) {
-	var splitter1 = jsx3.IDE.getJSXByName('jsx_ide_splitter1');
-	var splitter2 = jsx3.IDE.getJSXByName('jsx_ide_splitter2');
-	var splitter4 = jsx3.IDE.getJSXByName('jsx_ide_splitter4');
-	
-	var pct1 = parseInt(splitter1.getSubcontainer1Pct());
-	var pct2 = parseInt(splitter2.getSubcontainer1Pct());
-	var pct4 = parseInt(splitter4.getSubcontainer1Pct());
-	
-	if (bShowPalettes == null)
-		bShowPalettes = pct1 > 95 || pct2 < 5 || pct4 > 95;
-	
-	if (bShowPalettes) {
-		if (pct1 > 95)
-			splitter1.setSubcontainer1Pct(splitter1._jsxlastopen || splitter1.jsxdefault1pct, true);
-		if (pct2 < 5)
-			splitter2.setSubcontainer1Pct(splitter2._jsxlastopen || splitter2.jsxdefault1pct, true);
-		if (pct4 > 95)
-			splitter4.setSubcontainer1Pct(splitter4._jsxlastopen || splitter4.jsxdefault1pct, true);
-		jsx3.ide.rebalanceAllPaletteDocks();
-	} else {
-		splitter1._jsxlastopen = pct1 > 95 ? null : pct1;
-		splitter2._jsxlastopen = pct2 < 5 ? null : pct2;
-		splitter4._jsxlastopen = pct4 > 95 ? null : pct4;
-		
-		splitter1.setSubcontainer1Pct("100%", true);
-		splitter2.setSubcontainer1Pct("0%", true);
-		splitter4.setSubcontainer1Pct("100%", true);
-	}
+  var splitter1 = jsx3.IDE.getJSXByName('jsx_ide_splitter1');
+  var splitter2 = jsx3.IDE.getJSXByName('jsx_ide_splitter2');
+  var splitter4 = jsx3.IDE.getJSXByName('jsx_ide_splitter4');
+
+  var pct1 = parseInt(splitter1.getSubcontainer1Pct());
+  var pct2 = parseInt(splitter2.getSubcontainer1Pct());
+  var pct4 = parseInt(splitter4.getSubcontainer1Pct());
+
+  if (bShowPalettes == null)
+    bShowPalettes = pct1 > 95 || pct2 < 5 || pct4 > 95;
+
+  if (bShowPalettes) {
+    if (pct1 > 95)
+      splitter1.setSubcontainer1Pct(splitter1._jsxlastopen || splitter1.jsxdefault1pct, true);
+    if (pct2 < 5)
+      splitter2.setSubcontainer1Pct(splitter2._jsxlastopen || splitter2.jsxdefault1pct, true);
+    if (pct4 > 95)
+      splitter4.setSubcontainer1Pct(splitter4._jsxlastopen || splitter4.jsxdefault1pct, true);
+    jsx3.ide.rebalanceAllPaletteDocks();
+  } else {
+    splitter1._jsxlastopen = pct1 > 95 ? null : pct1;
+    splitter2._jsxlastopen = pct2 < 5 ? null : pct2;
+    splitter4._jsxlastopen = pct4 > 95 ? null : pct4;
+
+    splitter1.setSubcontainer1Pct("100%", true);
+    splitter2.setSubcontainer1Pct("0%", true);
+    splitter4.setSubcontainer1Pct("100%", true);
+  }
 },
 
   _getTempTypes: function() {

@@ -20,10 +20,10 @@ this.showPane = function(intPane) {
 
 this._openDialog = function(intPane) {
   var server = this.getServer();
-	var dialog = server.getJSXByName('jsx_ide_settings');
+  var dialog = server.getJSXByName('jsx_ide_settings');
 
-	if (!dialog) {
-		dialog = this.loadRsrcComponent("container", server.getRootBlock());
+  if (!dialog) {
+    dialog = this.loadRsrcComponent("container", server.getRootBlock());
 
     var controller = new amp.util.Prefs();
     this.getExtPoint("pane").processExts().each(function(e) { controller.addPane(e); });

@@ -7,13 +7,13 @@
   <onAfterDeserialize><![CDATA[
 
 objJSX.saveState = function() {
-	var settings = jsx3.ide.getIDESettings();
-	var dialogPos = {left: this.getLeft(), top: this.getTop(),	width: this.getWidth(), height: this.getHeight()};
-	settings.set('apihelp', 'position', dialogPos);
+  var settings = jsx3.ide.getIDESettings();
+  var dialogPos = {left: this.getLeft(), top: this.getTop(),  width: this.getWidth(), height: this.getHeight()};
+  settings.set('apihelp', 'position', dialogPos);
 };
 
 objJSX.doMinimize = function() {
-	this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
+  this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
 };
 
 objJSX.getHelpBlockParent = function() {
@@ -25,12 +25,12 @@ objJSX.getHelpBlock = function() {
 };
 
 objJSX.onInit = function() {
-	var settings = jsx3.ide.getIDESettings();
-	var pos = settings.get('apihelp', 'position');
-	if (pos && typeof(pos) == "object" && pos.left) {
-		this.setDimensions(pos.left, pos.top, pos.width, pos.height, true);
-		this.constrainPosition();
-	}
+  var settings = jsx3.ide.getIDESettings();
+  var pos = settings.get('apihelp', 'position');
+  if (pos && typeof(pos) == "object" && pos.left) {
+    this.setDimensions(pos.left, pos.top, pos.width, pos.height, true);
+    this.constrainPosition();
+  }
 };
 
 objJSX.registerHotKey('doMinimize', 'm', false, true, false); // minimize on ctrl-m

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <data jsxid="jsxroot">
-	<record jsxid="number" type="number">123</record>
+  <record jsxid="number" type="number">123</record>
   <record jsxid="numberNaN" type="number">foo</record>
   <record jsxid="string" type="string">aString</record>
   <record jsxid="boolean" type="boolean">true</record>

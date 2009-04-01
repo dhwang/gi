@@ -83,22 +83,22 @@ doOpenForEdit: jsx3.$Y(function(cb) {
 }),
 
 _addToRecentFiles: function(objFile) {
-	var settings = this.getIDESettings();
-	var project = this.PROJECT;
+  var settings = this.getIDESettings();
+  var project = this.PROJECT;
   var strPath = project.getDirectory().relativePathTo(objFile);
 
-	var recent = settings.get('projects', project.getPathFromHome(), 'recentFiles') || [];
-	for (var i = 0; i < recent.length; i++) {
-		if (recent[i] == strPath) {
-			recent.splice(i, 1);
-			break;
-		}
-	}
+  var recent = settings.get('projects', project.getPathFromHome(), 'recentFiles') || [];
+  for (var i = 0; i < recent.length; i++) {
+    if (recent[i] == strPath) {
+      recent.splice(i, 1);
+      break;
+    }
+  }
 
-	recent.unshift(strPath);
-	if (recent.length > this.RECENT_FILES_MAX) recent.pop();
+  recent.unshift(strPath);
+  if (recent.length > this.RECENT_FILES_MAX) recent.pop();
 
-	settings.set('projects', project.getPathFromHome(), 'recentFiles', recent);
+  settings.set('projects', project.getPathFromHome(), 'recentFiles', recent);
 },
 
 getRecentFiles: function() {
@@ -107,7 +107,7 @@ getRecentFiles: function() {
     return [];
 
   var settings = this.getIDESettings();
-	return settings.get('projects', project.getPathFromHome(), 'recentFiles') || [];
+  return settings.get('projects', project.getPathFromHome(), 'recentFiles') || [];
 },
 
 getFileType: function(objFile) {

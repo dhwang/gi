@@ -4,15 +4,15 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <data jsxid="jsxroot">
-	<record include="master.xml" group="object"/>
-	<record include="master.xml" group="position"/>
-	
-	<record jsxid="jsx3list" group="1" jsxtext="TextBox">
-		<record include="master.xml" group="form" children="1"/>
+  <record include="master.xml" group="object"/>
+  <record include="master.xml" group="position"/>
+
+  <record jsxid="jsx3list" group="1" jsxtext="TextBox">
+    <record include="master.xml" group="form" children="1"/>
     <record jsxid="jsxformat" jsxtext="Number Format"
         jsxtip="Sets the number format used to format and parse the value of this text field. See the API documentation for &lt;code&gt;jsx3.util.NumberFormat&lt;/code&gt;."
-                docgetter="getFormat" docsetter="setFormat"
-                docdefault="Determined by the locale of the server containing this NumberInput."
+        docgetter="getFormat" docsetter="setFormat"
+        docdefault="Determined by the locale of the server containing this NumberInput."
         eval="0"
         disallow="&quot;"
         jsxtype="jsxnumberformat"
@@ -29,17 +29,17 @@
       <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
     </record>
     <record include="master.xml" group="jsxrequired" children="1"/>
-		<record include="master.xml" group="wrap" children="1"/>
+    <record include="master.xml" group="wrap" children="1"/>
     <record jsxid="jsxmaxlength" jsxtext="Max Length"
         eval="1"
         jsxtip="Sets the maximum allowed length of a text box of type text box or password."
         docgetter="getMaxLength" docsetter="setMaxLength"
-				docdefault="Empty"
+        docdefault="Empty"
         disallow="[^0-9]"
         jsxmask="jsxtext"/>
-	</record>
+  </record>
 
-	<record include="master.xml" group="font"/>
+  <record include="master.xml" group="font"/>
 
   <record jsxid="box" group="1" jsxtext="Box">
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid!='jsxoverflow']"/>
@@ -55,8 +55,8 @@
     <record include="master.xml" group="jsxdisabledbgcolor" children="1"/>
   </record>
 
-	<record include="master.xml" group="css"/>
-	<record include="master.xml" group="interaction"/>
-	<record include="master.xml" group="access"/>
-	<record include="master.xml" group="metadata"/>
+  <record include="master.xml" group="css"/>
+  <record include="master.xml" group="interaction"/>
+  <record include="master.xml" group="access"/>
+  <record include="master.xml" group="metadata"/>
 </data>

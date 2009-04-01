@@ -48,8 +48,8 @@ objJSX.savePrefs = function() {
       objSettings.set(strRecordId, input.getValue());
     else if (input instanceof jsx3.gui.Select)
       objSettings.set(strRecordId, input.getValue());
-		else if (input instanceof jsx3.gui.CheckBox)
-			objSettings.set(strRecordId, input.getChecked() == jsx3.gui.CheckBox.CHECKED);
+    else if (input instanceof jsx3.gui.CheckBox)
+      objSettings.set(strRecordId, input.getChecked() == jsx3.gui.CheckBox.CHECKED);
   }
 
   objSettings.save();
@@ -77,10 +77,10 @@ objJSX.loadPrefs = function() {
         input.setValue(objValue);
       else if (input instanceof jsx3.gui.Select)
         input.setValue(objValue);
-		  else if (input instanceof jsx3.gui.CheckBox) {
-		    if (objValue != null)
-  		  	input.setChecked(objValue ? jsx3.gui.CheckBox.CHECKED : jsx3.gui.CheckBox.UNCHECKED);
-  		}
+      else if (input instanceof jsx3.gui.CheckBox) {
+        if (objValue != null)
+          input.setChecked(objValue ? jsx3.gui.CheckBox.CHECKED : jsx3.gui.CheckBox.UNCHECKED);
+      }
     }
   }
 };

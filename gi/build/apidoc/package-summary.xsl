@@ -9,11 +9,11 @@
     >
   
   <xsl:import href="common.xsl"/>
-	
-	<xsl:output
-			method="html"
-			encoding="UTF-8" indent="no"
-			omit-xml-declaration="yes" />
+
+  <xsl:output
+      method="html"
+      encoding="UTF-8" indent="no"
+      omit-xml-declaration="yes" />
 
   <xsl:template match="/package">
     <html>

@@ -5,9 +5,9 @@
   -->
 <data jsxid="jsxroot">
   <record include="master.xml" group="object"/>
-	<record include="master.xml" group="position"/>
+  <record include="master.xml" group="position"/>
 
-	<record jsxid="jsx3imagebutton" group="1" jsxtext="ImageButton">
+  <record jsxid="jsx3imagebutton" group="1" jsxtext="ImageButton">
     <record jsxid="jsxtype" jsxtext="Type"
         eval="1"
         jsxtip="Sets the type of image button."
@@ -41,20 +41,20 @@
     <record jsxid="jsxdisabledimage" jsxtext="Disabled Image"
         eval="0"
         jsxmask="jsxpath"/>
-		<record include="master.xml" group="form_novalue" children="1"/>
+    <record include="master.xml" group="form_novalue" children="1"/>
     <record include="master.xml" group="jsxrequired" children="1"/>
-	</record>
-	
-	<record include="master.xml" group="box_nobg">
-		<record include="master.xml" group="jsxdisabledbgcolor" children="1"/>
-	</record>
+  </record>
 
-	<record include="master.xml" group="css_noclass"/>
-  
+  <record include="master.xml" group="box_nobg">
+    <record include="master.xml" group="jsxdisabledbgcolor" children="1"/>
+  </record>
+
+  <record include="master.xml" group="css_noclass"/>
+
   <record include="master.xml" group="interaction">
     <record include="master.xml" group="jsxkeycode" children="1"/>
   </record>
-  
+
   <record include="master.xml" group="access"/>
-	<record include="master.xml" group="metadata"/>
+  <record include="master.xml" group="metadata"/>
 </data>

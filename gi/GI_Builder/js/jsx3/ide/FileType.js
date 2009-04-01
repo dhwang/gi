@@ -13,7 +13,7 @@ jsx3.Class.defineClass("jsx3.ide.FileType", null, null, function(FileType, FileT
     this._xml = elm;
     /* @jsxobf-clobber */
     this._ext = ext;
-	};
+  };
 
   FileType_prototype.getExt = function() {
     return this._ext;

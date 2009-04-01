@@ -605,16 +605,16 @@ jsx3.Class.defineClass("jsx3.util.MemStats", null, null, function(MemStats, MemS
   /** @private @jsxobf-clobber */
   MemStats._kb = function(bytes) {
     if (bytes < 1024)
-			return bytes + "B";
-		bytes = Math.ceil(bytes/1024);
-		if (bytes < 1024)
-			return bytes + "K";
-		bytes /= 1024;
-		if (bytes < 1024)
-			return (Math.round(bytes*10)/10) + "M";
-		bytes = Math.ceil(bytes/1024);
+      return bytes + "B";
+    bytes = Math.ceil(bytes/1024);
+    if (bytes < 1024)
+      return bytes + "K";
+    bytes /= 1024;
+    if (bytes < 1024)
+      return (Math.round(bytes*10)/10) + "M";
+    bytes = Math.ceil(bytes/1024);
 
-		return (Math.round(bytes*10)/10) + "G";
+    return (Math.round(bytes*10)/10) + "G";
   };
 
   /** @private @jsxobf-clobber */

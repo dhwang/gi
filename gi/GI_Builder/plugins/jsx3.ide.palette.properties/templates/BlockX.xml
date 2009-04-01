@@ -5,13 +5,13 @@
   -->
 <data jsxid="jsxroot">
   <record include="master.xml" group="object"/>
-	<record include="master.xml" group="position"/>
+  <record include="master.xml" group="position"/>
 
-	<record jsxid="jsx3block" group="1" jsxtext="BlockX">
-		<record include="master.xml" group="jsxtagname" children="1"/>
-	</record>
+  <record jsxid="jsx3block" group="1" jsxtext="BlockX">
+    <record include="master.xml" group="jsxtagname" children="1"/>
+  </record>
 
-	<record include="master.xml" group="blockx-xml">
+  <record include="master.xml" group="blockx-xml">
     <record jsxid="jsxxslid" jsxtext="XSL Cache Id"
         eval="0"
         jsxtip="Sets the cache ID for the XSL document this object is mapped to."
@@ -45,9 +45,9 @@
   </record>
 
   <record include="master.xml" group="font"/>
-	<record include="master.xml" group="box"/>
-	<record include="master.xml" group="css"/>
-	<record include="master.xml" group="interaction"/>
-	<record include="master.xml" group="access"/>
-	<record include="master.xml" group="metadata"/>
+  <record include="master.xml" group="box"/>
+  <record include="master.xml" group="css"/>
+  <record include="master.xml" group="interaction"/>
+  <record include="master.xml" group="access"/>
+  <record include="master.xml" group="metadata"/>
 </data>

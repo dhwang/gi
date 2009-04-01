@@ -11,46 +11,46 @@ objJSX.getFirstResponder = function() {
 
 objJSX.savePrefs = function() {
   var settings = jsx3.ide.getIDESettings();
-	
-	// save builder settings
-	var fields = this.findDescendants(function(o) {return o.getName() && o.getName().indexOf('jsxsetting_') == 0}, null, true);
-	for (var i = 0; i < fields.length; i++) {
-		var field = fields[i];
-		var name = field.getName().substring('jsxsetting_'.length);
-		if (field instanceof jsx3.gui.TextBox) {
-			settings.set('prefs', 'builder', name, field.getValue());
-		} else if (field instanceof jsx3.gui.Select) {
-			settings.set('prefs', 'builder', name, field.getValue());
-		} else if (field instanceof jsx3.gui.CheckBox) {
-			settings.set('prefs', 'builder', name, field.getChecked() == jsx3.gui.CheckBox.CHECKED);
-		}
-	}
-	settings.save();
+
+  // save builder settings
+  var fields = this.findDescendants(function(o) {return o.getName() && o.getName().indexOf('jsxsetting_') == 0}, null, true);
+  for (var i = 0; i < fields.length; i++) {
+    var field = fields[i];
+    var name = field.getName().substring('jsxsetting_'.length);
+    if (field instanceof jsx3.gui.TextBox) {
+      settings.set('prefs', 'builder', name, field.getValue());
+    } else if (field instanceof jsx3.gui.Select) {
+      settings.set('prefs', 'builder', name, field.getValue());
+    } else if (field instanceof jsx3.gui.CheckBox) {
+      settings.set('prefs', 'builder', name, field.getChecked() == jsx3.gui.CheckBox.CHECKED);
+    }
+  }
+  settings.save();
   
   return true;
 };
 
 objJSX.loadPrefs = function() {
   var settings = jsx3.ide.getIDESettings();
-	
-	// save builder settings
-	var fields = this.findDescendants(function(o) {return o.getName() && o.getName().indexOf('jsxsetting_') == 0}, null, true);
-	for (var i = 0; i < fields.length; i++) {
-		var field = fields[i];
-		var name = field.getName().substring('jsxsetting_'.length);
-		var value = settings.get('prefs','builder',name);
-		
-		if (field instanceof jsx3.gui.TextBox) {
-		  field.setValue(value);
-		} else if (field instanceof jsx3.gui.Select) {
-		  field.setValue(value);
-		} else if (field instanceof jsx3.gui.CheckBox) {
-		  if (value != null)
-  			field.setChecked(value ? jsx3.gui.CheckBox.CHECKED : jsx3.gui.CheckBox.UNCHECKED);
-		}
-	}
 
-	this.updateControlState();
+  // save builder settings
+  var fields = this.findDescendants(function(o) {return o.getName() && o.getName().indexOf('jsxsetting_') == 0}, null, true);
+  for (var i = 0; i < fields.length; i++) {
+    var field = fields[i];
+    var name = field.getName().substring('jsxsetting_'.length);
+    var value = settings.get('prefs','builder',name);
+
+    if (field instanceof jsx3.gui.TextBox) {
+      field.setValue(value);
+    } else if (field instanceof jsx3.gui.Select) {
+      field.setValue(value);
+    } else if (field instanceof jsx3.gui.CheckBox) {
+      if (value != null)
+        field.setChecked(value ? jsx3.gui.CheckBox.CHECKED : jsx3.gui.CheckBox.UNCHECKED);
+    }
+  }
+
+  this.updateControlState();
 };
 
 objJSX.makeDirty = function() {

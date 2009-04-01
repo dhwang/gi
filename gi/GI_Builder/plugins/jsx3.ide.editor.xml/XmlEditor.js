@@ -8,10 +8,10 @@
 jsx3.Class.defineClass("jsx3.ide.XmlEditor", jsx3.ide.TextEditor, null, function(XmlEditor, XmlEditor_prototype) {
   
   XmlEditor_prototype._mode = 'readwrite';
-	
-	XmlEditor_prototype.save = function() {
-		var objFile = this.getOpenFile();
-		if (objFile) {
+
+  XmlEditor_prototype.save = function() {
+    var objFile = this.getOpenFile();
+    if (objFile) {
       var strContent = this.getEditorText();
 
       var objXML = new jsx3.xml.Document();
@@ -37,14 +37,14 @@ jsx3.Class.defineClass("jsx3.ide.XmlEditor", jsx3.ide.TextEditor, null, function
         return true;
       }
     } else {
-			this.getPlugIn().getLog().error("Cannot save file to blank url.");
-		}
-		
-		return false;
-	};
+      this.getPlugIn().getLog().error("Cannot save file to blank url.");
+    }
+
+    return false;
+  };
 
 /*
-	XmlEditor_prototype.render = function(objContainer) {
+  XmlEditor_prototype.render = function(objContainer) {
     var xml = this.getPlugIn().getResource("editor").getData();
     return objContainer.loadXML(xml, false, this.getPlugIn());
   };
@@ -90,21 +90,21 @@ jsx3.Class.defineClass("jsx3.ide.XmlEditor", jsx3.ide.TextEditor, null, function
   XmlEditor_prototype.onSetMode = function(objContent, strOldMode) {
     var strMode = this.getMode();
 
-		if (strOldMode == 'readwrite') {
-			var doc = new jsx3.xml.Document();
-			doc.loadXML(this.getEditorText());
+    if (strOldMode == 'readwrite') {
+      var doc = new jsx3.xml.Document();
+      doc.loadXML(this.getEditorText());
       objContent.setSourceDocument(doc);
-		}
+    }
 
     objContent.doShow();
-	};
-	
+  };
+
   XmlEditor_prototype.getPlugIn = function() {
     return jsx3.IDE.XmlEditorPlugin;
   };
 
-	XmlEditor_prototype.supportsReload = function() {
-		return true;
-	};
-	
+  XmlEditor_prototype.supportsReload = function() {
+    return true;
+  };
+
 });

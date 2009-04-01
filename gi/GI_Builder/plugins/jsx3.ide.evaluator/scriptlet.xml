@@ -33,9 +33,9 @@ objJSX.onRsrcLoad = function() {
   var h = this.getPlugIn().getHistory();
   if (h) {
     h = h.concat(); h.reverse();
-  	var menu = this.getDescendantOfName('jsx_tbb_history');
-  	var xml = menu.getXML();
-  	var i = 0;
+    var menu = this.getDescendantOfName('jsx_tbb_history');
+    var xml = menu.getXML();
+    var i = 0;
     jsx3.$A(h).each(function(e) {
       var record = xml.createNode(jsx3.xml.Entity.TYPEELEMENT, "record");
 

@@ -13,21 +13,21 @@ _resolvers: {},
  */
 _getPrototypeLibraries: function() {
   var nodeImg = this.resolveURI('jsxapp:/images/icon_7.gif');
-	var doc = jsx3.xml.CDF.Document.newDocument();
-	var root = doc.insertRecord({jsxid:'components', jsxtext: "Components", jsxopen: "1"});
+  var doc = jsx3.xml.CDF.Document.newDocument();
+  var root = doc.insertRecord({jsxid:'components', jsxtext: "Components", jsxopen: "1"});
 
-	var currentNode = null;
+  var currentNode = null;
   this._resolvers = {};
-	
-	// do system prototypes
-	currentNode = doc.insertRecord({
+
+  // do system prototypes
+  currentNode = doc.insertRecord({
     jsxid: 'system', jsxtext: 'System', jsxopen: '1', jsxunselectable: '1',
     jsximg: nodeImg, sorton: 'a'
   }, 'components');
-	this._doPLDirectoryRead(doc, currentNode, jsx3.ide.getBuilderRelativeFile('prototypes'), this.getServer());
+  this._doPLDirectoryRead(doc, currentNode, jsx3.ide.getBuilderRelativeFile('prototypes'), this.getServer());
   this._resolvers['system'] = this.getServer();
 
-	var addins = jsx3.System.getAddins();
+  var addins = jsx3.System.getAddins();
   // do addin prototypes
   currentNode = doc.insertRecord({
     jsxid: 'addins', jsxtext: 'Addins', jsxopen: '1', jsxunselectable: '1',
@@ -49,12 +49,12 @@ _getPrototypeLibraries: function() {
   if (currentNode.getChildNodes().size() == 0)
     currentNode.getParent().removeChild(currentNode);
 
-	// do user prototypes
+  // do user prototypes
   currentNode = doc.insertRecord({
     jsxid: 'user', jsxtext: 'User', jsxopen: '1', jsxunselectable: '1',
     jsximg: nodeImg, sorton: 'c'
   }, 'components');
-	this._doPLDirectoryRead(doc, currentNode, jsx3.ide.getHomeRelativeFile('prototypes'), jsx3.net.URIResolver.USER);
+  this._doPLDirectoryRead(doc, currentNode, jsx3.ide.getHomeRelativeFile('prototypes'), jsx3.net.URIResolver.USER);
   this._resolvers['user'] = jsx3.net.URIResolver.USER;
 
   if (currentNode.getChildNodes().size() == 0)
@@ -84,7 +84,7 @@ _getPrototypeLibraries: function() {
     }).bind(this));
   }
 
-	return doc;
+  return doc;
 },
 
 
@@ -95,9 +95,9 @@ _doPLDirectoryRead: function(doc, parent, file, objResolver) {
   var leafImg = this.resolveURI('jsxapp:/images/icon_46.gif');
 
   if (file.isDirectory()) {
-		var list = file.listFiles();
-		for (var i = 0; i < list.length; i++) {
-			var item = list[i];
+    var list = file.listFiles();
+    for (var i = 0; i < list.length; i++) {
+      var item = list[i];
       if (jsx3.ide.isFileToIgnore(item)) continue;
 
       var name = item.getName();
@@ -108,7 +108,7 @@ _doPLDirectoryRead: function(doc, parent, file, objResolver) {
           jsximg: parent.getAttribute("jsximg"), sorton: 'a_' + (name.charAt(0) == "~" ? ("z" + name) : name),
           syspath: jsx3.ide.getSystemDirFile().relativePathTo(item)
         }, parent.getAttribute('jsxid'));
-			} else if (item.getExtension() == 'xml') {
+      } else if (item.getExtension() == 'xml') {
         var node = doc.insertRecord({
           jsxid: parent.getAttribute('jsxid') + '/' + name,
           jsxtext: name, type: 'component',
@@ -119,13 +119,13 @@ _doPLDirectoryRead: function(doc, parent, file, objResolver) {
           syspath: jsx3.ide.getSystemDirFile().relativePathTo(item)
         }, parent.getAttribute('jsxid'));
         this._doPLRefineRecord(node, item, objResolver);
-			}
-		}
-	} else {
-		return false;
-	}
-	
-	return true;
+      }
+    }
+  } else {
+    return false;
+  }
+
+  return true;
 },
 
 
@@ -187,7 +187,7 @@ _doPLRefineRecord: function(objNode, objFile, objResolver) {
 },
 
 reloadPrototypeLibraries: function(objTree) {
-	var doc = this._getPrototypeLibraries();
+  var doc = this._getPrototypeLibraries();
   objTree.setSourceXML(doc);
   this.publish({subject: "reloaded"});
 }

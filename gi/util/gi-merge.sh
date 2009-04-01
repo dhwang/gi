@@ -138,8 +138,8 @@ PLATFORMS="ie6 ie7 fx saf"
 
 if [ ! -d JSX/js ]
 then
-	echo "This script must be run from the GI install directory."
-	exit 1
+  echo "This script must be run from the GI install directory."
+  exit 1
 fi
 
 cd JSX/js
@@ -148,16 +148,16 @@ cd JSX/js
 
 for p in $PLATFORMS
 do
-	if [ -f ${p}/${JSXJS} ]
-	then
+  if [ -f ${p}/${JSXJS} ]
+  then
     if [ -f ${p}/${JSXJS_ORIG} ]
     then
       echo "Backup of ${p}/${JSXJS} already exists"
     else
       echo "Creating backup of ${p}/${JSXJS}"
       cp ${p}/${JSXJS} ${p}/${JSXJS_ORIG}
-  	fi
-	fi
+    fi
+  fi
 done
 
 # Resolve dependencies recursively
@@ -166,25 +166,25 @@ stillChecking=1
 
 while [ $stillChecking -eq 1 ]
 do
-	stillChecking=0
-	for s in $ORDER
-	do
-		eval "on=\${$s}"
-		if [ $on -eq "1" ]
-		then
-			eval "prereqs=\${dep_${s}}"
-			for pre in $prereqs
-			do
-				eval "pre_on=\${${pre}}"
-  				if [ $pre_on -ne "1" ]
-				then
-					echo "$s requires $pre"
-					eval "${pre}=1"
-					stillChecking=1
-				fi
-			done
-		fi
-	done
+  stillChecking=0
+  for s in $ORDER
+  do
+    eval "on=\${$s}"
+    if [ $on -eq "1" ]
+    then
+      eval "prereqs=\${dep_${s}}"
+      for pre in $prereqs
+      do
+        eval "pre_on=\${${pre}}"
+          if [ $pre_on -ne "1" ]
+        then
+          echo "$s requires $pre"
+          eval "${pre}=1"
+          stillChecking=1
+        fi
+      done
+    fi
+  done
 done
 
 # Create the included file list from the variables set above
@@ -204,9 +204,9 @@ done
 
 for p in $PLATFORMS
 do
-	if [ -f ${p}/${JSXJS} ]
-	then
-  	cat ${p}/${JSXJS_ORIG} ${includes} > ${p}/${JSXJS}
+  if [ -f ${p}/${JSXJS} ]
+  then
+    cat ${p}/${JSXJS_ORIG} ${includes} > ${p}/${JSXJS}
   fi
 done
 

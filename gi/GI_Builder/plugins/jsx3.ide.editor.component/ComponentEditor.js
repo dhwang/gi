@@ -6,7 +6,7 @@
 // @jsxobf-clobber-shared  _tab _url _unsaved _server _mode _openNewTab _setTabName _selection
 
 jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, function(ComponentEditor, ComponentEditor_prototype) {
-	
+
   var Model = jsx3.app.Model;
 
   ComponentEditor_prototype._mode = "component";
@@ -99,118 +99,118 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
       objView.onShowMe();
   };
 
-	ComponentEditor_prototype.activate = function() {
-		var server = this.getServer();
+  ComponentEditor_prototype.activate = function() {
+    var server = this.getServer();
     if (! server) return;
-		
+
     // reset the namespace reference using the server ALIAS provided by the controller
-		server.activateView();
-		this.onShowComponentMode();
-	};
+    server.activateView();
+    this.onShowComponentMode();
+  };
 
   ComponentEditor_prototype.deactivate = function() {
     if (this._server)
       this._server.deactivateView();
-	};
+  };
 
   /** @private @jsxobf-clobber */
   ComponentEditor_prototype._readFromJSX = function(objJSX) {
-		//reads the profile properties of the JSX GUI object, '@obj', and returns as a hash
-		var objP = {};
-		objP.icon = objJSX.getMetaValue('icon');
-		objP.name = objJSX.getMetaValue('name');
-		objP.description = objJSX.getMetaValue('description');
-		objP.onafter = objJSX.getMetaValue('onafter');
-		objP.onbefore = objJSX.getMetaValue('onbefore');
-		objP.unicode = objJSX.getMetaValue('unicode');
-		return objP;
-	};
+    //reads the profile properties of the JSX GUI object, '@obj', and returns as a hash
+    var objP = {};
+    objP.icon = objJSX.getMetaValue('icon');
+    objP.name = objJSX.getMetaValue('name');
+    objP.description = objJSX.getMetaValue('description');
+    objP.onafter = objJSX.getMetaValue('onafter');
+    objP.onbefore = objJSX.getMetaValue('onbefore');
+    objP.unicode = objJSX.getMetaValue('unicode');
+    return objP;
+  };
 
-	ComponentEditor_prototype.preSaveCheck = jsx3.$Y(function(cb) {
-		// check for illegal async children
-		if (this._checkIllegalAsync(this.getServer().getBodyBlock())) {
-			jsx3.IDE.confirm(null,
+  ComponentEditor_prototype.preSaveCheck = jsx3.$Y(function(cb) {
+    // check for illegal async children
+    if (this._checkIllegalAsync(this.getServer().getBodyBlock())) {
+      jsx3.IDE.confirm(null,
           "One or more objects in the component file <b>" + this.getTitle() + "</b> that are referenced asynchronously cannot be referenced asynchronously. Select Continue to reference these objects synchronously and save the component file.",
           function(d) { d.doClose(); cb.done(true); },
           function(d) { d.doClose(); cb.done(false); },
-    			"Continue", "Cancel", 1, null, null, {width:300, height:150});
-		} else {
+          "Continue", "Cancel", 1, null, null, {width:300, height:150});
+    } else {
       cb.done(false);
     }
-	});
-	
+  });
+
   /** @private @jsxobf-clobber */
   ComponentEditor_prototype._checkIllegalAsync = function(objJSX) {
-		var children = objJSX.getChildren();
-		for (var i = 0; i < children.length; i++) {
-			var child = children[i];
-			if (child.getPersistence() == Model.PERSISTREFASYNC && i < children.length - 1)
-				return true;
-			if (this._checkIllegalAsync(child))
-				return true;
-		}
-		return false;
-	};
-	
-	ComponentEditor_prototype.save = function() {
-		var didSave = false;
-		var isExpert = false;
-		
-		//if the user is in expert view, try to commit their changes before continuing (is their XML even valid?)
-		var objView = this.getActiveView();
-		if (objView && objView.getName() == "mode_source") {
-			isExpert = true;
-			if (objView.isDirty()) {
-				if (!this._cascadeExpertChanges()) return false;
-			}
-		}
+    var children = objJSX.getChildren();
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i];
+      if (child.getPersistence() == Model.PERSISTREFASYNC && i < children.length - 1)
+        return true;
+      if (this._checkIllegalAsync(child))
+        return true;
+    }
+    return false;
+  };
 
-		//is there an active file to save?
-		var objFile = this.getOpenFile();
-		if (objFile) {
-			var objBody = this.getServer().getBodyBlock();
+  ComponentEditor_prototype.save = function() {
+    var didSave = false;
+    var isExpert = false;
+
+    //if the user is in expert view, try to commit their changes before continuing (is their XML even valid?)
+    var objView = this.getActiveView();
+    if (objView && objView.getName() == "mode_source") {
+      isExpert = true;
+      if (objView.isDirty()) {
+        if (!this._cascadeExpertChanges()) return false;
+      }
+    }
+
+    //is there an active file to save?
+    var objFile = this.getOpenFile();
+    if (objFile) {
+      var objBody = this.getServer().getBodyBlock();
       var firstChild = objBody.getChild(0);
       
       // save component profile
       var profileProps = {};
       var profileTab = this.getContent().getDescendantOfName("mode_profile", false, false);
-			if (profileTab != null && profileTab._inited) {
+      if (profileTab != null && profileTab._inited) {
         profileProps = profileTab.getProfileProperties();
-			} else if (firstChild != null) {
+      } else if (firstChild != null) {
         //profile tab isn't open (or the save action is called from the read/write 'expert' editor), but the first child of the body exists, so read from it
         profileProps = this._readFromJSX(firstChild);
-			}
+      }
 
       var objXML = null;
-			if (firstChild != null) {
-				//call handler function to save the contents of the active editor (the active JSXBODY)
-				objXML = firstChild.toXMLDoc(profileProps);
-			} else {
+      if (firstChild != null) {
+        //call handler function to save the contents of the active editor (the active JSXBODY)
+        objXML = firstChild.toXMLDoc(profileProps);
+      } else {
         profileProps.children = true;
         objXML = objBody.toXMLDoc(profileProps);
       }
 
       objXML = jsx3.ide.makeXmlPretty(objXML, true);
       if (jsx3.ide.writeUserXmlFile(objFile, objXML)) {
-				this.setDirty(false);
-				didSave = true;
+        this.setDirty(false);
+        didSave = true;
         
         if (objBody.getChildren().length > 1)
           this.getPlugIn().getLog().warn("Saved component with " + objBody.getChildren().length + " root objects. Only the first object was saved.");
       }
-			
-			if (didSave && isExpert)
-				objView.onShowMe();
-		} else {
-			this.getPlugIn().getLog().error("can't save file to blank url");
-		}
+
+      if (didSave && isExpert)
+        objView.onShowMe();
+    } else {
+      this.getPlugIn().getLog().error("can't save file to blank url");
+    }
 
     if (didSave)
       this.publish({subject:"saved"});
     return didSave;
-	};
+  };
 
-	ComponentEditor_prototype.revert = function() {
+  ComponentEditor_prototype.revert = function() {
     this.getServer().destroy();
     this._server = null;
     this.jsxsuper();
@@ -233,8 +233,8 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
   };
 
   ComponentEditor_prototype.getServer = function() {
-		return this._server;
-	};
+    return this._server;
+  };
 
   ComponentEditor_prototype.onBeforeSetMode = function(strNewMode) {
     var strMode = this.getMode();
@@ -259,29 +259,29 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
 
   ComponentEditor_prototype.onSetMode = function(objContent, strOldMode) {
     objContent.doShow();
-	};
-	
+  };
+
   /** @private @jsxobf-clobber */
   ComponentEditor_prototype._cascadeExpertChanges = function() {
-		//get the XML the user has been manually editing; load to check its structural validity
-		var objView = this.getActiveView();
-		var doc = new jsx3.xml.Document();
-		doc.loadXML(objView.getTextValue());
+    //get the XML the user has been manually editing; load to check its structural validity
+    var objView = this.getActiveView();
+    var doc = new jsx3.xml.Document();
+    doc.loadXML(objView.getTextValue());
 
-		//set success/error flags
-		var success = false;
-		var error = doc.getError();
+    //set success/error flags
+    var success = false;
+    var error = doc.getError();
 
-		//the XML is structurally valid
-		if (error.code == "0") {
-			error = null;
+    //the XML is structurally valid
+    if (error.code == "0") {
+      error = null;
 
       var server = this.getServer();
-			var parent = server.getBodyBlock();
-			var oldChild = parent.getChildren();
-			var oldLength = oldChild.length;
+      var parent = server.getBodyBlock();
+      var oldChild = parent.getChildren();
+      var oldLength = oldChild.length;
 
-			try {
+      try {
         this.setSelection([]);
         
         //deserialize the new content
@@ -293,49 +293,49 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
           children.setPersistence(Model.PERSISTEMBED);
         }
 
-				//remove the existing content (decrement to preserve index integrity)
-				for (var i = oldLength-1; i >= 0; i--) {
-					parent.removeChild(oldChild[i]);
-				}
-			
-				// set profile to dirty
-				var contentBlock = this.getContent().getModePane();
-				var profileTab = contentBlock.getChild("mode_profile");
-				if (profileTab != null)
-					profileTab._inited = false;
+        //remove the existing content (decrement to preserve index integrity)
+        for (var i = oldLength-1; i >= 0; i--) {
+          parent.removeChild(oldChild[i]);
+        }
 
-				success = true;
-			} catch (e) {
-				//set reference to error object
-				error = e;
+        // set profile to dirty
+        var contentBlock = this.getContent().getModePane();
+        var profileTab = contentBlock.getChild("mode_profile");
+        if (profileTab != null)
+          profileTab._inited = false;
 
-				//remove any new children that may have been deserialized (perhaps it failed after adding a few children)
+        success = true;
+      } catch (e) {
+        //set reference to error object
+        error = e;
+
+        //remove any new children that may have been deserialized (perhaps it failed after adding a few children)
         var newLength;
         if ((newLength = parent.getChildren().length) > oldLength) {
-					for (var i = newLength-1; i >= oldLength; i--) {
-						parent.removeChild(parent.getChild(i));
-					}
-				}
-			}
+          for (var i = newLength-1; i >= oldLength; i--) {
+            parent.removeChild(parent.getChild(i));
+          }
+        }
+      }
       
       parent.repaint();
     }
-			
-		if (!success) {
-			jsx3.IDE.alert("Alert", "Changes made to the XML source caused the following XML parsing error: <br/><br/><b>" + error.description + "</b><br/><br/> Please fix the error or revert to the last saved version before continuing.", null, null, {width: 400, height: 225});
-		}
-		
-		return success;
-	};
-	
-	ComponentEditor_prototype.getActiveView = function() {
-		var contentBlock = this.getContent().getModePane();
-		return contentBlock ? contentBlock.getChild(contentBlock.getSelectedIndex()) : null;
-	};
-	
-	ComponentEditor_prototype.supportsReload = function() {
-		return true;
-	};
+
+    if (!success) {
+      jsx3.IDE.alert("Alert", "Changes made to the XML source caused the following XML parsing error: <br/><br/><b>" + error.description + "</b><br/><br/> Please fix the error or revert to the last saved version before continuing.", null, null, {width: 400, height: 225});
+    }
+
+    return success;
+  };
+
+  ComponentEditor_prototype.getActiveView = function() {
+    var contentBlock = this.getContent().getModePane();
+    return contentBlock ? contentBlock.getChild(contentBlock.getSelectedIndex()) : null;
+  };
+
+  ComponentEditor_prototype.supportsReload = function() {
+    return true;
+  };
 
   ComponentEditor_prototype.onShowComponentMode = function() {
     // HACK: if the component is reloaded while the component view is hidden, the box profile may show dimensions {0,0}
@@ -347,12 +347,12 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
 
 /*
   ComponentEditor.MODE_TO_NAME = {
-		component: {name:'jsxtab_componenteditor_maintab', palettes:true},
-		source: {name:'component_xmlwr', rsrc:'mode_xmlrw', palettes:false},
-		sourcefmt: {name:'component_asxml', rsrc:'mode_xmlro', palettes:false},
-		html: {name:'component_ashtml', rsrc:'mode_html', palettes:false},
-		profile: {name:'component_profile', rsrc:'mode_profile', palettes:false}
-	};
+    component: {name:'jsxtab_componenteditor_maintab', palettes:true},
+    source: {name:'component_xmlwr', rsrc:'mode_xmlrw', palettes:false},
+    sourcefmt: {name:'component_asxml', rsrc:'mode_xmlro', palettes:false},
+    html: {name:'component_ashtml', rsrc:'mode_html', palettes:false},
+    profile: {name:'component_profile', rsrc:'mode_profile', palettes:false}
+  };
 
 */
   ComponentEditor_prototype.refreshStats = function() {

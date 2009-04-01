@@ -273,14 +273,14 @@ gi.test.jsunit.defineTests("jsx3.xml.CDF", function(t, jsunit) {
   
   t.testGetCDFIds = function () {
     var cdf = newCDF("data/cdf1.xml");
-	var expIds = ['','2','','4','5'];
-	var ids = cdf.getRecordIds();
-	
-	jsunit.debug('get IDS = ' + ids);
-	jsunit.assertEquals(expIds[1], ids[1]);
-	jsunit.assertEquals(expIds[3], ids[3]);
-	jsunit.assertEquals(expIds[4], ids[4]);
-	jsunit.assertArrayEquals(expIds, ids);
+  var expIds = ['','2','','4','5'];
+  var ids = cdf.getRecordIds();
+
+  jsunit.debug('get IDS = ' + ids);
+  jsunit.assertEquals(expIds[1], ids[1]);
+  jsunit.assertEquals(expIds[3], ids[3]);
+  jsunit.assertEquals(expIds[4], ids[4]);
+  jsunit.assertArrayEquals(expIds, ids);
   };
 
 });

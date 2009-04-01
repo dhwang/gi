@@ -51,10 +51,10 @@ objJSX.updateLoadSelect = function(type) {
   var loadSelect = formLoad;
 
   if (!type.isReloadable()) {
-		loadSelect.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
-	} else {
-		loadSelect.setEnabled(jsx3.gui.Form.STATEENABLED, false);
-	
+    loadSelect.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
+  } else {
+    loadSelect.setEnabled(jsx3.gui.Form.STATEENABLED, false);
+
     loadSelect.setXMLString("<data jsxid='jsxroot'>" +
         "<record jsxid='" + jsx3.lang.ClassLoader.LOAD_AUTO + "a' jsxtext='Manually/As Needed'/>" +
         "<record jsxid='" + jsx3.lang.ClassLoader.LOAD_ALWAYS + "a' jsxtext='At Init'/>" +
@@ -68,13 +68,13 @@ objJSX.updateLoadSelect = function(type) {
 objJSX.makeDirty = function(objInput) {
   if (objInput == formType)
     this.updateLoadSelect(jsx3.ide.getPlugIn("jsx3.ide").getFileType(objInput.getValue()));
-	
+
   this.getPane().setDirty(true);
 };
 
 objJSX._onOpen = function() {
-	var currentFile = jsx3.ide.getSystemRelativeFile(jsx3.ide.PROJECT.resolveURI(formURI.getValue()));
-	var baseFolder = currentFile.exists() ? currentFile.getParentFile() : null;
+  var currentFile = jsx3.ide.getSystemRelativeFile(jsx3.ide.PROJECT.resolveURI(formURI.getValue()));
+  var baseFolder = currentFile.exists() ? currentFile.getParentFile() : null;
 
   jsx3.ide.getPlugIn("jsx3.io.browser").chooseFile(this.getServer().getRootBlock(), {
       name:"rsrcprod", modal:true, folder: baseFolder || jsx3.ide.getActiveProjectDirectory(),
@@ -86,7 +86,7 @@ objJSX._onOpen = function() {
   });
 };
 
-	]]></onAfterDeserialize>
+  ]]></onAfterDeserialize>
     <object type="jsx3.gui.Block">
       <dynamics jsxpadding="@8Pixel"/>
       <variants jsxoverflow="3" jsxrelativeposition="1"/>

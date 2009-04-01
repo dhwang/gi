@@ -7,11 +7,11 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fn="http://www.w3.org/2005/xpath-functions"
     >
-	
-	<xsl:output
-			method="html"
-			encoding="UTF-8" indent="no"
-			omit-xml-declaration="yes" />
+  
+  <xsl:output
+      method="html"
+      encoding="UTF-8" indent="no"
+      omit-xml-declaration="yes" />
   
   <xsl:param name="copyright"></xsl:param>
 
@@ -179,7 +179,7 @@
   <xsl:template match="*" mode="since">
     <xsl:if test="@since">
       <h4 class="detail">Since:</h4>
-			<div class="indent"><xsl:value-of select="@since" disable-output-escaping="yes"/></div>
+      <div class="indent"><xsl:value-of select="@since" disable-output-escaping="yes"/></div>
     </xsl:if>
   </xsl:template>
   
@@ -195,7 +195,7 @@
   <xsl:template match="*" mode="version">
     <xsl:if test="@version">
       <h4 class="detail">Version:</h4>
-			<div class="indent"><xsl:value-of select="@version" disable-output-escaping="yes"/></div>
+      <div class="indent"><xsl:value-of select="@version" disable-output-escaping="yes"/></div>
     </xsl:if>
   </xsl:template>
   
@@ -322,25 +322,25 @@
     </xsl:if>
 
     <xsl:for-each select="method[@inherited='1']">
-			<xsl:if test="position()=1 or not(preceding-sibling::*[1]/@source=@source)">
-				<xsl:variable name="source" select="@source"/>
+      <xsl:if test="position()=1 or not(preceding-sibling::*[1]/@source=@source)">
+        <xsl:variable name="source" select="@source"/>
         <table class="inherited"><tr><th>Methods Inherited From <xsl:value-of select="@source"/></th></tr>
         <tr>
           <td>
-					<xsl:for-each select="../method[@inherited='1' and @source=$source]">
-						<xsl:sort select="@name" data-type="text" order="ascending"/>
-						<xsl:apply-templates select="." mode="link-member">
+          <xsl:for-each select="../method[@inherited='1' and @source=$source]">
+            <xsl:sort select="@name" data-type="text" order="ascending"/>
+            <xsl:apply-templates select="." mode="link-member">
               <xsl:with-param name="strikedep" select="1"/>
             </xsl:apply-templates>
-						<xsl:if test="position() != last()">
-							<xsl:text>, </xsl:text>
-						</xsl:if>
-					</xsl:for-each>
+            <xsl:if test="position() != last()">
+              <xsl:text>, </xsl:text>
+            </xsl:if>
+          </xsl:for-each>
           </td>
         </tr>
         </table>
       </xsl:if>
-		</xsl:for-each>
+    </xsl:for-each>
   </xsl:template>
   
   <xsl:template match="class | interface | package" mode="fielddetail">
@@ -438,7 +438,7 @@
         <xsl:choose>
           <xsl:when test="not(position()=last())">, </xsl:when>
         </xsl:choose>
-			</xsl:for-each>
+      </xsl:for-each>
       <xsl:text>)</xsl:text>
     </div>
   </xsl:template>
@@ -566,7 +566,7 @@
         <xsl:choose>
           <xsl:when test="not(position()=last())">, </xsl:when>
         </xsl:choose>
-			</xsl:for-each>
+      </xsl:for-each>
       <xsl:text>)</xsl:text>
     </div>
     <div class="detailcontent">
@@ -574,10 +574,10 @@
         <xsl:apply-templates select="." mode="deprecated"/>
         <xsl:apply-templates select="text" mode="textblock"/>
       </div>
-		
+
       <xsl:if test="param">
         <h4 class="detail">Parameters:</h4>
-			
+
         <div class="indent">
         <xsl:for-each select="param">
           <div class="param">
@@ -592,7 +592,7 @@
         </xsl:for-each>
         </div>
       </xsl:if>
-		
+
       <xsl:if test="throws">
         <h4 class="detail">Throws:</h4>
         <xsl:for-each select="throws">
@@ -607,7 +607,7 @@
           </div>
         </xsl:for-each>
       </xsl:if>
-		
+
       <xsl:if test="return">
         <h4 class="detail">Returns:</h4>
         <div class="indent">
@@ -615,7 +615,7 @@
           <xsl:value-of select="'&amp;nbsp;'" disable-output-escaping="yes"/>
         </div>
       </xsl:if>
-		
+
       <xsl:if test="overrides | overridesmix">
         <h4 class="detail">Overrides:</h4>
         <xsl:for-each select="overrides | overridesmix">
@@ -633,7 +633,7 @@
     
       <xsl:apply-templates select="." mode="since"/>
       <xsl:apply-templates select="." mode="seealso"/>    
-	
+
     </div>
   </xsl:template>
   

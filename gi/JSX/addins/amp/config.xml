@@ -4,22 +4,22 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <data jsxid="jsxroot">
-	<record jsxid="id" type="string">jsx3.amp</record>
-	<record jsxid="name" type="string">AMP</record>
-	<record jsxid="description" type="string">Asynchronous Modular Platform</record>
+  <record jsxid="id" type="string">jsx3.amp</record>
+  <record jsxid="name" type="string">AMP</record>
+  <record jsxid="description" type="string">Asynchronous Modular Platform</record>
   <record jsxid="long_description" type="string"></record>
   <record jsxid="addin" type="string">jsx3.amp.ADDIN</record>
   <record jsxid="version" type="string">1.0</record>
   <record jsxid="jsxversion" type="string">3.2</record>
   <record jsxid="classpath" type="string">js/:jsx3.amp.*</record>
 
-	<record jsxid="includes" type="array">		
+  <record jsxid="includes" type="array">
     <record jsxid="0" type="map">
       <record jsxid="load" type="number">1</record>
       <record jsxid="type" type="string">script</record>
       <record jsxid="src" type="string">js/jsx3/amp/package.js</record>
     </record>
-    
+
     <record jsxid="0" type="map">
       <record jsxid="load" type="number">1</record>
       <record jsxid="type" type="string">script</record>

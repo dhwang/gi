@@ -951,90 +951,90 @@ body.jsx30window {
   border-color: #9898a5 #d8d8e5 #d8d8e5 #9898a5;
 }
 span.jsx3_dp_cal {
-	width: 140px;
-	background-color: #FFFFFF;
+  width: 140px;
+  background-color: #FFFFFF;
 }
 table.jsx3_dp_cal {
-	width: 100%;
-	border: 1px solid #336699;
-	padding: 0px; margin: 0px;
+  width: 100%;
+  border: 1px solid #336699;
+  padding: 0px; margin: 0px;
 }
 table.jsx3_dp_cal tr.year {
-	background-color: #CCDDFF;
-	font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold;
-	vertical-align: middle;
+  background-color: #CCDDFF;
+  font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold;
+  vertical-align: middle;
 }
 table.jsx3_dp_cal tr.year td {
-	padding-bottom: 0px;
+  padding-bottom: 0px;
 }
 table.jsx3_dp_cal tr.month {
-	background-color: #CCDDFF;
-	font-family: Verdana, Arial, sans-serif; font-size: 11px; font-weight: bold;
-	vertical-align: middle;
+  background-color: #CCDDFF;
+  font-family: Verdana, Arial, sans-serif; font-size: 11px; font-weight: bold;
+  vertical-align: middle;
 }
 table.jsx3_dp_cal td.prev {
-	text-align: left;
-	width: 15%;
+  text-align: left;
+  width: 15%;
 }
 table.jsx3_dp_cal td.next {
-	text-align: right;
-	width: 15%;
+  text-align: right;
+  width: 15%;
 }
 table.jsx3_dp_cal td.prev img, table.jsx3_dp_cal td.next img {
-	width: 14px; height: 15px;
-	cursor: pointer;
+  width: 14px; height: 15px;
+  cursor: pointer;
 }
 table.jsx3_dp_cal td.title {
-	text-align: center;
-	color: #333366;
-	width: 70%;
+  text-align: center;
+  color: #333366;
+  width: 70%;
 }
 table.jsx3_dp_cal tr.days {
 }
 table.jsx3_dp_cal tr.days td.cal {
-	padding: 0px;
+  padding: 0px;
 }
 table.jsx3_dp_month {
-	width: 100%;
-	border-spacing: 0px;
+  width: 100%;
+  border-spacing: 0px;
 }
 table.jsx3_dp_month th {
-	padding: 2px;
-	font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold; color: #FFFFFF;
-	text-align: center;
-	width: 17%;
-	background-color: #336699;
+  padding: 2px;
+  font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold; color: #FFFFFF;
+  text-align: center;
+  width: 17%;
+  background-color: #336699;
 }
 table.jsx3_dp_month td {
-	padding: 2px;
-	font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: normal;
-	text-align: right;
-	cursor: pointer;
+  padding: 2px;
+  font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: normal;
+  text-align: right;
+  cursor: pointer;
 }
 table.jsx3_dp_month td.normal {
-	background-color: #FFFFFF;
-	text-decoration: none;
-	text-align: right;
+  background-color: #FFFFFF;
+  text-decoration: none;
+  text-align: right;
 }
 table.jsx3_dp_month td.over {
-	background-color: #FFFF99;
-	text-decoration: underline;
-	text-align: right;
+  background-color: #FFFF99;
+  text-decoration: underline;
+  text-align: right;
 }
 table.jsx3_dp_month td.selected {
-	background-color: #FFCC00;
-	text-align: right;
+  background-color: #FFCC00;
+  text-align: right;
 }
 table.jsx3_dp_month td.prev {
-	background-color: #CCCCCC; color: #666666;
-	text-align: right;
+  background-color: #CCCCCC; color: #666666;
+  text-align: right;
 }
 table.jsx3_dp_month td.next {
-	background-color: #CCCCCC; color: #666666;
-	text-align: right;
+  background-color: #CCCCCC; color: #666666;
+  text-align: right;
 }
 table.jsx3_dp_month td.today {
-	border: 1px solid #FF6600;
+  border: 1px solid #FF6600;
 }
 
 /** jsx3.gui.TimePicker */

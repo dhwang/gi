@@ -38,7 +38,7 @@ objJSX.readFromJSX = function(obj) {
 
 objJSX.makePretty = function(doc) {
   if (! doc.hasError()) {
-	  var blockX = contentx;
+    var blockX = contentx;
     blockX.setSourceXML(doc);
     return blockX.doTransform();
   } else {

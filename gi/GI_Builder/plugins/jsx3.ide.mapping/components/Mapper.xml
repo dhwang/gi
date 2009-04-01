@@ -245,9 +245,9 @@
    */
   objJSX.doSaveAsRulesFileExecute = function(objFile) {
     //3.5.1HF01: write any in-process edits before saving--if not, the user's current rule edits will not be persisted
- 		this.getMapper().writeMappings(true);
+     this.getMapper().writeMappings(true);
 
- 		//generate xml for file to save to disk
+     //generate xml for file to save to disk
     var strContentToSave = this.getMapper().getContent();
 
     //if at least one valid property was able to be saved, proceed

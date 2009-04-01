@@ -6,32 +6,32 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:msxsl="urn:schemas-microsoft-com:xslt">
 
-	<xsl:output method="xml" omit-xml-declaration="yes"/>
-	<xsl:param name="membertype">class</xsl:param>
-	<xsl:param name="memberid"></xsl:param>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
+  <xsl:param name="membertype">class</xsl:param>
+  <xsl:param name="memberid"></xsl:param>
   <xsl:param name="showdeprecated">1</xsl:param>
-	
-	<xsl:template match="/">
+
+  <xsl:template match="/">
     <div class="jsxdoc">
     <xsl:choose>
-			<xsl:when test="$membertype='class'">
-				<xsl:apply-templates select="/class | /package | /interface" mode="class"/>
-			</xsl:when>
-			<xsl:when test="$membertype='constructor'">
-				<xsl:apply-templates select="/*/constructor" mode="constructor"/>
-			</xsl:when>
-			<xsl:when test="$membertype='method'">
-				<xsl:apply-templates select="/*/method[@id=$memberid]" mode="method"/>
-			</xsl:when>
-			<xsl:when test="$membertype='field'">
-				<xsl:apply-templates select="/*/field[@id=$memberid]" mode="field"/>
-			</xsl:when>
-		</xsl:choose>
+      <xsl:when test="$membertype='class'">
+        <xsl:apply-templates select="/class | /package | /interface" mode="class"/>
+      </xsl:when>
+      <xsl:when test="$membertype='constructor'">
+        <xsl:apply-templates select="/*/constructor" mode="constructor"/>
+      </xsl:when>
+      <xsl:when test="$membertype='method'">
+        <xsl:apply-templates select="/*/method[@id=$memberid]" mode="method"/>
+      </xsl:when>
+      <xsl:when test="$membertype='field'">
+        <xsl:apply-templates select="/*/field[@id=$memberid]" mode="field"/>
+      </xsl:when>
+    </xsl:choose>
     </div>
   </xsl:template>
-	
-	<!-- main template for Class content -->
-	<xsl:template match="class | interface | package" mode="class">
+
+  <!-- main template for Class content -->
+  <xsl:template match="class | interface | package" mode="class">
     <div class="jsxdoc_classhead">
       <xsl:choose>
         <xsl:when test="local-name()='package'">
@@ -45,52 +45,52 @@
     
     <xsl:if test="not(local-name()='package')">
 <!--    <xsl:variable name="superindent" select="''"/> -->
-<!--		<h3 class="jsxdoc">Inheritance:</h3> -->
-		<xsl:choose>
-			<xsl:when test="superclass">
-				<xsl:apply-templates select="superclass[1]" mode="superclass"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:apply-templates select="." mode="superclass"/>
-			</xsl:otherwise>
-		</xsl:choose>
-		
-		<xsl:if test="implements">
-			<h3 class="jsxdoc">All Implemented Interfaces:</h3>
+<!--    <h3 class="jsxdoc">Inheritance:</h3> -->
+    <xsl:choose>
+      <xsl:when test="superclass">
+        <xsl:apply-templates select="superclass[1]" mode="superclass"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="." mode="superclass"/>
+      </xsl:otherwise>
+    </xsl:choose>
+
+    <xsl:if test="implements">
+      <h3 class="jsxdoc">All Implemented Interfaces:</h3>
       <div class="indent">
-			<xsl:for-each select="implements">
-				<xsl:apply-templates select="." mode="implements"/>
-				<xsl:if test="position() != last()">
-					<xsl:text>, </xsl:text>
-				</xsl:if>
-			</xsl:for-each>
+      <xsl:for-each select="implements">
+        <xsl:apply-templates select="." mode="implements"/>
+        <xsl:if test="position() != last()">
+          <xsl:text>, </xsl:text>
+        </xsl:if>
+      </xsl:for-each>
       </div>
     </xsl:if>
-		<xsl:if test="subclass">
-			<h3 class="jsxdoc">Direct Known Subclasses:</h3>
+    <xsl:if test="subclass">
+      <h3 class="jsxdoc">Direct Known Subclasses:</h3>
       <div class="indent">
       <xsl:for-each select="subclass">
-				<xsl:apply-templates select="." mode="subclass"/>
-				<xsl:if test="position() != last()">
-					<xsl:text>, </xsl:text>
-				</xsl:if>
-			</xsl:for-each>
+        <xsl:apply-templates select="." mode="subclass"/>
+        <xsl:if test="position() != last()">
+          <xsl:text>, </xsl:text>
+        </xsl:if>
+      </xsl:for-each>
       </div>
     </xsl:if>
-		<xsl:if test="implementor">
-			<h3 class="jsxdoc">All Known Implementing Classes:</h3>
+    <xsl:if test="implementor">
+      <h3 class="jsxdoc">All Known Implementing Classes:</h3>
       <div class="indent">
-			<xsl:for-each select="implementor">
-				<xsl:apply-templates select="." mode="subclass"/>
-				<xsl:if test="position() != last()">
-					<xsl:text>, </xsl:text>
-				</xsl:if>
-			</xsl:for-each>
+      <xsl:for-each select="implementor">
+        <xsl:apply-templates select="." mode="subclass"/>
+        <xsl:if test="position() != last()">
+          <xsl:text>, </xsl:text>
+        </xsl:if>
+      </xsl:for-each>
       </div>
     </xsl:if>
     </xsl:if>
     </div>
-		
+
     <hr/>
     
     <xsl:if test="not(local-name()='package')">
@@ -134,7 +134,7 @@
     <xsl:apply-templates select="." mode="seealso"/>
     
     <hr/>
-		
+
     <xsl:if test="nested[$showdeprecated=1 or not(@deprecated='1')]">
       <xsl:choose>
         <xsl:when test="local-name()='package'">
@@ -164,22 +164,22 @@
 
       <hr/>
     </xsl:if>
-		
-		<xsl:if test="field[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
-			<h3 class="jsxdoc">Static Fields:</h3>
-			<div class="jsxdoc_members">
-				<xsl:for-each select="field[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
-					<xsl:sort select="@name" data-type="text" order="ascending"/>
-					<xsl:apply-templates select="." mode="fieldlink">
+
+    <xsl:if test="field[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
+      <h3 class="jsxdoc">Static Fields:</h3>
+      <div class="jsxdoc_members">
+        <xsl:for-each select="field[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
+          <xsl:sort select="@name" data-type="text" order="ascending"/>
+          <xsl:apply-templates select="." mode="fieldlink">
             <xsl:with-param name="strikedep" select="1"/>
           </xsl:apply-templates>
-					<xsl:if test="position() != last()">
-						<xsl:text>, </xsl:text>
-					</xsl:if>
-				</xsl:for-each>
-			</div>
-		</xsl:if>
-		
+          <xsl:if test="position() != last()">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </div>
+    </xsl:if>
+
     <xsl:if test="field[not(@static) and not(@inherited) and ($showdeprecated=1 or not(@deprecated='1'))]">
       <h3 class="jsxdoc">Fields:</h3>
       <div class="jsxdoc_members">
@@ -194,37 +194,37 @@
         </xsl:for-each>
       </div>
     </xsl:if>
-		
-		<xsl:if test="method[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
-			<h3 class="jsxdoc">Static Methods:</h3>
-			<div class="jsxdoc_members">
-				<xsl:for-each select="method[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
-					<xsl:sort select="@name" data-type="text" order="ascending"/>
-					<xsl:apply-templates select="." mode="methodlink">
+
+    <xsl:if test="method[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
+      <h3 class="jsxdoc">Static Methods:</h3>
+      <div class="jsxdoc_members">
+        <xsl:for-each select="method[@static='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
+          <xsl:sort select="@name" data-type="text" order="ascending"/>
+          <xsl:apply-templates select="." mode="methodlink">
             <xsl:with-param name="strikedep" select="1"/>
           </xsl:apply-templates>
-					<xsl:if test="position() != last()">
-						<xsl:text>, </xsl:text>
-					</xsl:if>
-				</xsl:for-each>
-			</div>
-		</xsl:if>
-		
-		<xsl:if test="method[not(@static) and not(@inherited) and ($showdeprecated=1 or not(@deprecated='1'))]">
-			<h3 class="jsxdoc">Methods:</h3>
-			<div class="jsxdoc_members">
-				<xsl:for-each select="method[not(@static) and not(@inherited) and ($showdeprecated=1 or not(@deprecated='1'))]">
-					<xsl:sort select="@name" data-type="text" order="ascending"/>
-					<xsl:apply-templates select="." mode="methodlink">
+          <xsl:if test="position() != last()">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </div>
+    </xsl:if>
+
+    <xsl:if test="method[not(@static) and not(@inherited) and ($showdeprecated=1 or not(@deprecated='1'))]">
+      <h3 class="jsxdoc">Methods:</h3>
+      <div class="jsxdoc_members">
+        <xsl:for-each select="method[not(@static) and not(@inherited) and ($showdeprecated=1 or not(@deprecated='1'))]">
+          <xsl:sort select="@name" data-type="text" order="ascending"/>
+          <xsl:apply-templates select="." mode="methodlink">
             <xsl:with-param name="strikedep" select="1"/>
           </xsl:apply-templates>
-					<xsl:if test="position() != last()">
-						<xsl:text>, </xsl:text>
-					</xsl:if>
-				</xsl:for-each>
-			</div>
-		</xsl:if>
-		
+          <xsl:if test="position() != last()">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </div>
+    </xsl:if>
+
     <xsl:for-each select="field[@inherited='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
       <xsl:if test="position()=1 or not(preceding-sibling::*[1]/@source=@source)">
         <xsl:variable name="source" select="@source"/>
@@ -244,42 +244,42 @@
     </xsl:for-each>
     
     <xsl:for-each select="method[@inherited='1' and ($showdeprecated=1 or not(@deprecated='1'))]">
-			<xsl:if test="position()=1 or not(preceding-sibling::*[1]/@source=@source)">
-				<xsl:variable name="source" select="@source"/>
-				<h3 class="jsxdoc">Methods Inherited From <xsl:value-of select="@source"/>:</h3>
-				<div class="jsxdoc_members">
-					<xsl:for-each select="../method[@inherited='1' and @source=$source and ($showdeprecated=1 or not(@deprecated='1'))]">
-						<xsl:sort select="@name" data-type="text" order="ascending"/>
-						<xsl:apply-templates select="." mode="methodlink">
+      <xsl:if test="position()=1 or not(preceding-sibling::*[1]/@source=@source)">
+        <xsl:variable name="source" select="@source"/>
+        <h3 class="jsxdoc">Methods Inherited From <xsl:value-of select="@source"/>:</h3>
+        <div class="jsxdoc_members">
+          <xsl:for-each select="../method[@inherited='1' and @source=$source and ($showdeprecated=1 or not(@deprecated='1'))]">
+            <xsl:sort select="@name" data-type="text" order="ascending"/>
+            <xsl:apply-templates select="." mode="methodlink">
               <xsl:with-param name="strikedep" select="1"/>
             </xsl:apply-templates>
-						<xsl:if test="position() != last()">
-							<xsl:text>, </xsl:text>
-						</xsl:if>
-					</xsl:for-each>
-				</div>
-			</xsl:if>
-		</xsl:for-each>
-	
-	</xsl:template>
-	
-	<!-- main template for Constructor content -->
-	<xsl:template match="constructor" mode="constructor">
-		<xsl:apply-templates select="." mode="method"/>
-	</xsl:template>
+            <xsl:if test="position() != last()">
+              <xsl:text>, </xsl:text>
+            </xsl:if>
+          </xsl:for-each>
+        </div>
+      </xsl:if>
+    </xsl:for-each>
 
-	<!-- main template for Method content -->
-	<xsl:template match="constructor | method" mode="method">
+  </xsl:template>
+
+  <!-- main template for Constructor content -->
+  <xsl:template match="constructor" mode="constructor">
+    <xsl:apply-templates select="." mode="method"/>
+  </xsl:template>
+
+  <!-- main template for Method content -->
+  <xsl:template match="constructor | method" mode="method">
     <div class="jsxdoc_methodhead">
       <h2>
         <xsl:apply-templates select="../." mode="classlink">
-				  <xsl:with-param name="linkalways" select="1"/>
-				</xsl:apply-templates>
+          <xsl:with-param name="linkalways" select="1"/>
+        </xsl:apply-templates>
       </h2>
       <h1>
         <xsl:value-of select="@name"/><xsl:text>()</xsl:text>
-		  </h1>
-		</div>
+      </h1>
+    </div>
     
     <hr/>
     
@@ -292,80 +292,80 @@
       <xsl:if test="@static"><xsl:text>static </xsl:text></xsl:if>
       <xsl:if test="@abstract"><xsl:text>abstract </xsl:text></xsl:if>
       <xsl:if test="@final"><xsl:text>final </xsl:text></xsl:if>
-			<xsl:text>method </xsl:text>
-			<xsl:value-of select="@name"/>(<xsl:for-each select="param">
+      <xsl:text>method </xsl:text>
+      <xsl:value-of select="@name"/>(<xsl:for-each select="param">
         <span>
           <xsl:choose>
             <xsl:when test="@required='1'">
               <xsl:attribute name="class">required</xsl:attribute>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:attribute name="style">optional</xsl:attribute>
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:value-of select="@name"/>
-					<xsl:choose>
-						<xsl:when test="not(position()=last())">, </xsl:when>
-					</xsl:choose>
-				</span>
-			</xsl:for-each>)
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="style">optional</xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:value-of select="@name"/>
+          <xsl:choose>
+            <xsl:when test="not(position()=last())">, </xsl:when>
+          </xsl:choose>
+        </span>
+      </xsl:for-each>)
     </div>
-		
-		<div class="jsxdoc_methoddesc">
-			<xsl:apply-templates select="." mode="deprecated"/>
-			<xsl:apply-templates select="text" mode="disable-output-escp"/>
-		</div>
-		
-		<xsl:if test="param">
-			<h3 class="jsxdoc">Parameters:</h3>
-			
-			<xsl:for-each select="param">
-				<div class="jsxdoc_param">
-					<span class="jsxdoc_paramname">
-						<xsl:value-of select="@name"/>
-					</span>
+
+    <div class="jsxdoc_methoddesc">
+      <xsl:apply-templates select="." mode="deprecated"/>
+      <xsl:apply-templates select="text" mode="disable-output-escp"/>
+    </div>
+
+    <xsl:if test="param">
+      <h3 class="jsxdoc">Parameters:</h3>
+
+      <xsl:for-each select="param">
+        <div class="jsxdoc_param">
+          <span class="jsxdoc_paramname">
+            <xsl:value-of select="@name"/>
+          </span>
           <xsl:text> </xsl:text>
           <xsl:apply-templates select="." mode="datatype">
             <xsl:with-param name="cssclass" select="jsxdoc_paramtype"/>
           </xsl:apply-templates>
-					<xsl:text> &#8211; </xsl:text>
-					<span class="jsxdoc_paramdesc">
-						<xsl:apply-templates select="@text" mode="disable-output-escp"/>
-					</span>
-				</div>
-			</xsl:for-each>
-		</xsl:if>
-		
-		<xsl:if test="throws">
-			<h3 class="jsxdoc">Throws:</h3>
-			<xsl:for-each select="throws">
-				<div class="jsxdoc_throws">
+          <xsl:text> &#8211; </xsl:text>
+          <span class="jsxdoc_paramdesc">
+            <xsl:apply-templates select="@text" mode="disable-output-escp"/>
+          </span>
+        </div>
+      </xsl:for-each>
+    </xsl:if>
+
+    <xsl:if test="throws">
+      <h3 class="jsxdoc">Throws:</h3>
+      <xsl:for-each select="throws">
+        <div class="jsxdoc_throws">
           <xsl:apply-templates select="." mode="datatype">
             <xsl:with-param name="cssclass" select="jsxdoc_throwtype"/>
             <xsl:with-param name="append"><xsl:text> </xsl:text>&#8211;<xsl:text> </xsl:text></xsl:with-param>
           </xsl:apply-templates>
-					<span class="jsxdoc_throwsdesc">
-						<xsl:apply-templates select="@text" mode="disable-output-escp"/>
-					</span>
-				</div>
-			</xsl:for-each>
-		</xsl:if>
-		
-		<xsl:if test="return">
-			<h3 class="jsxdoc">Returns:</h3>
-			<div class="jsxdoc_return">
+          <span class="jsxdoc_throwsdesc">
+            <xsl:apply-templates select="@text" mode="disable-output-escp"/>
+          </span>
+        </div>
+      </xsl:for-each>
+    </xsl:if>
+
+    <xsl:if test="return">
+      <h3 class="jsxdoc">Returns:</h3>
+      <div class="jsxdoc_return">
         <xsl:apply-templates select="return" mode="datatype">
           <xsl:with-param name="cssclass" select="jsxdoc_returntype"/>
           <xsl:with-param name="append" select="' &amp;ndash; '"/>
         </xsl:apply-templates>
-				<span class="jsxdoc_returndesc">
-					<xsl:apply-templates select="return/@text" mode="disable-output-escp"/>
-				</span>
-			</div>
-		</xsl:if>
-		
-		<xsl:if test="overrides | overridesmix">
-			<h3 class="jsxdoc">Overrides:</h3>
+        <span class="jsxdoc_returndesc">
+          <xsl:apply-templates select="return/@text" mode="disable-output-escp"/>
+        </span>
+      </div>
+    </xsl:if>
+
+    <xsl:if test="overrides | overridesmix">
+      <h3 class="jsxdoc">Overrides:</h3>
       <xsl:for-each select="overrides | overridesmix">
         <div class="jsxdoc_overrides">
         <xsl:variable name="sourceclassname" select="@source"/>
@@ -373,13 +373,13 @@
         <xsl:text> in </xsl:text>
         <code>
           <xsl:choose>
-				<xsl:when test="local-name()='overridesmix'">
-					<xsl:apply-templates select="../../implements[@name=$sourceclassname] | ../../superclass[@name=$sourceclassname]" mode="classlink"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates select="../../superclass[@name=$sourceclassname]" mode="classlink"/>
-				</xsl:otherwise>
-			</xsl:choose>
+        <xsl:when test="local-name()='overridesmix'">
+          <xsl:apply-templates select="../../implements[@name=$sourceclassname] | ../../superclass[@name=$sourceclassname]" mode="classlink"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="../../superclass[@name=$sourceclassname]" mode="classlink"/>
+        </xsl:otherwise>
+      </xsl:choose>
           </code>
         </div>
       </xsl:for-each>
@@ -387,27 +387,27 @@
     
     <xsl:apply-templates select="." mode="since"/>
     <xsl:apply-templates select="." mode="seealso"/>    
-	
+
   </xsl:template>
 
-	<!-- main template for Field content -->
-	<xsl:template match="field" mode="field">
+  <!-- main template for Field content -->
+  <xsl:template match="field" mode="field">
     <div class="jsxdoc_fieldhead">
       <h2>
         <xsl:apply-templates select="../." mode="classlink">
-					<xsl:with-param name="linkalways">
-						<xsl:if test="@class=../@name">1</xsl:if>
-					</xsl:with-param>
-					<xsl:with-param name="classname" select="@class"/>
-				</xsl:apply-templates>
+          <xsl:with-param name="linkalways">
+            <xsl:if test="@class=../@name">1</xsl:if>
+          </xsl:with-param>
+          <xsl:with-param name="classname" select="@class"/>
+        </xsl:apply-templates>
       </h2>
       <h1>
         <xsl:value-of select="@name"/>
-		  </h1>
-		</div>
+      </h1>
+    </div>
     
     <hr/>
-		
+
     <div class="jsxdoc_fieldspec">
     <xsl:if test="@native"><xsl:text>native </xsl:text></xsl:if>
     <xsl:if test="@static"><xsl:text>static </xsl:text></xsl:if>
@@ -418,100 +418,87 @@
       <xsl:with-param name="append" select="' '"/>
     </xsl:apply-templates>
     <xsl:value-of select="@name"/>
-		</div>
+    </div>
     
     <div class="jsxdoc_fielddesc">
-			<xsl:apply-templates select="." mode="deprecated"/>
-			<xsl:apply-templates select="text" mode="disable-output-escp"/>
-		</div>
+      <xsl:apply-templates select="." mode="deprecated"/>
+      <xsl:apply-templates select="text" mode="disable-output-escp"/>
+    </div>
 
     <xsl:apply-templates select="." mode="since"/>
     <xsl:apply-templates select="." mode="seealso"/>    
-	
-	</xsl:template>
-	
-	<!-- sub templates -->
-	
-	<xsl:template match="class | interface | superclass" mode="superclass">
-		<xsl:param name="indent" select="''"/>
-		<div class="jsxdoc_super">
-			<span class="arrow"><xsl:value-of select="$indent"/></span>
-			<xsl:apply-templates select="." mode="classlink"/>
-		</div>
-		<xsl:variable name="nextindent">
-			<xsl:choose>
-				<xsl:when test="$indent=''">
-					<xsl:value-of select="'-&gt;'"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="concat('&#160;&#160;', $indent)"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:if test="local-name()='superclass'">
-			<xsl:choose>
-				<xsl:when test="following-sibling::superclass">
-					<xsl:apply-templates select="following-sibling::superclass[1]" mode="superclass">
-						<xsl:with-param name="indent" select="$nextindent"/>
-					</xsl:apply-templates>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates select="../." mode="superclass">
-						<xsl:with-param name="indent" select="$nextindent"/>
-					</xsl:apply-templates>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
-	</xsl:template>
-	
-	<xsl:template match="implements" mode="implements">
-		<span class="jsxdoc_interface">
-			<xsl:apply-templates select="." mode="classlink"/>
-		</span>
-	</xsl:template>
-	
-	<xsl:template match="*" mode="subclass">
-		<span class="jsxdoc_subclass">
-			<xsl:apply-templates select="." mode="classlink"/>
-		</span>
-	</xsl:template>
-	
-	<xsl:template match="*" mode="classlink">
-		<xsl:param name="linkalways" select="0"/>
-		<xsl:param name="classname" select="@name"/>
+
+  </xsl:template>
+
+  <!-- sub templates -->
+
+  <xsl:template match="class | interface | superclass" mode="superclass">
+    <xsl:param name="indent" select="''"/>
+    <div class="jsxdoc_super">
+      <span class="arrow"><xsl:value-of select="$indent"/></span>
+      <xsl:apply-templates select="." mode="classlink"/>
+    </div>
+    <xsl:variable name="nextindent">
+      <xsl:choose>
+        <xsl:when test="$indent=''">
+          <xsl:value-of select="'-&gt;'"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat('&#160;&#160;', $indent)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:if test="local-name()='superclass'">
+      <xsl:choose>
+        <xsl:when test="following-sibling::superclass">
+          <xsl:apply-templates select="following-sibling::superclass[1]" mode="superclass">
+            <xsl:with-param name="indent" select="$nextindent"/>
+          </xsl:apply-templates>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="../." mode="superclass">
+            <xsl:with-param name="indent" select="$nextindent"/>
+          </xsl:apply-templates>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="implements" mode="implements">
+    <span class="jsxdoc_interface">
+      <xsl:apply-templates select="." mode="classlink"/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="*" mode="subclass">
+    <span class="jsxdoc_subclass">
+      <xsl:apply-templates select="." mode="classlink"/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="*" mode="classlink">
+    <xsl:param name="linkalways" select="0"/>
+    <xsl:param name="classname" select="@name"/>
     <xsl:param name="displayname" select="$classname"/>
-		<xsl:choose>
-			<xsl:when test="@loaded='1' or $linkalways=1">
-				<span onclick="jsx3.html.getJSXParent(this).getAncestorOfName('jsx_ide_api').doClassLink('{$classname}');">
+    <xsl:choose>
+      <xsl:when test="@loaded='1' or $linkalways=1">
+        <span onclick="jsx3.html.getJSXParent(this).getAncestorOfName('jsx_ide_api').doClassLink('{$classname}');">
           <xsl:attribute name="class">
             <xsl:choose>
               <xsl:when test="@deprecated='1'"><xsl:value-of select="'jsxdoc_link memberdep'"/></xsl:when>
               <xsl:otherwise><xsl:value-of select="'jsxdoc_link'"/></xsl:otherwise>
             </xsl:choose> 
           </xsl:attribute>
-					<xsl:value-of select="$displayname"/>
-				</span>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$displayname"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	<xsl:template match="*" mode="fieldlink">
-    <xsl:param name="strikedep" select="0"/>
-    <span onclick="jsx3.html.getJSXParent(this).getAncestorOfName('jsx_ide_api').doMemberLink('{@id}');">
-      <xsl:attribute name="class">
-        <xsl:choose>
-          <xsl:when test="@deprecated='1' and $strikedep='1'"><xsl:value-of select="'jsxdoc_link memberdep'"/></xsl:when>
-          <xsl:otherwise><xsl:value-of select="'jsxdoc_link'"/></xsl:otherwise>
-        </xsl:choose> 
-      </xsl:attribute>
-			<xsl:value-of select="@name"/>
-		</span>
-	</xsl:template>
-	
-	<xsl:template match="*" mode="methodlink">
+          <xsl:value-of select="$displayname"/>
+        </span>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$displayname"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="*" mode="fieldlink">
     <xsl:param name="strikedep" select="0"/>
     <span onclick="jsx3.html.getJSXParent(this).getAncestorOfName('jsx_ide_api').doMemberLink('{@id}');">
       <xsl:attribute name="class">
@@ -521,20 +508,33 @@
         </xsl:choose> 
       </xsl:attribute>
       <xsl:value-of select="@name"/>
-		</span>
-	</xsl:template>
+    </span>
+  </xsl:template>
 
-	<xsl:template match="*" mode="deprecated">
-		<xsl:if test="@deprecated">
-			<div class="deprecated">
-				<span class="title">Deprecated.</span>
-				<xsl:if test="deprecated">
-					<xsl:text> </xsl:text>
-					<xsl:apply-templates select="deprecated" mode="disable-output-escp"/>
-				</xsl:if>
-			</div>
-		</xsl:if>
-	</xsl:template>
+  <xsl:template match="*" mode="methodlink">
+    <xsl:param name="strikedep" select="0"/>
+    <span onclick="jsx3.html.getJSXParent(this).getAncestorOfName('jsx_ide_api').doMemberLink('{@id}');">
+      <xsl:attribute name="class">
+        <xsl:choose>
+          <xsl:when test="@deprecated='1' and $strikedep='1'"><xsl:value-of select="'jsxdoc_link memberdep'"/></xsl:when>
+          <xsl:otherwise><xsl:value-of select="'jsxdoc_link'"/></xsl:otherwise>
+        </xsl:choose> 
+      </xsl:attribute>
+      <xsl:value-of select="@name"/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="*" mode="deprecated">
+    <xsl:if test="@deprecated">
+      <div class="deprecated">
+        <span class="title">Deprecated.</span>
+        <xsl:if test="deprecated">
+          <xsl:text> </xsl:text>
+          <xsl:apply-templates select="deprecated" mode="disable-output-escp"/>
+        </xsl:if>
+      </div>
+    </xsl:if>
+  </xsl:template>
 
   <xsl:template match="*" mode="datatype">
     <xsl:param name="cssclass" select="jsxdoc_paramtype"/>
@@ -612,7 +612,7 @@
   <xsl:template match="*" mode="since">
     <xsl:if test="@since">
       <h3 class="jsxdoc">Since:</h3>
-			<div class="indent"><xsl:apply-templates select="@since" mode="disable-output-escp"/></div>
+      <div class="indent"><xsl:apply-templates select="@since" mode="disable-output-escp"/></div>
     </xsl:if>
   </xsl:template>
   
@@ -628,7 +628,7 @@
   <xsl:template match="*" mode="version">
     <xsl:if test="@version">
       <h3 class="jsxdoc">Version:</h3>
-			<div class="indent"><xsl:apply-templates select="@version" mode="disable-output-escp"/></div>
+      <div class="indent"><xsl:apply-templates select="@version" mode="disable-output-escp"/></div>
     </xsl:if>
   </xsl:template>
   

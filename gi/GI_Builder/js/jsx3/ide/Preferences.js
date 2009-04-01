@@ -31,7 +31,7 @@ jsx3.Class.defineClass("jsx3.ide.Preferences", jsx3.app.Settings, null, function
     }
     
     this._delegate = objSettings;
-	};
+  };
 
   Preferences_prototype.get = function() {
     return this._delegate.get.apply(this._delegate, arguments);
@@ -50,19 +50,19 @@ jsx3.Class.defineClass("jsx3.ide.Preferences", jsx3.app.Settings, null, function
   };
   
   /**
-	 * Persists changes to settings.
-	 */
-	Preferences_prototype.save = function() {
-		if (this._file) {
-			jsx3.ide.writeBuilderXmlFile(this._file, jsx3.ide.makeXmlPretty(this.getNode(), true));
+   * Persists changes to settings.
+   */
+  Preferences_prototype.save = function() {
+    if (this._file) {
+      jsx3.ide.writeBuilderXmlFile(this._file, jsx3.ide.makeXmlPretty(this.getNode(), true));
       jsx3.ide.LOG.debug("Saved settings to " + this._file + ".");
-		} else {
-			jsx3.ide.LOG.error("Error saving settings.");
-		}
-	};
+    } else {
+      jsx3.ide.LOG.error("Error saving settings.");
+    }
+  };
 
-	Preferences_prototype.toString = function() {
-		return "[jsx3.ide.Preferences " + this._file + "]";
-	};
+  Preferences_prototype.toString = function() {
+    return "[jsx3.ide.Preferences " + this._file + "]";
+  };
 
 });

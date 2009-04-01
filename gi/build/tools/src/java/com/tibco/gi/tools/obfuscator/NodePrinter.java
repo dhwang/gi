@@ -382,7 +382,7 @@ public abstract class NodePrinter {
         NodePrinter.printNode(firstChild, buffer);
       } else {
         this.appendChildren(node, buffer);
-//				throw new AssertionError("unsupported child of Block " + node + ": " + firstChild);
+//        throw new AssertionError("unsupported child of Block " + node + ": " + firstChild);
       }
     }
   };
@@ -1146,9 +1146,9 @@ public abstract class NodePrinter {
     REVERSE_TREE.put(PREC_CONDITIONAL, true);
     REVERSE_TREE.put(PREC_LOGICAL_OR, true);
     REVERSE_TREE.put(PREC_LOGICAL_AND, true);
-//		REVERSE_TREE.put(PREC_BITWISE_OR, true);
-//		REVERSE_TREE.put(PREC_BITWISE_XOR, true);
-//		REVERSE_TREE.put(PREC_BITWISE_AND, true);
+//    REVERSE_TREE.put(PREC_BITWISE_OR, true);
+//    REVERSE_TREE.put(PREC_BITWISE_XOR, true);
+//    REVERSE_TREE.put(PREC_BITWISE_AND, true);
   }
 
   /*

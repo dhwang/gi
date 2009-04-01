@@ -23,41 +23,41 @@ import java.util.Iterator;
  */
 public class RegressionTest {
 
-	private static final boolean CREATE_REGRESSION = true;
-	private static final boolean CREATE_TREES = true;
+  private static final boolean CREATE_REGRESSION = true;
+  private static final boolean CREATE_TREES = true;
 
-	private final File scriptFile;
-	private final File regressionFile;
-	private final boolean paramRename;
-	private final boolean varRename;
+  private final File scriptFile;
+  private final File regressionFile;
+  private final boolean paramRename;
+  private final boolean varRename;
 
-	public RegressionTest(File scriptFile, File regressionFile) {
-		this(scriptFile, regressionFile, false, false);
-	}
+  public RegressionTest(File scriptFile, File regressionFile) {
+    this(scriptFile, regressionFile, false, false);
+  }
 
-	public RegressionTest(File scriptFile, File regressionFile, boolean paramRename, boolean varRename) {
+  public RegressionTest(File scriptFile, File regressionFile, boolean paramRename, boolean varRename) {
     this.scriptFile = scriptFile;
     this.regressionFile = regressionFile;
     this.paramRename = paramRename;
     this.varRename = varRename;
-	}
+  }
 
-	@Test(groups = {"print"})
-	public void test() throws IOException {
-		assert scriptFile.isFile() : "test file, " + scriptFile.getAbsolutePath() + " is not a file";
-		if (! CREATE_REGRESSION)
-			assert regressionFile.isFile() : "regression file, " + regressionFile.getAbsolutePath() + " is not a file";
+  @Test(groups = {"print"})
+  public void test() throws IOException {
+    assert scriptFile.isFile() : "test file, " + scriptFile.getAbsolutePath() + " is not a file";
+    if (! CREATE_REGRESSION)
+      assert regressionFile.isFile() : "regression file, " + regressionFile.getAbsolutePath() + " is not a file";
 
-		File tempFile = File.createTempFile("com.tibco.gi.javascript.TMP", ".js");
+    File tempFile = File.createTempFile("com.tibco.gi.javascript.TMP", ".js");
 
-		Scope.Global scope = new Scope.Global();
+    Scope.Global scope = new Scope.Global();
     scope.setRenameLocalVariables(varRename);
     scope.setRenameMethodParameters(paramRename);
     scope.addBlessedName("blessed");
     NodeTraverser obfuscator = new NodeTraverser();
 
-		FileHandler handler = FileHandler.getHandler(scriptFile);
-		handler.setOutputFile(tempFile);
+    FileHandler handler = FileHandler.getHandler(scriptFile);
+    handler.setOutputFile(tempFile);
 
     Scope.File fileScope = new Scope.File(scriptFile);
     scope.addChild(fileScope);
@@ -69,69 +69,69 @@ public class RegressionTest {
       MetaDataParser.parse(reader, fileScope);
 
 /*
-		if (CREATE_TREES) {
-			int n = 0;
-			for (Iterator<NodeWrapper> i = scope.getScriptIterator(); i.hasNext(); n++) {
-				NodeWrapper root = i.next();
-				TreePrinter printer = new TreePrinter();
-				File treeFile = new File(regressionFile.getAbsolutePath() + ".t1" + (n > 0 ? "." + n : ""));
-				treeFile.createNewFile();
-				PrintStream treeOut = new PrintStream(new FileOutputStream(treeFile));
-				printer.printTree(root, treeOut);
-				treeOut.close();
-			}
-		}
+    if (CREATE_TREES) {
+      int n = 0;
+      for (Iterator<NodeWrapper> i = scope.getScriptIterator(); i.hasNext(); n++) {
+        NodeWrapper root = i.next();
+        TreePrinter printer = new TreePrinter();
+        File treeFile = new File(regressionFile.getAbsolutePath() + ".t1" + (n > 0 ? "." + n : ""));
+        treeFile.createNewFile();
+        PrintStream treeOut = new PrintStream(new FileOutputStream(treeFile));
+        printer.printTree(root, treeOut);
+        treeOut.close();
+      }
+    }
 */
 
-		obfuscator.obfuscate(scope);
-		handler.writeToOutput();
+    obfuscator.obfuscate(scope);
+    handler.writeToOutput();
 
 /*
-		if (CREATE_TREES) {
-			int n = 0;
-			for (Iterator<NodeWrapper> i = scope.getScriptIterator(); i.hasNext(); n++) {
-				NodeWrapper root = i.next();
-				TreePrinter printer = new TreePrinter();
-				File treeFile = new File(regressionFile.getAbsolutePath() + ".t2" + (n > 0 ? "." + n : ""));
-				treeFile.createNewFile();
-				PrintStream treeOut = new PrintStream(new FileOutputStream(treeFile));
-				printer.printTree(root, treeOut);
-				treeOut.close();
-			}
-		}
+    if (CREATE_TREES) {
+      int n = 0;
+      for (Iterator<NodeWrapper> i = scope.getScriptIterator(); i.hasNext(); n++) {
+        NodeWrapper root = i.next();
+        TreePrinter printer = new TreePrinter();
+        File treeFile = new File(regressionFile.getAbsolutePath() + ".t2" + (n > 0 ? "." + n : ""));
+        treeFile.createNewFile();
+        PrintStream treeOut = new PrintStream(new FileOutputStream(treeFile));
+        printer.printTree(root, treeOut);
+        treeOut.close();
+      }
+    }
 */
 
-		if (regressionFile.isFile()) {
-			compareFiles(tempFile, regressionFile);
-			tempFile.delete();
-		} else {
-			tempFile.renameTo(regressionFile);
-		}
-	}
+    if (regressionFile.isFile()) {
+      compareFiles(tempFile, regressionFile);
+      tempFile.delete();
+    } else {
+      tempFile.renameTo(regressionFile);
+    }
+  }
 
-	private static void compareFiles(File output, File canon) throws IOException {
-		LineNumberReader test = null, source = null;
+  private static void compareFiles(File output, File canon) throws IOException {
+    LineNumberReader test = null, source = null;
 
-		try {
-			String line;
+    try {
+      String line;
 
-			test = new LineNumberReader(new FileReader(output));
-			StringBuilder testText = new StringBuilder();
-			while ((line = test.readLine()) != null) testText.append(line.replaceAll("^\\s*", ""));
+      test = new LineNumberReader(new FileReader(output));
+      StringBuilder testText = new StringBuilder();
+      while ((line = test.readLine()) != null) testText.append(line.replaceAll("^\\s*", ""));
 
-			source = new LineNumberReader(new FileReader(canon));
-			StringBuilder sourceText = new StringBuilder();
-			while ((line = source.readLine()) != null) sourceText.append(line.replaceAll("^\\s*", ""));
+      source = new LineNumberReader(new FileReader(canon));
+      StringBuilder sourceText = new StringBuilder();
+      while ((line = source.readLine()) != null) sourceText.append(line.replaceAll("^\\s*", ""));
 
-			Assert.assertEquals(testText.toString(), sourceText.toString());
-		} catch (Error e) {
+      Assert.assertEquals(testText.toString(), sourceText.toString());
+    } catch (Error e) {
       copyFile(output, new File(canon + ".out"));
       throw e;
     } finally {
       if (test != null) test.close();
-			if (source != null) source.close();
-		}
-	}
+      if (source != null) source.close();
+    }
+  }
 
   private static void copyFile(File src, File dest) throws IOException {
     FileInputStream from = null;

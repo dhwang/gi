@@ -4,7 +4,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
-	<onAfterDeserialize><![CDATA[
+  <onAfterDeserialize><![CDATA[
 
 objJSX.getTree = function() {
   return jsxdom;
@@ -55,8 +55,8 @@ objJSX._revealItemInDom = function(objJSX) {
 };
 
 objJSX._onSelect = function(objTree) {
-	var objEditor = jsx3.ide.getActiveEditor();
-	if (objEditor) {
+  var objEditor = jsx3.ide.getActiveEditor();
+  if (objEditor) {
     var objServer = objEditor.getServer();
     if (objServer) {
       var strRecordIds = objTree.getValue();
@@ -72,7 +72,7 @@ objJSX._onSelect = function(objTree) {
 };
 
 objJSX._doDeleteDom = function() {
-	this.getPlugIn().recycleDOM();
+  this.getPlugIn().recycleDOM();
 };
 
 objJSX.onPaletteLoaded = function() {
@@ -99,41 +99,41 @@ objJSX.onPaletteLoaded = function() {
   this.getPlugIn().getExtPoint("dom-toolbar").processExts().each(function(e) { barMgr.addItem(e); });
 };
 
-	]]></onAfterDeserialize>
-		<object type="jsx3.gui.Block">
-			<dynamics/>
-			<variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-			<strings jsxname="dompal" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.palette.dom"/>
+  ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <dynamics/>
+      <variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+      <strings jsxname="dompal" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.palette.dom"/>
         <object type="jsx3.gui.Block">
           <strings jsxname="menuBar" jsxdisplay="none"/>
-				</object>
-				<object type="jsx3.gui.LayoutGrid">
-					<variants jsxrelativeposition="0" jsxoverflow="2" />
-					<strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
-					<events />
-					<properties />
-						<object type="jsx3.gui.WindowBar">
-							<dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
-							<variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" />
-							<strings jsxname="jsx_ide_dom_bar" />
-						</object>
-						<object type="jsx3.gui.Block">
-							<dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
-							<variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
-							<strings jsxname="jsx_ide_cache_treeblock" jsxwidth="100%" jsxheight="100%"/>
-								<object type="jsx3.gui.Tree">
-									<dynamics jsxpadding="@Tree Padding" jsxbgcolor="@Solid Disabled"/>
-									<variants jsxdrop="1" jsxdrag="1" jsxmultiselect="1"/>
-									<strings jsxname="jsxdom" jsxwidth="100%" jsxheight="100%" jsxmenu="jsx3.ide.domctx" jsxspystylekeys="" jsxspystylevalues="" />
-									<events jsxtoggle="dompal.getPlugIn().doDomToggle(strRECORDID,bOPEN);"
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxoverflow="2" />
+          <strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
+          <events />
+          <properties />
+            <object type="jsx3.gui.WindowBar">
+              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+              <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" />
+              <strings jsxname="jsx_ide_dom_bar" />
+            </object>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
+              <variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+              <strings jsxname="jsx_ide_cache_treeblock" jsxwidth="100%" jsxheight="100%"/>
+                <object type="jsx3.gui.Tree">
+                  <dynamics jsxpadding="@Tree Padding" jsxbgcolor="@Solid Disabled"/>
+                  <variants jsxdrop="1" jsxdrag="1" jsxmultiselect="1"/>
+                  <strings jsxname="jsxdom" jsxwidth="100%" jsxheight="100%" jsxmenu="jsx3.ide.domctx" jsxspystylekeys="" jsxspystylevalues="" />
+                  <events jsxtoggle="dompal.getPlugIn().doDomToggle(strRECORDID,bOPEN);"
                       jsxchange="dompal._onSelect(this);"
                       jsxexecute="dompal.getPlugIn().doDomExecute(strRECORDID);"
                       jsxdrop="dompal.getPlugIn().onDomTreeDrop(objSOURCE.getId(),strRECORDID,strDRAGIDS,this,false,bINSERTBEFORE);"
                       jsxctrldrop="dompal.getPlugIn().onDomTreeDrop(objSOURCE.getId(),strRECORDID,strDRAGIDS,this,true,bINSERTBEFORE);"
                       jsxspy="dompal.getPlugIn().domSpyGlass(this, strRECORDID);"/>
                   <xslparameters jsxindent="16"/>
-								</object>
-						</object>
-				</object>
-		</object>
+                </object>
+            </object>
+        </object>
+    </object>
 </serialization>

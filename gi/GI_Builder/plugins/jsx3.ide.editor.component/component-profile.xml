@@ -26,7 +26,7 @@ objJSX.onOpen = function() {
   var baseFolder = null;
   var iconUri = formIcon.getValue();
   if (iconUri) {
-  	var currentFile = jsx3.ide.getSystemRelativeFile(jsx3.ide.PROJECT.resolveURI(iconUri));
+    var currentFile = jsx3.ide.getSystemRelativeFile(jsx3.ide.PROJECT.resolveURI(iconUri));
     if (currentFile.exists())
       baseFolder = currentFile.getParentFile();
   }

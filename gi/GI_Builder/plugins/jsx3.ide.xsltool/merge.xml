@@ -57,7 +57,7 @@ objJSX.getCacheList = function(strJSXId) {
     //iterate to populate
     var objCache = objServer.getCache();
     var keys = objCache.keys();
-	
+
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
       if (objSel.getRecordNode(key) == null) {
@@ -79,7 +79,7 @@ objJSX.getCacheList = function(strJSXId) {
         o.jsxtext = key;
         objSel.insertRecord(o,null,false);
       }
-	}
+  }
 
   //repaint the tree
   objSel.repaint();

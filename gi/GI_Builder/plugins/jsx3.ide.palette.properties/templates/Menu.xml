@@ -7,17 +7,17 @@
   <record include="master.xml" group="object"/>
   <record include="master.xml" group="position_fixedsize"/>
 
-	<record jsxid="jsx3menu" group="1" jsxtext="Menu">
-		<record include="master.xml" group="jsxtext" children="1"/>
-		<record include="master.xml" group="form_novalue" children="1"/>
-		<record include="master.xml" group="jsxdivider" children="1"/>
-		<record include="master.xml" group="jsximage" children="1"/>
-	</record>
+  <record jsxid="jsx3menu" group="1" jsxtext="Menu">
+    <record include="master.xml" group="jsxtext" children="1"/>
+    <record include="master.xml" group="form_novalue" children="1"/>
+    <record include="master.xml" group="jsxdivider" children="1"/>
+    <record include="master.xml" group="jsximage" children="1"/>
+  </record>
 
-	<record include="master.xml" group="blockx"/>
- 	<record include="master.xml" group="font"/>
+  <record include="master.xml" group="blockx"/>
+  <record include="master.xml" group="font"/>
 
-	<record jsxid="box" group="1" jsxtext="Box">
+  <record jsxid="box" group="1" jsxtext="Box">
     <record jsxid="jsxbgcolor" jsxtext="BG Color"
         eval="0"
         jsxtip="Sets the background color. Accepts CSS values, such as predefined color names, RGB, or hexadecimal values. For example, &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;rgb(255,0,0)&lt;/code&gt;, or &lt;code&gt;#ff0000&lt;/code&gt;."
@@ -28,10 +28,10 @@
         jsxmask="jsxcolor"/>
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxbg']"/>
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxmargin']"/>
-	</record>
+  </record>
 
-	<record include="master.xml" group="css_noclass"/>
-	<record include="master.xml" group="interaction_nomenu"/>
-	<record include="master.xml" group="access"/>
-	<record include="master.xml" group="metadata"/>
+  <record include="master.xml" group="css_noclass"/>
+  <record include="master.xml" group="interaction_nomenu"/>
+  <record include="master.xml" group="access"/>
+  <record include="master.xml" group="metadata"/>
 </data>

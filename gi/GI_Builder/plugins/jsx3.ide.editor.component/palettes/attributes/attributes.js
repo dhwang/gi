@@ -11,12 +11,12 @@ _attrChanged: function(objJSXs) {
 
 /** ON ATTRIBUTE EDIT *****************************************/
   /*
-   * ? onAttributeEdit()		--called by the edit mask for the grid being edited after user has dismissed the mask, but before edits are committed;
-   *					  called because the grid has this handler listed as its 'jsxafteredit' binding
-   * @ objGrid (REQUIRED) 		--([object]) object reference to the jsx3.gui.Grid instance being edited
-   * @ strRecordId (REQUIRED) 		--(String) name of the attribute being updated (i.e., 'jsxexecute')
-   * @ objMask (REQUIRED) 		--([object]) object reference to the given mask that was just dismissed; in this case a menu or a textbox
-   * ! returns				--(null/false) if false, the edit will not be committed
+   * ? onAttributeEdit()    --called by the edit mask for the grid being edited after user has dismissed the mask, but before edits are committed;
+   *            called because the grid has this handler listed as its 'jsxafteredit' binding
+   * @ objGrid (REQUIRED)     --([object]) object reference to the jsx3.gui.Grid instance being edited
+   * @ strRecordId (REQUIRED)     --(String) name of the attribute being updated (i.e., 'jsxexecute')
+   * @ objMask (REQUIRED)     --([object]) object reference to the given mask that was just dismissed; in this case a menu or a textbox
+   * ! returns        --(null/false) if false, the edit will not be committed
    */
 onAttributeEdit: function(strRecordId, strValue, objGrid) {
   if (objGrid)
@@ -43,11 +43,11 @@ onAttributeAdd: function(strRecordId, strValue) {
 
 /** ON ATTRIBUTE MENU EXECUTE *****************************************/
   /*
-   * ? onAttributeMenuExecute()		--called by the MENU edit mask for the grid being edited;
-   *					  called because the menu has a bound 'jsxexecute' event that references this handler
-   * @ strRecordId (REQUIRED) 		--(String) jsxid value for the CDF record representing the menu item just clicked
-   * @ objRecord (OPTIONAL) 		--([object]) NOT IMPLEMENTED (place holder for extension): reference to the CDF record node representing the menu item just clicked
-   * ! returns				--(null)
+   * ? onAttributeMenuExecute()    --called by the MENU edit mask for the grid being edited;
+   *            called because the menu has a bound 'jsxexecute' event that references this handler
+   * @ strRecordId (REQUIRED)     --(String) jsxid value for the CDF record representing the menu item just clicked
+   * @ objRecord (OPTIONAL)     --([object]) NOT IMPLEMENTED (place holder for extension): reference to the CDF record node representing the menu item just clicked
+   * ! returns        --(null)
    */
 onAttributeDelete: function(strPropName) {
   if (strPropName) {

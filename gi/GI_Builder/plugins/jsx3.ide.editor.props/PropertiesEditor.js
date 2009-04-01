@@ -41,21 +41,21 @@ jsx3.Class.defineClass("jsx3.ide.PropertiesEditor", jsx3.ide.Editor, null, funct
     }
   };
 
-	PropertiesEditor_prototype.save = function() {
-		var objFile = this.getOpenFile();
-		if (objFile) {
+  PropertiesEditor_prototype.save = function() {
+    var objFile = this.getOpenFile();
+    if (objFile) {
       var objXML = jsx3.ide.makeXmlPretty(this.getMatrixData(), true);
       if (jsx3.ide.writeUserXmlFile(objFile, objXML)) {
-				this.setDirty(false);
+        this.setDirty(false);
         this.publish({subject:"saved"});
-				return true;
-			}
-		} else {
-			this.getPlugIn().getLog().error("can't save file to blank url");
-		}
-		
-		return false;
-	};
+        return true;
+      }
+    } else {
+      this.getPlugIn().getLog().error("can't save file to blank url");
+    }
+
+    return false;
+  };
 
   PropertiesEditor_prototype.onBeforeSetMode = function(strNewMode) {
     var strMode = this.getMode();
@@ -69,36 +69,36 @@ jsx3.Class.defineClass("jsx3.ide.PropertiesEditor", jsx3.ide.Editor, null, funct
     }
   };
 
-	PropertiesEditor_prototype.onSetMode = function(objContent, strOldMode) {
+  PropertiesEditor_prototype.onSetMode = function(objContent, strOldMode) {
     objContent.doShow();
-	};
-	
+  };
+
   PropertiesEditor_prototype.getPlugIn = function() {
     return jsx3.IDE.PropertiesEditorPlugin;
   };
 
   /** @private @jsxobf-clobber */
-	PropertiesEditor_prototype._cascadeExpertChanges = function() {
-		var objView = this.getContent().getModePane().getChild("mode_source");
-		var doc = new jsx3.xml.Document().loadXML(objView.getTextValue());
+  PropertiesEditor_prototype._cascadeExpertChanges = function() {
+    var objView = this.getContent().getModePane().getChild("mode_source");
+    var doc = new jsx3.xml.Document().loadXML(objView.getTextValue());
 
-		//the XML is structurally valid
-		if (! doc.hasError()) {
+    //the XML is structurally valid
+    if (! doc.hasError()) {
       this.loadMatrixData(doc);
-			this.getMatrix().repaintData();
-		} else {
-			this.getPlugIn().getServer().alert("Alert", "Changes made to the XML source caused the following XML parsing error: <br/><br/><b>" +
+      this.getMatrix().repaintData();
+    } else {
+      this.getPlugIn().getServer().alert("Alert", "Changes made to the XML source caused the following XML parsing error: <br/><br/><b>" +
           doc.getError() + "</b><br/><br/> Please fix the error or revert to the last saved version before continuing.",
           null, null, {width: 400, height: 225});
-			return false;
-		}
-		
-		return true;
-	};
+      return false;
+    }
 
-	PropertiesEditor_prototype.supportsReload = function() {
-		return true;
-	};
+    return true;
+  };
+
+  PropertiesEditor_prototype.supportsReload = function() {
+    return true;
+  };
 
   PropertiesEditor_prototype.removeDP = function(strRecordId, objMatrix) {
     objMatrix.deleteRecord(strRecordId, true);

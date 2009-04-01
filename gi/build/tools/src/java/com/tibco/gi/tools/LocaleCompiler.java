@@ -227,7 +227,7 @@ public class LocaleCompiler {
     if (!key.equals(defaultLocale))
       locNode.setAttribute("key", key);
 
-	LOG.fine("Merging .. " + key);
+  LOG.fine("Merging .. " + key);
     // For each source document, merge the contents into the <locale> element.
     for (URL uri : uris)
       mergeSourceToNode(uri, locNode, getLocale(key));
@@ -267,10 +267,10 @@ public class LocaleCompiler {
       if (!source.toString().startsWith("file:")) {
         LOG.log(Level.WARNING, "Error reading source file " + source + ": " + e, e);
       } else if (e instanceof FileNotFoundException) {
-		// ignore file not found
-        // LOG.log(Level.WARNING, "Error reading source file " + source + ": " + e, e);	 
-	  } else
-		LOG.log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
+    // ignore file not found
+        // LOG.log(Level.WARNING, "Error reading source file " + source + ": " + e, e);
+    } else
+    LOG.log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
       return;
     } catch (SAXException e) {
       LOG.log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
@@ -532,7 +532,7 @@ public class LocaleCompiler {
     for (Element element : elm) {
       sb.append(",'").append(element.getFirstChild().getNodeValue()).append("'");
     }
-	//LOG.info( id + "=" + sb.toString());
+  //LOG.info( id + "=" + sb.toString());
     sb.append("]");
     setLocaleProperty(node, id, "[" + sb.substring(1), true);
   }

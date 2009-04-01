@@ -9,20 +9,20 @@ jsx3.ide.newProject = function() {
 
 /** GET ACTIVE PROJECT *********************************************/
 jsx3.ide.getActiveProject = function() {
-	if (this._ACTIVEPROJCLEARED)
-		return null;
+  if (this._ACTIVEPROJCLEARED)
+    return null;
 
-	// try URL value
-	var project = jsx3.app.Browser.getLocation().getQueryParam('jsxproject');
-	
-	// try last opened project from settings
-	if (! project) {
-		var settings = jsx3.ide.getIDESettings();
+  // try URL value
+  var project = jsx3.app.Browser.getLocation().getQueryParam('jsxproject');
+
+  // try last opened project from settings
+  if (! project) {
+    var settings = jsx3.ide.getIDESettings();
     if (settings.get("prefs", "builder", "openlastproject") !== false)
       project = settings.get('lastProject');
-	}
-	
-	if (project) {
+  }
+
+  if (project) {
     if (jsx3.util.strEndsWith(project, "/"))
       project = project.substring(0, project.length - 1);
   }
@@ -31,24 +31,24 @@ jsx3.ide.getActiveProject = function() {
 };
 
 jsx3.ide.clearActiveProject = function() {
-	jsx3.ide._ACTIVEPROJCLEARED = true;
+  jsx3.ide._ACTIVEPROJCLEARED = true;
 };
 
 jsx3.ide.getActiveProjectDirectory = function() {
-	var project = jsx3.ide.PROJECT;
-	return project ? project.getDirectory() : null;
+  var project = jsx3.ide.PROJECT;
+  return project ? project.getDirectory() : null;
 };
 
 jsx3.ide.getCurrentDirectory = function() {
-	if (jsx3.ide._CURDIR != null)
-		return jsx3.ide._CURDIR;
-	else
-		return jsx3.ide.getActiveProjectDirectory();
+  if (jsx3.ide._CURDIR != null)
+    return jsx3.ide._CURDIR;
+  else
+    return jsx3.ide.getActiveProjectDirectory();
 };
 
 jsx3.ide.setCurrentDirectory = function(objFile) {
   /* @jsxobf-clobber */
-	jsx3.ide._CURDIR = objFile;
+  jsx3.ide._CURDIR = objFile;
 };
 
 jsx3.ide._PROJECT_PREFS = {};
@@ -75,18 +75,18 @@ jsx3.ide.addToRecentProjects = function(proj) {
   var strPath = proj.getPathFromHome();
   
   var settings = jsx3.ide.getIDESettings();
-	var recent = settings.get('recentProjects') || [];
-	for (var i = 0; i < recent.length; i++) {
-		if (recent[i] == strPath) {
-			recent.splice(i, 1);
-			break;
-		}
-	}
-	
-	recent.unshift(strPath);
-	if (recent.length > jsx3.ide.RECENT_PROJECT_MAX) recent.pop();
-	
-	settings.set('recentProjects', recent);
+  var recent = settings.get('recentProjects') || [];
+  for (var i = 0; i < recent.length; i++) {
+    if (recent[i] == strPath) {
+      recent.splice(i, 1);
+      break;
+    }
+  }
+
+  recent.unshift(strPath);
+  if (recent.length > jsx3.ide.RECENT_PROJECT_MAX) recent.pop();
+
+  settings.set('recentProjects', recent);
 };
 
 jsx3.ide.getProjectDirectory = function() {
@@ -99,8 +99,8 @@ jsx3.ide.isFileToIgnore = function(objFile) {
 };
 
 jsx3.ide.getRecentProjects = function() {
-	var settings = jsx3.ide.getIDESettings();
-	return settings.get('recentProjects') || [];
+  var settings = jsx3.ide.getIDESettings();
+  return settings.get('recentProjects') || [];
 };
 
 
@@ -187,48 +187,48 @@ jsx3.ide.openProject = function() {
 jsx3.ide.doOpenProject = function(strPath, bNewWindow, bConfirmed) {
   var objDir = jsx3.ide.getHomeRelativeFile(strPath);
 
-	if (! jsx3.ide.checkProjectExists(objDir)) {
+  if (! jsx3.ide.checkProjectExists(objDir)) {
     jsx3.IDE.alert(null,
         "Could not open project <b>" + strPath + "</b> because the configuration file could not be found.",
         function(d){ d.doClose(); jsx3.ide._startJobs(); });
     jsx3.ide._pauseJobs();
-		return false;
+    return false;
   }
-	
+
   var bProjectOpen = jsx3.ide.PROJECT != null;
   
   if (bConfirmed || !bProjectOpen) {
     var loc = jsx3.app.Browser.getLocation();
     var uri = jsx3.net.URI.fromParts(loc.getScheme(), loc.getUserInfo(), loc.getHost(), loc.getPort(), loc.getPath(), 
         "jsxproject=" + strPath + "&jsxnowelc=true", null);
-				
-		if (bNewWindow) {
-			var w = window.open(uri.toString());
+
+    if (bNewWindow) {
+      var w = window.open(uri.toString());
       if (! w)
         jsx3.ide.LOG.error("The project " + strPath + " did not open properly. Check that no pop-up blockers are running.");
     } else {
-			// if user vetos location change an error will be thrown
-			try {
+      // if user vetos location change an error will be thrown
+      try {
         window.location.href = uri.toString();
-			} catch (e) {
+      } catch (e) {
         jsx3.ide.LOG.warn("The opening of project " + strPath + " was cancelled. " + jsx3.NativeError.wrap(e));
       }
-		}
-	} else {
-		// closing all on shutdown should not mess up previously opened files
-		jsx3.ide._closeDownProject().when(
-			function() { jsx3.ide.doOpenProject(strPath, bNewWindow, true); }
-		);
-	}
+    }
+  } else {
+    // closing all on shutdown should not mess up previously opened files
+    jsx3.ide._closeDownProject().when(
+      function() { jsx3.ide.doOpenProject(strPath, bNewWindow, true); }
+    );
+  }
 };
 
 
 jsx3.ide._closeDownProject = jsx3.$Y(function(cb) {
-	var backup = jsx3.ide.getPreviouslyOpenFiles() || [];
-	jsx3.ide.closeAll().when(function(){ 
-		jsx3.ide.syncPreviouslyOpenFiles(null, backup);
-		cb.done();
-	});
+  var backup = jsx3.ide.getPreviouslyOpenFiles() || [];
+  jsx3.ide.closeAll().when(function(){
+    jsx3.ide.syncPreviouslyOpenFiles(null, backup);
+    cb.done();
+  });
 });
 
 
@@ -248,27 +248,27 @@ jsx3.ide.showDeploymentOptions = function() {
 
 
 jsx3.ide.syncPreviouslyOpenFiles = function(objEvent, objFiles) {
-	var objSettings = jsx3.ide.getIDESettings();
-	var project = jsx3.ide.PROJECT;
-	var openFiles = [];
-	
-	if (objFiles instanceof Array) {
-		for (var i = 0; i < objFiles.length; i++) {
-			openFiles.push(project.getDirectory().relativePathTo(objFiles[i]));
-		}
-	} else {
-		var editors = jsx3.ide.getAllEditors();
-		for (var i = 0; i < editors.length; i++) {
-			if (! editors[i].isUnsaved()) {
-				var file = editors[i].getOpenFile();
-				// not all editors will correspond to an actual file on the file system
-				if (file && file.toURI)
-					openFiles.push(project.getDirectory().relativePathTo(file));
-			}
-		}
-	}
+  var objSettings = jsx3.ide.getIDESettings();
+  var project = jsx3.ide.PROJECT;
+  var openFiles = [];
 
-	objSettings.set('projects', project.getPathFromHome(), 'openFiles', openFiles);
+  if (objFiles instanceof Array) {
+    for (var i = 0; i < objFiles.length; i++) {
+      openFiles.push(project.getDirectory().relativePathTo(objFiles[i]));
+    }
+  } else {
+    var editors = jsx3.ide.getAllEditors();
+    for (var i = 0; i < editors.length; i++) {
+      if (! editors[i].isUnsaved()) {
+        var file = editors[i].getOpenFile();
+        // not all editors will correspond to an actual file on the file system
+        if (file && file.toURI)
+          openFiles.push(project.getDirectory().relativePathTo(file));
+      }
+    }
+  }
+
+  objSettings.set('projects', project.getPathFromHome(), 'openFiles', openFiles);
 };
 
 
@@ -276,19 +276,19 @@ jsx3.ide.syncPreviouslyOpenFiles = function(objEvent, objFiles) {
  * ? getPreviouslyOpenFiles() -- may return null to signify no previous setting
  */
 jsx3.ide.getPreviouslyOpenFiles = function() {
-	var objSettings = jsx3.ide.getIDESettings();
-	var project = jsx3.ide.PROJECT;
-	var paths = objSettings.get('projects', project.getPathFromHome(), 'openFiles');
-	if (paths != null) {
-		var openFiles = [];
-		for (var i = 0; i < paths.length; i++) {
-			var objFile = jsx3.ide.getSystemRelativeFile(project.resolveURI(paths[i]));
-			if (objFile.isFile())
-				openFiles.push(objFile);
-		}
-		return openFiles;
-	}
-	return null;
+  var objSettings = jsx3.ide.getIDESettings();
+  var project = jsx3.ide.PROJECT;
+  var paths = objSettings.get('projects', project.getPathFromHome(), 'openFiles');
+  if (paths != null) {
+    var openFiles = [];
+    for (var i = 0; i < paths.length; i++) {
+      var objFile = jsx3.ide.getSystemRelativeFile(project.resolveURI(paths[i]));
+      if (objFile.isFile())
+        openFiles.push(objFile);
+    }
+    return openFiles;
+  }
+  return null;
 };
 
 jsx3.ide.showWelcomeDialog = function() {

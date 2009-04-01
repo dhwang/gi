@@ -789,103 +789,103 @@ table.jsx30menu_0_kct td.keycode {
 /* jsx3.gui.Matrix */
 #JSX div.jsx30matrix
 {
-				overflow:hidden;
+        overflow:hidden;
 }
 /* removed #JSX root, since style is used for default drag icon */
 table.jsx30matrix_rowtable
 {
-				table-layout:fixed;
-				font-family:Verdana;
-				font-size:10px;
+        table-layout:fixed;
+        font-family:Verdana;
+        font-size:10px;
 }
 div.jsx30matrix_dragicon
 {
-				position:relative;
-				height:20px;
-				width:300px;
+        position:relative;
+        height:20px;
+        width:300px;
 }
 #JSX table.jsx30matrix_ghost
 {
-				position:absolute;
-				left:0px;
-				top:0px;
-				z-index:10;
-				filter:alpha(opacity=60);
-				color:#000000;
-				background-color:#c8c8c8;
-				table-layout:fixed;
+        position:absolute;
+        left:0px;
+        top:0px;
+        z-index:10;
+        filter:alpha(opacity=60);
+        color:#000000;
+        background-color:#c8c8c8;
+        table-layout:fixed;
 }
 #JSX div.jsx30matrix_scroll_info
 {
-				position:absolute;
-				width:100%;
-				text-align:center;
-				top:50%;
-				left:0px;
-				height:20px;
-				padding-right:19px;
-				display:none;
-				white-space:nowrap;
-				filter:alpha(opacity=75);
+        position:absolute;
+        width:100%;
+        text-align:center;
+        top:50%;
+        left:0px;
+        height:20px;
+        padding-right:19px;
+        display:none;
+        white-space:nowrap;
+        filter:alpha(opacity=75);
 }
 #JSX span.jsx30matrix_scroll_info
 {
-				border:solid 1px #c6c6c6;
-				padding:3px;
-				background-color:#ffffcc;
-				color:#333366;
-				font-size:11px;
-				font-weight:bold;
-				font-family:Verdana;
-				margin-right:19px;
+        border:solid 1px #c6c6c6;
+        padding:3px;
+        background-color:#ffffcc;
+        color:#333366;
+        font-size:11px;
+        font-weight:bold;
+        font-family:Verdana;
+        margin-right:19px;
 }
 #JSX div.jsx30matrix_resize_anchor
 {
-				cursor:col-resize;
-				position:absolute;
-				top:0px;
-				overflow:hidden;
+        cursor:col-resize;
+        position:absolute;
+        top:0px;
+        overflow:hidden;
 }
 #JSX div.jsx30matrix_resize_bar
 {
-				filter:alpha(opacity=60);
-				position:absolute;
-				left:-6px;
-				top:0px;
-				width:4px;
-				height:100%;
-				background-color:blue;
-				z-index:10;
+        filter:alpha(opacity=60);
+        position:absolute;
+        left:-6px;
+        top:0px;
+        width:4px;
+        height:100%;
+        background-color:blue;
+        z-index:10;
 }
 #JSX div.jsx30matrix_drop_icon {
-				position:absolute;
-				left:0px;
-				top:0px;
-				width:100px;
-				height:7px;
-				overflow:hidden;
-				display:none;
-				z-index: 10;
-				background-repeat:no-repeat;
+        position:absolute;
+        left:0px;
+        top:0px;
+        width:100px;
+        height:7px;
+        overflow:hidden;
+        display:none;
+        z-index: 10;
+        background-repeat:no-repeat;
 }
 #JSX img.jsx30matrix_plusminus
 {
 }
 #JSX div.jsx30matrix_head
 {
-				overflow:hidden;
+        overflow:hidden;
 }
 #JSX table.jsx30matrix_head_table
 {
-				table-layout:fixed;
+        table-layout:fixed;
 }
 #JSX div.jsx30matrix_body
 {
-				overflow:hidden;
+        overflow:hidden;
 }
 #JSX table.jsx30matrix_body_table
 {
-				table-layout:fixed;
+        table-layout:fixed;
 }
 #JSX div.jsx30matrix_scrollv
 {
@@ -993,90 +993,90 @@ body.jsx30window {
   border-color: #9898a5 #d8d8e5 #d8d8e5 #9898a5;
 }
 span.jsx3_dp_cal {
-	width: 140px;
-	background-color: #FFFFFF;
+  width: 140px;
+  background-color: #FFFFFF;
 }
 table.jsx3_dp_cal {
-	width: 100%;
-	border: 1px solid #336699;
-	padding: 0px; margin: 0px;
+  width: 100%;
+  border: 1px solid #336699;
+  padding: 0px; margin: 0px;
 }
 table.jsx3_dp_cal tr.year {
-	background-color: #CCDDFF;
-	font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold;
-	vertical-align: middle;
+  background-color: #CCDDFF;
+  font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold;
+  vertical-align: middle;
 }
 table.jsx3_dp_cal tr.year td {
-	padding-bottom: 0px;
+  padding-bottom: 0px;
 }
 table.jsx3_dp_cal tr.month {
-	background-color: #CCDDFF;
-	font-family: Verdana, Arial, sans-serif; font-size: 11px; font-weight: bold;
-	vertical-align: middle;
+  background-color: #CCDDFF;
+  font-family: Verdana, Arial, sans-serif; font-size: 11px; font-weight: bold;
+  vertical-align: middle;
 }
 table.jsx3_dp_cal td.prev {
-	text-align: left;
-	width: 15%;
+  text-align: left;
+  width: 15%;
 }
 table.jsx3_dp_cal td.next {
-	text-align: right;
-	width: 15%;
+  text-align: right;
+  width: 15%;
 }
 table.jsx3_dp_cal td.prev img, table.jsx3_dp_cal td.next img {
-	width: 14px; height: 15px;
-	cursor: pointer;
+  width: 14px; height: 15px;
+  cursor: pointer;
 }
 table.jsx3_dp_cal td.title {
-	text-align: center;
-	color: #333366;
-	width: 70%;
+  text-align: center;
+  color: #333366;
+  width: 70%;
 }
 table.jsx3_dp_cal tr.days {
 }
 table.jsx3_dp_cal tr.days td.cal {
-	padding: 0px;
+  padding: 0px;
 }
 table.jsx3_dp_month {
-	width: 100%;
-	border-spacing: 0px;
+  width: 100%;
+  border-spacing: 0px;
 }
 table.jsx3_dp_month th {
-	padding: 2px;
-	font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold; color: #FFFFFF;
-	text-align: center;
-	width: 17%;
-	background-color: #336699;
+  padding: 2px;
+  font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: bold; color: #FFFFFF;
+  text-align: center;
+  width: 17%;
+  background-color: #336699;
 }
 table.jsx3_dp_month td {
-	padding: 2px;
-	font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: normal;
-	text-align: right;
-	cursor: pointer;
+  padding: 2px;
+  font-family: Verdana, Arial, sans-serif; font-size: 10px; font-weight: normal;
+  text-align: right;
+  cursor: pointer;
 }
 table.jsx3_dp_month td.normal {
-	background-color: #FFFFFF;
-	text-decoration: none;
-	text-align: right;
+  background-color: #FFFFFF;
+  text-decoration: none;
+  text-align: right;
 }
 table.jsx3_dp_month td.over {
-	background-color: #FFFF99;
-	text-decoration: underline;
-	text-align: right;
+  background-color: #FFFF99;
+  text-decoration: underline;
+  text-align: right;
 }
 table.jsx3_dp_month td.selected {
-	background-color: #FFCC00;
-	text-align: right;
+  background-color: #FFCC00;
+  text-align: right;
 }
 table.jsx3_dp_month td.prev {
-	background-color: #CCCCCC; color: #666666;
-	text-align: right;
+  background-color: #CCCCCC; color: #666666;
+  text-align: right;
 }
 table.jsx3_dp_month td.next {
-	background-color: #CCCCCC; color: #666666;
-	text-align: right;
+  background-color: #CCCCCC; color: #666666;
+  text-align: right;
 }
 table.jsx3_dp_month td.today {
-	border: 1px solid #FF6600;
+  border: 1px solid #FF6600;
 }
 
 /** jsx3.gui.TimePicker */

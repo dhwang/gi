@@ -16,11 +16,11 @@ var amp = jsx3.amp;
 
 this._openDialog = function(intPane) {
   var server = this.getServer();
-	var dialog = server.getJSXByName('jsx_deployment');
-	var projectType = jsx3.ide.PROJECT.getProjectType().getId();
+  var dialog = server.getJSXByName('jsx_deployment');
+  var projectType = jsx3.ide.PROJECT.getProjectType().getId();
 
-	if (!dialog) {
-		dialog = this.loadRsrcComponent("container", server.getRootBlock());
+  if (!dialog) {
+    dialog = this.loadRsrcComponent("container", server.getRootBlock());
 
     var controller = new amp.util.Prefs();
     this.getExtPoint("pane").processExts(function(objExt, obj) {

@@ -15,11 +15,11 @@ _attrChanged: function(objJSXs) {
 },
 
 /**
- * ? onXslParameterEdit()		--called by the edit mask for the grid being edited after user has dismissed the mask, but before edits are committed;
- *					  called because the grid has this handler listed as its 'jsxafteredit' binding
- * @ objGrid (REQUIRED) 		--([object]) object reference to the jsx3.gui.Grid instance being edited
- * @ strRecordId (REQUIRED) 		--(String) name of the attribute being updated (i.e., 'jsxexecute')
- * @ objMask (REQUIRED) 		--([object]) object reference to the given mask that was just dismissed; in this case a menu or a textbox
+ * ? onXslParameterEdit()    --called by the edit mask for the grid being edited after user has dismissed the mask, but before edits are committed;
+ *            called because the grid has this handler listed as its 'jsxafteredit' binding
+ * @ objGrid (REQUIRED)     --([object]) object reference to the jsx3.gui.Grid instance being edited
+ * @ strRecordId (REQUIRED)     --(String) name of the attribute being updated (i.e., 'jsxexecute')
+ * @ objMask (REQUIRED)     --([object]) object reference to the given mask that was just dismissed; in this case a menu or a textbox
  */
 onXslParameterEdit: function(strRecordId, strValue, objGrid) {
   if (objGrid)
@@ -47,11 +47,11 @@ onXslParameterAdd: function(strName, strValue) {
 },
 
 /**
- * ? onXslParameterMenuExecute()		--called by the MENU edit mask for the grid being edited;
- *					  called because the menu has a bound 'jsxexecute' event that references this handler
- * @ strRecordId (REQUIRED) 		--(String) jsxid value for the CDF record representing the menu item just clicked
- * @ objRecord (OPTIONAL) 		--([object]) NOT IMPLEMENTED (place holder for extension): reference to the CDF record node representing the menu item just clicked
- * ! returns				--(null)
+ * ? onXslParameterMenuExecute()    --called by the MENU edit mask for the grid being edited;
+ *            called because the menu has a bound 'jsxexecute' event that references this handler
+ * @ strRecordId (REQUIRED)     --(String) jsxid value for the CDF record representing the menu item just clicked
+ * @ objRecord (OPTIONAL)     --([object]) NOT IMPLEMENTED (place holder for extension): reference to the CDF record node representing the menu item just clicked
+ * ! returns        --(null)
  */
 onXslParameterDelete: function(strPropName) {
   //called when a menu item is selected for the menu mask

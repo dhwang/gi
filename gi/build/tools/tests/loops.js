@@ -1,32 +1,32 @@
 var a, b;
 
 for (var i=0; i < 10; i++)
-	a = i;
+  a = i;
 
 for (i=0; i < 10; i++)
-	a = i;
+  a = i;
 
 i = 0;
 for (; i < 10; i++) {
-	a = i;
-	b = i + 10;
+  a = i;
+  b = i + 10;
 }
 
 i = 0;
 while (i < 10) {
-	i++;
+  i++;
 }
 
 i = 0;
 do {
-	i++;
+  i++;
 } while (i < 10);
 
 do i++; while (i < 10);
 
 var o = new Object();
 for (var f in o) {
-	i += f;
+  i += f;
 }
 
 for (f in o) i += f;

@@ -20,15 +20,15 @@ onBefore();
   
   ]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[
-	
+
 var aVar = objJSX;
 
 objJSX.aMethod = function() {
   return 1;
 };
-	
+
 aVar.anotherMethod = function() {
-	return 1;
+  return 1;
 };
 
 objJSX.blessParam = function(jsxbless_Test) {
@@ -37,7 +37,7 @@ objJSX.blessParam = function(jsxbless_Test) {
 
 objJSX.aMethod();
 
-	]]></onAfterDeserialize>
+  ]]></onAfterDeserialize>
     <object type="jsx3.gui.Block">
       <dynamics jsxborder="@Outset"/>
       <variants jsxleft="0" jsxoverflow="1" jsxtop="0"/>

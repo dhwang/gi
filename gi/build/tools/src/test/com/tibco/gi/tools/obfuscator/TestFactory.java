@@ -16,31 +16,31 @@ import java.util.Collection;
  */
 public class TestFactory {
 
-	@Factory
-	public Object[] regressionTests() {
-		String testsDirPath = System.getProperty("com.tibco.gi.javascript.TESTS_DIR");
-		String regressionsDirPath = System.getProperty("com.tibco.gi.javascript.REGRESSIONS_DIR");
+  @Factory
+  public Object[] regressionTests() {
+    String testsDirPath = System.getProperty("com.tibco.gi.javascript.TESTS_DIR");
+    String regressionsDirPath = System.getProperty("com.tibco.gi.javascript.REGRESSIONS_DIR");
 
-		File testsDir = new File(testsDirPath);
-		assert testsDir.isDirectory() : "tests directory, " + testsDirPath + ", is not a directory";
+    File testsDir = new File(testsDirPath);
+    assert testsDir.isDirectory() : "tests directory, " + testsDirPath + ", is not a directory";
 
-		File regressionsDir = new File(regressionsDirPath);
-		assert testsDir.isDirectory() : "tests directory, " + regressionsDirPath + ", is not a directory";
+    File regressionsDir = new File(regressionsDirPath);
+    assert testsDir.isDirectory() : "tests directory, " + regressionsDirPath + ", is not a directory";
 
-		File[] scriptFiles = testsDir.listFiles();
-		Collection<Object> tests = new ArrayList<Object>(scriptFiles.length);
+    File[] scriptFiles = testsDir.listFiles();
+    Collection<Object> tests = new ArrayList<Object>(scriptFiles.length);
 
-		for (File scriptFile : scriptFiles) {
-			if (scriptFile.isFile()) {
-				String name = scriptFile.getName();
-				boolean isObfuscationTest = name.startsWith("obf");
+    for (File scriptFile : scriptFiles) {
+      if (scriptFile.isFile()) {
+        String name = scriptFile.getName();
+        boolean isObfuscationTest = name.startsWith("obf");
 
-				tests.add(new RegressionTest(scriptFile,
-						new File(regressionsDir.getAbsolutePath() + File.separator + name),
-						isObfuscationTest, isObfuscationTest));
-			}
-		}
+        tests.add(new RegressionTest(scriptFile,
+            new File(regressionsDir.getAbsolutePath() + File.separator + name),
+            isObfuscationTest, isObfuscationTest));
+      }
+    }
 
-		return tests.toArray();
-	}
+    return tests.toArray();
+  }
 }

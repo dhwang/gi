@@ -8,28 +8,28 @@ jsx3.$O(jsx3.ide).extend({
 getJsxAddins: function() {
   var addins = [];
   
-  var jsxFolder = jsx3.ide.getSystemRelativeFile(jsx3.ADDINSPATH);	
-	if (jsxFolder.isDirectory()) {
+  var jsxFolder = jsx3.ide.getSystemRelativeFile(jsx3.ADDINSPATH);
+  if (jsxFolder.isDirectory()) {
     var folders = jsxFolder.listFiles();
-		for (var i = 0; i < folders.length; i++) {
+    for (var i = 0; i < folders.length; i++) {
       var addinDir = folders[i];
       if (jsx3.ide.isFileToIgnore(addinDir)) continue;
 
       if (jsx3.ide._isAddinDirectory(addinDir))
         addins.push(new jsx3.app.AddIn(addinDir.getName()));
-	  }
+    }
   }
 
-  var userFolder = jsx3.ide.getHomeRelativeFile("addins");	
-	if (userFolder.isDirectory()) {
+  var userFolder = jsx3.ide.getHomeRelativeFile("addins");
+  if (userFolder.isDirectory()) {
     var folders = userFolder.listFiles();
-		for (var i = 0; i < folders.length; i++) {
+    for (var i = 0; i < folders.length; i++) {
       var addinDir = folders[i];
       if (jsx3.ide.isFileToIgnore(addinDir)) continue;
 
       if (jsx3.ide._isAddinDirectory(addinDir))
         addins.push(new jsx3.app.AddIn("user:" + addinDir.getName()));
-	  }
+    }
   }
   
   return addins;

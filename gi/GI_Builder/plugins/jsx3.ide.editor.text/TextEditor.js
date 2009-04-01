@@ -6,8 +6,8 @@
 jsx3.Class.defineClass("jsx3.ide.TextEditor", jsx3.ide.Editor, null, function(TextEditor, TextEditor_prototype) {
 
   TextEditor_prototype.save = function() {
-		var objFile = this.getOpenFile();
-		if (objFile) {
+    var objFile = this.getOpenFile();
+    if (objFile) {
       var strContent = this.getEditorText();
 
       if (jsx3.ide.writeUserFile(objFile, strContent)) {
@@ -16,11 +16,11 @@ jsx3.Class.defineClass("jsx3.ide.TextEditor", jsx3.ide.Editor, null, function(Te
         return true;
       }
     } else {
-			this.getPlugIn().getLog().error("Cannot save file to blank url.");
-		}
-		
-		return false;
-	};
+      this.getPlugIn().getLog().error("Cannot save file to blank url.");
+    }
+
+    return false;
+  };
 
   TextEditor_prototype.getPlugIn = function() {
     return jsx3.IDE.TextEditorPlugin;
@@ -38,26 +38,26 @@ jsx3.Class.defineClass("jsx3.ide.TextEditor", jsx3.ide.Editor, null, function(Te
     }
   };
 
-	TextEditor_prototype.getEditorText = function() {
+  TextEditor_prototype.getEditorText = function() {
     var content = this.getContent();
-		if (content)
+    if (content)
       return content.getTextValue();
-	};
-	
+  };
+
   TextEditor_prototype.setEditorText = function(s) {
     var content = this.getContent();
     if (content)
       content.setTextValue(s);
   };
 
-	TextEditor_prototype.supportsReload = function() {
+  TextEditor_prototype.supportsReload = function() {
     return true;
-	};
+  };
 
   TextEditor_prototype.onTextChange = function() {
     this.setDirty(true);
   };
-	
+
   TextEditor_prototype.onKeyDown = function() {
     if (!this.isDirty()) {
       var c = this.getEditorText();

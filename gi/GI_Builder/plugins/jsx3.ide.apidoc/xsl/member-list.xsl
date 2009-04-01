@@ -4,11 +4,11 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:output method="xml" omit-xml-declaration="yes"/>
-	<xsl:param name="showinherited">0</xsl:param>
+  <xsl:output method="xml" omit-xml-declaration="yes"/>
+  <xsl:param name="showinherited">0</xsl:param>
   <xsl:param name="showdeprecated">1</xsl:param>
 
-	<xsl:template match="/">
+  <xsl:template match="/">
     <data jsxid="jsxroot">
       <xsl:apply-templates select="/*"/>
     </data>
@@ -44,10 +44,10 @@
         <xsl:sort select="@name" data-type="text" order="ascending"/>
       </xsl:apply-templates>
     </xsl:if>
-	</xsl:template>
-	
-	<xsl:template match="method | constructor | field">
-		<xsl:variable name="style">
+  </xsl:template>
+
+  <xsl:template match="method | constructor | field">
+    <xsl:variable name="style">
       <xsl:if test="@deprecated">text-decoration:line-through;color:#666666;</xsl:if>
       <xsl:if test="@native">color:#AA7733;</xsl:if>
     </xsl:variable>
@@ -74,7 +74,7 @@
         </xsl:when>
       </xsl:choose>
     </record>
-	</xsl:template>
+  </xsl:template>
 
   <xsl:template match="class" mode="intro">
     <record jsxid="_summary" type="class" jsxtext="Class Summary" jsxstyle="font-weight:bold;"

@@ -7,7 +7,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fn="http://www.w3.org/2005/xpath-functions"
     >
-	
+
   <xsl:import href="common.xsl"/>
   <xsl:import href="package-summary.xsl"/>
   <xsl:import href="class-summary.xsl"/>
@@ -18,11 +18,11 @@
   <xsl:variable name="relpath" select="''"/>
   
   <xsl:output
-			method="html"
-			encoding="UTF-8" indent="no"
-			omit-xml-declaration="yes" />
+      method="html"
+      encoding="UTF-8" indent="no"
+      omit-xml-declaration="yes" />
 
-	<xsl:template match="/api">
+  <xsl:template match="/api">
     <html>
       <head>
         <title><xsl:value-of disable-output-escaping="yes" select="$title"/> - API Documentation</title>

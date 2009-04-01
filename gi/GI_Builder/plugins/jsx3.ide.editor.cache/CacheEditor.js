@@ -33,7 +33,7 @@ jsx3.Class.defineClass("jsx3.ide.CacheEditor", jsx3.ide.TextEditor, null, functi
     }
 
     return 'xml'; // used for save-as, anything else?
-	};
+  };
 
   CacheEditor_prototype.getPlugIn = function() {
     return jsx3.IDE.CacheEditorPlugin;
@@ -55,41 +55,41 @@ jsx3.Class.defineClass("jsx3.ide.CacheEditor", jsx3.ide.TextEditor, null, functi
     }
   };
 
-	CacheEditor_prototype.revert = function() {
-		var cache = this.getCache();
-		this.setEditorText(cache.getDocument(this.getCacheId()).toString());
-		this.setDirty(false);
+  CacheEditor_prototype.revert = function() {
+    var cache = this.getCache();
+    this.setEditorText(cache.getDocument(this.getCacheId()).toString());
+    this.setDirty(false);
     this.publish({subject:"reverted"});
-	};
+  };
 
-	CacheEditor_prototype.save = function() {
-		var objXML = new jsx3.xml.Document();
-		objXML.loadXML(this.getEditorText());
-		
-		if (objXML.hasError()) {
-			this.getPlugIn().getLog().error("The cache document count not be saved because of the following XML " +
+  CacheEditor_prototype.save = function() {
+    var objXML = new jsx3.xml.Document();
+    objXML.loadXML(this.getEditorText());
+
+    if (objXML.hasError()) {
+      this.getPlugIn().getLog().error("The cache document count not be saved because of the following XML " +
           "parsing error: " + objXML.getError() + ". Please fix the error or revert to the last saved version before continuing.");
-			return false;
-		}
-		
+      return false;
+    }
+
     this.getCache().setDocument(this.getCacheId(), objXML);
     this.setDirty(false);
     this.publish({subject:"saved"});
     return true;
-	};
+  };
 
-	CacheEditor_prototype.saveAs = function(objFile) {
-		var objXML = new jsx3.xml.Document();
-		objXML.loadXML(this.getEditorText());
-		
-		if (objXML.hasError()) {
-			this.getPlugIn().getLog().error("The cache document count not be saved to disk because of the following XML " +
+  CacheEditor_prototype.saveAs = function(objFile) {
+    var objXML = new jsx3.xml.Document();
+    objXML.loadXML(this.getEditorText());
+
+    if (objXML.hasError()) {
+      this.getPlugIn().getLog().error("The cache document count not be saved to disk because of the following XML " +
           "parsing error: " + objXML.getError() + ". Please fix the error or revert to the last saved version before continuing.");
-			return false;
-		}
+      return false;
+    }
 
-		return jsx3.ide.writeUserXmlFile(objFile, objXML);
-	};
+    return jsx3.ide.writeUserXmlFile(objFile, objXML);
+  };
 
   CacheEditor_prototype.onBeforeSetMode = function(strNewMode) {
     var strMode = this.getMode();
@@ -109,17 +109,17 @@ jsx3.Class.defineClass("jsx3.ide.CacheEditor", jsx3.ide.TextEditor, null, functi
   CacheEditor_prototype.onSetMode = function(objContent, strOldMode) {
     var strMode = this.getMode();
 
-		if (strOldMode == 'readwrite') {
-			var doc = new jsx3.xml.Document();
-			doc.loadXML(this.getEditorText());
+    if (strOldMode == 'readwrite') {
+      var doc = new jsx3.xml.Document();
+      doc.loadXML(this.getEditorText());
       objContent.setSourceDocument(doc);
-		}
+    }
 
     objContent.doShow();
-	};
+  };
 
-	CacheEditor_prototype.supportsReload = function() {
-		return false;
-	};
-	
+  CacheEditor_prototype.supportsReload = function() {
+    return false;
+  };
+
 });

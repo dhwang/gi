@@ -275,14 +275,14 @@ jsx3.ide.getIDESettings = function() {
 };
 
 jsx3.ide._onBeforeShutdown = function(objEvent) {
-	jsx3.ide._persistSplittersOnShutdown();
-	var settings = jsx3.ide.getIDESettings();
-	settings.save();
+  jsx3.ide._persistSplittersOnShutdown();
+  var settings = jsx3.ide.getIDESettings();
+  settings.save();
 
-	if (jsx3.ide.isAnyEditorDirty())
-		objEvent.returnValue = "WARNING: You have unsaved changes in your project. Click on Cancel to go back to General Interface(TM) Builder to save your changes.";
-	else
-		objEvent.returnValue = "Unloading the current page will close General Interface(TM) Builder and end your session.";
+  if (jsx3.ide.isAnyEditorDirty())
+    objEvent.returnValue = "WARNING: You have unsaved changes in your project. Click on Cancel to go back to General Interface(TM) Builder to save your changes.";
+  else
+    objEvent.returnValue = "Unloading the current page will close General Interface(TM) Builder and end your session.";
 };
 
 jsx3.ide.onShutdown = function(objEvent) {
@@ -290,18 +290,18 @@ jsx3.ide.onShutdown = function(objEvent) {
 };
 
 jsx3.ide._openPreviouslyOpenFiles = function() {
-	var objFiles = jsx3.ide.getPreviouslyOpenFiles();
-	if (objFiles == null)
-		objFiles = jsx3.ide.PROJECT.getDefaultOpenFiles();
+  var objFiles = jsx3.ide.getPreviouslyOpenFiles();
+  if (objFiles == null)
+    objFiles = jsx3.ide.PROJECT.getDefaultOpenFiles();
 
-	if (objFiles.length == 0) return;
+  if (objFiles.length == 0) return;
 
   var alert = jsx3.IDE.alert(
-		"Opening Project",
-		"Opening component files for project " + jsx3.ide.PROJECT.getPathFromHome() + " ...",
-		jsx3.ide._cancelPreviouslyOpenFiles,
-		"Cancel"
-	);
+    "Opening Project",
+    "Opening component files for project " + jsx3.ide.PROJECT.getPathFromHome() + " ...",
+    jsx3.ide._cancelPreviouslyOpenFiles,
+    "Cancel"
+  );
 
   this._pauseJobs();
   this._addJob(function(){ alert.doClose(); }, 0);
@@ -336,15 +336,15 @@ jsx3.ide._cancelPreviouslyOpenFiles = function(d) {
 };
 
 jsx3.ide._getSystemURI = function() {
-	return jsx3.app.Browser.getLocation();
+  return jsx3.app.Browser.getLocation();
 };
 
 jsx3.ide.getSystemDirFile = function() {
-	// cache result since it never changes
-	if (!jsx3.ide._SYSTEM_DIRFILE) {
+  // cache result since it never changes
+  if (!jsx3.ide._SYSTEM_DIRFILE) {
     jsx3.ide._SYSTEM_DIRFILE = jsx3.ide.getPlugIn("jsx3.io").getFileForURI(jsx3.ide._getSystemURI()).resolve(".");
-	}
-	return jsx3.ide._SYSTEM_DIRFILE;
+  }
+  return jsx3.ide._SYSTEM_DIRFILE;
 };
 
 jsx3.ide.getSystemRelativeFile = function(strURI) {
@@ -360,7 +360,7 @@ jsx3.ide.getBuilderRelativeFile = function(strURI) {
 };
 
 jsx3.ide.relativePathTo = function(objFile) {
-	return jsx3.ide.getSystemDirFile().relativePathTo(objFile);
+  return jsx3.ide.getSystemDirFile().relativePathTo(objFile);
 };
 
 jsx3.ide.open = function() {
@@ -389,7 +389,7 @@ jsx3.ide.doOpenResources = function(strResourceIds) {
   var notFound = [];
   for (var i = 0; i < strResourceIds.length; i++) {
     var objFile = jsx3.ide.getFileForResource(strResourceIds[i]);
-  	if (objFile != null && objFile.isFile()) {
+    if (objFile != null && objFile.isFile()) {
       var rsrc = jsx3.ide.getResourceById(strResourceIds[i]);
       jsx3.ide.doOpenForEdit(objFile, rsrc.getType(), false);
     }
@@ -407,26 +407,26 @@ jsx3.ide.doOpenResources = function(strResourceIds) {
 jsx3.ide.saveAndReload = function(editor) {
   editor = editor || jsx3.ide.getActiveEditor();
   // a GUI component will actually be reverted since it doesn't support the idea of reload
-	if (editor != null && jsx3.ide.ComponentEditor && editor instanceof jsx3.ide.ComponentEditor)
-		jsx3.ide.save(editor).when(function(rv) {if (rv) jsx3.ide.revert(editor, true);});
-	// all others are saved and then reloaded
-	else
-		jsx3.ide.save(editor).when(function(rv) {if (rv) jsx3.ide.reload(editor);});
+  if (editor != null && jsx3.ide.ComponentEditor && editor instanceof jsx3.ide.ComponentEditor)
+    jsx3.ide.save(editor).when(function(rv) {if (rv) jsx3.ide.revert(editor, true);});
+  // all others are saved and then reloaded
+  else
+    jsx3.ide.save(editor).when(function(rv) {if (rv) jsx3.ide.reload(editor);});
 };
 
 jsx3.ide.saveAll = jsx3.$Y(function(cb) {
   var intStartAt = cb.args()[0];
 
   var editors = jsx3.ide.getAllEditors();
-	if (intStartAt == null)
-		intStartAt = 0;
+  if (intStartAt == null)
+    intStartAt = 0;
 
   if (intStartAt < editors.length) {
-		var editor = editors[intStartAt];
-		jsx3.ide.save(editor).when(function(rv) {
+    var editor = editors[intStartAt];
+    jsx3.ide.save(editor).when(function(rv) {
       if (rv) jsx3.ide.saveAll(intStartAt+1).when(cb);
     });
-	} else {
+  } else {
     cb.done();
   }
 });
@@ -434,11 +434,11 @@ jsx3.ide.saveAll = jsx3.$Y(function(cb) {
 jsx3.ide.save = jsx3.$Y(function(cb) {
   var editor = cb.args()[0] || jsx3.ide.getActiveEditor();
 
-	if (!editor) {
+  if (!editor) {
     cb.done(false);
   } else if (editor.isUnsaved()) {
-		jsx3.ide.saveAs(editor).when(cb);
-	} else {
+    jsx3.ide.saveAs(editor).when(cb);
+  } else {
     editor.preSaveCheck().when(function(rv) {
       if (rv) {
         cb.done(false);
@@ -460,19 +460,19 @@ jsx3.ide.save = jsx3.$Y(function(cb) {
         }
       }
     });
-	}
+  }
 });
 
 jsx3.ide.saveAndClose = jsx3.$Y(function(cb) {
   var editor = cb.args()[0] || jsx3.ide.getActiveEditor();
 
-	if (editor) {
-		jsx3.ide.save(editor).when(function(rv) {
+  if (editor) {
+    jsx3.ide.save(editor).when(function(rv) {
       if (rv)
         jsx3.IDE.EDITOR_MGR.close(editor);
       cb.done(rv);
     });
-	} else {
+  } else {
     cb.done(false);
   }
 });
@@ -480,7 +480,7 @@ jsx3.ide.saveAndClose = jsx3.$Y(function(cb) {
 jsx3.ide.saveAs = jsx3.$Y(function(cb) {
   var editor = cb.args()[0] || jsx3.ide.getActiveEditor();
 
-	if (!editor == null) {
+  if (!editor == null) {
     cb.done(false);
   } else {
     var home = jsx3.ide.getCurrentUserHome();
@@ -530,35 +530,35 @@ jsx3.ide._saveAsChoose = jsx3.$Y(function(cb) {
 jsx3.ide.close = jsx3.$Y(function(cb) {
   var editor = cb.args()[0] || jsx3.ide.getActiveEditor();
 
-	if (!editor) {
+  if (!editor) {
     cb.done(false);
   } else if (!editor.isDirty()) {
     jsx3.IDE.EDITOR_MGR.close(editor);
-		cb.done(true);
-	} else {
-		jsx3.IDE.confirm(
-			"Confirm Close",
-			"Save file " + editor.getTitle() + " before closing? Otherwise changes will be lost.",
-			function(d){ d.doClose(); jsx3.ide.saveAndClose(editor).when(cb);},
+    cb.done(true);
+  } else {
+    jsx3.IDE.confirm(
+      "Confirm Close",
+      "Save file " + editor.getTitle() + " before closing? Otherwise changes will be lost.",
+      function(d){ d.doClose(); jsx3.ide.saveAndClose(editor).when(cb);},
       function(d){ d.doClose(); cb.done(false); },
-			"Save", "Cancel", 1,
-			function(d){ d.doClose(); jsx3.IDE.EDITOR_MGR.close(editor); cb.done(true);},
-			"Don't Save"
-		);
-	}
+      "Save", "Cancel", 1,
+      function(d){ d.doClose(); jsx3.IDE.EDITOR_MGR.close(editor); cb.done(true);},
+      "Don't Save"
+    );
+  }
 });
 
 jsx3.ide.closeAll = jsx3.$Y(function(cb) {
-	var editors = jsx3.ide.getAllEditors().concat();
-	for (var i = 0; i < editors.length; i++) {
-		var editor = editors[i];
-		if (editor.isDirty()) {
-			jsx3.ide.close(editor).when(function() {jsx3.ide.closeAll().when(cb);});
-			return;
-		} else {
-			jsx3.IDE.EDITOR_MGR.close(editor);
-		}
-	}
+  var editors = jsx3.ide.getAllEditors().concat();
+  for (var i = 0; i < editors.length; i++) {
+    var editor = editors[i];
+    if (editor.isDirty()) {
+      jsx3.ide.close(editor).when(function() {jsx3.ide.closeAll().when(cb);});
+      return;
+    } else {
+      jsx3.IDE.EDITOR_MGR.close(editor);
+    }
+  }
 
   cb.done();
 });
@@ -568,48 +568,48 @@ jsx3.ide.revert = jsx3.$Y(function(cb) {
   var bConfirmed = cb.args()[1];
 
   if (bConfirmed) {
-		editor.revert();
+    editor.revert();
     cb.done();
   } else {
-		jsx3.IDE.confirm(
-			"Confirm Revert",
-			"Are you sure you want to revert the file <b>" + editor.getTitle() + "</b> to its last saved state? All changes will be lost.",
-			function(d){
+    jsx3.IDE.confirm(
+      "Confirm Revert",
+      "Are you sure you want to revert the file <b>" + editor.getTitle() + "</b> to its last saved state? All changes will be lost.",
+      function(d){
         d.doClose();
         editor.revert();
         cb.done();
       },
-			null, "Revert", "Cancel", 2);
-	}
+      null, "Revert", "Cancel", 2);
+  }
 });
 
 jsx3.ide.revertAll = function(bConfirmed) {
-	if (bConfirmed) {
-		var editors = jsx3.ide.getAllEditors();
-		for (var i = 0; i < editors.length; i++) {
-			editors[i].revert();
-		}
-	} else {
-		jsx3.IDE.confirm(
-			"Confirm Revert All",
-			"Are you sure you want to revert each open file to its last saved state? All changes will be lost.", function(d){d.doClose(); jsx3.ide.revertAll(true);},
-			null, "Revert All", "Cancel", 2);
-	}
+  if (bConfirmed) {
+    var editors = jsx3.ide.getAllEditors();
+    for (var i = 0; i < editors.length; i++) {
+      editors[i].revert();
+    }
+  } else {
+    jsx3.IDE.confirm(
+      "Confirm Revert All",
+      "Are you sure you want to revert each open file to its last saved state? All changes will be lost.", function(d){d.doClose(); jsx3.ide.revertAll(true);},
+      null, "Revert All", "Cancel", 2);
+  }
 };
 
 jsx3.ide.reload = function(editor) {
   editor = editor || jsx3.ide.getActiveEditor();
-	if (editor) {
-		var objFile = editor.getOpenFile();
-		var resource = jsx3.ide.getResourceByFile(objFile);
-		if (resource) {
+  if (editor) {
+    var objFile = editor.getOpenFile();
+    var resource = jsx3.ide.getResourceByFile(objFile);
+    if (resource) {
       // BUG: reloading JavaScript seems to cause problems without a delay?
       window.setTimeout(function(){jsx3.ide.doReloadResourceObj(resource);}, 100);
-		} else {
+    } else {
       jsx3.ide.LOG.error("Could not reload resource " + objFile + " because no resource was found with that path. " +
           "Make sure that the config.xml file is updated to the 3.2+ format.");
     }
-	}
+  }
 };
 
 jsx3.ide.doTextEditorKeyDown = function(objEvent, objTextBox, objTab) {
@@ -716,27 +716,27 @@ jsx3.ide.getDocumentType = function(objDocument) {
 // HANDLING PALETTE PLACEMENT
 
 jsx3.ide._adjustSplittersOnStartup = function() {
-	var settings = jsx3.ide.getIDESettings();
+  var settings = jsx3.ide.getIDESettings();
 
-	for (var i = 5; i > 0; i--) {
-		var splitter = jsx3.IDE.getJSXByName("jsx_ide_splitter" + i);
-		var pct = settings.get('window', 'splitters', splitter.getName());
-		if (pct != null)
-			splitter.setSubcontainer1Pct(pct, true);
-		else if (splitter.jsxdefault1pct != null)
-			splitter.setSubcontainer1Pct(splitter.jsxdefault1pct, true);
-	}
+  for (var i = 5; i > 0; i--) {
+    var splitter = jsx3.IDE.getJSXByName("jsx_ide_splitter" + i);
+    var pct = settings.get('window', 'splitters', splitter.getName());
+    if (pct != null)
+      splitter.setSubcontainer1Pct(pct, true);
+    else if (splitter.jsxdefault1pct != null)
+      splitter.setSubcontainer1Pct(splitter.jsxdefault1pct, true);
+  }
 };
 
 jsx3.ide._persistSplittersOnShutdown = function() {
-	var splitters = jsx3.IDE.getBodyBlock().findDescendants(
-			function(x){ return x instanceof jsx3.gui.Splitter; }, false, true);
-	var settings = jsx3.ide.getIDESettings();
+  var splitters = jsx3.IDE.getBodyBlock().findDescendants(
+      function(x){ return x instanceof jsx3.gui.Splitter; }, false, true);
+  var settings = jsx3.ide.getIDESettings();
 
-	for (var i = 0; i < splitters.length; i++) {
-		var splitter = splitters[i];
-		var pct = settings.set('window', 'splitters', splitter.getName(), splitter.getSubcontainer1Pct());
-	}
+  for (var i = 0; i < splitters.length; i++) {
+    var splitter = splitters[i];
+    var pct = settings.set('window', 'splitters', splitter.getName(), splitter.getSubcontainer1Pct());
+  }
 };
 
 jsx3.ide.writeUserFile = function(objFile, strContent) {

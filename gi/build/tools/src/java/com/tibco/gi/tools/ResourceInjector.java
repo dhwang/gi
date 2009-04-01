@@ -123,11 +123,11 @@ public class ResourceInjector {
       boolean first = false;
       for (String key : Utils.sortedKeys(defaultValues)) {
         String value = bundle.getString(key);
-		// TODO -  native2ascii already converted the native strings to unicode, 
-		// but reading back using ResourceBundle with locale param makes it a native encoding string.
-		// This step convert the native String to unicode escape string again.
-		value = native2ascii(value, "\\u", null);
-		
+    // TODO -  native2ascii already converted the native strings to unicode,
+    // but reading back using ResourceBundle with locale param makes it a native encoding string.
+    // This step convert the native String to unicode escape string again.
+    value = native2ascii(value, "\\u", null);
+
         if (!defaultValues.get(key).equals(value)) {
           if (first)
             sb.append(",");

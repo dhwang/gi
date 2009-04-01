@@ -133,7 +133,7 @@ jsx3.Class.defineClass("jsx3.ide.PropsBundleEditor", jsx3.ide.PropertiesEditor, 
           }
         });
   };
-	
+
   PropsBundleEditor_prototype.removeLocaleColumn = function(objCol) {
     var objMatrix = objCol.getParent();
     var objXML = objMatrix.getXML();
