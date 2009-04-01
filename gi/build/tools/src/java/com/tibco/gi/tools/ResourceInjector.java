@@ -73,8 +73,11 @@ public class ResourceInjector {
     reader.close();
     writer.close();
 
-    textFile.delete();
-    tempFile.renameTo(textFile);
+    if (!textFile.delete())
+      LOG.severe("Could not delete file " + textFile);
+
+    if (!tempFile.renameTo(textFile))
+      LOG.severe("Could not save file " + textFile);
   }
 
   private String handleLine(String line) {

@@ -209,6 +209,9 @@ public class FileEmbedder {
     tmpWriter.close();
     fileReader.close();
 
+    if (outFile.exists() && !outFile.delete())
+      LOG.severe("Could not delete file " + outFile);
+
     if (!tmpFile.renameTo(outFile))
       LOG.severe("Could not write to file " + outFile);
   }
