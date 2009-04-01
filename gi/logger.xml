@@ -12,6 +12,9 @@
     <property name="bufferSize" eval="true" value="1000"/>
   </handler>
 
+  <!-- Logs messages to the Firebug console, when available. -->
+  <handler name="console" class="jsx3.util.Logger.ConsoleHandler"/>
+
   <!-- Prints logging messages to Builder's system out panel.
        For logging in Builder to work there should be exactly one handler of type SystemLogHandler
        defined here. -->
@@ -54,6 +57,7 @@
   <!-- The global logger. -->
   <logger name="global" level="INFO">
     <handler-ref name="memory"/>
+    <handler-ref name="console"/>
     <handler-ref name="ide"/>
     <handler-ref name="fatal"/>
     <!--<handler-ref name="appMonitor1"/>-->

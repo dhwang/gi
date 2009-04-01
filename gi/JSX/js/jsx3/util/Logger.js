@@ -1263,6 +1263,28 @@ jsx3.Class.defineClass('jsx3.util.Logger.FormatHandler', jsx3.util.Logger.Handle
 });
 
 /**
+ * Handles a logging record by sending it to the Firebug console.
+ */
+jsx3.Class.defineClass('jsx3.util.Logger.ConsoleHandler', jsx3.util.Logger.FormatHandler, null,
+    function(ConsoleHandler, ConsoleHandler_prototype) {
+
+  // maps logger levels to console method names
+  var methods = [null, "error", "error", "warn", "info", "debug", "debug"];
+
+  ConsoleHandler_prototype.handle = function(objRecord) {
+    if (window.console) {
+      var method = methods[objRecord.getLevel()];
+      if (method) {
+        try {
+          console[method](this.format(objRecord));
+        } catch (e) {}
+      }
+    }
+  };
+
+});
+
+/**
  * Handles a logging record by sending it to a JavaScript alert.
  */
 jsx3.Class.defineClass('jsx3.util.Logger.AlertHandler', jsx3.util.Logger.FormatHandler, null,
