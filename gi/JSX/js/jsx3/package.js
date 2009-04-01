@@ -1004,10 +1004,12 @@ jsx3.Class.defineInterface("jsx3.net.URIResolver", null, function(URIResolver, U
       if (typeof(resolver) == "function")
         resolver = resolver(uri);
     } else {
-      resolver = URIResolver.DEFAULT;
+      var path = uri.getPath();
 
+      if (path.indexOf(jsx3.SYSTEM_ROOT + "/") == 0 || path.indexOf("GI_Builder/") == 0)
+        resolver = URIResolver.DEFAULT;
 /* @JSC :: begin DEP */
-      if (jsx3.getEnv('jsxurirslv') == '3.6' && uri.getPath().indexOf(jsx3.APP_DIR_NAME + "/") == 0)
+      else if (jsx3.getEnv('jsxurirslv') == '3.6' && path.indexOf(jsx3.APP_DIR_NAME + "/") == 0)
         resolver = URIResolver.USER;
 /* @JSC :: end */
     }
