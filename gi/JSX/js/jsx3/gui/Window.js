@@ -410,7 +410,7 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
       this._jsxwindow.document.onkeydown = null;
       for (var f in this._jsxwindow) {
         try {
-          if(typeof(this._jsxwindow[f]) == "function")
+          if(typeof(this._jsxwindow[f]) == "function" || typeof(this._jsxwindow[f]) == "object")
             this._jsxwindow[f] = null;
         } catch (e) {}
       }
