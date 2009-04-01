@@ -14,7 +14,7 @@
 				eval="1"
 				disallow="[^0-9]"
 				jsxmask="jsxtext"
-				jsxexecute="objJSX.preferredWidth = vntValue; objJSX.onResize();"/>
+				jsxexecute="objJSX.preferredWidth = vntValue; objJSX.getChart().repaint();"/>
 		<record jsxid="preferredHeight" jsxtext="Height"
 				jsxtip="Sets the preferred height of this component in pixels.  If the legend placement is at top or bottom, only height is considered and width is ignored."
         docgetter="getPreferredHeight" docsetter="setPreferredHeight"
@@ -22,7 +22,7 @@
 				eval="1"
 				disallow="[^0-9]"
 				jsxmask="jsxtext"
-				jsxexecute="objJSX.preferredHeight = vntValue; objJSX.onResize();"/>
+				jsxexecute="objJSX.preferredHeight = vntValue; objJSX.getChart().repaint();"/>
 	</record>
 	
 	<record jsxid="label" group="1" jsxtext="Label">

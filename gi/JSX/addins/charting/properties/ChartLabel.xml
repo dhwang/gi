@@ -14,7 +14,7 @@
 				eval="1"
 				disallow="[^0-9]"
 				jsxmask="jsxtext"
-				jsxexecute="objJSX.preferredWidth = vntValue; objJSX.onResize();"/>
+				jsxexecute="objJSX.preferredWidth = vntValue; objJSX.getChart().repaint();"/>
 		<record jsxid="preferredHeight" jsxtext="Height"
 				jsxtip="Sets the preferred height of this component in pixels. If the title placement is top or bottom, only height is considered and width is ignored."
         docgetter="getPreferredHeight" docsetter="setPreferredHeight"
@@ -22,7 +22,7 @@
 				eval="1"
 				disallow="[^0-9]"
 				jsxmask="jsxtext"
-				jsxexecute="objJSX.preferredHeight = vntValue; objJSX.onResize();"/>
+				jsxexecute="objJSX.preferredHeight = vntValue; objJSX.getChart().repaint();"/>
 	</record>
 	
 	<record jsxid="chartlabel" group="1" jsxtext="ChartLabel">
@@ -38,8 +38,7 @@
 				docdefault="NONE (&lt;code&gt;jsx3.chart.ChartLabel.ROTATION_NORMAL&lt;/code&gt;)"
 				eval="1"
 				disallow="[^0-9]"
-				jsxmask="jsxselect"
-				jsxexecute="objJSX.labelRotation = vntValue; objJSX.onResize();">
+				jsxmask="jsxselect">
 			<enum jsxid="jsx3.chart.ChartLabel.ROTATION_NORMAL" jsxtext="NONE"/>
 			<enum jsxid="jsx3.chart.ChartLabel.ROTATION_CW" jsxtext="CLOCKWISE"/>
 			<enum jsxid="jsx3.chart.ChartLabel.ROTATION_CCW" jsxtext="COUNTER-CLOCKWISE"/>
@@ -93,7 +92,7 @@
 				docdefault="&lt;code&gt;0&lt;code&gt;"
         disallow="'"
 				jsxmask="jsxtext"
-				jsxexecute="objJSX.jsxpadding = vntValue; objJSX.onResize();"/>
+				jsxexecute="objJSX.jsxpadding = vntValue; objJSX.getChart().repaint();"/>
 	</record>
 
 	<record include="master.xml" group="component"/>
