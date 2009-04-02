@@ -126,6 +126,10 @@ toggleStageOnly: function(bShowPalettes) {
    * @return {jsx3.xml.Document}
    */
   getTemplateForObject: function(strType, objJSX) {
+    if (typeof objJSX.getMetadataXML == "function") {
+      return objJSX.getMetadataXML(strType);
+    }
+    
     var struct = this._getTempTypes()[strType];
 
     // lazily load the built-in catalog file
