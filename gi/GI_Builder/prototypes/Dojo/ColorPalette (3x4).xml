@@ -3,12 +3,13 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
-  <name><![CDATA[Color Palette 3x4]]></name>
+  <name><![CDATA[Color Palette (3x4)]]></name>
   <icon><![CDATA[images/prototypes/block-image.gif]]></icon>
-  <description><![CDATA[Color palette 3x4]]></description>
+  <description><![CDATA[Color palette]]></description>
   <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.ColorPalette" dijit_palette="3x4"/>
+    <strings dijitClassName="dijit.ColorPalette" jsxname="dijit.ColorPalette3x4" />
+    <variants dijitProps="({ palette: '3x4' })" />
   </object>
 </serialization>

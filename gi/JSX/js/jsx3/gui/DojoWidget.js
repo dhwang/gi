@@ -8,49 +8,51 @@ dojo.require("dijit.ColorPalette");
 /**
  * Provides an adapter for Dojo widgets
  */
-jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, [], function(DojoWidget, DojoWidget_prototype) {
+jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(DojoWidget, DojoWidget_prototype) {
   DojoWidget._LOG = jsx3.util.Logger.getLogger("jsx3.gui.DojoWidget");
   DojoWidget._LOG.debug("started");
-  /**
-   * instance initializer
-   * @param strName {String} unique name distinguishing this object from all other JSX GUI objects in the JSX application
-   * @param intLeft {int} left position (in pixels) of the object relative to its parent container; not required if button is one of: jsx3.gui.Button.SYSTEMOPEN, jsx3.gui.Button.DIALOGCLOSE, jsx3.gui.Button.DIALOGALPHA, jsx3.gui.Button.DIALOGSHADE
-   * @param intTop {int} top position (in pixels) of the object relative to its parent container; not required if button is one of: jsx3.gui.Button.SYSTEMOPEN, jsx3.gui.Button.DIALOGCLOSE, jsx3.gui.Button.DIALOGALPHA, jsx3.gui.Button.DIALOGSHADE
-   * @param intWidth {int} width (in pixels) of the object; not required if button is one of: jsx3.gui.Button.SYSTEMOPEN, jsx3.gui.Button.DIALOGCLOSE, jsx3.gui.Button.DIALOGALPHA, jsx3.gui.Button.DIALOGSHADE
-   * @param strText {String} text to display in the given button; if null JSXTABLEHEADERCELL.DEFAULTTEXT is used
-   */
-  DojoWidget_prototype.init = function(strName,intLeft,intTop,intWidth,strText) {
-    //call constructor for super class
-    this.jsxsuper(strName,intLeft,intTop,intWidth);
 
-    //update properties unique to the jsx3.gui.Button class
-    this.setText(strText);
+  DojoWidget_prototype.init = function(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML,dijitProps) {
+    //call constructor for super class
+    this.dijitProps = dijitProps||{};
+    this.jsxsuper(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML);
+    DojoWidget._LOG.warn('init');
+    this._createDijit(this.dijitProps);
+  };
+  DojoWidget_prototype.onAfterAssemble = function(){
+    DojoWidget._LOG.warn('onAfterAssemble');
+    this.jsxsuper.apply(this, arguments);
+    this._createDijit(this.dijitProps);
+  };
+  DojoWidget_prototype._createDijit = function(props){
+    DojoWidget._LOG.warn('_createDijit: ' + this.getId());
+    if(!this.dijit){
+      dojo.require(this.dijitClassName);
+      this.dijit = new (dojo.getObject(this.dijitClassName))(props);
+    }
   };
   DojoWidget_prototype.isDomPaint = function(){
     return !!this.dijitClassName;
   };
   DojoWidget_prototype.paintDom = function(a){
-    if(!this.dijit){
-      dojo.require(this.dijitClassName);
-      var constructorValue = {};
-      for (var i in this) {
-      	if (i.substring(0,6) == "dijit_"){
-          constructorValue[i.substring(6)] = this[i];
-      	}
-      }
-      this.dijit = new (dojo.getObject(this.dijitClassName))(constructorValue);
-    }
-    DojoWidget._LOG.warn("a " + a);
+    DojoWidget._LOG.warn("paintDom: " + this.dijit.id);
     var newElement = document.createElement("div");
+    dojo.attr(newElement, 'id', this.getId());
     document.body.appendChild(newElement);
     this.dijit.placeAt(newElement);
     return newElement;
-  }
+  };
   DojoWidget_prototype.attr = function(name, value){
     if (arguments.length == 1) {
       return this.dijit.attr(name);
     }
     this.dijit.attr(name, value);
+  };
+  DojoWidget_prototype.onDestroy = function(objParent){
+    DojoWidget._LOG.warn('destroy');
+    this.dijit.destroyRecursive();
+
+    this.jsxsuper(objParent);
   };
   DojoWidget_prototype.getMetadataXML = function(){
     var dijitClass = this.dijit.constructor;
