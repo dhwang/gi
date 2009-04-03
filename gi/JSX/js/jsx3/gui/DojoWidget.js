@@ -12,6 +12,22 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   DojoWidget._LOG = jsx3.util.Logger.getLogger("jsx3.gui.DojoWidget");
   DojoWidget._LOG.debug("started");
 
+  DojoWidget._stylesheets = {};
+
+  DojoWidget.insertThemeStyleSheets = function(theme){
+    var ss = DojoWidget._stylesheets;
+    var head = document.getElementsByTagName("head")[0];
+
+    if(!ss[theme]){
+      ss[theme] = dojo.create('link', {
+        'rel': 'stylesheet',
+        'type': 'text/css',
+        'href': 'dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css'
+      }, head);
+      dojo.addClass(dojo.body(), theme);
+    }
+  };
+
   DojoWidget_prototype.init = function(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML,dijitProps) {
     //call constructor for super class
     this.dijitProps = dijitProps||{};
@@ -21,6 +37,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   };
   DojoWidget_prototype.onAfterAssemble = function(){
     DojoWidget._LOG.warn('onAfterAssemble');
+    this.dijitProps=this.dijitProps||{};
     this.jsxsuper.apply(this, arguments);
     this._createDijit(this.dijitProps);
   };
@@ -35,6 +52,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     return !!this.dijitClassName;
   };
   DojoWidget_prototype.paintDom = function(a){
+    DojoWidget.insertThemeStyleSheets('tundra');
     DojoWidget._LOG.warn("paintDom: " + this.dijit.id);
     var newElement = document.createElement("div");
     dojo.attr(newElement, 'id', this.getId());
