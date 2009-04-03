@@ -32,7 +32,13 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, [], function(DojoW
   DojoWidget_prototype.paintDom = function(a){
     if(!this.dijit){
       dojo.require(this.dijitClassName);
-      this.dijit = new (dojo.getObject(this.dijitClassName))({palette: "7x10"});
+      var constructorValue = {};
+      for (var i in this) {
+      	if (i.substring(0,6) == "dijit_"){
+          constructorValue[i.substring(6)] = this[i];
+      	}
+      }
+      this.dijit = new (dojo.getObject(this.dijitClassName))(constructorValue);
     }
     DojoWidget._LOG.warn("a " + a);
     var newElement = document.createElement("div");
@@ -47,8 +53,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, [], function(DojoW
     this.dijit.attr(name, value);
   };
   DojoWidget_prototype.getMetadataXML = function(){
-    var dijitClass = dijit.ColorPalette; // this.dijit.constructor;
-    DojoWidget._LOG.warn("get metadata description" + dijitClass.description);
+    var dijitClass = this.dijit.constructor;
     
     var metadata = jsx3.xml.CDF.Document.newDocument();
     for (var i in {"object":1, "position":1, "1":1, "font":1, "box_nobg":1, "css":1, "interaction":1, "access":1}) {
@@ -64,18 +69,20 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, [], function(DojoW
       jsxtext: "Dojo"
     });
     for (var i in dijitClass.properties) {
-      var propDef = dijitClass.properties[i];
-      metadata.insertRecord({
-        group: "dojo",
-        jsxid: i,
-        jsxtext: i,
-        jsxtip: propDef.description,
-        eval: propDef.type == 'string' ? 0 : 1,
-        docgetter:'attr("' + i + '")',
-        docsetter:'attr("' + i + '", value)',
-        jsxmask:"jsxtext",
-        jsxexecute:'objJSX.attr("' + i + '",vntValue);'
-      }, "dojo");
+      if (i.charAt(0) != "_") {
+        var propDef = dijitClass.properties[i];
+        metadata.insertRecord({
+          group: "dojo",
+          jsxid: i,
+          jsxtext: i,
+          jsxtip: propDef.description,
+          eval: propDef.type == 'string' ? 0 : 1,
+          docgetter:'attr("' + i + '")',
+          docsetter:'attr("' + i + '", value)',
+          jsxmask:"jsxtext",
+          jsxexecute:'objJSX.attr("' + i + '",vntValue);'
+        }, "dojo");
+      }
     }  
     return metadata;
   };
