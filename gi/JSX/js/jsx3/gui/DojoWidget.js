@@ -87,9 +87,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     return this;
   }
   DojoWidget_prototype.getMetadataXML = function(metadataType){
-  debugger;
-    DojoWidget._LOG.warn('getMetadataXML' , metadataType);
-    var dijitClass = this.dijit.constructor;
+    var schemaDefined, dijitClass = this.dijit.constructor;
     var metadata = jsx3.xml.CDF.Document.newDocument();
     if (metadataType == "prop") {
       for (var i in {"object":1, "position":1, "1":1, "font":1, "box_nobg":1, "css":1, "interaction":1, "access":1}) {
@@ -104,40 +102,70 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
        jsxid: "dojo",
        jsxtext: "Dojo"
       });
+      function addProperty(propDef, i) {
+        metadata.insertRecord({
+          group: "dojo",
+          jsxid: i,
+          jsxtext: i,
+          jsxtip: propDef.description,
+          eval: propDef.type == 'string' ? 0 : 1,
+          docgetter:'attr("' + i + '")',
+          docsetter:'attr("' + i + '", value)',
+          jsxmask:"jsxtext",
+          jsxexecute:'objJSX.attr("' + i + '",vntValue);'
+        }, "dojo");
+      }
       while (dijitClass) {
         for (var i in dijitClass.properties) {
+          schemaDefined = true;
           if (i.charAt(0) != "_") {
-            var propDef = dijitClass.properties[i];
-            metadata.insertRecord({
-              group: "dojo",
-              jsxid: i,
-              jsxtext: i,
-              jsxtip: propDef.description,
-              eval: propDef.type == 'string' ? 0 : 1,
-              docgetter:'attr("' + i + '")',
-              docsetter:'attr("' + i + '", value)',
-              jsxmask:"jsxtext",
-              jsxexecute:'objJSX.attr("' + i + '",vntValue);'
-            }, "dojo");
+            addProperty(dijitClass.properties[i], i);
           }
         }
         dijitClass = dijitClass["extends"];
-      }  
+      }
+      if (!schemaDefined) {
+        // no schema defined, we will to the prototype and current state for properties
+        for (var i in this.dijit) {
+          var type = typeof this.dijit[i];
+          if (i.charAt(0) != "_" && type != "function") {
+            addProperty({
+              type: type,
+            }, i);
+          }
+        }
+      }
     }else if(metadataType=="event"){
+      function addMethod(methodDef, i) {
+        metadata.insertRecord({
+          group: "dojo",
+          jsxid: i,
+          jsxtext: i,
+          jsxtip: methodDef.description
+        }, "dojo");
+        metadata.insertRecord({
+          jsxid:"objEVENT",
+          type:"jsx3.gui.Event",
+          jsxtext:"the browser event that triggers this event."
+        }, i);
+      }
       while (dijitClass) {
         for (var i in dijitClass.methods) {
+          schemaDefined = true;
           if (i.charAt(0) != "_") {
-            var methodDef = dijitClass.methods[i];
-            metadata.insertRecord({
-              group: "dojo",
-              jsxid: i,
-              jsxtext: i,
-              jsxtip: methodDef.description
-            }, "dojo");
+            addMethod(dijitClass.methods[i], i);
           }
         }
         dijitClass = dijitClass["extends"];
       }      
+      if (!schemaDefined) {
+        // no schema defined, we will to the prototype and current state for methods/events
+        for (var i in this.dijit) {
+          if (i.charAt(0) != "_" && typeof this.dijit[i] == "function") {
+            addMethod({}, i);
+          }
+        }
+      }
     }
     return metadata;
 
