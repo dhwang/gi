@@ -72,38 +72,74 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
 
     this.jsxsuper(objParent);
   };
-  DojoWidget_prototype.getMetadataXML = function(){
-    var dijitClass = this.dijit.constructor;
-    
-    var metadata = jsx3.xml.CDF.Document.newDocument();
-    for (var i in {"object":1, "position":1, "1":1, "font":1, "box_nobg":1, "css":1, "interaction":1, "access":1}) {
-      metadata.insertRecord({
-        include: "master.xml",
-        absinclude: "GI_Builder/plugins/jsx3.ide.palette.properties/templates/master.xml",
-        group: i
-      });
+  DojoWidget_prototype.setEvent = function(script, eventName){
+    this.getEvents()[eventName] = script;
+    var handles = this._eventHandles = this._eventHandles || {};
+    // disconnect any prior handler that we set
+    if (handles[eventName]) {
+      dojo.disconnect(handles[eventName]);
     }
-    metadata.insertRecord({
-      group: "1",
-      jsxid: "dojo",
-      jsxtext: "Dojo"
+    var objJSX = this;
+    handles[eventName] = dojo.connect(this.dijit, eventName, function(event) {
+      // send the Dojo event to the GI event system
+      objJSX.doEvent(eventName, {objEVENT: event});
     });
-    for (var i in dijitClass.properties) {
-      if (i.charAt(0) != "_") {
-        var propDef = dijitClass.properties[i];
+    return this;
+  }
+  DojoWidget_prototype.getMetadataXML = function(metadataType){
+  debugger;
+    DojoWidget._LOG.warn('getMetadataXML' , metadataType);
+    var dijitClass = this.dijit.constructor;
+    var metadata = jsx3.xml.CDF.Document.newDocument();
+    if (metadataType == "prop") {
+      for (var i in {"object":1, "position":1, "1":1, "font":1, "box_nobg":1, "css":1, "interaction":1, "access":1}) {
         metadata.insertRecord({
-          group: "dojo",
-          jsxid: i,
-          jsxtext: i,
-          jsxtip: propDef.description,
-          eval: propDef.type == 'string' ? 0 : 1,
-          docgetter:'attr("' + i + '")',
-          docsetter:'attr("' + i + '", value)',
-          jsxmask:"jsxtext",
-          jsxexecute:'objJSX.attr("' + i + '",vntValue);'
-        }, "dojo");
+          include: "master.xml",
+          absinclude: "GI_Builder/plugins/jsx3.ide.palette.properties/templates/master.xml",
+          group: i
+        });
       }
-    }  
+      metadata.insertRecord({
+        group: "1",
+       jsxid: "dojo",
+       jsxtext: "Dojo"
+      });
+      while (dijitClass) {
+        for (var i in dijitClass.properties) {
+          if (i.charAt(0) != "_") {
+            var propDef = dijitClass.properties[i];
+            metadata.insertRecord({
+              group: "dojo",
+              jsxid: i,
+              jsxtext: i,
+              jsxtip: propDef.description,
+              eval: propDef.type == 'string' ? 0 : 1,
+              docgetter:'attr("' + i + '")',
+              docsetter:'attr("' + i + '", value)',
+              jsxmask:"jsxtext",
+              jsxexecute:'objJSX.attr("' + i + '",vntValue);'
+            }, "dojo");
+          }
+        }
+        dijitClass = dijitClass["extends"];
+      }  
+    }else if(metadataType=="event"){
+      while (dijitClass) {
+        for (var i in dijitClass.methods) {
+          if (i.charAt(0) != "_") {
+            var methodDef = dijitClass.methods[i];
+            metadata.insertRecord({
+              group: "dojo",
+              jsxid: i,
+              jsxtext: i,
+              jsxtip: methodDef.description
+            }, "dojo");
+          }
+        }
+        dijitClass = dijitClass["extends"];
+      }      
+    }
     return metadata;
-  };
+
+  }
 });
