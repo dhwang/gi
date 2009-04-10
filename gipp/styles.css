@@ -109,9 +109,10 @@ td#td_app {
 }
 div#app_container {
   left:0px; top:0px; width:100%; height:100%;
-  overflow: auto;
+  overflow: hidden;
   background-color: #EFEEEF;
   border: 1px solid #CCCCCC;
+  position: relative;
 }
 div#app_container div#app {
   left:0px; top:0px; width:100%; height:100%;
@@ -124,9 +125,9 @@ div.onepxbrd { height:1px;overflow:hidden;font-size:1px;background-color:#AAA8A9
 div#scriptlet {
   z-index: 1;
   left: 0px;
-  top: -146px;
+  top: -169px;
   width: 300px;
-  height: 178px;
+  height: 201px;
   background-color: #D4D6D8;
   opacity: .80;
   text-align: right;
@@ -142,6 +143,7 @@ textarea#eval_script {
   font-family: Monaco, Courier, monospace;
   height: 100px;
   background-color: white;
+  font-size: 11px;
 }
 div#eval_result {
   width: 300px;
@@ -149,7 +151,7 @@ div#eval_result {
   position: absolute;
   left: 0px;
   top: 138px;
-  height: 40px;
+  height: 63px;
   overflow: auto;
   overflow-y: auto;
   overflow-x: hidden;
