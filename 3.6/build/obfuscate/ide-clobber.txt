@@ -1,0 +1,377 @@
+# ide static fields
+QUEUE
+RECENT_PROJECT_MAX
+RECENT_FILES_MAX
+ROOT_DOM_NODE_ID
+DEFAULT_PROJECT_FILES
+CLEARED_PROJECT
+
+# ide static methods
+addAttribute # ../../../../GI_Builder/components/attributes/attributes.xml
+addResourceToProject # ../../../../GI_Builder/components/merge/merge.xml
+addToRecentFiles
+addToRecentProjects
+addXslParameter # ../../../../GI_Builder/components/xslparams/xslparams.xml
+# addinSettingChanged ../../../../GI_Builder/components/preferences/addins.xml
+adjustSize
+adjustSplittersOnStartup
+browseDeploymentOptions # ../../../../GI_Builder/components/deployment/deployment.xml
+# browseURL # ../../../../GI_Builder/components/merge/merge.xml
+buildTree
+checkDomAnnotationChange
+checkProjectExists
+cleanUpOrphanedCacheEditors
+clearActiveProject
+clearSystemOut # ../../../../GI_Builder/components/systemout/as_dialog.xml ../../../../GI_Builder/components/systemout/as_pane.xml ../../../../GI_Builder/components/systemout/as_window.xml ../../../../GI_Builder/language/eng/systemout.xml
+# closeAll ../../../../GI_Builder/language/eng/file.xml
+closeDownProject
+closeSystemOut # ../../../../GI_Builder/components/systemout/as_dialog.xml ../../../../GI_Builder/language/eng/systemout_docking.xml
+closeSystemOutBottom
+configCacheMenu # ../../../../GI_Builder/components/cache/cache.xml
+configDomMenu # ../../../../GI_Builder/components/dom/dom.xml
+configureResourceMenu # ../../../../GI_Builder/components/resourcefiles/resourcefiles.xml
+createExpressionObject
+createLaunchPage # ../../../../GI_Builder/components/deployment/launchutil.xml
+deleteCacheDocument # ../../../../GI_Builder/components/cache/cache.xml ../../../../GI_Builder/language/eng/cache.xml
+disableBetaDisclaimer
+doActivateResource # ../../../../GI_Builder/components/containers/tab_component.xml ../../../../GI_Builder/components/containers/tab_dynpropeditor.xml ../../../../GI_Builder/components/containers/tab_texteditor.xml ../../../../GI_Builder/components/containers/tab_xmleditor.xml
+doArchive
+# doClone ../../../../GI_Builder/components/apihelp/classes/jsx3/Block.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/BlockX.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Button.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/AreaChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/AreaSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Axis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BarChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BarSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BCChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BCSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BubbleSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/CartesianChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/CategoryAxis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Chart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ChartComponent.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ChartLabel.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ColumnChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ColumnSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/GridLines.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Legend.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LinearAxis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LineChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LineSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LogarithmicAxis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PieChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PieSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PlotChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PlotSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PointSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/RadialChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Series.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/CheckBox.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Column.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/DatePicker.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Dialog.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Grid.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/LayoutGrid.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/List.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Menu.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Model.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/RadioButton.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Select.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Slider.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Splitter.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Stack.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/StackGroup.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Tab.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/TabbedPane.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/TextBox.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/ToolbarButton.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Tree.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/WindowBar.xml ../../../../GI_Builder/components/dom/dom.xml ../../../../GI_Builder/language/eng/dom.xml ../../../../GI_Builder/language/eng/typeahead_script.xml
+doDeactivateResource # ../../../../GI_Builder/components/containers/tab_component.xml ../../../../GI_Builder/components/containers/tab_dynpropeditor.xml ../../../../GI_Builder/components/containers/tab_texteditor.xml ../../../../GI_Builder/components/containers/tab_xmleditor.xml
+# doDebug
+doDereference # ../../../../GI_Builder/components/resourcefiles/resourcefiles.xml ../../../../GI_Builder/language/eng/resources.xml
+# doDomClick ../../../../GI_Builder/components/containers/layout_1.xml
+doDomExecute # ../../../../GI_Builder/components/dom/dom.xml
+doDomOperation
+doDomToggle # ../../../../GI_Builder/components/dom/dom.xml
+doFetchDataAndRepaint # ../../../../GI_Builder/components/dom/dom.xml ../../../../GI_Builder/language/eng/dom.xml
+doFocusBlur
+doFocusDown
+doFocusFocus
+doFocusKeyDown
+doFocusMove
+doFocusNudge
+doFocusUp
+doInsertCode # ../../../../GI_Builder/components/containers/menus.xml
+doMovePalette # ../../../../GI_Builder/components/palettes/dialog.xml ../../../../GI_Builder/language/eng/docking.xml
+doNewEditor # ../../../../GI_Builder/language/eng/file.xml ../../../../GI_Builder/language/eng/new.xml
+doNewProject
+doOpenApiHelp # ../../../../GI_Builder/language/eng/help.xml
+doOpenCacheDocument
+doOpenCacheEditor
+doOpenEditor
+doOpenForEdit
+doOpenProject
+doOpenResource # ../../../../GI_Builder/components/resourcefiles/resourcefiles.xml ../../../../GI_Builder/language/eng/resources.xml
+doOpenServiceEditor
+doOpenSettings # ../../../../GI_Builder/language/eng/tools.xml
+# doOpenTool ../../../../GI_Builder/language/eng/file.xml ../../../../GI_Builder/language/eng/new.xml ../../../../GI_Builder/language/eng/tools.xml
+doOpenUrlForEdit
+doPLDirectoryRead
+doPLRefine
+doPersist # ../../../../GI_Builder/language/eng/dom.xml
+doRecycle # ../../../../GI_Builder/components/containers/tab_component.xml ../../../../GI_Builder/components/dom/dom.xml ../../../../GI_Builder/components/dom/recycling.xml ../../../../GI_Builder/language/eng/dom.xml
+doRecycleRestore # ../../../../GI_Builder/components/dom/recycling.xml
+doReloadResource # ../../../../GI_Builder/components/resourcefiles/resourcefiles.xml ../../../../GI_Builder/language/eng/resources.xml
+doReloadResourceObj
+doRepaint # ../../../../GI_Builder/components/dom/dom.xml ../../../../GI_Builder/language/eng/dom.xml
+doSaveRecycleBinState # ../../../../GI_Builder/components/dom/recycling.xml
+doSaveSettings # ../../../../GI_Builder/components/preferences/preferences.xml
+doScriptletExecute # ../../../../GI_Builder/components/scriptlet/scriptlet.xml
+doScriptletHistory # ../../../../GI_Builder/components/scriptlet/scriptlet.xml
+doScriptletOpen # ../../../../GI_Builder/language/eng/tools.xml
+doScriptletStepThrough # ../../../../GI_Builder/components/scriptlet/scriptlet.xml
+doSelectPalette # ../../../../GI_Builder/language/eng/palettes.xml
+doShowResourceProps # ../../../../GI_Builder/components/resourcefiles/resourcefiles.xml ../../../../GI_Builder/language/eng/resources.xml
+doTextEditorKeyDown # ../../../../GI_Builder/components/containers/tab_texteditor.xml ../../../../GI_Builder/components/containers/tab_xmleditor.xml ../../../../GI_Builder/components/scriptlet/scriptlet.xml
+doToggleAutoload # ../../../../GI_Builder/language/eng/resources.xml
+doToggleRecycleBin # ../../../../GI_Builder/language/eng/palettes.xml
+doViewMarkup
+doViewMarkupCache
+doViewMarkupURL
+domSpyGlass # ../../../../GI_Builder/components/dom/dom.xml
+doneEditingResourceProps
+dumpSystemOutLog # ../../../../GI_Builder/components/systemout/as_dialog.xml ../../../../GI_Builder/components/systemout/as_pane.xml ../../../../GI_Builder/components/systemout/as_window.xml ../../../../GI_Builder/language/eng/systemout.xml
+editObjectProperty
+editSelectedCacheDoc # ../../../../GI_Builder/components/cache/cache.xml ../../../../GI_Builder/language/eng/cache.xml
+emptyRecycleBin # ../../../../GI_Builder/components/dom/recycling.xml
+exportDomBranch # ../../../../GI_Builder/language/eng/dom.xml
+exportDomBranchHtml
+fileScanResources
+fillRecycleBinTree # ../../../../GI_Builder/components/dom/recycling.xml
+fillRecycleBinTreeRecurse
+findPaletteContainer
+# fixPath ../../../../GI_Builder/components/containers/component-profile.xml ../../../../GI_Builder/components/deployment/launchutil.xml ../../../../GI_Builder/components/resourcefiles/resource-profile.xml
+# getActiveEditor ../../../../GI_Builder/components/cache/cache.xml ../../../../GI_Builder/components/componentlibs/componentlibs.xml ../../../../GI_Builder/components/containers/component-html.xml ../../../../GI_Builder/components/containers/component-xmlro.xml ../../../../GI_Builder/components/containers/component-xmlrw.xml ../../../../GI_Builder/components/containers/jss-xmlro.xml ../../../../GI_Builder/components/containers/jss-xmlrw.xml ../../../../GI_Builder/components/dom/dom.xml
+# getActiveProject ../../../../GI_Builder/components/containers/component-profile.xml ../../../../GI_Builder/components/containers/layout_1.xml ../../../../GI_Builder/components/deployment/launchutil.xml ../../../../GI_Builder/components/resourcefiles/resource-profile.xml
+getActiveProjectDirectory # ../../../../GI_Builder/components/containers/component-profile.xml ../../../../GI_Builder/components/resourcefiles/resource-profile.xml
+getActiveServer
+getAllEditors
+getAvailableAddins
+getCacheDocByTreeId # ../../../../GI_Builder/language/eng/cache.xml
+getClassPropertiesDoc
+getCurrentDirectory # ../../../../GI_Builder/components/merge/merge.xml
+getDebugParameters
+getDefaultOpenFiles
+getDocumentType
+getDomImage
+getDomText
+getEditorForCacheId
+getEditorForFile
+getEditorForJSX
+getEditorForTab # ../../../../GI_Builder/components/containers/component-profile.xml ../../../../GI_Builder/components/containers/component-xmlrw.xml ../../../../GI_Builder/components/containers/jss-xmlrw.xml ../../../../GI_Builder/components/containers/menus.xml
+getFileForResource
+getFileType
+getForIdOrSelected
+getInstalledProjects
+getMergedPropertiesDoc
+getPreviouslyOpenFiles
+getProjectDirectory
+getProjectSettings
+getPrototypeLibraries
+getRecentFiles
+getRecentProjects
+getRecycleBin # ../../../../GI_Builder/components/dom/recycling.xml
+getResourceByFile
+getResourceById
+getResourceBySrc
+# getSelected ../../../../GI_Builder/components/apihelp/classes/jsx3/Grid.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/List.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/RadioButton.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/StackGroup.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/TabbedPane.xml ../../../../GI_Builder/components/attributes/attributes.xml ../../../../GI_Builder/components/merge/merge.xml ../../../../GI_Builder/components/modelevents/modelevents.xml ../../../../GI_Builder/components/properties/properties.xml ../../../../GI_Builder/components/resourcefiles/resource-profile.xml ../../../../GI_Builder/components/xslparams/xslparams.xml ../../../../GI_Builder/language/eng/typeahead_script.xml
+getServerForId
+getServerId
+getSnapTo
+getSystemDirFile # ../../../../GI_Builder/components/deployment/launchutil.xml
+getSystemDirectory
+getSystemOut
+getSystemOutLocation
+gotoBetaDownloadSite
+handleCallback
+importDomBranch # ../../../../GI_Builder/language/eng/dom.xml
+isAnyEditorDirty
+# isDescendant ../../../../GI_Builder/components/deployment/launchutil.xml
+isFileToIgnore
+loadBuilderProject
+loadProjectResources
+maybeSelectNewDom
+newProject # ../../../../GI_Builder/language/eng/project.xml
+onAttributeChange # ../../../../GI_Builder/components/attributes/attributes.xml
+onAttributeEdit # ../../../../GI_Builder/components/attributes/attributes.xml
+onAttributeMenuExecute # ../../../../GI_Builder/components/attributes/attributes.xml
+onBeforeShutdown
+onComponentTabMenu # ../../../../GI_Builder/components/containers/menus.xml
+onComponentTabOver # ../../../../GI_Builder/components/containers/tab_component.xml
+onDPEdit # ../../../../GI_Builder/components/containers/tab_dynpropeditor.xml
+onDPMenu
+onDPMenuExecute
+onDomChange # ../../../../GI_Builder/components/dom/dom.xml ../../../../GI_Builder/components/properties/templates/master.xml
+onDomDrop # ../../../../GI_Builder/components/dom/dom.xml
+onJsxAttributesChange
+onJsxModelEventsChange
+onJsxPropertyChange
+onJsxXslParameterChange
+onModelEventChange # ../../../../GI_Builder/components/modelevents/modelevents.xml
+onModelEventEdit # ../../../../GI_Builder/components/modelevents/modelevents.xml
+onModelEventMenuExecute # ../../../../GI_Builder/components/modelevents/modelevents.xml
+onPropertiesChange # ../../../../GI_Builder/components/properties/properties.xml
+onPropertyBeforeEdit # ../../../../GI_Builder/components/properties/properties.xml
+onPropertyEdit # ../../../../GI_Builder/components/properties/properties.xml
+onPropertyMenu # ../../../../GI_Builder/components/properties/properties.xml
+onPropertyMenuExecute # ../../../../GI_Builder/components/properties/properties.xml
+onShowComponentProfile # ../../../../GI_Builder/components/containers/component-profile.xml
+onShutdown
+# onStartUp ../../../../GI_Builder/config.xml
+onTPDrop # ../../../../GI_Builder/components/containers/layout_1.xml
+onTypeAheadClosed
+onXslParameterChange # ../../../../GI_Builder/components/xslparams/xslparams.xml
+onXslParameterEdit # ../../../../GI_Builder/components/xslparams/xslparams.xml
+onXslParameterMenuExecute # ../../../../GI_Builder/components/xslparams/xslparams.xml
+openAboutDialog # ../../../../GI_Builder/language/eng/help.xml
+openConsoleWindow # ../../../../GI_Builder/language/eng/help.xml
+openPalettesOnStartup
+openPreviouslyOpenFiles
+openProject
+openSystemOutBottom
+openSystemOutWindow
+paletteDidMove # ../../../../GI_Builder/components/palettes/dialog.xml
+persistSplittersOnShutdown
+populateFileMenu # ../../../../GI_Builder/components/containers/layout_1.xml
+populateProjectMenu # ../../../../GI_Builder/components/containers/layout_1.xml
+prepareFilledMenu
+queuePreviouslyOpenFile
+rebalancePaletteDock2
+rebalancePaletteDocks
+# relativePathTo ../../../../GI_Builder/components/containers/component-profile.xml ../../../../GI_Builder/components/deployment/launchutil.xml ../../../../GI_Builder/components/resourcefiles/resource-profile.xml
+reloadPrototypeLibraries # ../../../../GI_Builder/components/componentlibs/componentlibs.xml
+removeDP # ../../../../GI_Builder/components/containers/tab_dynpropeditor.xml
+removeIncludesByIndex
+resourceTypeSupportsLoad
+restoreSystemOutFloatState
+restoreSystemOutWindowState
+revealItemInDom
+revertAll # ../../../../GI_Builder/language/eng/file.xml
+runProject # ../../../../GI_Builder/language/eng/project.xml
+saveAll # ../../../../GI_Builder/language/eng/file.xml
+saveAndClose
+saveAndReload # ../../../../GI_Builder/language/eng/component.xml ../../../../GI_Builder/language/eng/file.xml
+# saveAs ../../../../GI_Builder/language/eng/component.xml ../../../../GI_Builder/language/eng/file.xml
+saveSystemOutFloatState # ../../../../GI_Builder/components/systemout/as_dialog.xml
+saveSystemOutWindowState
+scriptTypeAheadSpy # ../../../../GI_Builder/components/containers/menus.xml
+scrollDownToDomChild # ../../../../GI_Builder/components/systemout/as_dialog.xml ../../../../GI_Builder/components/systemout/as_pane.xml ../../../../GI_Builder/components/systemout/as_window.xml
+setActiveEditorDirty
+setCurrentDirectory # ../../../../GI_Builder/components/merge/merge.xml
+setDomValue
+setEditorDirtyForRecycle
+setEditorMode # ../../../../GI_Builder/components/containers/tab_component.xml ../../../../GI_Builder/components/containers/tab_dynpropeditor.xml ../../../../GI_Builder/components/containers/tab_texteditor.xml ../../../../GI_Builder/components/containers/tab_xmleditor.xml
+# setIndex ../../../../GI_Builder/components/apihelp/classes/jsx3/Block.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/BlockX.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Button.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/AreaChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/AreaSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Axis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BarChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BarSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BCChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BCSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/BubbleSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/CartesianChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/CategoryAxis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Chart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ChartComponent.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ChartLabel.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ColumnChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/ColumnSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/GridLines.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Legend.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LinearAxis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LineChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LineSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/LogarithmicAxis.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PieChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PieSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PlotChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PlotSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/PointSeries.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/RadialChart.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/chart/Series.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/CheckBox.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Column.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/DatePicker.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Dialog.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Grid.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/LayoutGrid.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/List.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Menu.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/RadioButton.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Select.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Slider.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Splitter.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Stack.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/StackGroup.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Tab.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/TabbedPane.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/TextBox.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/ToolbarButton.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/Tree.xml ../../../../GI_Builder/components/apihelp/classes/jsx3/WindowBar.xml ../../../../GI_Builder/components/findreplace/findreplace.xml ../../../../GI_Builder/language/eng/typeahead_script.xml
+setResourceProps
+setSystemOutLocation # ../../../../GI_Builder/language/eng/systemout_docking.xml
+setTabReadWrite
+setUpEventListeners
+showBetaDisclaimer
+showBetaNag
+showDeploymentOptions # ../../../../GI_Builder/language/eng/project.xml
+showFocusRectangle # ../../../../GI_Builder/components/dom/dom.xml
+showLaunchUtility # ../../../../GI_Builder/language/eng/project.xml
+splitterDidMove # ../../../../GI_Builder/components/containers/layout_1.xml
+storeScriptlet
+swapDialogToStack
+swapStackToDialog
+syncPreviouslyOpenFiles
+systemOutStartup
+systemOutWindowDidOpen # ../../../../GI_Builder/components/systemout/as_window.xml
+toggleDPEval
+toggleFocusRectangle
+toggleSnapToGrid # ../../../../GI_Builder/components/dom/dom.xml
+toggleStageOnly # ../../../../GI_Builder/components/containers/layout_1.xml
+toggleSystemOut # ../../../../GI_Builder/language/eng/palettes.xml
+updateAndSaveAddins
+updateCache # ../../../../GI_Builder/components/cache/cache.xml ../../../../GI_Builder/components/merge/merge.xml
+updateCacheForActive # ../../../../GI_Builder/components/cache/cache.xml
+updateCacheIfCompEditor
+updateDeploymentOptions # ../../../../GI_Builder/components/deployment/deployment.xml
+updateFocusOnModeChange
+updatePaletteMenu # ../../../../GI_Builder/components/containers/layout_1.xml
+updatePropertyNode
+updateResources # ../../../../GI_Builder/components/resourcefiles/resourcefiles.xml
+viewSelectedCacheDoc # ../../../../GI_Builder/components/cache/cache.xml ../../../../GI_Builder/language/eng/cache.xml
+
+apiHelpWindowDidOpen
+constructPropertyTypeIndex
+doOpenServiceEditorDelay
+doOpenResources
+fixPropsIncludeAttr
+getPropertyIdsForType
+onApiHelpMenu
+onApiHelpSettingsSet
+openFindReplace
+populateUserProjects
+queuePaletteOpening
+saveApiHelpWindowState
+showWelcomeDialog
+updateToolsMenu
+getIDESettings
+getBuilderRelativeFile
+writeUserFile
+writeUserXmlFile
+writeBuilderFile
+writeBuilderXmlFile
+makeXmlPretty
+domCopyNameToCB
+domCopyGetterToCB
+checkProjectJsxVersion
+onPropsSetText
+doPLDirData
+loadCustomHotKeys
+getMenuIdForHotKey
+registerSound
+playSound
+onAttributeDelete
+onXslParameterDelete
+getTemplateForObject
+updateLoggerMenu
+updateLoggerLevelOnMenu
+getJsxAddins
+loadBuilderAndProjectAddins
+checkProjectAddins
+DEFAULT_USER_HOME
+HOME_TEMPLATE_DIR
+verifyUserHome
+showNewUserHomeDialog
+onSelectNewUserHome
+createUserHome
+getHomeRelativeFile
+getCurrentUserHome
+setCurrentUserHome
+MODE_TO_NAME
+_TRASH
+showLicenseAgreement
+agreeLicenseAgreement
+disagreeLicenseAgreement
+
+COMPONENT_EDITOR_DID_ACTIVATE
+COMPONENT_EDITOR_DID_DEACTIVATE
+COMPONENT_EDITOR_RESET
+OBJECT_PROPERTY_DID_CHANGE
+SELECTED_DOM_DID_CHANGE
+OBJECT_EVENT_DID_CHANGE
+OBJECT_ATTRIBUTE_DID_CHANGE
+OBJECT_PARAMETER_DID_CHANGE
+EDITOR_DID_OPEN
+EDITOR_DID_CLOSE
+COMPONENT_EDITOR_WILL_CLOSE
+COMPONENT_EDITOR_WILL_REVERT
+EDITOR_MODE_CHANGED
+EDITOR_SAVED_AS
+ACTIVE_EDITOR_CHANGED
+RESOURCE_SETTINGS_DID_CHANGE
+OBJECT_WAS_RECYCLED
+OBJECT_WAS_UNRECYCLED
+RECYCLE_BIN_WAS_EMPTIED
+COMPONENTS_RELOADED
+#STARTUP
+#BEFORE_SHUTDOWN
+#SHUTDOWN
+FOCUS_RECTANGLE_MOVED
+FOCUS_RECTANGLE_TOGGLED
+COMPONENT_EDITOR_SAVED
+DEPLOY_OPTIONS_CHANGED
+
+_SYSTEM_DIR
+_SYSTEM_DIRFILE
+_onDomChange
+DOM_CHANGE_TIMEOUT
+isDescendant
+moveNewComponentToProperPlace
+COLLECTION_PREFIX
+_active_project
+destroySystemOut
+systemOutDidOpen
+systemOutWillClose
+systemOutDidFocus
+copyFromMemoryToOut
+scrollDownToLastDomChild
+
+# ApiSearch
+getResultCount
+searchDocuments
+
+# Editor
+supportsReload
+_openNewTab
+_setTabName
+isUnsaved
+checkIllegalAsync
+preSaveCheck
+readFromJSX
+cascadeExpertChanges
+getActiveView
+getActiveTab
+
+# ExecQueue
+_start
+_execNext
+
+# clobbered in JSX
+updateBoxProfile
+syncBoxProfileSync
+syncBoxProfile

@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+var rootBlock = objJSX.getChild(0);
+
+rootBlock.unfocusWindow = function() {
+  var w = this.getAncestorOfType(jsx3.gui.Window);
+  if (w) {
+    var main = w.getParentWindow();
+    if (main) main.focus();
+  }
+};
+
+objJSX.getHelpBlock = function() {
+  return this.getDescendantOfName('jsx_ide_api');
+};
+
+objJSX.getHelpBlockParent = function() {
+  return this.getChild(0).getChild(0);
+};
+
+rootBlock.registerHotKey("unfocusWindow", 'm', false, true, false);
+
+ ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Window">
+      <variants jsxdependent="1" jsxresizable="1" jsxscrollable="0"/>
+      <strings jsxname="api_help" jsxtitle="API Documentation" jsxwidth="880" jsxheight="600" jsxhelpid="ide.api"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+          <strings jsxname="window" jsxwidth="100%" jsxheight="100%"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"
+                  jsxoverflow="3"/>
+              <strings jsxname="windowlg" jsxwidth="100%" jsxheight="100%" jsxrows="26,*"/>
+                <object type="jsx3.gui.WindowBar">
+                  <variants jsxbartype="1"/>
+                  <strings jsxname="title" jsxtext="System Log" jsxtextalign="right"/>
+                    <object type="jsx3.gui.Menu">
+                      <variants jsxtype="0" jsxstate="0" />
+                      <strings jsxtip="API Documentation settings" jsxname="mnuApiHelp" jsxxmlid="mnuApiHelp" jsxtext="Settings" jsxxmlurl="language/eng/apihelp_settings.xml"/>
+                      <events jsxmenu="jsx3.ide.onApiHelpMenu(this);"/>
+                    </object>
+                    <object type="jsx3.gui.ToolbarButton">
+                      <variants/>
+                      <strings jsxname="jsxminbutton" jsximage="JSX/images/dialog/window.gif" jsxtip="Move back to main window as dialog"/>
+                      <events jsxexecute="jsx3.ide.doOpenApiHelp(false);"/>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>

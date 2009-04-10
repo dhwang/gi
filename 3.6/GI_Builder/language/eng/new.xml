@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="newgui" jsxtext="GUI Component" jsximg="images/icon_46.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_COMPONENT);" />
+  <record jsxid="newxml" jsxtext="XML Document" jsximg="images/icon_79.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_XML);" />
+  <record jsxid="newxsl" jsxtext="XSL Document" jsximg="images/icon_80.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_XSL);" />
+  <record jsxid="newjs" jsxtext="JavaScript File" jsximg="images/icon_66.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_JAVASCRIPT);" />
+  <record jsxid="newcss" jsxtext="CSS File" jsximg="images/icon_63.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_CSS);" />
+  <record jsxid="newjss" jsxtext="Dynamic Properties File" jsximg="images/icon_62.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_DYNAPROPS);" />
+  <record jsxid="newljss" jsxtext="Properties Bundle" jsximg="images/icon_62.gif" jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_DYNAPROPS_LOCAL);" />
+</data>

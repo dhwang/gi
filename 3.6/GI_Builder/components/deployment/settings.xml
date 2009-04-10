@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[
+ 
+jsx3.require("jsx3.ide.PrefsController");
+ 
+objJSX.doMinimize = function() {
+ this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
+};
+
+objJSX.doConfirmedClose = function() {
+  this._jsxcontroller.unload();
+};
+
+objJSX.registerHotKey('doMinimize', 'm', false, true, false); // minimize on ctrl-m
+
+objJSX._jsxcontroller = new jsx3.ide.PrefsController();
+objJSX._jsxcontroller.addPane(new jsx3.ide.PrefsPane(jsx3.IDE.resolveURI("components/deployment/deployment.xml")));
+objJSX._jsxcontroller.addPane(new jsx3.ide.PrefsPane(jsx3.IDE.resolveURI("components/deployment/addins.xml")));
+objJSX._jsxcontroller.addPane(new jsx3.ide.PrefsPane(jsx3.IDE.resolveURI("components/deployment/classpath.xml")));
+objJSX._jsxcontroller.addPane(new jsx3.ide.PrefsPane(jsx3.IDE.resolveURI("components/deployment/legacy.xml")));
+objJSX._jsxcontroller.renderIn(objJSX.getDescendantOfName("content"));
+
+objJSX._jsxcontroller.subscribe(jsx3.ide.PrefsController.UNLOAD, objJSX, "doClose");
+
+ ]]></onAfterDeserialize>
+		<object type="jsx3.gui.Dialog">
+			<dynamics jsxbgcolor="@Solid Medium"/>
+			<variants jsxwidth="525" jsxheight="400" jsxminx="475" jsxminy="350"/>
+			<strings jsxname="jsx_deployment" jsxhelpid="ide.projset"/>
+				<object type="jsx3.gui.WindowBar">
+					<variants/>
+					<strings jsxname="caption bar" jsxtext="Project Settings"/>
+						<object type="jsx3.gui.ToolbarButton">
+							<dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+							<variants/>
+							<strings jsxname="min button"/>
+							<events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"/>
+						</object>
+						<object type="jsx3.gui.ToolbarButton">
+							<dynamics jsximage="@Close Icon" />
+							<variants />
+							<strings jsxname="jsx_tbb" jsxtip="close dialog" />
+							<events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doConfirmedClose();" />
+						</object>
+				</object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="content" jsxwidth="100%" jsxheight="100%"/>
+        </object>        
+		</object>
+</serialization>

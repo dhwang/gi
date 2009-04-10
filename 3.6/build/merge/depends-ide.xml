@@ -1,0 +1,48 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<gi-merger>
+  <file path="js/ExecQueue.js" provides="jsx3.util.ExecQueue"/>
+  <file path="js/jsx3/ide/Server.js" provides="jsx3.ide.Server"/>
+  <file path="js/ide.js" provides="ide"/>
+  <file path="js/ide_cache.js" provides="ide_cache"/>
+  <file path="js/ide_dom.js" provides="ide_dom"/>
+  <file path="js/ide_editor.js" provides="ide_editor"/>
+  <file path="js/ide_events.js" provides="ide_events"/>
+  <file path="js/ide_palettes.js" provides="ide_palettes"/>
+  <file path="js/ide_projects.js" provides="ide_projects"/>
+  <file path="js/ide_properties.js" provides="ide_properties"/>
+  <file path="js/ide_prototypes.js" provides="ide_prototypes"/>
+  <file path="js/ide_resources.js" provides="ide_resources"/>
+  <file path="js/ide_scriptlet.js" provides="ide_scriptlet"/>
+  <file path="js/ide_settings.js" provides="ide_settings"/>
+  <file path="js/ide_tools.js" provides="ide_tools"/>
+  <file path="js/jsx3/ide/Preferences.js" provides="jsx3.ide.Preferences"/>
+  <file path="js/ide_modelevents.js" provides="ide_modelevents"/>
+  <file path="js/ide_attributes.js" provides="ide_attributes"/>
+  <file path="js/ide_xslparams.js" provides="ide_xslparams"/>
+  <file path="js/ide_sysout.js" provides="ide_sysout"/>
+  <file path="js/ide_addins.js" provides="ide_addins"/>
+  <file path="js/ide_home.js" provides="ide_home"/>
+  <file path="js/ide_version.js" provides="ide_version"/>
+
+  <alias provides="minimal" requires="jsx3.util.ExecQueue jsx3.ide.Server ide ide_cache ide_dom ide_editor ide_events
+      ide_projects ide_properties ide_prototypes ide_resources ide_scriptlet ide_settings ide_tools jsx3.ide.Preferences
+      ide_modelevents ide_attributes ide_xslparams ide_sysout ide_addins ide_home ide_version ide_palettes"/>
+  <alias provides="default" requires="minimal"/>
+  <alias provides="common" requires="minimal jsx3.ide.ComponentEditor jsx3.ide.TextEditor"/>
+  <alias provides="full" requires="minimal jsx3.ide.ComponentEditor jsx3.ide.TextEditor jsx3.ide.PrefsController
+      jsx3.io.FileDialog jsx3.ide.ApiSearcher jsx3.ide.PropertiesEditor jsx3.ide.CacheEditor"/>
+
+  <file path="js/jsx3/io/FileDialog.js" provides="jsx3.io.FileDialog"/>
+  <file path="js/jsx3/ide/ApiSearcher.js" provides="jsx3.ide.ApiSearcher"/>
+  <file path="js/jsx3/ide/Debugger.js" provides="jsx3.ide.Debugger"/>
+  <file path="js/jsx3/ide/PrefsController.js" provides="jsx3.ide.PrefsController"/>
+  <file path="js/jsx3/ide/Editor.js" provides="jsx3.ide.Editor" requires=""/>
+  <file path="js/jsx3/ide/ComponentEditor.js" provides="jsx3.ide.ComponentEditor" requires="jsx3.ide.Editor"/>
+  <file path="js/jsx3/ide/PropertiesEditor.js" provides="jsx3.ide.PropertiesEditor" requires="jsx3.ide.Editor"/>
+  <file path="js/jsx3/ide/TextEditor.js" provides="jsx3.ide.TextEditor" requires="jsx3.ide.Editor"/>
+  <file path="js/jsx3/ide/CacheEditor.js" provides="jsx3.ide.CacheEditor" requires="jsx3.ide.TextEditor"/>
+</gi-merger>

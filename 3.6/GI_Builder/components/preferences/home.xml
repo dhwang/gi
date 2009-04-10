@@ -1,0 +1,171 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Paths]]></name>
+  <icon><![CDATA[images/prefs/paths.gif]]></icon>
+  <description><![CDATA[Set the user home directory and the local HTTP server root.]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+ 
+objJSX.getFirstResponder = function() {
+  return this.getDescendantOfName("homepath");
+};
+
+objJSX.savePrefs = function() {
+  var oldpath = jsx3.ide.getCurrentUserHome(true);
+  var path = this.getDescendantOfName("homepath").getValue();
+  var objDir = new jsx3.io.File(path);
+
+  var retValue = true;
+
+  if (oldpath != path) {
+    if (jsx3.ide.onSelectNewUserHome(objDir, this.getAncestorOfType(jsx3.gui.Dialog))) {
+      retValue = {title: "Restart Required",
+          message: "You must restart General Interface&#8482; Builder to use your new workspace."};
+    } else {
+      return false;
+    }
+  }
+  
+  jsx3.ide.getIDESettings().set("http", "base", this.getDescendantOfName("httpuri").getValue());
+  jsx3.ide.getIDESettings().set("http", "home", this.getDescendantOfName("httphome").getValue());
+
+  return retValue;
+};
+
+objJSX.loadPrefs = function() {
+  var path = jsx3.ide.getCurrentUserHome(true);
+  this.getDescendantOfName("homepath").setValue(path);
+  this.getDescendantOfName("httpuri").setValue(jsx3.ide.getIDESettings().get("http", "base"));
+  this.getDescendantOfName("httphome").setValue(jsx3.ide.getIDESettings().get("http", "home"));
+};
+
+objJSX.doBrowse = function() {
+  jsx3.require("jsx3.io.FileDialog");
+
+  var d = jsx3.io.FileDialog.deserialize(jsx3.IDE.getRootBlock(), "newhomedialog", true);
+
+  var strValue = this.getDescendantOfName("homepath").getValue();
+  var objFolder = new jsx3.io.File(strValue);
+  while (! objFolder.isDirectory())
+    objFolder = new jsx3.io.File(objFolder.getParentPath());
+
+  d.setDialogTitle("Choose Workspace Folder");
+  d.setExecButtonLabel("Choose");
+
+  var me = this;
+  d.onExecute = function(objFile) {
+    me.onBrowseChoose(objFile);
+  };
+
+  d.openForOpen(objFolder, null, jsx3.io.FileDialog.CHOOSE_FOLDER);
+};
+
+objJSX.onBrowseChoose = function(objFile) {
+  this.getDescendantOfName("homepath").setValue(objFile.getAbsolutePath());
+  this.makeDirty();
+};
+
+objJSX.makeDirty = function(objInput) {
+  jsx3.ide.PrefsPane.getPane(this).setDirty(true);
+};
+
+ ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+      <strings jsxname="prefspane" jsxwidth="100%" jsxheight="100%" jsxpadding="8" jsxhelpid="ide.prefs.paths"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="24"/>
+          <strings jsxname="layout ( | )" jsxwidth="100%"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="1" jsxoverflow="2"/>
+              <strings jsxname="layout ( | )" jsxcols="90,*,30"/>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"/>
+                  <strings jsxname="pane" jsxtext="Workspace:" jsxfontweight="bold" jsxtextalign="right"
+                      jsxwidth="100%" jsxheight="100%" jsxpadding="5 6 0 0"/>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"/>
+                  <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxenabled="1"/>
+                      <strings jsxname="homepath" jsxwidth="100%"/>
+                      <events jsxincchange="this.getAncestorOfName('prefspane').makeDirty(this);"/>
+                    </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="1"/>
+                  <strings jsxname="pane" jsxtextalign="right" jsxwidth="100%" jsxheight="100%"/>
+                    <object type="jsx3.gui.ToolbarButton">
+                      <variants/>
+                      <strings jsxname="toolbar button" jsximage="images/icon_60.gif"/>
+                      <events jsxexecute="this.getAncestorOfName('prefspane').doBrowse();"/>
+                    </object>
+                </object>
+            </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="1"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxpadding="0 0 0 90"
+              jsxtext="The local directory containing your projects, custom addins, and prototypes, as well as your user settings for General Interface&#8482; Builder."/>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="24"/>
+          <strings jsxname="layout ( | )" jsxmargin="20 0 0 0" jsxwidth="100%"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="1" jsxoverflow="2"/>
+              <strings jsxname="layout ( | )" jsxcols="90,*,30"/>
+              <strings jsxname="layout ( | )"/>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"/>
+                  <strings jsxname="pane" jsxtext="HTTP Base:" jsxfontweight="bold" jsxtextalign="right"
+                      jsxwidth="100%" jsxheight="100%" jsxpadding="5 6 0 0"/>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"/>
+                  <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxenabled="1"/>
+                      <strings jsxname="httpuri" jsxwidth="100%"/>
+                      <events jsxincchange="this.getAncestorOfName('prefspane').makeDirty(this);"/>
+                    </object>
+                </object>
+            </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="1"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxpadding="0 0 0 90"
+              jsxtext="The base URI to the General Interface&#8482; directory on a local HTTP server hosting this General Interface&#8482; installation."/>
+        </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="32"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxpadding="8 0 0 90"/>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="1" jsxoverflow="2"/>
+          <strings jsxname="layout ( | )" jsxcols="60,*,30"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="pane" jsxtext="WS Path:" jsxtip="HTTP Workspace Path" jsxfontweight="bold" jsxtextalign="right"
+                  jsxwidth="100%" jsxheight="100%" jsxpadding="5 6 0 0"/>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="18" jsxenabled="1"/>
+                  <strings jsxname="httphome" jsxwidth="100%"/>
+                  <events jsxincchange="this.getAncestorOfName('prefspane').makeDirty(this);"/>
+                </object>
+            </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2" jsxrelativeposition="1"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxpadding="0 0 0 90"
+            jsxtext="Optionally, if the relative path to your workspace is not the same on the HTTP server as on disk, specify its path here."/>
+      </object>
+    </object>
+</serialization>

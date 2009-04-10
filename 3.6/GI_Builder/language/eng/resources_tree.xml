@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+ <record jsxid="jsxresources" jsxtext="Project Resources" jsxopen="1" jsximg="images/icon_2.gif" jsxunselectable="1">
+  <record jsxid="jsxcomponent" jsxtext="GUI Components" jsxopen="1" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxxml" jsxopen="1" jsxtext="XML Documents" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxxsl" jsxtext="XSL Documents" jsxopen="1" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxscript" jsxopen="1" jsxtext="JavaScript Files" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxcss" jsxopen="1" jsxtext="CSS Files" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxjss" jsxopen="1" jsxtext="Dynamic Properties Files" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxservices" jsxopen="1" jsxtext="Mapping Rules" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+  <record jsxid="jsxother" jsxopen="1" jsxtext="Other" jsximg="images/icon_7.gif" jsxunselectable="1"/>
+ </record>
+</data>

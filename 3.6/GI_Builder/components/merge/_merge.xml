@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+ <name><![CDATA[]]></name>
+ <icon><![CDATA[]]></icon>
+ <description><![CDATA[]]></description>
+ <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+ <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+   <variants />
+   <strings jsxname="jsxlayout_merge" jsxrows="48,160,32,*,28"/>
+    <object type="jsx3.gui.Block">
+     <dynamics jsxpadding="@8Pixel" jsxfontsize="@Normal FS" jsxfontweight="@Normal FW"/>
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer" jsxtext="The &lt;b&gt;Merge Tool&lt;/b&gt; allows developers to specify a &lt;i&gt;source document&lt;/i&gt; (XML or XSL) and the &lt;i&gt;XSLT filter document&lt;/i&gt; used to transform it.  Both documents can either be selected from the XMLCACHE or can come from a HTTP/File server by specifying the URL (relative or absolute)."/>
+    </object>
+    <object type="jsx3.gui.Block">
+     <dynamics jsxpadding="@8Pixel"/>
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer"/>
+      <object type="jsx3.gui.Block">
+       <variants jsxoverflow="1"/>
+       <strings jsxname="jsxcontainer" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.TabbedPane">
+         <variants selectedIndex="2" jsxselectedindex="0"/>
+         <strings jsxname="jsxtp"/>
+          <object type="jsx3.gui.Tab">
+           <dynamics jsxinactivecolor="@Solid Medium IC"/>
+           <strings jsxname="jsxtab" jsxtext="Source (XML)" jsxactivecolor="#c8c8d5" jsxbgcolor="#c8c8d5"/>
+            <object type="jsx3.gui.Block">
+             <dynamics jsxbgcolor="@Solid Disabled"/>
+             <variants jsxoverflow="2"/>
+             <strings jsxname="jsxcontainer"/>
+              <include src="components/merge/xml_inputs.xml" async="true"/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Tab">
+           <dynamics jsxinactivecolor="@Solid Medium IC"/>
+           <strings jsxname="jsxtab" jsxtext="Filter (XSL)" jsxactivecolor="#c8c8d5" jsxbgcolor="#e8e8f5"/>
+            <object type="jsx3.gui.Block">
+             <dynamics jsxbgcolor="@Solid Disabled"/>
+             <variants jsxoverflow="2"/>
+             <strings jsxname="jsxcontainer"/>
+              <include src="components/merge/xsl_inputs.xml" async="true"/>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer" jsxpadding="0 8 0 8" jsxtextalign="right"/>
+      <object type="jsx3.gui.Button">
+       <!--<dynamics jsxbgcolor="@Solid Disabled"/>-->
+       <variants jsxindex="0" jsxheight="22"/>
+       <strings jsxname="jsxbutton" jsxtext="&amp;#160;&lt;img src=&quot;GI_Builder/images/icon_34.gif&quot; align=&quot;absmiddle&quot;/&gt;&amp;#160;Merge Documents&amp;#160;" jsxpadding="2"/>
+       <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMerge();"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer" jsxbgcolor="#c8c8d5"/>
+      <include src="components/merge/output.xml" async="true"/>
+    </object>
+    <object type="jsx3.gui.Block">
+     <variants jsxoverflow="2"/>
+     <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxpadding="6 10 0 0"/>
+      <object type="jsx3.gui.ImageButton">
+       <variants jsxindex="0" jsxheight="16" jsxwidth="16"/>
+       <strings jsxname="helpBtn" jsximage="images/icon_59.gif"/>
+       <events jsxexecute="this.getServer().invokeHelp(this.getAncestorOfName(&quot;jsxdialog&quot;));"/>
+      </object>
+    </object>
+  </object>
+</serialization>

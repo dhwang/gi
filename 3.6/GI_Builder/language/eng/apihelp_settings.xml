@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="inherited" jsxtext="Show Inherited Members"
+		jsxexecute="jsx3.ide.onApiHelpSettingsSet(this, strRECORDID);" />
+  <record jsxid="deprecated" jsxtext="Show Deprecated Classes and Members"
+      jsxexecute="jsx3.ide.onApiHelpSettingsSet(this, strRECORDID);" jsxselected="1" />
+</data>
