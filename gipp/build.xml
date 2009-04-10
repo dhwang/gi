@@ -52,12 +52,14 @@
     <mkdir dir="${gipp.dist.dir}"/>
 
     <copy todir="${gipp.dist.dir}">
+      <filterset refid="filters"/>
       <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel}"/>
     </copy>
   </target>
 
   <target name="copy-samples" depends="init" if="build.set.samples">
     <copy todir="${gipp.dist.dir}">
+      <filterset refid="filters"/>
       <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel.sampleprojects}"/>
     </copy>
   </target>

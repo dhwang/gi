@@ -1603,9 +1603,19 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       objJSX.executeRecord(strRecordId);
       objJSX.doEvent(Interactive.EXECUTE, {objEVENT:null, strRECORDID:strRecordId});
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
-      // TODO:
+      var id = strRecordId instanceof Array ? strRecordId[0] : strRecordId;
+      var ids = strRecordId instanceof Array ? strRecordId : [strRecordId];
+      
+      for (var i = 0; i < ids.length; i++)
+        objJSX.executeRecord(ids[i]);
+      
+      objJSX.doEvent(Interactive.EXECUTE, {objEVENT:null, strRECORDID:id, strRECORDIDS:ids});
     } else if (gui.Table && objJSX instanceof gui.Table) {
-      // TODO:
+      var objRecord = objJSX.getRecord(strRecordId);
+      if (objRecord) {
+        objJSX.eval(objRecord.jsxexecute);
+      }
+      objJSX.doEvent(Interactive.EXECUTE, {objEVENT:null, strRECORDID:strRecordId});
     }
   };
   
@@ -1617,11 +1627,16 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var Interactive = gui.Interactive;
     
     if (gui.Matrix && objJSX instanceof gui.Matrix) {
-      // TODO:
+      objJSX.setValue(strRecordId);
+      objJSX.doEvent(Interactive.SELECT, {objEVENT:null, strRECORDID:strRecordId});
     } else if (gui.RadioButton && objJSX instanceof gui.RadioButton) {
-      // TODO:
+      if (objJSX.getSelected() == gui.RadioButton.UNSELECTED) {
+        objJSX.setSelected(gui.RadioButton.SELECTED);
+        objJSX.doEvent(Interactive.SELECT, {objEVENT:null});
+      }
     } else if (gui.Select && objJSX instanceof gui.Select) {
-      // TODO:
+      objJSX.setValue(strRecordId);
+      objJSX.doEvent(Interactive.SELECT, {objEVENT:null, strRECORDID:strRecordId});
     }
   };
   
@@ -1633,19 +1648,32 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var Interactive = gui.Interactive;
     
     if (gui.ColorPicker && objJSX instanceof gui.ColorPicker) {
-      // TODO:
+      objJSX.setValue(objValue);
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null, intRGB:objValue});
     } else if (gui.DatePicker && objJSX instanceof gui.DatePicker) {
-      // TODO:
+      var oldDate = objJSX.getDate();
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null, oldDATE:oldDate, newDATE:objValue}); // QUESTION: handle veto?
+      objJSX.setDate(objValue);
     } else if (gui.Slider && objJSX instanceof gui.Slider) {
-      // TODO:
+      var oldVal = objJSX.getValue();
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null, fpPREVIOUS:oldVal, fpVALUE:objValue}); // QUESTION: handle veto?
+      objJSX.setValue(objValue);
     } else if (gui.Table && objJSX instanceof gui.Table) {
-      // TODO:
+      var oldVal = objJSX.getValue();
+      objJSX.setValue(objValue);
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null, strRECORDID:objValue, preVALUE:oldVal});
     } else if (gui.TextBox && objJSX instanceof gui.TextBox) {
-      // TODO:
+      var oldVal = objJSX.getValue();
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null, strPREVIOUS:oldVal, strVALUE:objValue}); // QUESTION: handle veto?
+      objJSX.setValue(objValue);
     } else if (gui.ToolbarButton && objJSX instanceof gui.ToolbarButton) {
-      // TODO:
+      var newVal = objJSX.getState() ? gui.ToolbarButton.STATEOFF : gui.ToolbarButton.STATEON;
+      objJSX.setState(newVal);
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null});
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
-      // TODO:
+      var oldVal = objJSX.getValue();
+      objJSX.setValue(objValue);
+      objJSX.doEvent(Interactive.CHANGE, {objEVENT:null, preVALUE:oldVal});
     }
   };
   
@@ -1701,10 +1729,12 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     
     if (gui.CheckBox && objJSX instanceof gui.CheckBox) {
       var newVal = objJSX.getChecked() ? gui.CheckBox.UNCHECKED : gui.CheckBox.CHECKED;
-      objJSX.setChecked(! newVal);
+      objJSX.setChecked(newVal);
       objJSX.doEvent(Interactive.TOGGLE, {objEVENT:null, intCHECKED:newVal});
     } else if (gui.ImageButton && objJSX instanceof gui.ImageButton) {
-      // TODO:
+      var newVal = objJSX.getState() ? gui.ImageButton.STATE_OFF : gui.ImageButton.STATE_ON;
+      objJSX.doEvent(Interactive.TOGGLE, {objEVENT:null, intSTATE:newVal}); // QUESTION: handle veto?
+      objJSX.setState(newVal);
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
       var rec = objJSX.getRecord(strRecordId);
       if (rec) {
