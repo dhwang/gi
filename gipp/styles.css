@@ -129,7 +129,8 @@ div#scriptlet {
   width: 300px;
   height: 201px;
   background-color: #D4D6D8;
-  opacity: .80;
+  opacity: .93;
+  filter: alpha(opacity=93);
   text-align: right;
   visibility: hidden;
 }
