@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="newproj" jsxtext="New Project..." jsxkeycode="{hk.newProject}" 
+      jsxexecute="jsx3.ide.newProject();" config="true" home="1"/>
+  <record jsxid="recentproj" jsxtext="Recent Projects" home="1">
+    <record/>
+  </record>
+  <record jsxid="userproj" jsxtext="User Projects" home="1">
+    <record/>
+  </record>
+
+  <record jsxid="deploy" jsxtext="Project Settings..." jsxexecute="jsx3.ide.showDeploymentOptions();"
+      jsxtip="Allows edit of application title, namespace, live/static modes, etc." jsxdivider="1" 
+      project="1" jsxkeycode="{hk.projSettings}" config="true" jsximg="images/icon_101.gif"/>
+  <record jsxid="launchpage" jsxtext="Deployment Utility..." jsxexecute="jsx3.ide.showLaunchUtility();"
+      jsxtip="Create a launch page or launch HTML fragment..." project="1" config="true"/>
+
+  <record jsxid="run" jsxdivider="1" jsxtext="Run Project..." jsxexecute="jsx3.ide.runProject(false);"
+      jsxtip="Run project in a new browser window..." project="1" config="true"/>
+  <record jsxid="runhttp" jsxtext="Run Project From HTTP..." jsxexecute="jsx3.ide.runProject(true);"
+      jsxtip="Run project from a local HTTP server in a new browser window..." project="1" config="true"/>
+</data>

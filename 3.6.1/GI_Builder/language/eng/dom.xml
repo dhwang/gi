@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="1" jsxtext="Clone" jsximg="images/icon_1.gif" jsxexecute="jsx3.ide.doClone(this.getContextParent().getValue());"
+      noroot="1"/>
+  <record jsxid="2" jsxtext="Repaint" jsximg="images/icon_68.gif"
+      jsxexecute="jsx3.ide.doRepaint(this.getContextParent().getValue());"/>
+  <record jsxid="10" jsxtext="Re-Fetch Data and Repaint" jsximg="images/icon_68a.gif"
+      jsxexecute="jsx3.ide.doFetchDataAndRepaint(this.getContextParent().getValue());" noroot="1" blockx="1"/>
+
+  <record jsxid="persist" jsxtext="Persistence" noroot="1">
+    <record jsxid="persist0" jsxgroupname="persist" jsxtext="Transitory"
+        jsxexecute="jsx3.ide.doPersist(this.getContextParent().getValue(),jsx3.app.Model.PERSISTNONE);"/>
+    <record jsxid="persist1" jsxgroupname="persist" jsxtext="Embedded"
+        jsxexecute="jsx3.ide.doPersist(this.getContextParent().getValue(),jsx3.app.Model.PERSISTEMBED);"/>
+    <record jsxid="persist2" jsxgroupname="persist" jsxtext="Referenced" refonly="1"
+        jsxexecute="jsx3.ide.doPersist(this.getContextParent().getValue(),jsx3.app.Model.PERSISTREF);"/>
+    <record jsxid="persist3" jsxgroupname="persist" jsxtext="Referenced - Asynchronous" refonly="1"
+        jsxexecute="jsx3.ide.doPersist(this.getContextParent().getValue(),jsx3.app.Model.PERSISTREFASYNC);"/>
+  </record>
+
+  <record jsxid="import" jsxdivider="1" jsxtext="Import">
+    <record jsxid="import1" jsxtip="import a component from the file system and permanantly embed its contents"
+        jsxtext="Embedded..." noref="1" single="1"
+        jsxexecute="jsx3.ide.importDomBranch(this.getContextRecordId(),jsx3.app.Model.PERSISTEMBED);"/>
+    <record jsxid="import2" jsxtip="import a component from the file system and reference its contents as a linked file"
+        jsxtext="Referenced..." noroot="1" noref="1" single="1"
+        jsxexecute="jsx3.ide.importDomBranch(this.getContextRecordId(),jsx3.app.Model.PERSISTREF);"/>
+    <record jsxid="import3" noroot="1" noref="1" single="1"
+        jsxtip="import a component from the file system and reference its contents as a linked file (asynchronous)"
+        jsxtext="Referenced - Asynchronous..."
+        jsxexecute="jsx3.ide.importDomBranch(this.getContextRecordId(),jsx3.app.Model.PERSISTREFASYNC);"/>
+  </record>
+
+  <record jsxid="export" jsxtext="Export" noroot="1">
+    <record jsxid="3" jsxtext="As XML..." jsxtip="serialize this branch of the component to the file system as XML"
+        jsxexecute="jsx3.ide.exportDomBranch(jsx3.GO(this.getContextRecordId()),'MODEL');" single="1"/>
+    <record jsxid="4" jsxtext="As HTML..."
+        jsxtip="export this branch of the component as a static, non-interactive HTML file"
+        jsxexecute="jsx3.ide.exportDomBranch(jsx3.GO(this.getContextRecordId()),'VIEW');" single="1"/>
+  </record>
+
+  <record jsxid="5" jsxtext="Recycle" jsximg="images/icon_73.gif" jsxdivider="1"
+      jsxexecute="jsx3.ide.doRecycle(this.getContextParent().getValue());" noroot="1"/>
+<!--
+  <record jsxid="6" jsxtext="Recycle Descendants" jsximg="images/icon_74.gif"
+      jsxexecute="jsx3.ide.doRecycle(true,this.getContextRecordId());" noref="1"/>
+-->
+
+  <record jsxid="7" jsxtext="Copy Name to Clipboard" jsxdivider="1"
+      jsxexecute="jsx3.ide.domCopyNameToCB(this.getContextRecordId());" noroot="1" single="1"/>
+  <record jsxid="8" jsxtext="Copy Getter Code to Clipboard"
+      jsxexecute="jsx3.ide.domCopyGetterToCB(this.getContextRecordId());" noroot="1" single="1"/>
+</data>

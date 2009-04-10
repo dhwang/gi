@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[
+
+objJSX.getBlock = function() {
+  if (this._jsxblock == null)
+    this._jsxblock = this.getDescendantOfName('jsx_ide_systemout');
+  return this._jsxblock;
+};
+
+objJSX.doMinimize = function() {
+	this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
+};
+
+objJSX.doCloseMe = function() {
+	jsx3.ide.closeSystemOut();
+};
+
+objJSX.registerHotKey('doMinimize', 'm', false, true, false); // minimize on ctrl-m
+objJSX.registerHotKey('doCloseMe', 'w', false, false, true); // close on alt-w
+
+ ]]></onAfterDeserialize>
+		<object type="jsx3.gui.Dialog">
+			<dynamics jsxbgcolor="@Solid Medium" />
+			<variants jsxwidth="500" jsxheight="350" />
+			<strings jsxname="float" jsxhelpid="ide.sysout"/>
+			<events jsxaftermove="this.constrainPosition(); jsx3.ide.saveSystemOutFloatState(this);" jsxafterresize="jsx3.ide.saveSystemOutFloatState(this);" jsxdestroy="" />
+				<object type="jsx3.gui.WindowBar">
+					<variants />
+					<strings jsxname="title" jsxtext="System Log" />
+						<object type="jsx3.gui.ToolbarButton">
+							<dynamics jsxtip="_sysout_clear" />
+							<variants />
+							<strings jsxname="jsx_ide_sysout_clear" jsximage="images/icon_94.gif" />
+							<events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).getBlock().clear();" />
+						</object><!--
+						<object type="jsx3.gui.ToolbarButton">
+							<dynamics jsxtip="_sysout_restore" />
+							<variants />
+							<strings jsxname="jsx_ide_sysout_dump" jsximage="images/icon_92.gif"/>
+							<events jsxexecute="jsx3.ide.dumpSystemOutLog();" />
+						</object>-->
+						<object type="jsx3.gui.Menu">
+							<dynamics jsxxmlurl="mnuSystemOutDocking" jsxtip="_sysout_docking"/>
+							<variants jsxtype="0" jsxstate="0" />
+							<strings jsxname="jsxmenu_sysoutdock" jsxxmlid="mnuSystemOutDocking" jsximage="images/icon_81.gif" jsxmargin="2 5 0 0" />
+							<events jsxmenu="this.selectItem('float');" />
+						</object>
+            <object type="jsx3.gui.Menu">
+             <variants />
+             <strings jsxname="jsx_loglevel" jsxtip="Adjust Log Level" jsxtext="" jsximage="images/icon_19.gif"
+                      jsxxmlurl="language/eng/logger.xml"/>
+              <events jsxexecute="jsx3.ide.updateLoggerLevelOnMenu(strRECORDID);" jsxmenu="jsx3.ide.updateLoggerMenu(this);"/>
+            </object>
+            <object type="jsx3.gui.ToolbarButton">
+              <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min" />
+              <variants />
+              <strings jsxname="min button" />
+              <events jsxexecute="this.getParent().getParent().doToggleState();" />
+            </object>
+				</object>
+        <include src="components/systemout/log.xml" async="false"/>
+		</object>
+</serialization>

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="edit" jsxtext="Edit" jsxtip="edit this file, using the default editor" jsximg="images/icon_21.gif" jsxexecute="jsx3.ide.doOpenResource(this.getContextRecordId());" />
+  <record jsxid="edit_profile" jsxtext="Edit Profile..." jsxtip="edit information about this resource including url, id, type, and load state" jsximg="images/icon_76.gif" jsxexecute="jsx3.ide.doShowResourceProps(this.getContextParent(), this.getContextRecordId());" />
+
+  <record jsxid="autoload" jsxdivider="1" jsxtext="Auto Load" jsxtip="toggle auto load property" jsxexecute="jsx3.ide.doToggleAutoload(this.getContextParent(), this.getContextRecordId());" />
+  <record jsxid="dereference" jsxtext="Dereference" jsxtip="remove this file from the project" jsximg="images/icon_24.gif" jsxexecute="jsx3.ide.doDereference(this.getContextParent(), this.getContextRecordId());" />
+
+  <record jsxid="reload" jsxdivider="1" jsxtext="Load/Reload" jsxtip="loads the item from the filesystem into the application as it would at initialization" jsximg="images/icon_22.gif" jsxexecute="jsx3.ide.doReloadResource(this.getContextRecordId());" />
+  <record jsxid="copypath" jsxtext="Copy Path" jsxtip="copies the relative path for this resource to the clipboard" jsxexecute="var strPath = this.getContextParent().getRecord(this.getContextRecordId()).jsxtip;jsx3.html.copy(strPath);" />
+</data>

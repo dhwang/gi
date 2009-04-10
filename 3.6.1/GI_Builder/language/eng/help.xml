@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+
+  <record jsxid="1_2" jsxtext="User Guides"
+      jsxexecute="jsx3.ide.openConsoleWindow('doc/html/index.htm', 'jsxide_doc',null,null,'yes','yes','yes','yes','yes');"
+      config="true" jsximg="images/icon_59.gif"
+      jsxdisabled="1" oniffile="../doc/html/index.htm"/>
+
+  <record jsxid="1_1" jsxtext="API Documentation">
+    
+    <record jsxid="1" jsxtext="Open" jsxexecute="jsx3.ide.doOpenApiHelp();" jsxkeycode="ctrl+shift+/" config="true"
+        jsxdisabled="1" oniffile="../api/xml/index.xml"/>
+    <record jsxid="2" jsxtext="... In Dialog" jsxexecute="jsx3.ide.doOpenApiHelp(false);" config="true"
+        jsxdisabled="1" oniffile="../api/xml/index.xml"/>
+    <record jsxid="3" jsxtext="... In Separate Window" jsxexecute="jsx3.ide.doOpenApiHelp(true);" config="true"
+        jsxdisabled="1" oniffile="../api/xml/index.xml"/>
+    <record jsxid="4" jsxtext="... HTML Version" jsxexecute="jsx3.ide.openConsoleWindow('api/html/index.html', 'jsxide_api',null,null,'yes','yes','yes','yes','yes')" config="true"
+        jsxdisabled="1" oniffile="../api/html/index.html"/>
+
+    <record jsxid="5" jsxtext="GUI Property Reference" jsxexecute="jsx3.ide.openConsoleWindow('api/properties/index.html', 'jsxide_props',null,null,'yes','yes','yes','yes','yes')" config="true"
+        jsxdisabled="1" oniffile="../api/properties/index.html" jsxdivider="1"/>
+    <record jsxid="6" jsxtext="GUI Event Reference" jsxexecute="jsx3.ide.openConsoleWindow('api/events/index.html', 'jsxide_events',null,null,'yes','yes','yes','yes','yes')" config="true"
+        jsxdisabled="1" oniffile="../api/events/index.html"/>
+    <record jsxid="7" jsxtext="XSL Parameter Reference" jsxexecute="jsx3.ide.openConsoleWindow('api/xslparams/index.html', 'jsxide_xslparams',null,null,'yes','yes','yes','yes','yes')" config="true"
+        jsxdisabled="1" oniffile="../api/xslparams/index.html"/>
+
+  </record>
+  
+  <record jsxid="8a" jsxdivider="1" jsxtext="TIBCO Developer Network"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/power/', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"
+      config="true"/>
+  <record jsxid="8b" jsxtext="&amp;#160; &amp;#160;Getting Started"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/getting_started.jsp','jsxide_start',null,null,'yes','yes','yes','yes','yes');"/>
+  <record jsxid="8c" jsxtext="&amp;#160; &amp;#160;More Resources By Topic"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/more_resources.jsp','jsxide_more',null,null,'yes','yes','yes','yes','yes');"/>
+  <record jsxid="8d" jsxtext="&amp;#160; &amp;#160;Discussion Forums"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/forums/category.jspa?categoryID=2','jsxide_forums',null,null,'yes','yes','yes','yes','yes');"/>
+  <record jsxid="8e" jsxtext="&amp;#160; &amp;#160;JavaScript, DHTML, and XSLT Resources"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/useful_links.jsp','jsxide_links',null,null,'yes','yes','yes','yes','yes');"/>
+  <record jsxid="8f" jsxtext="&amp;#160; &amp;#160;Support and Educational Services"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://www.tibco.com/software/rich_internet_application/general_interface/gi_edu_support_psg.jsp','jsxide_edu',null,null,'yes','yes','yes','yes','yes');"/>
+
+  <record jsxid="9a" jsxdivider="1" jsxtext="Open Source Project"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://gi.tibco.com/','jsxide_gios',null,null,'yes','yes','yes','yes','yes');"/>
+  <record jsxid="9b" jsxtext="&amp;#160; &amp;#160;Bug and Enhancement Tracking"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://gi.tibco.com/jira/','jsxide_jira',null,null,'yes','yes','yes','yes','yes');"/>
+
+<!--
+  <record jsxid="1_3" jsxtext="Internet Resources">
+    <record jsxid="1_3_3" jsxtext="JavaScript Reference (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msjavascript/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_4" jsxtext="XSLT Reference (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msxslt/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_2" jsxtext="DHTML APIs (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msdhtml/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_5" jsxtext="VML APIs (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msvml/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_6" jsxtext="Regular Expressions Guide (Mozilla)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/mozregexp/','',null,null,'yes','yes','yes','yes','yes');"/>
+  </record>
+-->
+
+  <record jsxid="1_4" jsxdivider="1" jsxtext="Welcome Screen"
+      jsxexecute="jsx3.ide.showWelcomeDialog();" config="true"/>
+  <record jsxid="1_4a" jsxtext="Check for Updates..."
+      jsxexecute="jsx3.ide.newVersionCheck(true);" config="true"/>
+
+  <record jsxid="1_5" jsxdivider="1" jsxtip="version and copyright" jsxtext="About @gi.productname@"
+      jsxexecute="jsx3.ide.openAboutDialog();" config="true"/>
+  <record jsxid="1_6" jsxtext="License Agreement"
+      jsxexecute="jsx3.ide.openConsoleWindow('legal/license.txt', 'jsxide_license',null,null,'yes','yes','yes','yes','yes');"
+      config="true"
+      jsxdisabled="1" oniffile="../legal/license.txt"/>
+</data>
