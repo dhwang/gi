@@ -1,0 +1,16 @@
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name/>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"/>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxleft="10" jsxtop="10" jsxwidth="300" jsxheight="300" jsxoverflow="1" jsxrelativeposition="0"/>
+      <strings jsxname="matrixPane"/>
+      <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+    </object>
+  </object>
+</serialization>
