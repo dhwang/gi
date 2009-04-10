@@ -79,26 +79,11 @@
       <fileset dir="${project.dir}" includes="gipp.js"/>
     </gi-doc>
 
-    <mkdir dir="${tmp.dir}"/>
-
-    <!-- Copy XSLT to temporary directory with filtering. -->
-    <copy todir="${tmp.dir}" verbose="false" encoding="${build.encoding}">
-      <filterset refid="filters-dependent"/>
-      <filterset refid="filters"/>
-
-      <fileset dir="${gi.apidoc.dir}">
-        <include name="*.xsl"/>
-        <include name="*.html"/>
-        <include name="*.css"/>
-      </fileset>
-    </copy>
-
     <gi-htmldoc
+        title="${gi.apidocs.title}"
+        copyright="${gi.apidocs.copyright}"
         srcdir="${gipp.dist.api}/xml"
-        destdir="${gipp.dist.api}/html"
-        docdir="${tmp.dir}"/>
-
-    <delete dir="${tmp.dir}"/>
+        destdir="${gipp.dist.api}/html"/>
   </target>
 
   <target name="zip" depends="dist" description="Packages the distribution in a ZIP file.">
