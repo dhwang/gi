@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+ <name><![CDATA[]]></name>
+ <icon><![CDATA[]]></icon>
+ <description><![CDATA[]]></description>
+ <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+ <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.Splitter">
+   <dynamics jsxbgcolor="@Solid Medium"/>
+   <strings jsxname="jsxsplitter" jsxsubcontainer1pct="55%"/>
+    <object type="jsx3.gui.Block">
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer" jsxpadding="24 8 0 8"/>
+      <object type="jsx3.gui.Block">
+       <dynamics jsxfontweight="@Label1 FW" jsxfontsize="@Label1 FS"/>
+       <variants jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
+       <strings jsxname="jsxlabel" jsxtext="Rendered Output"/>
+      </object>
+      <object type="jsx3.gui.Block">
+       <dynamics jsxborder="@Inset" jsxbgcolor="@Solid Light" jsxfontname="@Script FN" jsxfontsize="@Script FS"/>
+       <variants jsxoverflow="1"/>
+       <strings jsxname="jsx_merge_rendered" jsxwidth="100%" jsxheight="100%"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer" jsxpadding="24 8 0 8"/>
+      <object type="jsx3.gui.Block">
+       <dynamics jsxfontweight="@Label1 FW" jsxfontsize="@Label1 FS"/>
+       <variants jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
+       <strings jsxname="jsxlabel" jsxtext="Raw Output"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+       <dynamics jsxborder="@Inset"/>
+       <variants jsxtype="1"/>
+       <strings jsxname="jsx_merge_raw" jsxwidth="100%" jsxheight="100%"/>
+      </object>
+    </object>
+  </object>
+</serialization>

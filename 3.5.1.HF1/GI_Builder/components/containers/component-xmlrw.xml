@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+var objTab = objJSX;
+
+objJSX.onShowMe = function() {
+  var editor = jsx3.ide.getActiveEditor();
+  var tab = editor.getTab();
+  var firstChild = editor.getServer().getRootObjects()[0];
+  var profileProps = {};
+
+  //get profile info about the component being edited
+  var profileTab = tab.getDescendantOfName(jsx3.ide.ComponentEditor.MODE_TO_NAME['profile'].name, false, false);
+  if (profileTab != null && profileTab._inited) {
+    //the profile tab is open; use its values as the most current version
+    profileProps = profileTab.getProfileProperties();
+  } else if (firstChild) {
+    //profile tab isn't open, but the first child of the body exists, so read from it
+    profileProps = this.readFromJSX(firstChild);
+  }
+
+  // generate serialization description of component and its profile
+  var root = editor.getServer().getBodyBlock();
+  var content = this.getTextArea();
+  if (root) {
+    content.setEnabled(jsx3.gui.Form.STATEENABLED, true);
+    window.setTimeout(function() {
+      if (root.getChild(0) == null) profileProps.children = true;
+      content.setValue(root != null ? jsx3.ide.makeXmlPretty((root.getChild(0) || root).toXMLDoc(profileProps)).toString() : "");
+    },100);
+  } else {
+    content.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
+    content.setValue("", true);
+  }
+
+  //flag for the read/write editor (e.g., this), that tracks when the user edits (types) into the editor
+  this._jsxdirty = false;
+};
+
+
+objJSX.readFromJSX = function(obj) {
+  //reads the profile properties of the JSX GUI object, '@obj', and returns as a hash
+  var objP = {};
+  objP.icon = obj.getMetaValue('icon');
+  objP.name = obj.getMetaValue('name');
+  objP.description = obj.getMetaValue('description');
+  objP.onafter = obj.getMetaValue('onafter');
+  objP.onbefore = obj.getMetaValue('onbefore');
+  objP.unicode = obj.getMetaValue('unicode');
+  return objP;
+};
+
+objJSX.getEditor = function() {
+  var mainTab = this.getAncestorOfType(jsx3.gui.Tab);
+  return jsx3.ide.getEditorForTab(mainTab);
+};
+
+objJSX.getDescendantOfName('jsxcodeeditor').subscribe("keyDown", function(e) {
+  var editor = objTab.getEditor();
+  var objField = e.target.getTextArea();
+
+  if (! editor.isDirty() || ! objTab.isDirty()) {
+    var preText = objField.getValue();
+    // wait until the event bubbles up and maybe changes the text in the field
+    window.setTimeout( function(){
+      if (preText != objField.getValue()) {
+        editor.setDirty(true);
+        objTab._jsxdirty = true;
+      }
+    }, 0);
+  }
+});
+
+objJSX.getDescendantOfName('jsxcodeeditor').subscribe("change", objJSX, function(e) {
+  this.getEditor().setDirty(true);
+});
+
+objJSX.getXMLSource = function() {
+  return this.getTextArea().getValue();
+};
+
+// efficiency (allows us to sync source only after changes specific to this tab)
+objJSX.isDirty = function() {
+  return this._jsxdirty;
+}
+
+objJSX.setDirty = function(bDirty) {
+  this._jsxdirty = bDirty;
+}
+
+objJSX.getTextArea = function() {
+  return this.getDescendantOfName('jsxcodeeditor').getTextArea();
+};
+
+ ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Tab">
+      <variants jsxindex="0" />
+      <strings jsxname="component_xmlwr" jsxhelpid="ide.editor.component.xmlrw"/>
+      <events jsxshow="this.onShowMe();" />
+        <include src="components/containers/code_editor.xml" async="false"/>
+    </object>
+</serialization>

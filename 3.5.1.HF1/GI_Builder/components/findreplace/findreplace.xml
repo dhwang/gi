@@ -1,0 +1,331 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+objJSX.getActiveTextArea = function() {
+  var editor = jsx3.ide.getActiveEditor();
+  if (editor == null) return null;
+  if (typeof(editor.getActiveView) == "function") {
+    var modeTab = editor.getActiveView();
+    if (modeTab && typeof(modeTab.getTextArea) == "function")
+      return modeTab.getTextArea();
+  } else {
+    var tab = editor.getTab();
+    if (tab && typeof(tab.getTextArea) == "function")
+      return tab.getTextArea();
+  }
+  return null;
+};
+
+objJSX.updateButtonState = function() {
+  var jText = this.getActiveTextArea();
+  var buttons = this.findDescendants(function(x){
+      return (x instanceof jsx3.gui.Button) || (x instanceof jsx3.gui.TextBox) ||
+          (x instanceof jsx3.gui.CheckBox); }, true, true);
+  for (var i = 0; i < buttons.length; i++)
+    buttons[i].setEnabled(jText != null ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED, true);
+};
+
+objJSX.getNextIndexOf = function(strText, strMatch, intStartAt, bCase, bRegex) {
+  if (bRegex) {
+    var regexp = new RegExp(strMatch, bCase ? "g" : "ig");
+    regexp.lastIndex = intStartAt;
+//    jsx3.log("set last index to " + regexp.lastIndex);
+//    var matchText = regexp.find(strText);
+    return regexp.test(strText) ? [regexp.lastIndex - RegExp.lastMatch.length, RegExp.lastMatch.length] : [-1, 0];
+  } else {
+    if (bCase)
+      return [strText.indexOf(strMatch, intStartAt), strMatch.length];
+    else
+      return [strText.toLowerCase().indexOf(strMatch.toLowerCase(), intStartAt), strMatch.length];
+  }
+};
+
+//when user clicks the next button
+objJSX.findNext = function() {
+  var jText = this.getActiveTextArea();
+
+  if (jText) {
+    var objGUI = jText.getRendered();
+    var objSel = jsx3.html.getSelection(objGUI);
+    var strMatch = this.getDescendantOfName("jsxfind").getValue();
+    var bCase = this.getDescendantOfName("find_cs").getChecked();
+    var bRegex = this.getDescendantOfName("find_regexp").getChecked();
+
+    var startIndex = objSel.getEndIndex() || Number(0);
+    if (startIndex > objGUI.value.length) startIndex = 0;
+    var nextIndex = this.getNextIndexOf(objGUI.value, strMatch, startIndex, bCase, bRegex);
+//    jsx3.log("got " + nextIndex[0] + ", " + nextIndex[1]);
+
+    if (nextIndex[0] >= 0) {
+      objSel.setRange(nextIndex[0], nextIndex[0] + nextIndex[1]);
+      objGUI.focus();
+      return true;
+    } else {
+      this.beep();
+      objSel.setRange(0, 0);
+    }
+  }
+
+  return false;
+};
+
+objJSX.getReplaceText = function(strText, strMatch, strReplace, bCase, bRegex) {
+  if (bRegex) {
+    var regexp = new RegExp(strMatch, bCase ? "" : "i");
+    return strText.replace(regexp, strReplace);
+  } else {
+    return strReplace;
+  }
+};
+
+//replace
+objJSX.replace = function() {
+  var jText = this.getActiveTextArea();
+
+  if (jText) {
+    var objGUI = jText.getRendered();
+    var objSel = jsx3.html.getSelection(objGUI);
+    var bCase = this.getDescendantOfName("find_cs").getChecked();
+    var bRegex = this.getDescendantOfName("find_regexp").getChecked();
+
+    var strMatch = this.getDescendantOfName("jsxfind").getValue();
+    var arrMatch = this.getNextIndexOf(objGUI.value, strMatch, objSel.getStartIndex(), bCase, bRegex);
+
+    // if the text to replace is selected and matches, replace it
+    if (arrMatch[0] == objSel.getStartIndex() && arrMatch[1] == objSel.getEndIndex() - objSel.getStartIndex()) {
+      var strReplace = this.getDescendantOfName("jsxreplace").getValue();
+      var replaceWith = this.getReplaceText(objSel.getText(), strMatch, strReplace, bCase, bRegex);
+//      jsx3.log("replacing '" + objSel.getText() + "' with '" + replaceWith + "' " + objSel.getStartIndex() + " " + objSel.getEndIndex());
+      objSel.setText(replaceWith);
+      objSel.setRange(objSel.getStartIndex(), objSel.getStartIndex() + replaceWith.length);
+      this.setEditorDirty();
+      objGUI.focus();
+      return true;
+    } else {
+      objSel.setRange(objSel.getStartIndex(), objSel.getStartIndex());
+      if (this.findNext())
+        this.beep();
+    }
+  }
+
+  return false;
+};
+
+objJSX.setEditorDirty = function() {
+  var editor = jsx3.ide.getActiveEditor();
+  editor.setDirty(true);
+  if (editor.getActiveView && editor.getActiveView().setDirty)
+    editor.getActiveView().setDirty(true);
+};
+
+//replace all (regular expression)
+objJSX.replaceAll = function() {
+  var jText = this.getActiveTextArea();
+
+  if (jText) {
+    var objGUI = jText.getRendered();
+    var objSel = jsx3.html.getSelection(objGUI);
+    var bCase = this.getDescendantOfName("find_cs").getChecked();
+    var bRegex = this.getDescendantOfName("find_regexp").getChecked();
+    var strMatch = this.getDescendantOfName("jsxfind").getValue();
+    var strReplace = this.getDescendantOfName("jsxreplace").getValue();
+
+    var intStart = objSel.getStartIndex();
+    var strDomain = objGUI.value.substring(intStart);
+
+    var strTrans = null;
+    if (bRegex) {
+      var regexp = new RegExp(strMatch, bCase ? "g" : "ig");
+      strTrans = strDomain.replace(regexp, strReplace);
+    } else {
+      var checkAgainst = bCase ? strDomain : strDomain.toLowerCase();
+      if (!bCase) strMatch = strMatch.toLowerCase();
+
+      var tokens = checkAgainst.split(strMatch);
+      if (!bCase) {
+        var n = 0;
+        for (var i = 0; i < tokens.length; i++) {
+          tokens[i] = strDomain.substring(n, n+tokens[i].length); // convert back to uppercase
+          n += tokens[i].length + strMatch.length;
+        }
+      }
+
+      strTrans = tokens.join(strReplace);
+    }
+
+    if (strTrans != strDomain) {
+      objGUI.value = objGUI.value.substring(0, intStart) + strTrans;
+      this.setEditorDirty();
+    } else {
+      this.beep();
+    }
+
+    objSel.setRange(0, 0);
+  }
+};
+
+objJSX.doCleanup = function() {
+  jsx3.IDE.unsubscribe(jsx3.ide.events.ACTIVE_EDITOR_CHANGED, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.EDITOR_MODE_CHANGED, this);
+};
+
+objJSX.doFindClose = function() {
+  var caseCB = this.getDescendantOfName("find_cs");
+  var regexpCB = this.getDescendantOfName("find_regexp");
+  var tbFind = this.getDescendantOfName("jsxfind");
+  var tbReplace = this.getDescendantOfName("jsxreplace");
+
+  if (caseCB != null) {
+    var prefs = jsx3.ide.getIDESettings();
+    prefs.set("find-replace", {left:this.getLeft(), top:this.getTop(),
+        cs:caseCB.getChecked(), regexp:regexpCB.getChecked(), find:tbFind.getValue(), replace:tbReplace.getValue()});
+  }
+  
+  this.doClose();
+};
+
+objJSX.doMinimize = function() {
+  this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
+};
+
+objJSX.onInit = function() {
+  var prefs = jsx3.ide.getIDESettings();
+  var settings = prefs.get("find-replace");
+  if (settings) {
+    if (settings.left) this.setLeft(settings.left);
+    if (settings.top) this.setTop(settings.top);
+    this.getDescendantOfName("find_cs").setChecked(settings.cs);
+    this.getDescendantOfName("find_regexp").setChecked(settings.regexp);
+    this.getDescendantOfName("jsxfind").setValue(settings.find);
+    this.getDescendantOfName("jsxreplace").setValue(settings.replace);
+    this.constrainPosition();
+  }
+
+  this.updateButtonState();
+};
+
+objJSX.onActivate = function() {
+  var me = this;
+  window.setTimeout(function(){
+    try {
+      me.getDescendantOfName("jsxfind").focus();
+    } catch (e) {}
+  }, 250);
+}
+
+jsx3.IDE.subscribe(jsx3.ide.events.ACTIVE_EDITOR_CHANGED, objJSX, "updateButtonState");
+jsx3.IDE.subscribe(jsx3.ide.events.EDITOR_MODE_CHANGED, objJSX, "updateButtonState");
+
+objJSX.registerHotKey('findNext', jsx3.gui.Event.KEY_ENTER, false, true, false);
+objJSX.registerHotKey('findNext', "f", false, true, false);
+
+objJSX.onInit();
+
+]]></onAfterDeserialize>
+    <object type="jsx3.gui.Dialog">
+      <dynamics jsxbgcolor="@Solid Medium"/>
+      <variants jsxwidth="400" jsxheight="186" jsxresize="0"/>
+      <strings jsxname="jsxfindreplace" jsxhelpid="ide.find"/>
+      <events jsxdestroy="this.doCleanup();"/>
+        <object type="jsx3.gui.WindowBar">
+          <variants/>
+          <strings jsxname="jsxcbar" jsxtext="Find and Replace"/>
+            <object type="jsx3.gui.ToolbarButton">
+              <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+              <variants/>
+              <strings jsxname="jsxminbutton" jsxkeycode="ctrl+m"/>
+              <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"/>
+            </object>
+            <object type="jsx3.gui.ToolbarButton">
+              <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"/>
+              <variants/>
+              <strings jsxname="jsxclosebutton" jsxkeycode="alt+w"/>
+              <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doFindClose();"/>
+            </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <dynamics jsxpadding="@8Pixel"/>
+          <variants jsxoverflow="2"/>
+          <strings jsxwidth="100%" jsxheight="100%"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants />
+              <strings jsxname="jsxlayout" jsxrows="116,*"/>
+                <object type="jsx3.gui.LayoutGrid">
+                  <variants />
+                  <strings jsxname="jsxlayout" jsxcols="60,*"/>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"/>
+                      <strings jsxname="jsxcontainer"/>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxheight="65" jsxoverflow="2"/>
+                          <strings jsxname="jsxcontainer" jsxwidth="100%" jsxtext="Find" jsxpadding="2 0 0 4"/>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxheight="20" jsxoverflow="2"/>
+                          <strings jsxname="jsxcontainer" jsxwidth="100%" jsxtext="Replace" jsxpadding="2 0 0 4"/>
+                        </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="1"/>
+                        <object type="jsx3.gui.TextBox">
+                          <dynamics jsxborder="@Inset"/>
+                          <variants jsxheight="40" jsxrelativeposition="0" jsxtop="0" jsxleft="0" jsxtype="1"/>
+                          <strings jsxname="jsxfind" jsxwidth="100%"/>
+                          <events jsxkeydown="if (objEVENT.keyCode() == jsx3.gui.Event.KEY_ENTER &amp;&amp; !objEVENT.hasModifier()) objEVENT.cancelBubble();"/>
+                        </object>
+                        <object type="jsx3.gui.TextBox">
+                          <dynamics jsxborder="@Inset"/>
+                          <variants jsxheight="40" jsxrelativeposition="0" jsxtop="68" jsxleft="0" jsxtype="1"/>
+                          <strings jsxname="jsxreplace" jsxwidth="100%"/>
+                          <events jsxkeydown="if (objEVENT.keyCode() == jsx3.gui.Event.KEY_ENTER &amp;&amp; !objEVENT.hasModifier()) objEVENT.cancelBubble();"/>
+                        </object>
+                        <object type="jsx3.gui.CheckBox">
+                         <variants jsxchecked="0" jsxrelativeposition="0" jsxleft="0" jsxwidth="150" jsxtop="41" jsxheight="20"/>
+                         <strings jsxname="find_cs" jsxtext="Case Sensitive" />
+                        </object>
+                        <object type="jsx3.gui.CheckBox">
+                         <variants jsxchecked="0" jsxrelativeposition="0" jsxleft="120" jsxwidth="150" jsxtop="41" jsxheight="20" />
+                         <strings jsxname="find_regexp" jsxtext="Regular Expression" />
+                        </object>
+                    </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="1"/>
+                  <strings jsxname="jsxcontainer" jsxtextalign="right"/>
+                    <object type="jsx3.gui.Button">
+                      <variants jsxindex="0" jsxheight="18" jsxwidth="60"/>
+                      <strings jsxname="jsxbutton" jsxtext="Replace" jsxmargin="0 4 0 0" jsxkeycode="ctrl+r"
+                               jsxtip="performs a case-insensitive search/replace for the exact character string"/>
+                      <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).replace();"/>
+                    </object>
+                    <object type="jsx3.gui.Button">
+                      <variants jsxindex="0" jsxheight="18" jsxwidth="70"/>
+                      <strings jsxname="jsxbutton" jsxtext="Replace All" jsxmargin="0 26 0 0"
+                               jsxtip="allows for a regular expression to be entered into the 'find' box to peform a case-sensitive find and replace"/>
+                      <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).replaceAll();"/>
+                    </object>
+                    <object type="jsx3.gui.Button">
+                      <variants jsxindex="0" jsxheight="18" jsxwidth="60"/>
+                      <strings jsxname="jsxfindbutton" jsxtext="Find" jsxfontweight="bold" jsxmargin="0 4 0 0" jsxkeycode="enter"
+                               jsxtip="performs a case-insensitive search for the exact character string, highlighting the first instance of the found text"/>
+                      <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).findNext();"/>
+                    </object>
+                    <object type="jsx3.gui.Button">
+                      <variants jsxindex="0" jsxheight="18" jsxwidth="60"/>
+                      <strings jsxname="jsxbutton" jsxtext="Cancel" jsxkeycode="ctrl+." jsxmargin="0 0 0 0"/>
+                      <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doFindClose();"/>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>
