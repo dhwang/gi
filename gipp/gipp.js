@@ -183,6 +183,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       return v;
     } else if (strValue.match(/^".*"$/) || strValue.match(/^'.*'$/)) {
       return strValue.substring(1, strValue.length - 1);
+    } else if ("true" == strValue) {
+      return true;
+    } else if ("false" == strValue) {
+      return false;
     } else {
       return strValue;
     }
