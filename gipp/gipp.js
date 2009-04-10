@@ -326,7 +326,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       if (objMeta.description) testCase.setDescription(objMeta.description);
     }
     
-    return gipp._runner.addTest(testCase);
+    gipp._runner.addTest(testCase);
+    return testCase;
   };
 
   /**
@@ -367,6 +368,86 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    */
   gipp.completeTestCase = function(strId) {
     gipp._runner._completeTestCase(strId);
+  };
+  
+  /**
+   * Starts collecting statistics from timing messages generated in the debug build of GI.
+   */
+  gipp.startStats = function() {
+    if (!gipp._stats && jsx3 && jsx3.util && jsx3.util.Timer)
+      /* @jsxobf-clobber */
+      gipp._stats = jsx3.util.Timer.listen();
+  };
+
+  /**
+   * Stops collecting statistics from timing messages generated in the debug build of GI.
+   */
+  gipp.stopStats = function() {
+    if (gipp._stats) {
+      jsx3.util.Timer.ignore(gipp._stats);
+      gipp._stats = null;
+    }
+  };
+
+  /**
+   * Returns all statistics collected since <code>startStats()</code> was called. If <code>strTopic</code> is 
+   * provided only statistics with that topic are returned. Each element in the returned array has the following
+   * properties:
+   * <ul>
+   *   <li>topic {String} - usually the class name</li>
+   *   <li>subtopic {String} - usually an instance identifier</li>
+   *   <li>message {String} - usually the action/method performed</li>
+   *   <li>ms {int} - the time taken in milliseconds</li>
+   * </ul>
+   * <b>This method returns an empty array unless running against a source or debug build of GI 3.6 or later.</b>
+   *
+   * @return {Array<Object>}
+   * @see #startStats()
+   * @see #stopStats()
+   */
+  gipp.getStats = function(strTopic) {
+    var s = [];
+    if (gipp._stats) {
+      if (strTopic == null) 
+        return gipp._stats;
+      
+      for (var i = 0; i < gipp._stats.length; i++) {
+        var aStat = gipp._stats[i];
+        if (aStat.topic == strTopic)
+          s.push(aStat);
+      }
+    }
+    return s;
+  };
+  
+  /**
+   * Generates timing statistics for every call to a method. The method must be an instance method of a class
+   * defined with <code>jsx3.lang.Class.defineClass()</code>.
+   * <p/>
+   * <b>This method is a no-op unless running against a source or debug build of GI 3.6 or later.</b>
+   *
+   * @param strClass {String} the name of a GI class.
+   * @param strMethod {String} the name of a method of <code>strClass</code>.
+   * @param bEnd {boolean} if <code>true</code>, then stop timing the method.
+   * @see #getStats()
+   * @see #startStats()
+   * @see #stopStats()
+   */
+  gipp.timeMethod = function(strClass, strMethod, bEnd) {
+    if (jsx3.AOP && jsx3.util.Timer) {
+      var pcId = "gipp." + strClass + "$" + strMethod;
+      
+      if (bEnd) {
+        jsx3.AOP.pcrem(pcId);
+      } else {
+        jsx3.AOP.pc(pcId, {classes:strClass, methods:strMethod}).around(pcId, function(aop) {
+          var t1 = new jsx3.util.Timer(strClass);
+          var rv = aop.proceed.apply(aop, jsx3.Method.argsAsArray(arguments, 1));
+          t1.log(strMethod);
+          return rv;
+        });
+      }
+    }
   };
 
   /** @private @jsxobf-clobber */
@@ -632,6 +713,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @jsxobf-clobber
    */
   Runner_prototype._completeTestCase = function(strId) {
+    var t2 = new Date();
+    
     if (this._to_timeout) {
       window.clearTimeout(this._to_timeout);
       delete this._to_timeout;
@@ -649,9 +732,13 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       results.setValue(this._runIndex, this._stateTimes);
       delete this._stateTimes;
     } else {
-      results.setValue(this._runIndex, new Date().getTime() - this._stateStartTime);
+      results.setValue(this._runIndex, t2 - this._stateStartTime);
       delete this._stateStartTime;
     }
+    
+    try {
+      job._runTearDown(this._runIndex);      
+    } catch (e) { ; }
 
     this._updateOutput(job.getId(), null, Math.round(results.getAverage()), job.getUnit());
     
@@ -719,27 +806,27 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     
     this._thisJob = job;
 
-    // todo: need to increment job in case
-
     if (job) {
       this._status("Running: " + job.getLabel());
       this._setActive(job.getId());
-
-      this._stateStartTime = new Date().getTime();
-      this._stateTimes = -1;
 
       var funct = job.getFunction();
       var result = null;
 
       var ex = null;
       try {
+        job._runSetUp(this._runIndex);
+        
+        this._stateStartTime = new Date();
+        this._stateTimes = -1;
+
         if (job.getUnit() == gipp.TestCase.TIMES) {
           var limit = job.getLimitMs();
           var d = this._stateStartTime;
           while (d - this._stateStartTime < limit) {
             funct.apply(job, [this._server, this._stateTimes + 1]);
             this._stateTimes++;
-            d = new Date().getTime();
+            d = new Date();
           }
         } else {
           result = funct.apply(job, [this._server]);
@@ -1189,6 +1276,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     this._id = strId;
     /* @jsxobf-clobber */
     this._funct = fctTest;
+    /* @jsxobf-clobber */
+    this._setup = [];
+    /* @jsxobf-clobber */
+    this._teardown = [];
   };
     
   /**
@@ -1281,6 +1372,44 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   
   TestCase_prototype.toString = function() {
     return this._id;
+  };
+  
+  /** @private @jsxobf-clobber */
+  TestCase_prototype._runSetUp = function(intRun) {
+    for (var i = 0; i < this._setup.length; i++) {
+      var o = this._setup[i];
+      if (intRun == 0 || o[1])
+        o[0].apply(this);
+    }
+  };
+  
+  /** @private @jsxobf-clobber */
+  TestCase_prototype._runTearDown = function(intRun) {
+    for (var i = 0; i < this._teardown.length; i++) {
+      var o = this._teardown[i];
+      if (intRun == 0 || o[1])
+        o[0].apply(this);
+    }
+  };
+  
+  /**
+   * Adds a set-up function to this test case. A set-up function happens before the test case is called and is not 
+   * counted in the time of the test case.
+   * @param fctSetUp {Function}
+   * @param bOnce {boolean} whether to only execute this function once even when preforming multiple test runs.
+   */
+  TestCase_prototype.addSetUp = function(fctSetUp, bOnce) {
+    this._setup.push([fctSetUp, bOnce]);
+  };
+    
+  /**
+   * Adds a tear-down function to this test case. A tear-down function happens after the test case is called and is not 
+   * counted in the time of the test case.
+   * @param fctTearDown {Function}
+   * @param bOnce {boolean} whether to only execute this function once even when preforming multiple test runs.
+   */
+  TestCase_prototype.addTearDown = function(fctTearDown, bOnce) {
+    this._teardown.push([fctTearDown, bOnce]);
   };
     
 })(gi.test.gipp.TestCase = function() { this.init.apply(this, arguments); });
@@ -1528,7 +1657,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var Interactive = gui.Interactive;
     
     if (gui.Dialog && objJSX instanceof gui.Dialog) {
-      // TODO:
+      objJSX.setDimensions(intX, intY, null, null, true);
+      objJSX.doEvent(Interactive.AFTER_MOVE, {objEVENT:null});
     }
   };
   
@@ -1540,9 +1670,11 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var Interactive = gui.Interactive;
     
     if (gui.Dialog && objJSX instanceof gui.Dialog) {
-      // TODO:
+      objJSX.setDimensions(null, null, intWidth, intHeight, true);
+      objJSX.doEvent(Interactive.AFTER_RESIZE, {objEVENT:null});
     } else if (gui.Splitter && objJSX instanceof gui.Splitter) {
-      // TODO:
+      objJSX.setSubcontainer1Pct(intWidth, true);
+      objJSX.doEvent(Interactive.AFTER_RESIZE, {objEVENT:null, objGUI:null});
     }
   };
   
@@ -1554,9 +1686,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var Interactive = gui.Interactive;
     
     if (gui.Stack && objJSX instanceof gui.Stack) {
-      // TODO:
+      objJSX.doShow();
     } else if (gui.Tab && objJSX instanceof gui.Tab) {
-      // TODO:
+      objJSX.doShow();
     }
   };
   
@@ -1568,27 +1700,36 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var Interactive = gui.Interactive;
     
     if (gui.CheckBox && objJSX instanceof gui.CheckBox) {
-      // TODO:
+      var newVal = objJSX.getChecked() ? gui.CheckBox.UNCHECKED : gui.CheckBox.CHECKED;
+      objJSX.setChecked(! newVal);
+      objJSX.doEvent(Interactive.TOGGLE, {objEVENT:null, intCHECKED:newVal});
     } else if (gui.ImageButton && objJSX instanceof gui.ImageButton) {
       // TODO:
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
-      // TODO:
+      var rec = objJSX.getRecord(strRecordId);
+      if (rec) {
+        objJSX.toggleItem(strRecordId);
+        objJSX.doEvent(Interactive.TOGGLE, {objEVENT:null, strRECORDID:strRecordId, bOPEN:!rec.jsxopen});
+      }
     }
   };
   
   /**
    * @param objJSX {jsx3.gui.Matrix|jsx3.gui.Table|jsx3.gui.Tree}
    */
-  evt.spy = function(objJSX, strRecordId) {
+  evt.spy = function(objJSX, strRecordId, objCol) {
     var gui = jsx3.gui;
     var Interactive = gui.Interactive;
     
     if (gui.Matrix && objJSX instanceof gui.Matrix) {
-      // TODO:
+      var html = objJSX.doEvent(Interactive.SPYGLASS, {objEVENT:null, objCOLUMN:objCol, strRECORDID:strRecordId});
+      if (html) objJSX.showSpy(html, 10, 10);
     } else if (gui.Table && objJSX instanceof gui.Table) {
-      // TODO:
+      var html = objJSX.doEvent(Interactive.SPYGLASS, {objEVENT:null, strRECORDID:strRecordId, intCOLUMNINDEX:objCol});
+      if (html) objJSX.showSpy(html, 10, 10);
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
-      // TODO:
+      var html = objJSX.doEvent(Interactive.SPYGLASS, {objEVENT:null, strRECORDID:strRecordId});
+      if (html) objJSX.showSpy(html, 10, 10);
     }
   };
   
