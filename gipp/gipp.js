@@ -128,7 +128,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   gipp.POST_PASSWORD = "";
   
   /**
-   * Whether or not to parse the query parameters of the URL of the GIPP page and override configuration variables
+   * {boolean} Whether or not to parse the query parameters of the URL of the GIPP page and override configuration variables
    * with them. The default is <code>true</code>. GIPP does its best to parse values from their string representation.
    * The following formats are supported:
    * <ul>
@@ -401,6 +401,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * </ul>
    * <b>This method returns an empty array unless running against a source or debug build of GI 3.6 or later.</b>
    *
+   * @param strTopic {String}
    * @return {Array<Object>}
    * @see #startStats()
    * @see #stopStats()
