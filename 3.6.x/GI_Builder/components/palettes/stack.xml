@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+		<object type="jsx3.gui.Stack">
+			<variants jsxorientation="0" />
+			<strings jsxname="jsx_ide_palette_stack" jsxtext="Palette Title" />
+				<object type="jsx3.gui.Menu">
+					<dynamics jsxxmlurl="mnuDocking" />
+					<variants jsxtype="0"/>
+					<strings jsxname="jsxmenu_dock" jsxxmlid="mnuDocking" jsxtip="docking options" jsximage="images/icon_81.gif" jsxmargin="2 5 0 0"/>
+					<events jsxmenu="var q = this.getAncestorOfType(jsx3.gui.StackGroup); if (q) { var qn = q.getName(); if (qn.indexOf('jsx_ide_quadrant_') == 0) { var qc = qn.substring('jsx_ide_quadrant_'.length); this.selectItem(qc); }} "/>
+				</object>
+		</object>
+</serialization>

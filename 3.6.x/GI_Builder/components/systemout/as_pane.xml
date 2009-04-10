@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+objJSX.getBlock = function() {
+  if (this._jsxblock == null)
+    this._jsxblock = this.getDescendantOfName('jsx_ide_systemout');
+  return this._jsxblock;
+};
+
+ ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" />
+      <strings jsxname="bottom" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.sysout"/>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" />
+          <strings jsxname="layout" jsxwidth="100%" jsxheight="100%" jsxbgcolor="" jsxcols="39,*"/>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxbgcolor="@Solid Medium" />
+              <variants jsxoverflow="2" />
+              <strings jsxname="jsxsysouttoolblock" jsxwidth="100%" jsxheight="100%" jsxborder="0px;solid 1px #a8a8b5;0px;0px" jsxpadding="2" />
+                <object type="jsx3.gui.ToolbarButton">
+                  <dynamics jsxtip="_sysout_clear" />
+                  <variants />
+                  <strings jsxname="jsx_ide_sysout_clear" jsximage="images/icon_94.gif" jsxmargin="0 0 4 0" />
+                  <events jsxexecute="this.getAncestorOfName('bottom').getBlock().clear();" />
+                </object>
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuSystemOutDocking" jsxtip="_sysout_docking"/>
+                  <variants jsxtype="0" jsxstate="0" />
+                  <strings jsxname="jsxmenu_sysoutdock" jsxxmlid="mnuSystemOutDocking" jsximage="images/icon_81.gif" jsxmargin="0"/>
+                  <events jsxmenu="this.selectItem('pane');" />
+                </object>
+                <object type="jsx3.gui.Menu">
+                 <variants />
+                 <strings jsxname="jsx_loglevel" jsxtip="Adjust Log Level" jsxtext="" jsximage="images/icon_19.gif"
+                          jsxxmlurl="language/eng/logger.xml"/>
+                 <events jsxexecute="jsx3.ide.updateLoggerLevelOnMenu(strRECORDID);" jsxmenu="jsx3.ide.updateLoggerMenu(this);"/>
+                </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2" />
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" />
+                <object type="jsx3.gui.LayoutGrid">
+                  <variants jsxrelativeposition="0" />
+                  <strings jsxname="bottom" jsxwidth="100%" jsxheight="100%" jsxrows="17,*"/>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2" jsxfontsize="10" />
+                      <strings jsxname="title" jsxwidth="100%" jsxheight="100%" jsxtext="System Log" jsxfontweight="bold" jsxpadding="1 0 0 4" jsxborder="0px;0px;dashed 1px #a8a8b5;0px" />
+                    </object>
+                    <include src="components/systemout/log.xml" async="false"/>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>

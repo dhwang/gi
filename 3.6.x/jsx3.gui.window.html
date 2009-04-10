@@ -1,0 +1,74 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<html>
+  <head>
+    <title></title>
+    <script type="text/javascript" language="JavaScript">
+function _jsx_onLoad() {
+  var me = window;
+
+  window.opener.setTimeout(function(){
+    var doc = me.document;
+    var openerDoc = me.opener ? me.opener.document : null;
+    var objWindow = me._jsxwindow;
+    var Event = me.opener ? me.opener.jsx3.gui.Event : null;
+
+    if (openerDoc && objWindow) {
+      me.document.title = objWindow.getTitle();
+
+      me.onbeforeunload = new Function("if (window._jsxwindow) window._jsxwindow.onBeforeUnload();");
+      me.onfocus = new Function("if (window._jsxwindow) window._jsxwindow.onFocus();");
+      me.onresize = new Function("if (window._jsxwindow) window._jsxwindow.onResize();");
+
+      if (me.opener.onerror)
+        me.onerror = me.opener.onerror;
+
+      var dependent = objWindow.isDependent();
+
+      Event.subscribe(Event.UNLOAD, function() {
+        if (dependent) {
+          // dependent jsx3.gui.Window instances close automatically when their parent closes
+          if(me && me.close) {
+            try {
+              me.close();
+            } catch(e) {}
+          }
+        } else {
+          //3.5.1 moved to else block...
+          try {
+            Event._deregisterWindow(me);
+          } catch (e) {};
+          // non-dependent windows support the window.onparentunload hook
+          me._jsxwindow = null;
+          me.onerror = null;
+        }
+      });
+
+      // ensure that events that bubble up to this window eventually bubble up to the parent window
+      Event._registerWindow(me);
+
+      // special handling of keydown event ensures that the Window's root block can capture any keydown events for the
+      // purpose of handling hot keys
+      doc.onkeydown = function(e) {
+        var captured = false;
+        var rootBlock = me._jsxwindow.getRootBlock();
+        if (rootBlock != null)
+          captured = rootBlock.checkHotKeys(jsx3.gui.Event.wrap(e || event));
+      };
+
+      objWindow.onLoad(me);
+    } else {
+      // TODO: how shall we address this?
+    }
+  }, 0);
+}
+
+    </script>
+  </head>
+  <body id="JSX" onload="_jsx_onLoad()" SCROLL="no" class="jsx30window">
+    &#160;
+  </body>
+</html>

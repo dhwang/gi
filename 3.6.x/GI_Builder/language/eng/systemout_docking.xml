@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="pane" jsxtext="Bottom" jsximg="images/icon_50.gif" jsxgroupname="position"
+		jsxexecute="jsx3.ide.setSystemOutLocation('bottom');" />
+  <record jsxid="float" jsxtext="Floating" jsximg="images/icon_32.gif" jsxgroupname="position"
+		jsxexecute="jsx3.ide.setSystemOutLocation('float');" />
+  <record jsxid="window" jsxtext="Window" jsximg="images/icon_32.gif" jsxgroupname="position"
+		jsxexecute="jsx3.ide.setSystemOutLocation('window');" />
+  <record jsxid="close" jsxdivider="1" jsxtext="Close" jsximg="images/icon_55.gif"
+		jsxexecute="jsx3.ide.closeSystemOut();" />
+</data>
