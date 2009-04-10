@@ -1573,12 +1573,18 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
 
 /**
+ * Convenience methods for invoking events on GUI objects. The methods in this package simulate user interaction
+ * with a General Interface&#8482; application by changing the state of a control and at the same time invoking any
+ * bound "model" event.
+ *
  * @jsxdoc-definition  jsx3.lang.Package.definePackage("gi.test.gipp.evt", function() {});
  */
 (function(evt) {
 
   /**
+   * Invokes the <code>EXECUTE</code> event on a GUI object.
    * @param objJSX {jsx3.gui.Button|jsx3.gui.ImageButton|jsx3.gui.Matrix|jsx3.gui.Menu|jsx3.gui.Table|jsx3.gui.ToolbarButton|jsx3.gui.Tree}
+   * @param strRecordId {String, Array<String>} the CDF record ID(s) for Matrix, Menu, Tree and Table.
    */
   evt.execute = function(objJSX, strRecordId) {
     var gui = jsx3.gui;
@@ -1621,7 +1627,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>SELECT</code> event on a GUI object.
    * @param objJSX {jsx3.gui.Matrix|jsx3.gui.RadioButton|jsx3.gui.Select}
+   * @param strRecordId {String} the CDF record ID for Matrix and Select.
    */
   evt.select = function(objJSX, strRecordId) {
     var gui = jsx3.gui;
@@ -1642,7 +1650,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>CHANGE</code> event on a GUI object.
    * @param objJSX {jsx3.gui.ColorPicker|jsx3.gui.DatePicker|jsx3.gui.Slider|jsx3.gui.Table|jsx3.gui.TextBox|jsx3.gui.ToolbarButton|jsx3.gui.Tree}
+   * @param objValue {Object} the new control value.
    */
   evt.change = function(objJSX, objValue) {
     var gui = jsx3.gui;
@@ -1679,7 +1689,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>AFTER_MOVE</code> event on a GUI object.
    * @param objJSX {jsx3.gui.Dialog}
+   * @param intX {int} the new X position.
+   * @param intY {int} the new Y position.
    */
   evt.move = function(objJSX, intX, intY) {
     var gui = jsx3.gui;
@@ -1692,7 +1705,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>AFTER_RESIZE</code> event on a GUI object.
    * @param objJSX {jsx3.gui.Dialog|jsx3.gui.Splitter}
+   * @param intWidth {int|float} the new width for Dialog or size for Splitter.
+   * @param intHeight {int} the new height for Dialog.
    */
   evt.resize = function(objJSX, intWidth, intHeight) {
     var gui = jsx3.gui;
@@ -1708,6 +1724,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>SHOW</code> event on a GUI object.
    * @param objJSX {jsx3.gui.Stack|jsx3.gui.Tab}
    */
   evt.show = function(objJSX) {
@@ -1722,7 +1739,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>TOGGLE</code> event on a GUI object.
    * @param objJSX {jsx3.gui.CheckBox|jsx3.gui.ImageButton|jsx3.gui.Tree}
+   * @param strRecordId {String} the CDF record ID for Tree.
    */
   evt.toggle = function(objJSX, strRecordId) {
     var gui = jsx3.gui;
@@ -1746,7 +1765,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
+   * Invokes the <code>SPYGLASS</code> event on a GUI object.
    * @param objJSX {jsx3.gui.Matrix|jsx3.gui.Table|jsx3.gui.Tree}
+   * @param strRecordId {String} the CDF record ID.
+   * @param objCol {int|jsx3.gui.Matrix.Column} the column index for Table or the column object for Matrix.
    */
   evt.spy = function(objJSX, strRecordId, objCol) {
     var gui = jsx3.gui;
