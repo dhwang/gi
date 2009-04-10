@@ -1,0 +1,189 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+objJSX.onStartup = function() {
+  //set project name on upper toolbar
+  var appath = jsx3.IDE.getJSXByName("jsxactiveprojectpath");
+  var project = jsx3.ide.SERVER;
+
+  if (appath && project) {
+    var projectUrl = jsx3.ide.getActiveProjectDirectory().toURI();
+    appath.setText('<nobr><a target="_new" style="color:darkblue;" href="' + projectUrl + '">' +
+        project.getRelPath() + '</a></nobr>', true);
+  } else if (appath) {
+    appath.getParent().removeChild(appath);
+  }
+}
+
+jsx3.IDE.subscribe(jsx3.ide.events.STARTUP, objJSX, "onStartup");
+
+jsx3.ide.loadCustomHotKeys();
+
+  ]]></onAfterDeserialize>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxoverflow="2" />
+      <strings jsxrows="26,5,*,26" jsxname="jsxlayout" jsxwidth="100%" jsxheight="100%" />
+        <object type="jsx3.gui.LayoutGrid">
+          <dynamics jsxbgcolor="@Solid Disabled"/>
+          <variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+          <strings jsxwidth="100%" jsxheight="100%" jsxname="jsxlayout" jsxcols="*,250"/>
+            <object type="jsx3.gui.WindowBar">
+              <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1"/>
+              <strings jsxname="jsxmenubar" jsxbgcolor=""/>
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuProject" jsxtip="mnuTipProject" jsxtext="_gen_project"/>
+                  <variants jsxtype="1"/>
+                  <strings jsxname="jsxmenu_project" jsxxmlid="mnuProject"/>
+                  <events jsxmenu="jsx3.ide.populateProjectMenu(this, strPARENTID);" />
+                </object>
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuFile" jsxtip="mnuTipFile" jsxtext="_gen_file"/>
+                  <variants jsxtype="1" />
+                  <strings jsxname="jsxmenu_file" jsxxmlid="mnuFile"/>
+                  <events jsxmenu="jsx3.ide.populateFileMenu(this, strPARENTID);" />
+                </object>
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuTools" jsxtip="mnuTipTools" jsxtext="_gen_tools"/>
+                  <variants jsxtype="1" />
+                  <strings jsxname="jsxmenu_tools" jsxxmlid="mnuTools"/>
+                  <events jsxmenu="jsx3.ide.updateToolsMenu(this);"/>
+                </object>
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuPalettes" jsxtip="mnuTipPalettes" jsxtext="_gen_palettes"/>
+                  <variants jsxtype="1" />
+                  <strings jsxname="jsxmenu_palettes" jsxxmlid="mnuPalettes"/>
+                  <events jsxmenu="jsx3.ide.updatePaletteMenu(this);"/>
+                </object>
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuHelp" jsxtip="mnuTipHelp" jsxtext="_gen_help"/>
+                  <variants jsxtype="1" />
+                  <strings jsxname="jsxmenu_help" jsxxmlid="mnuHelp"/>
+                  <xslparameters jsxdisableescape="yes"/>
+                  <events jsxmenu="jsx3.ide.configureHelpMenu(this);"/>
+                </object>
+                <include src="components/containers/menus.xml" async="true"/>
+            </object>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxborder="@Outset MenuBar"/>
+              <variants jsxoverflow="2" />
+              <strings jsxname="jsxtibcologo" jsxpadding="3" jsxtextalign="right"
+                  jsxtext="&lt;img src=&quot;JSX/images/icons/logo_234_18.gif&quot;/&gt;"/>
+            </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <dynamics jsxbgcolor="@Solid Disabled"/>
+          <variants jsxrelativeposition="1" jsxoverflow="2" />
+          <strings jsxname="jsxpad" jsxwidth="100%" jsxheight="100%" jsxborder="1px solid #e8e8f5;0px;0px;0px"/>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="1" />
+          <strings jsxname="jsxcontainer" jsxwidth="100%" jsxheight="100%" />
+            <object type="jsx3.gui.Splitter">
+              <variants jsxrelativeposition="0" jsxorientation="1" jsxleft="0" jsxtop="0" />
+              <strings jsxname="jsx_ide_splitter1" jsxdefault1pct="80%" jsxsubcontainer1pct="100%" jsxsubcontainer2pct="0%" />
+              <events jsxafterresize="jsx3.ide.splitterDidMove(this);"/>
+                <object type="jsx3.gui.Splitter">
+                  <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" />
+                  <strings jsxname="jsx_ide_splitter2" jsxdefault1pct="20%" jsxsubcontainer1pct="0%" jsxsubcontainer2pct="100%" />
+                  <events jsxafterresize="jsx3.ide.splitterDidMove(this);"/>
+                    <object type="jsx3.gui.Splitter">
+                      <variants jsxorientation="1" />
+                      <strings jsxname="jsx_ide_splitter3" jsxsubcontainer1pct="50%" jsxsubcontainer2pct="50%" />
+                      <events jsxafterresize="jsx3.ide.splitterDidMove(this);"/>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxrelativeposition="1" jsxoverflow="2" />
+                          <strings jsxname="jsxquad1" jsxwidth="100%" jsxheight="100%" />
+                            <object type="jsx3.gui.StackGroup">
+                              <variants jsxleft="0" jsxtop="0" jsxrelativeposition="1" jsxoverflow="2" />
+                              <strings jsxname="jsx_ide_quadrant_q1" jsxwidth="100%" jsxheight="100%" />
+                            </object>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxrelativeposition="1" jsxoverflow="2" />
+                          <strings jsxname="jsxquad2" jsxwidth="100%" jsxheight="100%" />
+                            <object type="jsx3.gui.StackGroup">
+                              <variants jsxleft="0" jsxtop="0" jsxrelativeposition="1" jsxoverflow="2" />
+                              <strings jsxname="jsx_ide_quadrant_q2" jsxwidth="100%" jsxheight="100%" />
+                            </object>
+                        </object>
+                    </object>
+                    <object type="jsx3.gui.Splitter">
+                      <variants jsxleft="0" jsxtop="0" />
+                      <strings jsxname="jsx_ide_splitter4" jsxdefault1pct="75%" jsxsubcontainer1pct="100%" jsxsubcontainer2pct="0%" />
+                      <events jsxafterresize="jsx3.ide.splitterDidMove(this);"/>
+                        <object type="jsx3.gui.TabbedPane">
+                          <dynamics jsxbgcolor="@Solid Shadow" />
+                          <variants jsxtabheight="18" jsxrelativeposition="0"/>
+                          <strings jsxname="jsx_tpan_component"/>
+                          <events jsxdrop="jsx3.ide.onTPDrop(objEVENT);" jsxctrldrop="jsx3.ide.onTPDrop(objEVENT, true);" jsxchange="this.setBackgroundColor(this.getServer().getDynamicProperty(this.getChildren().length > 0 ? '@Solid Disabled' : '@@Solid Shadow'),true);jsx3.IDE.publish({subject:jsx3.ide.events.ACTIVE_EDITOR_CHANGED});" />
+                          <properties onclick="jsx3.ide.doDomClick(jsx3.gui.Event.wrap(event));"/>
+                        </object>
+                        <object type="jsx3.gui.Splitter">
+                          <variants jsxorientation="1" />
+                          <strings jsxname="jsx_ide_splitter5" jsxsubcontainer1pct="50%" jsxsubcontainer2pct="50%" />
+                          <events jsxafterresize="jsx3.ide.splitterDidMove(this);"/>
+                            <object type="jsx3.gui.Block">
+                              <variants jsxrelativeposition="1" jsxoverflow="2" />
+                              <strings jsxname="jsxquad3" jsxwidth="100%" jsxheight="100%" />
+                                <object type="jsx3.gui.StackGroup">
+                                  <variants jsxleft="0" jsxtop="0" jsxrelativeposition="1" jsxoverflow="2" />
+                                  <strings jsxname="jsx_ide_quadrant_q3" jsxwidth="100%" jsxheight="100%" />
+                                </object>
+                            </object>
+                            <object type="jsx3.gui.Block">
+                              <variants jsxrelativeposition="1" jsxoverflow="2" />
+                              <strings jsxname="jsxquad4" jsxwidth="100%" jsxheight="100%" />
+                                <object type="jsx3.gui.StackGroup">
+                                  <variants jsxleft="0" jsxtop="0" jsxrelativeposition="1" jsxoverflow="2" />
+                                  <strings jsxname="jsx_ide_quadrant_q4" jsxwidth="100%" jsxheight="100%" />
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <dynamics jsxborder="@Inset"/>
+                  <variants jsxrelativeposition="1" jsxoverflow="2" />
+                  <strings jsxname="jsx_ide_quadrant_q5" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#ffffff"/>
+                </object>
+            </object>
+        </object>
+        <object type="jsx3.gui.WindowBar">
+          <variants jsxbartype="3" />
+          <strings jsxname="jsxtaskbar" />
+            <object type="jsx3.gui.Block">
+              <dynamics />
+              <variants />
+              <strings jsxname="jsxactiveprojectpath" jsxfontsize="10" jsxheight="100%"
+                  jsxpadding="6 16 1 8" jsxborder="0px;2px dotted #9898a5;0px;0px"
+                  jsxmenu="jsxmenu_apppath"/>
+            </object>
+            <object type="jsx3.gui.Block">
+              <dynamics />
+              <variants />
+              <strings jsxname="jsxtaskbarbuttons" jsxfontsize="10" jsxheight="100%" jsxpadding="0 1 0 5" jsxborder="0px;2px dotted #9898a5;0px;0px"/>
+                <object type="jsx3.gui.ToolbarButton">
+                  <dynamics jsxtip="_palettes_toggle_on"/>
+                  <variants jsxtype="0" jsxstate="0" jsxenabled="1" />
+                  <strings jsxname="_ide_tbb_resource_repaint" jsximage="images/icon_48.gif" />
+                  <events jsxexecute="jsx3.ide.toggleStageOnly(true);"/>
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <dynamics jsxtip="_palettes_toggle_off"/>
+                  <variants jsxtype="0" jsxstate="0" jsxenabled="1" />
+                  <strings jsxname="_ide_tbb_resource_fetchrepaint" jsximage="images/icon_49.gif" />
+                  <events jsxexecute="jsx3.ide.toggleStageOnly(false);"/>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>

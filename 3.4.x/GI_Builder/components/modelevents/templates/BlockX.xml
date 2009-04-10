@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	
+	<record jsxid="jsxdrag" jsxtext="Drag"
+			jsxtip="fires before a drag event"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="id of dragged element -- JSXDragId"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="HTML element acted upon (VIEW)"/>
+	</record>
+	
+  <record jsxid="jsxkeydown" jsxtext="Key Down"
+      jsxtip="fires after a keydown event">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object recieving the keydown"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+  </record>
+	
+  <record jsxid="jsxdblclick" jsxtext="Double Click"
+      jsxtip="fires after a double click event">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object receiving the double click event"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+  </record>
+	
+	<record jsxid="jsxdrop" jsxtext="Drop"
+			jsxtip="fires before a drop event"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="objSOURCE" type="jsx3.gui.Block" jsxtext="JSX object where the DRAG began"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="id of dragged element -- JSXDragId"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="HTML element acted upon (VIEW)"/>
+	</record>
+	
+	<record jsxid="jsxctrldrop" jsxtext="Ctrl Drop"
+			jsxtip="fires before a drop event when the ctrl key is held down"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+    <record jsxid="objSOURCE" type="jsx3.gui.Block" jsxtext="JSX object where the DRAG began"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="id of dragged element -- JSXDragId"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="HTML element acted upon (VIEW)"/>
+	</record>
+	
+	<record jsxid="jsxspy" jsxtext="Spyglass"
+			jsxtip="fires before a spyglass is displayed; should eval to the HTML content of the spyglass"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+	
+	<record jsxid="jsxmenu" jsxtext="Menu"
+			jsxtip="fires before a bound menu is displayed"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that was clicked upon"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="JSX menu instance to display" jsxreturntext="use this field to override the default menu with an instance of jsx3.gui.Menu"/>
+	</record>
+	
+	<record jsxid="jsxbeforemove" jsxtext="Before Move"
+			jsxtip="fires before item is moved across the screen"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object about to be moved"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="bCONSTRAINX" type="boolean" vartype="return" jsxtext="set to true if only vertical allowed. For example: o = {bCONSTRAINX:true};"/>
+		<record jsxid="bCONSTRAINY" type="boolean" vartype="return" jsxtext="set to true if only horizontal allowed. For example: o = {bCONSTRAINY:true};"/>
+	</record>
+	
+	<record jsxid="jsxaftermove" jsxtext="After Move"
+			jsxtip="fires after item is moved across the screen">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that was just moved"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+</data>

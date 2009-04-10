@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	
+  <record jsxid="jsxchange" jsxtext="Change"
+      jsxtip="Fires after the value of this color picker has changed through user interaction.">
+    <record jsxid="this" jsxtext="this color picker"/>
+    <record jsxid="objEVENT" jsxtext="the browser event resulting in the value change, instance of jsx3.gui.Event"/>
+    <record jsxid="strTYPE" jsxtext="either 'h' for a hue selection or 'sb' for a saturation/brightness selection"/>
+    <record jsxid="intRGB" jsxtext="the new RGB value"/>
+  </record>	
+
+  <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+      jsxtip="fires when the item has just been removed from the DOM">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+    <record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+  </record>
+  
+</data>

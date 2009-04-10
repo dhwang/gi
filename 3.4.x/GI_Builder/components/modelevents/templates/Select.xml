@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	
+  <record jsxid="jsxbeforeselect" jsxtext="Before Select"
+      jsxtip="fires when a selection event occurs but before the state of the control is updated"
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+    <record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the selected item"/>
+  </record>
+
+	<record jsxid="jsxselect" jsxtext="Select"
+			jsxtip="fires after a selection occurs">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the selected item"/>
+	</record>
+
+	<record jsxid="jsxkeydown" jsxtext="Key Down"
+			jsxtip="fires after a keydown event">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object recieving the keydown"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+
+	<record jsxid="jsxkeyup" jsxtext="Key Up"
+			jsxtip="fires after a keypress event">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object recieving the keyup"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

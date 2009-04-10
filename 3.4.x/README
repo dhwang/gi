@@ -1,0 +1,135 @@
+======================================================================
+TIBCO General Interface(TM) - Professional Edition
+
+======================================================================
+Introduction
+
+  This directory contains a source distribution of TIBCO General
+  Interface - Professional Edition, a platform and integrated
+  development environment (IDE) for developing rich GUI applications
+  delivered through a modern web browser.
+
+======================================================================
+License
+
+  License information for TIBCO General Interface - Professional
+  Edition and third party tools included in this distribution is
+  contained in the LICENSE file.
+
+======================================================================
+Getting Started
+
+  To get started developing TIBCO General Interface applications,
+  open GI_Builder.html in a supported web browser (see Browser
+  Platforms below). Download the documentation and view the 
+  API Reference and tips documents on http://gi.tibco.com.
+
+======================================================================
+Source Distribution
+
+  This directory contains a source distribution of TIBCO General
+  Interface - Professional Edition. The source distribution is useful
+  for creating customized builds, viewing source code, and modifying
+  TIBCO General Interface. A pre-built "binary" distribution of TIBCO
+  General Interface, which is optimized for deployment, can be
+  downloaded from http://gi.tibco.com.
+
+  The latest source can always be accessed anonymously using
+  Subversion at http://gi.tibco.com/svn/. Use the following command
+  to check out the trunk branch:
+
+  %> svn co http://gi.tibco.com/svn/trunk/gi
+
+======================================================================
+Building
+
+  This source distribution of TIBCO General Interface - Professional
+  Edition can be packaged into an optimized "binary" build. See
+  build/BUILD for more information.
+
+======================================================================
+Contributing to the Open Source Project
+
+  Have you found a bug in TIBCO General Interface or want to request a
+  new feature or enhancement? TIBCO General Interface uses a public
+  bug/issue tracker, hosted at http://gi.tibco.com/jira.
+
+  Public discussion forums for TIBCO General Interface are available at
+  http://gi.tibco.com/forums.
+
+  To contribute new code for bug fixes, new components, extensions to
+  existing components, and so on, request a Community Contribution
+  License Agreement from gi@tibco.com.
+
+======================================================================
+Testing
+
+  The source distribution of TIBCO General Interface includes test
+  suites. See build/BUILD and test/README for more information.
+
+======================================================================
+Browser Platforms
+
+---------------------------------
+TIBCO General Interface(TM) Framework
+
+  TIBCO General Interface Framework and applications created with
+  TIBCO General Interface Builder execute in a web browser.
+  Browser platforms are listed below.
+
+  A web server or HTTP server is required to host the deployed TIBCO
+  General Interface Framework and TIBCO General Interface
+  applications.
+
+  TIBCO General Interface Framework and TIBCO General Interface
+  applications run on the following browser platforms.
+  For browser system requirements, see the respective browser web page.
+
+  Internet Explorer 7.0 and 6.0.x for:
+    Microsoft Windows (x86)
+      Windows 2003 Server
+      Windows XP Professional SP1 and SP2
+      Windows Vista
+  http://www.microsoft.com/windows/ie/downloads/default.mspx
+
+  Firefox 2.0 and 1.5.x for:
+    Linux (x86)
+      Red Hat Enterprise Linux 3
+      Red Hat Enterprise Linux 4
+      SUSE Linux Enterprise 9
+      SUSE Linux Enterprise 10
+    Apple Mac (x86 and PowerPC)
+      Mac OS X (x86) 10.3 and later
+      Mac OS X (PowerPC) 10.3 and later
+    Microsoft Windows (x86)
+      Windows 2003 Server
+      Windows XP Professional SP1 and SP2
+      Windows Vista
+  http://www.mozilla.com/firefox/
+
+-------------------------------
+TIBCO General Interface(TM) Builder
+
+  TIBCO General Interface Builder runs on the following
+  browser platforms. For browser system requirements, see the
+  respective browser web page.
+
+  Internet Explorer 7.0 and 6.0.x for:
+    Microsoft Windows (x86)
+      Windows 2003 Server
+      Windows XP Professional SP1 and SP2
+      Windows Vista
+  http://www.microsoft.com/windows/ie/downloads/default.mspx
+
+
+  Firefox 2.0 and 1.5.x for:
+    Microsoft Windows (x86)
+      Windows 2003 Server
+      Windows XP Professional SP1 and SP2
+      Windows Vista
+  http://www.mozilla.com/firefox/
+
+======================================================================
+Copyright
+
+Copyright (C) 2001-2007 TIBCO Software Inc. ALL RIGHTS RESERVED.

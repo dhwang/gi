@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+
+	<record jsxid="jsxchange" jsxtext="Change"
+			jsxtip="fires when the value of the field changes through user interaction"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="DatePicker instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="oldDATE" type="Date" jsxtext="the old value"/>
+    <record jsxid="newDATE" type="Date" jsxtext="the new value"/>
+	</record>
+
+  <record jsxid="jsxinput" jsxtext="Input"
+      jsxtip="fires when the user types text into the date field and before the change event"
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="DatePicker instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="objDATE" type="Date" vartype="return"
+        jsxreturntext="specifies the parsed date, in which case the input text is not parsed by the date format"/>
+    <record jsxid="strINPUT" type="String" vartype="inout"
+        jsxtext="the text entered by the user"
+        jsxreturntext="modifies the text entered by the user before it is parsed by the date format"/>
+  </record>
+
+  <record jsxid="jsxshow" jsxtext="Show"
+      jsxtip="fires when the calendar is revealed"
+      always="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objDATE" type="Date" vartype="return"
+        jsxreturntext="specifies the year and month to display upon opening the calendar"/>
+  </record>
+
+  <record jsxid="jsxhide" jsxtext="Hide"
+      jsxtip="fires when the calendar is hidden"
+      always="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+  </record>
+
+  <record jsxid="jsxmenu" jsxtext="Menu"
+      jsxtip="fires before a context menu is shown"
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="JSX menu instance to display" jsxreturntext="use this field to override the default menu with an instance of jsx3.gui.Menu"/>
+  </record>
+
+  <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

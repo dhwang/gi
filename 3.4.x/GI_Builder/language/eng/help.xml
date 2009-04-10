@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="1_1" jsximg="images/icon_59.gif" jsxtext="API Documentation">
+    
+    <record jsxid="1" jsxtext="Open" jsxexecute="jsx3.ide.doOpenApiHelp();" jsxkeycode="ctrl+shift+/" config="true"
+        jsxdisabled="1" oniffile="../api/xml/index.xml"/>
+    <record jsxid="2" jsxtext="...in dialog" jsxexecute="jsx3.ide.doOpenApiHelp(false);" config="true"
+        jsxdisabled="1" oniffile="../api/xml/index.xml"/>
+    <record jsxid="3" jsxtext="...in separate window" jsxexecute="jsx3.ide.doOpenApiHelp(true);" config="true"
+        jsxdisabled="1" oniffile="../api/xml/index.xml"/>
+    <record jsxid="4" jsxtext="...HTML version" jsxexecute="jsx3.ide.openConsoleWindow('api/html/index.html', 'jsxide_api',null,null,'yes','yes','yes','yes','yes')" config="true"
+        jsxdisabled="1" oniffile="../api/html/index.html"/>
+  </record>
+  
+  <record jsxid="1_2" jsxtext="Help Contents"
+      jsxexecute="jsx3.ide.openConsoleWindow('doc/html/index.htm', 'jsxide_doc',null,null,'yes','yes','yes','yes','yes');"
+      config="true"
+      jsxdisabled="1" oniffile="../doc/html/index.htm"/>
+  <record jsxid="1_2a" jsxtext="TIBCO Developer Network"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/power/', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"
+      jsximg="images/icon_100.gif" config="true"/>
+
+  <record jsxid="1_3" jsxtext="Internet Resources">
+    <record jsxid="1_3_3" jsxtext="JavaScript Reference (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msjavascript/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_4" jsxtext="XSLT Reference (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msxslt/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_2" jsxtext="DHTML APIs (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msdhtml/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_5" jsxtext="VML APIs (Microsoft)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/msvml/','',null,null,'yes','yes','yes','yes','yes');"/>
+    <record jsxid="1_3_6" jsxtext="Regular Expressions Guide (Mozilla)"
+        jsxexecute="jsx3.ide.openConsoleWindow('http://power.tibco.com/gi/builderlink/mozregexp/','',null,null,'yes','yes','yes','yes','yes');"/>
+  </record>
+
+  <record jsxid="1_5" jsxdivider="1" jsxtip="version and copyright" jsxtext="About @gi.productname@"
+      jsxexecute="jsx3.ide.openAboutDialog();" config="true"/>
+  <record jsxid="1_6" jsxtext="License Agreement"
+      jsxexecute="jsx3.ide.openConsoleWindow('legal/license.htm', 'jsxide_license',null,null,'yes','yes','yes','yes','yes');"
+      config="true"
+      jsxdisabled="1" oniffile="../legal/license.htm"/>
+</data>

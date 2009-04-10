@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <object type="jsx3.gui.Block">
+      <strings jsxname="block" jsxdisplay="none" />
+        <object type="jsx3.gui.BlockX">
+          <variants jsxwidth="500"/>
+          <strings jsxname="jsxblockx_typeaheadscriptspy" jsxpadding="8" jsxxslurl="components/apihelp/xsl/typeahead_spy.xsl"/>
+        </object>
+    </object>
+    <object type="jsx3.gui.Menu">
+			<dynamics jsxxmlurl="mnuTypeAheadXSL"/>
+			<strings jsxname="jsxmenu_typeaheadxsl" jsxdisplay="none" />
+			<events jsxexecute="jsx3.ide.doInsertCode(objRECORD,this.getContextParent(),'xsl');"/>
+		</object>
+		<object type="jsx3.gui.Menu">
+			<dynamics jsxxmlurl="mnuTypeAheadCSS"/>
+			<strings jsxname="jsxmenu_typeaheadcss" jsxdisplay="none" />
+			<events jsxexecute="jsx3.ide.doInsertCode(objRECORD,this.getContextParent(),'css');"/>
+		</object>
+		<object type="jsx3.gui.Menu">
+			<dynamics jsxxmlurl="mnuTypeAheadXML"/>
+			<strings jsxname="jsxmenu_typeaheadxml" jsxdisplay="none" />
+			<events jsxexecute="jsx3.ide.doInsertCode(objRECORD,this.getContextParent(),'xml');"/>
+		</object>
+		<object type="jsx3.gui.Menu">
+			<dynamics jsxxmlurl="mnuComponent"/>
+			<strings jsxname="jsxmenu_component" jsxxmlid="mnuComponent" jsxdisplay="none" />
+			<events jsxmenu="jsx3.ide.onComponentTabMenu(this, jsx3.ide.getEditorForTab(this.getContextParent()));"/>
+		</object>
+		<object type="jsx3.gui.Menu">
+			<dynamics jsxxmlurl="mnuTextEditor"/>
+			<strings jsxname="jsxmenu_textarea" jsxxmlid="mnuTextEditor" jsxdisplay="none" />
+			<events jsxmenu="var ta = this.getContextParent(); if (ta.getWrap() == jsx3.gui.TextBox.WRAPYES) {this.selectItem('wrap');} else {this.selectItem('unwrap');}"/>
+		</object>
+		<object type="jsx3.gui.Menu">
+			<dynamics jsxxmlurl="mnuSystemOut"/>
+			<strings jsxname="jsxmenu_systemout" jsxxmlid="mnuSystemOut" jsxdisplay="none" />
+		</object>
+    <object type="jsx3.gui.Menu">
+      <dynamics jsxxmlurl="mnuAppPath"/>
+      <strings jsxname="jsxmenu_apppath" jsxdisplay="none" />
+    </object>
+  </object>
+</serialization>

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	
+	<record jsxid="jsxbeforemove" jsxtext="Before Move"
+      jsxtip="Fires before the dialog is moved by the user dragging its caption bar with the mouse."
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object about to be moved"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="bCONSTRAINX" type="boolean" vartype="return" jsxtext="set to true if only vertical allowed. For example: o = {bCONSTRAINX:true};"/>
+		<record jsxid="bCONSTRAINY" type="boolean" vartype="return" jsxtext="set to true if only horizontal allowed. For example: o = {bCONSTRAINY:true};"/>
+	</record>
+
+	<record jsxid="jsxaftermove" jsxtext="After Move"
+      jsxtip="Fires after the dialog is moved by the user dragging its caption bar with the mouse.">
+    <record jsxid="this" type="$class$" jsxtext="The dialog that was just moved."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+
+	<record jsxid="jsxbeforeresize" jsxtext="Before Resize"
+			jsxtip="Fires before the dialog is resized by the user dragging its lower-right corner with the mouse."
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object about to be resized"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+
+	<record jsxid="jsxafterresize" jsxtext="After Resize"
+      jsxtip="Fires after the dialog is resized by the user dragging its lower-right corner with the mouse.">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that was just resized"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="Fires when the item has just been removed from the DOM.">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

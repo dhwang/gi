@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+
+	<record jsxid="jsxexecute" jsxtext="Execute"
+			jsxtip="fired when this tab is revealed by user interaction or anytime under the 3.0 event protocol">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+	</record>
+
+	<record jsxid="jsxshow" jsxtext="Show"
+			jsxtip="fired when this tab is revealed"
+      always="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+	</record>
+
+	<record jsxid="jsxhide" jsxtext="Hide"
+			jsxtip="fired when another tab is revealed over this tab"
+      always="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+	</record>
+
+	<record jsxid="jsxmenu" jsxtext="Menu"
+			jsxtip="fires before a context menu is shown"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="JSX menu instance to display" jsxreturntext="use this field to override the default menu with an instance of jsx3.gui.Menu"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

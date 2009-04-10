@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	
+	<record jsxid="jsxchange" jsxtext="Change"
+			jsxtip="fires after the active tab has changed"
+      always="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+	</record>
+	
+	<record jsxid="jsxdrop" jsxtext="Drop"
+			jsxtip="fires before a drop event"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+		<record jsxid="objSOURCE" type="jsx3.gui.Block" jsxtext="JSX object where the DRAG began"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="id of dragged element -- JSXDragId"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="HTML element acted upon (VIEW)"/>
+	</record>
+	
+	<record jsxid="jsxctrldrop" jsxtext="Ctrl Drop"
+			jsxtip="fires before a drop event when the ctrl key is held down"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+		<record jsxid="objSOURCE" type="jsx3.gui.Block" jsxtext="JSX object where the DRAG began"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="id of dragged element -- JSXDragId"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="HTML element acted upon (VIEW)"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

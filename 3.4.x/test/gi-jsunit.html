@@ -1,0 +1,24 @@
+<!--
+
+This file simply redirects to the JsUnit testRunner.html page and auto-fills the run path.
+
+-->
+<html>
+<head>
+  <script type="text/javascript">
+
+function redir() {
+  var href = document.location.href;
+  href = href.replace(/\\/g, "/");
+  var index = href.lastIndexOf("/");
+  var base = href.substring(0, index);
+  var basePath = base.replace(/^(file|http|https):\/{0,3}/i, "");
+  document.location.href = base + "/jsunit/testRunner.html?" + "testpage=" + basePath + "/tests/suite.html";
+}
+
+  </script>
+</head>
+<body onload="redir();">
+
+</body>
+</html>
