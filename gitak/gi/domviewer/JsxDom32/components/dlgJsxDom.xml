@@ -1,0 +1,154 @@
+<serialization jsxversion="3.4" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[setTimeout(function () { 
+  objJSX.getServer().getJSXByName('tbbBuildDom').doExecute();  
+ }, 500);]]></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="513" jsxheight="376" jsxzindex="5000" jsxwindowstate="1" jsxleft="18" jsxtop="7"></variants>
+    <strings jsxname="dlgJsxDom" jsxtextalign="right"></strings>
+    <dynamics jsxbgcolor="@Solid Medium"></dynamics>
+    <object type="jsx3.gui.WindowBar">
+      <variants></variants>
+      <strings jsxname="capJsxDom" jsxtext="General Interface DOM" jsxtextalign="right"></strings>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="tbbBuildDom" jsximage="jsx:///images/tbb/default.gif" jsxtip="Refresh DOM"></strings>
+        <events jsxexecute="tibco.qa.jsxdom.dispDom(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="min button"></strings>
+        <dynamics jsximage="@Min Icon" jsxtip="@Min Tip"></dynamics>
+        <events jsxexecute="this.getParent().getParent().doToggleState();"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="max button" jsximage="JSX/images/dialog/max.gif"></strings>
+        <dynamics jsxtip="@Max Tip"></dynamics>
+        <events jsxexecute="this.getAncestorOfType(&quot;jsx3.gui.Dialog&quot;).doMaximize(this);"></events>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+        <variants></variants>
+        <strings jsxname="close button"></strings>
+        <dynamics jsximage="@Close Icon" jsxtip="@Close Tip"></dynamics>
+        <events jsxexecute="this.getParent().getParent().doClose();"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.StackGroup">
+      <variants jsxsizearray="['*',27]" jsxbestguess="0" jsxrepeat="2" jsxoverflow="2" jsxselectedindex="0"></variants>
+      <strings jsxname="stackgroup" jsxrows="*,27"></strings>
+      <object type="jsx3.gui.Stack">
+        <variants></variants>
+        <strings jsxname="stackDOM" jsxtext="Component Hiearchy"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="paneDOM" jsxbgcolor="#ffffff" jsxvisibility=""></strings>
+          <object type="jsx3.gui.Splitter">
+            <variants jsxleft="0" jsxtop="0"></variants>
+            <strings jsxname="splitter ( | )" jsxsubcontainer1pct="50.49%" jsxsubcontainer2pct="44.92%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"></variants>
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+              <dynamics jsxborder="@Inset"></dynamics>
+              <object type="jsx3.gui.Splitter">
+                <variants jsxorientation="1" jsxleft="0" jsxtop="0"></variants>
+                <strings jsxname="splitter (--)" jsxsubcontainer1pct="49.35%" jsxsubcontainer2pct="34.349999999999994%"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="1"></variants>
+                  <strings jsxname="paneTree" jsxwidth="100%" jsxheight="100%"></strings>
+                  <dynamics jsxborder="@Inset" jsxbgcolor="@Solid Light"></dynamics>
+                  <object type="jsx3.gui.Tree">
+                    <variants jsxuseroot="0"></variants>
+                    <strings jsxname="treeJsxDom" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlid="DOM_TREE_XML"></strings>
+                    <events jsxselect="tibco.qa.jsxdom.dispObjProperties(this,strRECORDID);tibco.qa.jsxdom.dispObjXml(this,strRECORDID);"></events>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="1"></variants>
+                  <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+                  <dynamics jsxborder="@Inset" jsxbgcolor="@Solid Light"></dynamics>
+                  <object type="jsx3.gui.BlockX">
+                    <variants jsxrelativeposition="1" jsxleft="10" jsxtop="10"></variants>
+                    <strings jsxname="xmlBlock" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxmenu="mnuXmlData" jsxtip="Right click to copy data to clipboard"></strings>
+                    <dynamics jsxbgcolor="@Solid Light"></dynamics>
+                  </object>
+                  <object type="jsx3.gui.Menu">
+                    <variants></variants>
+                    <strings jsxname="mnuXmlData" jsxtip="menu" jsxtext="menu" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA; &lt;record jsxid=&quot;1&quot; jsxtext=&quot;Copy Data&quot;/&gt;&#xA;&#xA; &lt;/data&gt;" jsxdisplay="none"></strings>
+                    <events jsxexecute="jsx3.html.copy(this.getServer().getJSXByName('xmlBlock').getXML().getXML());"></events>
+                  </object>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxname="paneObj" jsxwidth="100%" jsxheight="100%" jsxtip="Right click to copy name/value"></strings>
+              <dynamics jsxborder="@Inset"></dynamics>
+              <object type="jsx3.gui.Matrix">
+                <variants jsxpagingmodel="1" jsxrowheight="0" jsxscalewidth="0" jsxselectionmodel="0"></variants>
+                <strings jsxname="gridProps" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxsortpath="propName" jsxsorttype="text" jsxsortdirection="ascending" jsxmenu="menu"></strings>
+                <events jsxbeforeedit="jsx3.log('EVENT: (jsxbeforeedit). Record: ' + strRECORDID);" jsxafteredit="jsx3.log('EVENT: (jsxafteredit). Record: ' + strRECORDID + '. New Value: ' + strNEWVALUE);" jsxmenu="jsx3.log(strRECORDID);"></events>
+                <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxresize="1" jsxwidth="89" jsxwrap="1"></variants>
+                  <strings jsxname="mcName" jsxtext="Name" jsxpadding="2" jsxcellpadding="1" jsxpath="propName"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"></dynamics>
+                </object>
+                <object type="jsx3.gui.Matrix.Column">
+                  <variants jsxresize="1" jsxwidth="100" jsxwrap="1"></variants>
+                  <strings jsxname="mcValue" jsxtext="Value" jsxpadding="2" jsxcellpadding="2" jsxpath="propValue"></strings>
+                  <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"></dynamics>
+                </object>
+              </object>
+              <object type="jsx3.gui.Menu">
+                <variants></variants>
+                <strings jsxname="menu" jsxtip="menu" jsxtext="menu" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA; &lt;record jsxid=&quot;1&quot; jsxtext=&quot;Copy Name&quot;/&gt;&#xA; &lt;record jsxid=&quot;2&quot; jsxtext=&quot;Copy Value&quot;/&gt;&#xA;&#xA; &lt;/data&gt;" jsxvisibility="hidden"></strings>
+                <events jsxexecute="tibco.qa.jsxdom.doCopy(this, strRECORDID);"></events>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Stack">
+        <variants></variants>
+        <strings jsxname="stackScript" jsxtext="Javascript Utility"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="paneScript" jsxbgcolor="#ffffff" jsxvisibility="hidden"></strings>
+          <object type="jsx3.gui.Splitter">
+            <variants jsxorientation="1" jsxleft="0" jsxtop="0"></variants>
+            <strings jsxname="splitter (--)" jsxsubcontainer1pct="62.23%"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+              <dynamics jsxborder="@Inset"></dynamics>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxtype="1"></variants>
+                <strings jsxname="txtScript" jsxmargin="0 4 0 0" jsxwidth="100%" jsxheight="99%" jsxvalue=""></strings>
+                <dynamics jsxbg="@Grid Lines"></dynamics>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"></variants>
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+              <dynamics jsxborder="@Inset"></dynamics>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxtype="1"></variants>
+                <strings jsxname="txtResult" jsxmargin="0 4 0 0" jsxwidth="100%" jsxheight="95%" jsxvalue=""></strings>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.ToolbarButton">
+          <variants></variants>
+          <strings jsxname="toolbar button" jsxtip="Execute"></strings>
+          <dynamics jsximage="@Task Icon"></dynamics>
+          <events jsxexecute="tibco.qa.jsxdom.doEval(this);"></events>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

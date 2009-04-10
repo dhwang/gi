@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<!--
+Copyright 2006-2007 TIBCO Software Inc.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<head>
+    <title>Assertion Commands</title>
+    <style>
+body, table {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 10;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    border: 1px solid #999;
+}
+tr:hover {
+    background-color: #FBF09D;
+}
+
+
+    </style>    
+</head>
+<body>
+    <a href="tib_gitak_selenium_extension_reference.html">Reference &gt; Top<br />
+    </a>
+    <br />
+    <table >
+        <tbody>
+            <tr>
+                <td colspan="3" style="font-weight: bold; background-color: gainsboro">
+                    Extended General Interface assertion commands</td>
+            </tr>
+            <tr class="over">
+                <td style="font-weight: bold">
+                    Command/Locator&nbsp;</td>
+                <td>
+                    Usage&nbsp;</td>
+                <td style="font-weight: bold">
+                    Description&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertAllImagesComplete 
+                    </td>
+                <td>
+                   <pre>| [assert/verify/waitFor]AllImagesComplete | | |</pre> 
+                </td>
+                <td>
+                     assert all images loaded and complete. <b>NOTE:</b> this command takes
+                    no parameters (column 2 and 3 are ignored).&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertImageComplete</td>
+                <td>
+                    <pre>| [assert/verify/waitFor]ImageComplete | img element id or src path | |</pre>
+                </td>
+                <td>
+                     assert specified img element is loaded and complete.&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxAlertOK</td>
+                <td>
+                    <pre>| assertJsxAlertOK | alert caption or message text | |</pre>
+                </td>
+                <td>
+                     assert alert box containing specified caption text or message text and
+                    dismiss with ok.&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxConfirmOK</td>
+                <td>
+                    <pre>| assertJsxConfirmOK | alert caption or message text | |</pre>
+                </td>
+                <td>
+                     assert confirm box containing specified caption text or message text
+                    and dismiss with ok.&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxPromptOK</td>
+                <td>
+                   <pre>| assertJsxPromptOK | prompt caption or message text | text message |</pre></td>
+                <td>
+                     assert prompt box containing specified caption text or message text,
+                    enter provided value and dismiss with ok</td>
+            </tr>
+            <tr>
+                <td >
+                    assertJsxButtonPresent
+                    </td>
+                <td>
+                    <pre>| [assert/verify/waitFor]JsxButtonPresent | Button jsxtext/jsxname | |</pre></td>
+                <td >
+                     assert if the button with given label text exist. <b>NOTE:</b> this
+                    is a convenience function for buttons. You can also use generic assertElementPresent
+                    and a JsxFoo locator.&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxMenuWindowPresent</td>
+                <td>
+                    <pre>| [assert/verify/waitFor]JsxSelectWindowPresent | Heavyweight Window Id | |</pre>
+                </td>
+                <td>
+                     assert specified menu drop down window is present. Heavyweight window Id is the cascaded menu level.</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxSelectWindowPresent</td>
+                <td>
+                    <pre>| [assert/verify/waitFor]JsxMenuWindowPresent | | |</pre>
+                </td>
+                <td>
+                     assert specified select/combo drop down window is present.&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxPresent</td>
+                <td>
+                    <pre>| [assert/verify/waitFor]JsxPresent | jsxname/locator | |<pre></td>
+                <td>
+                     assert that object of given jsxname (or any JSX locator) is present.
+                    <br />
+                    For example<br />
+                    | waitForJsxPresent | JsxDialogCaption=*Success* | |<br />
+                    or
+                    <br />
+                    | assertJsxPresent | dlgSuccess | |
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxValueEqual</td>
+                <td>
+                    <pre>| [assert/verify/waitFor]JsxValueEqual | jsxname | expected value | </pre></td>
+                <td>
+                     assert that object of given jsxname has value equal to expected value</td>
+            </tr>
+            <tr>
+                <td>
+                    assertJsxTextEqual</td>
+                <td>
+                    <pre>| [assert/verify/waitFor]JsxTextEqual | jsxname | expected text |</pre></td>
+                <td>
+                     assert that object of jsxname has text equal to given expected text</td>
+            </tr>
+        
+        </tbody>
+    </table>
+    <p>
+    <a href="tib_gitak_selenium_extension_reference.html">Reference &gt; Top<br />
+    </a>
+    </p>
+    <p>
+        For information about Selenium commands and locators, see <a href="../../reference.html">Selenium
+            Reference</a>.
+    </p>
+
+</body>
+</html>
