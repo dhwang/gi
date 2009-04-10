@@ -248,8 +248,20 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     window.location.reload();
   };
 
-  gipp.evaluate = function() {
+  gipp.evaluate = function(e) {
+    this._cancelEvt(e);
     gipp._runner._evaluate();
+  };
+
+  /** @private @jsxobf-clobber */
+  gipp._cancelEvt = function(e) {
+    try {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+        e.preventDefault();
+      } else
+        e.cancelBubble = true;
+    } catch (e) {}
   };
   
   /** @package */
@@ -1360,7 +1372,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   /**
    * @return {int}
    */
-  TestCase_prototype.getLimitMs = function(intLimit) {
+  TestCase_prototype.getLimitMs = function() {
     return this._limit;
   };
     

@@ -90,7 +90,7 @@
             onclick="var s = document.getElementById('scriptlet'); s.style.visibility = s.style.visibility == 'visible' ? 'hidden' : 'visible';">
       
         <div id="scriptlet" style="position:absolute;">
-          <textarea id="eval_script" rows="5" cols="100" onkeydown="if (event.ctrlKey && event.keyCode == 13) gi.test.gipp.evaluate();"></textarea>
+          <textarea id="eval_script" rows="5" cols="100" onkeydown="if (event.ctrlKey && event.keyCode == 13) gi.test.gipp.evaluate(event);"></textarea>
           <input id="btn_eval" type="button" value="Evaluate" onclick="gi.test.gipp.evaluate();" title="ctrl+enter">
           <div id="eval_result"><div>&nbsp;</div></div>
         </div>
