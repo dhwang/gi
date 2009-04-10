@@ -1,69 +1,75 @@
 var matrixTests = [
   /* Example of meta:{single:true} */
-  {name:"Load classes", fct: function(objServer) {
+  {id:"Load classes", fct: function(objServer) {
     jsx3.require("jsx3.gui.Matrix");
   }, meta:{single:true}},
 
   /* Example of return gi.test.gipp.WAIT */
-  {name:"Load component XML", fct: function(objServer) {
+  {id:"load.component.xml", fct: function(objServer) {
+    var job = this;
     var doc = new jsx3.xml.Document();
     doc.setAsync(true);
     doc.subscribe(jsx3.xml.Document.ON_RESPONSE, function(objEvent) {
       objServer.getCache().setDocument("componentXml", objEvent.target);
-      gi.test.gipp.completeTestCase("Load component XML");
+      gi.test.gipp.completeTestCase(job.getId());
     });
     doc.load(objServer.resolveURI("components/matrix.xml"));
     return gi.test.gipp.WAIT;
-  }},
+  }, meta:{label:"Load component XML"}},
 
-  {name:"Load component", fct: function(objServer) {
+  {id:"Load component", fct: function(objServer) {
     var objXML = objServer.getCache().getDocument("componentXml");
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.loadXML(objXML, false);
   }},
 
   /* Example of return gi.test.gipp.SLEEP_LONG */
-  {name:"Initial paint", fct: function(objServer) {
+  {id:"Initial paint", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     pane.paintChild(matrix);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Repaint data", fct: function(objServer) {
+  {id:"Repaint data", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
+    
+    var t1 = new Date().getTime();
     matrix.repaintData();
+    var catTime = new Date().getTime() - t1;
+    gi.test.gipp.addCategory(this, "paint", catTime);
+        
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Reset XSL", fct: function(objServer) {
+  {id:"Reset XSL", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.resetXslCacheData();
     matrix.getXSL();
   }},
 
-  {name:"Resize width", fct: function(objServer) {
+  {id:"Resize width", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     pane.setWidth(500, true);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Resize height", fct: function(objServer) {
+  {id:"Resize height", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     pane.setHeight(350, true);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Resize", fct: function(objServer) {
+  {id:"Resize", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     pane.setWidth(300, false);
     pane.setHeight(300, true);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Add column", fct: function(objServer) {
+  {id:"Add column", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
 
@@ -75,7 +81,7 @@ var matrixTests = [
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Remove column", fct: function(objServer) {
+  {id:"Remove column", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
 
@@ -84,7 +90,7 @@ var matrixTests = [
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Add 3 columns", fct: function(objServer) {
+  {id:"Add 3 columns", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
 
@@ -98,28 +104,28 @@ var matrixTests = [
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Repaint data (5)", fct: function(objServer) {
+  {id:"Repaint data (5)", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.repaintData();
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Repaint (5)", fct: function(objServer) {
+  {id:"Repaint (5)", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.repaint();
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Reset XSL (5)", fct: function(objServer) {
+  {id:"Reset XSL (5)", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.resetXslCacheData();
     matrix.getXSL();
   }},
 
-  {name:"Remove 3 columns", fct: function(objServer) {
+  {id:"Remove 3 columns", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
 
@@ -135,21 +141,21 @@ var matrixTests = [
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Hide column", fct: function(objServer) {
+  {id:"Hide column", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.getChild(0).setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Show column", fct: function(objServer) {
+  {id:"Show column", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.getChild(0).setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Sort", fct: function(objServer) {
+  {id:"Sort", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.setSortPath("jsxtext");
@@ -157,7 +163,7 @@ var matrixTests = [
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Set column width", fct: function(objServer) {
+  {id:"Set column width", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.getChild(0).setWidth(200, true);
@@ -165,32 +171,32 @@ var matrixTests = [
   }},
 
   /* Example of meta:{unit:"x"} */
-  {name:"Insert record", fct: function(objServer, intTime) {
+  {id:"Insert record", fct: function(objServer, intTime) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.insertRecord({jsxid:"new" + intTime, jsxtext:"Inserted Record #" + intTime}, "jsxroot", true);
   }, meta:{unit:"x"}},
 
-  {name:"Insert before", fct: function(objServer) {
+  {id:"Insert before", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.insertRecordBefore({jsxid:"new2", jsxtext:"Inserted Record #2"}, "UK", true);
   }},
 
-  {name:"Remove record", fct: function(objServer) {
+  {id:"Remove record", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.deleteRecord("UK", true);
   }},
 
-  {name:"Reorder columns", fct: function(objServer) {
+  {id:"Reorder columns", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     matrix.insertBefore(matrix.getChild(1), matrix.getChild(0), true);
     return gi.test.gipp.SLEEP_LONG;
   }},
 
-  {name:"Destroy", fct: function(objServer) {
+  {id:"Destroy", fct: function(objServer) {
     var pane = objServer.getJSXByName("matrixPane");
     var matrix = pane.getChild(0);
     pane.removeChild(matrix);
@@ -199,5 +205,5 @@ var matrixTests = [
 
 for (var i = 0; i < matrixTests.length; i++) {
   var t = matrixTests[i];
-  gi.test.gipp.addTestCase(t.name, t.fct, t.meta);
+  gi.test.gipp.addTestCase(t.id, t.fct, t.meta);
 };
