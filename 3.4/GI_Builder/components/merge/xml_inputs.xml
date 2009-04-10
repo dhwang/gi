@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+ <name><![CDATA[]]></name>
+ <icon><![CDATA[]]></icon>
+ <description><![CDATA[]]></description>
+ <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+ <onAfterDeserialize><![CDATA[
+
+   //populate the cache list into the select boxes
+   objJSX.getAncestorOfType(jsx3.gui.Dialog).getCacheList("jsx_merge_xml_cache");
+
+ ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+   <variants />
+   <strings jsxname="jsxlayout" jsxcols="300,*"/>
+    <object type="jsx3.gui.Block">
+     <dynamics jsxpadding="@8Pixel"/>
+     <variants jsxoverflow="2"/>
+     <strings jsxname="jsxcontainer"/>
+      <object type="jsx3.gui.Block">
+       <variants jsxheight="26" jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+       <strings jsxname="jsxcontainer" jsxwidth="100%" jsxpadding="0 0 0 120" jsxstyleoverride="" jsxtextalign="right" jsxtagname="div"/>
+        <object type="jsx3.gui.RadioButton">
+         <variants jsxheight="20" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxleft="4" jsxtop="1"/>
+         <strings jsxname="jsx_merge_xml_url_rdo" jsxtext="URL" jsxgroupname="jsx_merge_xml" jsxtip="use the document at the following URL" jsxvalue="jsx_merge_xml_url"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+         <dynamics jsxborder="@Inset"/>
+         <variants jsxleft="90" jsxheight="18" jsxrelativeposition="0" jsxtop="1"/>
+         <strings jsxname="jsx_merge_xml_url" jsxwidth="100%" jsxvalue=""/>
+         <events jsxfocus="this.getParent().getChild('jsx_merge_xml_url_rdo').setSelected(jsx3.gui.RadioButton.SELECTED);"/>
+        </object>
+        <object type="jsx3.gui.ToolbarButton">
+         <variants/>
+         <strings jsxname="toolbar button" jsximage="images/icon_60.gif" jsxtip="browse workspace..."/>
+         <events jsxexecute="this.getParent().getChild('jsx_merge_xml_url_rdo').setSelected(jsx3.gui.RadioButton.SELECTED);this.getAncestorOfType(jsx3.gui.Dialog).doBrowse(&quot;jsx_merge_xml_url&quot;);"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+       <variants jsxheight="24" jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="26"/>
+       <strings jsxname="jsxcontainer" jsxwidth="100%" jsxheight="100%" jsxpadding="0 0 0 90" jsxtagname="div"/>
+        <object type="jsx3.gui.RadioButton">
+         <variants jsxheight="20" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="4" jsxtop="1"/>
+         <strings jsxname="jsx_merge_xml_cache_rdo" jsxtext="Cache" jsxgroupname="jsx_merge_xml" jsxtip="select a document from the cache" jsxvalue="jsx_merge_xml_cache"/>
+        </object>
+        <object type="jsx3.gui.Select">
+         <variants jsxleft="90" jsxheight="18" jsxrelativeposition="0" jsxtop="1"/>
+         <strings jsxname="jsx_merge_xml_cache" jsxwidth="100%" jsxxmlid="jsxcache_list_xml"/>
+         <events jsxselect="this.getParent().getChild('jsx_merge_xml_cache_rdo').setSelected(jsx3.gui.RadioButton.SELECTED);"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+       <variants jsxheight="60" jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="50"/>
+       <strings jsxname="jsxcontainer" jsxwidth="100%" jsxpadding="0 0 0 90" jsxtagname="div"/>
+        <object type="jsx3.gui.RadioButton">
+         <variants jsxheight="20" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="4" jsxtop="1"/>
+         <strings jsxname="jsx_merge_xml_script_rdo" jsxtext="Script" jsxgroupname="jsx_merge_xml" jsxtip="use the document (or node entity) returned by this script" jsxvalue="jsx_merge_xml_script"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+         <dynamics jsxborder="@Inset" jsxbg="@Grid Lines" jsxfontsize="@Script FS" jsxfontname="@Script FN"/>
+         <variants jsxleft="90" jsxheight="58" jsxrelativeposition="0" jsxtop="0" jsxtype="1"/>
+         <strings jsxname="jsx_merge_xml_script" jsxwidth="100%"/>
+         <events jsxfocus="this.getParent().getChild('jsx_merge_xml_script_rdo').setSelected(jsx3.gui.RadioButton.SELECTED);" jsxkeydown="jsx3.ide.doTextEditorKeyDown(objEVENT,this);"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+     <variants jsxoverflow="1"/>
+     <strings jsxname="jsxcontainer" jsxborder="solid 0px;solid 0px;solid 0px;solid 1px #9898a5" jsxpadding="8 8 8 120" jsxtagname="div"/>
+      <object type="jsx3.gui.RadioButton">
+       <variants jsxheight="20" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="0" jsxleft="12" jsxtop="9"/>
+       <strings jsxname="jsx_merge_xml_raw_rdo" jsxtext="Source" jsxgroupname="jsx_merge_xml" jsxtip="use the raw XML as entered here" jsxvalue="jsx_merge_xml_raw"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+       <dynamics jsxborder="@Inset"/>
+       <variants jsxleft="120" jsxheight="106" jsxrelativeposition="0" jsxtop="8" jsxtype="1"/>
+       <strings jsxname="jsx_merge_xml_raw" jsxwidth="100%"/>
+       <events jsxfocus="this.getParent().getChild('jsx_merge_xml_raw_rdo').setSelected(jsx3.gui.RadioButton.SELECTED);"/>
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+       <dynamics jsxtip="_gen_browse"/>
+       <variants jsxtop="7" jsxrelativeposition="0" jsxleft="90"/>
+       <strings jsxname="jsxtbb" jsximage="images/icon_14.gif" />
+       <events jsxexecute="this.getParent().getChild('jsx_merge_xml_raw_rdo').setSelected(jsx3.gui.RadioButton.SELECTED);this.getAncestorOfType(jsx3.gui.Dialog).doBrowse(&quot;jsx_merge_xml_raw&quot;,true);"/>
+      </object>
+    </object>
+  </object>
+</serialization>

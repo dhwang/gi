@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+
+	<record jsxid="jsxexecute" jsxtext="Execute"
+			jsxtip="Fired when the user clicks on this button or when this button has focus and the user presses 
+			  the space or enter keys; also fired when the user presses the bound hot key (if any). This event is also 
+			  fired by the doExecute() method of the ToolbarButton class."
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+	</record>
+	
+	<record jsxid="jsxchange" jsxtext="Change"
+			jsxtip="Fired after the button state has changed through user interaction.">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="Fired immediately after this object is removed from the DOM.">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

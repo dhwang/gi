@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+objJSX.doActivate = function() {
+  jsx3.sleep(this._doActivate, "jsx3.ide.palette.componentlibs", this, true);
+};
+
+objJSX.doDeactivate = function() {
+  jsx3.sleep(this._doDeactivate, "jsx3.ide.palette.componentlibs", this, true);
+};
+
+objJSX._doActivate = function() {
+  var doc = jsx3.IDE.getCache().getDocument('IDE_COMPONENT_LIBS');
+  if (doc == null || doc.getChildNodes().size() == 0) {
+    jsx3.ide.QUEUE.addJob(jsx3.ide.reloadPrototypeLibraries);
+  }
+
+  this.getDescendantOfName('ide_component_libs_tree').setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+  this.setButtonsEnabled(jsx3.gui.Form.STATEENABLED);
+};
+
+objJSX._doDeactivate = function() {
+  this.getDescendantOfName('ide_component_libs_tree').setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+  this.setButtonsEnabled(jsx3.gui.Form.STATEDISABLED);
+};
+
+objJSX.setButtonsEnabled = function(enabled) {
+  var buttons = this.getDescendantOfName('jsx_ide_complibs_bar').getDescendantsOfType(jsx3.gui.ToolbarButton);
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setEnabled(enabled, true);
+  }
+};
+
+objJSX.doReload = function() {
+  this.getDescendantOfName('ide_component_libs_tree').repaint();
+};
+
+objJSX.doCleanup = function() {
+  jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_ACTIVATE, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_DEACTIVATE, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENTS_RELOADED, this);
+};
+
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_ACTIVATE, objJSX, "doActivate");
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_DEACTIVATE, objJSX, "doDeactivate");
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENTS_RELOADED, objJSX, "doReload");
+
+var editor = jsx3.ide.getActiveEditor();
+if (editor != null && editor.getMode() == "component")
+  objJSX.doActivate();
+
+  ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <dynamics/>
+      <variants jsxleft="0" jsxtop="0" jsxoverflow="2" />
+      <strings jsxname="jsx_ide_palette_complibs" jsxwidth="100%" jsxheight="100%" />
+      <events jsxdestroy="this.doCleanup();" />
+        <object type="jsx3.gui.Block">
+          <dynamics jsxtext="_lib_title"/>
+          <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxwidth="0" jsxheight="0" jsxrelativeposition="0"/>
+          <strings jsxname="jsx_ide_palette_title" jsxvisibility="hidden"/>
+        </object>
+        <object type="jsx3.gui.Menu">
+          <dynamics jsxxmlurl="mnuPrototypes"/>
+          <variants jsxtype="1" />
+          <strings jsxname="jsxmenu_prototypes" jsxxmlid="mnuPrototypes" jsxdisplay="none"/>
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxoverflow="2" />
+          <strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
+          <events />
+          <properties />
+            <object type="jsx3.gui.WindowBar">
+              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+              <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" />
+              <strings jsxname="jsx_ide_complibs_bar" />
+                <object type="jsx3.gui.ToolbarButton">
+                  <dynamics jsxtip="_lib_reload"/>
+                  <strings jsxname="_ide_tbb_complibs_reload" jsximage="images/icon_15.gif" jsxenabled="0" />
+                  <events jsxexecute="jsx3.ide.reloadPrototypeLibraries(true);"/>
+                </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
+              <variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+              <strings jsxname="jsx_ide_comps_treeblock" jsxwidth="100%" jsxheight="100%"/>
+                <object type="jsx3.gui.Tree">
+                  <dynamics jsxpadding="@8Pixel" jsxbgcolor="@Solid Light"/>
+                  <variants jsxuseroot="0" jsxdrag="1"/>
+                  <strings jsxname="ide_component_libs_tree" jsxmenu="jsxmenu_prototypes" jsxxmlid="IDE_COMPONENT_LIBS" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+                  <events jsxdrag="if(objHW = jsx3.gui.Heavyweight.GO(&quot;jsxfocusrectangle&quot;)) objHW.destroy();" jsxadopt="false"
+                      jsxdata="jsx3.ide.doPLDirData(this,objXML,objNODE);" />
+                  <xslparameters jsxsortpath="sorton" jsxindent="16" jsx_img_resolve="0"/>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>
