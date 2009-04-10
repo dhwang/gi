@@ -57,7 +57,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   gipp.POLL = new Object();
   
   /**
-   * {int} The number of times to run the test suite. The default is <code>1</code>.
+   * {int} The number of times to run the test suite. The default is <code>1</code>. The value must be between
+   * 1 and 100.
    */
   gipp.RUNS = 1;
 
@@ -529,7 +530,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       window.setTimeout(this._callback("_run"), this._const("TICK"));
     
     /* @jsxobf-clobber */
-    this._runs = this._const("RUNS");
+    this._runs = Math.max(1, Math.min(100, this._const("RUNS")));
     this._setRun(0);
     this._updateResultsHeight();
 
@@ -552,7 +553,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     
     /* @jsxobf-clobber */
     this._jobIndex = 0;
-    this._runs = this._const("RUNS");
+    this._runs = Math.max(1, Math.min(100, this._const("RUNS")));
     /* @jsxobf-clobber */
     this._runIndex = 0;
     
