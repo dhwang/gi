@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="id" type="string">mapping</record>
+  <record jsxid="name" type="string">Mapping</record>
+  <record jsxid="description" type="string">Mapping Utility v1.0 | SOAP, Schema, XML</record>
+  <record jsxid="long_description" type="string"></record>
+  <record jsxid="addin" type="string">jsx3.ide.mapper.ADDIN</record>
+  <record jsxid="jsxversion" type="string">3.2</record>
+  <record jsxid="version" type="string">1.0</record>
+  <record jsxid="classpath" type="string">js/:jsx3.ide.mapper.*</record>
+
+  <record jsxid="includes" type="array">
+    <record jsxid="2" type="map">
+      <record jsxid="load" type="number">1</record>
+      <record jsxid="type" type="string">script</record>
+      <record jsxid="src" type="string">js/ide.js</record>
+    </record>
+    <record jsxid="3" type="map">
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="type" type="string">script</record>
+      <record jsxid="src" type="string">js/jsx3/mapper/Mapper.js</record>
+    </record>
+    <record jsxid="4" type="map">
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="type" type="string">script</record>
+      <record jsxid="src" type="string">js/jsx3/mapper/ServiceTest.js</record>
+    </record>
+  </record>
+</data>

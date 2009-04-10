@@ -1,0 +1,106 @@
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+ <name><![CDATA[Layout ( | )]]></name>
+ <icon><![CDATA[]]></icon>
+ <description><![CDATA[2 side-by-side panes in an adaptive layout grid.]]></description>
+ <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+ <onAfterDeserialize><![CDATA[
+ 
+objJSX.getContentPane = function() { return this.getDescendantOfName("contentPane"); };
+objJSX.getListPane = function() { return this.getDescendantOfName("listPane"); };
+objJSX.getController = function() { return this._jsxcontroller; };
+objJSX.setController = function(objController) { this._jsxcontroller = objController; };
+
+objJSX.setButtonsEnabled = function(bEnabled) {
+  var enabled = jsx3.gui.Form[bEnabled ? "STATEENABLED" : "STATEDISABLED"];
+  this.getDescendantOfName("applyBtn").setEnabled(enabled, true);
+  this.getDescendantOfName("saveBtn").setEnabled(enabled, true);
+};
+
+objJSX.onCancel = function() {
+  this.getController().unload(true);
+};
+
+objJSX.onApply = function() {
+  this.getController()._onApply();
+};
+
+objJSX.onSave = function() {
+  this.getController()._onSave();  
+};
+
+objJSX.onHelp = function() {
+  this.getServer().invokeHelp(objJSX.getContentPane().getChild(0));
+};
+
+var contentPane = objJSX.getContentPane();
+
+contentPane.doCancel = function(objEvent) {
+  this.getAncestorOfName("prefs_controller").onCancel();
+};
+
+contentPane.doSave = function(objEvent) {
+  var src = objEvent.srcElement();
+  if (src != null && src.nodeName.toUpperCase() == "INPUT") return;
+  
+  var saveBtn = this.getAncestorOfName("prefs_controller").getDescendantOfName("saveBtn");
+  if (saveBtn.getEnabled())
+    saveBtn.doExecute();
+};
+
+contentPane.registerHotKey('doSave', jsx3.gui.Event.KEY_ENTER, false, false, false); // save on return key
+contentPane.registerHotKey('doCancel', ".", false, true, false); // save on return key
+
+ ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+   <variants tabindex="0" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+   <strings jsxname="prefs_controller" jsxwidth="100%" jsxheight="100%" jsxcols="95,*"/>
+    <object type="jsx3.gui.Block">
+     <dynamics jsxbgcolor="@Solid Light"/>
+     <variants jsxoverflow="1"/>
+     <strings jsxname="listPane" jsxwidth="100%" jsxheight="100%" jsxtextalign="center"/>
+    </object>
+    <object type="jsx3.gui.Block">
+     <dynamics />
+     <variants jsxoverflow="2"/>
+     <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxborder="0px;0px;0px;solid 1px #9898a5"/>
+      <object type="jsx3.gui.LayoutGrid">
+       <variants />
+       <strings jsxname="layout" jsxrows="*,34"/>
+        <object type="jsx3.gui.Block">
+         <dynamics jsxbgcolor="@Solid Medium"/>
+         <variants jsxoverflow="1" jsxindex="1"/>
+         <strings jsxname="contentPane" jsxwidth="100%" jsxheight="100%"/>
+        </object>
+        <object type="jsx3.gui.Block">
+         <dynamics jsxpadding="@8Pixel" jsxbgcolor="@Solid Medium"/>
+         <variants jsxoverflow="2"/>
+         <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"/>
+          <object type="jsx3.gui.Button">
+           <variants jsxindex="0" jsxheight="18"/>
+           <strings jsxname="cancelBtn" jsxtext="Cancel" jsxmargin="0 20 0 0"/>
+           <events jsxexecute="this.getAncestorOfName(&quot;prefs_controller&quot;).onCancel();"/>
+          </object>
+          <object type="jsx3.gui.Button">
+           <variants jsxindex="0" jsxheight="18" jsxenabled="0"/>
+           <strings jsxname="applyBtn" jsxtext="Apply" jsxmargin="0 6 0 0"/>
+           <events jsxexecute="this.getAncestorOfName(&quot;prefs_controller&quot;).onApply();"/>
+          </object>
+          <object type="jsx3.gui.Button">
+           <variants jsxindex="0" jsxheight="18" jsxenabled="0"/>
+           <strings jsxname="saveBtn" jsxtext="Save" jsxmargin="0 12 0 0" jsxfontweight="bold"/>
+           <events jsxexecute="this.getAncestorOfName(&quot;prefs_controller&quot;).onSave();"/>
+          </object>
+          <object type="jsx3.gui.ImageButton">
+           <variants jsxindex="0" jsxheight="16" jsxwidth="16"/>
+           <strings jsxname="helpBtn" jsxmargin="0 0 0 0" jsximage="images/icon_59.gif"/>
+           <events jsxexecute="this.getAncestorOfName(&quot;prefs_controller&quot;).onHelp();"/>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

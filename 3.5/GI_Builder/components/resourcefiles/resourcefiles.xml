@@ -1,0 +1,135 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+objJSX.onSelect = function(objTree) {
+  var ids = objTree.getValue();
+
+  this.getDescendantOfName('btn_edit').setEnabled(
+      ids.length > 0 ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED, true);
+  this.getDescendantOfName('btn_profile').setEnabled(
+      ids.length == 1 ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED, true);
+  this.getDescendantOfName('btn_dereference').setEnabled(
+      ids.length > 0 ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED, true);
+
+  var enabled = false;
+  for (var i = 0; i < ids.length && !enabled; i++) {
+    if (objTree.getRecordNode(ids[i]).getAttribute("supportsLoad") != null)
+      enabled = true;
+  }
+
+  this.getDescendantOfName('btn_reload').setEnabled(
+      enabled ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED, true);
+};
+
+objJSX.doEdit = function() {
+  var objTree = this.getDescendantOfName('jsxresources');
+  jsx3.ide.doOpenResources(objTree.getValue());
+};
+
+objJSX.doProfile = function() {
+  var objTree = this.getDescendantOfName('jsxresources');
+  jsx3.ide.doShowResourceProps(objTree, objTree.getValue()[0]);
+};
+
+objJSX.doDereference = function() {
+  var objTree = this.getDescendantOfName('jsxresources');
+  jsx3.ide.doDereference(objTree, objTree.getValue());
+};
+
+objJSX.doReload = function() {
+  var objTree = this.getDescendantOfName('jsxresources');
+  jsx3.ide.doReloadResource(objTree.getValue());
+};
+
+//update resource file list; precede with 'apply' call to ensure that the proper CDF file lookup is used
+jsx3.IDE.getJSXByName("jsxresources").applyDynamicProperties();
+jsx3.ide.QUEUE.addJob(jsx3.ide.updateResources);
+
+// update menu if Service loaded
+if (jsx3.ide.mapper && jsx3.ide.mapper.ADDIN)
+  jsx3.ide.mapper.configureNewMenu(objJSX.getDescendantOfName('jsxmenu_new'));
+
+  ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <dynamics/>
+      <variants jsxleft="0" jsxtop="0" jsxoverflow="2" />
+      <strings jsxname="jsx_ide_resources_contentblock" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#ffffff" jsxhelpid="ide.palette.files"/>
+        <object type="jsx3.gui.Block">
+          <dynamics jsxtext="_res_title"/>
+          <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxwidth="0" jsxheight="0" jsxrelativeposition="0"/>
+          <strings jsxname="jsx_ide_palette_title" jsxdisplay="none"/>
+        </object>
+        <object type="jsx3.gui.Menu">
+          <dynamics jsxxmlurl="mnuResources"/>
+          <variants jsxtype="1" />
+          <strings jsxname="jsxmenu_resources" jsxxmlid="mnuResources" jsxdisplay="none"/>
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxoverflow="2" />
+          <strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
+          <events />
+          <properties />
+            <object type="jsx3.gui.WindowBar">
+              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+              <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" />
+              <strings jsxname="jsx_ide_cache_bar" />
+                <object type="jsx3.gui.Menu">
+                  <dynamics jsxxmlurl="mnuNew"/>
+                  <variants jsxtype="0" jsxstate="0" />
+                  <strings jsxname="jsxmenu_new" jsxtip="new file" jsxtext="New" jsximage="images/icon_29.gif"/>
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <variants jsxtype="0" jsxstate="0" />
+                  <strings jsxname="tbb" jsxtip="open file..." jsximage="images/icon_60.gif"/>
+                  <events jsxexecute="jsx3.ide.open();" />
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <variants jsxtype="0" jsxstate="0" jsxdivider="1" jsxenabled="0" />
+                  <strings jsxname="btn_edit" jsxtip="edit" jsximage="images/icon_21.gif"/>
+                  <events jsxexecute="this.getAncestorOfName('jsx_ide_resources_contentblock').doEdit();" />
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <variants jsxtype="0" jsxstate="0" jsxenabled="0" />
+                  <strings jsxname="btn_profile" jsxtip="edit profile" jsximage="images/icon_76.gif"/>
+                  <events jsxexecute="this.getAncestorOfName('jsx_ide_resources_contentblock').doProfile();" />
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <variants jsxtype="0" jsxstate="0" jsxenabled="0" />
+                  <strings jsxname="btn_dereference" jsxtip="dereference" jsximage="images/icon_24.gif"/>
+                  <events jsxexecute="this.getAncestorOfName('jsx_ide_resources_contentblock').doDereference();" />
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <variants jsxtype="0" jsxstate="0" jsxenabled="0" />
+                  <strings jsxname="btn_reload" jsxtip="load/reload" jsximage="images/icon_22.gif"/>
+                  <events jsxexecute="this.getAncestorOfName('jsx_ide_resources_contentblock').doReload();" />
+                </object>
+                <object type="jsx3.gui.ToolbarButton">
+                  <variants jsxtype="0" jsxstate="0" jsxenabled="1" jsxdivider="1" />
+                  <strings jsxname="btn_rescan" jsxtip="Rescan project files from disk" jsximage="images/icon_15.gif"/>
+                  <events jsxexecute="jsx3.ide.updateResources();" />
+                </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxborder="@Outset"/>
+              <variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+              <strings jsxname="jsx_ide_cache_treeblock" jsxwidth="100%" jsxheight="100%"/>
+                <object type="jsx3.gui.Tree">
+                  <dynamics jsxpadding="@8Pixel" jsxbgcolor="@Solid Light" jsxxmlurl="treeResources"/>
+                  <variants jsxuseroot="0" jsxmultiselect="1" />
+                  <strings jsxmenu="jsxmenu_resources" jsxxmlid="jsxresources_xml" jsxname="jsxresources" jsxwidth="100%" jsxheight="100%" />
+                  <events jsxmenu="jsx3.ide.configureResourceMenu(objMENU, this, strRECORDID);" jsxexecute="jsx3.ide.doOpenResources(this.getValue());" jsxchange="this.getAncestorOfName('jsx_ide_resources_contentblock').onSelect(this);"/>
+                  <xslparameters jsxsortpath="sorton" jsxindent="8"/>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>

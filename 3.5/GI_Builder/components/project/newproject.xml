@@ -1,0 +1,140 @@
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+ <name><![CDATA[Dialog]]></name>
+ <icon><![CDATA[]]></icon>
+ <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+ <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+ <onAfterDeserialize><![CDATA[
+ 
+objJSX.doBrowse = function() {
+  jsx3.require("jsx3.io.FileDialog");
+  
+  var d = jsx3.io.FileDialog.deserialize(jsx3.IDE.getRootBlock(), "newprojectdialog", true);
+
+  var appFolder = jsx3.ide.getProjectDirectory();
+  d.setDialogTitle("Create New Project");
+  d.setExecButtonLabel("Create");
+  
+  var me = this;
+  d.onExecute = function(objFile) {
+    me.onBrowseChoose(objFile, appFolder);
+  };
+
+  d.openForSave(appFolder, appFolder, jsx3.io.FileDialog.CHOOSE_FILE);
+};
+
+objJSX.onBrowseChoose = function(objFile, appFolder) {
+  var strPath = appFolder.relativePathTo(objFile);
+  if (objFile.getName() && strPath.match(/^[\w\-\.\/]+$/)) {
+    this.getDescendantOfName("projectpath").setValue(strPath);
+  } else {
+    this.beep();
+  }
+};
+
+objJSX.doCreate = function() {
+  var strValue = this.getDescendantOfName("projectpath").getValue();
+  if (! strValue) {
+    this.beep();
+  } else {
+    jsx3.ide.doNewProject(this, strValue);
+  }
+};
+
+objJSX.doOnFocus = function() {
+  var me = this;
+  jsx3.sleep(function(){
+    me.getDescendantOfName("projectpath").focus();
+  });
+};
+
+objJSX.getDescendantOfName("projectpath").doIncChange = function(strNewValue) {
+  if (jsx3.util.strEmpty(strNewValue)) return true;
+  if (strNewValue.match(/^[\w\-\.\/]+$/)) {
+    return true;
+  } else {
+    this.beep();
+    return false;
+  }
+};
+
+// control-backspace deletes selection
+objJSX.registerHotKey('doClose', ".", false, true, false);
+objJSX.registerHotKey('doCreate', jsx3.gui.Event.KEY_ENTER, false, false, false);
+ 
+ ]]></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+   <dynamics jsxbgcolor="@Solid Medium"/>
+   <variants jsxzindex="5006" jsxwindowstate="1" jsxresize="0" jsxmodal="1" jsxoverflow="2"/>
+   <strings jsxname="dialog" jsxwidth="350" jsxheight="195" jsxhelpid="ide.newproj"/>
+    <object type="jsx3.gui.WindowBar">
+     <variants/>
+     <strings jsxname="caption bar" jsxtext="Create a New Project"/>
+      <object type="jsx3.gui.ToolbarButton">
+       <dynamics jsximage="@Close Icon" jsxtip="@Close Tip"/>
+       <variants/>
+       <strings jsxname="close button"/>
+       <events jsxexecute="this.getParent().getParent().doClose();"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+     <strings jsxname="layout (--)" jsxwidth="100%" jsxheight="100%" jsxrows="*,36,36"/>
+      <object type="jsx3.gui.Block">
+       <dynamics jsxpadding="@8Pixel"/>
+       <variants jsxoverflow="2"/>
+       <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxtext="Enter the name of the project you wish to create or click on the folder button to browse to a location for the new project. A directory will be created in JSXAPPS with the name of the new project. The new project will open in the current browser window."/>
+      </object>
+      <object type="jsx3.gui.Block">
+       <variants jsxoverflow="1"/>
+       <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.LayoutGrid">
+         <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+         <strings jsxname="layout ( | )" jsxwidth="100%" jsxheight="100%" jsxcols="*,40"/>
+          <object type="jsx3.gui.Block">
+           <dynamics jsxpadding="@8Pixel"/>
+           <variants jsxoverflow="2"/>
+           <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+            <object type="jsx3.gui.TextBox">
+             <variants jsxheight="18"/>
+             <strings jsxname="projectpath" jsxwidth="100%" jsxtip="The path may contain only the following characters: A-Z a-z 0-9 . / -"/>
+             <events jsxincchange="this.doIncChange(strVALUE);"/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+           <variants jsxoverflow="1"/>
+           <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxpadding="5"/>
+            <object type="jsx3.gui.ToolbarButton">
+             <variants/>
+             <strings jsxname="toolbar button" jsximage="images/icon_60.gif"/>
+             <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doBrowse();"/>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+       <dynamics jsxpadding="@8Pixel"/>
+       <variants jsxoverflow="1"/>
+       <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"/>
+        <object type="jsx3.gui.Button">
+         <variants jsxindex="0" jsxheight="18"/>
+         <strings jsxname="button" jsxtext="Cancel" jsxmargin="0 10 0 0"/>
+         <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"/>
+        </object>
+        <object type="jsx3.gui.Button">
+         <variants jsxindex="0" jsxheight="18"/>
+         <strings jsxname="button" jsxtext="Create" jsxmargin="0 12 0 0" jsxfontweight="bold"/>
+         <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doCreate();"/>
+        </object>
+        <object type="jsx3.gui.ImageButton">
+         <variants jsxindex="0" jsxheight="16" jsxwidth="16"/>
+         <strings jsxname="helpBtn" jsximage="images/icon_59.gif"/>
+         <events jsxexecute="this.getServer().invokeHelp(this.getAncestorOfName(&quot;dialog&quot;));"/>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

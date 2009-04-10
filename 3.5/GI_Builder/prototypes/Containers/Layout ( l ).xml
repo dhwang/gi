@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Layout - Side/Side]]></name>
+  <icon><![CDATA[images/prototypes/layout-side.gif]]></icon>
+  <description><![CDATA[2 side-by-side panes in an adaptive layout grid.]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="layout ( | )" jsxcols="100,*" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.Block">
+      <dynamics jsxborder="@Outset"/>
+      <variants jsxoverflow="2"/>
+      <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+    </object>
+    <object type="jsx3.gui.Block">
+      <dynamics jsxborder="@Outset"/>
+      <variants jsxoverflow="1"/>
+      <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+    </object>
+  </object>
+</serialization>
