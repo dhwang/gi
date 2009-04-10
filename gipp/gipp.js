@@ -311,6 +311,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /**
+   * Returns the runner singleton for this execution of GIPP.
    * @return {gi.test.gipp.Runner}
    */
   gipp.getRunner = function() {
@@ -505,6 +506,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
 
 /**
+ * The GIPP controller object. This class rovides access to all test cases and results.
+ *
+ * @see gi.test.gipp#getRunner()
+ *
  * @jsxdoc-definition  jsx3.lang.Class.defineClass("gi.test.gipp.Runner", Object, null, function() {});
  */
 (function(Runner) {
@@ -600,7 +605,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /**
-   * @param strId {String}
+   * @param strId {String} the test case ID.
    * @return {gi.test.gipp.TestCase}
    */
   Runner_prototype.getTest = function(strId) {
@@ -608,7 +613,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /**
-   * @param strId {String}
+   * @param strId {String} the test case ID.
    * @return {gi.test.gipp.Result}
    */
   Runner_prototype.getResult = function(strId) {
@@ -1265,17 +1270,36 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
 
 /**
+ * A test case. 
+ *
+ * @see gi.test.gipp#addTestCase()
+ * @see gi.test.gipp.Runner#addTest()
+ * @see gi.test.gipp.Runner#getTest()
+ *
  * @jsxdoc-definition  jsx3.lang.Class.defineClass("gi.test.gipp.TestCase", Object, null, function() {});
  */
 (function(TestCase) {
   var TestCase_prototype = TestCase.prototype;
   
-  /** {String} */
+  /**
+   * {String} The "millisecond" unit.
+   * @see #setUnit()
+   * @final
+   */
   TestCase.MILLIS = "ms";
-  /** {String} */
+
+  /**
+   * {String} The "times" unit.
+   * @see #setUnit()
+   * @final
+   */
   TestCase.TIMES = "x";
 
-  /** {int} */
+  /**
+   * {int} The default maximum number of milliseconds in which to run a test case using the "times" unit.
+   * @see #setLimitMs()
+   * @final
+   */
   TestCase.DEFAULT_LIMIT = 1000;
   
   /** @private @jsxobf-clobber */
@@ -1417,7 +1441,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   /**
    * Adds a set-up function to this test case. A set-up function happens before the test case is called and is not 
    * counted in the time of the test case.
-   * @param fctSetUp {Function}
+   * @param fctSetUp {Function} the set up function. This function will be called in the context of this test case
+   *    instance.
    * @param bOnce {boolean} whether to only execute this function once even when preforming multiple test runs.
    */
   TestCase_prototype.addSetUp = function(fctSetUp, bOnce) {
@@ -1427,7 +1452,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   /**
    * Adds a tear-down function to this test case. A tear-down function happens after the test case is called and is not 
    * counted in the time of the test case.
-   * @param fctTearDown {Function}
+   * @param fctTearDown {Function}  the tear down function. This function will be called in the context of this test case
+   *    instance.
    * @param bOnce {boolean} whether to only execute this function once even when preforming multiple test runs.
    */
   TestCase_prototype.addTearDown = function(fctTearDown, bOnce) {
@@ -1438,6 +1464,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
 
 /**
+ * A data object that stores the results of a test case. There is one result object per test case per GIPP execution.
+ *
+ * @see gi.test.gipp.Runner#getResult()
+ * 
  * @jsxdoc-definition  jsx3.lang.Class.defineClass("gi.test.gipp.Result", Object, null, function() {});
  */
 (function(Result) {
@@ -1581,7 +1611,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @return {Object}
    */
   Result_prototype.getError = function(intRun) {
-    if (intRun !=  null) {
+    if (intRun != null) {
       return this._e[intRun];
     } else {
       for (var i = 0; i < this._e.length; i++)
