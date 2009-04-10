@@ -250,7 +250,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @package */
   gipp.reload = function() {
-    window.location.reload();
+    window.location.reload(true);
   };
 
   gipp.evaluate = function(e) {
