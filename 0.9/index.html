@@ -1,0 +1,84 @@
+<!--
+/*
+ * Modified by TIBCO Software Inc., © 2007
+ * TIBCO General Interface Test Automation Kit (GITAK) 0.8
+ */
+-->
+<!--
+        Copyright 2004 ThoughtWorks, Inc
+
+         Licensed under the Apache License, Version 2.0 (the "License");
+         you may not use this file except in compliance with the License.
+         You may obtain a copy of the License at
+
+             http://www.apache.org/licenses/LICENSE-2.0
+
+         Unless required by applicable law or agreed to in writing, software
+         distributed under the License is distributed on an "AS IS" BASIS,
+         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         See the License for the specific language governing permissions and
+         limitations under the License.
+-->
+<html>
+<head>
+<title>Selenium starting points</title>
+<script language="Javascript">
+function fixUnitTestLinks()
+{
+    var baseurl = document.location + "";
+    baseurl = baseurl.replace(/[^\/]*$/, '');
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        if (link.className == 'jsUnitSuite') {
+            link['href'] = link['href'].replace('BASEURL', baseurl);
+        }
+    }
+}
+</script>
+<style>
+li { margin-top: 6pt; }
+</style>
+</head>
+<body onload="fixUnitTestLinks();">
+<h1>TIBCO General Interface&#153; Test Automation Kit
+</h1>
+
+<ul>
+  <li>
+   <a href="core/TestRunner.html?test=../gi/tests/gi32/TestSuite.html">General Interface 3.2/3.3 TestSuite</a>  (Remember to edit "gi/tests/gi32/testSetup.html with proper path for GI home path)</li><li>
+   <a href="core/TestRunner.html?test=../gi/tests/gi34/TestSuite.html">General Interface 3.4/3.5 TestSuite</a>  (Remember to edit "gi/tests/gi34/testSetup.html with proper path for GI home path)</li><li>
+
+	  <a href="gi/doc/tib_gitak_selenium_extension_reference.html">GI Extension Reference</a> -
+      extended assert/action commands and locators reference documents.
+  </li>
+</ul>
+
+<h2>Selenium</h2>
+<p>
+  <a href="core/TestRunner.html">Selenium TestRunner</a> - Select a test suite to run in Selenium
+</p>
+<p>
+  <a href="reference.html">Selenium Reference</a> Document
+</p>
+
+<p>
+<b>Acceptance tests:</b> These test-suites demonstrate/exercise the
+functionality of Selenium.
+</p>
+
+<ul>
+  <li>
+    <a href="core/TestRunner.html?test=../tests/TestSuite.html">Selenium TestSuite</a> - functional tests for Selenium. This suite of tests should pass in any supported browser.
+  </li>
+  <li>
+    <a href="core/TestRunner.html?test=../tests/ErrorCheckingTestSuite.html">Error Checking TestSuite</a> - tests for the error verification commands
+  </li>
+  <li>
+  	<a href="core/TestRunner.html?test=../tests/DogfoodTestSuite.html&multiWindow=true">Dogfood TestSuite</a> - test Selenium with Selenium
+  </li>
+</ul>
+
+
+</body>
+</html>
