@@ -1,4 +1,0 @@
-
-function nothingSpecial() {
-  return "nothing";
-};
