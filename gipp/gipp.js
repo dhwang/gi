@@ -64,6 +64,11 @@ gi.test.gipp._init = function(gipp) {
    * {int} The amount (milliseconds) of time to wait before cancelling a test case that returns <b>WAIT</b>.
    */
   gipp.TIMEOUT = 3000;
+  
+  /**
+   * {Object<String,String>} A key-value map of deployment parameters that will be added to the tested application.
+   */
+  gipp.DEPLOYMENT_PARAM = {};
 
   gipp._SERVER = null;
   gipp._CURRENTJOB = null;
@@ -329,6 +334,13 @@ gi.test.gipp._init = function(gipp) {
       document.getElementById("app_container").appendChild(div);
 
       var element = document.createElement("script");
+      
+      var param = gipp.DEPLOYMENT_PARAM;
+      if (param && typeof(param) == "object") {
+        for (var f in param)
+          element.setAttribute(f, String(param[f]));
+      }
+      
       element.src = gipp._getFormValue("input_gi") + "/JSX/js/JSX30.js";
       element.setAttribute("jsxapppath", strPath);
       element.setAttribute("jsxlt", "true");
