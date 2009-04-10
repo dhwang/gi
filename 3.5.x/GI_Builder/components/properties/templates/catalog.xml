@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="jsx3.gui.Block" jsxtext="components/properties/templates/Block.xml"/>
+  <record jsxid="jsx3.gui.BlockX" jsxtext="components/properties/templates/BlockX.xml"/>
+  <record jsxid="jsx3.gui.Button" jsxtext="components/properties/templates/Button.xml"/>
+  <record jsxid="jsx3.gui.CheckBox" jsxtext="components/properties/templates/CheckBox.xml"/>
+  <record jsxid="jsx3.gui.ColorPicker" jsxtext="components/properties/templates/ColorPicker.xml"/>
+  <record jsxid="jsx3.gui.Column" jsxtext="components/properties/templates/Column.xml"/>
+  <record jsxid="jsx3.gui.DatePicker" jsxtext="components/properties/templates/DatePicker.xml"/>
+  <record jsxid="jsx3.gui.Dialog" jsxtext="components/properties/templates/Dialog.xml"/>
+  <record jsxid="jsx3.gui.Grid" jsxtext="components/properties/templates/Grid.xml"/>
+  <record jsxid="jsx3.gui.IFrame" jsxtext="components/properties/templates/IFrame.xml"/>
+  <record jsxid="jsx3.gui.ImageButton" jsxtext="components/properties/templates/ImageButton.xml"/>
+  <record jsxid="jsx3.gui.Image" jsxtext="components/properties/templates/Image.xml"/>
+  <record jsxid="jsx3.gui.LayoutGrid" jsxtext="components/properties/templates/LayoutGrid.xml"/>
+  <record jsxid="jsx3.gui.List" jsxtext="components/properties/templates/List.xml"/>
+  <record jsxid="jsx3.gui.Matrix" jsxtext="components/properties/templates/Matrix.xml"/>
+  <record jsxid="jsx3.gui.Matrix.Column" jsxtext="components/properties/templates/MatrixColumn.xml"/>
+  <record jsxid="jsx3.gui.Menu" jsxtext="components/properties/templates/Menu.xml"/>
+  <record jsxid="jsx3.gui.RadioButton" jsxtext="components/properties/templates/RadioButton.xml"/>
+  <record jsxid="jsx3.gui.Select" jsxtext="components/properties/templates/Select.xml"/>
+  <record jsxid="jsx3.gui.Slider" jsxtext="components/properties/templates/Slider.xml"/>
+  <record jsxid="jsx3.gui.Sound" jsxtext="components/properties/templates/Sound.xml"/>
+  <record jsxid="jsx3.gui.Splitter" jsxtext="components/properties/templates/Splitter.xml"/>
+  <record jsxid="jsx3.gui.Stack" jsxtext="components/properties/templates/Stack.xml"/>
+  <record jsxid="jsx3.gui.StackGroup" jsxtext="components/properties/templates/StackGroup.xml"/>
+  <record jsxid="jsx3.gui.Tab" jsxtext="components/properties/templates/Tab.xml"/>
+  <record jsxid="jsx3.gui.TabbedPane" jsxtext="components/properties/templates/TabbedPane.xml"/>
+  <record jsxid="jsx3.gui.Table" jsxtext="components/properties/templates/Table.xml"/>
+  <record jsxid="jsx3.gui.TextBox" jsxtext="components/properties/templates/TextBox.xml"/>
+  <record jsxid="jsx3.gui.TimePicker" jsxtext="components/properties/templates/TimePicker.xml"/>
+  <record jsxid="jsx3.gui.ToolbarButton" jsxtext="components/properties/templates/ToolbarButton.xml"/>
+  <record jsxid="jsx3.gui.Tree" jsxtext="components/properties/templates/Tree.xml"/>
+  <record jsxid="jsx3.gui.WindowBar" jsxtext="components/properties/templates/WindowBar.xml"/>
+</data>

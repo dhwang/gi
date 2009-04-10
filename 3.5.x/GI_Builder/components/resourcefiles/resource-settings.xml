@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[
+ 
+jsx3.require("jsx3.ide.PrefsController");
+ 
+objJSX.doMinimize = function() {
+ this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
+};
+
+objJSX.doConfirmedClose = function() {
+  this._jsxcontroller.unload();
+};
+
+objJSX.doPersistAndClose = function() {
+  var prefs = jsx3.ide.getIDESettings();
+  var dims = prefs.set("resource-settings", "dims", this.getDimensions());
+    
+  this.doClose();
+};
+
+objJSX.setResourceId = function(strId) {
+  this._jsxresourceid = strId;
+  
+  var objResource = jsx3.ide.getResourceById(strId);
+	var cleanURL = jsx3.ide.fixPath(objResource.src);
+	cleanURL = cleanURL.substring(cleanURL.lastIndexOf("/") + 1);
+  var dialogTitle = this.getServer().getDynamicProperty('_pfl_title', cleanURL);
+	this.getDescendantOfName('title').setText(dialogTitle, true);  
+};
+
+objJSX.doInit = function() {  
+  this._jsxcontroller = new jsx3.ide.PrefsController();
+  this._jsxcontroller.setCollapse(true);
+  
+  var pane = new jsx3.ide.PrefsPane(jsx3.IDE.resolveURI("components/resourcefiles/resource-profile.xml"));
+  pane.setProperty("resourceId", this._jsxresourceid);
+  
+  this._jsxcontroller.addPane(pane);
+  this._jsxcontroller.renderIn(this.getDescendantOfName("content"));
+  
+  this._jsxcontroller.subscribe(jsx3.ide.PrefsController.UNLOAD, this, "doPersistAndClose");
+};
+
+objJSX.registerHotKey('doMinimize', 'm', false, true, false); // minimize on ctrl-m
+
+ ]]></onAfterDeserialize>
+		<object type="jsx3.gui.Dialog">
+			<dynamics jsxbgcolor="@Solid Medium"/>
+			<variants jsxwidth="355" jsxheight="190" jsxmodal="1" jsxminy="190" jsxmaxy="190" jsxminx="275"/>
+			<strings jsxname="jsx_ide_resourcesettings" jsxhelpid="ide.rsrcset"/>
+				<object type="jsx3.gui.WindowBar">
+					<variants/>
+					<strings jsxname="title" jsxtext="File Profile"/>
+						<object type="jsx3.gui.ToolbarButton">
+							<dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+							<variants/>
+							<strings jsxname="min button"/>
+							<events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"/>
+						</object>
+						<object type="jsx3.gui.ToolbarButton">
+							<dynamics jsximage="@Close Icon" />
+							<variants />
+							<strings jsxname="jsx_tbb" jsxtip="close dialog" />
+							<events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doConfirmedClose();" />
+						</object>
+				</object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="content" jsxwidth="100%" jsxheight="100%"/>
+        </object>        
+		</object>
+</serialization>

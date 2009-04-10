@@ -1,0 +1,626 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<project name="TIBCO General Interface" default="dist" basedir=".">
+
+  <property name="project.dir" value=".."/>
+  <property name="build.dir" value="${project.dir}/build"/>
+  <property name="tools.dir" value="${build.dir}/tools"/>
+  <property name="tmp.dir" value="${build.dir}/tmp"/>
+
+  <!-- Selector for text files. Text files can be copied with filtering. -->
+  <selector id="files.text">
+    <or>
+      <filename name="**/*.html"/>
+      <filename name="**/*.htm"/>
+      <filename name="**/*.xhtml"/>
+      <filename name="**/*.hta"/>
+      <filename name="**/*.txt"/>
+      <filename name="**/*.xml"/>
+      <filename name="**/*.css"/>
+      <filename name="**/*.js"/>
+      <filename name="**/*.xsl"/>
+    </or>
+  </selector>
+
+  <!-- Selector for binary files. Binary files can not be copied with filtering. -->
+  <selector id="files.binary">
+    <not>
+      <selector refid="files.text"/>
+    </not>
+  </selector>
+
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${build.dir}/tools/lib/ant-contrib/ant-contrib-1.0b3.jar"/>
+    </classpath>
+  </taskdef>
+
+  <target name="init">
+    <!-- Load the application specific settings -->
+    <property file="${build.dir}/build.properties"/>
+
+    <property name="dist.dirbase" value="${project.dir}/${build.loc.dist}"/>
+    <property name="dist.gi" value="gi"/>
+    <property name="dist.dir" value="${project.dir}/${build.loc.dist}/${dist.gi}"/>
+
+    <!-- Convert prop={true,false} to set/unset properties for use with if/unless. -->
+    <condition property="build.set.ide" value="1">
+      <equals arg1="${build.gi.ide}" arg2="true"/>
+    </condition>
+    <condition property="build.set.docs" value="1">
+      <equals arg1="${build.gi.docs}" arg2="true"/>
+    </condition>
+    <condition property="build.set.docs.html" value="1">
+      <and>
+        <isset property="build.set.docs"/>
+        <equals arg1="${build.gi.docs.html}" arg2="true"/>
+      </and>
+    </condition>
+    <condition property="build.set.compile.jsx" value="1">
+      <equals arg1="${build.gi.compile.jsx}" arg2="true"/>
+    </condition>
+    <condition property="build.set.compile.charting" value="1">
+      <equals arg1="${build.gi.compile.charting}" arg2="true"/>
+    </condition>
+    <condition property="build.set.obfuscate.jsx" value="1">
+      <equals arg1="${build.gi.obfuscate.jsx}" arg2="true"/>
+    </condition>
+    <condition property="build.set.obfuscate.charting" value="1">
+      <equals arg1="${build.gi.obfuscate.charting}" arg2="true"/>
+    </condition>
+    <condition property="build.set.obfuscate.ide" value="1">
+      <and>
+        <isset property="build.set.ide"/>
+        <equals arg1="${build.gi.obfuscate.ide}" arg2="true"/>
+      </and>
+    </condition>
+    <condition property="build.set.merge.jsx" value="1">
+      <equals arg1="${build.gi.merge.jsx}" arg2="true"/>
+    </condition>
+    <condition property="build.set.merge.charting" value="1">
+      <equals arg1="${build.gi.merge.charting}" arg2="true"/>
+    </condition>
+    <condition property="build.set.merge.ide" value="1">
+      <and>
+        <isset property="build.set.ide"/>
+        <equals arg1="${build.gi.merge.ide}" arg2="true"/>
+      </and>
+    </condition>
+
+    <!-- Macro that copies a fileset, taking care to only copy text files with filtering. -->
+    <macrodef name="copy-with-filter">
+      <attribute name="todir"/>
+      <attribute name="dir"/>
+      <attribute name="includes" default=""/>
+      <attribute name="failonerror" default="true"/>
+      <element name="copy-filterset" optional="no"/>
+      <element name="copy-fileset" optional="yes"/>
+
+      <sequential>
+        <copy todir="@{todir}" verbose="false" includeemptydirs="false" encoding="${build.encoding}"
+            failonerror="@{failonerror}">
+          <copy-filterset/>
+          <fileset dir="@{dir}" includes="@{includes}">
+            <copy-fileset/>
+            <selector refid="files.text"/>
+          </fileset>
+        </copy>
+        <copy todir="@{todir}" verbose="false" includeemptydirs="false" failonerror="@{failonerror}">
+          <fileset dir="@{dir}" includes="@{includes}">
+            <copy-fileset/>
+            <selector refid="files.binary"/>
+          </fileset>
+        </copy>
+      </sequential>
+    </macrodef>
+
+    <!-- Macro adds a copyright to the top of all files in a file set. -->
+    <macrodef name="add-copyright">
+      <attribute name="dir"/>
+      <element name="copy-fileset" optional="no"/>
+
+      <sequential>
+        <delete dir="${tmp.dir}"/>
+        <mkdir dir="${tmp.dir}"/>
+
+        <copy todir="${tmp.dir}" verbose="false" outputencoding="${build.encoding}">
+          <copy-fileset/>
+          <filterchain>
+            <concatfilter prepend="obfuscate/copyright.js"/>
+          </filterchain>
+        </copy>
+
+        <move todir="@{dir}" overwrite="true" flatten="false">
+          <fileset dir="${tmp.dir}">
+            <include name="**/?*"/>
+          </fileset>
+        </move>
+
+        <delete dir="${tmp.dir}"/>
+      </sequential>
+    </macrodef>
+  </target>
+
+  <!-- Make sure that the version.properties file exists. If it doesn't, create it with default values. -->
+  <target name="init-version" depends="init">
+    <condition property="build.version.propfileexists" value="true">
+      <available file="${build.properties.version}"/>
+    </condition>
+
+    <antcall target="increment-build"/>
+
+    <propertyfile
+        file="${build.properties.version}"
+        comment=" generated/modified by build.xml">
+      <entry key="build.version.buildno" default="1"/>
+      <entry key="build.version.date" type="date" value="now" pattern="dd-MMM-yyyy"/>
+      <entry key="build.version.time" type="date" value="now" pattern="HH:mm"/>
+      <entry key="build.version.nightly" type="date" value="now" pattern="yyyyMMdd_HHmm"/>
+    </propertyfile>
+
+    <property file="${build.properties.version}"/>
+  </target>
+
+  <!-- Increments the build number. -->
+  <target name="increment-build" depends="init" unless="build.version.propfileexists"
+      description="Increments the build number stored in version.properties.">
+    <propertyfile
+        file="${build.properties.version}"
+        comment=" generated/modified by build.xml">
+      <entry key="build.version.buildno" type="int" operation="+" default="0"/>
+    </propertyfile>
+  </target>
+
+  <!-- Initializes substitution tokens used in text file copying. -->
+  <target name="init-filters" depends="init, init-version">
+    <property file="${build.properties.strings}"/>
+    
+    <filterset id="gi-filters-text">
+      <!-- these properties contain other properties, or can be overridden from strings.properties and so don't work
+           in filtersfile -->
+      <filter token="gi.runtime.notsupported" value="${gi.runtime.notsupported}"/>
+      <filter token="gi.runtime.notsupported.cont" value="${gi.runtime.notsupported.cont}"/>
+      <filter token="gi.ide.notsupported" value="${gi.ide.notsupported}"/>
+      <filter token="build.gi.name.edition" value="${build.gi.name.edition}"/>
+      <filter token="gi.productname" value="${gi.productname}"/>
+      <filter token="gi.productname.esc" value="${gi.productname.esc}"/>
+      <filter token="gi.productname.text" value="${gi.productname.text}"/>
+      <filter token="gi.productname.full" value="${gi.productname.full}"/>
+      <filter token="gi.productname.full.esc" value="${gi.productname.full.esc}"/>
+      <filter token="gi.productname.full.text" value="${gi.productname.full.text}"/>
+      <filter token="gi.version.full" value="${gi.version.full}"/>
+      <filter token="gi.apidocs.title" value="${gi.apidocs.title}"/>
+      <filter token="gi.apidocs.title.esc" value="${gi.apidocs.title.esc}"/>
+    </filterset>
+    <filterset id="gi-filters">
+      <filtersfile file="${build.dir}/build.properties"/>
+      <filter token="build.version.date" value="${build.version.date}"/>
+      <filter token="build.version.time" value="${build.version.time}"/>
+      <filter token="build.version.buildno" value="${build.version.buildno}"/>
+      <filtersfile file="${build.properties.strings}"/>
+    </filterset>
+  </target>
+
+  <target name="dist"
+      depends="init, copy-runtime, copy-ide, compile-js, compile-xslt, compile-xslt-ide,
+          obfuscate, merge-script, restore-copyright,
+          compile-locales, dist-compile-doc, dist-compile-doc-html"
+      description="Compiles and builds a TIBCO General Interface distribution."/>
+
+  <target name="copy-runtime" depends="init, init-filters">
+    <mkdir dir="${dist.dir}"/>
+
+    <copy-with-filter todir="${dist.dir}" dir="${project.dir}" includes="${build.source.jsx.toplevel}">
+      <copy-filterset>
+        <filterset refid="gi-filters-text"/>
+        <filterset refid="gi-filters"/>
+      </copy-filterset>
+    </copy-with-filter>
+  </target>
+
+  <target name="copy-ide" depends="init, init-filters" if="build.set.ide">
+    <mkdir dir="${dist.dir}"/>
+
+    <copy-with-filter todir="${dist.dir}" dir="${project.dir}" includes="${build.source.builder.toplevel}">
+      <copy-filterset>
+        <filterset refid="gi-filters-text"/>
+        <filterset refid="gi-filters"/>
+      </copy-filterset>
+      <copy-fileset>
+      </copy-fileset>
+    </copy-with-filter>
+  </target>
+
+  <target name="compile-tools">
+    <ant antfile="${tools.dir}/build.xml"
+        inheritall="false"
+        inheritrefs="false"
+        target="package"/>
+  </target>
+
+  <target name="init-tools" depends="init, compile-tools">
+    <property file="${tools.dir}/build.properties"/>
+
+    <path id="cp.tools">
+      <path path="${tools.dir}/jsx-tools.jar"/>
+      <path path="${tools.dir}/${lib.jaxen}"/>
+      <path path="${tools.dir}/${lib.rhino}"/>
+      <path path="${tools.dir}/${lib.xalan}"/>
+      <path path="${tools.dir}/${lib.xerces}"/>
+      <path path="${tools.dir}/${lib.jsparser}"/>
+      <path path="${tools.dir}/${lib.saxon}"/>
+      <path path="${tools.dir}/${lib.saxon-dom}"/>
+    </path>
+
+    <taskdef resource="com/tibco/gi/ant/antlib.xml" classpathref="cp.tools"/>
+
+    <condition property="build.gi.jsc.symbol.dep"
+        value="+DEP" else="!DEP">
+      <equals arg1="${build.gi.deprecated}" arg2="true"/>
+    </condition>
+
+    <condition property="build.gi.jsc.symbol.bench"
+        value="+BENCH" else="!BENCH">
+      <equals arg1="${build.gi.benchmark}" arg2="true"/>
+    </condition>
+
+    <property name="build.gi.jsc.symbols" value="${build.gi.jsc.symbol.dep},${build.gi.jsc.symbol.bench}"/>
+  </target>
+
+  <target name="compile-js" depends="compile-js-framework, compile-js-charting"/>
+
+  <target name="compile-js-framework" depends="init, init-tools" if="build.set.compile.jsx">
+    <gi-compile symbols="${build.gi.jsc.symbols}">
+      <fileset dir="${dist.dir}/JSX/js">
+        <include name="**/*.js"/>
+      </fileset>
+    </gi-compile>
+    <gi-compile targets="${build.gi.targets}" aliases="${build.gi.targets.aliases}">
+      <fileset dir="${dist.dir}/JSX/js" includes="${build.source.jsc.jsx}"/>
+    </gi-compile>
+  </target>
+
+  <target name="compile-js-charting" depends="init, init-tools" if="build.set.compile.charting">
+    <gi-compile symbols="${build.gi.jsc.symbols}">
+      <fileset dir="${dist.dir}/JSX/addins/charting/classes">
+        <include name="**/*.js"/>
+      </fileset>
+    </gi-compile>
+    <gi-compile targets="${build.gi.targets.charting}">
+      <fileset dir="${dist.dir}/JSX/addins/charting/classes" includes="${build.source.jsc.charting}"/>
+    </gi-compile>
+  </target>
+
+  <target name="obfuscate" depends="obfuscate-jsx, obfuscate-charting, obfuscate-ide"/>
+
+  <target name="obfuscate-jsx" depends="init, init-tools" if="build.set.obfuscate.jsx">
+    <gi-obfuscate optliterals="true"
+        blessfile="obfuscate/jsx-blessed.txt"
+        clobberfile="obfuscate/jsx-clobber.txt"
+        outmap="obfuscate/jsx-namemap.txt">
+      <fileset dir="${dist.dir}/JSX">
+        <include name="**/*.js"/>
+        <include name="**/*.xml"/>
+        <exclude name="addins/charting/**/*"/>
+        <exclude name="stubs/**/*.js"/>
+      </fileset>
+    </gi-obfuscate>
+  </target>
+
+  <target name="obfuscate-charting" depends="init, init-tools" if="build.set.obfuscate.charting">
+    <concat
+        destfile="${build.dir}/obfuscate/charting-clobber.txt.tmp" outputencoding="${build.encoding}">
+      <fileset dir="${build.dir}/obfuscate" includes="charting-clobber.txt jsx-clobber.txt"/>
+    </concat>
+    <gi-obfuscate optliterals="true"
+        blessfile="obfuscate/jsx-blessed.txt"
+        clobberfile="${build.dir}/obfuscate/charting-clobber.txt.tmp"
+        inmap="obfuscate/jsx-namemap.txt"
+        outmap="obfuscate/charting-namemap.txt">
+      <fileset dir="${dist.dir}/JSX/addins/charting">
+        <include name="**/*.js"/>
+        <include name="**/*.xml"/>
+      </fileset>
+      <fileset dir="${dist.dir}/JSX/addins/charting/classes">
+        <include name="**/?*"/>
+      </fileset>
+    </gi-obfuscate>
+    <delete file="${build.dir}/obfuscate/charting-clobber.txt.tmp"/>
+  </target>
+
+  <target name="obfuscate-ide" depends="init, init-tools" if="build.set.obfuscate.ide">
+    <gi-obfuscate optliterals="true"
+        blessfile="obfuscate/jsx-blessed.txt"
+        clobberfile="obfuscate/ide-clobber.txt"
+        inmap="obfuscate/jsx-namemap.txt"
+        outmap="obfuscate/ide-namemap.txt">
+      <fileset dir="${dist.dir}/GI_Builder">
+        <include name="**/*.js"/>
+        <include name="**/*.xml"/>
+        <exclude name="GI_User/**/*.*"/>
+        <exclude name="components/apihelp/classes/**/*.*"/>
+        <exclude name="components/project/projecttemplate/**/*.*"/>
+        <exclude name="language/eng/typeahead_*.xml"/>
+        <exclude name="prototypes/**/*.*"/>
+        <exclude name="templates/*.*"/>
+        <exclude name="xml/*.*"/>
+        <exclude name="xsl/*.*"/>
+      </fileset>
+    </gi-obfuscate>
+  </target>
+
+  <target name="merge-script" depends="merge-script-jsx, merge-script-charting, merge-script-ide"/>
+
+  <target name="merge-script-jsx" depends="init, init-tools" if="build.set.merge.jsx">
+    <mkdir dir="${tmp.dir}"/>
+    <delete file="${tmp.dir}/merge-jsx.txt"/>
+
+    <for list="${build.gi.targets}" delimiter="," param="target">
+      <sequential>
+        <gi-merge
+            dir="${dist.dir}/JSX/js"
+            graph="${build.dir}/merge/depends-jsx.xml"
+            target="@{target}"
+            outfile="${dist.dir}/JSX/js/@{target}/jsx.js"
+            includes="${build.gi.includes.jsx}"
+            log="${tmp.dir}/merge-jsx.txt">
+        </gi-merge>
+      </sequential>
+    </for>
+
+    <!-- Change bootstrap script to only request the one merged script file. -->
+    <replaceregexp file="${dist.dir}/JSX/js/JSX30.js"
+        match="\.SYSTEM_SCRIPTS\s*=\s*\[([\s\S]*?)\];"
+        replace=".SYSTEM_SCRIPTS=[&quot;@path@/jsx.js&quot;];"
+        byline="false"/>
+
+    <gi-mergeclean dir="${dist.dir}/JSX/js" log="${tmp.dir}/merge-jsx.txt"/>
+    <delete dir="${tmp.dir}"/>
+  </target>
+
+  <target name="merge-script-charting" depends="init, init-tools" if="build.set.merge.charting">
+    <mkdir dir="${tmp.dir}"/>
+    <delete file="${tmp.dir}/merge-charting.txt"/>
+
+    <for list="${build.gi.targets.charting}" delimiter="," param="target">
+      <sequential>
+        <gi-merge
+            dir="${dist.dir}/JSX/addins/charting"
+            graph="${build.dir}/merge/depends-charting.xml"
+            target="@{target}"
+            outfile="${dist.dir}/JSX/addins/charting/classes/@{target}.js"
+            includes="${build.gi.includes.charting}"
+            log="${tmp.dir}/merge-charting.txt">
+        </gi-merge>
+
+        <gi-mergeclean script="${dist.dir}/JSX/addins/charting/classes/@{target}.js"
+            scripttarget="@{target}"
+            config="${dist.dir}/JSX/addins/charting/config.xml"/>
+      </sequential>
+    </for>
+
+    <gi-mergeclean dir="${dist.dir}/JSX/addins/charting" log="${tmp.dir}/merge-charting.txt"
+        config="${dist.dir}/JSX/addins/charting/config.xml"/>
+    <delete dir="${tmp.dir}"/>
+  </target>
+
+  <!-- merge GI_Builder javascript -->
+  <target name="merge-script-ide" depends="init, init-tools" if="build.set.merge.ide">
+    <mkdir dir="${tmp.dir}"/>
+    <delete file="${tmp.dir}/merge-ide.txt"/>
+
+    <gi-merge
+        dir="${dist.dir}/GI_Builder"
+        graph="${build.dir}/merge/depends-ide.xml"
+        outfile="${dist.dir}/GI_Builder/js/ide-full.js"
+        includes="${build.gi.includes.ide}"
+        log="${tmp.dir}/merge-ide.txt">
+    </gi-merge>
+
+    <gi-mergeclean script="${dist.dir}/GI_Builder/js/ide-full.js"
+        config="${dist.dir}/GI_Builder/config.xml"/>
+    <gi-mergeclean dir="${dist.dir}/GI_Builder" log="${tmp.dir}/merge-ide.txt"
+        config="${dist.dir}/GI_Builder/config.xml"/>
+    <delete dir="${tmp.dir}"/>
+  </target>
+
+  <!-- prepend JavaScript comment copyright to compressed JS files -->
+  <target name="restore-copyright" depends="restore-copyright-jsx, restore-copyright-charting, restore-copyright-ide"/>
+
+  <target name="restore-copyright-jsx" depends="init" if="build.set.obfuscate.jsx">
+    <add-copyright dir="${dist.dir}/JSX/js">
+      <copy-fileset>
+        <fileset dir="${dist.dir}/JSX/js">
+          <include name="**/?*.js"/>
+        </fileset>
+      </copy-fileset>
+    </add-copyright>
+  </target>
+
+  <target name="restore-copyright-charting" depends="init" if="build.set.obfuscate.charting">
+    <add-copyright dir="${dist.dir}/JSX/addins/charting/classes">
+      <copy-fileset>
+        <fileset dir="${dist.dir}/JSX/addins/charting/classes">
+          <include name="**/?*.js"/>
+        </fileset>
+      </copy-fileset>
+    </add-copyright>
+  </target>
+
+  <target name="restore-copyright-ide" depends="init" if="build.set.obfuscate.ide">
+    <add-copyright dir="${dist.dir}/GI_Builder/js">
+      <copy-fileset>
+        <fileset dir="${dist.dir}/GI_Builder/js">
+          <include name="**/?*.js"/>
+        </fileset>
+      </copy-fileset>
+    </add-copyright>
+  </target>
+
+  <target name="dist-compile-doc" if="build.set.docs">
+    <antcall target="compile-doc-xml"/>
+    <antcall target="compile-doc-typeahead"/>
+  </target>
+
+  <target name="dist-compile-doc-html" if="build.set.docs.html">
+    <antcall target="compile-doc-html"/>
+    <antcall target="compile-idedoc"/>
+  </target>
+
+  <target name="compile-doc" depends="compile-doc-xml, compile-doc-html"
+      description="Compiles the API documentation to plain HTML files.">
+  </target>
+
+  <target name="compile-doc-xml" depends="init, init-filters, init-tools">
+    <gi-doc destdir="${dist.dir}/${build.docs.api.xml}" access="${build.docs.access}">
+      <fileset dir="${project.dir}" includes="${build.docs.includes}"/>
+    </gi-doc>
+  </target>
+
+  <target name="compile-doc-typeahead" depends="init, init-filters, init-tools">
+    <gi-typeahead outfile="${dist.dir}/${build.typeahead.out}">
+      <fileset dir="${dist.dir}/${build.docs.api.xml}" includes="${build.typeahead.includes}"/>
+    </gi-typeahead>
+  </target>
+
+  <target name="compile-doc-html" depends="init, init-filters, init-tools">
+    <mkdir dir="${tmp.dir}"/>
+
+    <!-- Copy XSLT to temporary directory with filtering. -->
+    <copy todir="${tmp.dir}" verbose="false" encoding="${build.encoding}">
+      <filterset refid="gi-filters-text"/>
+      <filterset refid="gi-filters"/>
+      <fileset dir="${build.dir}/apidoc">
+        <include name="*.xsl"/>
+        <include name="*.html"/>
+        <include name="*.css"/>
+      </fileset>
+    </copy>
+
+    <gi-htmldoc
+        srcdir="${dist.dir}/${build.docs.api.xml}"
+        destdir="${dist.dir}/${build.docs.api.html}"
+        docdir="${tmp.dir}"/>
+
+    <delete dir="${tmp.dir}"/>
+  </target>
+
+  <target name="compile-idedoc" depends="init, init-filters, init-tools"
+      description="Compiles the IDE inline metadata into HTML documentation.">
+
+    <mkdir dir="${tmp.dir}"/>
+
+    <!-- Copy XSLT to temporary directory with filtering. -->
+    <copy todir="${tmp.dir}" verbose="false" encoding="${build.encoding}">
+      <filterset refid="gi-filters-text"/>
+      <filterset refid="gi-filters"/>
+      <fileset dir="${build.dir}/apidoc/ide">
+        <include name="*.xsl"/>
+        <include name="*.html"/>
+        <include name="*.css"/>
+      </fileset>
+    </copy>
+
+    <!-- Compile IDE HTML documentation -->
+    <gi-idedoc type="props" destdir="${dist.dir}/${build.docs.ide.props}"
+        apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
+        catalog="${project.dir}/GI_Builder/components/properties/templates/catalog.xml" basepath="${project.dir}/GI_Builder/"/>
+    <gi-idedoc type="props" destdir="${dist.dir}/${build.docs.ide.props}"
+        apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
+        catalog="${project.dir}/JSX/addins/charting/properties/catalog.xml" basepath="${project.dir}/JSX/addins/charting/"/>
+
+    <gi-idedoc type="events" destdir="${dist.dir}/${build.docs.ide.events}"
+        apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
+        catalog="${project.dir}/GI_Builder/components/modelevents/templates/catalog.xml" basepath="${project.dir}/GI_Builder/"/>
+    <gi-idedoc type="events" destdir="${dist.dir}/${build.docs.ide.events}"
+        apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
+        catalog="${project.dir}/JSX/addins/charting/events/catalog.xml" basepath="${project.dir}/JSX/addins/charting/"/>
+
+    <gi-idedoc type="xslparams" destdir="${dist.dir}/${build.docs.ide.xslparams}"
+        apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
+        catalog="${project.dir}/GI_Builder/components/xslparams/templates/catalog.xml" basepath="${project.dir}/GI_Builder/"/>
+
+    <delete dir="${tmp.dir}"/>
+  </target>
+
+  <target name="dist-zip-prepall" unless="build.gi.skipdistall">
+    <echo>Preparing the files for packaging since the distribution directory does not already exist.</echo>
+    <antcall target="dist"/>
+  </target>
+
+  <target name="dist-zip" depends="init, init-filters"
+      description="Packages a TIBCO General Interface distribution in a ZIP file.">
+
+    <!-- Run "dist" target if the files don't seem to already exist in the dist/ directory -->
+    <condition property="build.gi.skipdistall"
+        value="true">
+      <available file="${dist.dir}/JSX"/>
+    </condition>
+    <antcall target="dist-zip-prepall" inheritall="true" inheritrefs="true"/>
+
+    <zip
+        basedir="${dist.dirbase}"
+        includes="${dist.gi}/**/*"
+        destfile="${dist.dirbase}/${build.dist.prefix}${build.gi.version.name}${build.dist.suffix}"
+        />
+  </target>
+
+  <target name="dist-nightly" depends="init, init-filters"
+      description="Packages a TIBCO General Interface distribution in a ZIP file.">
+
+    <delete dir="${dist.dir}"/>
+    <antcall target="dist" inheritall="true" inheritrefs="true"/>
+
+    <copy todir="${dist.dir}" verbose="false" encoding="${build.encoding}">
+      <fileset dir="${project.dir}" includes="${build.nightly.toplevel}"/>
+    </copy>
+
+    <zip
+        basedir="${dist.dirbase}"
+        includes="${dist.gi}/**/*"
+        destfile="${dist.dirbase}/${build.nightly.prefix}${build.version.nightly}${build.dist.suffix}"
+        />
+
+    <!--<delete dir="${dist.dir}"/>-->
+  </target>
+
+  <target name="compile-locales" depends="init, init-filters, init-tools"
+      description="Compiles locale data from the Common Locale Data Repository.">
+
+    <delete file="${dist.dir}/JSX/locale/locale.xml"/>
+
+    <gi-locale locales="${build.locales.jsx}"
+        outfile="${dist.dir}/JSX/locale/locale.xml"
+        defaultlocale="${build.locale.default}"
+        cldr="${build.locale.cldf.uri}" sources="${build.dir}/locale/jsx/" />
+  </target>
+
+  <!-- Merges all <xsl:import> nodes in JSX XSLT files for runtime efficiencies. -->
+  <target name="compile-xslt" depends="init, init-filters, init-tools">
+    <gi-xslt>
+      <fileset dir="${dist.dir}/JSX">
+        <include name="**/*.xsl"/>
+      </fileset>
+    </gi-xslt>
+  </target>
+
+  <target name="compile-xslt-ide" depends="init, init-filters, init-tools" if="build.set.ide">
+    <gi-xslt>
+      <fileset dir="${dist.dir}/GI_Builder/components/apihelp">
+        <include name="**/*.xsl"/>
+      </fileset>
+    </gi-xslt>
+  </target>
+
+  <target name="clean" depends="init"
+      description="Removes all build artifacts.">
+    <delete dir="${dist.dir}"/>
+    <delete dir="${tmp.dir}"/>
+  </target>
+
+</project>

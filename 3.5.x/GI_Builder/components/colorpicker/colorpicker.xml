@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.2">
+  <onAfterDeserialize>
+
+var ColorPicker = jsx3.gui.ColorPicker;
+
+objJSX.onColorPick = function(intRGB, strSkip) {
+  var hsb = ColorPicker.RGBtoHSB(intRGB);
+  if (strSkip != "hsbH") this.getCachedDescendantOfName("hsbH").setValue(Math.round(hsb[0] * 100));
+  if (strSkip != "hsbS") this.getCachedDescendantOfName("hsbS").setValue(Math.round(hsb[1] * 100));
+  if (strSkip != "hsbB") this.getCachedDescendantOfName("hsbB").setValue(Math.round(hsb[2] * 100));
+  if (strSkip != "rgbR") this.getCachedDescendantOfName("rgbR").setValue((intRGB &amp; 0xFF0000) &gt;&gt; 16);
+  if (strSkip != "rgbG") this.getCachedDescendantOfName("rgbG").setValue((intRGB &amp; 0x00FF00) &gt;&gt; 8);
+  if (strSkip != "rgbB") this.getCachedDescendantOfName("rgbB").setValue((intRGB &amp; 0x0000FF) &gt;&gt; 0);
+  var hex = "#" + (0x1000000 + intRGB).toString(16).substring(1).toUpperCase();
+  if (strSkip != "rgbHex") this.getCachedDescendantOfName("rgbHex").setValue(hex);
+  this.getCachedDescendantOfName("preview").setBackgroundColor(hex, true);
+};
+
+objJSX.onAxisPicker = function(strMode) {
+  var intAxis = null;
+  switch (strMode) {
+    case "h": intAxis = ColorPicker.HUE; break;
+    case "s": intAxis = ColorPicker.SATURATION; break;
+    case "b": intAxis = ColorPicker.BRIGHTNESS; break;
+  }
+
+  if (intAxis != null) {
+    var cp = this.getCachedDescendantOfName("colorPicker");
+    cp.setAxis(intAxis);
+    cp.repaint();
+  }
+};
+
+objJSX.onPreviewClick = function() {
+  var intRGB = this.getCachedDescendantOfName("colorPicker").getRGB();
+  var hex = "#" + (0x1000000 + intRGB).toString(16).substring(1).toUpperCase();
+  jsx3.html.copy(hex);
+};
+
+objJSX.onTextChange = function(objText, strValue) {
+  if (objText.getName() == "rgbHex") {
+    strValue = strValue.replace(/[^a-fA-F0-9]/g, "");
+    strValue = parseInt("0x" + strValue);
+    var colorPicker = this.getCachedDescendantOfName("colorPicker");
+    colorPicker.setRGB(strValue);
+    this.onColorPick(colorPicker.getRGB(), objText.getName());
+  } else {
+    var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(strValue)));
+    if (isNaN(val)) val = 0;
+    this.updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+  }
+};
+
+objJSX.onTextWheel = function(objText, objEvent) {
+  var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(objText.getValue()) + objEvent.getWheelDelta()));
+  if (isNaN(val)) val = 0;
+  objText.setValue(val);
+  this.updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+  objEvent.cancelBubble();
+};
+
+objJSX.onTextKeyDown = function(objText, objEvent) {
+  if (objEvent.downArrow() || objEvent.upArrow()) {
+    var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(objText.getValue()) + (objEvent.upArrow() ? 1 : -1)));
+    if (isNaN(val)) val = 0;
+    objText.setValue(val);
+    this.updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+    objEvent.cancelAll();
+  }
+};
+
+objJSX.updateOneAxis = function(intIndex, bHSB, intValue, strSkip) {
+  var colorPicker = this.getCachedDescendantOfName("colorPicker");
+  if (bHSB) {
+    var hsb = ColorPicker.RGBtoHSB(colorPicker.getRGB());
+    hsb[intIndex] = intValue/100;
+    colorPicker.setHSB(hsb[0], hsb[1], hsb[2]);
+    this.onColorPick(colorPicker.getRGB(), strSkip);
+  } else {
+    var rgb = colorPicker.getRGB();
+    rgb = [(rgb &amp; 0xFF0000) &gt;&gt; 16, (rgb &amp; 0xFF00) &gt;&gt; 8, (rgb &amp; 0xFF) &gt;&gt; 0];
+    rgb[intIndex] = intValue;
+    colorPicker.setRGB((rgb[0] &lt;&lt; 16) + (rgb[1] &lt;&lt; 8) + rgb[2]);
+    this.onColorPick(colorPicker.getRGB(), strSkip);
+  }
+}
+
+objJSX.getCachedDescendantOfName = function(strName) {
+  var fieldName = "_jsx" + strName;
+  if (this[fieldName] == null)
+    this[fieldName] = this.getDescendantOfName(strName);
+  return this[fieldName];
+};
+
+</onAfterDeserialize>
+    <object type="jsx3.gui.Dialog">
+      <variants jsxresize="0"/>
+      <strings jsxname="jsxide_cp" jsxwidth="421" jsxheight="310" jsxhelpid="ide.colorpicker"/>
+      <dynamics jsxbgcolor="@Solid Medium"/>
+        <object type="jsx3.gui.WindowBar">
+          <variants/>
+          <strings jsxname="caption" jsxtext="Color Picker"/>
+            <object type="jsx3.gui.ToolbarButton">
+              <variants/>
+              <strings jsxname="min button" jsxkeycode="ctrl+m"/>
+              <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+              <events jsxexecute="this.getParent().getParent().doToggleState();"/>
+            </object>
+            <object type="jsx3.gui.ToolbarButton">
+              <variants/>
+              <strings jsxname="close button" jsxkeycode="alt+w"/>
+              <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"/>
+              <events jsxexecute="this.getParent().getParent().doClose();"/>
+            </object>
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" jsxloadtype="1"/>
+          <strings jsxname="layout ( | )" jsxwidth="100%" jsxheight="100%" jsxcols="300,*"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+              <dynamics jsxpadding="@8Pixel"/>
+                <object type="jsx3.gui.ColorPicker">
+                  <variants jsxaxis="1" jsxrgb="16711680"/>
+                  <strings jsxname="colorPicker" jsxwidth="100%" jsxheight="100%"/>
+                  <dynamics jsxborder="@Outset"/>
+                  <events jsxchange="this.getAncestorOfName('jsxide_cp').onColorPick(intRGB);"/>
+                </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxpadding="2 8 8 4"/>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"/>
+                  <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="8" jsxmaxlength="3" jsxvalue="0" cpmin="0" cpmax="100" cpindex="0"/>
+                      <strings jsxname="hsbH"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"
+                              jsxmousewheel="this.getAncestorOfName('jsxide_cp').onTextWheel(this,objEVENT);"
+                              jsxkeydown="this.getAncestorOfName('jsxide_cp').onTextKeyDown(this,objEVENT);"/>
+                    </object>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="30" jsxmaxlength="3" jsxvalue="100" cpmin="0" cpmax="100" cpindex="1"/>
+                      <strings jsxname="hsbS"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"
+                              jsxmousewheel="this.getAncestorOfName('jsxide_cp').onTextWheel(this,objEVENT);"
+                              jsxkeydown="this.getAncestorOfName('jsxide_cp').onTextKeyDown(this,objEVENT);"/>
+                    </object>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="52" jsxmaxlength="3" jsxvalue="100" cpmin="0" cpmax="100" cpindex="2"/>
+                      <strings jsxname="hsbB"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"
+                              jsxmousewheel="this.getAncestorOfName('jsxide_cp').onTextWheel(this,objEVENT);"
+                              jsxkeydown="this.getAncestorOfName('jsxide_cp').onTextKeyDown(this,objEVENT);"/>
+                    </object>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="86" jsxmaxlength="3" jsxvalue="255" cpmin="0" cpmax="255" cpindex="0"/>
+                      <strings jsxname="rgbR"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"
+                              jsxmousewheel="this.getAncestorOfName('jsxide_cp').onTextWheel(this,objEVENT);"
+                              jsxkeydown="this.getAncestorOfName('jsxide_cp').onTextKeyDown(this,objEVENT);"/>
+                    </object>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="108" jsxmaxlength="3" jsxvalue="0" cpmin="0" cpmax="255" cpindex="1"/>
+                      <strings jsxname="rgbG"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"
+                              jsxmousewheel="this.getAncestorOfName('jsxide_cp').onTextWheel(this,objEVENT);"
+                              jsxkeydown="this.getAncestorOfName('jsxide_cp').onTextKeyDown(this,objEVENT);"/>
+                    </object>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="130" jsxmaxlength="3" cpmin="0" cpmax="255" cpindex="2"/>
+                      <strings jsxname="rgbB" jsxvalue="0"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"
+                              jsxmousewheel="this.getAncestorOfName('jsxide_cp').onTextWheel(this,objEVENT);"
+                              jsxkeydown="this.getAncestorOfName('jsxide_cp').onTextKeyDown(this,objEVENT);"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="8" jsxleft="0"/>
+                      <strings jsxtext="H:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="30" jsxleft="0"/>
+                      <strings jsxtext="S:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="52" jsxleft="0"/>
+                      <strings jsxtext="B:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="86" jsxleft="0"/>
+                      <strings jsxtext="R:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="108" jsxleft="0"/>
+                      <strings jsxtext="G:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="130" jsxleft="0"/>
+                      <strings jsxtext="B:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="164" jsxleft="0"/>
+                      <strings jsxtext="Hex:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                    </object>
+                    <object type="jsx3.gui.TextBox">
+                      <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="65" jsxleft="36" jsxtop="164" jsxmaxlength="7"/>
+                      <strings jsxname="rgbHex" jsxvalue="#FF0000"/>
+                      <events jsxincchange="this.getAncestorOfName('jsxide_cp').onTextChange(this,strVALUE);"/>
+                    </object>
+                    <object type="jsx3.gui.RadioButton">
+                      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxtop="8"/>
+                      <strings jsxname="radioH" jsxgroupname="hsb"/>
+                      <events jsxselect="this.getAncestorOfName('jsxide_cp').onAxisPicker('h');"/>
+                    </object>
+                    <object type="jsx3.gui.RadioButton">
+                      <variants jsxheight="18" jsxdefaultselected="0" jsxrelativeposition="0" jsxtop="30"/>
+                      <strings jsxname="radioS" jsxgroupname="hsb"/>
+                      <events jsxselect="this.getAncestorOfName('jsxide_cp').onAxisPicker('s');"/>
+                    </object>
+                    <object type="jsx3.gui.RadioButton">
+                      <variants jsxheight="18" jsxdefaultselected="0" jsxrelativeposition="0" jsxtop="52"/>
+                      <strings jsxname="radioB" jsxgroupname="hsb"/>
+                      <events jsxselect="this.getAncestorOfName('jsxide_cp').onAxisPicker('b');"/>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxheight="50" jsxrelativeposition="1" jsxoverflow="1"/>
+                      <strings jsxname="preview" jsxwidth="100%" jsxbgcolor="#FF0000" jsxmargin="190 0 0 0"
+                          jsxtip="Click this preview box to copy the hex value of the color to the clipboard."/>
+                      <dynamics jsxborder="@Outset"/>
+                      <events jsxclick="this.getAncestorOfName('jsxide_cp').onPreviewClick();"/>
+                    </object>
+                  <object type="jsx3.gui.ImageButton">
+                   <variants jsxindex="0" jsxheight="16" jsxwidth="16" jsxrelativeposition="0" jsxtop="248" jsxleft="85"/>
+                   <strings jsxname="helpBtn" jsximage="images/icon_59.gif"/>
+                   <events jsxexecute="this.getServer().invokeHelp(this.getAncestorOfName(&quot;jsxide_cp&quot;));"/>
+                  </object>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>

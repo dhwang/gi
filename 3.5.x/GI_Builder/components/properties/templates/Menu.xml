@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record include="master.xml" group="object"/>
+  <record include="master.xml" group="position_fixedsize"/>
+
+	<record jsxid="jsx3menu" group="1" jsxtext="Menu">
+		<record include="master.xml" group="jsxtext" children="1"/>
+		<record include="master.xml" group="form_novalue" children="1"/>
+		<record include="master.xml" group="jsxdivider" children="1"/>
+		<record include="master.xml" group="jsximage" children="1"/>
+	</record>
+
+	<record include="master.xml" group="blockx"/>
+ 	<record include="master.xml" group="font"/>
+
+	<record jsxid="box" group="1" jsxtext="Box">
+		<record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxmargin']"/>
+	</record>
+
+	<record include="master.xml" group="css_noclass"/>
+	<record include="master.xml" group="interaction_nomenu"/>
+	<record include="master.xml" group="access"/>
+	<record include="master.xml" group="metadata"/>
+</data>

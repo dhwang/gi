@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0" >
+ <name><![CDATA[]]></name>
+ <icon><![CDATA[]]></icon>
+ <description><![CDATA[]]></description>
+ <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+ <onAfterDeserialize><![CDATA[
+
+objJSX.doTreeReset = function() {
+  jsx3.sleep(this._doTreeReset, "jsx3.ide.palette.recycling", this, true);
+};
+
+objJSX._doTreeReset = function() {
+  var tree = this.getTree();
+  var active = jsx3.ide.fillRecycleBinTree(tree);
+
+  this.getDescendantOfName('_ide_tbb_trash_restore').setEnabled(
+      tree.getRecordNode(tree.getValue()) != null ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED, true);
+
+  if (active) {
+    tree.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+    this.getDescendantOfName('_ide_tbb_trash_empty').setEnabled(jsx3.gui.Form.STATEENABLED, true);
+  } else {
+    tree.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    this.getDescendantOfName('_ide_tbb_trash_empty').setEnabled(jsx3.gui.Form.STATEDISABLED, true);
+  }
+};
+
+objJSX.doEditorReset = function(e) {
+  var editor = e.target;
+  if (editor && editor.getServer) {
+    var server = editor.getServer();
+    if (server) {
+      jsx3.ide.emptyRecycleBin(server, true);
+    }
+  }
+};
+
+objJSX.doRestore = function() {
+  var tree = this.getTree();
+  var record = tree.getRecord(tree.getValue());
+  if (record != null && record.mayrestore)
+    jsx3.ide.doRecycleRestore(tree);
+};
+
+objJSX.doCleanup = function() {
+  jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_ACTIVATE, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_DEACTIVATE, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.OBJECT_WAS_RECYCLED, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.OBJECT_WAS_UNRECYCLED, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.RECYCLE_BIN_WAS_EMPTIED, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_RESET, this);
+  jsx3.IDE.unsubscribe(jsx3.ide.events.EDITOR_DID_CLOSE, this);
+};
+
+objJSX.onSelect = function(objTree) {
+  var strId = objTree.getValue();
+  var enabled = (strId && objTree.getRecord(strId).mayrestore) ?
+      jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED;
+  this.getDescendantOfName('_ide_tbb_trash_restore').setEnabled(enabled, true);
+};
+
+objJSX.getTree = function() {
+  return this.getDescendantOfName('jsx_ide_recycling_tree');
+};
+
+
+objJSX.doMinimize = function() {
+  this.doToggleState(jsx3.gui.Dialog.MINIMIZED);
+};
+
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_ACTIVATE, objJSX, "doTreeReset");
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_DEACTIVATE, objJSX, "doTreeReset");
+jsx3.IDE.subscribe(jsx3.ide.events.OBJECT_WAS_RECYCLED, objJSX, "doTreeReset");
+jsx3.IDE.subscribe(jsx3.ide.events.OBJECT_WAS_UNRECYCLED, objJSX, "doTreeReset");
+jsx3.IDE.subscribe(jsx3.ide.events.RECYCLE_BIN_WAS_EMPTIED, objJSX, "doTreeReset");
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_RESET, objJSX, "doEditorReset");
+jsx3.IDE.subscribe(jsx3.ide.events.EDITOR_DID_CLOSE, objJSX, "doEditorReset");
+
+// alt+r will restore the selected item
+objJSX.registerHotKey('doRestore', 'r', false, false, true);
+objJSX.registerHotKey('doMinimize', 'm', false, true, false); // minimize on ctrl-m
+objJSX.registerHotKey('doClose', 'w', false, false, true); // close on alt-w
+
+objJSX.doTreeReset();
+
+ ]]></onAfterDeserialize>
+  <object type="jsx3.gui.Dialog">
+   <dynamics jsxbgcolor="@Solid Medium" />
+   <variants jsxwidth="281" jsxheight="240" jsxoverflow="2"/>
+   <strings jsxname="jsx_ide_recycling_bin" jsxhelpid="ide.palette.recyc"/>
+   <events jsxaftermove="this.constrainPosition(); jsx3.ide.doSaveRecycleBinState(this);" jsxafterresize="jsx3.ide.doSaveRecycleBinState(this);" jsxdestroy="this.doCleanup();"/>
+    <object type="jsx3.gui.WindowBar">
+     <variants />
+     <strings jsxname="caption bar" jsxtext="Recycle Bin" />
+      <object type="jsx3.gui.ToolbarButton">
+       <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min" />
+       <variants />
+       <strings jsxname="min button" />
+       <events jsxexecute="this.getParent().getParent().doToggleState();" />
+      </object>
+      <object type="jsx3.gui.ToolbarButton">
+       <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close" />
+       <variants />
+       <strings jsxname="close button" />
+       <events jsxexecute="this.getParent().getParent().doClose();" />
+      </object>
+    </object>
+    <object type="jsx3.gui.LayoutGrid">
+     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" />
+     <strings jsxname="layout" jsxwidth="100%" jsxheight="100%" jsxrows="26,*"/>
+      <object type="jsx3.gui.WindowBar">
+       <dynamics jsxbgcolor="@Solid Medium" />
+       <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" jsxheight="0" />
+       <strings jsxname="jsx_ide_recycle_bar" />
+        <object type="jsx3.gui.ToolbarButton">
+         <variants jsxtype="0" jsxstate="0" jsxenabled="0" />
+         <strings jsxname="_ide_tbb_trash_restore" jsxtip="Restore Recycled Object" jsximage="images/icon_93.gif" />
+         <events jsxexecute="jsx3.ide.doRecycleRestore(this.getAncestorOfType(jsx3.gui.Dialog).getTree());" />
+        </object>
+        <object type="jsx3.gui.ToolbarButton">
+         <variants jsxtype="0" jsxstate="0" />
+         <strings jsxname="_ide_tbb_trash_empty" jsxtip="Empty Trash" jsximage="images/icon_42.gif" />
+         <events jsxexecute="jsx3.ide.emptyRecycleBin();" />
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+       <variants jsxoverflow="1" />
+       <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxbgcolor="white" />
+        <object type="jsx3.gui.Tree">
+         <dynamics jsxpadding="@8Pixel"/>
+         <variants jsxoverflow="3" jsxuseroot="0" jsxrelativeposition="1"/>
+         <strings jsxname="jsx_ide_recycling_tree" jsxwidth="100%" jsxheight="100%" jsxxslid="jsx_ide_recycling" />
+         <events jsxchange="this.getAncestorOfType(jsx3.gui.Dialog).onSelect(this);"/>
+         <xslparameters jsxindent="16"/>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

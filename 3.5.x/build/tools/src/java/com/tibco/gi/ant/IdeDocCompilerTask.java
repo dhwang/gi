@@ -1,0 +1,63 @@
+package com.tibco.gi.ant;
+
+import com.tibco.gi.tools.IdeDocCompiler;
+import org.apache.tools.ant.BuildException;
+
+import java.io.File;
+
+/**
+ * Ant interface for the {@link IdeDocCompiler} tool.
+ *
+ * @author Jesse Costello-Good <jcostell@tibco.com>
+ */
+public class IdeDocCompilerTask extends AbstractFileTask {
+
+  private IdeDocCompiler.Type type;
+  private File apidocpath;
+  private File catalog;
+  private String basepath = "";
+  private File docdir;
+
+  public IdeDocCompilerTask() {
+  }
+
+  public void execute() throws BuildException {
+    IdeDocCompiler compiler = new IdeDocCompiler();
+    compiler.setApiDocPath(apidocpath.toURI());
+    if (type != null)
+      compiler.setType(type);
+    compiler.setDestDir(this.getDestdir());
+    compiler.setCatalogFile(catalog);
+    compiler.setBasePath(this.getProject().getBaseDir().toURI().resolve(basepath));
+    compiler.setDocDir(docdir);
+
+    try {
+      compiler.run();
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw new BuildException(e);
+    }
+  }
+
+  public void setType(String type) {
+    this.type = IdeDocCompiler.Type.valueOf(type.toUpperCase());
+    if (this.type == null && type.length() > 0)
+      throw new IllegalArgumentException(type);
+  }
+
+  public void setApidocpath(File apidocpath) {
+    this.apidocpath = apidocpath;
+  }
+
+  public void setCatalog(File catalog) {
+    this.catalog = catalog;
+  }
+
+  public void setBasepath(String basepath) {
+    this.basepath = basepath;
+  }
+
+  public void setDocdir(File docdir) {
+    this.docdir = docdir;
+  }
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="merge tool" jsxtip="XML/XSL Merge Tool to test XSLT output" jsximg="images/icon_34.gif"
+      jsxtext="XML/XSL Merge Tool..." jsxexecute="jsx3.ide.doOpenTool('components/merge/merge.xml');"
+      project="1" config="true"/>
+  <record jsxid="colorpicker" jsxtip="RGB/Hex Color Picker" jsxtext="Color Picker..."
+      jsximg="images/prototypes/colorpicker.gif"
+      jsxexecute="jsx3.ide.doOpenTool('components/colorpicker/colorpicker.xml', 'jsxide_cp');" config="true"/>
+
+  <record jsxid="d_script" jsxdivider="1" jsxtext="JavaScript Test Utility..." jsxkeycode="ctrl+e"
+      jsximg="images/icon_38.gif" jsxexecute="jsx3.ide.doScriptletOpen();" config="true"/>
+  <record jsxid="findreplace" jsxtext="Find and Replace..." jsxkeycode="ctrl+f" jsximg="images/icon_4.gif"
+      jsxexecute="jsx3.ide.openFindReplace();"
+      project="1" config="true"/>
+
+  <record jsxid="gitak" jsxdivider="1" jsxtext="Test Automation Kit (GITAK)"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/product_resources_gitak1.jsp', 'jsxide_gitak',null,null,'yes','yes','yes','yes','yes')"/>
+<!--
+  <record jsxid="gipp" jsxtext="GI Performance Profiler (GIPP)"
+      jsxexecute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/product_resources_gipp1.jsp', 'jsxide_gitak',null,null,'yes','yes','yes','yes','yes')"/>
+-->
+
+  <record jsxid="settings" jsxdivider="1" jsxtext="IDE Settings..." jsxkeycode="ctrl+,"
+      jsxexecute="jsx3.ide.doOpenSettings();" config="true" home="1"/>
+</data>

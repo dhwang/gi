@@ -1,0 +1,109 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+var componentBlock = objJSX.getDescendantOfName('jsxtab_componenteditor_main');
+
+componentBlock.doDeleteDom = function() {
+  jsx3.ide.doRecycle();
+};
+
+componentBlock.registerHotKey('doDeleteDom', jsx3.gui.Event.KEY_DELETE, false, true, false); // delete
+componentBlock.registerHotKey('doDeleteDom',  8, false, true, false); // backspace
+
+  ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Tab">
+      <dynamics jsxbgcolor="@Solid Medium" />
+      <variants jsxindex="0" />
+      <strings jsxname="jsxtab_component" jsxtext="unknown" jsxmenu="jsxmenu_component" jsxhelpid="ide.editor.component"/>
+      <events jsxshow="jsx3.ide.doActivateResource(this);" jsxhide="jsx3.ide.doDeactivateResource(this);"/>
+      <properties onmouseover="jsx3.ide.onComponentTabOver(this.id);" />
+        <object type="jsx3.gui.Block">
+          <dynamics jsxbgcolor="@Solid Medium" />
+          <variants jsxoverflow="2" />
+          <strings jsxname="jsxtab_component_0" jsxpadding="8 0 0 0"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="0" />
+              <strings jsxname="jsxtab_component_layout" jsxrows="*,22"/>
+                <object type="jsx3.gui.TabbedPane">
+                  <variants jsxshowtabs="0" />
+                  <strings jsxname="swap_pane" />
+                    <object type="jsx3.gui.Tab">
+                      <variants jsxindex="0" />
+                      <strings jsxname="jsxtab_componenteditor_maintab" />
+                      <events jsxshow="jsx3.ide.getActiveEditor().onShowComponentMode();"/>
+                        <object type="jsx3.gui.Block">
+                          <dynamics jsxbgcolor="@Solid Disabled" jsxborder="@Inset Top" />
+                          <variants jsxoverflow="2"/>
+                          <strings jsxname="jsxtab_componenteditor_main" jsxtext="&lt;div style=&quot;font-weight:bold;font-size:18px;text-align:center;padding-top:30px;&quot;&gt;Loading...&lt;/div&gt;"/>
+                        </object>
+                    </object>
+                </object>
+              <object type="jsx3.gui.LayoutGrid">
+                <variants jsxrelativeposition="0" />
+                <strings jsxname="jsxtab_component_layout" jsxborder="solid 1px #9898a5;solid 0px;solid 0px;solid 0px" jsxbgcolor="#d8d8e5" jsxcols="15,*,130"/>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2"/>
+                  <strings jsxpadding="3 0 0 4"/>
+                  <object type="jsx3.gui.ImageButton">
+                    <variants jsxindex="0" jsxheight="12" jsxwidth="11"/>
+                    <strings jsximage="images/icon_15s.gif" jsxoverimage="images/icon_15so.gif"/>
+                    <events jsxexecute="jsx3.ide.refreshComponentStats();"/>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" jsxspy="1"/>
+                  <strings jsxname="compeditorstats" jsxtext="" jsxpadding="4 3 0 3"/>
+                  <events jsxspy="jsx3.ide.COMPONENT_EDITOR_STATS_SPY"/>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="2" />
+                  <strings jsxname="mychild1" jsxtextalign="right" />
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2" />
+                      <strings jsxname="jsx_ide_componenteditor_btns" jsxborder="solid 0px;solid 0px;solid 0px;solid 1px #9898a5" jsxmargin="0 0 0 -1" jsxbgcolor="#eeeeff" />
+                        <object type="jsx3.gui.ToolbarButton">
+                          <dynamics jsxtip="_edit_view_live" />
+                          <variants jsxtype="2" jsxstate="1" />
+                          <strings jsxname="btnViewComp" jsximage="images/icon_46.gif" jsxtext="" jsxmargin="-1 -1 0 0" jsxgroupname="editmode" />
+                          <events jsxexecute="jsx3.ide.setEditorMode('component');" />
+                        </object>
+                        <object type="jsx3.gui.ToolbarButton">
+                          <dynamics jsxtip="_edit_view_expert" />
+                          <variants jsxtype="2" jsxstate="0" />
+                          <strings jsxname="btnViewSource" jsximage="images/icon_21.gif" jsxtext="" jsxmargin="-1 -1 0 0" jsxgroupname="editmode" />
+                          <events jsxexecute="jsx3.ide.setEditorMode('source');" />
+                        </object>
+                        <object type="jsx3.gui.ToolbarButton">
+                          <dynamics jsxtip="_edit_view_formatted" />
+                          <variants jsxtype="2" jsxstate="0" />
+                          <strings jsxname="btnViewSourceFmt" jsximage="images/icon_20.gif" jsxtext="" jsxmargin="-1 -1 0 0" jsxgroupname="editmode" />
+                          <events jsxexecute="jsx3.ide.setEditorMode('sourcefmt');" />
+                        </object>
+                        <object type="jsx3.gui.ToolbarButton">
+                          <dynamics jsxtip="_edit_view_html" />
+                          <variants jsxtype="2" jsxstate="0" />
+                          <strings jsxname="btnViewHTML" jsximage="images/icon_25.gif" jsxtext="" jsxmargin="-1 -1 0 0" jsxgroupname="editmode" />
+                          <events jsxexecute="jsx3.ide.setEditorMode('html');" />
+                        </object>
+                        <object type="jsx3.gui.ToolbarButton">
+                          <dynamics jsxtip="_edit_view_profile" />
+                          <variants jsxtype="2" jsxstate="0" />
+                          <strings jsxname="btnViewProfile" jsximage="images/icon_76.gif" jsxtext="" jsxmargin="-1 -1 0 0" jsxgroupname="editmode" />
+                          <events jsxexecute="jsx3.ide.setEditorMode('profile');" />
+                        </object>
+                    </object>
+                </object>
+              </object>
+            </object>
+        </object>
+    </object>
+</serialization>
