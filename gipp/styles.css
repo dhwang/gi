@@ -91,7 +91,7 @@ div#div_export {
   background-image: url(images/buttonbar_bg.gif);
 }
 div#div_export input { margin-top: 6px; }
-div#div_export img { z-index: 2; position: absolute; left:0px; top: 18px; cursor: pointer;}
+div#div_export img { z-index: 2; position: absolute; left:1px; top: 19px; cursor: pointer;}
 
 table#table_results { width: 100%; border-spacing: 0px; }
 table#table_results td, table#table_results th { padding: 3px; }
