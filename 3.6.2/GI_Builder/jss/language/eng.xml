@@ -1,0 +1,163 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot" jsxns="urn:tibco.com/v3.0/dynamicproperties/1">
+  <record jsxid="_script_title" type="jsxtext" jsxtext="JavaScript Test Utility"/>
+  <record jsxid="_script_execute" type="jsxtip" jsxtext="Execute script"/>
+  <record jsxid="_script_step" type="jsxtip" jsxtext="Step through script..."/>
+  <record jsxid="_script_history" type="jsxtext" jsxtext="History"/>
+  <record jsxid="_script_result" type="jsxtext" jsxtext="Return Value (if applicable)"/>
+  <record jsxid="mnuProject" type="jsxxmlurl" jsxtext="language/eng/project.xml"/>
+  <record jsxid="mnuFile" type="jsxxmlurl" jsxtext="language/eng/file.xml"/>
+  <record jsxid="mnuTools" type="jsxxmlurl" jsxtext="language/eng/tools.xml"/>
+  <record jsxid="mnuPalettes" type="jsxxmlurl" jsxtext="language/eng/palettes.xml"/>
+  <record jsxid="mnuHelp" type="jsxxmlurl" jsxtext="language/eng/help.xml"/>
+  <record jsxid="mnuTextEditor" type="jsxxmlurl" jsxtext="language/eng/textarea.xml"/>
+  <record jsxid="mnuComponent" type="jsxxmlurl" jsxtext="language/eng/component.xml"/>
+  <record jsxid="mnuTypeAheadScript" type="jsxxmlurl" jsxtext="language/eng/typeahead_script.xml"/>
+  <record jsxid="mnuTypeAheadCSS" type="jsxxmlurl" jsxtext="language/eng/typeahead_css.xml"/>
+  <record jsxid="mnuTypeAheadXML" type="jsxxmlurl" jsxtext="language/eng/typeahead_xml.xml"/>
+  <record jsxid="mnuDom" type="jsxxmlurl" jsxtext="language/eng/dom.xml"/>
+  <record jsxid="mnuCache" type="jsxxmlurl" jsxtext="language/eng/cache.xml"/>
+  <record jsxid="mnuResources" type="jsxxmlurl" jsxtext="language/eng/resources.xml"/>
+  <record jsxid="mnuPrototypes" type="jsxxmlurl" jsxtext="language/eng/prototypes.xml"/>
+  <record jsxid="mnuAttributes" type="jsxxmlurl" jsxtext="language/eng/attributes.xml"/>
+  <record jsxid="mnuProperties" type="jsxxmlurl" jsxtext="language/eng/properties.xml"/>
+  <record jsxid="mnuEvents" type="jsxxmlurl" jsxtext="language/eng/events.xml"/>
+  <record jsxid="mnuDocking" type="jsxxmlurl" jsxtext="language/eng/docking.xml"/>
+  <record jsxid="mnuSystemOut" type="jsxxmlurl" jsxtext="language/eng/systemout.xml"/>
+  <record jsxid="mnuSystemOutDocking" type="jsxxmlurl" jsxtext="language/eng/systemout_docking.xml"/>
+  <record jsxid="mnuNew" type="jsxxmlurl" jsxtext="language/eng/new.xml"/>
+  <record jsxid="mnuXslParameters" type="jsxxmlurl" jsxtext="language/eng/xslparams.xml"/>
+  <record jsxid="mnuAppPath" type="jsxxmlurl" jsxtext="language/eng/apppath_menu.xml"/>
+  <record jsxid="mnuTypeAheadDynProp" type="jsxxmlurl" jsxtext="language/eng/dynprop.xml"/>
+  <record jsxid="mnuTipProject" type="jsxtip" jsxtext="Create and manage projects"/>
+  <record jsxid="mnuTipFile" type="jsxtip" jsxtext="Create and manage files for this project"/>
+  <record jsxid="mnuTipTools" type="jsxtip" jsxtext="Tools and IDE settings"/>
+  <record jsxid="mnuTipPalettes" type="jsxtip" jsxtext="Palettes"/>
+  <record jsxid="mnuTipHelp" type="jsxtip" jsxtext="API documentation, internet resources"/>
+  <record jsxid="treeCache" type="jsxxmlurl" jsxtext="language/eng/cache_tree.xml"/>
+  <record jsxid="treeResources" type="jsxxmlurl" jsxtext="language/eng/resources_tree.xml"/>
+  <record jsxid="_atted_title" type="jsxtext" jsxtext="Attributes Editor"/>
+  <record jsxid="_gen_name" type="jsxtext" jsxtext="Name"/>
+  <record jsxid="_gen_value" type="jsxtext" jsxtext="Value"/>
+  <record jsxid="_atted_add" type="jsxtip" jsxtext="Add attribute"/>
+  <record jsxid="_cch_title" type="jsxtext" jsxtext="Local Data Cache"/>
+  <record jsxid="_gen_viewedit" type="jsxtip" jsxtext="View / edit"/>
+  <record jsxid="_gen_viewformat" type="jsxtip" jsxtext="View formatted"/>
+  <record jsxid="_cch_merge" type="jsxtip" jsxtext="Merge tool..."/>
+  <record jsxid="_gen_closedoc" type="jsxtip" jsxtext="Remove document from cache"/>
+  <record jsxid="_lib_title" type="jsxtext" jsxtext="Component Libraries"/>
+  <record jsxid="_lib_reload" type="jsxtip" jsxtext="Reload component libraries from disk"/>
+  <record jsxid="_dpl_title" type="jsxtext" jsxtext="Project Deployment Options"/>
+  <record jsxid="_dpl_tx1" type="jsxtext" jsxtext="Caption"/>
+  <record jsxid="_gen_browse" type="jsxtip" jsxtext="Browse..."/>
+  <record jsxid="_dpl_tp1" type="jsxtip" jsxtext="The title text for the browser's caption bar"/>
+  <record jsxid="_dpl_tp2" type="jsxtip" jsxtext="The initial GUI component to load when the app first initializes"/>
+  <record jsxid="_dpl_tp3" type="jsxtip" jsxtext="The initial code to execute when the application first initializes and AFTER the initial component has painted on-screen"/>
+  <record jsxid="_dpl_tp4" type="jsxtip" jsxtext="If 'Yes', any JavaScript errors in the browser will be intercepted by the jsx3.ERROR controller for handling and tracking"/>
+  <record jsxid="_dpl_tp5" type="jsxtip" jsxtext="If 'Yes', a right-click event will not show the default browser context menu"/>
+  <record jsxid="_dpl_tp6" type="jsxtip" jsxtext="As a single browser can contain multiple JSX Applications, this is the unique identifier for the application"/>
+  <record jsxid="_dpl_tp7" type="jsxtip" jsxtext="If set to 'Static', the various Service classes will use any registered test data instead of contacting a live service"/>
+  <record jsxid="_dpl_tp8" type="jsxtip" jsxtext="The Registry Key for which XML parser version to use"/>
+  <record jsxid="_dpl_tp9" type="jsxtip" jsxtext="The Registry Key for which XSL parser version to use"/>
+  <record jsxid="_dpl_tp10" type="jsxtip" jsxtext="The Registry Key for which HTTP transport control to use"/>
+  <record jsxid="_dpl_tp11" type="jsxtip" jsxtext="The version of the application (e.g., 3.0)"/>
+  <record jsxid="_dpl_tp12" type="jsxtip" jsxtext="If yes, all saves within builder for this application will save in Unicode (UTF-16LE; UnicodeLittleUnmarked; Sixteen-bit Unicode Transformation Format; little-endian byte order). Default is No."/>
+  <record jsxid="_dpl_tx2" type="jsxtext" jsxtext="Initial Component"/>
+  <record jsxid="_dpl_tx3" type="jsxtext" jsxtext="onLoad Script"/>
+  <record jsxid="_dpl_tx4" type="jsxtext" jsxtext="Cancel Error"/>
+  <record jsxid="_dpl_tx5" type="jsxtext" jsxtext="Cancel Right-click"/>
+  <record jsxid="_dpl_tx6" type="jsxtext" jsxtext="Namespace"/>
+  <record jsxid="_dpl_tx7" type="jsxtext" jsxtext="Mode"/>
+  <record jsxid="_dpl_tx8" type="jsxtext" jsxtext="XML Reg Key"/>
+  <record jsxid="_dpl_tx9" type="jsxtext" jsxtext="XSL Reg Key"/>
+  <record jsxid="_dpl_tx10" type="jsxtext" jsxtext="HTTP Reg Key"/>
+  <record jsxid="_dpl_tx11" type="jsxtext" jsxtext="Project Version"/>
+  <record jsxid="_dpl_tx12" type="jsxtext" jsxtext="Unicode"/>
+  <record jsxid="_gen_save" type="jsxtext" jsxtext="Save"/>
+  <record jsxid="_gen_cancel" type="jsxtext" jsxtext="Cancel"/>
+  <record jsxid="_gen_yes" type="jsxtext" jsxtext="Yes"/>
+  <record jsxid="_gen_no" type="jsxtext" jsxtext="No"/>
+  <record jsxid="_dpl_live" type="jsxtext" jsxtext="Live"/>
+  <record jsxid="_dpl_static" type="jsxtext" jsxtext="Static"/>
+  <record jsxid="_dom_title" type="jsxtext" jsxtext="Component Hierarchy"/>
+  <record jsxid="_dom_refresh" type="jsxtip" jsxtext="Refresh/synchronize Component Hierarchy tree"/>
+  <record jsxid="_dom_clone" type="jsxtip" jsxtext="Clone"/>
+  <record jsxid="_dom_recycle" type="jsxtip" jsxtext="Recycle"/>
+  <record jsxid="_dom_focus" type="jsxtip" jsxtext="Show/hide focus rectangle (shift+alt+r)"/>
+  <record jsxid="_dom_snap" type="jsxtip" jsxtext="Toggle snap to grid"/>
+  <record jsxid="_dom_repaint" type="jsxtip" jsxtext="Repaint"/>
+  <record jsxid="_dom_fetchrepaint" type="jsxtip" jsxtext="Re-Fetch Data and Repaint"/>
+  <record jsxid="_palettes_toggle_on" type="jsxtip" jsxtext="Show Edit Pane and Palettes"/>
+  <record jsxid="_palettes_toggle_off" type="jsxtip" jsxtext="Show Edit Pane Only"/>
+  <record jsxid="_evt_title" type="jsxtext" jsxtext="Events Editor"/>
+  <record jsxid="_prp_title" type="jsxtext" jsxtext="Properties Editor"/>
+  <record jsxid="_res_title" type="jsxtext" jsxtext="Project Files"/>
+  <record jsxid="_gen_id" type="jsxtext" jsxtext="ID"/>
+  <record jsxid="_pfl_autoload" type="jsxtext" jsxtext="Auto Load"/>
+  <record jsxid="_gen_uri" type="jsxtext" jsxtext="URI"/>
+  <record jsxid="_gen_type" type="jsxtext" jsxtext="Type"/>
+  <record jsxid="_pfl_title" type="jsxtext" jsxtext="{0} File Profile"/>
+  <record jsxid="_xslparam_title" type="jsxtext" jsxtext="XSL Parameters"/>
+  <record jsxid="_sysout_restore" type="jsxtext" jsxtext="Restore Log"/>
+  <record jsxid="_sysout_clear" type="jsxtext" jsxtext="Clear Log"/>
+  <record jsxid="_sysout_docking" type="jsxtext" jsxtext="Docking Options"/>
+  <record jsxid="_abt_cbar" type="jsxtext" jsxtext="About @gi.productname.full.esc@"/>
+  <record jsxid="_abt_copyright" type="jsxtext" jsxtext="&lt;b&gt;Legal Notice&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;The software, documentation and other information contained herein (the &amp;quot;Software&amp;quot;) include confidential and proprietary information owned by TIBCO Software Inc. Your use of the Software is governed by the terms and conditions of the license agreement under which you were provided the Software. You may not reproduce, disclose or reverse engineer the Software, in whole or in part, except as expressly authorized in the license agreement, without the prior written consent of TIBCO Software Inc. &lt;br/&gt;&lt;br/&gt; Copyright &amp;#169; 2001-2008, TIBCO Software Inc. All rights reserved. This Software is protected by United States copyright law and international treaties. Unauthorized reproduction or distribution may be subject to civil and criminal penalties and is strictly prohibited. Portions of this Software are patent pending."/>
+  <record jsxid="_api_cbar" type="jsxtext" jsxtext="API Documentation"/>
+  <record jsxid="_api_viewall" type="jsxtext" jsxtext="Display Local Methods"/>
+  <record jsxid="_api_viewalltip" type="jsxtip" jsxtext="When checked, only those methods and constants declared locally in a class are displayed. Otherwise, all available methods (those that were inherited) will also be displayed."/>
+  <record jsxid="_edit_view_live" type="jsxtip" jsxtext="Live Component"/>
+  <record jsxid="_edit_view_expert" jsxtext="Source XML (Expert)" type="jsxtip"/>
+  <record jsxid="_edit_view_formatted" jsxtext="Formatted Source XML (Read Only)" type="jsxtip"/>
+  <record jsxid="_edit_view_html" jsxtext="Rendered HTML (Read Only)" type="jsxtip"/>
+  <record jsxid="_edit_view_profile" jsxtext="Component Profile" type="jsxtip"/>
+  <record jsxid="_edit_view_grid" jsxtext="Grid View" type="jsxtip"/>
+  <record jsxid="_gen_eval" type="jsxtext" jsxtext="Eval"/>
+  <record jsxid="_edit_view_source" jsxtext="Source Text" type="jsxtip"/>
+  <record jsxid="_gen_project" jsxtext="Project" type="jsxtext"/>
+  <record jsxid="_gen_file" type="jsxtext" jsxtext="File"/>
+  <record jsxid="_gen_tools" type="jsxtext" jsxtext="Tools"/>
+  <record jsxid="_gen_palettes" type="jsxtext" jsxtext="Palettes"/>
+  <record jsxid="_gen_help" type="jsxtext" jsxtext="Help"/>
+  <record jsxid="_edit_profile_title" jsxtext="Component Profile" type="jsxtext"/>
+  <record jsxid="_edit_profile_tip1" jsxtext="The name of the component" type="jsxtip"/>
+  <record jsxid="_edit_profile_tip2" type="jsxtip" jsxtext="The 16x16 icon to use when this component is displayed within the Component Libraries palette of General Interface&amp;#8482; Builder"/>
+  <record jsxid="_edit_profile_txt1" jsxtext="Icon URL" type="jsxtext"/>
+  <record jsxid="_gen_desc" type="jsxtext" jsxtext="Description"/>
+  <record jsxid="_edit_profile_tip3" jsxtext="The description of the component" type="jsxtip"/>
+  <record jsxid="mnuTypeAheadXSL" jsxtext="language/eng/typeahead_xsl.xml" type="jsxxmlurl"/>
+  <!-- builder links to external sites -->
+  <record jsxid="gi_forum_url" jsxtext="http://www.tibcommunity.com/community/forums?community=2026" />
+  <record jsxid="sample_url" jsxtext="http://www.tibcommunity.com/community/forums?community=2026&amp;view=documents" />
+  <record jsxid="dev_url" jsxtext="http://www.tibcommunity.com/community/forums?community=2067" />
+  <record jsxid="feedback_url" jsxtext="http://www.tibcommunity.com/community/forums?community=2072" />
+  <record jsxid="builder_url" jsxtext="http://gi.tibco.com/links/devnet/" />
+  <record jsxid="signup_url" jsxtext="http://www.tibcommunity.com/create-account.jspa" />
+  <record jsxid="welcome_text" jsxtext="&lt;a href=&quot;http://www.tibco.com/devnet/gi/getting_started.jsp&quot; target=&quot;_blank&quot;&gt;Get Started&lt;/a&gt;&lt;br/&gt;                             &lt;a href=&quot;http://www.tibcommunity.com/community/forums?community=2026&quot; target=&quot;_blank&quot;&gt;Developer Forums&lt;/a&gt;&lt;br/&gt;                             &lt;a href=&quot;http://www.tibco.com/devnet/gi/more_resources.jsp&quot; target=&quot;_blank&quot;&gt;More Resources&lt;/a&gt;&lt;br/&gt;                             &lt;a href=&quot;http://www.tibco.com/software/rich_internet_application/general_interface/gi_edu_support_psg.jsp&quot; target=&quot;_blank&quot;&gt;Support &amp;amp; Training&lt;/a&gt;" type="jsxtext"/>
+  <record jsxid="rss_announce_url" jsxtext="http://www.tibco.com/forums/rss/rssannounce.jspa?forumID=120" type="jsxxmlurl"/>
+  <record jsxid="rss_popular_url" jsxtext="http://www.tibcommunity.com/community/feeds/popularthreads?community=2026"  type="jsxxmlurl" />
+  <!-- end builder links -->
+  <record jsxid="beta_dl_url" jsxtext="http://www.tibco.com/devnet/gi/"/>
+  <record jsxid="beta_expire_title" jsxtext="Milestone release Expired"/>
+  <record jsxid="beta_expire" jsxtext="This milestone release of @gi.productname.esc@ has expired. Please visit developer.tibco.com for the latest version."/>
+  <record jsxid="beta_warn_title" jsxtext="Milestone Expiring Soon"/>
+  <record jsxid="beta_warn" jsxtext="This milestone release of @gi.productname.esc@ will expire soon. Please visit &lt;a href='http://www.tibco.com/devnet/gi/' target='_blank'&gt;developer.tibco.com/gi&lt;/a&gt; for the latest version."/>
+  <record jsxid="beta_log_expire" jsxtext="This milestone release of @gi.productname.text@ will expire on {0,date}."/>
+  <record jsxid="beta_log_nowarn" jsxtext="Milestone warning is disabled because this build is not compiled."/>
+  <record jsxid="beta_log_noexpire" jsxtext="Milestone expiration is disabled because this build is not compiled."/>
+  <record jsxid="beta_log_nonag" jsxtext="Milestone nag is disabled by IDE settings."/>
+
+  <record jsxid="hk.newProject" jsxtext="ctrl+alt+n"/>
+  <record jsxid="hk.projSettings" jsxtext="ctrl+shift+,"/>
+
+  <record jsxid="hk.new" jsxtext="ctrl+n"/>
+  <record jsxid="hk.close" jsxtext="ctrl+w"/>
+  <record jsxid="hk.closeAll" jsxtext="ctrl+shift+w"/>
+  <record jsxid="hk.save" jsxtext="ctrl+s"/>
+  <record jsxid="hk.saveAll" jsxtext="ctrl+shift+s"/>
+  <record jsxid="hk.open" jsxtext="ctrl+g"/>
+
+</data>

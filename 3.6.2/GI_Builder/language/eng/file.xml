@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="new" jsxtext="New" jsximg="images/icon_29.gif" project="1">
+    <record jsxid="newgui" jsxtext="GUI Component" jsximg="images/icon_46.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_COMPONENT);" jsxkeycode="{hk.new}" project="1" config="true"/>
+    <record jsxid="newxml" jsxtext="XML Document" jsximg="images/icon_79.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_XML);" project="1" config="true"/>
+    <record jsxid="newxsl" jsxtext="XSL Document" jsximg="images/icon_80.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_XSL);" project="1" config="true"/>
+    <record jsxid="newjs" jsxtext="JavaScript File" jsximg="images/icon_66.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_JAVASCRIPT);" project="1" config="true"/>
+    <record jsxid="newcss" jsxtext="CSS File" jsximg="images/icon_63.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_CSS);" project="1" config="true"/>
+    <record jsxid="newjss" jsxtext="Dynamic Properties File" jsximg="images/icon_62.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_DYNAPROPS);" project="1" config="true"/>
+    <record jsxid="newljss" jsxtext="Properties Bundle" jsximg="images/icon_62.gif"
+            jsxexecute="jsx3.ide.doNewEditor(jsx3.ide.TYPE_DYNAPROPS_LOCAL);" project="1" config="true"/>
+  </record>
+  <record jsxid="open" jsxtext="Open..." jsxexecute="jsx3.ide.open();" jsximg="images/icon_60.gif" 
+      jsxkeycode="{hk.open}" project="1" config="true"/>
+  <record jsxid="openrecent" jsxtext="Recent Files" project="1">
+    <record/>
+  </record>
+
+  <record jsxid="close" jsxdivider="1" jsxtext="Close" jsxexecute="jsx3.ide.close();"  jsxkeycode="{hk.close}" editor="1" config="true"/>
+  <record jsxid="closeall" jsxtext="Close All" jsxexecute="jsx3.ide.closeAll();" jsxkeycode="{hk.closeAll}" editor="1" config="true"/>
+  <record jsxid="revert" jsxtext="Revert..." jsxexecute="jsx3.ide.revert();" editor="1" config="true"/>
+  <record jsxid="revertall" jsxtext="Revert All..." jsxexecute="jsx3.ide.revertAll();" editor="1" config="true"/>
+
+  <record jsxid="save" jsxdivider="1" jsxtext="Save" jsxexecute="jsx3.ide.save();"
+          jsximg="images/icon_13.gif" jsxkeycode="{hk.save}" editor="1" CacheEditor="Save to Cache" config="true"/>
+  <record jsxid="savereload" jsxtext="Save and Reload" jsxexecute="jsx3.ide.saveAndReload();"
+          jsximg="images/icon_72.gif" editor="1" reload="1" config="true"/>
+  <record jsxid="saveas" jsxtext="Save As..." jsxexecute="jsx3.ide.saveAs();"
+          jsximg="images/icon_14.gif" editor="1" CacheEditor="Save a Copy to Disk..." config="true"/>
+  <record jsxid="saveall" jsxtext="Save All..." jsxexecute="jsx3.ide.saveAll();"
+          jsximg="images/icon_75.gif" jsxkeycode="{hk.saveAll}" editor="1" config="true"/>
+</data>

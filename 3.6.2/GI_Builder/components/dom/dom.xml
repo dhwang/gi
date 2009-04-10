@@ -1,0 +1,234 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[
+
+objJSX.doActivate = function(objEvent) {
+  jsx3.sleep(function() { this._doActivate(objEvent); }, "jsx3.ide.palette.dom", this, true);
+};
+
+objJSX.doDeactivate = function(objEvent) {
+	// store the current tree value in the editor so that it can be restored when the editor is activated
+	var editor = objEvent.target;
+	var tree = this.getDescendantOfName('jsxdom');
+	editor._jsxdomlastvalue = tree.getValue();
+
+  jsx3.sleep(function() { this._doDeactivate(objEvent); }, "jsx3.ide.palette.dom", this, true);
+};
+
+objJSX._doActivate = function(objEvent) {
+	var editor = objEvent.target;
+	
+	var activeId = null;
+	if (editor._jsxdomlastvalue) {
+		activeId = editor._jsxdomlastvalue;
+	} else {
+		// otherwise auto-select the first root node
+		var firstRoot = editor.getServer().getRootObjects()[0];
+		if (firstRoot)
+			activeId = firstRoot.getId();
+	}
+	
+	var objTree = this.getDescendantOfName('jsxdom');
+  jsx3.ide.onDomChangeSleep(true);
+  
+  jsx3.sleep(function() {
+    objTree.setValue(activeId, true);
+    this.onSelect(objTree);
+    objTree.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+  }, "jsx3.ide.palette.dom.value", this, true);
+};
+	
+objJSX._doDeactivate = function(objEvent) {
+	var tree = this.getDescendantOfName('jsxdom');
+  tree.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+	var objHW = jsx3.gui.Heavyweight.GO("jsxfocusrectangle");
+	if (objHW) objHW.destroy();
+	this.setButtonsEnabled(jsx3.gui.Form.STATEDISABLED, true);
+};
+
+objJSX.storeLastDomValue = function(objTree, objEditor) {
+	if (objEditor == null)
+		objEditor = jsx3.ide.getActiveEditor();
+  if (objEditor != null)
+  	objEditor._jsxdomlastvalue = objTree.getValue();
+};
+
+objJSX.onSelect = function(objTree) {
+  var objServer = jsx3.ide.getActiveServer();
+  if (objServer == null) return;
+  var strRecordIds = objTree.getValue();
+
+  var objBody = objServer.getBodyBlock();
+
+  var buttons = this.getDescendantOfName('jsx_ide_cache_bar').getDescendantsOfType(jsx3.gui.ToolbarButton);
+  for (var i = 0; i < buttons.length; i++)
+    buttons[i].setEnabled(jsx3.gui.Form.STATEENABLED, false);
+
+  for (var j = 0; j < strRecordIds.length; j++) {
+    var strRecordId = strRecordIds[j];
+
+    var objJSX = strRecordId == jsx3.ide.ROOT_DOM_NODE_ID ? objBody : objServer.getJSXById(strRecordId);
+
+    for (var i = 0; i < buttons.length; i++) {
+      var button = buttons[i];
+      
+      if (objJSX == null && button.node == 1)
+        button.setEnabled(jsx3.gui.Form.STATEDISABLED);
+      else if (objJSX != null && objJSX == objBody && button.noroot == 1)
+        button.setEnabled(jsx3.gui.Form.STATEDISABLED);
+      else if (objJSX != null && !objJSX.instanceOf(jsx3.xml.Cacheable) && button.blockx == 1)
+        button.setEnabled(jsx3.gui.Form.STATEDISABLED);
+    }
+  }
+
+  for (var i = 0; i < buttons.length; i++)
+    buttons[i].repaint();
+
+	jsx3.IDE.publish({subject:jsx3.ide.events.SELECTED_DOM_DID_CHANGE, target:objTree});
+};
+
+objJSX.setButtonsEnabled = function(enabled, bAll) {
+	var buttons = this.getDescendantOfName('jsx_ide_cache_bar').getDescendantsOfType(jsx3.gui.ToolbarButton);
+	for (var i = 0; i < buttons.length; i++) {
+		var button = buttons[i];
+		
+		if (bAll || button.node != 1)
+			button.setEnabled(enabled, true);
+	}
+};
+
+objJSX.doDeleteDom = function() {
+	jsx3.ide.doRecycle();
+};
+
+objJSX.doCleanup = function() {
+	jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_ACTIVATE, this);
+	jsx3.IDE.unsubscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_DEACTIVATE, this);
+	jsx3.IDE.unsubscribe(jsx3.ide.events.FOCUS_RECTANGLE_TOGGLED, this);
+
+	var objHW = jsx3.gui.Heavyweight.GO("jsxfocusrectangle");
+	if (objHW) objHW.destroy();
+	jsx3.IDE.publish({subject:jsx3.ide.events.SELECTED_DOM_DID_CHANGE, selected:null});
+};
+
+objJSX.updateButtonState = function() {
+	var settings = jsx3.ide.getIDESettings();
+	var snap = settings.get('prefs', 'dom', 'snapTo');
+	var focus = settings.get('prefs', 'dom', 'showFocus');
+	this.getDescendantOfName('jsx_tbb_snaptogrid').setState(snap ? 
+			jsx3.gui.ToolbarButton.STATEON : jsx3.gui.ToolbarButton.STATEOFF, false);
+	this.getDescendantOfName('jsx_tbb_focus').setState(focus ? 
+			jsx3.gui.ToolbarButton.STATEON : jsx3.gui.ToolbarButton.STATEOFF, false);
+};
+
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_ACTIVATE, objJSX, "doActivate");
+jsx3.IDE.subscribe(jsx3.ide.events.COMPONENT_EDITOR_DID_DEACTIVATE, objJSX, "doDeactivate");
+jsx3.IDE.subscribe(jsx3.ide.events.FOCUS_RECTANGLE_TOGGLED, objJSX, "updateButtonState");
+
+// control-backspace deletes selection
+objJSX.registerHotKey('doDeleteDom', jsx3.gui.Event.KEY_DELETE, false, true, false); // delete
+objJSX.registerHotKey('doDeleteDom',  8, false, true, false); // backspace
+	
+var editor = jsx3.ide.getActiveEditor();
+if (editor != null && editor.getMode() == "component")
+	objJSX.doActivate({target:editor, ondomactive:true});	
+
+objJSX.updateButtonState();
+
+	]]></onAfterDeserialize>
+		<object type="jsx3.gui.Block">
+			<dynamics/>
+			<variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+			<strings jsxname="jsx_ide_props_dom" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.palette.dom"/>
+			<events jsxdestroy="this.doCleanup();" />
+				<object type="jsx3.gui.Block">
+					<dynamics jsxtext="_dom_title"/>
+					<variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxwidth="0" jsxheight="0" jsxrelativeposition="0"/>
+					<strings jsxname="jsx_ide_palette_title" jsxdisplay="none"/>
+				</object>
+  				<object type="jsx3.gui.Menu">
+					<dynamics jsxxmlurl="mnuDom" />
+  					<strings jsxname="jsxmenu_dom" jsxxmlid="mnuDom" jsxdisplay="none"/>
+				</object>
+				<object type="jsx3.gui.LayoutGrid">
+					<variants jsxrelativeposition="0" jsxoverflow="2" />
+					<strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
+					<events />
+					<properties />
+						<object type="jsx3.gui.WindowBar">
+							<dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+							<variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" />
+							<strings jsxname="jsx_ide_cache_bar" />
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_clone"/>
+									<variants jsxtype="0" jsxstate="0" jsxenabled="0" node="1" noroot="1"/>
+									<strings jsxname="_ide_tbb_resource_clone" jsximage="images/icon_1.gif" />
+									<events jsxexecute="jsx3.ide.doClone();"/>
+								</object>
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_repaint"/>
+									<variants jsxtype="0" jsxstate="0" jsxenabled="0" node="1" />
+									<strings jsxname="_ide_tbb_resource_repaint" jsximage="images/icon_68.gif" />
+									<events jsxexecute="jsx3.ide.doRepaint();"/>
+								</object>
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_fetchrepaint"/>
+									<variants jsxtype="0" jsxstate="0" jsxenabled="0" node="1" noroot="1" blockx="1"/>
+									<strings jsxname="_ide_tbb_resource_fetchrepaint" jsximage="images/icon_68a.gif" />
+									<events jsxexecute="jsx3.ide.doFetchDataAndRepaint();"/>
+								</object>
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_recycle"/>
+									<variants jsxtype="0" jsxstate="0" jsxenabled="0" node="1" noroot="1"/>
+									<strings jsxdivider="1" jsxname="_ide_tbb_resource_recyc" jsximage="images/icon_73.gif" />
+									<events jsxexecute="jsx3.ide.doRecycle();"/>
+								</object>
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_focus"/>
+									<variants jsxtype="1" jsxstate="0" jsxdivider="1" jsxenabled="0"/>
+									<strings jsxname="jsx_tbb_focus" jsximage="images/icon_36.gif" />
+									<events jsxchange="jsx3.ide.showFocusRectangle(this.getState() == jsx3.gui.ToolbarButton.STATEON);"/>
+								</object>
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_snap"/>
+									<variants jsxtype="1" jsxstate="0" jsxenabled="0"/>
+									<strings jsxname="jsx_tbb_snaptogrid" jsximage="images/icon_90.gif" />
+									<events jsxchange="jsx3.ide.toggleSnapToGrid(this.getState() == jsx3.gui.ToolbarButton.STATEON);"/>
+								</object>
+								<object type="jsx3.gui.ToolbarButton">
+									<dynamics jsxtip="_dom_refresh"/>
+									<variants jsxtype="0" jsxstate="0" jsxdivider="1" jsxenabled="0"/>
+									<strings jsxname="_ide_tbb_resource_refresh" jsximage="images/icon_15.gif" />
+									<events jsxexecute="jsx3.ide.onDomChange();"/>
+								</object>
+						</object>
+						<object type="jsx3.gui.Block">
+							<dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
+							<variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+							<strings jsxname="jsx_ide_cache_treeblock" jsxwidth="100%" jsxheight="100%"/>
+								<object type="jsx3.gui.Tree">
+									<dynamics jsxpadding="@8Pixel" jsxbgcolor="@Solid Disabled"/>
+									<variants jsxdrop="1" jsxdrag="1" jsxmultiselect="1"/>
+									<strings jsxname="jsxdom" jsxwidth="100%" jsxheight="100%" jsxmenu="jsxmenu_dom" jsxspystylekeys="" jsxspystylevalues="" />
+									<events jsxtoggle="jsx3.ide.doDomToggle(strRECORDID,bOPEN);"
+                      jsxchange="this.getAncestorOfName('jsx_ide_props_dom').onSelect(this);"
+                      jsxexecute="jsx3.ide.doDomExecute(strRECORDID);"
+                      jsxdrop="jsx3.ide.onDomDrop(objSOURCE.getId(),strRECORDID,strDRAGIDS,this,false,bINSERTBEFORE);"
+                      jsxctrldrop="jsx3.ide.onDomDrop(objSOURCE.getId(),strRECORDID,strDRAGIDS,this,true,bINSERTBEFORE);"
+                      jsxmenu="jsx3.ide.configDomMenu(objMENU, this.getValue());"
+                      jsxspy="jsx3.ide.domSpyGlass(this, strRECORDID);"
+                      jsxdestroy="objPARENT.getAncestorOfName('jsx_ide_props_dom').storeLastDomValue(this);"/>
+                  <xslparameters jsxindent="16"/>
+								</object>
+						</object>
+				</object>
+		</object>
+</serialization>

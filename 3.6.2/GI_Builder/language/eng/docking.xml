@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="1" jsxtext="Fixed" jsximg="images/icon_81.gif">
+    <record jsxid="q1" jsxtext="Quadrant 1" jsximg="images/q1.gif" jsxgroupname="position"
+			jsxexecute="jsx3.ide.doMovePalette(this, 'q1');" />
+    <record jsxid="q2" jsxtext="Quadrant 2" jsximg="images/q2.gif" jsxgroupname="position"
+			jsxexecute="jsx3.ide.doMovePalette(this, 'q2');" />
+    <record jsxid="q3" jsxtext="Quadrant 3" jsximg="images/q3.gif" jsxgroupname="position"
+			jsxexecute="jsx3.ide.doMovePalette(this, 'q3');" />
+    <record jsxid="q4" jsxtext="Quadrant 4" jsximg="images/q4.gif" jsxgroupname="position"
+			jsxexecute="jsx3.ide.doMovePalette(this, 'q4');" />
+  </record>
+  <record jsxid="float" jsxtext="Floating" jsximg="images/icon_32.gif" jsxgroupname="position"
+		jsxexecute="jsx3.ide.doMovePalette(this, 'float');" />
+  <record jsxid="close" jsxdivider="1" jsxtext="Close" jsximg="images/icon_55.gif"
+		jsxexecute="jsx3.ide.doMovePalette(this, 'close');" />
+</data>
