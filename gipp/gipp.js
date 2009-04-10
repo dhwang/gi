@@ -297,16 +297,20 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
   
   /**
-   * Adds a test case to the set of currently running test cases.
+   * Adds a test case to the set of currently running test cases. Convenience method for creating an instance of
+   * <code>TestCase</code> and adding it to the test runner. 
+   *
    * @param strId {String} the name (unique identifier) of the test.
    * @param fctCase {Function} the test case function. This function will be called with a single argument, which is
    *    the instance of <code>jsx3.app.Server</code> for the application being tested.
    * @param objMeta {Object<String,String>} optional metadata for this test. The recognized keys are:
    *    <code>label {String}</code> - the label to show in the UI, defaults to the test ID. 
+   *    <code>description {String}</code> - the description of the test case to export in the report data.
    *    <code>single {boolean}</code> - whether to only run a test case once even when running the suite multiple times,
    *    <code>unit {String}</code> - <code>ms</code> (default) or <code>x</code>,
    *    <code>limit {int}</code> - the number of milliseconds to give to the test case if the unit is <code>x</code>.
    *       The default is 1000.
+   * @return {gi.test.gipp.TestCase}
    */
   gipp.addTestCase = function(strId, fctCase, objMeta) {
     var testCase = new gipp.TestCase(strId, fctCase);
@@ -315,9 +319,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       if (objMeta.unit) testCase.setUnit(objMeta.unit);
       if (objMeta.limit) testCase.setLimitMs(objMeta.limit);
       if (objMeta.label) testCase.setLabel(objMeta.label);
+      if (objMeta.description) testCase.setDescription(objMeta.description);
     }
     
-    gipp._runner.addTest(testCase);
+    return gipp._runner.addTest(testCase);
   };
 
   /**
@@ -397,7 +402,6 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
 
 /**
- * @package
  * @jsxdoc-definition  jsx3.lang.Class.defineClass("gi.test.gipp.Runner", Object, null, function() {});
  */
 (function(Runner) {
@@ -837,7 +841,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   /** @private @jsxobf-clobber */
   Runner_prototype._getReport = function() {
     var lines = [];
-    lines.push("Name\tCategory\tAverage\tUnit");
+    lines.push("Name\tDescription\tCategory\tAverage\tUnit");
     for (var i = 0; i < this._runs; i++)
       lines.push("\tRun " + (i+1));
     lines.push("\tError");
@@ -847,7 +851,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       var job = this._jobList[i];
       var result = this._resultsMap[job.getId()];
 
-      lines.push(job.getLabel(), "\t\t");
+      lines.push(job.getLabel(), "\t", (job.getDescription() || ""), "\t\t");
       lines.push(Math.round(result.getAverage()), "\t", job.getUnit());
 
       for (var j = 0; j < this._runs; j++) {
@@ -863,7 +867,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       for (var j = 0; j < cats.length; j++) {
         var c = cats[j];
 
-        lines.push(job.getLabel(), "\t", c, "\t");
+        lines.push(job.getLabel(), "\t\t", c, "\t");
         lines.push(Math.round(result.getCategoryAverage(c)), "\t", job.getUnit());
 
         for (var k = 0; k < this._runs; k++) {
@@ -891,6 +895,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       lines.push('  <record');
       lines.push(' jsxid="', gipp._strEscapeHTML(job.getId()), 
                 '" jsxtext="', gipp._strEscapeHTML(job.getLabel()), '"');
+      var desc = job.getDescription();
+      if (desc != null) 
+        lines.push(' description="', gipp._strEscapeHTML(desc), '"');
       lines.push(' unit="', job.getUnit(), '"');
       lines.push(' average="', Math.round(result.getAverage()), '"');
       for (var j = 0; j < cat.length; j++) {
@@ -1150,6 +1157,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   TestCase_prototype._limit = TestCase.DEFAULT_LIMIT;
   /** @private @jsxobf-clobber */
   TestCase_prototype._single = false;
+  /** @private @jsxobf-clobber */
+  TestCase_prototype._desc = null;
   
   /**
    * @param strId {String} the unique test ID.
@@ -1183,6 +1192,20 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    */
   TestCase_prototype.setLabel = function(strLabel) {
     this._label = strLabel;
+  };
+    
+  /**
+   * @return {String}
+   */
+  TestCase_prototype.getDescription = function() {
+    return this._desc;
+  };
+    
+  /**
+   * @param strDesc {String}
+   */
+  TestCase_prototype.setDescription = function(strDesc) {
+    this._desc = strDesc;
   };
     
   /**
@@ -1381,7 +1404,6 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param e {Object} the error raised by the test function.
    */
   Result_prototype.setError = function(intRun, e) {
-    /* @jsxobf-clobber */
     this._e[intRun] = e;
   };
     
