@@ -1,0 +1,21 @@
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Date Picker]]></name>
+  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <description><![CDATA[Extends the Date column with a DatePicker edit mask.]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.Matrix.Column">
+    <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+    <strings jsxname="datePickerColumn" jsxwidth="100" jsxtext="Date"
+        jsxpadding="2" jsxcellpadding="2" jsxpath="date" jsxformathandler="@date"
+        jsxvaluetemplate="@empty"/>
+    <object type="jsx3.gui.DatePicker">
+      <dynamics jsxformat="@Medium"/>
+      <strings jsxname="datePicker"/>
+    </object>
+  </object>
+</serialization>

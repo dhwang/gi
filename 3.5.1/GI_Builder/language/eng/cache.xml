@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+  <record jsxid="1" jsxtext="View/Edit" jsxtip="view/edit XML Source" jsximg="images/icon_21.gif"
+      jsxexecute="jsx3.ide.editSelectedCacheDoc(this.getContextParent(), this.getContextParent().getValue());"/>
+  <record jsxid="2" jsxtext="View Markup" jsxtip="view formatted markup (read only)" jsximg="images/icon_20.gif"
+      jsxexecute="jsx3.ide.viewSelectedCacheDoc(this.getContextParent(), this.getContextParent().getValue());"/>
+  <record jsxid="3" jsxdivider="1" jsxtext="Copy Name" single="1" jsxtip="copy the name/id for this cache document"
+      jsxexecute="jsx3.html.copy(this.getContextParent().getRecord(this.getContextRecordId()).jsxtext);"/>
+  <record jsxid="4" jsxtext="Copy Source" single="1" jsxtip="copy the XML content (as String)"
+      jsxexecute="jsx3.html.copy(jsx3.ide.getCacheDocByTreeId(this.getContextParent(), this.getContextRecordId()).getXML());"/>
+  <record jsxid="5" jsxtext="Remove From Cache" jsxdivider="1" jsxtip="remove document" jsximg="images/icon_24.gif"
+      jsxexecute="jsx3.ide.deleteCacheDocument([this.getContextRecordId()]);"/>
+</data>
