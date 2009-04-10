@@ -1,0 +1,42 @@
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Tabbed Pane]]></name>
+  <icon><![CDATA[images/prototypes/tabbedpane.gif]]></icon>
+  <description><![CDATA[Tabbed pane with three Tab children.]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.TabbedPane">
+    <variants selectedIndex="2" jsxselectedindex="0"/>
+    <strings jsxname="tabbedpane" jsxtextalign="0"/>
+    <object type="jsx3.gui.Tab">
+      <variants jsxzindex="3" jsxheight="20"/>
+      <strings jsxname="tab" jsxtext="[caption]" jsxbgcolor="#e8e8f5"/>
+      <object type="jsx3.gui.Block">
+        <dynamics jsxbgcolor="@Solid Medium"/>
+        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Tab">
+      <variants jsxzindex="3" jsxheight="18"/>
+      <strings jsxname="tab" jsxtext="[caption]" jsxbgcolor="#d8d8e5"/>
+      <object type="jsx3.gui.Block">
+        <dynamics jsxbgcolor="@Solid Medium"/>
+        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Tab">
+      <variants jsxzindex="3" jsxheight="18"/>
+      <strings jsxname="tab" jsxtext="[caption]" jsxbgcolor="#d8d8e5"/>
+      <object type="jsx3.gui.Block">
+        <dynamics jsxbgcolor="@Solid Medium"/>
+        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+      </object>
+    </object>
+  </object>
+</serialization>

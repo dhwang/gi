@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+
+  <record jsxid="jsxexecute" jsxtext="Execute"
+      jsxtip="fires after the enter key is pressed; item is enter or space-bar keyed">
+    <record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxkeypress" jsxtext="Key Press"
+      jsxtip="fires after a keypress event">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object recieving the keydown"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxkeydown" jsxtext="Key Down"
+      jsxtip="fires after a keydown event">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object recieving the keydown"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxkeyup" jsxtext="Key Up"
+      jsxtip="fires after a keyup event">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object recieving the keydown"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxchange" jsxtext="Change"
+      jsxtip="Fires after the value of the textbox has been edited by the user and the textbox has lost focus."
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="strPREVIOUS" type="String" jsxtext="the value before the textbox received focus"/>
+    <record jsxid="strVALUE" type="String" jsxtext="the new value"/>
+  </record>
+
+  <record jsxid="jsxincchange" jsxtext="Incr. Change"
+      jsxtip="Fires after each key event that changes the value of this text box. This event fires only once after
+          a key is held down to produce multiple characters."
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="strPREVIOUS" type="String" jsxtext="the value before the last key event"/>
+    <record jsxid="strVALUE" type="String" jsxtext="the incrementally changed value"/>
+  </record>
+
+  <record jsxid="jsxmousewheel" jsxtext="Mouse Wheel"
+      jsxtip="fires when the mouse scroll wheel is used while the mouse is over this text box">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxmenu" jsxtext="Menu"
+      jsxtip="fires before a context menu is shown"
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="JSX menu instance to display" jsxreturntext="use this field to override the default menu with an instance of jsx3.gui.Menu"/>
+  </record>
+
+  <record jsxid="jsxblur" jsxtext="Blur"
+      jsxtip="fires when the text box loses cursor focus">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object that just lost focus"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxfocus" jsxtext="Focus"
+      jsxtip="fires when the text box gains cursor focus">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object that just got focus"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxdblclick" jsxtext="Double-Click"
+      jsxtip="fires when the text box is 'dbl-clicked'">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object that was dbl-clicked"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+  </record>
+
+  <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+      jsxtip="fires when the item has just been removed from the DOM">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+    <record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+  </record>
+
+</data>

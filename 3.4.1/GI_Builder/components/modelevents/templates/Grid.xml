@@ -1,0 +1,173 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	
+	<record jsxid="jsxexecute" jsxtext="Execute"
+			jsxtip="fired via dblclick or enter">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the affected row"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that received the execute action"/>
+	</record>
+	
+	<record jsxid="jsxselect" jsxtext="Select"
+			jsxtip="fires after the cell selection has changed but only if the cell has no edit mask">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the selected item, null if a deselection event"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that received the select action, null if a deselection event"/>
+	</record>
+	
+	<record jsxid="jsxdrag" jsxtext="Drag"
+			jsxtip="fires before a drag event"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="CDF record id for the row to be dragged"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="HTML element acted upon (VIEW)"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the row to be dragged, same as strDRAGID"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column where the drag originated"/>
+	</record>
+	
+	<record jsxid="jsxdrop" jsxtext="Drop"
+			jsxtip="fires before a drop event"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="objSOURCE" type="jsx3.gui.Block" jsxtext="JSX object where the DRAG began"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="CDF record of the dragged row"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the row that received the drop"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that received the the drop"/>
+		<record jsxid="bALLOWADOPT" type="boolean" jsxtext="whether the source of the dragged CDF record will allow the adoption"/>
+	</record>
+	
+	<record jsxid="jsxctrldrop" jsxtext="Ctrl Drop"
+			jsxtip="fires before a drop event when the ctrl key is held down"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="objSOURCE" type="jsx3.gui.Block" jsxtext="JSX object where the DRAG began"/>
+		<record jsxid="strDRAGTYPE" type="String" jsxtext="type of drag -- JSXDragType"/>
+		<record jsxid="strDRAGID" type="String" jsxtext="CDF record of the dragged row"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the row that received the drop"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that received the the drop"/>
+		<record jsxid="bALLOWADOPT" type="boolean" jsxtext="whether the source of the dragged CDF record will allow the adoption"/>
+	</record>
+	
+	<record jsxid="jsxadopt" jsxtext="Adopt"
+			jsxtip="fires before a record from this object is adopted by another object"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance, source of adopted record"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="the CDF id of the record to adopt"/>
+		<record jsxid="objTARGET" type="jsx3.gui.Grid" jsxtext="JSX Object instance, target of adopted record"/>
+		<record jsxid="bCONTROL" type="boolean" jsxtext="true if control drop, false otherwise"/>
+	</record>
+	
+	<record jsxid="jsxspy" jsxtext="Spyglass"
+			jsxtip="fires before a spyglass is displayed; should eval to the HTML content of the spyglass"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance (MODEL)"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the spied row"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that received the spy"/>
+	</record>
+	
+	<record jsxid="jsxmenu" jsxtext="Menu"
+			jsxtip="fires before a context menu is shown"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the affected row"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that received the menu action"/>
+    <record jsxid="objMENU" type="jsx3.gui.Menu" vartype="inout" jsxtext="JSX menu instance to display" jsxreturntext="use this field to override the default menu with an instance of jsx3.gui.Menu"/>
+	</record>
+
+	<!-- not implemented in class yet
+  <record jsxid="jsxreorder" jsxtext="Reorder"
+		jsxtip="fires after the columns have been reordered">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+	</record>
+	-->
+	
+	<record jsxid="jsxbeforesort" jsxtext="Before Sort"
+  		jsxtip="fires before the list/grid is sorted" 
+      vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+    <record jsxid="intCOLUMNINDEX" type="int" vartype="inout" jsxtext="the index of the column just clicked" jsxreturntext="use this field to sort on a column other than the one that the user clicked on"/>
+	</record>
+
+	<record jsxid="jsxaftersort" jsxtext="After Sort"
+  		jsxtip="fires after the list/grid is sorted">    
+    <record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column that the list was sorted on"/>
+	</record>
+	
+	<record jsxid="jsxbeforeresize" jsxtext="Before Resize"
+			jsxtip="fires before a column is resized"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object about to be resized"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column being resized"/>
+	</record>
+
+	<record jsxid="jsxafterresize" jsxtext="After Resize"
+			jsxtip="fires after a column is resized" vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that was just resized"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the column being resized"/>
+		<record jsxid="intDIFF" type="int" jsxtext="the pixel difference in width"/>
+		<record jsxid="intOLDWIDTH" type="int" jsxtext="old width for the column"/>
+    <record jsxid="vntWIDTH" type="int | String" vartype="inout" jsxtext="width for the column (supports %)" jsxreturntext="use this field to set the resulting column width to a value other than the width at which the user released the mouse"/>
+	</record>
+	
+	<record jsxid="jsxbeforeappend" jsxtext="Before Append"
+			jsxtip="fires before a new CDF record is added"
+      always="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+		<record jsxid="objMASTERRECORD" type="Object&lt;String,String&gt;" jsxtext="CDF record to append (as JavaScript object)"/>
+	</record>
+	
+	<record jsxid="jsxafterappend" jsxtext="After Append"
+			jsxtip="fires after a CDF record and TR were added"
+      always="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+		<record jsxid="objMASTERRECORD" type="Object&lt;String,String&gt;" jsxtext="CDF record to append (as JavaScript object)"/>
+		<record jsxid="objTR" type="HTMLElement" jsxtext="native HTML object reference to new element"/>
+	</record>
+	
+	<record jsxid="jsxbeforeedit" jsxtext="Before Edit"
+			jsxtip="fired when an editable cell gets focus"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the affected row"/>
+		<record jsxid="strATTRIBUTENAME" type="String" jsxtext="CDF attribute name (without the leading @)"/>
+		<record jsxid="objMASK" type="jsx3.gui.Block" jsxtext="handle to edit mask instance (JSX object)"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the affected column"/>
+	</record>
+	
+	<record jsxid="jsxafteredit" jsxtext="After Edit"
+			jsxtip="fires before an edit is committed">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the affected row"/>
+		<record jsxid="strATTRIBUTENAME" type="String" jsxtext="CDF attribute name (without the leading @)"/>
+		<record jsxid="strATTRIBUTEVALUE" type="String" jsxtext="CDF attribute value"/>
+		<record jsxid="objMASK" type="jsx3.gui.Block" jsxtext="handle to edit mask instance (JSX object)"/>
+		<record jsxid="objGUI" type="HTMLElement" jsxtext="the HTML Table cell (TD) in the view"/>
+		<record jsxid="intCOLUMNINDEX" type="int" jsxtext="the index of the affected column"/>
+	</record>
+	
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

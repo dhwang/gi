@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+var rootBlock = objJSX.getChild(0);
+
+rootBlock.getBlock = function() {
+  if (this._jsxblock == null)
+    this._jsxblock = this.getDescendantOfName('jsx_ide_systemout');
+  return this._jsxblock;
+};
+
+rootBlock.unfocusWindow = function() {
+  var w = this.getAncestorOfType(jsx3.gui.Window);
+  if (w) {
+    var main = w.getParentWindow();
+    if (main) main.focus();
+  }
+};
+
+// TODO: register on jsx3.gui.Window
+rootBlock.registerHotKey("unfocusWindow", 'l', false, true, false);
+
+ ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Window">
+      <variants jsxdependent="0" jsxresizable="1" jsxscrollable="0"/>
+      <strings jsxname="system_out" jsxtitle="System Log" jsxwidth="500" jsxheight="400"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+          <strings jsxname="window" jsxwidth="100%" jsxheight="100%"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"
+                  jsxoverflow="3"/>
+              <strings jsxname="windowlg" jsxwidth="100%" jsxheight="100%" jsxrows="26,*"/>
+                <object type="jsx3.gui.WindowBar">
+                  <variants jsxbartype="1"/>
+                  <strings jsxname="title" jsxtext="System Log" jsxtextalign="right"/>
+                    <object type="jsx3.gui.ToolbarButton">
+                      <dynamics jsxtip="_sysout_clear"/>
+                      <variants/>
+                      <strings jsxname="jsx_ide_sysout_clear" jsximage="images/icon_94.gif"/>
+                      <events jsxexecute="this.getAncestorOfName('window').getBlock().clear();"/>
+                    </object>
+                    <!--
+        <object type="jsx3.gui.ToolbarButton">
+          <dynamics jsxtip="_sysout_restore" />
+          <variants />
+          <strings jsxname="jsx_ide_sysout_dump" jsximage="images/icon_92.gif" />
+          <events jsxexecute="jsx3.ide.dumpSystemOutLog();" />
+        </object>-->
+                    <object type="jsx3.gui.Menu">
+                      <dynamics jsxxmlurl="mnuSystemOutDocking" jsxtip="_sysout_docking"/>
+                      <variants jsxtype="0" jsxstate="0"/>
+                      <strings jsxname="jsxmenu_sysoutdock" jsxxmlid="mnuSystemOutDocking"
+                          jsximage="images/icon_81.gif" jsxmargin="2 5 0 0"/>
+                      <events jsxmenu="this.selectItem('window');"/>
+                    </object>
+                    <object type="jsx3.gui.Menu">
+                     <variants />
+                     <strings jsxname="jsx_loglevel" jsxtip="Adjust Log Level" jsxtext="" jsximage="images/icon_19.gif"
+                              jsxxmlurl="language/eng/logger.xml"/>
+                      <events jsxexecute="jsx3.ide.updateLoggerLevelOnMenu(strRECORDID);" jsxmenu="jsx3.ide.updateLoggerMenu(this);"/>
+                    </object>
+                </object>
+                <include src="components/systemout/log.xml" async="false"/>
+            </object>
+        </object>
+    </object>
+</serialization>

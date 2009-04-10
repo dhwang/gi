@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[]]></name>
+  <icon><![CDATA[]]></icon>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[
+
+objJSX.fillLineNumbers = function() {
+  var tokens = new Array(1001);
+  tokens[0] = "";
+  for (var i = 1; i < 501; i++) {
+    if ((i % 5) == 0)
+      tokens[i] = '<b>' + i + "</b><br/>";
+    else
+      tokens[i] = i + "<br/>";
+  }
+  this.getDescendantOfName("jsxtexteditnumbers").setText(tokens.join(""));
+};
+
+objJSX.onWrap = function(strWrap) {
+  var block = this.getDescendantOfName("jsxtexteditnumbers");
+  if (strWrap == jsx3.gui.TextBox.WRAPYES) {
+    block._jsxbackup = block.getText();
+    block.setText("", true);
+  } else {
+    block.setText(block._jsxbackup, true);
+  }
+};
+
+objJSX.fillLineNumbers();
+
+objJSX.getDescendantOfName("jsxcodeeditor_content").onKeyDown = function(objEvent) {
+  this.publish({subject:"keyDown", event:objEvent});
+  if (objEvent.tabKey()) {
+    if (! objEvent.hasModifier()) {
+      var objGUI = this.getRendered();
+
+      var selection = jsx3.html.getSelection(objGUI);
+      selection.setText("    ");
+      selection.insertCaret("end");
+
+      objEvent.cancelAll();
+    }
+  }
+};
+
+ ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" />
+      <strings jsxname="jsxcodeeditor" jsxheight="100%" jsxwidth="100%" />
+        <object type="jsx3.gui.LayoutGrid">
+          <variants />
+          <strings jsxname="jsxlayout" jsxborder="solid 1px #9898a5;solid 0px;solid 0px;solid 0px" jsxcols="34,*"/>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxbgcolor="@Solid Disabled" jsxfontname="@Script FN" jsxfontsize="@Script FS" />
+              <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxwidth="34" />
+              <strings jsxname="jsxtexteditnumbers" jsxheight="100%" jsxtextalign="right" jsxborder="0px;solid 1px #9898a5;0px;solid 1px #ffffff"
+                  jsxpadding="2 1 0 0" jsxmargin="0 0 0 0" jsxclassname="jsx3ide_editor_linenums" jsxcolor=" " />
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <dynamics jsxbgcolor="@Solid Light" jsxfontname="@Script FN" jsxfontsize="@Script FS" />
+              <variants jsxtype="1" jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxwrap="0"/>
+              <strings jsxname="jsxcodeeditor_content" jsxwidth="100%" jsxheight="100%" jsxborder="solid 0px;solid 0px;solid 0px;solid 0px" jsxmenu="jsxmenu_textarea" jsxoverflow="scroll" jsxmargin="-1 0 0 0" jsxpadding="2 2 2 2" />
+              <events jsxkeydown="this.onKeyDown(objEVENT);" />
+              <properties onscroll="this.previousSibling.scrollTop = this.scrollTop;" />
+            </object>
+        </object>
+    </object>
+</serialization>

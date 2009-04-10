@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+	<record include="master.xml" group="object"/>
+	<record include="master.xml" group="position"/>
+	
+	<record jsxid="jsx3select" group="1" jsxtext="Select">
+		<record jsxid="jsxtype" jsxtext="Type"
+				eval="1"
+				jsxtip="Sets the type of the select, such as Select or Combo/Type Ahead."
+        docgetter="getType" docsetter="setType"
+				docdefault="Select (&lt;code&gt;jsx3.gui.Select.TYPESELECT&lt;/code&gt;)"
+				jsxmask="jsxselect">
+			<enum jsxid="jsx3.gui.Select.TYPESELECT" jsxtext="Select"/>
+			<enum jsxid="jsx3.gui.Select.TYPECOMBO" jsxtext="Combo/Type Ahead"/>
+		</record>
+    <record jsxid="jsxmaxlength" jsxtext="Max Length"
+        eval="1"
+        jsxtip="Sets the maximum allowed length of the input field of this combo control."
+        docgetter="getMaxLength" docsetter="setMaxLength"
+				docdefault="Empty"
+        disallow="[^0-9]"
+        jsxmask="jsxtext"/>
+		<record include="master.xml" group="form" children="1"/>
+    <record include="master.xml" group="jsxrequired" children="1"/>
+	</record>
+
+	<record include="master.xml" group="blockx"/>
+	<record include="master.xml" group="font"/>
+
+	<record include="master.xml" group="box_nobg">
+		<record include="master.xml" group="jsxdisabledbgcolor" children="1"/>
+	</record>
+	
+	<record include="master.xml" group="css"/>
+	<record include="master.xml" group="interaction"/>
+	<record include="master.xml" group="access"/>
+	<record include="master.xml" group="metadata"/>
+</data>

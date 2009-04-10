@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<html xmlns="http://www.w3.org/1999/xhtml" style="border-width:0px;overflow:hidden;">
+  <head>
+    <title></title>
+    <script type="text/javascript" language="JavaScript">
+//<![CDATA[
+function _jsx_onLoad() {
+  var me = window;
+
+  window.opener.setTimeout(function(){
+    var doc = me.document;
+    var openerDoc = me.opener ? me.opener.document : null;
+    var objWindow = me._jsxwindow;
+    var Event = me.opener ? me.opener.jsx3.gui.Event : null;
+
+    if (openerDoc && objWindow) {
+      me.document.title = objWindow.getTitle();
+
+      me.onbeforeunload = new Function("if (window._jsxwindow) window._jsxwindow.onBeforeUnload();");
+      me.onfocus = new Function("if (window._jsxwindow) window._jsxwindow.onFocus();");
+      me.onresize = new Function("if (window._jsxwindow) window._jsxwindow.onResize();");
+
+      if (me.opener.onerror)
+        me.onerror = me.opener.onerror;
+
+      var dependent = objWindow.isDependent();
+
+      Event.subscribe(Event.UNLOAD, function() {
+        try {
+          Event._deregisterWindow(me);
+        } catch (e) {};
+
+        if (dependent) {
+          // dependent jsx3.gui.Window instances close automatically when their parent closes
+          me.close();
+        } else {
+          // non-dependent windows support the window.onparentunload hook
+          me._jsxwindow = null;
+          me.onerror = null;
+          if (typeof(me.onparentunload) == "function")
+            me.onparentunload();
+        }
+      });
+
+      // ensure that events that bubble up to this window eventually bubble up to the parent window
+      Event._registerWindow(me);
+
+      // special handling of keydown event ensures that the Window's root block can capture any keydown events for the
+      // purpose of handling hot keys
+      doc.onkeydown = function(e) {
+        var captured = false;
+        var rootBlock = me._jsxwindow.getRootBlock();
+        if (rootBlock != null)
+          captured = rootBlock.checkHotKeys(jsx3.gui.Event.wrap(e || event));
+      };
+
+      objWindow.onLoad(me);
+    } else {
+      // TODO: how shall we address this?
+    }
+  }, 0);
+}
+//]]>
+    </script>
+  </head>
+  <body id="JSX" onload="_jsx_onLoad()" SCROLL="no" class="jsx30window">
+    &#160;
+  </body>
+</html>

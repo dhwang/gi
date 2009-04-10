@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<data jsxid="jsxroot">
+
+	<record jsxid="jsxexecute" jsxtext="Execute"
+			jsxtip="fired via click or equivalent">
+		<record jsxid="this" type="$class$" jsxtext="JSX object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the jsx3.gui.Event instance"/>
+		<record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the affected row"/>
+		<record jsxid="objRECORD" type="jsx3.xml.Entity" jsxtext="object handle to CDF record node (jsx3.xml.Entity"/>
+	</record>
+	
+	<record jsxid="jsxmenu" jsxtext="Before Show"
+			jsxtip="fires before the menu is shown"
+			vetoable="1">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+		<record jsxid="objANCHOR" type="HTMLElement" jsxtext="on-screen HTML element that is the persistent anchor, may be null if a context menu, may be null if invoked by hot key"/>
+		<record jsxid="intINDEX" type="int" jsxtext="the 1-based nesting index of the menu. The root menu or context menu will be 1, nested menus will be 2, 3, 4, etc., may be null if invoked by hot key"/>
+		<record jsxid="strPARENTID" type="String" jsxtext="CDF record id 'jsxid' for the menu container, may be null if top level menu"/>
+	</record>
+	
+  <record jsxid="jsxspy" jsxtext="Spyglass"
+      jsxtip="fires before a spyglass is displayed; should eval to the HTML content of the spyglass"
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="jsx3.gui.Event instance"/>
+    <record jsxid="strRECORDID" type="String" jsxtext="CDF record id for the spied row"/>
+  </record>
+
+  <record jsxid="jsxhide" jsxtext="Hide"
+      jsxtip="fires when the menu is closed completely"
+      always="1">
+    <record jsxid="this" type="$class$" jsxtext="JSX Object instance"/>
+  </record>
+
+	<record jsxid="jsxdestroy" jsxtext="Destroy" always="1"
+			jsxtip="fires when the item has just been removed from the DOM">
+		<record jsxid="this" type="$class$" jsxtext="JSX Object that is in the process of being destroyed"/>
+		<record jsxid="objPARENT" type="jsx3.app.Model" jsxtext="the parent of this JSX Object before it was removed from the DOM tree"/>
+	</record>
+
+</data>

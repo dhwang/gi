@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2007, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+	<name><![CDATA[]]></name>
+	<icon><![CDATA[]]></icon>
+	<description><![CDATA[]]></description>
+	<onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+	<onAfterDeserialize><![CDATA[
+
+// @jsxobf-clobber-shared  getMatrixData
+
+var objTab = objJSX;
+
+objJSX.onShowMe = function() {
+	var editor = jsx3.ide.getActiveEditor();
+	var objXML = editor.getMatrixData();
+
+  var strXML = jsx3.ide.makeXmlPretty(objXML);
+
+	// generate serialization description of component and its profile
+	var content = this.getTextArea();
+  content.setEnabled(jsx3.gui.Form.STATEENABLED, true);
+  content.setValue(strXML, true);
+
+	//flag for the read/write editor (e.g., this), that tracks when the user edits (types) into the editor
+	this._jsxdirty = false;
+};
+
+objJSX.getEditor = function() {
+	var mainTab = this.getAncestorOfType(jsx3.gui.Tab);
+	return jsx3.ide.getEditorForTab(mainTab);
+};
+
+objJSX.getDescendantOfName('jsxcodeeditor_content').subscribe("keyDown", function(e) {
+	var editor = objTab.getEditor();
+	var objField = e.target;
+	
+	if (! editor.isDirty() || ! objTab.isDirty()) {
+		var preText = objField.getValue();
+		// wait until the event bubbles up and maybe changes the text in the field
+		window.setTimeout( function(){
+		  if (preText != objField.getValue()) { 
+		    editor.setDirty(true); 
+		    objTab._jsxdirty = true;
+		  }
+		}, 0);
+	}
+});
+
+objJSX.getXMLSource = function() {
+  return this.getTextArea().getValue();
+};
+
+// efficiency (allows us to sync source only after changes specific to this tab)
+objJSX.isDirty = function() {
+	return this._jsxdirty;
+}
+
+objJSX.setDirty = function(bDirty) {
+	this._jsxdirty = bDirty;
+}
+
+objJSX.getTextArea = function() {
+	return this.getDescendantOfName('jsxcodeeditor_content');
+};
+
+ ]]></onAfterDeserialize>
+		<object type="jsx3.gui.Tab">
+			<variants jsxindex="0" />
+			<strings jsxname="jss_xmlwr" />
+			<events jsxshow="this.onShowMe();" />
+			  <include src="components/containers/code_editor.xml" async="false"/>
+		</object>
+</serialization>
