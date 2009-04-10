@@ -248,6 +248,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     window.location.reload();
   };
 
+  gipp.evaluate = function() {
+    gipp._runner._evaluate();
+  };
+  
   /** @package */
   gipp.exportReport = function() {
     var runner = gipp._runner;
@@ -685,6 +689,19 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     this._updateButtons();
     this._nextJob();
   };
+  
+  /** @private @jsxobf-clobber */
+  Runner_prototype._evaluate = function() {
+    var script = this._getById("eval_script").value;
+    var message = "";
+    try {
+      message = eval(script);
+    } catch (e) {
+      message = e.message || e.description || e.toString;
+    }
+    
+    this._getById("eval_result").firstChild.innerHTML = gipp._strEscapeHTML(String(message));
+  };
 
   /** @private @jsxobf-clobber */
   Runner_prototype._pause = function() {
@@ -780,7 +797,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       var height = me._doc.body.clientHeight - 2;
       for (var i = 0; i < resultsDiv.parentNode.childNodes.length; i++) {
         var c = resultsDiv.parentNode.childNodes[i];
-        if (c.nodeType == 1 && c != resultsDiv) height -= c.offsetHeight;
+        if (c.nodeType == 1 && c != resultsDiv && c.style.position != "absolute") 
+          height -= c.offsetHeight;
       }
       resultsDiv.style.height = Math.max(0, height) + "px";
     }, 0);
@@ -1429,14 +1447,13 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
  */
 (function(evt) {
 
-  var gui = jsx3.gui;
-  var Interactive = gui.Interactive;
-  var IllegalArgumentException = jsx3.IllegalArgumentException;
-  
   /**
    * @param objJSX {jsx3.gui.Button|jsx3.gui.ImageButton|jsx3.gui.Matrix|jsx3.gui.Menu|jsx3.gui.Table|jsx3.gui.ToolbarButton|jsx3.gui.Tree}
    */
   evt.execute = function(objJSX, strRecordId) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.Button && objJSX instanceof gui.Button) {
       objJSX.doExecute();
     } else if (gui.ImageButton && objJSX instanceof gui.ImageButton) {
@@ -1460,8 +1477,6 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       // TODO:
     } else if (gui.Table && objJSX instanceof gui.Table) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1469,14 +1484,15 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.Matrix|jsx3.gui.RadioButton|jsx3.gui.Select}
    */
   evt.select = function(objJSX, strRecordId) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.Matrix && objJSX instanceof gui.Matrix) {
       // TODO:
     } else if (gui.RadioButton && objJSX instanceof gui.RadioButton) {
       // TODO:
     } else if (gui.Select && objJSX instanceof gui.Select) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1484,6 +1500,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.ColorPicker|jsx3.gui.DatePicker|jsx3.gui.Slider|jsx3.gui.Table|jsx3.gui.TextBox|jsx3.gui.ToolbarButton|jsx3.gui.Tree}
    */
   evt.change = function(objJSX, objValue) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.ColorPicker && objJSX instanceof gui.ColorPicker) {
       // TODO:
     } else if (gui.DatePicker && objJSX instanceof gui.DatePicker) {
@@ -1498,8 +1517,6 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       // TODO:
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1507,10 +1524,11 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.Dialog}
    */
   evt.move = function(objJSX, intX, intY) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.Dialog && objJSX instanceof gui.Dialog) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1518,12 +1536,13 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.Dialog|jsx3.gui.Splitter}
    */
   evt.resize = function(objJSX, intWidth, intHeight) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.Dialog && objJSX instanceof gui.Dialog) {
       // TODO:
     } else if (gui.Splitter && objJSX instanceof gui.Splitter) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1531,12 +1550,13 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.Stack|jsx3.gui.Tab}
    */
   evt.show = function(objJSX) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.Stack && objJSX instanceof gui.Stack) {
       // TODO:
     } else if (gui.Tab && objJSX instanceof gui.Tab) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1544,14 +1564,15 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.CheckBox|jsx3.gui.ImageButton|jsx3.gui.Tree}
    */
   evt.toggle = function(objJSX, strRecordId) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.CheckBox && objJSX instanceof gui.CheckBox) {
       // TODO:
     } else if (gui.ImageButton && objJSX instanceof gui.ImageButton) {
       // TODO:
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
@@ -1559,14 +1580,15 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * @param objJSX {jsx3.gui.Matrix|jsx3.gui.Table|jsx3.gui.Tree}
    */
   evt.spy = function(objJSX, strRecordId) {
+    var gui = jsx3.gui;
+    var Interactive = gui.Interactive;
+    
     if (gui.Matrix && objJSX instanceof gui.Matrix) {
       // TODO:
     } else if (gui.Table && objJSX instanceof gui.Table) {
       // TODO:
     } else if (gui.Tree && objJSX instanceof gui.Tree) {
       // TODO:
-    } else {
-      throw new IllegalArgumentException("objJSX", objJSX);
     }
   };
   
