@@ -3,27 +3,22 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
-/**
- * {String} The path of the JavaScript file that contains benchmarking code for each app that is tested using the
- *    benchmarking harness. The path is relative to the project directory.
- */
-gi.test.gipp.BENCHMARK_JS = "benchmark.js";
-
-//gi.test.gipp.BENCHMARK_JSS = ["benchmark.js", "benchmark2.js"];
+// gi.test.gipp.BENCHMARK_JS = "benchmark.js";
+// An array value also works, in which case show a multi-select
+// gi.test.gipp.BENCHMARK_JS = ["benchmark.js", "benchmark2.js"];
 
 // The relative location of the GI deployment directory.
 gi.test.gipp.GI = "../gi";
-
-// gi.test.gipp.GIS = [];
+// An array value also works, in which case show a select
+// gi.test.gipp.GI = [];
 
 // The relative location of the GI app to test ...
 gi.test.gipp.APP = "JSXAPPS/matrix-benchmark";
-
-// ... or a list of them, in which case we show a select.
-// gi.test.gipp.APPS = [];
+// An array value also works, in which case show a select
+// gi.test.gipp.APP = [];
 
 // The number of runs.
-gi.test.gipp.RUNS = 1;
+// gi.test.gipp.RUNS = 1;
 
 // Whether to start the tests automatically when the page loads.
-gi.test.gipp.AUTORUN = false;
+// gi.test.gipp.AUTORUN = false;

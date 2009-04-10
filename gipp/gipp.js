@@ -7,6 +7,8 @@ if (!window.gi) window.gi = new Object();
 if (!gi.test) gi.test = new Object();
 if (!gi.test.gipp) gi.test.gipp = new Object();
 
+// @jsxobf-clobber  _resizeto _jobs _index _thisrun _running _TOPOLL _SERVER _CURRENTJOB
+
 /**
  * The TIBCO General Interface&#8482; Performance Profiler.
  *
@@ -14,14 +16,37 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
  */
 gi.test.gipp._init = function(gipp) {
 
+  /**
+   * {int} The number of times to run the test suite. The default is <code>1</code>.
+   */
   gipp.RUNS = 1;
 
   /**
-   * {String} The path of the JavaScript file that contains benchmarking code for each app that is tested using the
-   *    benchmarking harness. The path is relative to the project directory.
+   * {boolean} Whether to start the test suite automatically. The default is <code>false</code>.
+   */
+  gipp.AUTORUN = false;
+
+  /**
+   * {String|Array<String>} The path of the GI installation, relative to the GIPP launch page, <code>gipp.html</code>. 
+   */
+  gipp.GI = "";
+
+  /**
+   * {String|Array<String>} The path of the GI application to test, relative to the GIPP launch page, <code>gipp.html</code>. 
+   */
+  gipp.APP = "";
+
+  /**
+   * {String|Array<String>} The path of the JavaScript file that contains benchmarking code for each app that is 
+   *    tested using the benchmarking harness. The path is relative to the project directory.
    */
   gipp.BENCHMARK_JS = "benchmark.js";
 
+  /**
+   * {Object<String,String>} A key-value map of deployment parameters that will be added to the tested application.
+   */
+  gipp.DEPLOYMENT_PARAM = {};
+  
   /**
    * {Object} A test case function may return this to indicate that it is an asynchronous test. The test case must
    *   somehow subsequently call <code>completeTestCase()</code> to indicate that the test has completed.
@@ -51,32 +76,26 @@ gi.test.gipp._init = function(gipp) {
   gipp.POLL = new Object();
 
   /**
-   * {int} The amount (milliseconds) of timeout between running test cases.
+   * {int} The number of milliseconds of timeout between running test cases.
    */
   gipp.TICK = 250;
 
   /**
-   * {int} The amount (milliseconds) of timeout testing the polling function.
+   * {int} The number of milliseconds of timeout between calls to the polling function.
    */
   gipp.INTERVAL = 100;
 
   /**
-   * {int} The amount (milliseconds) of time to wait before cancelling a test case that returns <b>WAIT</b>.
+   * {int} The number of milliseconds to wait before cancelling a test case that returns <b>WAIT</b>.
    */
   gipp.TIMEOUT = 3000;
+
   
-  /**
-   * {Object<String,String>} A key-value map of deployment parameters that will be added to the tested application.
-   */
-  gipp.DEPLOYMENT_PARAM = {};
-
-  gipp._SERVER = null;
-  gipp._CURRENTJOB = null;
-
+  /** @package */
   gipp.init = function() {
-    gipp._setValueOrOptions("input_gi", gipp.GIS, gipp.GI);
-    gipp._setValueOrOptions("input_project", gipp.APPS, gipp.APP);
-    gipp._setValueOrOptions("input_js", gipp.BENCHMARK_JSS, gipp.BENCHMARK_JS, true);
+    gipp._setValueOrOptions("input_gi", gipp.GI);
+    gipp._setValueOrOptions("input_project", gipp.APP);
+    gipp._setValueOrOptions("input_js", gipp.BENCHMARK_JS, true);
 
     if (gipp.AUTORUN)
       window.setTimeout(gipp._run, 250);
@@ -93,6 +112,7 @@ gi.test.gipp._init = function(gipp) {
     document.getElementById("btn_run").focus();
   };
 
+  /** @private @jsxobf-clobber */
   gipp._updateResultsHeight = function() {
     if (gipp._resizeto) return;
     gipp._resizeto = window.setTimeout(function() {
@@ -108,12 +128,20 @@ gi.test.gipp._init = function(gipp) {
     }, 0);
   };
 
+  /** @private @jsxobf-clobber */
   gipp._setRun = function(intRun) {
     document.getElementById("runs").innerHTML = "Run " + intRun + "/" + gipp.RUNS;
   };
 
-  gipp._setValueOrOptions = function(strName, arrValues, strValue, bMulti) {
-    if (arrValues) {
+  /** @private @jsxobf-clobber */
+  gipp._setValueOrOptions = function(strName, strValue, bMulti) {
+    var bArr = strValue instanceof Array;
+    if (bArr && strValue.length == 1) {
+      strValue = strValue[0];
+      bArr = false;
+    }
+    
+    if (bArr) {
       var orig = document.getElementById(strName);
       var select = document.createElement("select");
       select.id = strName;
@@ -123,12 +151,12 @@ gi.test.gipp._init = function(gipp) {
       }
       select.setAttribute("tabindex", orig.getAttribute("tabindex"));
 
-      for (var i = 0; i < arrValues.length; i++) {
+      for (var i = 0; i < strValue.length; i++) {
         var option = document.createElement("option");
-        option.setAttribute("value", arrValues[i]);
+        option.setAttribute("value", strValue[i]);
         if (bMulti || i == 0)
           option.setAttribute("selected", "selected");
-        option.appendChild(document.createTextNode(arrValues[i]));
+        option.appendChild(document.createTextNode(strValue[i]));
         select.appendChild(option);
       }
       orig.parentNode.replaceChild(select, orig);
@@ -137,6 +165,7 @@ gi.test.gipp._init = function(gipp) {
     }
   };
 
+  /** @private @jsxobf-clobber */
   gipp._getFormValue = function(strName, bArray) {
     var input = document.getElementById(strName);
     if (input.tagName.toLowerCase() == "select") {
@@ -151,6 +180,7 @@ gi.test.gipp._init = function(gipp) {
     }
   };
 
+  /** @private @jsxobf-clobber */
   gipp._start = function() {
     gipp._clearAppPane();
 
@@ -173,6 +203,7 @@ gi.test.gipp._init = function(gipp) {
       gipp._pause();
   };
 
+  /** @private @jsxobf-clobber */
   gipp._run = function() {
     if (! gipp._jobs) gipp._start();
     gipp._running = true;
@@ -180,17 +211,20 @@ gi.test.gipp._init = function(gipp) {
     gipp._nextJob();
   };
 
+  /** @package */
   gipp.step = function() {
     if (! gipp._jobs) gipp._start();
     gipp._nextJob();
   };
 
+  /** @private @jsxobf-clobber */
   gipp._pause = function() {
     gipp._running = false;
     window.clearTimeout(gipp._TO);
     gipp._updateButtons();
   };
 
+  /** @package */
   gipp.stop = function() {
     gipp._jobs = null;
     gipp._index = 0;
@@ -199,10 +233,12 @@ gi.test.gipp._init = function(gipp) {
       window.clearInterval(gipp._TOPOLL);
   };
 
+  /** @package */
   gipp.reload = function() {
     window.location.reload();
   };
 
+  /** @package */
   gipp.exportReport = function() {
     var lines = [];
     lines.push("Name\tAverage\tUnit");
@@ -238,6 +274,7 @@ gi.test.gipp._init = function(gipp) {
     }
   };
 
+  /** @package */
   gipp.exportReportXml = function() {
     var lines = [];
     lines.push('<data jsxid="jsxroot">\n');
@@ -276,18 +313,21 @@ gi.test.gipp._init = function(gipp) {
     }
   };
 
+  /** @private @jsxobf-clobber */
   gipp._strEscapeHTML = function(s) {
     return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(
         /[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD\x10000-\xFFFFF]/g,
         function(m) { return "\\u" + m.charCodeAt().toString(16); } );
   };
 
+  /** @private @jsxobf-clobber */
   gipp._clearAppPane = function() {
     var t = document.getElementById("app_container");
     for (var i = t.childNodes.length - 1; i >= 0; i--)
       t.removeChild(t.childNodes[i]);
   };
 
+  /** @private @jsxobf-clobber */
   gipp._clearResults = function() {
     var t = document.getElementById("table_results");
     for (var i = t.childNodes.length - 1; i >= 0; i--)
@@ -327,6 +367,10 @@ gi.test.gipp._init = function(gipp) {
     gipp._updateOutput(strName, "", "");
   };
 
+  /**
+   * Adds a test case that loads a GI application into the GIPP UI.
+   * @param strPath {String} the path of the application to load, relative to the GIPP launch page.
+   */
   gipp.addLoadAppCase = function(strPath) {
     gipp.addTestCase("Load application", function() {
       var div = document.createElement("div");
@@ -354,6 +398,7 @@ gi.test.gipp._init = function(gipp) {
     }, {single:true});
   };
 
+  /** @private @jsxobf-clobber */
   gipp._checkAppLoad = function() {
     if (window.jsx3) {
       var apps = null;
@@ -411,6 +456,7 @@ gi.test.gipp._init = function(gipp) {
     }, {single:true});
   };
 
+  /** @private @jsxobf-clobber */
   gipp._peekNextJob = function() {
     var i = gipp._index;
     var job = null;
@@ -420,6 +466,7 @@ gi.test.gipp._init = function(gipp) {
     return job;
   };
 
+  /** @private @jsxobf-clobber */
   gipp._nextJob = function() {
     var job = null;
     do {
@@ -490,17 +537,20 @@ gi.test.gipp._init = function(gipp) {
     }
   };
 
+  /** @private @jsxobf-clobber */
   gipp._sleepQueueEmpty = function(strName) {
     jsx3.unsubscribe(jsx3.QUEUE_DONE, gipp._sleepQueueEmpty);
     gipp.completeTestCase(gipp._CURRENTJOB.name);
   };
 
+  /** @private @jsxobf-clobber */
   gipp._timeoutTestCase = function(strName) {
     delete gipp._TOTO;
     gipp._updateOutput(strName, '&#x221E;', "");
     gipp._continueNextTest();
   };
 
+  /** @private @jsxobf-clobber */
   gipp._checkPollingCase = function() {
     if (gipp.POLL.poll(gipp._SERVER)) {
       window.clearInterval(gipp._TOPOLL);
@@ -549,6 +599,7 @@ gi.test.gipp._init = function(gipp) {
     gipp._updateButtons();
   };
 
+  /** @private @jsxobf-clobber */
   gipp._continueNextTest = function() {
     if (gipp._running) {
       if (gipp._index < gipp._jobs.length) {
@@ -569,6 +620,7 @@ gi.test.gipp._init = function(gipp) {
     }
   };
 
+  /** @private @jsxobf-clobber */
   gipp._updateTotal = function() {
     var t = 0;
     for (var i = 0; i < gipp._jobs.length; i++)
@@ -577,6 +629,7 @@ gi.test.gipp._init = function(gipp) {
     gipp._updateOutput("<b>Total</b>", Math.round(t), "ms");
   };
 
+  /** @private @jsxobf-clobber */
   gipp._updateOutput = function(strName, strVal1, strVal2) {
     var id = "output." + strName;
     var tr = document.getElementById(id);
@@ -609,6 +662,7 @@ gi.test.gipp._init = function(gipp) {
     gipp._scrollToResult(tr);
   };
 
+  /** @private @jsxobf-clobber */
   gipp._setActive = function(strName) {
     if (gipp._lastactive) {
       var tr = document.getElementById(gipp._lastactive);
@@ -624,25 +678,28 @@ gi.test.gipp._init = function(gipp) {
     gipp._lastactive = id;
   };
 
+  /** @private @jsxobf-clobber */
   gipp._scrollToResult = function(tr) {
     var div = document.getElementById("results");
     div.scrollTop = Math.max(0, tr.offsetHeight + tr.offsetTop - div.offsetHeight + 8);
   };
 
+  /** @private @jsxobf-clobber */
   gipp._error = function(strMessage) {
     window.alert(strMessage);
   };
 
+  /** @private @jsxobf-clobber */
   gipp._updateButtons = function() {
     var nextJob = gipp._peekNextJob();
     document.getElementById("btn_run").value = gipp._running ? "Pause" : "Run";
     document.getElementById("btn_run").disabled = nextJob != null ? "" : "disabled";
     document.getElementById("btn_step").disabled = !gipp._running && nextJob != null ? "" : "disabled";
-//    document.getElementById("btn_pause").disabled = gipp._running && !gipp._TOPOLL ? "" : "disabled";
     document.getElementById("btn_export").disabled = document.getElementById("btn_exportxml").disabled =
         !gipp._running && gipp._jobs != null && nextJob == null ? "" : "disabled";
   };
 
+  /** @private @jsxobf-clobber */
   gipp._copy = function(strText) {
     if (window.clipboardData) {
       clipboardData.setData('text',strText);
@@ -675,6 +732,7 @@ gi.test.gipp._init = function(gipp) {
     return false;
   };
 
+  /** @private @jsxobf-clobber */
   gipp._status = function(strText) {
     window.status = strText;
   };
