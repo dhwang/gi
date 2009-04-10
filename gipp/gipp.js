@@ -11,12 +11,13 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
  * The TIBCO General Interface&#8482; Performance Profiler.
  * <p/>
  * Any static field in this package that is not defined <code>final</code> may be overridden by the user. There
- * are a number of places to override these values, which are listed here in increase precedence:
+ * are a number of places to override these values, which are listed here in increasing precedence:
  * <ol>
  *   <li>In <code>config.js</code>.</li>
  *   <li>In a script tag in <code>gipp.html</code> (or a copy of that file) after the script tag that loads 
  *       <code>config.js</code>.</li>
  *   <li>As a key value pair in the query party of the URL from which GIPP loads.</li>
+ *   <li>In the GIPP user interface form (<code>GI</code>, <code>APP</code>, and <code>BENCHMARK_JS</code> only).</li>
  * </ol>
  *
  * @jsxdoc-definition  jsx3.Package.definePackage("gi.test.gipp", function(){});
@@ -1250,6 +1251,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   /** @private @jsxobf-clobber */
   Runner_prototype._status = function(strText) {
     window.status = strText;
+  };
+
+  Runner_prototype.toString = function() {
+    return "GIPP Runner";
   };
   
 })(gi.test.gipp.Runner = function() { this.init.apply(this, arguments); });
