@@ -71,6 +71,17 @@ div#results {
   overflow: auto;
   background-color: #EFEEEF;
 }
+div#log {
+  background-color: #D4D6D8;
+  height: 30px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 9px;
+  color: #333333;
+}
+div#log div.pad { padding: 1px 4px 1px 4px; }
+div#log div.pad div { padding: 2px; }
 div#div_export {
   text-align: right;
   padding: 6px 10px 6px 0px;

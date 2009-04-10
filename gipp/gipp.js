@@ -14,7 +14,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
  *
  * @jsxdoc-definition  jsx3.Package.definePackage("gi.test.gipp", function(){});
  */
-gi.test.gipp._init = function(gipp) {
+(function(gipp) {
 
   /**
    * {int} The number of times to run the test suite. The default is <code>1</code>.
@@ -89,16 +89,46 @@ gi.test.gipp._init = function(gipp) {
    * {int} The number of milliseconds to wait before cancelling a test case that returns <b>WAIT</b>.
    */
   gipp.TIMEOUT = 3000;
-
   
+  /**
+   * {String} If this field is set then the test results are posted to this URL when the tests complete. 
+   */
+  gipp.POST_URL = "";
+
+  /**
+   * {String} If the test results are posted to <code>POST_URL</code>, use this user name for simple HTTP authentication.
+   */
+  gipp.POST_USERNAME = "";
+
+  /**
+   * {String} If the test results are posted to <code>POST_URL</code>, use this password for simple HTTP authentication.
+   */
+  gipp.POST_PASSWORD = "";
+  
+  /**
+   * Whether or not to parse the query parameters of the URL of the GIPP page and override configuration variables
+   * with them. The default is <code>true</code>. GIPP does its best to parse values from their string representation.
+   * The following formats are supported:
+   * <ul>
+   *   <li>JavaScript number</li>
+   *   <li>Array: [1,2,'a','b']</li>
+   *   <li>Object: {a:1,b:"B"}</li>
+   *   <li>"string" or 'string' or string</li>
+   * </ul>
+   */
+  gipp.IMPORT_URLPARAMS = true;
+
   /** @package */
   gipp.init = function() {
+    if (gipp.IMPORT_URLPARAMS)
+      gipp._importQueryParams();
+    
     gipp._setValueOrOptions("input_gi", gipp.GI);
     gipp._setValueOrOptions("input_project", gipp.APP);
     gipp._setValueOrOptions("input_js", gipp.BENCHMARK_JS, true);
 
     if (gipp.AUTORUN)
-      window.setTimeout(gipp._run, 250);
+      window.setTimeout(gipp._run, gipp.TICK);
 
     gipp._setRun(0);
     gipp._updateResultsHeight();
@@ -111,7 +141,85 @@ gi.test.gipp._init = function(gipp) {
 
     document.getElementById("btn_run").focus();
   };
+  
+  /** @private @jsxobf-clobber */
+  gipp._importQueryParams = function() {
+    var params = gipp._getQueryParams(window.location.search);
+    for (var f in params) {
+      gipp[f] = gipp._parseParam(params[f]);
+    }
+  };
+  
+  /** @private @jsxobf-clobber */
+  gipp._parseParam = function(strValue) {
+    if (!isNaN(strValue)) {
+      return Number(strValue);
+    } else if (strValue.match(/^\[.*\]$/)) {
+      var v = [];
+      var tokens = strValue.substring(1, strValue.length - 1).split(/\s*,\s*/g);
+      for (var i = 0; i < tokens.length; i++)
+        v[i] = gipp._parseParam(tokens[i]);
+      return v;
+    } else if (strValue.match(/^\{.*\}$/)) {
+      var v = {};
+      var tokens = strValue.substring(1, strValue.length - 1).split(/\s*,\s*/g);
+      for (var i = 0; i < tokens.length; i++) {
+        var t = tokens[i];
+        var index = t.indexOf(":");
+        if (index >= 0) {
+          var key = t.substring(0, index);
+          v[k] = gipp._parseParam(t.substring(index+1));
+        }
+      }
+      return v;
+    } else if (strValue.match(/^".*"$/) || strValue.match(/^'.*'$/)) {
+      return strValue.substring(1, strValue.length - 1);
+    } else {
+      return strValue;
+    }
+  };
 
+  /** @private @jsxobf-clobber */
+  gipp._getQueryParams = function(strURL) {
+    var params = {};
+    var index = strURL.indexOf("?");
+    if (index < 0) return params;
+    var query = strURL.substring(index+1);
+    var pairs = query.split(/&/g);
+    for (var i = 0; i < pairs.length; i++) {
+      var nv = pairs[i].split("=", 2);
+      params[gipp._decodeURI(nv[0])] = gipp._decodeURI(nv[1]);
+    }
+    return params;
+  };
+  
+  /** @private @jsxobf-clobber */
+  gipp._decodeURI = function(strText) {
+    if (strText == null) return null;
+    if (strText.indexOf("%") < 0) return strText;
+
+    var length = strText.length;
+    var decoded = new Array(length);
+    var j = 0;
+
+    for (var i = 0; i < strText.length; i++) {
+      var chr = strText.charAt(i);
+      if (chr == "%") {
+        var octet = strText.substring(i+1, i+3);
+        if (octet.match(/[^a-fA-F0-9]/)) {
+          decoded[j++] = chr;
+        } else {
+          decoded[j++] = String.fromCharCode(parseInt(octet, 16));
+          i += 2;
+        }
+      } else {
+        decoded[j++] = chr;
+      }
+    }
+
+    return decoded.join("");
+  };
+  
   /** @private @jsxobf-clobber */
   gipp._updateResultsHeight = function() {
     if (gipp._resizeto) return;
@@ -196,6 +304,7 @@ gi.test.gipp._init = function(gipp) {
       gipp.addLoadJsCase(path + "/" + js[i]);
   };
 
+  /** @package */
   gipp.runPause = function(objGUI) {
     if (objGUI.value == "Run")
       gipp._run();
@@ -240,6 +349,20 @@ gi.test.gipp._init = function(gipp) {
 
   /** @package */
   gipp.exportReport = function() {
+    var data = gipp._getReport();
+    if (gipp._copy(data)) {
+      gipp._clearLog();
+      gipp._log("The tab-delimited report data has been copied to the clipboard.");
+    } else {
+      gipp._log("Could not use the clipboard.");
+      var w = window.open("about:blank", "BenchReport");
+      w.document.write("<html><head><title>Benchmark Report</title></head><body><pre>" + data + "</pre></body></html>");
+      w.focus();
+    }
+  };
+  
+  /** @private @jsxobf-clobber */
+  gipp._getReport = function() {
     var lines = [];
     lines.push("Name\tAverage\tUnit");
     for (var i = 1; i <= gipp.RUNS; i++)
@@ -265,17 +388,26 @@ gi.test.gipp._init = function(gipp) {
       lines.push("\n");
     }
 
-    var data = lines.join("");
-    if (gipp._copy(data)) {
-      window.alert("The tab-delimited report data has been copied to the clipboard.");
-    } else {
-      var w = window.open("about:blank", "BenchReport");
-      w.document.write("<html><head><title>Benchmark Report</title></head><body><pre>" + data + "</pre></body></html>");
-    }
+    return lines.join("");
   };
 
   /** @package */
   gipp.exportReportXml = function() {
+    var data = gipp._getReportXML();
+    
+    if (gipp._copy(data)) {
+      gipp._clearLog();
+      gipp._log("The XML report data has been copied to the clipboard.");
+    } else {
+      gipp._log("Could not use the clipboard.");
+      var w = window.open("about:blank", "BenchReport");
+      w.document.write("<html><head><title>Benchmark Report</title></head><body><pre>" + gipp._strEscapeHTML(data) + "</pre></body></html>");
+      w.focus();
+    }
+  };
+  
+  /** @private @jsxobf-clobber */
+  gipp._getReportXML = function() {
     var lines = [];
     lines.push('<data jsxid="jsxroot">\n');
 
@@ -304,13 +436,19 @@ gi.test.gipp._init = function(gipp) {
 
     lines.push('</data>\n');
 
-    var data = lines.join("");
-    if (gipp._copy(data)) {
-      window.alert("The XML report data has been copied to the clipboard.");
-    } else {
-      var w = window.open("about:blank", "BenchReport");
-      w.document.write("<html><head><title>Benchmark Report</title></head><body><pre>" + gipp._strEscapeHTML(data) + "</pre></body></html>");
-    }
+    return lines.join("");
+  };
+
+  gipp._clearLog = function() {
+    var div = document.getElementById("log").firstChild;
+    div.innerHTML = "";
+  };
+  
+  gipp._log = function(strMessage) {
+    var div = document.getElementById("log").firstChild;
+    var msg = document.createElement("div");
+    msg.appendChild(document.createTextNode(gipp._strEscapeHTML(strMessage)));
+    div.appendChild(msg);
   };
 
   /** @private @jsxobf-clobber */
@@ -323,13 +461,6 @@ gi.test.gipp._init = function(gipp) {
   /** @private @jsxobf-clobber */
   gipp._clearAppPane = function() {
     var t = document.getElementById("app_container");
-    for (var i = t.childNodes.length - 1; i >= 0; i--)
-      t.removeChild(t.childNodes[i]);
-  };
-
-  /** @private @jsxobf-clobber */
-  gipp._clearResults = function() {
-    var t = document.getElementById("table_results");
     for (var i = t.childNodes.length - 1; i >= 0; i--)
       t.removeChild(t.childNodes[i]);
   };
@@ -533,7 +664,7 @@ gi.test.gipp._init = function(gipp) {
         }
       }
     } else {
-      gipp._error("No next job.");
+      gipp._log("Error (1)");
     }
   };
 
@@ -575,7 +706,7 @@ gi.test.gipp._init = function(gipp) {
 
     var job = gipp._CURRENTJOB;
     if (job.name != strName) {
-      gipp._error("Attempt to complete test case " + strName + " but the running case is " + job.name + ".");
+      gipp._log("Attempt to complete test case " + strName + " but the running case is " + job.name + ".");
       return;
     }
 
@@ -612,14 +743,55 @@ gi.test.gipp._init = function(gipp) {
           gipp._index = 0;
           gipp._TO = window.setTimeout(gipp._nextJob, gipp.TICK);
         } else {
-          gipp._running = false;
-          gipp._status("All Done");
-          gipp._setActive();
+          gipp._allTestsFinished();
         }
       }
     }
   };
+  
+  /** @private @jsxobf-clobber */
+  gipp._allTestsFinished = function() {
+    gipp._running = false;
+    gipp._status("All Done");
+    gipp._setActive();
+    
+    if (gipp.POST_URL)
+      window.setTimeout(gipp._postResults, gipp.TICK);
+  };
 
+  /** @private @jsxobf-clobber */
+  gipp._postResults = function() {
+    var r = null;
+
+    try {
+      if (window.ActiveXObject) {
+        r = new ActiveXObject("MSXML2.XMLHTTP");
+      } else if (window.XMLHttpRequest) {
+        r = new XMLHttpRequest();
+      }
+      
+      if (r) {
+        try {
+          if (window.netscape && netscape.security)
+            netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
+        } catch (e) {;}
+  
+        r.open("POST", gipp.POST_URL, false, gipp.POST_USERNAME, gipp.POST_PASSWORD);
+        r.send(gipp._getReportXML());
+  
+        if (r.status == 0 || r.status == 200) {
+          gipp._log("Test results successfully posted to " + gipp.POST_URL + ".");
+        } else {
+          gipp._log("Posting test results failed with status " + r.status + ".");
+        }
+      } else {
+        gipp._log("Could not post test results because XMLHttpRequest is not available.");
+      }
+    } catch (e) {
+      gipp._log("Posting test results failed with error: " + e.message);
+    }
+  };
+  
   /** @private @jsxobf-clobber */
   gipp._updateTotal = function() {
     var t = 0;
@@ -685,11 +857,6 @@ gi.test.gipp._init = function(gipp) {
   };
 
   /** @private @jsxobf-clobber */
-  gipp._error = function(strMessage) {
-    window.alert(strMessage);
-  };
-
-  /** @private @jsxobf-clobber */
   gipp._updateButtons = function() {
     var nextJob = gipp._peekNextJob();
     document.getElementById("btn_run").value = gipp._running ? "Pause" : "Run";
@@ -736,7 +903,61 @@ gi.test.gipp._init = function(gipp) {
   gipp._status = function(strText) {
     window.status = strText;
   };
-};
-
-gi.test.gipp._init(gi.test.gipp);
-delete gi.test.gipp._init;
+  
+  /**
+   * @param objJSX {jsx3.gui.Button|jsx3.gui.ImageButton|jsx3.gui.Matrix|jsx3.gui.Menu|jsx3.gui.Table|jsx3.gui.ToolbarButton|jsx3.gui.Tree}
+   */
+  gipp.evtExecute = function(objJSX, strRecordId) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.Matrix|jsx3.gui.RadioButton|jsx3.gui.Select}
+   */
+  gipp.evtSelect = function(objJSX, strRecordId) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.ColorPicker|jsx3.gui.DatePicker|jsx3.gui.Slider|jsx3.gui.Table|jsx3.gui.TextBox|jsx3.gui.ToolbarButton|jsx3.gui.Tree}
+   */
+  gipp.evtChange = function(objJSX, objValue) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.Dialog}
+   */
+  gipp.evtMove = function(objJSX, intX, intY) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.Dialog|jsx3.gui.Splitter}
+   */
+  gipp.evtResize = function(objJSX, intWidth, intHeight) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.Stack|jsx3.gui.Tab}
+   */
+  gipp.evtShow = function(objJSX) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.CheckBox|jsx3.gui.ImageButton|jsx3.gui.Tree}
+   */
+  gipp.evtToggle = function(objJSX, strRecordId) {
+    
+  };
+  
+  /**
+   * @param objJSX {jsx3.gui.Matrix|jsx3.gui.Table|jsx3.gui.Tree}
+   */
+  gipp.evtSpy = function(objJSX, strRecordId) {
+    
+  };
+  
+})(gi.test.gipp);
