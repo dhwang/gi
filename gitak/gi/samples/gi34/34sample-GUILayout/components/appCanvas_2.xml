@@ -42,7 +42,7 @@
           <object type="jsx3.gui.ToolbarButton">
             <variants/>
             <strings jsxname="tbbCanvas2ToolbarButton" jsximage="images/openfolder.gif" jsxtext="[text]"/>
-            <events jsxexecute="eg.guilayout.getServer().alert(&quot;Server-based alert&quot;, &quot;button clicked&quot;);"/>
+            <events jsxexecute="eg.guilayout.APP.alert(&quot;Server-based alert&quot;, &quot;button clicked&quot;);"/>
           </object>
         </object>
       </object>
