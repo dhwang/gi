@@ -252,8 +252,31 @@ _jsxlookups.jsx3_gui_TabbedPane    = {
                                       undefined:{dom:"",events:"mouseup"}
                                      };
 _jsxlookups.jsx3_gui_Table    = {
-                                      undefined:{dom:"",events:"mouseup"}
-                                     };
+                                      undefined:{dom:"",events:"mouseup,mousedown,mouseover,click,dblclick"},
+									  header: {dom:"",events:"mouseup"},
+                                      rows:{dom:function(objJSX) {
+                                                      return jsx3_gui_Table_getIterableRows(objJSX.getRendered());
+                                            },events:""},
+                                      rowbyindex:{dom:function(objJSX,intRowIndex) {
+                                                      return _jsxlookups.jsx3_gui_Table.rows.dom(objJSX)[intRowIndex];
+                                                    },events:"mousedown,mouseover"},
+ 									  rowbyjsxid:{dom:function(objJSX,strJsxId) {
+                                                      var strId = objJSX.getId() + "_" + strJsxId;
+                                                      var objDoc = objJSX.getServer().getDocumentOf();
+                                                      return objDoc.getElementById(strId);
+                                                    },events:"mousedown,mouseover"},
+                                      cellbyindex:{dom:function(objJSX,intRowIndex,intColumnIndex) {
+                                                      var objRow = _jsxlookups.jsx3_gui_Table.rowbyindex.dom(objJSX,intRowIndex);
+                                                      if(objRow != null)
+                                                        return objRow.childNodes[intColumnIndex];
+                                                    },events:"mousedown"},
+                                      cellbyjsxid:{dom:function(objJSX,strJsxId,intColumnIndex) {
+                                                      var objRow = _jsxlookups.jsx3_gui_Table.rowbyjsxid.dom(objJSX,strJsxId);
+                                                      if(objRow != null)
+                                                        return objRow.childNodes[intColumnIndex];
+                                                    },events:"mousedown"}
+
+								};
 _jsxlookups.jsx3_gui_TextBox       = {
                                       undefined:{dom:"",events:"blur,change,dblclick,focus,keydown,keypress,keyup,mouseup,mousewheel,scroll"}
                                      };
@@ -394,8 +417,7 @@ _jsxlookups._jsx3_gui_Tree_items = function(objGUI,objArray) {
 //For example, if objJSX is an instance of jsx3.gui.Slider element and STYPE is handle, the return is a DIV object (e.g., [native_gui_object].childNodes[0].childNodes[1])
 //to get the day object for Jan 1, 2006, call:   getActionableObject(yourDatePickerInstance,"day","2006-0-1");   Note that the format is yyy-m-d
 function getActionableObject(objJSX,STYPE) {
-  if(objJSX) {   // if (objGUI) // object created by code may not be visible/accessible -- dhwang 2007-07-17
-    var objGUI = objJSX.getRendered();
+  if(objJSX) {
     var objClass = objJSX.getClass();
     var strName = objClass.getName().replace(/\./g,"_");
 	// When objJSX is a sub-class of jsx3.gui.Foo, we need to figure out which Foo this object was derived from -- Jim & Peter CDC 2007-08-09
@@ -404,14 +426,16 @@ function getActionableObject(objJSX,STYPE) {
     }
 
     var domGetter = _jsxlookups[strName][STYPE+""].dom;
+    var objGUI = objJSX.getRendered();
     if(typeof(domGetter) == "function") {
       //the native HTML element will be resolved by calling a custom function
       objGUI = domGetter(objJSX,arguments[2],arguments[3]);
     } else {
       //the native HTML element will be resolved by traversing the DOM
       var objStruct = domGetter.split(/\s*,\s*/);
+	  
       for(var i=0;i<objStruct.length;i++)
-        objGUI = objGUI.childNodes[objStruct[i]-0];
+         objGUI = (objGUI) ?  objGUI.childNodes[objStruct[i]-0] : null; 
     }
     return objGUI;
   }
@@ -453,3 +477,16 @@ function Dialog_getRenderedDialog(objJSX) {
      return objGUI;
    }
  };
+ 
+
+jsx3_gui_Table_getIterableRows = function(objGUI) {
+    var myToken;
+    var objRows = [];
+    if (objGUI) {	
+	  objRows = objGUI.childNodes[0].childNodes[0].rows;
+	  var list = new jsx3.util.List(objRows);     
+      objRows = list.toArray();
+    }
+	return objRows;
+  };
+
