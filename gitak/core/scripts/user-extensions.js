@@ -481,7 +481,7 @@ Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
     // this.browserbot.triggerMouseEvent(activeMaskElement, 'focus', false);
     if (jsx3.gui.TextBox && activeMask.instanceOf(jsx3.gui.TextBox)) {
         LOG.debug('textboxy action type value' + value)
-        this.browserbot.replaceJsxText(activeMask, activeMaskElement, value);
+        this.browserbot.replaceJsxText(activeMaskElement, value, activeMask);
     }
     else if (jsx3.gui.DatePicker && activeMask.instanceOf(jsx3.gui.DatePicker) ) {
         LOG.debug('Matrix pickJsxDate');
@@ -726,22 +726,14 @@ Selenium.prototype.doClickJsxElement = function(locator, modifier) {
      }
 
      triggerLeftMouseEvent(jsxElement, 'click', true);
-     triggerLeftMouseEvent(jsxElement, 'mousedown', true);
-     triggerLeftMouseEvent(jsxElement, 'mouseup', true);
+     if (jsxElement && jsxElement.onmousedown) 
+      triggerLeftMouseEvent(jsxElement, 'mousedown', true);
+     if (jsxElement && jsxElement.onmouseup) 
+      triggerLeftMouseEvent(jsxElement, 'mouseup', true);
 
-	 
-     jsxElement = this.browserbot.findElement(locator);
-     if (jsxElement && jsxElement.onblur) {
-       LOG.debug("do blur ... " );
-       //_triggerEvent(jsxElement, 'blur', false);
-     }
-     if (jsxElement && jsxElement.onmouseout) {
-       LOG.debug("do mouseout jsxelement..." );
-       //_triggerMouseEvent(jsxElement, 'mouseout', true);
-     }
-	
+      
    } catch (e) {
-      LOG.error("Exception caught in clickJsxElement! message=" + e.message);
+      LOG.warn("Exception caught in clickJsxElement! message=" + e.message);
    }
 
   selenium.browserbot.controlKeyDown = prevCtrl;
@@ -1331,11 +1323,13 @@ Selenium.prototype.doDragJsxTo = function(locator, movementsString) {
 
 };
 
+// doDragJsxRecordChild
+// doDragJsxRecordBefore
 
 Selenium.prototype.doDragJsxToJsx = function(locator, locator2) {
-/** Deprecated use dragAndDropToObject.
+/** 
    * Simulates a user doing drag-and-drop on the specified jsxobj to a second jsxobj.
-   * // TODO -- still broken
+   * // TODO -- fix drop to sibling row or child row of matrix and tree.
    * @param locator (String) an JsxName <a href="#locators">element locator</a>
    * @param locator2 (String) The second JsxName <a href="#locators">element locator</a>
    */
@@ -1471,19 +1465,15 @@ Selenium.prototype.doTypeJsxTextbox = function(locator, text) {
   */
 
    LOG.debug("doType " + locator + " with " + text);
-/*   var jsxName = locator.substring(locator.indexOf('=') + 1);// jsxname=blah
-   jsxName = stripQuotes(jsxName);
-
-   LOG.debug("textbox jsxname = " + jsxName);
-*/
    // Not using NameAndType locator since we want to type in different type of input box, date picker, combo box, etc.
    var element = this.browserbot.findElement(locator);
    var objJSX = storedVars['LASTJSXOBJ'];
-   //LOG.debug('element found ' + getOuterHTML(element));
-    if (this.browserbot.shiftKeyDown) {
+   if (!element || !objJSX)
+    Assert.fail("Cannot locate input box with locator=" + locator);
+   if (this.browserbot.shiftKeyDown) {
         text = new String(text).toUpperCase();
     }
-    this.browserbot.replaceJsxText(objJSX, element, text); // our replacetext does blur event.
+    this.browserbot.replaceJsxText(element, text, objJSX); // our replacetext does blur event.
 };
 
 Selenium.prototype.doSpyJsxElement = function(locator) {
@@ -1510,11 +1500,11 @@ Selenium.prototype.doSpyJsxElement = function(locator) {
 };
 
 Selenium.prototype.doTypeJsxGridCell = function(locator, text) {
-/** Type in grid text box column
+/** Type in grid text box column, Deprecated.
   * @param locator (String) Cell with jsxid id123 and column 1  = gridJsxName.id123.1
   * @param text (String) value to type into Grid cell
  */
-   LOG.debug("doType grid cell" + locator + " with " + text);
+   LOG.warn("Grid is deprecated, grid cell" + locator + " with " + text);
 
    var strategy = locator.split('=');
    var params = strategy[1].split("."); // gridJsxName.r.c
@@ -1980,10 +1970,10 @@ Selenium.prototype.isJsxMenuWindowPresent = function(locatorId) {
 Selenium.prototype.isJsxSelectWindowPresent = function (locator) {
 /**
  * Is the Select control drop down list present.
+ * @param locator (String) not used. we are looking for the only select window object.
  */
-   var elmSelectWindow = this.browserbot.locateElementByJsxSelectWindow(locator, this.browserbot.getDocument());
-    //LOG.debug('elmSelWin=' + elmSelectWindow);
-   return (elmSelectWindow) ? true : false;
+  var elmSelectWindow = this.browserbot.getDocument().getElementById("jsx30curvisibleoptions");   
+  return (elmSelectWindow) ? true : false;
 }
 
 Selenium.prototype.isJsxButtonPresent = function(text) {
@@ -2000,9 +1990,9 @@ waitForJsxButtonNotPresent( )
  */
     try {
         var element = null;
-          element = this.browserbot.locateElementByJsxButtonText(text, this.browserbot.getCurrentWindow(true).document);
+          element = this.browserbot.locateElementByJsxButtonName(text, this.browserbot.getDocument());
         if (!element)
-          element = this.browserbot.locateElementByJsxButtonName(text, this.browserbot.getCurrentWindow(true).document);
+          element = this.browserbot.locateElementByJsxButtonText(text, this.browserbot.getDocument());
         if (!element)  // locator search
 	      element = this.browserbot.findElement(text);
         if (element)
@@ -2026,7 +2016,7 @@ waitForJsxPresent( )
 waitForJsxNotPresent( )
 
 Example
-  assertJsxPresent  | mtxGridEditable | |
+  assertJsxPresent  | rootblock/tabbedpane/child[0]/mtxGridEditable/columnText | |
   verifyJsxPresent  | JsxDateNextYear=dpkrStartDate | |
   waitForJsxPresent | JsxDialogCaption=*Blah* | |
 
@@ -2036,7 +2026,7 @@ Example
   try {
 		if (text.indexOf("=") < 0) {
 		 LOG.info(" findByJsxName " + text);
-		 var objJSX = this.browserbot.findByJsxName(text);
+		 var objJSX = this.browserbot.findByJsxDom(text);
          objGUI = (objJSX) ? objJSX.getRendered() : null;
 		}
     if (!objGUI) { // only do this if objGUI is not found using jsxname search.
@@ -2044,7 +2034,7 @@ Example
 		 objGUI = this.browserbot.findElement(text);
 		}
   } catch (e) {
-	    LOG.error("isJsxPresent Execption=" + e.message);
+	    LOG.warn("isJsxPresent Execption=" + e.message);
       return false;
   }
 	
@@ -2160,69 +2150,35 @@ Selenium.prototype.assertJsxPromptOK= function(text, value) {
 
 Selenium.prototype.jsxNamespace = null;
 
-PageBot.prototype.findElementByNameAndTwoAttributes = function (
-    inDocument, tagName, attribute1, value1, attribute2, value2
-) {
-/**
- * Helper findElementBy "Name and Two Attributes" method
- * e.g. //span[label="something" and class="className"]
- *
- * @param inDocument (Document) document object
- * @param tagName (String) tag name to look under
- * @param attribute1 (String) name of first attribute
- * @param value1 (String) value of first attribute
- * @param attribute2 (String) name of second attribute
- * @param value2 (String) value of second attribute
- */
-    if (isIE && attribute1 == "class") {
-        attribute1 = "className";
-    }
-    if (isIE && attribute2 == "class") {
-        attribute2 = "className";
-    }
+PageBot.JSXROOT = "JSXROOT"; //default root
+PageBot.JSXWINDOWS = "JSXWINDOWS";
+PageBot.prototype._jsxroot = PageBot.JSXROOT;
 
-    //LOG.debug ("Attr = " + attribute1 + ", attribute2 = " + attribute2);
-    var elements = inDocument.getElementsByTagName(tagName);
-    for (var i = 0; i < elements.length; i++) {
-        var elementAttr = elements[i].getAttribute(attribute1);
-        var elementAttr2 = elements[i].getAttribute(attribute2);
-        //debug("elementAttr = " + elementAttr + ", elementAttr2 = " + elementAttr2);
-        if (elementAttr == value1 && elementAttr2 == value2) {
-            return elements[i];
-        }
-
-    }
-    return null;
-};
-
-PageBot.prototype.findElementByTextAndAttribute = function (
-    inDocument, tagName, text, attribute1, value1
-) {
-/*
- * Helper findElementBy "Text and Attribute" method
- * e.g. //span[text()="something" and @class="className"]
- *
- * @param inDocument (Document) document object
- * @param tagName (String) tag name to look under
- * @param text (String) tag text to find
- * @param attribute1 (String) name of first attribute
- * @param value1 (String) value of first attribute
-*/
-    if (isIE && attribute1 == "class") {
-        attribute1 = "className";
-    }
-
-    LOG.debug ("text = " + text + ", attr = " + attribute1 + ", val = " + value1);
-    var elements = inDocument.getElementsByTagName(tagName);
-    for (var i = 0; i < elements.length; i++) {
-      var elementAttr = elements[i].getAttribute(attribute1);
-      //LOG.debug("text = " + getText(elements[i]) + "elementAttr = " + elementAttr);
-        if (getText(elements[i]) == text && elementAttr == value1) {
-            return elements[i];
-        }
-    }
-    return null;
-};
+Selenium.prototype.doSelectJsxWindow = function (name) {
+  if (!name || name == "" || name == "null") {
+    this.browserbot._jsxroot= PageBot.JSXROOT;
+    this.browserbot.selectWindow("null");
+    return;
+  }
+  
+  var appServer;
+  var win = this.browserbot.topWindow;
+  if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
+    appServer = eval("win."+selenium.jsxNamespace); 
+ 
+  if (appServer) {
+    var jsxwin = appServer.getAppWindow(name);
+  } else {
+    var jsxwin = jsx3.GO(name);
+  }
+  LOG.debug(jsxwin);
+  
+  if (jsx3.gui.Window && (jsxwin instanceof jsx3.gui.Window) ) {
+    this.browserbot._jsxroot = PageBot.JSXWINDOWS;
+    this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
+  }
+  LOG.debug("root=" + this.browserbot._jsxroot);
+}
 
 PageBot.prototype.getParentChild = function(jsxname) {
 /**
@@ -2251,7 +2207,7 @@ PageBot.prototype.findByJsxIdentity = function(identity, inWindow) {
 
    if (jsx3) {
     selenium.jsxversion = jsx3.getVersion();
-    var ancestor = 'JSXBODY';
+    var ancestor = this._jsxroot;
     var pdotc = this.getParentChild(identity);
 
     if ( typeof(pdotc) != 'string') {
@@ -2297,15 +2253,14 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
  */
   var appServer;
   // init jsx3 object in case this is first locator called
+  var appWindow = this.topWindow;
   window.top.jsx3 = null;
-  inWindow = inWindow || this.getCurrentWindow();
-  window.top.jsx3 = inWindow.jsx3
-
+  window.top.jsx3 = appWindow.jsx3
   var jsxobj = null;
 
    if (jsx3) {
     selenium.jsxversion = jsx3.getVersion();
-    var ancestor = 'JSXROOT';
+    var ancestor = this._jsxroot;
     var pdotc = this.getParentChild(jsxname);
 
     if ( typeof(pdotc) != 'string') {
@@ -2318,7 +2273,7 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
     //NOTE: getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
     var objAncestor;
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-      appServer = eval("inWindow."+selenium.jsxNamespace); 
+      appServer = eval("appWindow."+selenium.jsxNamespace); 
     if (appServer) {
       objAncestor = appServer.getJSXByName(ancestor);
       jsxobj = (objAncestor != null) ? objAncestor.getDescendantOfName(jsxname) : null;	 
@@ -2333,7 +2288,7 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
     if (jsxobj && storedVars) {
       storedVars['LASTJSXNAME'] = jsxobj.getName();
     }
-    // set this no matter if it was found or not
+    // set this no matter if it was found or not, jsxobj could be null.
     storedVars['LASTJSXOBJ'] = jsxobj;
    } // endif jsx3 
    return jsxobj;
@@ -2348,8 +2303,8 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
  *  @return JSX object
   */
   var appServer;
-  inWindow = inWindow || this.getCurrentWindow();
-  window.top.jsx3 = inWindow.jsx3
+  var appWindow = this.topWindow;
+  window.top.jsx3 = appWindow.jsx3;
   
   var jsxobj = null;
   var type = eval(jsxtype); // is this jsxtype loaded?
@@ -2357,7 +2312,7 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
   if (jsx3 && type) {
     selenium.jsxversion = jsx3.getVersion();
 
-    var ancestor = 'JSXROOT';
+    var ancestor = this._jsxroot;
     var pdotc = this.getParentChild(jsxname);
 
     if ( typeof(pdotc) != 'string') {
@@ -2368,7 +2323,7 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
     LOG.debug('** findByJsxNameAndType jsxname=' + jsxname  + ',type='+ jsxtype + ',parent=' + ancestor);
     var objAncestor;
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-      appServer = eval("inWindow."+selenium.jsxNamespace); 
+      appServer = eval("appWindow."+selenium.jsxNamespace); 
     if (appServer) {
       LOG.debug('namespace defined='  + appServer);
       objAncestor = appServer.getJSXByName(ancestor);
@@ -2400,27 +2355,30 @@ PageBot.prototype.findByJsxText = function(text, inWindow) {
  */
   var appServer;
   LOG.debug('findByJsxText =' + text  );
+  var appWindow = this.topWindow;
   window.top.jsx3 = null;
-  inWindow = inWindow || this.getCurrentWindow();
-  window.top.jsx3 = inWindow.jsx3
+  window.top.jsx3 = appWindow.jsx3
+
   var jsxobj = null;
 
   if (jsx3){
     selenium.jsxversion = jsx3.getVersion();
-  
+    var ancestor = this._jsxroot;
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-      appServer = eval("inWindow."+selenium.jsxNamespace); 
+      appServer = eval("appWindow."+selenium.jsxNamespace); 
+      
     if (appServer) {
        LOG.info("Using namespace="  + appServer);     
        // There should always be a root block per namespace app. 
-       jsxobj = appServer.getRootBlock().findDescendants(
+       var objAncestor = appServer.getJSXByName(ancestor);
+       jsxobj = (objAncestor) ? objAncestor.findDescendants(
           function(objJSX) {
               return (objJSX.getText && PatternMatcher.matches(text, objJSX.getText()) );
           }
-       ,false,false,false,true);
+       ,false,false,false,true) : null;
     } else {
-       LOG.info("*** using GO JSXROOT");
-        jsxobj = jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
+       LOG.info("*** using GO " + ancestor);
+        jsxobj = jsx3.GO(ancestor).findDescendants(function(objJSX) {
             return (objJSX.getText && PatternMatcher.matches(text, objJSX.getText())  );
         },false,false,false,true);
     }
@@ -2432,7 +2390,7 @@ PageBot.prototype.findByJsxText = function(text, inWindow) {
   return jsxobj;
 }
 
-PageBot.prototype.findByJsxTextAndType = function(text, jsxtype, inWindow) {
+PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
 /**
  * findByJsxTextAndType - find jsx object in body using its jsxtext with glob or regexp pattern maching
  *  @param text (String) JSX object jsxtext
@@ -2440,10 +2398,10 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype, inWindow) {
  *  @return JSX object
  */
   var appServer;
-  LOG.debug('findByJsxTextAndType =' + text  + ',type='+ jsxtype );
+
+  var appWindow = this.topWindow;
   window.top.jsx3 = null;
-  inWindow = inWindow || this.getCurrentWindow(false);
-  window.top.jsx3 = inWindow.jsx3
+  window.top.jsx3 = appWindow.jsx3
 
   var jsxobj = null;
   var JsxNamespace = selenium.jsxNamespace;
@@ -2451,20 +2409,22 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype, inWindow) {
   
   if (jsx3 && type) {
     selenium.jsxversion = jsx3.getVersion();
-
-    if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-      appServer = eval("inWindow."+selenium.jsxNamespace); 
+    var ancestor = this._jsxroot;
+  LOG.debug('findByJsxTextAndType =' + text  + ',type='+ jsxtype  + ",ancestor=" + ancestor);
+  if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
+      appServer = eval("appWindow."+selenium.jsxNamespace); 
     if (appServer) {
        LOG.debug('Using namespace='  + appServer);
-       jsxobj = appServer.getRootBlock().findDescendants(
+       var objAncestor = appServer.getJSXByName(ancestor);
+       jsxobj = (objAncestor) ? objAncestor.findDescendants(
           function(objJSX) {
-              return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
+              return (objJSX.getText && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
           }
-       ,false,false,false,true);
+       ,false,false,false,true): null;
     } else {
       LOG.debug('using jsx3.GO() ... '); // JSXROOT object always exist in GI application
-      jsxobj = jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
-         return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
+      jsxobj = jsx3.GO(ancestor).findDescendants(function(objJSX) {
+         return (objJSX.getText && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
        },false,false,false,true);
      }
     if (jsxobj && storedVars) {
@@ -2483,16 +2443,16 @@ PageBot.prototype.findByJsxValue = function(value, inWindow) {
  */
   var appServer;
   LOG.debug('findByJsxValue='+ jsxtype );
+  var appWindow = this.topWindow;
   window.top.jsx3 = null;
-  inWindow = inWindow || this.getCurrentWindow();
-  window.top.jsx3 = inWindow.jsx3
+  window.top.jsx3 = appWindow.jsx3
 
   var jsxobj = null;
 
   if (jsx3) {
     selenium.jsxversion = jsx3.getVersion();
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-      appServer = eval("inWindow."+selenium.jsxNamespace); 
+      appServer = eval("appWindow."+selenium.jsxNamespace); 
     if (appServer) {
        LOG.debug('Using namespace='  + appServer);
        jsxobj = appServer.getRootBlock().findDescendants(
@@ -2526,12 +2486,13 @@ PageBot.prototype.findByJsxDom = function (domtext, inWindow) {
  var ExpTypeAny = /^#(.+)\[(\d+)\]{0,1}/;
  var ExpProperty = /^\[@(.+)\]/;
  LOG.debug('findByJsxDom='+  domtext);
- inWindow = inWindow || this.getCurrentWindow();
- window.top.jsx3 = inWindow.jsx3
+ var appWindow = this.topWindow;
+ window.top.jsx3 = null;
+ window.top.jsx3 = appWindow.jsx3
  
  var appServer;
  if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-  appServer = eval("inwinDow."+selenium.jsxNamespace); 
+  appServer = eval("appWindow."+selenium.jsxNamespace); 
       
  var items=domtext.split("/"); // use forward slash to separate the object
  var empty = "";
@@ -2541,7 +2502,7 @@ PageBot.prototype.findByJsxDom = function (domtext, inWindow) {
  LOG.debug("start at index = " + start );
  
  // Always get the root objJSX
- var root = (singleSlash) ? "JSXBODY" : "JSXROOT";
+ var root = (singleSlash) ? "JSXBODY" : this._jsxroot;
  var objJSX = (appServer) ?  objJSX = appServer.getJSXByName(root) : objJSX = jsx3.GO(root);
  // get subsequent using dom path
  for (var i=start; objJSX && i < items.length; i++) {
@@ -3722,16 +3683,9 @@ PageBot.prototype.locateElementByJsxComboInputName = function(text, inDocument, 
    return inputElement;
 };
 
-PageBot.prototype.locateElementByJsxSelectWindow = function(noop, inDocument, inWindow) {
-/*
+/* Removed - JsxSelectWindow locator 
  * Locate the drop down window of a select/combo control
- *   @param noop (string) Actually doesn't matter what select control you pass here.
  */
-     var objHW = inDocument.getElementById("jsx30curvisibleoptions");
-     //LOG.debug('select window ' + getOuterHTML(objHW)  );
-     return objHW;
-}
-
 
 PageBot.prototype.locateElementByJsxSelectItemId = function(nameId, inDocument, inWindow) {
 /* Locate Select Item by select jsxname and select record jsxid
@@ -4164,28 +4118,28 @@ PageBot.prototype.locateElementByJsxToolbarButtonText = function(text, inDocumen
 };
 
 // Internal function used by typeJsxTextbox command
-PageBot.prototype.replaceJsxText = function(jsxObj, jsxElement, text)
+PageBot.prototype.replaceJsxText = function(jsxelement, text, jsxobj)
 {
-    if (jsxElement) {// && jsxObj ) { TODO -- DEBUG
-        LOG.debug('obj =' + jsxObj.getName()  +'text = ' + text);
-        if   (jsx3.gui.DatePicker && jsxObj.instanceOf(jsx3.gui.DatePicker)) {
+    if (jsxelement) {
+        //LOG.debug('obj =' + jsxobj.getName()  +'text = ' + text);
+        if   ( Number(jsx3.getVersion().split(".")[1]) < 7 &&
+        jsx3.gui.DatePicker && jsxobj && jsxobj.instanceOf(jsx3.gui.DatePicker)) {
             try {
+                jsxelement = getActionableObject(jsxobj, "textbox");
                 dateToSet = new Date(text);
-                triggerEvent(jsxElement, 'focus', false);
-                triggerEvent(jsxElement, 'select', true);
-				if (jsx3.gui.DatePicker.setValue)
-					jsxObj.setValue(text);
-				else
-					jsxObj.setDate(dateToSet);
-                _triggerEvent(jsxElement, 'change', true);
+                triggerEvent(jsxelement, 'focus', false);
+                triggerEvent(jsxelement, 'select', true);
+                jsxobj.setDate(dateToSet);
+                LOG.debug("new date = " +jsxobj.getDate());
+                triggerEvent(jsxelement, 'change', false);               
             } catch (ex) {
-                this.replaceText(jsxElement, text);
+                this.replaceText(jsxelement, text);
             }
         } else {		
-         this.replaceText(jsxElement, text); //focus, select, change
-		}
-		jsxElement.blur();
-		triggerEvent(jsxElement, 'blur', false);
+         this.replaceText(jsxelement, text); //focus, select, change
+        }
+		jsxelement.blur();
+		triggerEvent(jsxelement, 'blur', false);
    }
 
 }
