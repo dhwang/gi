@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2007 TIBCO Software Inc.
+Copyright 2006-2008 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ Copyright 2006-2007 TIBCO Software Inc.
 </head>
 
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-
+<table border="1">
+<caption>Test to exercise Datepicker control commands</caption>
 <tbody>
 
 <tr>
@@ -40,23 +40,28 @@ Copyright 2006-2007 TIBCO Software Inc.
 <!-- Load Test Application Below -->
 <tr>
     <td>open</td>
-    <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/34test-matrix</td>
+    <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
     <td>&nbsp;</td>
 </tr>
 <!-- start tests -->
-<tr>
+<!--tr>
   <td>setJsxNamespace</td>
   <td>testmatrix</td>
-  <td>5000</td>
-</tr>
+  <td>&nbsp;</td>
+</tr-->
 <tr>
   <td>waitForJsxPresent</td>
-  <td>JsxName=dpDate</td>
+  <td>JsxName=cmbOptions</td>
   <td>5000</td>
 </tr>
 <tr>
   <td>assertJsxPresent</td>
-  <td>JsxName=dpDate</td>
+  <td>cmbOptions</td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td>assertJsxPresent</td>
+  <td>JsxDateName=dpDate</td>
   <td>&nbsp;</td>
 </tr>
 
@@ -80,8 +85,8 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>&nbsp;</td>
     </tr>	
     <tr>
-      <td>clickJsxDateIcon</td>
-      <td>dpDate</td>
+      <td>clickJsxElement</td>
+      <td>JsxDateIcon=dpDate</td>
       <td></td>
     </tr>
     <!-- IE BUG on resize event cause HW window to collapse -->
@@ -120,8 +125,8 @@ Copyright 2006-2007 TIBCO Software Inc.
 		<td rowspan="1" colspan="3">Test Datepicker navigation next year/month</td>
 	</tr>
     <tr>
-      <td>clickJsxDateIcon</td>
-      <td>dpDate</td>
+      <td>clickJsxElement</td>
+      <td>JsxDateIcon=dpDate</td>
       <td></td>
     </tr>
     <tr>
