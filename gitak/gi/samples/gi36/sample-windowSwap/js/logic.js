@@ -41,7 +41,7 @@ jsx3.Package.definePackage("eg.windowswap", function(windowswap) {
       windowswap.APP.getJSXByName("blkWindowSwapApp").adoptChild(swapPane);
 
       // and close the window
-      w.close();
+      w.doClose();
     }
   };
 
