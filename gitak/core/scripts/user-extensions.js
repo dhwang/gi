@@ -411,9 +411,7 @@ Selenium.prototype.doToggleJsxCheckBox = function(locator, value) {
    var outerSpan = this.browserbot.findElement(locator);
    if (outerSpan) {
      LOG.debug("outerSpan = " + getOuterHTML(outerSpan));
-     //var input= outerSpan.childNodes[0];
      _triggerMouseEvent(outerSpan, 'click', true);
-     //input.checked = true;
    }
 }
 
@@ -464,14 +462,12 @@ Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
    }
    var activeMaskSession = (session) ? session : null;
    if (activeMaskSession) {
-    //LOG.debug("em recid =" + activeMaskSession.recordId)
     var activeMask = activeMaskSession.column.getChild(0); // column of the edit mask, get child mask obj
-    //LOG.debug("activeMaskSession.td =" + getOuterHTML(activeMaskSession.td) );
-    var activeMaskElement = activeMask.getRendered();//activeMaskSession.td;
-    var elementId = activeMaskElement.id;
+	var activeMaskElement = activeMask.getRendered(); // Non always-on edit mask such as textbox and datepicker have only one instance. So we can safely use the one returned by getRendered().
+	LOG.debug(activeMask + ", EditMaskElement = " + getOuterHTML(activeMaskElement));
 
-    LOG.debug("em td = " + getOuterHTML(activeMaskElement));
-    _triggerEvent(activeMaskElement, 'focus', false);
+	_triggerEvent(activeMaskElement, 'focus', false);
+
     // this.browserbot.triggerMouseEvent(activeMaskElement, 'focus', false);
     if (jsx3.gui.TextBox && activeMask.instanceOf(jsx3.gui.TextBox)) {
         LOG.debug('textboxy action type value' + value)
@@ -496,33 +492,34 @@ Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
         this.doMoveSliderRelative('JsxSlidertName='+activeMask.getName(), value);
     }
     else if (jsx3.gui.TimePicker && activeMask.instanceOf(jsx3.gui.TimePicker) ) {
-        LOG.debug('Matrix pickJsxTime');
+        LOG.debug('instance of Timepicker ' + value);
         this.doPickJsxTime(activeMask.getName(), value);
     }
     else if (jsx3.gui.ImageButton && activeMask.instanceOf(jsx3.gui.ImageButton) ) {
-        LOG.debug('instance of imagebutton');
-        _triggerMouseEvent(activeMaskElement, 'mouseover', false); // must do mouseover in Firefox
-        _triggerMouseEvent(activeMaskElement, 'click', false);
+      activeMaskElement = cell_item.childNodes[0].childNodes[0];
+	  _triggerEvent(activeMaskElement, 'focus', false);
+      LOG.debug('instance of imagebutton ' + getOuterHTML(activeMaskElement));
+      _triggerMouseEvent(activeMaskElement, 'mouseover', false); // must do mouseover in Firefox
+      _triggerMouseEvent(activeMaskElement, 'click', false);
     }
-    else {     //Checkbox, RadioButton, delete column default click action
-        LOG.debug('default action mousedown, mouseup, click');
+    else {     
+	 // Default click action Always on edit mask columns such as :
+	 // Button, Checkbox, RadioButton, ImageButton, ToolbarButton(delete column) 
+	 // For Dialog and Block Mask, clickJsxElement MatrixCellByIndex, wait for subMask object, do custom action.
+      activeMaskElement = cell_item.childNodes[0].childNodes[0];
+	  if (!activeMaskElement) 
+	   activeMaskElement = cell_item.childNodes[0];
+	  _triggerEvent(activeMaskElement, 'focus', false);
+
+	  LOG.debug('default action mousedown, mouseup, click');
         if (activeMaskElement.onmousedown)
             _triggerMouseEvent(activeMaskElement, 'mousedown', true);
         if (activeMaskElement.onmouseup)
             _triggerMouseEvent(activeMaskElement, 'mouseup', true);
-        if (activeMouseElement.onclick)
+        if (activeMaskElement.onclick)
             _triggerMouseEvent(activeMaskElement, 'click', true);
     }
 
-
-    // delete button destory current row, check if the element is still around
-/*    activeMaskElement = this.browserbot.getCurrentWindow(true).document.getElementById(elementId);
-    if (activeMaskElement) {
-        LOG.debug("Trigger 'blur' Event on activeMaskElement...")
-        _triggerEvent(activeMaskElement, 'blur', true);
-        _triggerEvent(cell_item, 'blur', true);
-   }
-*/
   }
 };
 
@@ -1280,15 +1277,46 @@ Selenium.prototype.doDragJsxDialogTo = function(locator, posval) {
     }
 };
 
-Selenium.prototype.doDragJsxTo = function(locator, posval) {
+Selenium.prototype.doDragJsxTo = function(locator, movementsString) {
 /** Deprecated, use dragAndDrop.
    * Simulates a user doing drag-and-drop on the specified jsxname object.
-   * 
-   * @param locator (String) an <a href="#locators">JSX locator by jsxname</a>
-   * @param posval (String) offset x,y pixel position, relative to current element position.
-   */
+=** Drags an element a certain distance and then drops it
+    * @param locator an element locator
+    * @param movementsString offset in pixels from the current location to which the element should be moved, e.g., "+70,-300"
+    */
+    var element = this.browserbot.findElement(locator);
+    var clientStartXY = getClientXY(element)
+    var clientStartX = clientStartXY[0];
+    var clientStartY = clientStartXY[1];
+    
+    var movements = movementsString.split(/,/);
+    var movementX = Number(movements[0]);
+    var movementY = Number(movements[1]);
+    
+    var clientFinishX = ((clientStartX + movementX) < 0) ? 0 : (clientStartX + movementX);
+    var clientFinishY = ((clientStartY + movementY) < 0) ? 0 : (clientStartY + movementY);
+    
+    var mouseSpeed = this.mouseSpeed;
+    var move = function(current, dest) {
+        if (current == dest) return current;
+        if (Math.abs(current - dest) < mouseSpeed) return dest;
+        return (current < dest) ? current + mouseSpeed : current - mouseSpeed;
+    }
+    
+    _triggerMouseEvent(element, 'mousedown', true, clientStartX, clientStartY);
+    _triggerMouseEvent(element, 'mousemove',   true, clientStartX, clientStartY);
+    var clientX = clientStartX;
+    var clientY = clientStartY;
+    
+    while ((clientX != clientFinishX) || (clientY != clientFinishY)) {
+        clientX = move(clientX, clientFinishX);
+        clientY = move(clientY, clientFinishY);
+        _triggerMouseEvent(element, 'mousemove', true, clientX, clientY);
+    }
+    
+  _triggerMouseEvent(element, 'mousemove',   true, clientFinishX, clientFinishY);
+  _triggerMouseEvent(element, 'mouseup',   true, clientFinishX, clientFinishY);
 
- this.doDragAndDrop(locator, posval);
 };
 
 
@@ -1299,6 +1327,22 @@ Selenium.prototype.doDragJsxToJsx = function(locator, locator2) {
    * @param locator (String) an JsxName <a href="#locators">element locator</a>
    * @param locator2 (String) The second JsxName <a href="#locators">element locator</a>
    */
+   var strategy = locator.split('=');
+   var params;
+   var jsxName;
+   /* /(.*)=(.*)[,|\.](.*)/   */
+   if (strategy[1].indexOf('.') > 0) {
+    params = strategy[1].split(/\./); // jsxname.row.column
+	var jsxName = params[0];
+   }
+   else if (strategy[1].indexOf(',') > 0) {
+    params = strategy[1].split(/,/); // jsxname,jsxid
+	var jsxName = params[0];
+   } else {
+     jsxname = strategy[1];
+   }
+   
+   jsxName=stripQuotes(jsxName);
    
   this.doDragAndDropToObject(locator, locator2);
 };
@@ -1899,12 +1943,13 @@ PageBot.prototype.findByJsxName = function(jsxname) {
         }
      ,false,false,false,true);
    } else {
-       LOG.debug('using jsx3.GO() ... ');
-       return  jsx3.GO(parentName).findDescendants(
+       LOG.debug('using jsx3.GO() ... ' + parentName);
+	   var objParent = jsx3.GO(parentName); // This could be undefined.
+       return  (objParent) ? objParent.findDescendants(
             function(objJSX) {
               return (objJSX.getName() == jsxname);
             }
-         ,false,false,false,true);
+         ,false,false,false,true) : null;
    }
 }
 
@@ -1939,12 +1984,13 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype) {
         }
      ,false,false,false,true);
    } else {
-	  LOG.debug('using jsx3.GO() ... ');
-      return  jsx3.GO(parentName).findDescendants(
+	  LOG.debug('using jsx3.GO() ... ' + parentName);
+	  var objParent = jsx3.GO(parentName);
+      return  (objParent) ? objParent.findDescendants(
               function(objJSX) {
                 return ((objJSX.getName() == jsxname) && objJSX.instanceOf(jsxtype) );
               },
-       false,false,false,true);
+       false,false,false,true) : null;
     }
 }
 
@@ -1998,7 +2044,7 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
           }
        ,false,false,false,true);
     } else {
-		LOG.debug('using jsx3.GO() ... ');
+		LOG.debug('using jsx3.GO() ... '); // JSXROOT object always exist in GI application
 		return jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
          return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
        },false,false,false,true);
@@ -2017,7 +2063,7 @@ PageBot.prototype.findByJsxValue = function(value) {
   if (!selenium.jsxversion)
 	selenium.jsxversion = jsx3.getVersion(); 
   return jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
-      return (objJSX.getValue() && PatternMatcher.matches(value, objJSX.getValue())
+      return (objJSX.getValue && PatternMatcher.matches(value, objJSX.getValue())
       );
    },false,false,false,true);
 };
@@ -2128,9 +2174,11 @@ PageBot.prototype.locateElementByJsxButtonName = function(text, inDocument) {
 
    var oButton = this.findByJsxNameAndType(text, "jsx3.gui.Button");
    if (oButton == null) // must be image button?
-      this.findByJsxNameAndType(text, "jsx3.gui.ImageButton");
+         oButton = this.findByJsxNameAndType(text, "jsx3.gui.ImageButton");
+   if (oButton == null) // must be tbb button?
+      oButton = this.findByJsxNameAndType(text, "jsx3.gui.ToolbarButton");
 
-   LOG.debug("jsx button = " + oButton);
+   //LOG.debug("jsx button = " + oButton);
 
    return (oButton != null) ? oButton.getRendered() : null;
 
@@ -2147,8 +2195,10 @@ PageBot.prototype.locateElementByJsxButtonText = function(text, inDocument) {
 
    text = stripQuotes(text);
    var oButton = this.findByJsxTextAndType(text, "jsx3.gui.Button");
+   if (oButton == null) // must be tbb button?, image button have no text.
+      oButton = this.findByJsxTextAndType(text, "jsx3.gui.ToolbarButton");
 
-   LOG.debug("jsxbutton = " + oButton);
+   //LOG.debug("jsxbutton = " + oButton);
 
    return (oButton != null) ? oButton.getRendered() : null;
 };
@@ -2614,7 +2664,7 @@ PageBot.prototype.locateElementByJsxMatrixCellIndex = function(text, inDocument)
        colIndex = params[3];
    }
 
-   LOG.debug('matrix is = ' + jsxMatrix + " rowIndex=" + rowIndex + " colIndex="+ colIndex);
+   LOG.debug('matrix is = ' + mtxJsxName + " rowIndex=" + rowIndex + " colIndex="+ colIndex);
 
    var jsxMatrix = this.findByJsxNameAndType(mtxJsxName,'jsx3.gui.Matrix');
    jsxElement = getActionableObject(jsxMatrix, 'cellbyindex', rowIndex, colIndex);
@@ -2731,10 +2781,10 @@ PageBot.prototype.locateElementByJsxMatrixRowIndex = function(text, inDocument) 
      rowIndex = 1;
 
    var jsxMatrix = this.findByJsxNameAndType(mtxJsxName,'jsx3.gui.Matrix');
-   LOG.debug('matrix is = ' + jsxMatrix);
-   var element = getActionableObject(jsxMatrix, 'rowbyindex', rowIndex);
-   LOG.debug('matrix row = ' + element.innerHTML);
-   return (element != undefined) ? element.childNodes[0] : null; // cell is the selectable element
+   //LOG.debug('matrix is = ' + jsxMatrix);
+   var element = getActionableObject(jsxMatrix, 'cellbyindex', rowIndex, 0);
+   //LOG.debug('matrix row = ' + element.innerHTML);
+   return (element) ? element : null; // cell is the selectable element
 
 };
 
@@ -2753,10 +2803,9 @@ PageBot.prototype.locateElementByJsxMatrixRowId = function(text, inDocument) {
    var jsxId = params[1];
 
    var jsxMatrix = this.findByJsxNameAndType(mtxJsxName,'jsx3.gui.Matrix');
-   LOG.debug('matrix is = ' + jsxMatrix);
+   //LOG.debug('matrix is = ' + jsxMatrix);
    var element = getActionableObject(jsxMatrix, 'cellbyjsxid', jsxId, 0);
-   LOG.debug('matrix row = ' + jsx3.html.getOuterHTML(element));
-
+   //LOG.debug('matrix row = ' + jsx3.html.getOuterHTML(element));
    return (element) ? element : null;
 
 };
