@@ -168,6 +168,54 @@ public class HTMLTestResults {
         return Integer.parseInt(numTestPasses) + Integer.parseInt(numTestFailures);
     }
 
+     /**
+  * Escape characters for text appearing as XML data, between tags.
+  * 
+  * <P>The following characters are replaced with corresponding character entities : 
+  * <table border='1' cellpadding='3' cellspacing='0'>
+  * <tr><th> Character </th><th> Encoding </th></tr>
+  * <tr><td> < </td><td> &lt; </td></tr>
+  * <tr><td> > </td><td> &gt; </td></tr>
+  * <tr><td> & </td><td> &amp; </td></tr>
+  * <tr><td> " </td><td> &quot;</td></tr>
+  * <tr><td> ' </td><td> &#039;</td></tr>
+  * </table>
+  * 
+  * <P>Note that JSTL's {@code <c:out>} escapes the exact same set of 
+  * characters as this method. <span class='highlight'>That is, {@code <c:out>}
+  *  is good for escaping to produce valid XML, but not for producing safe HTML.</span>
+  */
+  public static String escapeXML(String aText){
+    final StringBuilder result = new StringBuilder();
+    final StringCharacterIterator iterator = new StringCharacterIterator(aText);
+    char character =  iterator.current();
+    while (character != CharacterIterator.DONE ){
+      if (character == '<') {
+        result.append("&lt;");
+      }
+      else if (character == '>') {
+        result.append("&gt;");
+      }
+      else if (character == '\"') {
+        result.append("&quot;");
+      }
+      else if (character == '\'') {
+        result.append("&#039;");
+      }
+      else if (character == '&') {
+         result.append("&amp;");
+      }
+      else {
+        //the char is not a special one
+        //add it to the result as is
+        result.append(character);
+      }
+      character = iterator.next();
+    }
+    return result.toString();
+  }
+
+
     public void write(Writer out) throws IOException {
         out.write(HEADER);
         Object[] sumval = {result,
@@ -196,8 +244,10 @@ public class HTMLTestResults {
             if (vars.length > 0)
             for (int i=0; i < vars.length; i++) {
                 String[] namevalue = vars[i].split(":");
-                if (namevalue.length > 1)
-                out.write("<tr><td>" + namevalue[0] + "</td><td>" + namevalue[1] + "</td></tr>");
+                if (namevalue.length > 1) {
+                  String value = escapeXML(namevalue[1]);
+                  out.write("<tr><td>" + namevalue[0] + "</td><td>" + value + "</td></tr>");
+                }
             }
         }
         out.write("</table>"); // End storedvars table

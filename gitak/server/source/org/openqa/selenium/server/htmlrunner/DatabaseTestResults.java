@@ -251,14 +251,15 @@ public class DatabaseTestResults {
                 "', '" + hostname +
                 "', '" + platform +
                 "', '"+ username + "', " +
-                "to_date('" + formatDateTime(runTime) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
-                //" SYSDATE," +
+                //"to_date('" + formatDateTime(runTime) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
+                " SYSDATE," +
                 // "to_date('" + formatDateTime(null) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
                 " SYSDATE," +
                 " '" + System.getProperty("product.name", "gi") +       // PDMS predefine product acronym
                 "', '" +  System.getProperty("product.version", "0.0") + // Version id like 3.5.1.7
                 "', '" + System.getProperty("product.build", "BUILD") +    // Top level label, use full version id like 3.5.1V7
-                "', 'functional', 'COMPLETED', " +
+                "', '"+ System.getProperty("database.category", "functional") + // -Ddatabase.category=ui for PDMS UI test category
+                "', 'COMPLETED', " + 
                 numTestTotal + ", " + numTestPasses+ ", "+  numTestFailures +", 0, 0, '"+ logUrl +"', null, '"+ gitakVersion +"' )";
             qaSqlExecute(sqlstmt);
 
@@ -277,8 +278,8 @@ public class DatabaseTestResults {
             String sqlset = "INSERT INTO tsi_tests_set(RUN_ID, SEQ_NO, SET_NAME, OWNER," +
                 "START_TIME, END_TIME, NUM_TC_STARTED, NUM_TC_PASSED, NUM_TC_FAILED, NUM_TC_MANUAL, NUM_TC_UNCERTAIN, LOG_URL, NOTE) " +
                 " VALUES('" + runId + "', null, '"+setname+"', '"+ username + "', " +
-                "to_date('" + formatDateTime(runTime) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
-                "SYSDATE, 0, 0, 0, 0, 0, null, null)";
+                //"to_date('" + formatDateTime(runTime) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
+                " SYSDATE, SYSDATE, 0, 0, 0, 0, 0, null, null)";
             qaSqlExecute(sqlset);
 
 
@@ -294,7 +295,10 @@ public class DatabaseTestResults {
 
                String[] names = splitTestString(values[0], ":");
                String testSet = names[0];
-               String testCase = names[1];
+               String testCase = "No Name Test Case"; // default test case name if one is not present
+               if (names.length > 1) {
+                  testCase = names[1];
+               }
                System.out.println("set="+testSet+ ",case="+testCase);
                qaSqlExecute(this.createSqlTestCaseStatement(runId, testSet, testCase, false, tfail));
             }
@@ -305,12 +309,14 @@ public class DatabaseTestResults {
             System.out.println(tpass);
                 String[] names = splitTestString(tpass, ":");
                 String testSet = names[0];
-                String testCase = names[1];
+                String testCase = "No Name Test Case"; // default test case name if one is not present
+                if (names.length > 1) {
+                  testCase = names[1];
+                }
                 System.out.println("set="+testSet+ ",case="+testCase);
                 String stmt= this.createSqlTestCaseStatement(runId, testSet, testCase, true, null);
 
                 qaSqlExecute(stmt);
-            // parse failed test string and insert to Database
         }
         // Update runtime with actual elapsed time from posted result
         runTime.setTime(runTime.getTime() + Long.parseLong(this.getTotalTime()));

@@ -936,6 +936,7 @@ objectExtend(HtmlTestCase.prototype, {
     _collectCommandRows: function () {
         var commandRows = [];
         var tables = sel$A(this.testDocument.getElementsByTagName("table"));
+        this.caption = tables[0].caption || this.headerRow ;
         var self = this;
         for (var i = 0; i < tables.length; i++) {
             var table = tables[i];
@@ -1468,14 +1469,17 @@ objectExtend(GIRunnerTestLoop.prototype, {
 
    _recordMetrics : function () {
        // Adding failed test string for reporting -- gitak
-       LOG.info('record result...');
-       this.currentSetName = getText(this.htmlTestCase.headerRow.trElement);
-       this.currentSuiteName = getText(htmlTestRunner.getTestSuite().titleRow.trElement);
-	   var currentTestName = this.currentSuiteName + ":" + this.currentSetName;
-       if (!this.failedMessage) {
+     LOG.info('record result...');
+     this.currentSetName = getText(this.htmlTestCase.headerRow.trElement);
+     this.currentSetDesc = getText(this.htmlTestCase.caption);
+     LOG.info("description text = " + this.currentSetDesc);
+     this.currentSuiteName = getText(htmlTestRunner.getTestSuite().titleRow.trElement);
+     // Suite Name and Set Name cannot contain ":" character
+     var currentTestName = this.currentSuiteName + ":" + this.currentSetName + ":" + this.currentSetDesc;
+     if (!this.failedMessage) {
             LOG.info('PASSED: ' + currentTestName);
             this.metrics.addPassedTest(currentTestName);
-       } else {
+     } else {
            var cmd = (this.lastFailedCommand) ? this.lastFailedCommand : this.currentCommand;
            var strFailedTest = currentTestName + "|"
                    //+ this.currentCaseName + "|"
@@ -1484,7 +1488,7 @@ objectExtend(GIRunnerTestLoop.prototype, {
            LOG.info('FAILED: ' + strFailedTest);
            this.metrics.addFailedTest(strFailedTest);
 
-       }
+     }
    }
 
 });
