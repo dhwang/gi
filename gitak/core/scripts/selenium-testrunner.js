@@ -1452,7 +1452,14 @@ objectExtend(GIRunnerTestLoop.prototype, {
        // suiteName : getText(htmlTestRunner.getTestSuite().titleRow.trElement),
         // metric : this.metrics };
         // PageBus.publish('GITAK.recordMetrics', testRes );
-
+        
+        // Reset key pressed setting from one test case to the next
+        selenium.browserbot.controlKeyDown = false; 
+        selenium.browserbot.altKeyDown = false;
+        selenium.browserbot.shiftKeyDown = false
+        selenium.browserbot.metaKeyDown = false
+        selenium.jsxNamespace = null;
+        
         window.setTimeout(function() {
             htmlTestRunner.runNextTest();
         }, 1);
