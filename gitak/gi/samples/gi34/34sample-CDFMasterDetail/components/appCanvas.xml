@@ -29,7 +29,7 @@
           <strings jsxname="blkMainPane" jsxwidth="100%" jsxheight="100%"></strings>
           <dynamics jsxborder="@Outset"></dynamics>
           <object type="jsx3.gui.Matrix">
-            <variants hk="[]" jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="0"></variants>
+            <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="0"></variants>
             <strings jsxname="mtxResultsTable" jsxbodyborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="color:red;font-weight:bold;" jsxxmlurl="xml/source_list.xml" jsxheaderborder="1px solid #dfdfef"></strings>
             <events jsxexecute="eg.CDFMasterDetail.displayItem (this,strRECORDID);"></events>
             <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>

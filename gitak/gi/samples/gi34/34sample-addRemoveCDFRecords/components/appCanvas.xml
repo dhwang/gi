@@ -66,7 +66,7 @@
               <strings jsxname="blkUpdatableGridPane" jsxwidth="100%" jsxheight="100%"></strings>
               <dynamics jsxborder="@Outset"></dynamics>
               <object type="jsx3.gui.Matrix">
-                <variants jsxpagingmodel="1" jsxselectionmodel="2" hk="[]"></variants>
+                <variants jsxpagingmodel="1" jsxselectionmodel="2"  ></variants>
                 <strings jsxname="mtxUpdatableTable" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxxmlurl="xml/prices.xml" jsxsortpath="Date" jsxsorttype="text" jsxsortdirection="ascending" jsxmenu="mnuDeleteRowMenu"></strings>
                 <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
                 <object type="jsx3.gui.Matrix.Column">
@@ -114,7 +114,7 @@
               <strings jsxname="blkEditableGridPane" jsxwidth="100%" jsxheight="100%"></strings>
               <dynamics jsxborder="@Outset"></dynamics>
               <object type="jsx3.gui.Matrix">
-                <variants jsxpagingmodel="1" jsxselectionmodel="2" hk="[]"></variants>
+                <variants jsxpagingmodel="1" jsxselectionmodel="2"  ></variants>
                 <strings jsxname="mtxEditableTable" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxxmlurl="xml/prices.xml" jsxsortpath="High" jsxsorttype="text" jsxsortdirection="ascending" jsxmenu="mnuAddRowMenu"></strings>
                 <events jsxbeforeedit="" jsxafteredit=""></events>
                 <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>

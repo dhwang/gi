@@ -28,7 +28,7 @@
       <variants jsxoverflow="1"></variants>
       <strings jsxname="blkListPane" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
       <object type="jsx3.gui.Matrix">
-        <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="0" hk="[]"></variants>
+        <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="0"  ></variants>
         <strings jsxname="mtxApplicantDetails" jsxbodyborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="color:red;font-weight:bold;" jsxxmlid="applicantDetailsListCache" jsxheaderborder="1px solid #dfdfef"></strings>
         <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
         <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>

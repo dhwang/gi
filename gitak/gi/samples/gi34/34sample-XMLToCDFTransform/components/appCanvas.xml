@@ -60,7 +60,7 @@
                 <variants jsxrelativeposition="1" jsxoverflow="1" jsxtop="40" jsxleft="0"/>
                 <strings jsxname="blkListPane" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
                 <object type="jsx3.gui.Matrix">
-                  <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="1" hk="[]"/>
+                  <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="1"  />
                   <strings jsxname="mtxResultsTable" jsxbodyborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="color:red;font-weight:bold;" jsxxmlid="CDF_XML" jsxsortdirection="descending" jsxsortpath="office" jsxsorttype="text" jsxheaderborder="1px solid #dfdfef"/>
                   <events jsxexecute="" jsxspy="eg.XMLToCDF.showDetails(this,strRECORDID);"/>
                   <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"/>
