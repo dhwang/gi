@@ -8,7 +8,7 @@ descendant has a jsxtext attribute containing 'Content'.
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
  <xsl:param name="searchedtext">Content</xsl:param>
  <xsl:param name="resultindex">1</xsl:param>
- <xsl:output method="html"  omit-xml-declaration="yes"/>
+ <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:template match="/">
     <JSX_FF_WELLFORMED_WRAPPER>
         <xsl:for-each select="//record[contains(@jsxtext,$searchedtext)]">
