@@ -13,7 +13,7 @@
       <strings jsxname="mcImgButton" jsxtext="Delete" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"/>
       <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
       <object type="jsx3.gui.ImageButton">
-        <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+        <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxwidth="16" jsxstate="0" jsxheight="16"/>
         <strings jsxname="imageButtonMask" jsximage="jsx:///images/list/delete.gif"/>
         <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"/>
       </object>
