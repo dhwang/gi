@@ -34,7 +34,7 @@ Copyright 2006-2007 TIBCO Software Inc.
     </tr>
 	<tr>
       <td>open</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/34test-matrix</td>
+      <td>${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/34test-matrix</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -143,8 +143,13 @@ Copyright 2006-2007 TIBCO Software Inc.
        <td>JsxSelectItemId=cmbOptions,AZ</td>
     </tr>
     <tr>
-       <td>assertJsxValueEqual</td>
-       <td>txtOutput</td>
+       <td>clickJsxSelect</td>
+       <td>JsxSelectName=slctOptions</td>
+       <td>JsxSelectItemText=slctOptions,abcdefghijk</td>
+    </tr>
+    <tr>
+       <td>verifyEval</td>
+       <td>selenium.browserbot.findByJsxName('cmbOptions').getValue();</td>
        <td>AZ</td>
     </tr>
     <tr>
@@ -157,17 +162,12 @@ Copyright 2006-2007 TIBCO Software Inc.
        <td>txtOutput</td>
        <td>WY</td>
     </tr>
-      <tr>
-         <td>setInterval</td>
-         <td>0</td>
-         <td>&nbsp;</td>
-      </tr>
+    <tr>
+       <td>setInterval</td>
+       <td>0</td>
+       <td>&nbsp;</td>
+    </tr>
 
-    <!--tr>
-      <td>open</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
   </tbody>
 
 </table>

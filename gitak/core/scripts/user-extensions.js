@@ -873,9 +873,8 @@ Selenium.prototype.doClickJsxSelectItem = function(optionLocator) {
     LOG.debug("select/combo item option locator = " + optionLocator);
     var selectItemElement = this.browserbot.findElement(optionLocator);
     if (selectItemElement) {
-        LOG.debug('select item = ' + getOuterHTML(selectItemElement));
-
         _triggerEvent(selectItemElement, 'focus', true);
+		_triggerMouseEvent(selectItemElement, 'mouseover', true);
         _triggerMouseEvent(selectItemElement, 'mousedown', true);
         _triggerMouseEvent(selectItemElement, 'click', true);
     }
@@ -895,12 +894,9 @@ Selenium.prototype.doClickJsxSelect = function(locator, optionLocator) {
     var selectElement = this.browserbot.findElement('JsxSelectName='+jsxName);
     if (selectElement.onmousedown) {
       // 3.2 use selectElement
-      LOG.debug('select elmt = ' + getOuterHTML(selectElement));
       this.browserbot.findByJsxName(jsxName).focus();
-      _triggerEvent(selectElement.childNodes[0], 'focus', true);  // focus?
-      //_triggerEvent(selectElement, 'focus', true);  // focus?
+      _triggerEvent(selectElement, 'focus', false);  // focus?
       _triggerMouseEvent(selectElement, 'mousedown', true);
-      //triggerKeyEvent(selectElement, 'keydown', jsx3.gui.Event.KEY_ARROW_DOWN, true);
     } else {
        // 3.1 use childNodes[0]
       var mElement = selectElement.childNodes[0];
