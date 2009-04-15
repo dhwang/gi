@@ -1,6 +1,6 @@
 /*
  * Modified by TIBCO Software Inc., © 2008
- * TIBCO General Interface Test Automation Kit (GITAK) 0.8.1
+ * TIBCO General Interface Test Automation Kit (GITAK) 0.8.1, 0.9.1
  */
 
 /*
@@ -1413,7 +1413,7 @@ objectExtend(GIRunnerTestLoop.prototype, {
             var elapsed = this.cmdEndTime - this.cmdStartTime;
             var delay = this.pauseInterval || this.getCommandInterval();
             if (delay) elapsed = elapsed - delay; // substract interval or pause time
-            this.currentRow.setMessage('used ' + elapsed +' ms');
+            this.currentRow.setMessage('elapsed ' + elapsed +' ms');
         }
     },
 
@@ -1469,11 +1469,11 @@ objectExtend(GIRunnerTestLoop.prototype, {
             LOG.info('PASSED: ' + currentTestName);
             this.metrics.addPassedTest(currentTestName);
        } else {
-           var command = this.lastFailedCommand;
+           var cmd = (this.lastFailedCommand) ? this.lastFailedCommand : this.currentCommand;
            var strFailedTest = currentTestName + "|"
                    //+ this.currentCaseName + "|"
-                   + command.command + "|" + command.target + "|"
-                   + command.value + "|" + this.failedMessage;
+                   + cmd.command + "|" + cmd.target + "|"
+                   + cmd.value + "|" + this.failedMessage;
            LOG.info('FAILED: ' + strFailedTest);
            this.metrics.addFailedTest(strFailedTest);
 

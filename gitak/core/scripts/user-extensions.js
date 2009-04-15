@@ -51,7 +51,13 @@ function _triggerMouseEvent(element, eventType, canBubble) {
    //selenium.browserbot.triggerMouseEvent(element, eventType, canBubble, x, y);
     triggerLeftMouseEvent(element, eventType, canBubble);
 }
-
+function _triggerKeyEvent(element, keyType, key, canBubble) {
+    triggerKeyEvent(element, keyType, key, canBubble,
+        selenium.browserbot.controlKeyDown,
+            selenium.browserbot.altKeyDown,
+        selenium.browserbot.shiftKeyDown,
+        selenium.browserbot.metaKeyDown);
+}
 function _triggerEvent(element, eventType, canBubble) { // old version
    triggerEvent(element, eventType, canBubble, false, false, false, false);
 }
@@ -126,7 +132,7 @@ function triggerLeftMouseEvent(element, eventType, canBubble, objPos) {
                     controlKey, altKey, shiftKey, metaKey, button, null);
         }
         else {
-            LOG.error("element doesen't has initMouseEvent");
+            LOG.debug("element doesen't has initMouseEvent");
             evt.initEvent(eventType, canBubble, true);
             evt.shiftKey = selenium.browserbot.shiftKeyDown;
             evt.metaKey = selenium.browserbot.metaKeyDown;
@@ -226,11 +232,16 @@ function stripQuotes(qstr) {
 function getNameValue(nameValueString) {
     var params = nameValueString;
 
-    if (nameValueString.indexOf('=') != -1)
-     params = nameValueString.split('=');
+    pattern = /(.*)=(.*)/;
+
+    if(!pattern.test(nameValueString)) {
+        throw new SeleniumError("Invalid target format. Correct format is name=value");
+    }
+
+    params = nameValueString.match(pattern);
 
     if (params instanceof Array)
-        return {name:params[0], value:params[1]};
+        return {name:params[1], value:params[2]};
     else
         return params;
 }
@@ -675,11 +686,26 @@ Selenium.prototype.doClickJsxDateNextYear = function(jsxname) {
    }
 };
 
-Selenium.prototype.doClickJsxElement = function(locator) {
+Selenium.prototype.doClickJsxElement = function(locator, modifier) {
 /** Click on jsx element, generic doClick may not work properly.
  * @param locator (String) JsxElement locator
+ * @param modifier (String) key modifier to click : ctrl+shift+alt
 */
+    var prevCtrl = selenium.browserbot.controlKeyDown
+    var prevShift = selenium.browserbot.shiftKeyDown;
+	var prevAlt = selenium.browserbot.altKeyDown;
+	var prevMeta = selenium.browserbot.metaKeyDown;
 
+	if (modifier) {
+		if (/ctrl/.test(modifier))
+		    selenium.browserbot.controlKeyDown = true;
+		if (/shift/.test(modifier))
+            selenium.browserbot.shiftKeyDown = true;
+        if (/alt/.test(modifier))
+			selenium.browserbot.altKeyDown = true;
+		if (/meta/.test(modifier))
+			selenium.browserbot.metaKeyDown = true;
+	}
    LOG.debug("doClickJsxElement locator = " + locator );
    var jsxElement = this.browserbot.findElement(locator);
    var jsxElementId = jsxElement.id;
@@ -694,9 +720,9 @@ Selenium.prototype.doClickJsxElement = function(locator) {
        _triggerEvent(jsxElement, 'focus', false);
      }
 
-     //triggerLeftMouseEvent(jsxElement, 'mousedown', true);
      //triggerLeftMouseEvent(jsxElement, 'mouseup', true);
      triggerLeftMouseEvent(jsxElement, 'click', true);
+     triggerLeftMouseEvent(jsxElement, 'mousedown', true);
 
      //jsxElement =  this.browserbot.getCurrentWindow().document.getElementById(jsxElementId); // still there?
 	 /*
@@ -713,6 +739,11 @@ Selenium.prototype.doClickJsxElement = function(locator) {
    } catch (e) {
       LOG.error("Exception caught in clickJsxElement! message=" + e.message);
    }
+
+    selenium.browserbot.controlKeyDown = prevCtrl;
+    selenium.browserbot.shiftKeyDown = prevShift;
+	selenium.browserbot.altKeyDown = prevAlt;
+	selenium.browserbot.metaKeyDown = prevMeta;
 
 };
 
@@ -873,7 +904,7 @@ Selenium.prototype.doClickJsxSelectItem = function(optionLocator) {
     LOG.debug("select/combo item option locator = " + optionLocator);
     var selectItemElement = this.browserbot.findElement(optionLocator);
     if (selectItemElement) {
-        _triggerEvent(selectItemElement, 'focus', true);
+        _triggerEvent(selectItemElement, 'focus', false);
 		_triggerMouseEvent(selectItemElement, 'mouseover', true);
         _triggerMouseEvent(selectItemElement, 'mousedown', true);
         _triggerMouseEvent(selectItemElement, 'click', true);
@@ -887,14 +918,12 @@ Selenium.prototype.doClickJsxSelect = function(locator, optionLocator) {
  */
    LOG.debug("doClickJsxSelect/combo locator = " + locator );
    //
-   var params = locator.split("=")
-   var strategy = params[0].trim();
-   var jsxName = params[1].trim();
-
-    var selectElement = this.browserbot.findElement('JsxSelectName='+jsxName);
+   var selectElement = this.browserbot.findElement(locator);
+	//if (!selectElement) AssertFail("Not a Select control named " + jsxName);
     if (selectElement.onmousedown) {
-      // 3.2 use selectElement
-      this.browserbot.findByJsxName(jsxName).focus();
+	   var params = getNameValue(locator);
+      // 3.2 and later use selectElement
+      this.browserbot.findByJsxName(params.value).focus();
       _triggerEvent(selectElement, 'focus', false);  // focus?
       _triggerMouseEvent(selectElement, 'mousedown', true);
     } else {
@@ -904,8 +933,8 @@ Selenium.prototype.doClickJsxSelect = function(locator, optionLocator) {
       _triggerMouseEvent(mElement, 'mousedown', true);
     }
 
-    if (optionLocator) { // jsx3.sleep is not in 3.1.x!!
-        var time = 500;
+    if (optionLocator) { // jsx3.sleep is not in 3.1.x!! drop support for 3.1.x.
+        var time = 400;
         if (htmlTestRunner.controlPanel.runInterval > 0)
             time = htmlTestRunner.controlPanel.runInterval;
         this.doPause(time);
@@ -920,22 +949,12 @@ Selenium.prototype.doClickJsxStack = function(locator) {
  */
    LOG.debug("doClickJsxStack locator = " + locator );
    // stackElement.childNodes[0].rows[0].cells[0] is where the action is
-   var mElement = this.browserbot.findElement(locator)
-   if (mElement.childNodes[0].rows )
+   var mElement = this.browserbot.findElement(locator);
+   if (mElement.childNodes[0].rows ) {
        mElement = mElement.childNodes[0].rows[0].cells[0];
-   else {
-
-        var params = locator.split('=');
-        var strategy = params[0];
-        var text = params[1];
-        var jsxStack;
-        if (strategy == "JsxStackName")
-            jsxStack = this.browserbot.findByJsxName(text);
-        else
-            jsxStack = this.browserbot.findByJsxText(text);
-
-       mElement = getActionableObject(jsxStack, "handle");
-      LOG.debug("stack element =" + getOuterHTML(mElement));
+   } else {
+      var objJSX = this.browserbot.findByJsxName(storedVars['LASTJSX']); // objJSX is last found by findElement
+	  mElement = getActionableObject(objJSX, 'handle');
    }
    if (mElement ) {
      _triggerMouseEvent(mElement, 'mouseover', true);
@@ -1327,19 +1346,19 @@ Selenium.prototype.doDragJsxToJsx = function(locator, locator2) {
    var params;
    var jsxName;
    /* /(.*)=(.*)[,|\.](.*)/   */
-   if (strategy[1].indexOf('.') > 0) {
+   if (strategy[1].indexOf(".") > 0) {
     params = strategy[1].split(/\./); // jsxname.row.column
 	var jsxName = params[0];
    }
-   else if (strategy[1].indexOf(',') > 0) {
+   else if (strategy[1].indexOf(",") > 0) {
     params = strategy[1].split(/,/); // jsxname,jsxid
 	var jsxName = params[0];
    } else {
      jsxname = strategy[1];
    }
-   
+
    jsxName=stripQuotes(jsxName);
-   
+
   this.doDragAndDropToObject(locator, locator2);
 };
 
@@ -1406,29 +1425,49 @@ Selenium.prototype.doJsxMouseUp = function(locator, posval) {
     triggerLeftMouseEvent(element, 'mouseup', true, jsxPos);
 };
 
+Selenium.prototype.doTypeJsxKeys = function(locator, text) {
+/**
+ * Type the individual keys of the provided text string. Select action is first performed before typing to clear the existing text.
+ * Unlike doTypeKeys, we replace the text first on IE , carry out  select text action and trigger blur event.
+ *
+ * @param locator (String) input ="text" element locator (like combo box input).
+ * @param text (String) the text to enter for the input box
+ */
+ LOG.debug("doTypeJsxKeys " + locator + " with " + text);
+ var element = this.browserbot.findElement(locator);
+ // on IE, typeKeys does not input the text yet on FX doing both enters the text twice.
+ if (!browserVersion.isFirefox)
+	this.doType(locator, text);
+// Select the current text in the input box, so that typekeys replace current content.
+ element.select();
+ this.doTypeKeys(locator, text);
+ this.element = element;
+ jsx3.sleep( function () { this.element.blur(); triggerEvent(this.element, 'blur', false); }, "blur", this, true);
+
+}
 Selenium.prototype.doTypeJsxTextbox = function(locator, text) {
  /**
-  * Type text into a jsx3.gui.TextBox
+  * Type text into a jsx3.gui.TextBox, DatePicker box, TimePicker box. Unlike the "type" command we trigger blur event
   *
   * @param locator an element locator
   * @param text  value to input
   */
 
    LOG.debug("doType " + locator + " with " + text);
-   // move jsx3 up to window level to allow normal use of calling jsx3.* directly
-
-   var jsxName = locator.substring(locator.indexOf('=') + 1);// jsxname=blah
+/*   var jsxName = locator.substring(locator.indexOf('=') + 1);// jsxname=blah
    jsxName = stripQuotes(jsxName);
 
    LOG.debug("textbox jsxname = " + jsxName);
-
-   var jsxObj = this.browserbot.findByJsxName(jsxName);
-   LOG.debug('found jsxObj =' + jsxObj);
+*/
+   // Not using NameAndType locator since we want to type in different type of input box, date picker, combo box, etc.
    var element = this.browserbot.findElement(locator);
-   LOG.debug('element found ' + getOuterHTML(element));
-    selenium.browserbot.replaceJsxText(jsxObj, element, text);
+   var jsxObj = this.browserbot.findByJsxName(storedVars['LASTJSX']);
+   //LOG.debug('element found ' + getOuterHTML(element));
+    if (this.browserbot.shiftKeyDown) {
+        text = new String(text).toUpperCase();
+    }
+    this.browserbot.replaceJsxText(jsxObj, element, text); // our replacetext does blur event.
 };
-
 
 Selenium.prototype.doSpyJsxElement = function(locator) {
 /**
@@ -1460,7 +1499,7 @@ Selenium.prototype.doTypeJsxGridCell = function(locator, text) {
    LOG.debug("doType grid cell" + locator + " with " + text);
 
    var strategy = locator.split('=');
-   var params = strategy[1].split('.'); // gridJsxName.r.c
+   var params = strategy[1].split("."); // gridJsxName.r.c
    var jsxName = params[0];
    jsxName=stripQuotes(jsxName);
    LOG.debug("grid jsxname = " + jsxName);
@@ -1484,12 +1523,14 @@ Selenium.prototype.doPickJsxTime = function(jsxname, value) {
   * @param jsxname (String) DatePicker jsxname
   * @param value (String) date value in valid Date string format
   */
+    var longPattern = /(\d){2}:(\d){2}:(\d){2} ([AM|PM])/i;
     var otpicker = this.browserbot.findByJsxNameAndType(jsxname.trim(), "jsx3.gui.TimePicker") ;
 
-    var hhmmss = value.split(':');   // hh:mm:ss.sss
+    var hhmmss = value.split(/:/);   // hh:mm:ss.sss
     var hours =  hhmmss[0];
     var minutes = hhmmss[1];
     var seconds = hhmmss[2];
+	LOG.debug(hours + "-" + minutes + "-" + seconds);
     // enter hours value
     this.doType('JsxTimePickerHours='+jsxname.trim(), hours );
     this.doFireEvent('JsxTimePickerHours='+jsxname.trim(), 'blur');
@@ -1499,8 +1540,8 @@ Selenium.prototype.doPickJsxTime = function(jsxname, value) {
     if (otpicker.getShowSeconds() == 1) {
         var secon = seconds;
         var milli = 0;
-        if (seconds.indexOf('.') > 0 ) {
-            var parts = seconds.split('.');
+        if (seconds.indexOf(".") > 0 ) {
+            var parts = seconds.split(".");
             secon = parts[0];
             milli = parts[1];
         }
@@ -1610,8 +1651,12 @@ Selenium.prototype.doSetJsxNamespace = function (namespace) {
   * on the same page.
   * @params namespace (String) the namespace name string as defined in application configuration
   */
-    this.browserbot.setJsxNamespace(namespace);
-	if (namespace && namespace != "null" && namespace != "")
+ if (!namespace)
+	this.jsxNamespace = null;
+ else
+	this.jsxNamespace = namespace;
+
+	if (namespace && namespace != "")
 		storedVars[namespace] = namespace;       // save the value as a Selenium global var ${namespace}
 };
 
@@ -1629,6 +1674,156 @@ Selenium.prototype.doUnsubscribeJsxResize = function() {
         LOG.info('unsubscribeJsxResize is noop for non IE browser');
 };
 
+Selenium.prototype.getMatrixCellText = function (locator) {
+ var strategy=locator.split(/=/)[0];
+ var rowPattern=/JsxMatrixRow/;
+ var jsxElement;
+ if ( rowPattern.test(strategy) ) {
+	jsxElement = this.browserbot.findElement(locator);
+	if (jsxElement) {
+		return getText(jsxElement);
+	}
+	return null;
+  }
+}
+
+Selenium.prototype.getMatrixRowIndex = function(locator) {
+/**
+ *  Return the row index using a Matrix row text or id locator.
+*/
+ var strategy=locator.split(/=/)[0];
+ var rowPattern=/JsxMatrixRow/;
+ var jsxElement;
+ if ( rowPattern.test(strategy) ) {
+	jsxElement = this.browserbot.findElement(locator);
+	if (jsxElement)	{
+		jsxElement = jsxElement.parentNode; // matrix row locator return the child cell 0.
+
+		var previousSibling;
+		var index = 0;
+		while ((previousSibling = jsxElement.previousSibling) != null) {
+			if (!this._isCommentOrEmptyTextNode(previousSibling)) {
+				index++;
+			}
+			jsxElement = previousSibling;
+		}
+		return index;
+	} 
+	// TODO - else throw row element not found error.
+  }
+}
+
+// TODO
+//Selenium.prototype.getJsxRecordsSize
+//Selenium.prototype.getJsxRecordIds
+
+Selenium.prototype.getJsxCount = function(strNameType) {
+/**
+ * Return the number of JSX object matching the type
+ */
+ // TODO -- is this useful? or just for one case type.
+ var all = jsx3.GO("JSXBODY").findDescendantsOfType(strNameType);
+ return (all) ? all.length : 0;
+}
+
+Selenium.prototype.getJsxText = function(identity) {
+  var jsxobj = this.browserbot.findByJsxIdentity(identity);
+  return (jsxobj) ? jsxobj.getText() : "";
+}
+
+Selenium.prototype.getJsxValue = function(identity) {
+  var jsxobj = this.browserbot.findByJsxIdentity(identity);
+  return (jsxobj) ? jsxobj.getValue() : "";
+}
+
+Selenium.prototype.getJsxElementId = function(locator) {
+/**
+ * Return the <b>jsxid</b> of an rendered JSX Object
+*/
+	var element = this.browserbot.findElement(locator); 
+	return element.getAttribute("id"); 
+}
+
+Selenium.prototype.getJsxElementName = function(locator) {
+/**
+  * Get the jsxname of an Element, which is set as the label property for jsx generated components
+  * @return name (String) jsxname
+  */
+ var e = this.browserbot.findElement(locator);
+ while (e.parentNode && !e.getAttribute("label")) {
+    e = e.parentNode;
+ }
+
+ return (e.getAttribute("label")) ? e.getAttribute("label") : null;
+}
+
+Selenium.prototype.getJsxByName = function (jsxName) {
+/**
+ * Return the JSX Object itself using its jsxname property.
+ */
+ return this.browserbot.findByJsxName(jsxName);
+}
+
+Selenium.prototype.getJsxByText = function (jsxText) {
+/**
+ * Return the JSX Object itself using its jsxtext property.
+ */
+ return this.browserbot.findByJsxText(jsxText);
+}
+
+
+Selenium.prototype.getJsxSelectedIndex = function(jsxname) {
+// index of selected option item, multi-select item, matrix row
+// TODO
+}
+
+Selenium.prototype.getJsxSelectedIndexes = function(jsxname) {
+// @return Array
+  var selected = this.browserbot.findByJsxName(jsxname).getValue();
+  var allIdx = [];
+  // TODO
+  // for all selected, find the element index.
+  /* if (!selected.length) itemid = selected;
+  
+  var element = this.findElement('JsxMatrixRowId=' + jsxname + ',' + itemid);
+    var previousSibling;
+    var index = 0;
+    while ((previousSibling = element.previousSibling) != null) {
+        if (!this._isCommentOrEmptyTextNode(previousSibling)) {
+            index++;
+        }
+        element = previousSibling;
+    }
+    allIdx.append(index);
+	*/
+	return allIdx;
+}
+
+Selenium.prototype.getJsxSelectedIds = function(identity) {
+/*
+*@param identity (String) jsxname or jsxid of the ui control
+*@return identity (Array) of IDs selected option item, multi-select item, matrix row
+*/
+	var selected = this.browserbot.findByJsxIdentity(identity).getValue();
+	if (!selected.length) selected = [selected]; // only one selected, still returns an array.
+	return selected;
+}
+
+Selenium.prototype.getJsxSelectedId = function(identity) {
+// id of selected option item, multi-select item, matrix row
+	var selected = this.getJsxSelectedIds(identity);
+    if (selected.length > 1) {
+        Assert.fail("More than one selected option!");
+    }
+	return selected[0];
+}
+
+Selenium.prototype.getJsxDocumentText = function(identity) {
+/*
+* @return document (String) CDF Document object associated with a control as string.
+*/
+// TODO !!
+}
 
 Selenium.prototype.isJsxMenuWindowPresent = function(locatorId) {
 /** Is the menu dropdown window open, find given the level id
@@ -1680,8 +1875,9 @@ waitForJsxButtonNotPresent( )
 
 Selenium.prototype.isJsxPresent = function(text) {
 /**
- * Asserts that the specified JSX object can be found.
-
+ * Asserts that the specified JSX object can be found and the on screen element is there.
+ * @param text (String) the jsxname or a JSX locator
+ * @return (Boolean) true | false 
 assertJsxPresent( )
 assertJsxNotPresent( )
 verifyJsxPresent( )
@@ -1695,17 +1891,24 @@ Example
   waitForJsxPresent | JsxDialogCaption=*Blah* | |
 
  */
-    try {
-        // object seach by jsxname
-        var objJsx = this.browserbot.findByJsxName(text);
-        if (!objJsx) // element locator search
-          objJsx = this.browserbot.findElement(text);
-        if (!objJsx)
-	        return false;
+ 	var objGUI;
+
+     try {
+		if (text.indexOf("=") < 0) {
+		 LOG.info(" findByJsxName " + text);
+		 var objJSX = this.browserbot.findByJsxName(text);
+         objGUI = (objJSX) ? objJSX.getRendered() : null;
+		}
+        if (!objGUI) { // only do this if objGUI is not found using jsxname search.
+		 LOG.info(" findElement() " + text);
+		 objGUI = this.browserbot.findElement(text);
+		}
     } catch (e) {
+	    LOG.error("isJsxPresent Execption=" + e.message);
         return false;
     }
-    return true;
+	
+    return (objGUI) ? true : false;
 };
 
 Selenium.prototype.isJsxValueEqual= function(jsxName, value) {
@@ -1815,22 +2018,10 @@ Selenium.prototype.assertJsxPromptOK= function(text, value) {
 
 }
 
-PageBot.prototype.jsxNamespace = null;
+//storedVars.lastJSX = global last located objJSX
+Selenium.prototype.jsxNamespace = null;
 
-PageBot.prototype.setJsxNamespace = function (namespace) {
-/* Set the namespace to use in GI object locator. If left unset then by default we search in the first
- * JSXBODY block.
- * @param namespace (String) GI application name, or namespace.
- */
- if (!namespace || namespace=="null") 
-	this.jsxNamespace = null;
- else
-	this.jsxNamespace = namespace;
-};
 
-PageBot.prototype.getJsxNamespace = function (namespace) {
- return this.jsxNamespace;
-};
 
 PageBot.prototype.findElementByNameAndTwoAttributes = function (
     inDocument, tagName, attribute1, value1, attribute2, value2
@@ -1872,7 +2063,7 @@ PageBot.prototype.findElementByTextAndAttribute = function (
 ) {
 /*
  * Helper findElementBy "Text and Attribute" method
- * e.g. //span[text()="something" and class="className"]
+ * e.g. //span[text()="something" and @class="className"]
  *
  * @param inDocument (Document) document object
  * @param tagName (String) tag name to look under
@@ -1902,97 +2093,152 @@ PageBot.prototype.getParentChild = function(jsxname) {
  * @param jsxname (String) possible "parent.child" notation
  * @return Array | String  parentjsxname=array[0],childjsxname=array[1] or just childjsxname
  */
-    if (jsxname.indexOf('.') > 0) {
-        LOG.debug('split parent child')
-      return jsxname.split('.');
+    if (jsxname.indexOf(".") > 0) {
+      return jsxname.split(".");
     } else {
       return jsxname;
     }
 }
+
+PageBot.prototype.findByJsxIdentity = function(identity) {
+/**
+ * findByJsxName - find jsx object in body using its jsxname or jsxid
+ *  @param value (String) JSX object jsxname or jsxid
+ *  @return JSX object
+ */
+   window.top.jsx3 = this.getCurrentWindow(false).jsx3;
+
+   var JsxNamespace = selenium.jsxNamespace;
+   var jsxobj = null;
+
+   if (jsx3)
+	selenium.jsxversion = jsx3.getVersion();
+   var ancestor = 'JSXBODY';
+   var pdotc = this.getParentChild(identity);
+
+    if ( typeof(pdotc) != 'string') {
+        ancestor=pdotc[0];
+        identity=pdotc[1];
+    }
+
+	LOG.debug('** findByJsxName =' + identity + ',ancestor=' + ancestor);
+	
+	// getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
+   if (JsxNamespace && this.getCurrentWindow()[JsxNamespace]) {
+     LOG.debug('namespace defined='  + JsxNamespace);
+     var objAncestor = jsx3.GO(ancestor, this.getCurrentWindow()[JsxNamespace]);  
+	 jsxobj =  (objAncestor) ? objAncestor.findDescendants(
+        function(objJSX) {
+          return (objJSX.getId() == identity || objJSX.getName() == identity);
+        }
+     ,false,false,false,true) : null;
+   } else {
+       //LOG.debug('using jsx3.GO() ... ' + ancestor);
+	   var objAncestor = jsx3.GO(ancestor); 
+       jsxobj = (objAncestor) ? objAncestor.findDescendants(
+            function(objJSX) {
+              return (objJSX.getId() == identity || objJSX.getName() == identity);
+            }
+         ,false,false,false,true) : null;
+   }
+   if (jsxobj && storedVars) storedVars['LASTJSX'] = jsxobj.getName();
+   return jsxobj;
+
+}
+
 PageBot.prototype.findByJsxName = function(jsxname) {
 /**
  * findByJsxName - find jsx object in body using its jsxname
  *  @param value (String) JSX object jsxname
  *  @return JSX object
  */
-   LOG.debug('findByJsxName =' + jsxname );
    // init jsx3 object in case this is first locator called
-    window.top.jsx3 = null;
-    window.top.jsx3 = this.getCurrentWindow(false).jsx3;
+   window.top.jsx3 = null;
+   window.top.jsx3 = this.getCurrentWindow(false).jsx3;
 
-   //LOG.debug('jsx3 = ' + jsx3.getVersion());
-  if (!selenium.jsxversion)
-	selenium.jsxversion = jsx3.getVersion(); 
-   var parentName = 'JSXBODY';
+   var JsxNamespace = selenium.jsxNamespace;
+   var jsxobj;
+
+   selenium.jsxversion = jsx3.getVersion();
+   var ancestor = 'JSXBODY';
    var pdotc = this.getParentChild(jsxname);
 
     if ( typeof(pdotc) != 'string') {
-        parentName=pdotc[0];
+        ancestor=pdotc[0];
         jsxname=pdotc[1];
     }
-  // getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
-   if (this.jsxNamespace != null && this.getCurrentWindow()[this.jsxNamespace] != undefined) {
-     LOG.debug('namespace defined='  + this.jsxNamespace);
-     return   this.getCurrentWindow()[this.jsxNamespace].getServer().getJSXByName(parentName).findDescendants(
+
+	LOG.debug('** findByJsxName =' + jsxname + ',ancestor=' + ancestor);
+	// getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
+   if (JsxNamespace && this.getCurrentWindow()[JsxNamespace]) {
+     LOG.debug('namespace defined='  + JsxNamespace);
+	 var objAncestor = this.getCurrentWindow()[JsxNamespace].getJSXByName(ancestor);
+	 /*jsxobj =  (objAncestor != null) ? objAncestor.findDescendants(
         function(objJSX) {
+			LOG.debug("obj = " + objJSX);
           return (objJSX.getName() == jsxname);
         }
-     ,false,false,false,true);
+     ,false,false,false,true) : null;
+	 */
+	  jsxobj = (objAncestor != null) ? objAncestor.getDescendantOfName(jsxname) : null;
+	 
    } else {
-       LOG.debug('using jsx3.GO() ... ' + parentName);
-	   var objParent = jsx3.GO(parentName); // This could be undefined.
-       return  (objParent) ? objParent.findDescendants(
+       //LOG.debug('using jsx3.GO() ... ' + ancestor);
+	   var objAncestor = jsx3.GO(ancestor); // This could be undefined.
+       jsxobj = (objAncestor) ? objAncestor.findDescendants(
             function(objJSX) {
               return (objJSX.getName() == jsxname);
             }
          ,false,false,false,true) : null;
    }
+   if (jsxobj != null && storedVars) storedVars['LASTJSX'] = jsxobj.getName();
+   LOG.debug(">>>> obj = " + jsxobj);
+   return jsxobj;
 }
 
 
 PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype) {
 /**
-  * findByJsxNameAndType - find jsx object in body using its jsxname and its jsxtype
+  * findByJsxNameAndType - find jsx object in body using its jsxname and its jsxtype. This is the preferred locator since it is more specific based on name & type.
  *  @param jsxname (String) JSX object jsxname
  *  @param jsxtype (String) JSX object class type
  *  @return JSX object
   */
-  window.top.jsx3 = null;
   window.top.jsx3 = this.getCurrentWindow(false).jsx3;
-  //LOG.debug('jsx3 = ' + jsx3.getVersion());
-  if (!selenium.jsxversion)
-	selenium.jsxversion = jsx3.getVersion(); 
-  
-  var parentName = 'JSXBODY';
+  var jsxobj = null;
+  var JsxNamespace = selenium.jsxNamespace;
+  if (jsx3 && selenium.jsxversion == undefined)
+	selenium.jsxversion = jsx3.getVersion();
+
+  var ancestor = 'JSXBODY';
   var pdotc = this.getParentChild(jsxname);
 
   if ( typeof(pdotc) != 'string') {
-      parentName=pdotc[0];
+      ancestor=pdotc[0];
       jsxname=pdotc[1];
   }
 
-  LOG.debug('findByJsxNameAndType jsxname=' + jsxname  + ',type='+ jsxtype + ',parent=' + parentName);
-  if (this.jsxNamespace != null && this.getCurrentWindow()[this.jsxNamespace] != undefined) {
-     LOG.debug('namespace defined='  + this.jsxNamespace);
-     return   this.getCurrentWindow()[this.jsxNamespace].getServer().getJSXByName(parentName).findDescendants(
-        function(objJSX) {
-          return ((objJSX.getName() == jsxname) && objJSX.instanceOf(jsxtype) );
-        }
-     ,false,false,false,true);
+  LOG.debug('** findByJsxNameAndType jsxname=' + jsxname  + ',type='+ jsxtype + ',parent=' + ancestor);
+  var objAncestor;
+  if (JsxNamespace != null && this.getCurrentWindow()[JsxNamespace] != undefined) {
+     LOG.debug('namespace defined='  + JsxNamespace);
+	 objAncestor = this.getCurrentWindow()[JsxNamespace].getJSXByName(ancestor);
    } else {
-	  LOG.debug('using jsx3.GO() ... ' + parentName);
-	  var objParent = jsx3.GO(parentName);
-      return  (objParent) ? objParent.findDescendants(
+	 //LOG.debug('using jsx3.GO() ... ' + parentName);
+	 objAncestor = jsx3.GO(ancestor);
+   }
+    jsxobj = (objAncestor) ? objAncestor.findDescendants(
               function(objJSX) {
                 return ((objJSX.getName() == jsxname) && objJSX.instanceOf(jsxtype) );
               },
-       false,false,false,true) : null;
-    }
+    false,false,false,true) : null;
+	if (jsxobj && storedVars) storedVars['LASTJSX'] = jsxobj.getName();
+	return jsxobj;
 }
 
 PageBot.prototype.findByJsxText = function(text) {
 /**
- * findByJsxText - find jsx object in body using its jsxtext with glob or regexp pattern maching
+ * findByJsxText - find jsx object in body using its jsxtext with glob or regexp pattern maching. This is the generic any object with this text pattern locator.
  *  @param value (String) JSX object jsxtext
  *  @param root (String) Root block name
  *  @return JSX object
@@ -2000,22 +2246,27 @@ PageBot.prototype.findByJsxText = function(text) {
   LOG.debug('findByJsxText =' + text  );
   window.top.jsx3 = null;
   window.top.jsx3 = this.getCurrentWindow(false).jsx3;
-  if (!selenium.jsxversion)
-	selenium.jsxversion = jsx3.getVersion(); 
-  if (this.jsxNamespace != null && this.getCurrentWindow()[this.jsxNamespace] != undefined) {
-       LOG.debug('namespace defined='  + this.jsxNamespace);
-       return   this.getCurrentWindow()[this.jsxNamespace].getServer().getRootBlock().findDescendants(
+  var jsxobj = null;
+  var JsxNamespace = selenium.jsxNamespace;
+
+  if (selenium.jsxversion == undefined)
+	selenium.jsxversion = jsx3.getVersion();
+  if (JsxNamespace && this.getCurrentWindow()[JsxNamespace] != undefined) {
+       LOG.debug('Using namespace='  + JsxNamespace);
+	   // There should always be a root block per namespace app. 
+       jsxobj = this.getCurrentWindow()[JsxNamespace].getServer().getRootBlock().findDescendants(
           function(objJSX) {
-              return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText())  );
+              return (objJSX.getText && objJSX.getText() != undefined && 
+						PatternMatcher.matches(text, objJSX.getText()) );
           }
        ,false,false,false,true);
   } else {
-	LOG.debug('using jsx3.GO() ... ');
-        return jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
-            LOG.debug(objJSX.getText() + ' - ' + objJSX.getClass() );
-            return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText())  );
+        jsxobj = jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
+            return (objJSX.getText && objJSX.getText() && PatternMatcher.matches(text, objJSX.getText())  );
         },false,false,false,true);
   }
+  if (jsxobj && storedVars) storedVars['LASTJSX'] = jsxobj.getName();  
+  return jsxobj;
 }
 
 PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
@@ -2028,23 +2279,27 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
   LOG.debug('findByJsxTextAndType =' + text  + ',type='+ jsxtype );
   window.top.jsx3 = null;
   window.top.jsx3 = this.getCurrentWindow(false).jsx3;
-  if (!selenium.jsxversion)
-	selenium.jsxversion = jsx3.getVersion(); 
+  var jsxobj = null;
+  var JsxNamespace = selenium.jsxNamespace;
 
-    if (this.jsxNamespace != null && this.getCurrentWindow()[this.jsxNamespace] != undefined) {
-       LOG.debug('namespace defined='  + this.jsxNamespace);
+  if (jsx3 && !selenium.jsxversion)
+	selenium.jsxversion = jsx3.getVersion();
 
-       return   this.getCurrentWindow()[this.jsxNamespace].getServer().getRootBlock().findDescendants(
+    if (JsxNamespace && this.getCurrentWindow()[JsxNamespace] != undefined) {
+       LOG.debug('Using namespace='  + JsxNamespace);
+       jsxobj = this.getCurrentWindow()[JsxNamespace].getServer().getRootBlock().findDescendants(
           function(objJSX) {
               return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
           }
        ,false,false,false,true);
     } else {
 		LOG.debug('using jsx3.GO() ... '); // JSXROOT object always exist in GI application
-		return jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
+		jsxobj = jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
          return (objJSX.getText() && PatternMatcher.matches(text, objJSX.getText()) && objJSX.instanceOf(jsxtype) );
        },false,false,false,true);
      }
+    if (jsxobj && storedVars) storedVars['LASTJSX'] = jsxobj.getName();
+	 return jsxobj;
 };
 
 PageBot.prototype.findByJsxValue = function(value) {
@@ -2053,51 +2308,77 @@ PageBot.prototype.findByJsxValue = function(value) {
  *  @param value (String) JSX object jsxvalue
  *  @return JSX object
  */
-  LOG.debug('findByJsxtype='+ jsxtype );
+  LOG.debug('findByJsxValue='+ jsxtype );
   window.top.jsx3 = null;
   window.top.jsx3 = this.getCurrentWindow(false).jsx3;
-  if (!selenium.jsxversion)
-	selenium.jsxversion = jsx3.getVersion(); 
-  return jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
-      return (objJSX.getValue && PatternMatcher.matches(value, objJSX.getValue())
-      );
-   },false,false,false,true);
+  var jsxobj = null;
+
+  if (jsx3 && !selenium.jsxversion)
+	selenium.jsxversion = jsx3.getVersion();
+  if (JsxNamespace && this.getCurrentWindow()[JsxNamespace] != undefined) {	
+       LOG.debug('Using namespace='  + JsxNamespace);
+       jsxobj = this.getCurrentWindow()[JsxNamespace].getServer().getRootBlock().findDescendants(
+          function(objJSX) {
+			return (objJSX.getValue && PatternMatcher.matches(value, objJSX.getValue()));
+		},false,false,false,true);   
+  } else {
+		jsxobj = jsx3.GO('JSXROOT').findDescendants(function(objJSX) {
+			return (objJSX.getValue && PatternMatcher.matches(value, objJSX.getValue()) );
+		},false,false,false,true);
+  }
+  if (jsxobj && storedVars) storedVars['LASTJSX'] = jsxobj.getName();
+  return jsxobj;
 };
 
 PageBot.prototype.locateElementByJsxLookup = function(text, inDocument, inWindow) {
-/** Locate by actional element - This is a generic locator using jsxlookups.js
+/** Locate by actional element - This is a generic locator using jsxlookups implementation.
  *  @param text (String) jsxname of the object
  *  @param inDocument (document) current document object
  *  @param inWindow (document) current document object
  *  @return HTML element
  */
-	var name;
-	var type;
+	var name, type, item, col;
+	var selectPattern = /(.*)\[(jsx.*)=(.*)\]/;
+	var cellPattern = /(\d+)\.(\d+)/;
+
 	if (text.indexOf(",") != -1) {
 		var params = text.split(/,/);
 		name = params[0].trim();
 		type = params[1].trim();
+
+		if (params[2]) {
+			item = params[2].trim();
+			if(cellPattern.test(item)) {
+				var pieces = item.match(cellPattern);
+				item = pieces[1]; col = pieces[2];
+			}
+		}
 	} else
 		name = text.trim();
-   
+
    var objJSX = this.findByJsxName(name);
-   return getActionableObject(objJSX, type);
+   if (!objJSX)
+	objJSX = this.findByJsxText(name);
+   if (!objJSX)
+    objJSX = this.findByJsxValue(name);
+
+   LOG.debug(objJSX + ", subtype = " + type + ", item="+ item + ", col=" + col);
+	var element = (!col) ? getActionableObject(objJSX, type, item) : getActionableObject(objJSX, type, item, col);
+	LOG.debug("element = " + getOuterHTML(element));
+   return element;
 };
-/* this locator is used as gi=jsxname,type */
+/* this locator is used as gi=jsxname,subtype */
 PageBot.prototype.locateElementByJsxLookup.prefix = "gi";
 
-PageBot.prototype.locateElementByJsxName = function(text, inDocument) {
+PageBot.prototype.locateElementByJsxName = function(jsxname, inDocument) {
 /** Locate element by jsxname - This is a generic locator for all jsx components
- *  @param text (String) jsxname of the object
+ *  @param jsxname (String) jsxname of the object
  *  @param inDocument (document) current document object
  *  @return HTML element
  */
-   LOG.debug('locateElementByJsxName ' + text );
-   var oJSX =  this.findByJsxName(text);
-
-   var jsxElement = (oJSX != null) ? oJSX.getRendered() : null;
-   //LOG.debug("jsx by name element = " + getOuterHTML(jsxElement));
-   return jsxElement;
+   var oJSX =  this.findByJsxName(jsxname);
+   LOG.debug('>>>locateElementByJsxName ' + oJSX );  
+   return (oJSX) ? oJSX.getRendered() : null;
 };
 
 PageBot.prototype.locateElementByJsxText = function(text, inDocument) {
@@ -2106,12 +2387,10 @@ PageBot.prototype.locateElementByJsxText = function(text, inDocument) {
  *  @param inDocument (document) current document object
  *  @return HTML element
  */
-   LOG.debug('locateElementByJsxText ' + text );
+   //LOG.debug('locateElementByJsxText ' + text );
    var oJSX =  this.findByJsxText(text);
 
-   var jsxElement = (oJSX != null) ? oJSX.getRendered() : null;
-   //LOG.debug("jsx by text element = " + getOuterHTML(jsxElement));
-   return jsxElement;
+   return (oJSX != null) ? oJSX.getRendered() : null;
 };
 
 PageBot.prototype.locateElementByJsxAlertCaption = function(text, inDocument) {
@@ -2271,7 +2550,7 @@ PageBot.prototype.locateElementByJsxDateInput = function(name, inDocument) {
    if (objDatePicker) {
     LOG.debug("jsx3.gui.DatePicker = " + objDatePicker);
     elmInput = getActionableObject(objDatePicker, 'textbox');
-    LOG.debug('date input =' + jsx3.html.getOuterHTML(elmInput));
+    LOG.debug('date input =' + getOuterHTML(elmInput));
    }
    return elmInput;
 };
@@ -2384,7 +2663,7 @@ PageBot.prototype.locateElementByJsxDialogCaption = function(text, inDocument) {
    if (oBlock && oBlock.getParent().instanceOf("jsx3.gui.Dialog"))
      elmDialog = oBlock.getParent().getRendered();
 
-   LOG.debug("jsx3.gui.Dialog caption = " + oBlock.getText()); // dialog is direct parent of caption
+   //LOG.debug("jsx3.gui.Dialog caption = " + oBlock.getText()); // dialog is direct parent of caption
 
    return elmDialog;
  };
@@ -2406,7 +2685,7 @@ PageBot.prototype.locateElementByJsxDialogName = function(name, inDocument) {
 
    var oBlock = this.findByJsxNameAndType(name, "jsx3.gui.Dialog" );
 
-   LOG.debug("jsx3.gui.Dialog = " + oBlock);
+   //LOG.debug("jsx3.gui.Dialog = " + oBlock);
 
    return (oBlock != null) ? oBlock.getRendered() : null;
 };
@@ -2428,7 +2707,7 @@ PageBot.prototype.locateElementByJsxDialogBody = function(name, inDocument) {
 
    var oBlock = this.findByJsxNameAndType(name, "jsx3.gui.Dialog" );
 
-   LOG.debug("jsx3.gui.Dialog = " + oBlock);
+   //LOG.debug("jsx3.gui.Dialog = " + oBlock);
 
    return (oBlock != null) ? oBlock.getRendered().childNodes[1] : null;
 };
@@ -2445,7 +2724,7 @@ PageBot.prototype.locateElementByJsxGridCell = function(text, inDocument) {
    text = stripQuotes(text);
    LOG.debug("locateElementByJsxGridCell =" + text );
 
-   var params = text.split('.');
+   var params = text.split(".");
    var jsxName = params[0];
    var jsxID = params[1];
    var gridCol = parseInt(params[2]);   // Column Index
@@ -2457,7 +2736,7 @@ PageBot.prototype.locateElementByJsxGridCell = function(text, inDocument) {
    var gridRowElement = inDocument.getElementById(gridRowId);
 
    var cell_item = gridRowElement.childNodes[gridCol];
-   LOG.debug("cell [" + gridCol + "]=" + getOuterHTML(cell_item));
+   //LOG.debug("cell [" + gridCol + "]=" + getOuterHTML(cell_item));
 
    return (cell_item != null && cell_item != undefined) ? cell_item : null ;
 
@@ -3066,7 +3345,7 @@ PageBot.prototype.locateElementByJsxRadioName = function(text, inDocument) {
 
    var jsxObj = this.findByJsxNameAndType(text, "jsx3.gui.RadioButton");
 
-   LOG.debug("jsx3.gui.RadioButton = " + jsxObj);
+   //LOG.debug("jsx3.gui.RadioButton = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 };
@@ -3083,7 +3362,7 @@ PageBot.prototype.locateElementByJsxRadioText = function(text, inDocument) {
 
    var jsxObj = this.findByJsxTextAndType(text, "jsx3.gui.RadioButton");
 
-   LOG.debug("jsx3.gui.RadioButton = " + jsxObj);
+   //LOG.debug("jsx3.gui.RadioButton = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 };
@@ -3100,7 +3379,7 @@ PageBot.prototype.locateElementByJsxRadioValue = function(text, inDocument) {
 
    var jsxObj = this.findByJsxValue(text);
 
-   LOG.debug("jsx3.gui.RadioButton = " + jsxObj);
+   //LOG.debug("jsx3.gui.RadioButton = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 };
@@ -3119,7 +3398,7 @@ PageBot.prototype.locateElementByJsxSelectName = function(text, inDocument) {
 
    var jsxObj =  this.findByJsxNameAndType(text, 'jsx3.gui.Select');
 
-   LOG.debug("select obj = " + jsxObj);
+   //LOG.debug("select obj = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 };
@@ -3138,7 +3417,7 @@ PageBot.prototype.locateElementByJsxComboInputName = function(text, inDocument) 
 
    var jsxObj =  this.findByJsxNameAndType(text, 'jsx3.gui.Select');
 
-   LOG.debug("select obj = " + jsxObj);
+   //LOG.debug("select obj = " + jsxObj);
    var inputElement = getActionableObject(jsxObj, 'textbox');
    return inputElement;
 };
@@ -3162,9 +3441,7 @@ PageBot.prototype.locateElementByJsxSelectItemId = function(nameId, inDocument) 
  */
    nameId = stripQuotes(nameId);
    var jsxnid = getNameId(nameId);
-//   var params = nameId.split(",");
-//   var jsxName = params[0];  // jsxname
-//  var jsxId = params[1];    // item jsxid
+
    var jsxElement = null;
 
    LOG.debug("locateElementByJsxSelectItemId name =" + jsxnid.name + " id = "+ jsxnid.id  );
@@ -3199,7 +3476,7 @@ PageBot.prototype.locateElementByJsxSelectItemIndex = function(nameId, inDocumen
    LOG.debug("locateElementByJsxSelectItemIndex name =" + jsxName + " index = "+ index  );
 
    var jsxObj = this.findByJsxNameAndType(jsxName, "jsx3.gui.Select");
-   LOG.debug("Select control= " + jsxObj.getId() );
+   //LOG.debug("Select control= " + jsxObj.getId() );
 
    var jsxElement = getActionableObject(jsxObj, 'itembyindex', index);
    return jsxElement;
@@ -3316,7 +3593,7 @@ PageBot.prototype.locateElementByJsxStackText = function(text, inDocument) {
 
    var jsxObj =  this.findByJsxTextAndType(text, 'jsx3.gui.Stack');
 
-   LOG.debug("stack obj = " + jsxObj);
+   //LOG.debug("stack obj = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 };
@@ -3352,7 +3629,7 @@ PageBot.prototype.locateElementByJsxTabName = function(text, inDocument) {
    LOG.debug("locateElementByJsxTab name = " + text);
 
    var jsxObj =  this.findByJsxNameAndType(text, 'jsx3.gui.Tab' );
-   LOG.debug("Tab obj = " + jsxObj);
+   //LOG.debug("Tab obj = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 
@@ -3390,7 +3667,7 @@ PageBot.prototype.locateElementByJsxTreeName = function(text, inDocument) {
 
    var jsxObj =  this.findByJsxNameAndType(text, 'jsx3.gui.Tree');
 
-   LOG.debug("tree obj = " + jsxObj);
+   //LOG.debug("tree obj = " + jsxObj);
 
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 
@@ -3441,9 +3718,6 @@ PageBot.prototype.locateElementByJsxTreeItemIndex = function(text, inDocument) {
    LOG.debug("locateElementByJsxTreeItemId name =" + jsxName + " index = "+ jsxindex  );
 
     var jsxTree = this.findByJsxNameAndType(jsxName, 'jsx3.gui.Tree');
-
-    LOG.debug("tree = " + jsxTree );
-
    var jsxElement = getActionableObject(jsxTree, 'itembyindex', jsxindex);
 
    return (jsxElement) ? jsxElement : null;
@@ -3471,9 +3745,9 @@ PageBot.prototype.locateElementByJsxTreeItemId = function(text, inDocument) {
     LOG.debug("tree = " + jsxTree );
 
    var locator =  jsxTree.getId() + '_' + jsxId;
-    LOG.debug("locator =" + locator  );
+   //LOG.debug("locator =" + locator  );
    var jsxElement = getActionableObject(jsxTree, 'itembyjsxid', jsxId);
-   LOG.debug("tree item element = " + getOuterHTML(jsxElement));
+   //LOG.debug("tree item element = " + getOuterHTML(jsxElement));
 
    return jsxElement;
 
@@ -3565,7 +3839,7 @@ PageBot.prototype.locateElementByJsxToolbarButtonName = function(text, inDocumen
 
    var oButton = this.findByJsxNameAndType( text, "jsx3.gui.ToolbarButton" );
 
-   LOG.debug("jsxtoolbarbutton = " + oButton);
+   //LOG.debug("jsxtoolbarbutton = " + oButton);
 
    return (oButton != null) ? oButton.getRendered() : null;
 };
@@ -3583,7 +3857,7 @@ PageBot.prototype.locateElementByJsxToolbarButtonText = function(text, inDocumen
      text = text.slice(1, -1);
    var oButton = this.findByJsxTextAndType(text, 'jsx3.gui.ToolbarButton');
 
-   LOG.debug("jsxtoolbarbutton = " + oButton);
+   //LOG.debug("jsxtoolbarbutton = " + oButton);
 
    return (oButton != null) ? oButton.getRendered() : null;
 
@@ -3592,23 +3866,26 @@ PageBot.prototype.locateElementByJsxToolbarButtonText = function(text, inDocumen
 // Internal function used by typeJsxTextbox command
 PageBot.prototype.replaceJsxText = function(jsxObj, jsxElement, text)
 {
-    if (jsxObj && jsxElement) {
+    if (jsxElement) {// && jsxObj ) { TODO -- DEBUG
         LOG.debug('obj =' + jsxObj.getName()  +'text = ' + text);
         if   (jsx3.gui.DatePicker && jsxObj.instanceOf(jsx3.gui.DatePicker)) {
             try {
                 dateToSet = new Date(text);
-                _triggerEvent(jsxElement, 'focus', false);
-                _triggerEvent(jsxElement, 'select', false);
-                jsxObj.setDate(dateToSet);
-                _triggerEvent(jsxElement, 'change', false);
+                triggerEvent(jsxElement, 'focus', false);
+                triggerEvent(jsxElement, 'select', true);
+				if (jsx3.gui.DatePicker.setValue)
+					jsxObj.setValue(text);
+				else
+					jsxObj.setDate(dateToSet);
+                _triggerEvent(jsxElement, 'change', true);
             } catch (ex) {
                 this.replaceText(jsxElement, text);
             }
-            _triggerEvent(jsxElement, 'blur', false);
-            return;
-        }
-         this.replaceText(jsxElement, text);
-        _triggerEvent(jsxElement, 'blur', false);
+        } else {		
+         this.replaceText(jsxElement, text); //focus, select, change
+		}
+		jsxElement.blur();
+		triggerEvent(jsxElement, 'blur', false);
    }
 
 }
@@ -3626,7 +3903,8 @@ PageBot.prototype.locateElementByCss = function(locator, document) {
 };
 
 // Original -- $Id: includeCommand.js 166 2006-12-11 22:03:45Z rob $
-/* Modified by TIBCO Software Inc., Copyright © 2007 */
+/* TIBCO Software Inc., Copyright © 2007-2008
+	Modified by Darren Hwang, 2007 */
 /*extern document, window, XMLHttpRequest, ActiveXObject */
 /*extern Selenium, htmlTestRunner, LOG, HtmlTestCaseRow, testFrame, storedVars, URLConfiguration */
 
@@ -3825,7 +4103,7 @@ IncludeCommand.getIncludeDocumentBySynchronRequest = function(includeUri) {
      *
      * TODO - use a URL object for parameter and url handling instead of custom regexes
      *  //there is discussion about getting rid of prototype.js in developer forum.
-     *  //the ajax impl in xmlutils.js is not active by default in 0.8.0 due tue no script-tag in TestRunner.html
+     *  //the ajax impl in xmlutils.js is not active by default in 0.8.0 due to no script-tag in TestRunner.html
      *  //TODO use Ajax from prototype like this:
      *  var sjaxRequest = new Ajax.Request(url, {asynchronous:false});
      *
