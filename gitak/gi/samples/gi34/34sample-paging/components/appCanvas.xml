@@ -24,7 +24,7 @@
           <strings jsxname="blkListPane" jsxwidth="100%" jsxheight="100%"></strings>
           <dynamics jsxborder="@Outset"></dynamics>
           <object type="jsx3.gui.Matrix">
-            <variants jsxpagingmodel="3" jsxselectionmodel="0" jsxscalewidth="1" jsxresize="0" hk="['[object Object]','[object Object]','[object Object]','[object Object]','[object Object]','[object Object]','[object Object]','[object Object]','[object Object]','[object Object]','[object Object]']" _time="496" _timeout="497" Nd="1088"></variants>
+            <variants jsxpagingmodel="3" jsxselectionmodel="0" jsxscalewidth="1" jsxresize="0" ></variants>
             <strings jsxname="mtxPagedList" jsxbgcolor="#efefff" jsxfocusstyle="color:red;font-weight:bold;" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;/&gt;" jsxxmlid="paged_list_xml"></strings>
             <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff" jsxshallowfrom="xml/01.xml"></xslparameters>
             <object type="jsx3.gui.Matrix.Column">
