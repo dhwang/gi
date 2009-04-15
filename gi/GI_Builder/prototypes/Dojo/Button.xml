@@ -10,5 +10,6 @@
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
     <strings dijitClassName="dijit.form.Button"/>
+    <variants dijitProps="({ label: 'Button', name: 'Button' })" />
   </object>
 </serialization>
