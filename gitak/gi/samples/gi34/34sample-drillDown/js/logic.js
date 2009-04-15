@@ -55,10 +55,10 @@ jsx3.lang.Package.definePackage(
     objCDF.loadXML(strCDF);
     
     // loop through the records in the response and call native entity methods to transfer
-    var objRecords = objCDF.getChildNodes();
+    var iter = objCDF.getChildIterator();
 
-    while (objRecords.hasNext()) {
-        var objRecord = objRecords.next().cloneNode();
+    while (iter.hasNext()) {
+        var objRecord = iter.next().cloneNode();
         objParentNode.appendChild(objRecord);
     }
 
