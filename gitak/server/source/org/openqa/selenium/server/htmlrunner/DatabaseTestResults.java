@@ -47,6 +47,8 @@ public class DatabaseTestResults {
     private final String seleniumVersion;
     private final String seleniumRevision; // not used?
     private final String logUrl;
+	private final String dbOption;
+	private final String productName;
     //private final HTMLSuiteResult suite;
 
 
@@ -82,7 +84,9 @@ public class DatabaseTestResults {
         testPassed = postedTestPassed;
         seleniumVersion = postedSeleniumVersion;
         seleniumRevision = postedSeleniumRevision;
-        // This property is set by the -htmlSuite option 4th parameter
+		productName = System.getProperty("product.name", "GI");
+		dboption = System.getProperty("gitak.reportdb", "false");
+        // resultfile property is set by the -htmlSuite option 4th parameter	
         String filename = System.getProperty("htmlSuite.resultFilePath");
         // After the last slash should be the filename
         int lastslash = filename.lastIndexOf("/") > 0 ? filename.lastIndexOf("/"): filename.lastIndexOf("\\");
@@ -189,7 +193,6 @@ public class DatabaseTestResults {
     }
 
     public boolean getDbReportOption() {
-        String dboption = System.getProperty("gitak.reportdb", "false");
         return dboption.equalsIgnoreCase("true");
     }
 
@@ -345,8 +348,8 @@ public class DatabaseTestResults {
 
     private String getRunId() {
         //String user_run_id = System.getProperty("gitak.runid");
-        String runid = System.getProperty("product.name", "GITAK").toUpperCase();
-        System.out.println(runid + timestamp);
+        String runid = productName.toUpperCase();
+        //System.out.println(runid + timestamp);
         return runid + timestamp;
     }
 
