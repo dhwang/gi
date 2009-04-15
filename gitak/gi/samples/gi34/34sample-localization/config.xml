@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data>
-  <record jsxid="version" type="string">3.2</record>
+  <record jsxid="version" type="string">3.4</record>
   <record jsxid="caption" type="string">34sample-localization</record>
   <record jsxid="mode" type="boolean">true</record>
   <record jsxid="namespace" type="string">eg.localization.APP</record>

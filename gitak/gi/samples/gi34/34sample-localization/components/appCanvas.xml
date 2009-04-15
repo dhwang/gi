@@ -6,10 +6,11 @@
   <onAfterDeserialize/>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrepeat="2" jsxsizearray="['240','*']" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" jsxbestguess="1" jsxorientation="0"/>
-    <strings jsxname="lytMainLayout" jsxwidth="100%" jsxheight="100%" jsxrows="240,*"/>
+    <strings jsxname="lytMainLayout" jsxwidth="100%" jsxheight="100%" jsxrows="200,*"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="1"/>
-      <strings jsxname="blkDescription" jsxwidth="100%" jsxheight="100%" jsxtext="&lt;p align=&quot;right&quot;&gt;&lt;b&gt;JSS Localization: version 3.0&lt;/b&gt;&lt;BR&gt; JSX version: 3.4.0&lt;/p&gt;           &lt;p&gt;This sample application demonstrates the use of GI Dynamic Property files for localization.&lt;/p&gt;           &lt;p&gt;The Tools menu localizes the application. This is accomplished with the Server.setLocale() method,            new in version 3.2. The code for loading the resource file is located in logic.js&lt;/p&gt;            &lt;p&gt;The 'Launch Dialog' button opens a dialog with some additional notes.&lt;/p&gt;"/>
+      <strings jsxname="blkDescription" jsxwidth="100%" jsxheight="100%" jsxtext="&lt;p align=&quot;right&quot;&gt;&lt;b&gt;JSS Localization: version 3.5&lt;/b&gt;&lt;BR&gt; JSX version: 3.5.0&lt;/p&gt;           &lt;p&gt;This sample application demonstrates the use of GI Properties Bundle files for localization.&lt;/p&gt;           &lt;p&gt;The Tools menu localizes the application. This is accomplished with the Server.setLocale() method,            new since version 3.2. The code for loading the resource file is located in logic.js&lt;/p&gt;            &lt;p&gt;The 'Launch Dialog' button opens a dialog with some additional notes.&lt;/p&gt;&lt;p&gt;Properties Bundle file format&lt;/p&gt;&lt;pre&gt;&amp;lt;data jsxnamespace=&quot;propsbundle&quot; locales=&quot;&lt;b&gt;externalLocales&lt;/b&gt;&quot;&amp;gt; &amp;lt;locale&amp;gt; &amp;lt;record jsxid=&quot;&lt;b&gt;propId&lt;/b&gt;&quot; jsxtext=&quot;&lt;b&gt;propValue&lt;/b&gt;&quot;/&amp;gt; ... &amp;lt;/locale&amp;gt; &amp;lt;/data&amp;gt; &lt;/pre&gt;
+	  &lt;p&gt;&lt;/p&gt;"/>
       <dynamics jsxborder="@Outset" jsxpadding="@8Pixel" jsxbgcolor="@Solid Medium"/>
     </object>
     <object type="jsx3.gui.Block">
@@ -33,12 +34,12 @@
               <object type="jsx3.gui.WindowBar">
                 <variants jsxbartype="2"/>
                 <strings jsxname="mnubMenuBar"/>
-                <object type="jsx3.gui.Menu">
-                  <variants jsxstate="0"/>
-                  <strings jsxname="mnuLocaleSelectMenu" jsxtip="Change display language" jsxxmlurl="xml/menu.xml" Dmxj="&lt;div id=&quot;_jsx_LOCAPP_41&quot; tabindex=&quot;0&quot; onmouseover=&quot;this.focus();&quot; onmouseout=&quot;this.blur();&quot; onfocus=&quot;jsx3.Menu.doFocus(this,'_jsx_LOCAPP_4',1);&quot; onblur=&quot;jsx3.Menu.doBlur(this,'_jsx_LOCAPP_4',1);&quot; jsxid=&quot;1&quot; class=&quot;jsx30menu_item&quot; jsxtype=&quot;Leaf&quot;&gt;&lt;span class=&quot;jsx30menu_kc&quot; JSXDragType=&quot;JSX_GENERIC&quot; style=&quot;&quot; JSXDragId=&quot;1&quot; JSXSpyglass=&quot;1&quot;&gt;&lt;table class=&quot;jsx30menu_kct&quot;&gt; &lt;tr&gt; &lt;td class=&quot;name&quot;&gt;Display English&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/span&gt;&lt;/div&gt; &lt;div id=&quot;_jsx_LOCAPP_42&quot; tabindex=&quot;0&quot; onmouseover=&quot;this.focus();&quot; onmouseout=&quot;this.blur();&quot; onfocus=&quot;jsx3.Menu.doFocus(this,'_jsx_LOCAPP_4',1);&quot; onblur=&quot;jsx3.Menu.doBlur(this,'_jsx_LOCAPP_4',1);&quot; jsxid=&quot;2&quot; class=&quot;jsx30menu_item&quot; jsxtype=&quot;Leaf&quot;&gt;&lt;span class=&quot;jsx30menu_kc&quot; JSXDragType=&quot;JSX_GENERIC&quot; style=&quot;&quot; JSXDragId=&quot;2&quot; JSXSpyglass=&quot;2&quot;&gt;&lt;table class=&quot;jsx30menu_kct&quot;&gt; &lt;tr&gt; &lt;td class=&quot;name&quot;&gt;Display Chinese&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/span&gt;&lt;/div&gt; &lt;div id=&quot;_jsx_LOCAPP_43&quot; tabindex=&quot;0&quot; onmouseover=&quot;this.focus();&quot; onmouseout=&quot;this.blur();&quot; onfocus=&quot;jsx3.Menu.doFocus(this,'_jsx_LOCAPP_4',1);&quot; onblur=&quot;jsx3.Menu.doBlur(this,'_jsx_LOCAPP_4',1);&quot; jsxid=&quot;3&quot; class=&quot;jsx30menu_item&quot; jsxtype=&quot;Leaf&quot;&gt;&lt;span class=&quot;jsx30menu_kc&quot; JSXDragType=&quot;JSX_GENERIC&quot; style=&quot;&quot; JSXDragId=&quot;3&quot; JSXSpyglass=&quot;3&quot;&gt;&lt;table class=&quot;jsx30menu_kct&quot;&gt; &lt;tr&gt; &lt;td class=&quot;name&quot;&gt;Display French&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/span&gt;&lt;/div&gt; "/>
-                  <dynamics jsxtext="Tools1"/>
-                  <events jsxexecute="eg.localization.doLoadLocalizeResource(this, strRECORDID);"/>
-                </object>
+				<object type="jsx3.gui.Menu">
+					<variants jsxxmlasync="0"/>
+					<strings jsxname="mnuLocaleSelectMenu" jsxtip="Change display language" jsxxmlurl="xml/menu.xml"/>
+					<dynamics jsxtext="Tools1"/>
+					<events jsxexecute="eg.localization.doLoadLocalizeResource(this, strRECORDID);"/>
+				</object>
               </object>
             </object>
             <object type="jsx3.gui.Block">
@@ -53,6 +54,19 @@
                   <strings jsxname="tbbLaunchDialogButton" jsximage="images/icon_16.gif" jsxtip="open dialog" jsxtext="Launch Dialog"/>
                   <events jsxexecute="eg.localization.doLaunchDialog(this);"/>
                 </object>
+				<object type="jsx3.gui.DatePicker">
+					<variants jsxwidth="100" jsxrelativeposition="1" jsxheight="18" jsxyear="2008" jsxmonth="3" 					jsxdate="17"/>
+					<strings jsxname="datePicker" jsxmargin="0 4 0 0"/>
+					<dynamics jsxformat="LocalDate"/>
+				</object>
+				<object type="jsx3.gui.TimePicker">
+					<variants jsxrelativeposition="1" jsxheight="18" jsxhours="0" jsxminutes="0" jsxseconds="0" jsxmillis="0" jsxshowsecs="0" jsxshowmillis="0"/>
+					<strings jsxname="timePicker" jsxmargin="0 4 0 0"/>
+				</object>
+				<object type="jsx3.gui.Select">
+					<variants jsxwidth="150" jsxheight="18" jsxxmlasync="1"/>
+					<strings jsxname="select" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0"/>
+				</object>
               </object>
             </object>
           </object>

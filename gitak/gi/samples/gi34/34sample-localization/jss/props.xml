@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- English (en_US) is the default locale. -->
 <data jsxid="jsxroot" jsxns="urn:tibco.com/v3.0/dynamicproperties/1" jsxnamespace="propsbundle" locales="fr,zh_TW">
+<locale>
   <record jsxid="Line1" jsxtext="This old village" type="jsxtext"/>
   <record jsxid="Line2" jsxtext="not a single house" type="jsxtext"/>
   <record jsxid="Line3" jsxtext="without persimmon trees" type="jsxtext"/>
@@ -10,4 +11,5 @@
   <record jsxid="Display Chinese" jsxtext="Display Chinese"/>
   <record jsxid="Display French" jsxtext="Display French"/>
   <record jsxid="Display Default" jsxtext="Display Default"/> <!-- demonstrates fall-through -->
+ </locale>
 </data>
