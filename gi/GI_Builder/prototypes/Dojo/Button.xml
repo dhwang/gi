@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2001-2008, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Button]]></name>
+  <icon><![CDATA[images/prototypes/block-image.gif]]></icon>
+  <description><![CDATA[Button]]></description>
+  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
+  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
+  <object type="jsx3.gui.DojoWidget">
+    <strings dijitClassName="dijit.form.Button"/>
+  </object>
+</serialization>

@@ -24,6 +24,11 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
         'type': 'text/css',
         'href': 'dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css'
       }, head);
+      dojo.create('link', {
+              'rel': 'stylesheet',
+              'type': 'text/css',
+              'href': 'dojo-toolkit/dojo/resources/dojo.css'
+      }, head);
       dojo.addClass(dojo.body(), theme);
     }
   };
@@ -44,6 +49,9 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   DojoWidget_prototype._createDijit = function(props){
     DojoWidget._LOG.warn('_createDijit: ' + this.getId());
     if(!this.dijit){
+      if (!this.dijitClassName) {
+        throw new Error("No dijitClassName defined");
+      }
       dojo.require(this.dijitClassName);
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
     }
