@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2007 TIBCO Software Inc.
+Copyright 2006-2008 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,11 +21,12 @@ Copyright 2006-2007 TIBCO Software Inc.
   <title>Test Search List</title>
 </head>
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-<caption>This sample searches in a list using XSL filter</caption>
-  <tbody>
+<table border="1">
+<caption>This sample searches in a matrix list using XSL filter</caption>
+<caption></caption>
+<tbody>
     <tr>
-      <td rowspan="1" colspan="3">Test Search List<br>
+      <td rowspan="1" colspan="3">Test Search matrix with XSL filter<br>
       </td>
     </tr>
    <tr>
@@ -61,6 +62,11 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>Content 0</td>
     </tr>
     <tr>
+    <td>setInterval</td>
+    <td>100</td>
+    <td>&nbsp;</td>
+    </tr>
+    <tr>
       <td>click</td>
       <td>JsxName=button</td>
       <td>//search &nbsp;</td>
@@ -69,7 +75,7 @@ Copyright 2006-2007 TIBCO Software Inc.
           <td colspan="3">//list is the matrix control </td>
     </tr>
     <tr>
-      <td>verifyJsxSelectedId</td>
+      <td>waitForJsxSelectedId</td>
       <td>list</td>
       <td>unique0</td>
     </tr>
@@ -79,7 +85,7 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>//search &nbsp;</td>
     </tr>
     <tr>
-      <td>verifyJsxSelectedId</td>
+      <td>waitForJsxSelectedId</td>
       <td>JsxMatrixName=list</td>
       <td>unique1</td>
     </tr>
@@ -89,7 +95,7 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>//search &nbsp;</td>
     </tr>
     <tr>
-      <td>verifyJsxSelectedId</td>
+      <td>waitForJsxSelectedId</td>
       <td>JsxMatrixName=list</td>
       <td>unique2</td>
     </tr>
@@ -99,7 +105,7 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>//search &nbsp;</td>
     </tr>
     <tr>
-      <td>verifyJsxSelectedId</td>
+      <td>waitForJsxSelectedId</td>
       <td>JsxMatrixName=list</td>
       <td>unique2</td>
     </tr>
@@ -108,6 +114,11 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>assertJsxAlertOK</td>
       <td>End of search</td>
       <td>&nbsp;</td>
+    </tr>
+    <tr>
+    <td>setInterval</td>
+    <td>0</td>
+    <td>&nbsp;</td>
     </tr>
     <!-- assert list row length = +1 -->
     <!--tr>
