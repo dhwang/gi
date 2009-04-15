@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2007 TIBCO Software Inc.
+Copyright 2006-2008 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,8 +21,9 @@ Copyright 2006-2007 TIBCO Software Inc.
   <title>Test Efficient Component Loading</title>
 </head>
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-  <tbody>
+<table border="1">
+<caption> Demonstrate technique to do efficient component loading and painting (rendering) </caption>
+<tbody>
     <tr>
       <td rowspan="1" colspan="3">Test Efficient Component Loading<br>
       </td>
@@ -69,10 +70,11 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>&nbsp;</td>
     </tr>     
     <tr>
-      <td>waitForCondition</td>
-      <td>selenium.getXpathCount('//div[@class="jsx30dialog"]') == 20</td>
-      <td>25000</td>
-    </tr>             
+      <td>waitForXpathCount</td>
+      <!--td>selenium.getXpathCount('//div[@class="jsx30dialog"]') == 20  </td-->
+      <td>//div[@class="jsx30dialog"]</td>
+      <td>20</td>
+    </tr>           
     <tr>
       <td>recordEndTime</td>
       <td>dlgLoading</td>
@@ -83,6 +85,11 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>dlgLoading</td>
       <td>&nbsp;</td>
     </tr>         
+    <tr>
+      <td>assertJsxTypeCount</td>
+      <td>jsx3.gui.Dialog</td>
+      <td>20</td>
+    </tr> 
     <tr>
       <td>click</td>
       <td>JsxButtonText=Reset*</td>
@@ -99,9 +106,10 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>This is going to take a very long time.&nbsp;</td>
     </tr>     
     <tr>
-      <td>waitForCondition</td>
-      <td>selenium.getXpathCount('//div[@class="jsx30dialog"]') == 20</td>
-      <td>25000</td>
+      <td>waitForXpathCount</td>
+      <!--td>selenium.getXpathCount('//div[@class="jsx30dialog"]') == 20  </td-->
+      <td>//div[@class="jsx30dialog"]</td>
+      <td>20</td>
     </tr>             
     <tr>
       <td>recordEndTime</td>
@@ -113,6 +121,11 @@ Copyright 2006-2007 TIBCO Software Inc.
       <td>dlgLoading2</td>
       <td>&nbsp;</td>
     </tr>
+    <tr>
+      <td>assertJsxTypeCount</td>
+      <td>jsx3.gui.Dialog</td>
+      <td>20</td>
+    </tr>         
     <!-- failing?? -->        
     <tr>
       <td>assertEval</td>
