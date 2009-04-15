@@ -119,7 +119,7 @@
                 <events jsxbeforeedit="" jsxafteredit=""></events>
                 <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
                 <object type="jsx3.gui.Matrix.Column">
-                  <variants jsxwidth="20"></variants>
+                  <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0" jsxwidth="16" jsxheight="16"/>
                   <strings jsxname="mcEditDeleteColumn" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
                   <dynamics jsxbgcolor="@Solid Medium" jsxbg="@Fade TopDown" jsxborder="@Outset"></dynamics>
                   <object type="jsx3.gui.ImageButton">

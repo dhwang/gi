@@ -43,7 +43,7 @@
                 </object>
                 <object type="jsx3.gui.TextBox">
                   <variants jsxheight="18" jsxrelativeposition="0" jsxleft="78" jsxtop="7" jsxwidth="340"/>
-                  <strings jsxname="txtXMLFileInput" jsxmargin="margin-right:4px;" jsxvalue="jsxapp:///34sample-XMLToCDFTransform/xml/source_list.xml"/>
+                  <strings jsxname="txtXMLFileInput" jsxmargin="margin-right:4px;" jsxvalue="xml/source_list.xml"/>
                 </object>
                 <object type="jsx3.gui.Button">
                   <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="428" jsxtop="7"/>
