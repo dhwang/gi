@@ -50,7 +50,7 @@
             </object>
             <object type="jsx3.gui.Matrix.Column">
               <variants></variants>
-              <strings jsxname="mc2" jsxtext="Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2"></strings>
+              <strings jsxname="mc2" jsxtext="JSXID" jsxpadding="2" jsxwidth="*" jsxcellpadding="2"></strings>
               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
             </object>
           </object>
@@ -63,7 +63,7 @@
             <strings jsxname="splitter ( | )" jsxsubcontainer1pct="51.77%" jsxsubcontainer2pct="48.23%"></strings>
             <object type="jsx3.gui.BlockX">
               <variants jsxrelativeposition="1" jsxoverflow="1"></variants>
-              <strings jsxname="blockX" jsxxmlurl="JSXAPPS/34sample-searchInList/xsl/findrecordid.xsl" jsxwidth="100%" jsxheight="100%"></strings>
+              <strings jsxname="blockX" jsxxmlurl="xsl/findrecordid.xsl" jsxwidth="100%" jsxheight="100%"></strings>
               <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"></dynamics>
             </object>
             <object type="jsx3.gui.Block">
@@ -80,7 +80,7 @@
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2"></variants>
-          <strings jsxname="block" jsxwidth="100%" jsxheight="100%"></strings>
+          <strings jsxname="display" jsxwidth="100%" jsxheight="100%"></strings>
         </object>
       </object>
     </object>
