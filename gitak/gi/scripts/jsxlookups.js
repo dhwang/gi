@@ -255,7 +255,7 @@ _jsxlookups.jsx3_gui_Table    = {
                                       undefined:{dom:"",events:"mouseup,mousedown,mouseover,click,dblclick"},
 									  header: {dom:"",events:"mouseup"},
                                       rows:{dom:function(objJSX) {
-                                                      return jsx3_gui_Table_getIterableRows(objJSX.getRendered());
+                                                      return _jsxlookups.jsx3_gui_Table_getIterableRows(objJSX.getRendered());
                                             },events:""},
                                       rowbyindex:{dom:function(objJSX,intRowIndex) {
                                                       return _jsxlookups.jsx3_gui_Table.rows.dom(objJSX)[intRowIndex];
@@ -304,7 +304,6 @@ _jsxlookups.jsx3_gui_TimePicker    = {
                                           var offsetSecond = objJSX.getShowSeconds() * 2;
                                           var offsetMillis = objJSX.getShowSeconds() * objJSX.getShowMillis() * 2;
                                           var offset = 4 + offset24Hour + offsetSecond + offsetMillis - 1;
-                                          //LOG.debug('spinup = ' + offset + "offset24Hour = " + offset24Hour + "offsetSecond = " + offsetSecond + "offsetMillis" + offsetMillis);
                                           // base child node index is 5
                                           return objJSX.getRendered().childNodes[0].childNodes[offset].childNodes[0];
                                       },events:"click,mousedown"},
@@ -312,9 +311,7 @@ _jsxlookups.jsx3_gui_TimePicker    = {
                                           var offset24Hour = (objJSX.is24Hour() == 1) ? 0 : 2;
                                           var offsetSecond = objJSX.getShowSeconds() * 2;
                                           var offsetMillis = objJSX.getShowSeconds() * objJSX.getShowMillis() * 2;
-                                          var offset = 4 + offset24Hour + offsetSecond + offsetMillis - 1 ;
-                                          //LOG.debug('spindown = ' + offset + "offset24Hour = " + offset24Hour + "offsetSecond = " + offsetSecond + "offsetMillis" + offsetMillis);
-                                          // base child node index is hour[0],:[1],min[2], [3], up[4,0] = 0sec+0milli+0ampm
+                                          var offset = 4 + offset24Hour + offsetSecond + offsetMillis - 1;                                          // base child node index is hour[0],:[1],min[2], [3], up[4,0] = 0sec+0milli+0ampm
                                           return objJSX.getRendered().childNodes[0].childNodes[offset].childNodes[1];
                                       },events:"click,mousedown"}
                                      };
@@ -324,7 +321,8 @@ _jsxlookups.jsx3_gui_ToolbarButton = {
 _jsxlookups.jsx3_gui_Tree =          {
                                       undefined:{dom:"",events:"focus"},
                                       items:{dom:function(objJSX) {
-                                                      //returns all nodes that have been painted on-screen. Specifically returns the caption row(s) (which contains: toggler [0], icon [1], label [2])
+                                                      //returns all nodes that have been painted on-screen. 
+                                                      //Specifically returns the caption row(s) (which contains: toggler [0], icon [1], label [2])
                                                       return _jsxlookups._jsx3_gui_Tree_items(objJSX.getRendered(),[]);
                                                     },events:""},
                                       itembyjsxid:{dom:function(objJSX,strJsxId) {
@@ -393,7 +391,6 @@ _jsxlookups.jsx3_gui_Column = {undefined:{dom:"",events:""}};
 _jsxlookups.jsx3_gui_Grid = {undefined:{dom:"",events:""}};
 _jsxlookups.jsx3_gui_List = {undefined:{dom:"",events:""}};
 
-
 //recursive functions used to avoid adding code to the core framework
 _jsxlookups._jsx3_gui_Tree_items = function(objGUI,objArray) {
   if (objGUI) {
@@ -411,6 +408,17 @@ _jsxlookups._jsx3_gui_Tree_items = function(objGUI,objArray) {
   }
   return objArray;
 };
+
+_jsxlookups.jsx3_gui_Table_getIterableRows = function(objGUI) {
+    var myToken;
+    var objRows = [];
+    if (objGUI) {	
+	  objRows = objGUI.childNodes[0].childNodes[0].rows;
+	  var list = new jsx3.util.List(objRows);     
+      objRows = list.toArray();
+    }
+	return objRows;
+  };
 
 
 //Returns a native HTML object that can be acted upon per a given control type
@@ -479,14 +487,4 @@ function Dialog_getRenderedDialog(objJSX) {
  };
  
 
-jsx3_gui_Table_getIterableRows = function(objGUI) {
-    var myToken;
-    var objRows = [];
-    if (objGUI) {	
-	  objRows = objGUI.childNodes[0].childNodes[0].rows;
-	  var list = new jsx3.util.List(objRows);     
-      objRows = list.toArray();
-    }
-	return objRows;
-  };
 
