@@ -10,10 +10,12 @@ descendant has a jsxtext attribute containing 'Content'.
  <xsl:param name="resultindex">1</xsl:param>
  <xsl:output method="html"  omit-xml-declaration="yes"/>
   <xsl:template match="/">
+    <JSX_FF_WELLFORMED_WRAPPER>
         <xsl:for-each select="//record[contains(@jsxtext,$searchedtext)]">
            <xsl:if test="position()=$resultindex" >
               <xsl:value-of select="@jsxid"/>
            </xsl:if>
         </xsl:for-each>
+    </JSX_FF_WELLFORMED_WRAPPER>
  </xsl:template>
  </xsl:stylesheet>
