@@ -262,7 +262,7 @@ public class DatabaseTestResults {
                 "', '" +  System.getProperty("product.version", "0.0") + // Version id like 3.5.1.7
                 "', '" + System.getProperty("product.build", "BUILD") +    // Top level label, use full version id like 3.5.1V7
                 "', '"+ System.getProperty("database.category", "functional") + // -Ddatabase.category=ui for PDMS UI test category
-                "', 'COMPLETED', " + 
+                "', null, " + // No status yet.
                 numTestTotal + ", " + numTestPasses+ ", "+  numTestFailures +", 0, 0, '"+ logUrl +"', null, '"+ gitakVersion +"' )";
             qaSqlExecute(sqlstmt);
 
@@ -286,7 +286,7 @@ public class DatabaseTestResults {
             qaSqlExecute(sqlset);
 
 
-
+		// TODO -- consolidate into a single testCaseResult list.
         for (int i = 0; i < testFailed.size(); i++) {
             String tfail = testFailed.get(i).replace("\u00a0", "&nbsp;");
             // parse failed test string and insert to Database
