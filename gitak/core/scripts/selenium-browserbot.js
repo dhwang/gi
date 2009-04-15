@@ -107,8 +107,8 @@ var PageBot = function(){};
 BrowserBot.createForWindow = function(window, proxyInjectionMode) {
     var browserbot;
     LOG.debug('createForWindow');
-    LOG.debug("browserName: " + browserVersion.name);
-    LOG.debug("userAgent: " + navigator.userAgent);
+    LOG.info("browserName: " + browserVersion.name);
+    LOG.info("userAgent: " + navigator.userAgent);
     if (browserVersion.isIE) {
         browserbot = new IEBrowserBot(window);
     }
