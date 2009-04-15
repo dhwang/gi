@@ -56,8 +56,9 @@ jsx3.require('jsx3.gui.BlockX');
        xmlDisp.repaint();
      };
 
-
      jsxdom.buildDomTree = function (objJSX,strParentId,bNoEmbed) {
+       var name = objJSX.getName(); 
+       if (name  == 'dlgJsxDom') return;
        var objTree = objJSX.getServer().getJSXByName('treeJsxDom');
 
        //create record object (will become a record node in the CDF)
@@ -91,9 +92,8 @@ jsx3.require('jsx3.gui.BlockX');
          o.jsxid = objJSX.getId();
          o.jsxopen = "1";
          o.objText = objJSX.getText();
-         o.objName = objJSX.getName();
-         if (o.objName == 'dlgJsxDom') o.jsxopen = 0; // the dialog itself need not be expanded.
-         o.jsxtext = objJSX.getName();
+         o.jsxtext = name;
+         o.objName = name;
          o.jsxstyle = strStyle;
         
          if (objJSX.instanceOf(jsx3.xml.CDF) ) {
@@ -104,13 +104,15 @@ jsx3.require('jsx3.gui.BlockX');
      
        //insert; recurse to populate descendants
        objTree.insertRecord(o,strParentId,false);
+       
        if (intPersist == null || intPersist == jsx3.app.Model.PERSISTNONE || intPersist == jsx3.app.Model.PERSISTEMBED) {
-         var objKids = objJSX.getChildren();
-         var maxLen = objKids.length;
+         var objKids = new jsx3.util.List(objJSX.getChildren()).iterator();
+         //var maxLen = objKids.length;
      
-         for (var i=0;i<maxLen;i++)
-           jsxdom.buildDomTree(objKids[i], o.jsxid, (strParentId != null &&
-               (intPersist == jsx3.app.Model.PERSISTNONE || bNoEmbed)));
+         while (objKids.hasNext()) {           
+            var nextChild = objKids.next();
+              jsxdom.buildDomTree(nextChild, o.jsxid,  (intPersist == jsx3.app.Model.PERSISTNONE || bNoEmbed)); 
+         }
        }
 
        objTree.repaint();
