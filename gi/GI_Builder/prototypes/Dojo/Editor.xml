@@ -3,9 +3,9 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
-  <name><![CDATA[Editor]]></name>
+  <name><![CDATA[Rich Text Editor]]></name>
   <icon><![CDATA[images/prototypes/textbox-area.gif]]></icon>
-  <description><![CDATA[Rich text editor]]></description>
+  <description><![CDATA[Rich Text Editor]]></description>
   <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">

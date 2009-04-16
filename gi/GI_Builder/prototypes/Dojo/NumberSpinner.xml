@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Number Spinner]]></name>
-  <icon><![CDATA[images/prototypes/textbox.gif]]></icon>
+  <icon><![CDATA[images/prototypes/combo.gif]]></icon>
   <description><![CDATA[Number Spinner]]></description>
   <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>

@@ -465,7 +465,7 @@ _updatePropertyNode: function(objTree, arrJSX, strPropName, objNode) {
 
 _getClassPropertiesDoc: function(objJSX) {
   var cache = jsx3.IDE.getCache();
-  var cachedDocId = "PROPERTIES_TEMPLATE_" + objJSX.getClass().getName() + (objJSX._subPropId || '');
+  var cachedDocId = "PROPERTIES_TEMPLATE_" + objJSX.getClass().getName() + (objJSX._subPropId ? objJSX._subPropId() : '');
   var cachedDoc = cache.getDocument(cachedDocId);
   if (cachedDoc != null)
     return cachedDoc/*.cloneDocument()*/;

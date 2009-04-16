@@ -42,9 +42,17 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   };
   DojoWidget_prototype.onAfterAssemble = function(){
     DojoWidget._LOG.warn('onAfterAssemble');
-    this.dijitProps=this.dijitProps||{};
+    var dijitProps = {};
+    for (var i in this) {
+      if (i.substring(0,6) == "dijit_") {
+        dijitProps[i.substring(6)] = this[i];
+      }
+    }
     this.jsxsuper.apply(this, arguments);
-    this._createDijit(this.dijitProps);
+    this._createDijit(dijitProps);
+  };
+  DojoWidget_prototype._subPropId = function() {
+    return this.dijitClassName;
   };
   DojoWidget_prototype._createDijit = function(props){
     DojoWidget._LOG.warn('_createDijit: ' + this.getId());
@@ -52,7 +60,6 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       if (!this.dijitClassName) {
         throw new Error("No dijitClassName defined");
       }
-      this._subPropId = this.dijitClassName;
       dojo.require(this.dijitClassName);
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
     }
@@ -61,18 +68,19 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     return !!this.dijitClassName;
   };
   DojoWidget_prototype.paintDom = function(a){
+  DojoWidget._LOG.warn("onClick: " + this.onClick);
     DojoWidget.insertThemeStyleSheets('tundra');
-    DojoWidget._LOG.warn("paintDom: " + this.dijit.id);
     var newElement = document.createElement("div");
     dojo.attr(newElement, 'id', this.getId());
     document.body.appendChild(newElement);
+    var style = (this.jsxheight ? "height:" + this.jsxheight + "px;" : "") + (this.jsxwidth ? "width:" + this.jsxwidth + "px;" : "") + 
+           this.paintFontSize() + this.paintBackgroundColor() + this.paintBackground() + this.paintColor() + this.paintOverflow() + this.paintFontName() + this.paintZIndex() + this.paintFontWeight() + this.paintTextAlign() + this.paintCursor() + this.paintVisibility() + this.paintBlockDisplay() + this.paintCSSOverride();
+    
+
+    newElement.setAttribute("style", style);
     this.dijit.placeAt(newElement);
-    if (this.height) {
-      newElement.firstChild.style.height="100%";
-      this.setHeight(this.height);
-    }
-    if (this.width) {
-      this.setWidth(this.width);
+    if(this.jsxheight) {
+      newElement.firstChild.style.height = "100%";
     }
     return newElement;
   };
@@ -126,6 +134,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
             return self.dijit.attr(i);
           };
           self["set" + firstCap] = function(value) {
+            self["dijit_" + i] = value;
             self.dijit.attr(i, value);
           };
         }

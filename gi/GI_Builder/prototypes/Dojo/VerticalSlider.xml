@@ -4,12 +4,12 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Vertical Slider]]></name>
-  <icon><![CDATA[images/prototypes/slider.gif]]></icon>
+  <icon><![CDATA[images/prototypes/vertical-slider.gif]]></icon>
   <description><![CDATA[Vertical Slider]]></description>
   <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
     <strings dijitClassName="dijit.form.VerticalSlider"/>
-    <variants height="200"/>
+    <variants jsxheight="200"/>
   </object>
 </serialization>

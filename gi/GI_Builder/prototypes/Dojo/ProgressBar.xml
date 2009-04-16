@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Progress Bar]]></name>
-  <icon><![CDATA[images/prototypes/slider.gif]]></icon>
+  <icon><![CDATA[images/icon_32.gif]]></icon>
   <description><![CDATA[Progress Bar]]></description>
   <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
