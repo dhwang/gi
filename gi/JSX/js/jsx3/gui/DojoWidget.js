@@ -67,6 +67,9 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     }
     this.jsxsuper.apply(this, arguments);
     this._createDijit(dijitProps);
+    for (var i in this._jsxevents) {
+      this.setEvent(this._jsxevents[i], i);
+    }
   };
   DojoWidget_prototype._subPropId = function() {
     return this.dijitClassName;
@@ -79,6 +82,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       }
       dojo.require(this.dijitClassName);
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
+      setupAccessors(this);
     }
   };
   DojoWidget_prototype.isDomPaint = function(){
@@ -134,6 +138,48 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     });
     return this;
   }
+  function iterateProperties(self, handler) {
+    var schemaDefined, dijitClass = self.dijit.constructor;
+      while (dijitClass) {
+        for (var i in dijitClass.properties) {
+          schemaDefined = true;
+          if (i.charAt(0) != "_") {
+            var propDef = dijitClass.properties[i];
+            var protoType = typeof self.dijit[i];
+            if (!propDef.type && protoType != "undefined" && protoType != "function") {
+              propDef.type = protoType;
+            }
+            handler(dijitClass.properties[i], i);
+          }
+        }
+        dijitClass = dijitClass["extends"];
+      }
+      if (!schemaDefined) {
+        // no schema defined, we will to the prototype and current state for properties
+        for (var i in self.dijit) {
+          var type = typeof self.dijit[i];
+          if (i.charAt(0) != "_" && type != "function") {
+            handler({
+              type: type,
+            }, i);
+          }
+        }
+      }
+  };
+  function setupAccessors(self){
+    iterateProperties(self, function(propDef, i){
+      var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
+      if(i != "id" && i != "class"){
+        self["get" + firstCap] = function() {
+          return self.dijit.attr(i);
+        };
+        self["set" + firstCap] = function(value) {
+          self["dijit_" + i] = value;
+          self.dijit.attr(i, value);
+        };
+      }
+    });
+  };
   DojoWidget_prototype.getMetadataXML = function(metadataType){
     var self = this;
     var schemaDefined, dijitClass = this.dijit.constructor;
@@ -153,15 +199,6 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       });
       function addProperty(propDef, i) {
         var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
-        if(i != "id" && i != "class"){
-          self["get" + firstCap] = function() {
-            return self.dijit.attr(i);
-          };
-          self["set" + firstCap] = function(value) {
-            self["dijit_" + i] = value;
-            self.dijit.attr(i, value);
-          };
-        }
         metadata.insertRecord({
           jsxid: i,
           jsxtext: firstCap,
@@ -174,26 +211,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
           jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
         }, "dojo");
       }
-      while (dijitClass) {
-        for (var i in dijitClass.properties) {
-          schemaDefined = true;
-          if (i.charAt(0) != "_") {
-            addProperty(dijitClass.properties[i], i);
-          }
-        }
-        dijitClass = dijitClass["extends"];
-      }
-      if (!schemaDefined) {
-        // no schema defined, we will to the prototype and current state for properties
-        for (var i in this.dijit) {
-          var type = typeof this.dijit[i];
-          if (i.charAt(0) != "_" && type != "function") {
-            addProperty({
-              type: type,
-            }, i);
-          }
-        }
-      }
+      iterateProperties(self, addProperty);
     }else if(metadataType=="event"){
       function addMethod(methodDef, i) {
         metadata.insertRecord({
