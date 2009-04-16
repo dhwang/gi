@@ -1,5 +1,4 @@
-djConfig = typeof djConfig == "undefined" ? {baseUrl: "dojo-toolkit/dojo/", afterOnLoad: true} : djConfig;
-jsx3.CLASS_LOADER.loadJSFileSync("dojo-toolkit/dojo/dojo.js");
+jsx3.require("jsx3.util.Dojo");
 jsx3.require("jsx3.gui.Block");
 
 dojo.require("dojox.lang.docs");
