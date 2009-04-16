@@ -11,5 +11,11 @@ if(typeof dojo == "undefined") {
   };
   jsx3.CLASS_LOADER.loadJSFileSync("dojo-toolkit/dojo/dojo.js");
   delete load;
+
+  // we need to redefine this so the JSXBODY element is treated as the body.
+  // This is done for Dijit's popup code so it gets styled correctly.
+  dojo.body = function(){
+    return dojo.query('[label="JSXBODY"]')[0];
+  };
 }
 jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function() {});

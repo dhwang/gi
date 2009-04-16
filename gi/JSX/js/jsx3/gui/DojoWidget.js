@@ -2,7 +2,7 @@ jsx3.require("jsx3.util.Dojo");
 jsx3.require("jsx3.gui.Block");
 
 dojo.require("dojox.lang.docs");
-dojo.require("dijit.ColorPalette");
+dojo.require("dojox.html._base");
 
 /**
  * Provides an adapter for Dojo widgets
@@ -11,24 +11,42 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   DojoWidget._LOG = jsx3.util.Logger.getLogger("jsx3.gui.DojoWidget");
   DojoWidget._LOG.debug("started");
 
-  DojoWidget._stylesheets = {};
+  var ss = DojoWidget._stylesheets = {};
 
-  DojoWidget.insertThemeStyleSheets = function(theme){
-    var ss = DojoWidget._stylesheets;
-    var head = document.getElementsByTagName("head")[0];
+  DojoWidget.insertThemeStyleSheets = function(theme, node){
+    var theme_ss = 'dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css';
 
-    if(!ss[theme]){
-      ss[theme] = dojo.create('link', {
-        'rel': 'stylesheet',
-        'type': 'text/css',
-        'href': 'dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css'
-      }, head);
-      dojo.create('link', {
-              'rel': 'stylesheet',
-              'type': 'text/css',
-              'href': 'dojo-toolkit/dojo/resources/dojo.css'
-      }, head);
+    if(!ss[theme_ss]){
+      DojoWidget.insertStyleSheet(theme_ss, node);
       dojo.addClass(dojo.body(), theme);
+    }
+  };
+
+  DojoWidget.insertStyleSheet = function(name, node){
+    var doc = node.ownerDocument;
+    var head = doc.getElementsByTagName("head")[0];
+    var s = ss[name];
+    if(!s){
+      s = ss[name] = doc.createElement('style');
+      s.setAttribute('type', 'text/css');
+      head.appendChild(s);
+
+      dojo.xhrGet({
+        url: name,
+        sync: true,
+        load: function(text){
+          var text = dojox.html._adjustCssPaths(name, text);
+          if(s.styleSheet){ // IE
+            if(!ss.styleSheet.cssText){
+              s.styleSheet.cssText = text;
+            }else{
+              s.styleSheet.cssText += text;
+            }
+          }else{ // w3c
+            s.appendChild(doc.createTextNode(text));
+          }
+        }
+      });
     }
   };
 
@@ -67,14 +85,21 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     return !!this.dijitClassName;
   };
   DojoWidget_prototype.paintDom = function(a){
-  DojoWidget._LOG.warn("onClick: " + this.onClick);
-    DojoWidget.insertThemeStyleSheets('tundra');
     var newElement = document.createElement("div");
+    DojoWidget.insertThemeStyleSheets('tundra', newElement);
+    if(this.dijitStyleSheets){
+      dojo.forEach(this.dijitStyleSheets, function(style_sheet){
+        DojoWidget.insertStyleSheet(style_sheet, newElement);
+      });
+    }
     dojo.attr(newElement, 'id', this.getId());
     document.body.appendChild(newElement);
-    var style = (this.jsxheight ? "height:" + this.jsxheight + "px;" : "") + (this.jsxwidth ? "width:" + this.jsxwidth + "px;" : "") + 
-           this.paintFontSize() + this.paintBackgroundColor() + this.paintBackground() + this.paintColor() + this.paintOverflow() + this.paintFontName() + this.paintZIndex() + this.paintFontWeight() + this.paintTextAlign() + this.paintCursor() + this.paintVisibility() + this.paintBlockDisplay() + this.paintCSSOverride();
-    
+    var style = (this.jsxheight ? "height:" + this.jsxheight + "px;" : "") +
+                (this.jsxwidth ? "width:" + this.jsxwidth + "px;" : "") + 
+                this.paintFontSize() + this.paintBackgroundColor() + this.paintBackground() +
+                this.paintColor() + this.paintOverflow() + this.paintFontName() +
+                this.paintZIndex() + this.paintFontWeight() + this.paintTextAlign() +
+                this.paintCursor() + this.paintVisibility() + this.paintBlockDisplay() + this.paintCSSOverride();
 
     newElement.setAttribute("style", style);
     this.dijit.placeAt(newElement);
