@@ -996,16 +996,17 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
           }).bind(this));
           break;
         case "propsbundle":
-          jsx3.app.PropsBundle.getPropsAsync(strSrc, objServer.getLocale(), function(props) {
+          // properties bundle may not be versioned by locale
+          jsx3.app.PropsBundle.getPropsAsync(objResource.getFullPath(), objServer.getLocale(), function(props) {
             objServer.LJSS.addParent(props);
             onDone(props);
           }, objServer.getCache());
           break;
         case "xml":
-          Engine._loadXML(strSrc).when(jsx3.$F(function(rv) {
+          Engine._loadXML(strSrc, jsx3.xml.CDF.Document.jsxclass).when(jsx3.$F(function(rv) {
+            rv.convertProperties(this.getServer().getProperties());
             var c = this._getRsrcCache(objServer, objResource.attr("cache"));
-            if (c)
-              c.setDocument(objResource.attr("cachekey") || objResource.getId(), rv);
+            c.setDocument(objResource.attr("cachekey") || objResource.getId(), rv);
             onDone(rv);
           }).bind(this));
           break;
@@ -1055,12 +1056,20 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
           }
           break;
         case "propsbundle":
-          amp.LOG.warn(jsx3._msg("amp.28"));
-          break;
         case "xml":
           if (dataNode) {
-            objData = new jsx3.xml.Document(dataNode.getFirstChild());
-            this._getRsrcCache(objServer, objResource.attr("cache")).setDocument(objResource.attr("cachekey") || objResource.getId(), objData);
+            objData = new jsx3.xml.CDF.Document(dataNode.getFirstChild());
+            objData.convertProperties(this.getServer().getProperties());
+
+            var objCache = this._getRsrcCache(objServer, objResource.attr("cache"));
+            objCache.setDocument(objResource.attr("cachekey") || objResource.getId(), objData);
+
+            if (strType == "propsbundle") {
+              var basePath = objResource.getFullPath(dataNode.getAttribute("path"));
+              objCache.setDocument(basePath, objData); // So that PropsBundle can find the document in the cache
+              jsx3.app.PropsBundle.getProps(basePath, objServer.getLocale(), objCache);
+            }
+
           } else {
             amp.LOG.error(jsx3._msg("amp.29", objResource));
           }

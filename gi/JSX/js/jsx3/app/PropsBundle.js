@@ -225,7 +225,8 @@ jsx3.Class.defineClass("jsx3.app.PropsBundle", jsx3.app.Properties, null, functi
       doc = objCache.getDocument(strUrl);
 
     if (doc) {
-      bAlreadyLoaded = true;      
+      bAlreadyLoaded = true;
+      objCache = null; // Don't add to cache since it came out of cache
     } else {
       doc = new jsx3.xml.Document();
       
@@ -249,7 +250,7 @@ jsx3.Class.defineClass("jsx3.app.PropsBundle", jsx3.app.Properties, null, functi
   PropsBundle._loadBundle2 = function(strKey, strBasePath, objLocale, objCache, objDoc, fctCallback) {
     var strUrl = objDoc.getSourceURL();
     if (! objDoc.hasError()) {
-      if (objCache)
+      if (objCache && strUrl)
         objCache.setDocument(strUrl, objDoc);
       PropsBundle._addLocaleRefs(strBasePath, objDoc);
       PropsBundle._loadInlineLocales(strBasePath, objLocale, objDoc);

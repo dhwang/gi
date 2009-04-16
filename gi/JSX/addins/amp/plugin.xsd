@@ -555,9 +555,49 @@
       </xs:documentation>
     </xs:annotation>
 
-    <xs:complexContent>
-      <xs:extension base="amp:baseNoInlineRsrcType"/>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:element name="prereq" type="amp:rsrcPrereqType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="data" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            Defines the inline properties bundle for the default locale. The first child of this element is taken as
+            the root element bundle. Care should be taken to define the namespace correctly for the root resource element;
+            it may need xmlns="".
+          </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any minOccurs="0" maxOccurs="1" processContents="skip"/>
+          </xs:sequence>
+
+          <xs:attribute name="path" type="xs:string" use="optional">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">
+                The original path of the resource before it was inlined.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          The unique identifier of this resource. This identifier must be unique across all resources in the
+          same plug-in.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="path" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">
+          The path of this resource. This path is relative to the directory of the plug-in defining this resource.
+          If this resource is inlined then this attribute should not be specified.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="load" type="amp:rsrcLoadType" use="optional" default="normal"/>
   </xs:complexType>
 
   <!-- <event> -->

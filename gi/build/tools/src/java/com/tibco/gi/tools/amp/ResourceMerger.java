@@ -104,7 +104,7 @@ public class ResourceMerger {
 
       if (rsrcFile.isFile()) {
         String rsrcType = rsrcNode.getNodeName();
-        if ("xml".equals(rsrcType) || "xsl".equals(rsrcType) || "jss".equals(rsrcType)) {
+        if ("xml".equals(rsrcType) || "xsl".equals(rsrcType) || "jss".equals(rsrcType) || "propsbundle".equals(rsrcType)) {
           try {
             Document rsrcDoc = Utils.parseXML(rsrcFile);
             // Need to copy the namespace over explicitly because an empty NS will turn into an AMP NS otherwise.
@@ -114,7 +114,12 @@ public class ResourceMerger {
             copiedNode.setAttribute("xmlns", namespace);
             dataNode.appendChild(copiedNode);
             rsrcNode.appendChild(dataNode);
+
+            if ("propsbundle".equals(rsrcType))
+              dataNode.setAttribute("path", rsrcNode.getAttribute("path"));
+
             rsrcNode.removeAttribute("path");
+
             filesToDelete.add(rsrcFile);
           } catch (IOException e) {
             LOG.warning("Error parsing " + rsrcFile + ": " + e);
