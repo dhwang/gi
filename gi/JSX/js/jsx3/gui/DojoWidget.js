@@ -52,6 +52,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       if (!this.dijitClassName) {
         throw new Error("No dijitClassName defined");
       }
+      this._subPropId = this.dijitClassName;
       dojo.require(this.dijitClassName);
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
     }
@@ -66,6 +67,13 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     dojo.attr(newElement, 'id', this.getId());
     document.body.appendChild(newElement);
     this.dijit.placeAt(newElement);
+    if (this.height) {
+      newElement.firstChild.style.height="100%";
+      this.setHeight(this.height);
+    }
+    if (this.width) {
+      this.setWidth(this.width);
+    }
     return newElement;
   };
   DojoWidget_prototype.attr = function(name, value){
@@ -95,6 +103,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     return this;
   }
   DojoWidget_prototype.getMetadataXML = function(metadataType){
+    var self = this;
     var schemaDefined, dijitClass = this.dijit.constructor;
     var metadata = jsx3.xml.CDF.Document.newDocument();
     if (metadataType == "prop") {
@@ -111,16 +120,25 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
        jsxtext: "Dojo"
       });
       function addProperty(propDef, i) {
+        var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
+        if(i != "id" && i != "class"){
+          self["get" + firstCap] = function() {
+            return self.dijit.attr(i);
+          };
+          self["set" + firstCap] = function(value) {
+            self.dijit.attr(i, value);
+          };
+        }
         metadata.insertRecord({
-          group: "dojo",
           jsxid: i,
-          jsxtext: i,
+          jsxtext: firstCap,
           jsxtip: propDef.description,
           eval: propDef.type == 'string' ? 0 : 1,
-          docgetter:'attr("' + i + '")',
-          docsetter:'attr("' + i + '", value)',
+          docgetter:"get" + firstCap,
+          docsetter:"set" + firstCap,
+          getter:"get" + firstCap,
           jsxmask:"jsxtext",
-          jsxexecute:'objJSX.attr("' + i + '",vntValue);'
+          jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
         }, "dojo");
       }
       while (dijitClass) {
