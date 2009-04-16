@@ -77,6 +77,16 @@ jsx3.Class.defineClass("jsx3.ide.ui.IdeMenuItem", jsx3.amp.util.MenuItem, null, 
     return val;
   };
 
+  IdeMenuItem_prototype.getLabel = function() {
+    var l = this.attr("label");
+    if (l.indexOf("{") == 0 && jsx3.$S(l).endsWith("}")) {
+      var p = this.getExt().getPlugIn().getServer().getDynamicProperty(l.substring(1, l.length - 1));
+      if (typeof(p) != "undefined")
+        return p;
+    }
+    return l;
+  };
+
 });
 
 jsx3.Class.defineClass("jsx3.ide.ui.IdeMenu", jsx3.amp.util.Menu, null, function(IdeMenu, IdeMenu_prototype) {
