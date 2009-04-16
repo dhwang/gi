@@ -1,0 +1,7 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.7">
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"/>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%"/>
+  </object>
+</serialization>
