@@ -16,7 +16,7 @@ rebalanceAllPaletteDocks: function(newContainer, oldParent) {
   jsx3.ide._rebalancePaletteDocks1();
 },
 
-// @jsxobf-clobber
+/* @jsxobf-clobber */
 _rebalancePaletteDocks1: function(strAffectedQuadrant) {
   var ch1 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q1').getChildren().length;
   var ch2 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q2').getChildren().length;
@@ -57,7 +57,7 @@ _rebalancePaletteDocks1: function(strAffectedQuadrant) {
   }
 },
 
-// @jsxobf-clobber
+/* @jsxobf-clobber */
 _rebalancePaletteDock2: function(splitterHalf, splitterSide, child1, child2,
     halfClosed, halfOpen, sideClosed, sideOpen) {
   if (child1 == 0) {
@@ -110,7 +110,7 @@ toggleStageOnly: function(bShowPalettes) {
   }
 },
 
-  // @jsxobf-clobber
+  /* @jsxobf-clobber */
   _getTempTypes: function() {
     if (!this._TEMPLATE_TYPES) {
       /* @jsxobf-clobber */
@@ -180,7 +180,7 @@ toggleStageOnly: function(bShowPalettes) {
         strPath : jsx3.$F(this._getXmlForPath).bind(this, [strPath]);
   },
 
-  // @jsxobf-clobber
+  /* @jsxobf-clobber */
   _getXmlForPath: function(strPath, objJSX) {
     var objXML = jsx3.IDE.getCache().getDocument(strPath);
     if (objXML == null) {

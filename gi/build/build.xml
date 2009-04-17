@@ -601,14 +601,14 @@
         catalog="${project.dir}/GI_Builder/plugins/jsx3.ide.palette.properties/templates/catalog.xml"/>
     <gi-idedoc type="props" destdir="${dist.dir}/${build.docs.ide.props}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
-        catalog="${project.dir}/JSX/addins/charting/properties/catalog.xml" basepath="${project.dir}/JSX/addins/charting/"/>
+        catalog="${project.dir}/JSX/addins/charting/properties/catalog.xml"/>
 
     <gi-idedoc type="events" destdir="${dist.dir}/${build.docs.ide.events}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
         catalog="${project.dir}/GI_Builder/plugins/jsx3.ide.palette.events/templates/catalog.xml"/>
     <gi-idedoc type="events" destdir="${dist.dir}/${build.docs.ide.events}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
-        catalog="${project.dir}/JSX/addins/charting/events/catalog.xml" basepath="${project.dir}/JSX/addins/charting/"/>
+        catalog="${project.dir}/JSX/addins/charting/events/catalog.xml"/>
 
     <gi-idedoc type="xslparams" destdir="${dist.dir}/${build.docs.ide.xslparams}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"

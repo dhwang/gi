@@ -107,6 +107,10 @@ public class IdeDocCompiler {
       for (Element record : recordNodes) {
         String className = record.getAttribute("jsxid");
         String path = record.getAttribute("jsxtext");
+
+        if (path == null || path.length() == 0)
+          continue;
+
         URI inputURI = basePath.resolve(path);
 
 //        LOG.warning("\"" + basePath + "\".resolve(\"" + path + "\") = \"" + inputURI + "\"");
