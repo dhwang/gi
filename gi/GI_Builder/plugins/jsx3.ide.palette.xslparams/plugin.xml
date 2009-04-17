@@ -14,6 +14,12 @@
     return this.getEngine().getPlugIn("jsx3.ide.ui").getPalette(this, "xsl.palette");
   ]]></method>
 
+  <method id="onLoaded"><![CDATA[
+    this.getExtPoint("catalog").processExts(function(ext, xml) {
+      jsx3.ide.registerCatalogAt('xsl', ext.getPlugIn().resolveURI(xml.attr('path')));
+    });
+  ]]></method>
+
   <requires>
     <plugin id="jsx3.gui.Matrix"/>
     <plugin id="jsx3.gui.TextBox"/>
@@ -44,6 +50,15 @@
     if (content && content.onSelectionChanged)
       content.onSelectionChanged(evt.editor);
   ]]></subscribe>
+
+  <extension-point id="catalog">
+    <!-- Adds an xsl params catalog file. The path attribute is relative to the declaring plug-in.
+         <catalog path="templates/catalog.xml"/>  -->
+  </extension-point>
+
+  <extension point="jsx3.ide.palette.xslparams.catalog">
+    <catalog path="templates/catalog.xml"/>
+  </extension>
 
   <extension point="jsx3.ide.ui.palette" id="xsl.palette">
     <palette label="XSL Parameters" hotkey="ctrl+5"

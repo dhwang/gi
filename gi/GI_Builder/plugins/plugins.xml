@@ -49,6 +49,7 @@
   <plugin id="jsx3.ide.versioncheck"/>
   <plugin id="jsx3.ide.amp"/>
   <plugin id="jsx3.ide.mapping"/>
+  <plugin id="jsx3.ide.charting"/>
   <plugin id="jsx3.ide.gipp"/>
   <plugin id="net.sf.editarea"/>
   <plugin id="com.google.gears"/>

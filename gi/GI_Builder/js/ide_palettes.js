@@ -16,6 +16,7 @@ rebalanceAllPaletteDocks: function(newContainer, oldParent) {
   jsx3.ide._rebalancePaletteDocks1();
 },
 
+// @jsxobf-clobber
 _rebalancePaletteDocks1: function(strAffectedQuadrant) {
   var ch1 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q1').getChildren().length;
   var ch2 = jsx3.IDE.getJSXByName('jsx_ide_quadrant_q2').getChildren().length;
@@ -56,6 +57,7 @@ _rebalancePaletteDocks1: function(strAffectedQuadrant) {
   }
 },
 
+// @jsxobf-clobber
 _rebalancePaletteDock2: function(splitterHalf, splitterSide, child1, child2,
     halfClosed, halfOpen, sideClosed, sideOpen) {
   if (child1 == 0) {
@@ -108,13 +110,14 @@ toggleStageOnly: function(bShowPalettes) {
   }
 },
 
+  // @jsxobf-clobber
   _getTempTypes: function() {
     if (!this._TEMPLATE_TYPES) {
       /* @jsxobf-clobber */
       this._TEMPLATE_TYPES = {
-        prop:  { root: jsx3.ide.getPlugIn("jsx3.ide.palette.properties").resolveURI("templates"), pathMethod: "getPropertiesPath" },
-        event: { root: jsx3.ide.getPlugIn("jsx3.ide.palette.events").resolveURI("templates"), pathMethod: "getModelEventsPath" },
-        xsl:   { root: jsx3.ide.getPlugIn("jsx3.ide.palette.xslparams").resolveURI("templates"), pathMethod: "getXslParamPath" }
+        prop:  { pathMethod: "getPropertiesPath" },
+        event: { pathMethod: "getModelEventsPath" },
+        xsl:   { pathMethod: "getXslParamPath" }
       };
     }
     return this._TEMPLATE_TYPES;
@@ -126,75 +129,77 @@ toggleStageOnly: function(bShowPalettes) {
    * @return {jsx3.xml.Document}
    */
   getTemplateForObject: function(strType, objJSX) {
-    if (typeof objJSX.getMetadataXML == "function") {
-      return objJSX.getMetadataXML(strType);
-    }
-    
     var struct = this._getTempTypes()[strType];
 
-    // lazily load the built-in catalog file
-    if (! struct.inited) {
-      this.loadTemplateCatalog(strType, "catalog.xml",
-          {resolveURI: function(u) { return struct.root + "/" + u; }});
-      struct.inited = true;
-    }
-
-    var strPath = null;
+    var strPath = null, objXML = null;
 
     if (typeof(objJSX[struct.pathMethod]) == "function")
       strPath = objJSX[struct.pathMethod]();
 
-    if (strPath == null) {
+    if (strPath)
+      objXML = this._getXmlForPath(strPath, objJSX);
+
+    if (!objXML) {
       var inheritance = objJSX.getClass().getInheritance();
       inheritance.unshift(objJSX.getClass());
-      for (var i = 0; strPath == null && i < inheritance.length; i++)
-        strPath = struct.registry[inheritance[i].getName()];
+      var handler = null;
+      for (var i = 0; handler == null && i < inheritance.length; i++)
+        handler = struct.registry[inheritance[i].getName()];
+
+      if (handler)
+        objXML = handler(objJSX);
     }
 
-    if (strPath) {
-      var objXML = jsx3.IDE.getCache().getDocument(strPath);
-      if (objXML == null) {
-        objXML = new jsx3.xml.CDF.Document().load(strPath);
-        jsx3.IDE.getCache().setDocument(strPath, objXML);
-      }
-
-      if (objXML.hasError()) {
-        this.getLog().warn("Error loading " + strPath + ": " + objXML.getError());
-      } else {
-        return objXML;
-      }
-    }
-
-    return null;
+    return objXML;
   },
 
-  /**
-   * @param strType {String} prop, event, or xsl.
-   * @param strPath {String}
-   * @param objResolver {jsx3.net.URIResolver}
-   * @package  don't obfuscate
-   */
+  // doc in api.js
   loadTemplateCatalog: function(strType, strPath, objResolver) {
     var struct = this._getTempTypes()[strType];
     if (objResolver == null) objResolver = jsx3.IDE;
     var doc = new jsx3.xml.Document().load(objResolver.resolveURI(strPath));
     for (var i = doc.selectNodeIterator("/data/record"); i.hasNext(); ) {
       var node = i.next();
-      this.registerTemplateForClass(strType, node.getAttribute("jsxid"),
-          objResolver.resolveURI(node.getAttribute("jsxtext")));
+
+      var className = node.getAttribute("jsxid");
+      var handler = node.getAttribute("handler");
+      if (handler) {
+        this.registerTemplateForClass(strType, className, new Function("objJSX", handler));
+      } else {
+        this.registerTemplateForClass(strType, className, objResolver.resolveURI(node.getAttribute("jsxtext")));
+      }
     }
   },
 
-  /**
-   * @param strType {String} prop, event, or xsl.
-   * @param strClass {String} the fully-qualified class name.
-   * @param strPath {String} the absolute (resolved) path to the template file.
-   * @package  don't obfuscate
-   */
+  // doc in api.js
   registerTemplateForClass: function(strType, strClass, strPath) {
     var struct = this._getTempTypes()[strType];
     if (struct.registry == null) struct.registry = {};
-    struct.registry[strClass] = strPath;
+
+    struct.registry[strClass] = typeof(strPath) == "function" ?
+        strPath : jsx3.$F(this._getXmlForPath).bind(this, [strPath]);
+  },
+
+  // @jsxobf-clobber
+  _getXmlForPath: function(strPath, objJSX) {
+    var objXML = jsx3.IDE.getCache().getDocument(strPath);
+    if (objXML == null) {
+      objXML = new jsx3.xml.CDF.Document().load(strPath);
+      jsx3.IDE.getCache().setDocument(strPath, objXML);
+    }
+
+    if (objXML.hasError()) {
+      this.getLog().warn("Error loading " + strPath + ": " + objXML.getError());
+    } else {
+      return objXML;
+    }
+  },
+
+  registerCatalogAt: function(strType, strPath) {
+    strPath = strPath.toString();
+    var lastSlash = strPath.lastIndexOf("/");
+    this.loadTemplateCatalog(strType, strPath.substring(lastSlash + 1),
+        {resolveURI: function(u) { return strPath.substring(0, lastSlash) + "/" + u; }});
   }
 
 });

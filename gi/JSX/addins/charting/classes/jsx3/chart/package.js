@@ -296,9 +296,3 @@ jsx3.Package.definePackage("jsx3.chart", function(chart){
   };
 
 });
-
-// needed for integration with IDE
-if (jsx3.IDE) {
-  jsx3.ide.loadTemplateCatalog("prop", "properties/catalog.xml", jsx3.chart.ADDIN);
-  jsx3.ide.loadTemplateCatalog("event", "events/catalog.xml", jsx3.chart.ADDIN);
-}

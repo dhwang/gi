@@ -81,7 +81,6 @@ onXslParameterChange: jsx3.$F(function() {
   var attsEditor = this.getPalette().getUIObject().getList();
 
   var objJSXs = jsx3.ide.getSelected();
-  this.getLog().warn("onXslParameterChange " + objJSXs);
 
   var arrCache = [];
   for (var i = 0; i < objJSXs.length; i++) {

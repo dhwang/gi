@@ -4,11 +4,11 @@
   -->
 
 <plugin xmlns="http://www.tibco.com/gi/amp"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugin.xsd"
-        id="jsx3.ide.palette.properties"
-        name="Properties Palette Plug-In"
-        version="0.1">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugin.xsd"
+    id="jsx3.ide.palette.properties"
+    name="Properties Palette Plug-In"
+    version="0.1">
 
   <method id="getPalette"><![CDATA[
     return this.getEngine().getPlugIn("jsx3.ide.ui").getPalette(this, "props.palette");
@@ -16,6 +16,10 @@
 
   <method id="onLoaded"><![CDATA[
     this.constructPropertyTypeIndex();
+
+    this.getExtPoint("catalog").processExts(function(ext, xml) {
+      jsx3.ide.registerCatalogAt('prop', ext.getPlugIn().resolveURI(xml.attr('path')));
+    });
   ]]></method>
 
   <requires>
@@ -64,6 +68,15 @@
     if (evt.resource.getType() == "jss")
       this.constructPropertyTypeIndex();
   ]]></subscribe>
+
+  <extension-point id="catalog">
+    <!-- Adds a properties catalog file. The path attribute is relative to the declaring plug-in.
+         <catalog path="templates/catalog.xml"/>  -->
+  </extension-point>
+
+  <extension point="jsx3.ide.palette.properties.catalog">
+    <catalog path="templates/catalog.xml"/>
+  </extension>
 
   <extension point="jsx3.ide.ui.palette" id="props.palette">
     <palette label="Properties Editor" hotkey="ctrl+2"

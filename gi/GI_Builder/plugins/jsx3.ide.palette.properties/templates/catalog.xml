@@ -13,6 +13,7 @@
   <record jsxid="jsx3.gui.Column" jsxtext="Column.xml"/>
   <record jsxid="jsx3.gui.DatePicker" jsxtext="DatePicker.xml"/>
   <record jsxid="jsx3.gui.Dialog" jsxtext="Dialog.xml"/>
+  <record jsxid="jsx3.gui.DojoWidget" handler="return objJSX.getMetadataXML('prop')"/>
   <record jsxid="jsx3.gui.Grid" jsxtext="Grid.xml"/>
   <record jsxid="jsx3.gui.IFrame" jsxtext="IFrame.xml"/>
   <record jsxid="jsx3.gui.ImageButton" jsxtext="ImageButton.xml"/>

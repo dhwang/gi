@@ -48,9 +48,10 @@
 /**
  * Registers a template for a particular class in the Properties Editor, Events Editor, or XSL Parameters palettes.
  *
- * @param strType {String} <code>prop</code>, <code>event</code>, or <code>xsl</code>.
+ * @param strType {String} prop, event, or xsl.
  * @param strClass {String} the fully-qualified class name.
- * @param strPath {String} the resolved path to the template file.
+ * @param strPath {String | Function} the resolved path to the template file, or a function with
+ *    signature <code>function(objJSX : jsx3.app.Model) : jsx3.xml.Document</code>
  *
  * @jsxdoc-definition  ide.registerTemplateForClass = function(strType, strClass, strPath) {};
  */
