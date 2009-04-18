@@ -167,6 +167,7 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
       var veto = this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strPREVIOUS:this.jsxvalue, strVALUE:v});
       if (veto === false) {
         objGUI.value = this.formatValue(this.jsxvalue);
+        return;
       } else {
         this.jsxvalue = v;
       }
