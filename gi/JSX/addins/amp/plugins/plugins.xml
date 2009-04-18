@@ -25,30 +25,6 @@
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.net.Form"/>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.xml.Cacheable"/>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Form"/>
-  <plugin id="jsx3.gui.Alerts.alert">
-    <requires>
-      <plugin id="jsx3.gui.Button"/>
-    </requires>
-    <resources>
-      <xml id="xml" path="jsx:/xml/components/dialog_alert.xml" cache="shared" cachekey="JSX/xml/components/dialog_alert.xml"/>
-    </resources>
-  </plugin>
-  <plugin id="jsx3.gui.Alerts.confirm">
-    <requires>
-      <plugin id="jsx3.gui.Button"/>
-    </requires>
-    <resources>
-      <xml id="xml" path="jsx:/xml/components/dialog_confirm.xml" cache="shared" cachekey="JSX/xml/components/dialog_confirm.xml"/>
-    </resources>
-  </plugin>
-  <plugin id="jsx3.gui.Alerts.prompt">
-    <requires>
-      <plugin id="jsx3.gui.Button"/>
-    </requires>
-    <resources>
-      <xml id="xml" path="jsx:/xml/components/dialog_prompt.xml" cache="shared" cachekey="JSX/xml/components/dialog_prompt.xml"/>
-    </resources>
-  </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Alerts"/>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.BlockX">
     <requires>
@@ -133,54 +109,27 @@
       <plugin id="jsx3.gui.Tab"/>
     </requires>
   </plugin>
-<!--
-  <plugin id="jsx3.gui.Select.xsl">
-    <resources>
-      <xsl id="xsl" path="jsx:/xsl/jsxselect.xsl" cache="shared" cachekey="JSX/xsl/jsxselect.xsl"/>
-    </resources>
-  </plugin>
--->
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Select">
     <requires>
       <plugin id="jsx3.gui.Heavyweight"/>
       <plugin id="jsx3.gui.Block"/>
       <plugin id="jsx3.xml.Cacheable"/>
       <plugin id="jsx3.gui.Form"/>
-      <!--<plugin id="jsx3.gui.Select.xsl"/>-->
     </requires>
   </plugin>
-<!--
-  <plugin id="jsx3.gui.Menu.xsl">
-    <resources>
-      <xsl id="xsl" path="jsx:/xsl/jsxmenu.xsl" cache="shared" cachekey="JSX/xsl/jsxmenu.xsl"/>
-    </resources>
-  </plugin>
--->
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Menu">
     <requires>
       <plugin id="jsx3.gui.Heavyweight"/>
       <plugin id="jsx3.xml.Cacheable"/>
       <plugin id="jsx3.gui.Form"/>
       <plugin id="jsx3.gui.ToolbarButton"/>
-      <!--<plugin id="jsx3.gui.Menu.xsl"/>-->
     </requires>
   </plugin>
-<!--
-  <plugin id="jsx3.gui.Tree.xsl">
-    <requires>
-      <plugin id="jsx3.gui.Block"/>
-    </requires>
-    <resources>
-      <xsl id="xsl" path="jsx:/xsl/jsxtree.xsl" cache="shared" cachekey="JSX/xsl/jsxtree.xsl"/>
-    </resources>
-  </plugin>
--->
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Tree">
     <requires>
       <plugin id="jsx3.gui.Block"/>
       <plugin id="jsx3.xml.Cacheable"/>
       <plugin id="jsx3.gui.Form"/>
-      <!--<plugin id="jsx3.gui.Tree.xsl"/>-->
     </requires>
   </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.DatePicker">
@@ -226,19 +175,11 @@
       <plugin id="jsx3.gui.Block"/>
     </requires>
   </plugin>
-<!--
-  <plugin id="jsx3.gui.Matrix.xsl">
-    <resources>
-      <xsl id="xsl" path="jsx:/xsl/jsxmatrix.xsl" cache="shared" cachekey="JSX/xsl/jsxmatrix.xsl"/>
-    </resources>
-  </plugin>
--->
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Matrix">
     <requires>
       <plugin id="jsx3.xml.Cacheable"/>
       <plugin id="jsx3.gui.Form"/>
       <plugin id="jsx3.gui.Matrix.Column"/>
-      <!--<plugin id="jsx3.gui.Matrix.xsl"/>-->
     </requires>
   </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Image">
@@ -247,19 +188,11 @@
     </requires>
   </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.net.Service"/>
-<!--
-  <plugin id="jsx3.gui.Table.xsl">
-    <resources>
-      <xsl id="xsl" path="jsx:/xsl/jsxtable.xsl" cache="shared" cachekey="JSX/xsl/jsxtree.xsl"/>
-    </resources>
-  </plugin>
--->
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Table">
     <requires>
       <plugin id="jsx3.gui.Block"/>
       <plugin id="jsx3.xml.Cacheable"/>
       <plugin id="jsx3.gui.Form"/>
-      <!--<plugin id="jsx3.gui.Table.xsl"/>-->
     </requires>
   </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.html.DOM"/>
@@ -270,6 +203,33 @@
       <plugin id="jsx3.html.DOM"/>
       <plugin id="jsx3.html.Style"/>
     </requires>
+  </plugin>
+  <plugin id="jsx3.gui.Alerts.alert">
+    <requires>
+      <plugin id="jsx3.gui.Button"/>
+      <plugin id="jsx3.gui.Alerts"/>
+    </requires>
+    <resources>
+      <xml id="xml" path="jsx:/xml/components/dialog_alert.xml" cache="shared" cachekey="JSX/xml/components/dialog_alert.xml"/>
+    </resources>
+  </plugin>
+  <plugin id="jsx3.gui.Alerts.confirm">
+    <requires>
+      <plugin id="jsx3.gui.Button"/>
+      <plugin id="jsx3.gui.Alerts"/>
+    </requires>
+    <resources>
+      <xml id="xml" path="jsx:/xml/components/dialog_confirm.xml" cache="shared" cachekey="JSX/xml/components/dialog_confirm.xml"/>
+    </resources>
+  </plugin>
+  <plugin id="jsx3.gui.Alerts.prompt">
+    <requires>
+      <plugin id="jsx3.gui.Button"/>
+      <plugin id="jsx3.gui.Alerts"/>
+    </requires>
+    <resources>
+      <xml id="xml" path="jsx:/xml/components/dialog_prompt.xml" cache="shared" cachekey="JSX/xml/components/dialog_prompt.xml"/>
+    </resources>
   </plugin>
 
   <plugin

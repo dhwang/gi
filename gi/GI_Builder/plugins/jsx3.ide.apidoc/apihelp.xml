@@ -79,7 +79,7 @@ objJSX.updateClassList = function(objTree, bRepaint) {
     objTree = jsx_api_classlist;
 
   objTree.setXSLParam("showdeprecated", this._jsxdeprecated);
-  objTree.resetXmlCacheData();
+  objTree.setSourceXML(this._getMergedXml());
 
   if (bRepaint) {
     objTree.repaint();
@@ -301,8 +301,7 @@ objJSX.onRsrcLoad = function() {
   }
 
   var objTree = jsx_api_classlist;
-  objTree.setSourceXML(this._getMergedXml());
-//  this.updateClassList(objTree);
+  this.updateClassList(objTree);
 
   var settings = jsx3.ide.getIDESettings();
   var lastClass = settings.get('apihelp', 'class');

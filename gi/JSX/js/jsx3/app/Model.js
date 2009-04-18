@@ -1614,7 +1614,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     var strName = objInstance.getName();
     if (strName) {
       loadContext.nameIndex[strName] = objInstance;
-      if (strName.match(/^[\\$_a-zA-Z][\w\\$]*$/)) // only put names that are valid variable names into this index
+      if (jsx3.util.isName(strName)) // only put names that are valid variable names into this index
         loadContext.varNameIndex[strName] = objInstance;
     }
 

@@ -128,6 +128,10 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
   /** @private @jsxobf-clobber */
   Engine_prototype._load = jsx3.$Y(function(cb) {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", this.getServer().getEnv('namespace'));
+/* @JSC :: end */
+
     var strPath = amp.DIR + "/" + amp.DESCRIPTOR;
 
     var mainPluginsURI = amp.ADDIN.resolveURI(strPath);
@@ -143,16 +147,26 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     var mainXMLDone = this._loadPluginsDescriptor(mainXML, addinXMLDone); // 2nd param just for temporal ordering
 
     var autoDone = this._checkAutoReg(mainXMLDone);   // param just for ordering
-    return jsx3.$Z(this._onFinished, this)(autoDone); // param just for ordering
+    var rv = jsx3.$Z(this._onFinished, this)(autoDone); // param just for ordering
+
+/* @JSC :: begin BENCH */
+    rv.when(function() {
+      t1.log("engine.load");
+    });
+/* @JSC :: end */
+
+    return rv;
   });
 
   /** @private @jsxobf-clobber */
   Engine_prototype._checkAutoReg = jsx3.$Y(function(cb) {
     var autoRegPI = this.getPlugIn("jsx3.amp.autoreg");
-    if (autoRegPI.hasProvider() && !autoRegPI.hasCompleted())
-      autoRegPI.subscribe("done", function() { cb.done(); });
-    else
-      cb.done();
+    autoRegPI.load().when(function() {
+      if (autoRegPI.hasProvider() && !autoRegPI.hasCompleted())
+        autoRegPI.subscribe("done", function() { cb.done(); });
+      else
+        cb.done();
+    });
   });
   
   /** @private @jsxobf-clobber */
@@ -354,20 +368,27 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     this._pgdata[strId] = objElm;
     var arrRsrc = this._createResources(objElm.selectSingleNode("amp:resources", amp.XML_NS), strId, strPath);
 
-    var reqDone = this._requiredAreReg(objElm);
+    var reqDone = this._requiredAreReg(strId, objElm);
     var earlyDone = this._loadEarlyRsrc(strId, arrRsrc, reqDone); // 3th param just for ordering
     return jsx3.$Z(this._createPlugIn, this)(strId, strPath, objElm, arrRsrc, earlyDone); // 5th param just for ordering
   });
 
   /** @private @jsxobf-clobber */
   Engine_prototype._requiredAreReg = jsx3.$Y(function(cb) {
-    var objElm = cb.args()[0];
+    var args = cb.args();
+    var strId = args[0], objElm = args[1];
 
     // All required plug-ins will be registered/instantiated before this plug-in is.
     var reqs = this._getRequires(objElm);
 
     reqs = reqs.filter(jsx3.$F(function(e) {
-      return !this.getPlugIn(e);
+      var isReg = this.getPlugIn(e);
+
+      // Warn when a plug-in is registered before a plug-in that it requires. Possible typo!
+      if (!isReg && !this._pluginregdata[e])
+        amp.LOG.warn(jsx3._msg("amp.26", strId, e));
+
+      return !isReg;
     }).bind(this));
 
     if (reqs.length > 0) {
@@ -785,8 +806,21 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     //    amp.LOG.debug("_loadPlugIn " + objPlugIn);
 
     var presDone = this._loadPrereqPlugIns(objPlugIn);
+
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objPlugIn.getId());
+/* @JSC :: end */
+
     var rsrcDone = this._loadNormalRsrcs(objPlugIn, presDone); // 2nd parameter for ordering only
-    return jsx3.$Z(this._onAfterPlugInLoaded, this)(objPlugIn, rsrcDone); // 2nd parameter for ordering only
+    var rv = jsx3.$Z(this._onAfterPlugInLoaded, this)(objPlugIn, rsrcDone); // 2nd parameter for ordering only
+
+/* @JSC :: begin BENCH */
+    rv.when(function() {
+      t1.log("plugin.load");
+    });
+/* @JSC :: end */
+
+    return rv;
   });
 
   /** @private @jsxobf-clobber */
@@ -959,6 +993,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 //      amp.LOG.debug("_newResourceJob " + objResource + " " + strSrc);
       var onDone = jsx3.$F(function(rv) {
         amp.LOG.debug(jsx3._msg("amp.23", objResource, strSrc));
+        amp.LOG.debug(jsx3._msg("amp.23", objResource, strSrc));
         this._prog._done(progId);
         cb.done(rv);
       }).bind(this);
@@ -970,7 +1005,13 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
               if (rv != null) {
                 var target = objResource.getPlugIn() || jsx3;
                 try {
+/* @JSC :: begin BENCH */
+                  var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objResource.getId());
+/* @JSC :: end */
                   target.eval(rv);
+/* @JSC :: begin BENCH */
+                  t1.log("js.eval");
+/* @JSC :: end */
                 } catch (e) {
                   amp.LOG.error(jsx3._msg("amp.32", strSrc, target), jsx3.NativeError.wrap(e));
                 }
@@ -1032,9 +1073,27 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
       switch (strType) {
         case "script":
-          // Any load="early" resource will not have access to the PlugIn object, so they should not assume
-          // "this" context.
-          (objResource.getPlugIn() || jsx3).eval((dataNode || xml).getValue());
+          if (objResource.attr("eval") == "true") {
+/* @JSC :: begin BENCH */
+            var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objResource.getId());
+/* @JSC :: end */
+            // Any load="early" resource will not have access to the PlugIn object, so they should not assume
+            // "this" context.
+            (objResource.getPlugIn() || jsx3).eval((dataNode || xml).getValue());
+/* @JSC :: begin BENCH */
+            t1.log("js.eval");
+/* @JSC :: end */
+          } else if (!Engine._ONCE[objResource.getId()]) {
+/* @JSC :: begin BENCH */
+            var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objResource.getId());
+/* @JSC :: end */
+            // If eval is not true, this was probably inlined during a build process and should only be evaluated once.
+            Engine._ONCE[objResource.getId()] = 1;
+            jsx3.eval((dataNode || xml).getValue());
+/* @JSC :: begin BENCH */
+            t1.log("js.eval");
+/* @JSC :: end */
+          }
           break;
         case "css":
           if (jsx3.CLASS_LOADER.IE) {
@@ -1146,6 +1205,10 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   Engine._loadJS2 = jsx3.$Y(function(cb) {
     var path = cb.args()[0];
 
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", path);
+/* @JSC :: end */
+
     var element = document.createElement("script");
     element.setAttribute("src", path);
     element.setAttribute("type", 'text/javascript');
@@ -1154,6 +1217,9 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     if (element.addEventListener) {
       var evtHandler = function(e) {
         element.removeEventListener("load", evtHandler, false);
+/* @JSC :: begin BENCH */
+        t1.log("js.load");
+/* @JSC :: end */
         cb.done();
       };
 
@@ -1163,6 +1229,9 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         var state = this.readyState;
         if (state == "loaded" || state == "interactive" || state == "complete") {
           element.onreadystatechange = null;
+/* @JSC :: begin BENCH */
+          t1.log("js.load");
+/* @JSC :: end */
           cb.done();
         }
       };

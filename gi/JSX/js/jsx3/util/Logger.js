@@ -1291,7 +1291,7 @@ jsx3.Class.defineClass('jsx3.util.Logger.AlertHandler', jsx3.util.Logger.FormatH
     function(AlertHandler, AlertHandler_prototype) {
 
   /** @private @jsxobf-clobber */
-  AlertHandler_prototype._interval = 10;
+  AlertHandler_prototype._interval = 5;
   /** @private @jsxobf-clobber */
   AlertHandler_prototype._counter = 0;
   /** @private @jsxobf-clobber */

@@ -315,6 +315,9 @@
       <fileset dir="${dist.dir}/JSX/js">
         <include name="**/*.js"/>
       </fileset>
+      <fileset dir="${dist.dir}/JSX/addins/amp">
+        <include name="**/*.js"/>
+      </fileset>
     </gi-compile>
     <gi-compile targets="${build.gi.targets}" aliases="${build.gi.targets.aliases}">
       <fileset dir="${dist.dir}/JSX/js" includes="${build.source.jsc.jsx}"/>

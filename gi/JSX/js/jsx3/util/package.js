@@ -8,6 +8,14 @@
  */
 jsx3.Package.definePackage("jsx3.util", function(util) {
 
+  /** @package */
+  util.RESERVED = jsx3.$H("abstract,boolean,break,byte,case,catch,char,class,const,continue,debugger,default,delete,do,double,else,enum,export,extends,false,final,finally,float,for,function,goto,if,implements,import,in,instanceof,int,interface,long,native,new,null,package,private,protected,public,return,short,static,super,switch,synchronized,this,throw,throws,transient,true,try,typeof,var,void,volatile,while,with".split(","));
+
+  /** @package */
+  util.isName = function(n) {
+    return Boolean(!util.RESERVED[n] && n.match(/^[\\$_a-zA-Z][\w\\$]*$/));
+  };
+
   /**
    * Compares two version strings. A version string is list of arbitrary length of numbers separated by '.'. The
    * first number is the most significant.

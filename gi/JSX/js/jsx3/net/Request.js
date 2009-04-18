@@ -84,6 +84,9 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     }
 
     this._request.onreadystatechange = new Function();
+/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
+    this._request.onerror = null;
+/* @JSC */ }
 
     //call the native abotr
     this._request.abort();
@@ -95,11 +98,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getAllResponseHeaders = function() {
-    try {
-      return this._request.getAllResponseHeaders();
-    } catch (e) {
-      return null;
-    }
+    return this._request.getAllResponseHeaders();
   };
 
   /**
@@ -108,11 +107,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getResponseHeader = function(strName) {
-    try {
-      return this._request.getResponseHeader(strName);
-    } catch (e) {
-      return null;
-    }
+    return this._request.getResponseHeader(strName);
   };
 
   /**
@@ -120,11 +115,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getStatusText = function() {
-    try {
-      return this._request.statusText;
-    } catch (e) {
-      return null;
-    }
+    return this._request.statusText;
   };
 
   /**
@@ -133,11 +124,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    */
   Request_prototype.getStatus = function() {
     var s = this._status != null ? this._status : this._request.status;
-/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
-    // When request fails on Firefox status code can be OK, but attempt to read statusText or responseHeader property triggers native error.
-    if (this.getStatusText() == null && s == 0) s = Request.STATUS_ERROR;
-/* @JSC */ }
-      
+
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
     // HACK: http://bugs.webkit.org/show_bug.cgi?id=14831
     if (s < 0 || s == 112 || s >= 600) s = Request.STATUS_ERROR;
@@ -421,7 +408,11 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
           }
         };
 
-        if (!isNaN(intTimeout) && intTimeout > 0) {
+/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
+        this._request.onerror = jsx3.$F(this._onHttpError).bind(this);
+/* @JSC */ }
+
+         if (!isNaN(intTimeout) && intTimeout > 0) {
           //set timeout to fire if the response doesn't happen in time
           this._timeoutto = window.setTimeout(function() {
 /* @JSC :: begin BENCH */
@@ -459,9 +450,26 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     }
 
     this._request.onreadystatechange = new Function();
+/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
+    this._request.onerror = null;
+/* @JSC */ }
 
     this.publish({subject:Request.EVENT_ON_RESPONSE});
   };
+
+/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
+  /** @private @jsxobf-clobber */
+  Request_prototype._onHttpError = function() {
+    try {
+      // Accessing the request object here may throw an error
+      this._status = this._request.status;
+    } catch (e) {
+      // So here I clear out the request so that no other errors are thrown
+      this._status = Request.STATUS_ERROR;
+      this._request = {};
+    }
+  };
+/* @JSC */ }
 
   Request_prototype.toString = function() {
     return this.jsxsuper() + " " + this._method + " " + this.getStatus() + " " + this._url;

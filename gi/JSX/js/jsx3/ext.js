@@ -682,7 +682,6 @@
    * @param objThis {Object | jsx3.$AsyncRV} optionally, the object to which to bind the wrapper.
    * @return {Function} the wrapper function.
    * @since 3.7
-   * @package  Not sure what to name this...
    */
   jsx3.$Z = function(strMethod, objThis) {
     if (objThis instanceof AsyncRV)

@@ -15,6 +15,7 @@
     <plugin id="jsx3.ide"/> <!-- for CSS -->
     <plugin id="jsx3.ide.ui"/>
     <plugin id="jsx3.amp.util.menumgr"/>
+    <plugin id="jsx3.gui.ImageButton"/>
   </requires>
 
   <resources>

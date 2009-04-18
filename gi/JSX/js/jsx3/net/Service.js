@@ -2455,7 +2455,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       var strNodeName = objRuleNode.getAttribute("jsxtext");
       if (objRuleNode.getAttribute("type") == "A") strNodeName = "@" + strNodeName;
       var strJsxId = objRuleNode.getAttribute("jsxid");
-      objStylesheet.push('<xsl:template match="' + strPrefix + strNodeName + '" mode="x' + strJsxId + '">');
+      objStylesheet.push('<xsl:template match="*|@*" mode="x' + strJsxId + '">');
     }
 
     //create the CDF-specific nodes (record, data, and attributes)
@@ -2482,17 +2482,20 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       var objChildRule = i.next();
 
       //if the current rule is really just a pointer pointing to the named rule to actually use, switch here
+      var strSelectorName;
       var strXID = objChildRule.selectSingleNode("mappings/record[@name='CDF Record' and @value and not(@value='')]/@value");
       if (strXID) {
         var tempRULENODE = objChildRule.selectSingleNode("//record[@jsxid='" + strXID.getValue() + "']");
-        if(tempRULENODE != null)
+        if(tempRULENODE != null) {
+          strSelectorName = objChildRule.getAttribute("jsxtext");
           objChildRule = tempRULENODE;
-      }
+        }
+     }
 
       var childNS = this._registerCompilerNamespace(objChildRule);
       var strPrefix = (childNS) ? (childNS.prefix + ":") : "";
       if (bRoot) strPrefix = "//" + strPrefix;
-      var strNodeName = objChildRule.getAttribute("jsxtext");
+      var strNodeName = strSelectorName || objChildRule.getAttribute("jsxtext");
       if (objChildRule.getAttribute("type") == "A") strNodeName = "@" + strNodeName;
       var strJsxId = objChildRule.getAttribute("jsxid");
       objStylesheet.push('<xsl:apply-templates select="' + strPrefix + strNodeName + '" mode="x' + strJsxId + '"/>');
