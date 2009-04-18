@@ -23,7 +23,7 @@
     <record jsxid="class.bad_super" jsxtext="Invalid superclass: {0}."/>
     <record jsxid="class.int_ext_class" jsxtext="Interface {0} may not extend class {1}."/>
     <record jsxid="class.class_ext_int" jsxtext="Class {0} may not extend interface {1}."/>
-    <record jsxid="class.redefine" jsxtext="Attempt to redefine class: {0}, already: {1}."/>
+    <record jsxid="class.redefine" jsxtext="Ignored attempt to redefine class: {0}. Already: {1}."/>
     <record jsxid="class.def_error" jsxtext="Error defining class {0}: {1}"/>
     <record jsxid="class.no_init" jsxtext="Class {0} does not define an init() method."/>
     <record jsxid="class.bad_int" jsxtext="Invalid interface argument while defining {0}: {1}."/>

@@ -279,4 +279,13 @@ gi.test.jsunit.defineTests("jsx3.lang.Class", function(t, jsunit) {
     jsunit.assertEquals("y2", o.getY());
   };
 
+/* Doesn't actually throw an error, just an alert or FATAL log.
+  t.testRedefine = function() {
+    jsunit.assertThrows(function() {
+      jsx3.lang.Class.defineClass("test.jsx3Class", null, null, function(C, P){
+      });
+    });
+  };
+*/
+
 });

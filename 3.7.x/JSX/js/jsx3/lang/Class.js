@@ -152,63 +152,63 @@ window._jsxtmp = function(Class, Class_prototype) {
       Class._throw(jsx3._msg("class.bad_super", objExtends));
     }
     
-    var bConstructorExists = false;
-    if (!bSpecial) {    
-      // check inheritance rules
-      if (fctSuperConstructor.jsxclass != null) {
-        if (bInterface && ! fctSuperConstructor.jsxclass.isInterface())
-          Class._throw(jsx3._msg("class.int_ext_class", strName, fctSuperConstructor.jsxclass));
-        if (! bInterface && fctSuperConstructor.jsxclass.isInterface())
-          Class._throw(jsx3._msg("class.class_ext_int", strName, fctSuperConstructor.jsxclass));
-      }
-      
-      // create the constructor, which calls init()
-      if (typeof(myPackage[className]) == "function") {
-        bConstructorExists = true;
-      } else if (bInterface) {
-        // will this work with JavaScript prototype inheritance?
-        myPackage[className] = jsx3.lang.newPrivateConstructor();
-      } else if (typeof(myPackage[className]) == "object") {
-        // support a class being defined previously as a package ...
-        var tmp = myPackage[className];
-        myPackage[className] = jsx3.lang.newConstructor();
-        for (var f in tmp)
-          myPackage[className][f] = tmp[f];
-      } else {
-        myPackage[className] = jsx3.lang.newConstructor();
-      }
-      
-      // set up JavaScript inheritance
-      myPackage[className].prototype = this._newInstanceNoInit(fctSuperConstructor, bInterface);
-    }
-
-    myPackage[className].prototype.__jsxclass__ = myPackage[className];
-
-    var fctConstructor = myPackage[className];
-    // create a reference from constructor to jsx3.lang.Class
-    if (fctConstructor.jsxclass != null) {
-      //Class._throw(jsx3._msg("class.redefine", strName, fctConstructor.jsxclass));
+    if (myPackage[className] && myPackage[className].jsxclass) {
+      Class._throw(jsx3._msg("class.redefine", strName, myPackage[className].jsxclass), null, 2);
     } else {
-    // alias jsx3.lang to jsx3
-    if (pathTokens.join(".") == "jsx3.lang")
-      jsx3[className] = fctConstructor;
-    
-    // create the jsx3.lang.Class instance, bootstrap since we use this method to create Class as well
-    var objClass = Class._newInstanceForce(Class);
-    objClass._name = strName;
-    /* this reference seems to be OK */
-    objClass._constructor = fctConstructor; // create 2-way reference, if removed will still work
-    if (fctSuperConstructor != null)
-      objClass._super = fctSuperConstructor.jsxclass; // may be null, ok
-    objClass._interface = bInterface;
-    objClass._implements = [];
-    objClass._staticMethods = [];
-    objClass._instanceMethods = [];
-    var staticFields = objClass._staticFields = [];
-    var instanceFields = objClass._instanceFields = [];
-    objClass._superMap = {};
-    objClass._superMixinMap = {};
+      var bConstructorExists = false;
+      if (!bSpecial) {
+        // check inheritance rules
+        if (fctSuperConstructor.jsxclass != null) {
+          if (bInterface && ! fctSuperConstructor.jsxclass.isInterface())
+            Class._throw(jsx3._msg("class.int_ext_class", strName, fctSuperConstructor.jsxclass));
+          if (! bInterface && fctSuperConstructor.jsxclass.isInterface())
+            Class._throw(jsx3._msg("class.class_ext_int", strName, fctSuperConstructor.jsxclass));
+        }
 
+        // create the constructor, which calls init()
+        if (typeof(myPackage[className]) == "function") {
+          bConstructorExists = true;
+        } else if (bInterface) {
+          // will this work with JavaScript prototype inheritance?
+          myPackage[className] = jsx3.lang.newPrivateConstructor();
+        } else if (typeof(myPackage[className]) == "object") {
+          // support a class being defined previously as a package ...
+          var tmp = myPackage[className];
+          myPackage[className] = jsx3.lang.newConstructor();
+          for (var f in tmp)
+            myPackage[className][f] = tmp[f];
+        } else {
+          myPackage[className] = jsx3.lang.newConstructor();
+        }
+
+        // set up JavaScript inheritance
+        myPackage[className].prototype = this._newInstanceNoInit(fctSuperConstructor, bInterface);
+      }
+
+      // create a reference from constructor to jsx3.lang.Class
+      myPackage[className].prototype.__jsxclass__ = myPackage[className];
+
+      var fctConstructor = myPackage[className];
+
+      // alias jsx3.lang to jsx3
+      if (pathTokens.join(".") == "jsx3.lang")
+        jsx3[className] = fctConstructor;
+
+      // create the jsx3.lang.Class instance, bootstrap since we use this method to create Class as well
+      var objClass = Class._newInstanceForce(Class);
+      objClass._name = strName;
+      /* this reference seems to be OK */
+      objClass._constructor = fctConstructor; // create 2-way reference, if removed will still work
+      if (fctSuperConstructor != null)
+        objClass._super = fctSuperConstructor.jsxclass; // may be null, ok
+      objClass._interface = bInterface;
+      objClass._implements = [];
+      objClass._staticMethods = [];
+      objClass._instanceMethods = [];
+      var staticFields = objClass._staticFields = [];
+      var instanceFields = objClass._instanceFields = [];
+      objClass._superMap = {};
+      objClass._superMixinMap = {};
 
       fctConstructor.jsxclass = objClass;
 
@@ -359,9 +359,9 @@ window._jsxtmp = function(Class, Class_prototype) {
   };
   
   /** @private @jsxobf-clobber */
-  Class._throw = function(strMessage, objCause) {
+  Class._throw = function(strMessage, objCause, intLevel) {
     if (Class._LOG) {
-      Class._LOG.fatal(strMessage, objCause);
+      Class._LOG.log(intLevel || jsx3.util.Logger.FATAL, strMessage, objCause);
     } else if (jsx3.Exception) {
       var e = new jsx3.Exception(strMessage, objCause);
       window.alert(e.printStackTrace());
