@@ -288,7 +288,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @final @jsxobf-final
    */
   Matrix.SELECTION_MULTI_ROW = 2;
-  
+
   Matrix.REND_DEEP = "deep";
   Matrix.REND_SHALLOW = "shallow";
   Matrix.REND_HIER = "hierarchical";
@@ -395,7 +395,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     o1f.height = (b1dth + this.getHeaderHeight(Matrix.DEFAULT_HEADER_HEIGHT)) - (SCROLLSIZE - Box.getScrollSizeOffset("scroll"));
     var b1f = b1.getChildProfile(2);
     b1f.recalculate(o1f,(objGUI)?objGUI.childNodes[2]:null, objQueue);
-    
+
     //recaluclate the hscroller top-position and width
     var o1g = {};
     o1g.top = (b1dth + this.getHeaderHeight(Matrix.DEFAULT_HEADER_HEIGHT)) - SCROLLSIZE;
@@ -892,7 +892,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     b1d.addChildProfile(b1e);
 
     var b1dth = b1d.getClientTop() + b1d.getClientHeight();
-    
+
     //VSCROLLER
     var o1f = {};
     o1f.boxtype = "box";
@@ -985,7 +985,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
     strEvents += this.renderHandler("selectstart", "_ebSelectStart", 1);
 /* @JSC */ }
-    
+
     var b1d = b1.getChildProfile(1);
     b1d.setAttributes('id="' + sId + '_body" class="jsx30matrix_body" ' + strEvents);
     var b1e = b1d.getChildProfile(0);
@@ -1530,7 +1530,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @param objEvent {jsx3.gui.Event}
    * @param objMoveChild {jsx3.app.Model} the one being moved
    * @param objPrecedeChild {jsx3.app.Model} the one to insert before
-   * @param bAppend {Boolean} is append 
+   * @param bAppend {Boolean} is append
    * @private
    * @jsxobf-clobber
    */
@@ -1652,7 +1652,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     }
   };
 
-  
+
   /**
    * Applies focus to the on-screen cell that corresponds to the intersection of
    * the element in the CDF source document identified by <code>strCdfId</code>, and the cell at the given index.
@@ -3118,7 +3118,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //collapse the edit session in case any ephemeral selectors are open (the heavywheight)
     this.collapseEditSession(objEvent,objGUI);
     this.setScrollTop(intTop, objGUI);
-    
+
     objEvent.cancelAll();
   };
 
@@ -3831,7 +3831,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var charWidth = Math.round((this.getFontSize() || jsx3.gui.Block.DEFAULTFONTSIZE) * 3/4);
     var col = this.getChild(this._getActiveColumnIndex());
     var att = col.getPath();
-    
+
     var maxLength = 0;
     var objXML = this.getXML();
     var itrNodes = objXML.selectNodeIterator("//record");
@@ -3841,7 +3841,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     }
 
     var intNewWidth = charWidth * maxLength;
-    
+
     this.getChild(this._getActiveColumnIndex()).setWidth(intNewWidth, true);
     this._updateScrollOnPaint();
     //cancel the event
@@ -4047,7 +4047,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       //loop three times to fetch content. self and two adjacent panels
       var bQueued;
- 
+
       //by half...etc
       var intPaintQueueSize = this.getPanelQueueSize(Matrix.DEFAULT_PANEL_QUEUE_SIZE);
       var intPaintQueueSize1 = parseInt(intPaintQueueSize / 2);
@@ -5002,6 +5002,21 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    *    <code>this.getServer()</code> does not returns a server instance.
    */
   Matrix_prototype.resetXmlCacheData = function(objServer) {
+    if (this.getPagingModel() == Matrix.PAGING_PAGED)
+      this.setScrollTop(0);
+     //delete cached rowcount
+    this._reset(true);
+    this.jsxsupermix(objServer);
+  };
+
+  /**
+   * Removes the XML source document stored under the XML ID of this object from the server cache.
+   * @param objServer {jsx3.app.Server} the server owning the cache to modify. This is a required argument only if
+   *    <code>this.getServer()</code> does not returns a server instance.
+   */
+  Matrix_prototype.resetCacheData = function(objServer) {
+    if (this.getPagingModel() == Matrix.PAGING_PAGED)
+      this.setScrollTop(0);
     //delete cached rowcount
     this._reset(true);
     this.jsxsupermix(objServer);
@@ -5364,7 +5379,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     } else {
       // transform() below will throw an exception if xml has error
       if (this.getXML().hasError()) return 0;
-      
+
       //call standard template in 'count' mode. pass the starting context and the rendering model
       var objParams = {};
       objParams.jsx_mode = "count";
@@ -5723,7 +5738,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this.setScrollLeft(0);
     } else if(this.getScaleWidth() != 1) {
       var intDiff = objViewPane.offsetWidth - objViewPane.parentNode.parentNode.offsetWidth;
-      intLeft = this.getScrollLeft();
+      var intLeft = this.getScrollLeft();
       if(intLeft > intDiff)
         this.setScrollLeft(intDiff);
     }
@@ -6548,7 +6563,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     return this;
   };
 
-  
+
   /**
    * Returns rules for the focus rectangle/bounding box. Used by Builder
    * @return {Object<String, boolean>} JavaScript object with named properties: NN, SS, EE, WW, MM
@@ -6866,7 +6881,7 @@ jsx3.Class.defineInterface("jsx3.gui.Matrix.BlockMask", jsx3.gui.Matrix.EditMask
     this._jsxformemwidth = this.getWidth();
     /* @jsxobf-clobber */
     this._jsxformemheight = this.getHeight();
-    
+
     var formElm = this._emGetFormElm();
     if (formElm) {
       var bRel = formElm.getRelativePosition();
@@ -7023,7 +7038,7 @@ jsx3.Class.defineInterface("jsx3.gui.Matrix.DialogMask", jsx3.gui.Matrix.BlockMa
         verWinner = i;
       }
     }
-    
+
     width = Math.min(width, spaceHor[horWinner]);
     height = Math.min(height, spaceVer[verWinner]);
     var left = ([offsetPos.L + objTdDim.W, offsetPos.L - width, offsetPos.L])[horWinner];
@@ -7047,7 +7062,7 @@ jsx3.Class.defineInterface("jsx3.gui.Matrix.DialogMask", jsx3.gui.Matrix.BlockMa
   DialogMask_prototype.emCollapseEdit = function(objEvent) {
     this.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
   };
-  
+
   /** @jsxobf-clobber-shared */
   DialogMask_prototype.repaintTaskBar = function() {};
 
