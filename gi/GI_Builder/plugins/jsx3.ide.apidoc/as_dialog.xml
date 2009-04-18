@@ -45,19 +45,19 @@ objJSX.onInit();
       <strings jsxname="jsx_ide_api_dialog" jsxhelpid="ide.api"/>
       <events jsxaftermove="this.constrainPosition(); this.saveState();" jsxafterresize="this.saveState(this);"/>
         <object type="jsx3.gui.WindowBar">
-          <dynamics jsxtext="_api_cbar"/>
+          <dynamics jsxtext="jsx3.ide.apidoc.title"/>
           <variants/>
           <strings jsxname="jsxcbar"/>
             <object type="jsx3.gui.Menu">
+              <dynamics jsxtext="jsx3.ide.apidoc.m2" jsxtip="jsx3.ide.apidoc.m2t"/>
               <variants jsxtype="0" jsxstate="0" jsxshare="1"/>
-              <strings jsxtip="API Documentation settings" jsxname="mnuApiHelp" jsxxmlid="jsx3.ide.apidoc.menu-settings"
-                       jsxtext="Settings"/>
+              <strings jsxname="mnuApiHelp" jsxxmlid="jsx3.ide.apidoc.menu-settings"/>
               <events jsxmenu="jsx_ide_api_dialog.getPlugIn().onApiHelpMenu(this);"
                       jsxexecute="jsx_ide_api_dialog.getPlugIn().onApiHelpSettingsSet(this, strRECORDID);"/>
             </object>
             <object type="jsx3.gui.ToolbarButton">
-              <variants/>
-              <strings jsxname="jsxminbutton" jsximage="JSX/images/dialog/window.gif" jsxtip="Move to external browser window"/>
+              <dynamics jsxtip="jsx3.ide.apidoc.tog1"/>
+              <strings jsxname="jsxminbutton" jsximage="JSX/images/dialog/window.gif"/>
               <events jsxexecute="jsx_ide_api_dialog.getPlugIn().openApiHelp(true);"/>
             </object>
             <object type="jsx3.gui.ToolbarButton">

@@ -58,6 +58,7 @@
   </requires>
 
   <resources>
+    <propsbundle id="strings" path="strings.xml" load="early"/>
     <script id="js" path="apidoc.js" eval="true"/>
     <xml id="ui" path="apihelp.xml">
       <prereq id="class-tree"/>
@@ -91,7 +92,7 @@
   </extension>
 
   <extension point="jsx3.ide.ui.menu" id="menus">
-    <menu id="jsx3.ide.apidoc" label="API Documentation" path="/jsx3.ide.help/apisub">
+    <menu id="jsx3.ide.apidoc" label="{jsx3.ide.apidoc.m1}" path="/jsx3.ide.help/apisub">
       <section id="api"/>
       <divider id="ide"/>
       <section id="additions"/>
@@ -101,50 +102,50 @@
   <extension point="jsx3.ide.ui.action" id="menu.help">
     <action
         id="jsx3.ide.help1_2"
-        label="User Guides" img="jsxapp:/images/icon_59.gif"
+        label="{jsx3.ide.apidoc.mi1}" img="jsxapp:/images/icon_59.gif"
         menupath="/jsx3.ide.help/api" hkconfig="true"
         execute="jsx3.ide.openConsoleWindow('doc/html/index.htm', 'jsxide_doc',null,null,'yes','yes','yes','yes','yes');"
         enabled="file" enabled-file="../doc/html/index.htm"/>
     <action
         id="jsx3.ide.help1"
-        label="Open"
+        label="{jsx3.ide.apidoc.mi2}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/api" hotkey="{hk.api}" hkconfig="true"
         execute="this.getPlugIn()._open();"
         enabled="eval" enabled-eval="this.getPlugIn().isInstalled()"/>
     <action
         id="jsx3.ide.help2"
-        label="... In Dialog"
+        label="{jsx3.ide.apidoc.mi3}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/api" hkconfig="true"
         execute="this.getPlugIn()._open(false);"
         enabled="eval" enabled-eval="this.getPlugIn().isInstalled()"/>
     <action
         id="jsx3.ide.help3"
-        label="... In Separate Window"
+        label="{jsx3.ide.apidoc.mi4}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/api" hkconfig="true"
         execute="this.getPlugIn()._open(true);"
         enabled="eval" enabled-eval="this.getPlugIn().isInstalled()"/>
     <action
         id="jsx3.ide.help4"
-        label="... HTML Version"
+        label="{jsx3.ide.apidoc.mi5}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/api" hkconfig="true"
         execute="jsx3.ide.openConsoleWindow('api/html/index.html', 'jsxide_api',null,null,'yes','yes','yes','yes','yes')"
         enabled="file" enabled-file="../api/html/index.html"/>
 
     <action
         id="jsx3.ide.help5"
-        label="GUI Property Reference"
+        label="{jsx3.ide.apidoc.mi6}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/ide" hkconfig="true"
         execute="jsx3.ide.openConsoleWindow('api/properties/index.html', 'jsxide_props',null,null,'yes','yes','yes','yes','yes')"
         enabled="file" enabled-file="../api/properties/index.html"/>
     <action
         id="jsx3.ide.help6"
-        label="GUI Event Reference"
+        label="{jsx3.ide.apidoc.mi7}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/ide" hkconfig="true"
         execute="jsx3.ide.openConsoleWindow('api/events/index.html', 'jsxide_events',null,null,'yes','yes','yes','yes','yes')"
         enabled="file" enabled-file="../api/events/index.html"/>
     <action
         id="jsx3.ide.help7"
-        label="XSL Parameter Reference"
+        label="{jsx3.ide.apidoc.mi8}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/ide" hkconfig="true"
         execute="jsx3.ide.openConsoleWindow('api/xslparams/index.html', 'jsxide_xslparams',null,null,'yes','yes','yes','yes','yes')"
         enabled="file" enabled-file="../api/xslparams/index.html"/>

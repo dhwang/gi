@@ -468,7 +468,7 @@ objJSX.updateNavButtons = function() {
                       <events jsxselect="jsx_ide_api.memberSelect(this, strRECORDID);"/>
                         <object type="jsx3.gui.Matrix.Column">
                           <variants/>
-                          <strings jsxname="jsxcolumn" jsxwidth="*" jsxtext="Member" jsxpath="jsxtext" jsxcellpadding="3"/>
+                          <strings jsxname="jsxcolumn" jsxwidth="*" jsxpath="jsxtext" jsxcellpadding="3"/>
                         </object>
                     </object>
                 </object>
@@ -491,28 +491,32 @@ objJSX.updateNavButtons = function() {
                                   <variants jsxoverflow="2"/>
                                   <strings jsxpadding="6 0 0 6"/>
                                     <object type="jsx3.gui.ImageButton">
+                                      <dynamics jsxtip="jsx3.ide.apidoc.prev"/>
                                       <variants jsxheight="15" jsxwidth="14" jsxenabled="0"/>
-                                      <strings jsxname="go_back" jsxtip="Go to previous screen." jsxmargin="0 6 0 0"
+                                      <strings jsxname="go_back" jsxmargin="0 6 0 0"
                                           jsximage="images/back.gif" jsxdisabledimage="images/back_disabled.gif" jsxkeycode="ctrl+left"/>
                                       <events jsxexecute="jsx_ide_api.goBack();"/>
                                     </object>
                                     <object type="jsx3.gui.ImageButton">
+                                      <dynamics jsxtip="jsx3.ide.apidoc.next"/>
                                       <variants jsxheight="15" jsxwidth="14" jsxenabled="0"/>
-                                      <strings jsxname="go_forward" jsxtip="Go to next screen."
+                                      <strings jsxname="go_forward"
                                           jsximage="images/forward.gif" jsxdisabledimage="images/forward_disabled.gif" jsxkeycode="ctrl+right"/>
                                       <events jsxexecute="jsx_ide_api.goForward();"/>
                                     </object>
                                 </object>
                                 <object type="jsx3.gui.Block">
+                                  <dynamics jsxtext="jsx3.ide.apidoc.search"/>
                                   <variants jsxheight="18"/>
-                                  <strings jsxname="label" jsxtext="Search:" jsxtextalign="right" jsxpadding="6 4 0 0"/>
+                                  <strings jsxname="label" jsxtextalign="right" jsxpadding="6 4 0 0"/>
                                 </object>
                                 <object type="jsx3.gui.Block">
                                   <variants jsxoverflow="2"/>
                                   <strings jsxpadding="5"/>
                                     <object type="jsx3.gui.TextBox">
+                                      <dynamics jsxtip="jsx3.ide.apidoc.searchtip"/>
                                       <variants jsxheight="17" jsxwidth="100"/>
-                                      <strings jsxname="search_text" jsxmargin="0 0 0 0" jsxpadding="0 0 0 0" jsxvalue="" jsxtip="Enter search text and press the Enter key to perform a case-insensitive search. This field also accepts regular expressions in the form: /regex/gi."/>
+                                      <strings jsxname="search_text" jsxmargin="0 0 0 0" jsxpadding="0 0 0 0" jsxvalue=""/>
                                       <events jsxexecute="jsx_ide_api.doSearch();"/>
                                     </object>
                                 </object>
@@ -520,8 +524,10 @@ objJSX.updateNavButtons = function() {
                                   <variants jsxoverflow="2"/>
                                   <strings jsxpadding="5"/>
                                     <object type="jsx3.gui.Select">
+                                      <dynamics jsxtip="jsx3.ide.apidoc.typetip"/>
                                       <variants jsxwidth="65" jsxheight="18"/>
-                                      <strings jsxname="search_domain" jsxmargin="0 0 0 0" jsxvalue="global" jsxtip="Search globally over all classes or only in the current class." jsxxml="&lt;data&gt;&lt;record jsxid=&quot;global&quot; jsxtext=&quot;global&quot;/&gt;&lt;record jsxid=&quot;class&quot; jsxtext=&quot;class&quot;/&gt;&lt;/data&gt;"/>
+                                      <strings jsxname="search_domain" jsxmargin="0 0 0 0" jsxvalue="global"
+                                          jsxxml="&lt;data&gt;&lt;record jsxid=&quot;global&quot; jsxtext=&quot;{jsx3.ide.apidoc.tglobal}&quot;/&gt;&lt;record jsxid=&quot;class&quot; jsxtext=&quot;{jsx3.ide.apidoc.tclass}&quot;/&gt;&lt;/data&gt;"/>
                                       <events jsxselect="jsx_ide_api.doSearch();"/>
                                     </object>
                                 </object>
@@ -529,9 +535,9 @@ objJSX.updateNavButtons = function() {
                                   <variants jsxoverflow="2"/>
                                   <strings jsxpadding="6 0 0 2"/>
                                     <object type="jsx3.gui.ImageButton">
+                                      <dynamics jsxtip="jsx3.ide.apidoc.clear"/>
                                       <variants jsxheight="16" jsxwidth="16"/>
-                                      <strings jsxname="search_clear" jsxtip="Clear the search text and results."
-                                          jsximage="jsxapp:/images/icon_55.gif"/>
+                                      <strings jsxname="search_clear" jsximage="jsxapp:/images/icon_55.gif"/>
                                       <events jsxexecute="jsx_ide_api.doClearSearch();"/>
                                     </object>
                                 </object>
