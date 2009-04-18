@@ -5719,8 +5719,14 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     }
 
     //adjust scrollLeft
-    if (objViewPane.parentNode.parentNode.childNodes[3].style.display == "none")
+    if (objViewPane.parentNode.parentNode.childNodes[3].style.display == "none") {
       this.setScrollLeft(0);
+    } else if(this.getScaleWidth() != 1) {
+      var intDiff = objViewPane.offsetWidth - objViewPane.parentNode.parentNode.offsetWidth;
+      intLeft = this.getScrollLeft();
+      if(intLeft > intDiff)
+        this.setScrollLeft(intDiff);
+    }
 
     //call method to hide the corner graphic if scrollers aren't visible
     this._toggleScrollBoxDisplay();
