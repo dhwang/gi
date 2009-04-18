@@ -42,7 +42,7 @@
 
   <extension point="jsx3.ide.settings.ide.pane" id="default">
     <pane label="GIPP" img="gipp.gif" resource="pane_gipp"
-          tip="Settings related to the integration with General Interface&amp;#8482; Performance Profiler."/>
+          tip="Settings related to the integration with General Interface Performance Profiler."/>
   </extension>
 
   <extension point="jsx3.ide.ui.action" id="menu.project">

@@ -1,61 +1,58 @@
 ======================================================================
-TIBCO General Interface(TM) - Professional Edition
+General Interface
 
 ======================================================================
 Introduction
 
-  This directory contains a source distribution of TIBCO General
-  Interface - Professional Edition, a platform and integrated
-  development environment (IDE) for developing rich GUI applications
-  delivered through a modern web browser.
+  This directory contains a source distribution of General Interface,
+  a platform and integrated development environment (IDE) for
+  developing rich GUI applications delivered through a modern web
+  browser.
 
 ======================================================================
 License
 
-  License information for TIBCO General Interface - Professional
-  Edition and third party tools included in this distribution is
-  contained in the LICENSE file.
+  License information for General Interface and third party tools
+  included in this distribution is contained in the LICENSE file.
 
 ======================================================================
 Getting Started
 
-  To get started developing TIBCO General Interface applications,
+  To get started developing General Interface applications,
   open GI_Builder.html in a supported web browser (see Browser
   Platforms below). Download the documentation and view the 
-  API Reference and tips documents on http://gi.tibco.com.
+  API Reference and tips documents on http://www.generalinterface.org.
 
 ======================================================================
 Source Distribution
 
-  This directory contains a source distribution of TIBCO General
-  Interface - Professional Edition. The source distribution is useful
-  for creating customized builds, viewing source code, and modifying
-  TIBCO General Interface. A pre-built "binary" distribution of TIBCO
-  General Interface, which is optimized for deployment, can be
-  downloaded from http://gi.tibco.com.
+  This directory contains a source distribution of General Interface.
+  The source distribution is useful for creating customized builds,
+  viewing source code, and modifying General Interface. A pre-built
+  "binary" distribution of General Interface, which is optimized for
+  deployment, can be downloaded from http://www.generalinterface.org.
 
   The latest source can always be accessed anonymously using
-  Subversion at http://gi.tibco.com/svn/. Use the following command
-  to check out the trunk branch:
+  Subversion at http://svn.generalinterface.org/. Use the following
+  command to check out the trunk branch:
 
-  %> svn co http://gi.tibco.com/svn/trunk/gi
+  %> svn co http://www.generalinterface.org/trunk/gi
 
 ======================================================================
 Building
 
-  This source distribution of TIBCO General Interface - Professional
-  Edition can be packaged into an optimized "binary" build. See
-  build/BUILD for more information.
+  This source distribution of General Interface can be packaged into
+  an optimized "binary" build. See build/BUILD for more information.
 
 ======================================================================
 Contributing to the Open Source Project
 
-  Have you found a bug in TIBCO General Interface or want to request a
-  new feature or enhancement? TIBCO General Interface uses a public
-  bug/issue tracker, hosted at http://gi.tibco.com/jira.
+  Have you found a bug in General Interface or want to request a
+  new feature or enhancement? General Interface uses a public
+  bug/issue tracker, hosted at http://www.generalinterface.org/bugs.
 
-  Public discussion forums for TIBCO General Interface are available at
-  http://gi.tibco.com/forums.
+  Public discussion forums for General Interface are available at
+  http://www.generalinterface.org/forums.
 
   To contribute new code for bug fixes, new components, extensions to
   existing components, and so on, request a Community Contribution
@@ -64,24 +61,23 @@ Contributing to the Open Source Project
 ======================================================================
 Testing
 
-  The source distribution of TIBCO General Interface includes test
+  The source distribution of General Interface includes test
   suites. See build/BUILD and test/README for more information.
 
 ======================================================================
 Browser Platforms
 
 ---------------------------------
-TIBCO General Interface(TM) Framework
+General Interface Framework
 
-  TIBCO General Interface Framework and applications created with
-  TIBCO General Interface Builder execute in a web browser listed below.
+  General Interface Framework and applications created with
+  General Interface Builder execute in a web browser listed below.
 
-  A web server or HTTP server is required to host the deployed TIBCO
-  General Interface Framework and TIBCO General Interface
-  applications.
+  A web server or HTTP server is required to host the deployed
+  General Interface Framework and General Interface applications.
 
-  TIBCO General Interface Framework and TIBCO General Interface
-  applications run on the following browsers.
+  General Interface Framework and General Interface applications run
+  on the following browsers.
 
   Internet Explorer 7.0 and 6.0.x for:
     Microsoft Windows (x86)
@@ -104,10 +100,9 @@ TIBCO General Interface(TM) Framework
       Windows Vista
 
 -------------------------------
-TIBCO General Interface(TM) Builder
+General Interface Builder
 
-  TIBCO General Interface Builder runs on the following
-  browsers.
+  General Interface Builder runs on the following browsers.
 
   Internet Explorer 7.0 and 6.0.x for:
     Microsoft Windows (x86)

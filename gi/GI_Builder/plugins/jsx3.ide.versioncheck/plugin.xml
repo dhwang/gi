@@ -38,14 +38,14 @@
           if (ignoreVersion != newVersion) {
             if (jsx3.util.compareVersions(newVersion, myVersion) > 0)
               this.getServer().confirm(
-                "New Version Available", "A new version (" + newVersion + ") of TIBCO General Interface&#8482; is available.",
+                "New Version Available", "A new version (" + newVersion + ") of General Interface is available.",
                 function() { window.open(this.getServer().getDynamicProperty("builder_url"), "jsxide_newversion"); }, null,
                 "Download", "Later", 1,
                 function(d) { d.doClose(); settings.set("prefs", "versioncheck", "ignore", newVersion); }, "Ignore Version",
                 {nonModal:1}
               );
             else if (bForce)
-              this.getServer().alert("Up-To-Date", "Your version (" + myVersion + ") of TIBCO General Interface&#8482; is up-to-date.",
+              this.getServer().alert("Up-To-Date", "Your version (" + myVersion + ") of General Interface is up-to-date.",
                   null, null, {nonModal:1});
           }
         }

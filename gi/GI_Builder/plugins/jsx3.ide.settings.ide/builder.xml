@@ -205,7 +205,7 @@ objJSX.testCharset = function(bXML) {
         </object>
         <object type="jsx3.gui.CheckBox">
          <variants jsxheight="20" jsxchecked="1"/>
-         <strings jsxname="jsxsetting_openlastproject" jsxtext="Open last project when launching General Interface&amp;#8482; Builder" jsxwidth="100%" jsxtip="whether to open the last open project automatically when launching General Interface&amp;#8482; Builder"/>
+         <strings jsxname="jsxsetting_openlastproject" jsxtext="Open last project when launching General Interface Builder" jsxwidth="100%" jsxtip="whether to open the last open project automatically when launching General Interface Builder"/>
          <events jsxtoggle="prefspane.makeDirty();"/>
         </object>
         <object type="jsx3.gui.CheckBox">

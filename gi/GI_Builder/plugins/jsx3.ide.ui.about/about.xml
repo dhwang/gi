@@ -6,9 +6,9 @@
 <serialization xmlns="urn:tibco.com/v3.0">
  <onAfterDeserialize><![CDATA[
 
-  var str =  "This release of @gi.productname.full@ includes:<br/>";
-  str += "General Interface&#8482; Framework &#8211; @build.gi.name.edition@ (@gi.version.full@)<br/>";
-  str += "General Interface&#8482; Builder &#8211; @build.gi.name.edition@ (@gi.version.full@)<br/><br/>";
+  var str =  "This build of @gi.productname.full@ includes:<br/>";
+  str += "@gi.productname.full@ Framework (@gi.version.full@)<br/>";
+  str += "@gi.productname.full@ Builder (@gi.version.full@)<br/><br/>";
   str += "&#169; 2001-2009, TIBCO Software Inc.";
   
   var block = objJSX.getDescendantOfName("jsx_about_copy");

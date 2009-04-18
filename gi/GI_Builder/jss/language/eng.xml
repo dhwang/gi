@@ -106,7 +106,7 @@
   <record jsxid="_gen_help" type="jsxtext" jsxtext="Help"/>
   <record jsxid="_edit_profile_title" jsxtext="Component Profile" type="jsxtext"/>
   <record jsxid="_edit_profile_tip1" jsxtext="The name of the component" type="jsxtip"/>
-  <record jsxid="_edit_profile_tip2" type="jsxtip" jsxtext="The 16x16 icon to use when this component is displayed within the Component Libraries palette of General Interface&amp;#8482; Builder"/>
+  <record jsxid="_edit_profile_tip2" type="jsxtip" jsxtext="The 16x16 icon to use when this component is displayed within the Component Libraries palette of General Interface Builder"/>
   <record jsxid="_edit_profile_txt1" jsxtext="Icon URL" type="jsxtext"/>
   <record jsxid="_gen_desc" type="jsxtext" jsxtext="Description"/>
   <record jsxid="_edit_profile_tip3" jsxtext="The description of the component" type="jsxtip"/>

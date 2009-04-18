@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# TIBCO General Interface BSD License
+# General Interface - BSD License
 # Copyright (c) 2006-2009, TIBCO Software Inc.
 # All rights reserved.
 #
@@ -29,7 +29,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 #
-# Creates a custom build of TIBCO General Interface 3.4 optimized for a
+# Creates a custom build of General Interface 3.4 optimized for a
 # particular GI application. 
 #
 # This script merges any number of the built-in GI class files into jsx.js. 

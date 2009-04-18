@@ -1,5 +1,5 @@
 ======================================================================
-TIBCO General Interface(TM) - Professional Edition - BSD License
+General Interface - BSD License
 
 Copyright (c) 2001-2009, TIBCO Software Inc.
 All rights reserved.
@@ -49,8 +49,8 @@ this software may be obtained from http://sourceforge.net.
 ======================================================================
 Third-Party Software License Agreements
 
-The following portions of this source distribution of TIBCO General
-Interface - Professional Edition are covered under separate licenses:
+The following portions of this source distribution of General are
+covered under separate licenses:
 
 build/locale/cldr        - build/locale/cldr/COPYRIGHT
 build/tools/lib/ant      - build/tools/lib/ant/LICENSE

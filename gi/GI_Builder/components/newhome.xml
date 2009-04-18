@@ -115,7 +115,7 @@ objJSX.onInit();
       <object type="jsx3.gui.Block">
        <dynamics jsxpadding="@8Pixel"/>
        <variants jsxoverflow="2"/>
-       <strings jsxwidth="100%" jsxheight="100%" jsxtext="Your workspace could not be found. A workspace contains your projects, custom addins, and prototypes, as well as your user settings for General Interface&#8482; Builder. Use the browse button to locate an existing workspace or create a new one."/>
+       <strings jsxwidth="100%" jsxheight="100%" jsxtext="Your workspace could not be found. A workspace contains your projects, custom addins, and prototypes, as well as your user settings for General Interface Builder. Use the browse button to locate an existing workspace or create a new one."/>
       </object>
       <object type="jsx3.gui.Block">
        <variants jsxoverflow="1"/>

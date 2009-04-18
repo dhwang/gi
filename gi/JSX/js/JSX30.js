@@ -2203,8 +2203,6 @@ window['jsx_main'] = function() {
       Progress.WAITING = getMsgStr("s_wat");
       /** @private @jsxobf-clobber */
       Progress.WAITING_SUFFIX = ["&#160;.","&#160;&#160;.","&#160;&#160;&#160;."];
-      /** @private @jsxobf-clobber */
-      Progress.REG = '<span style="font-size:10px;vertical-align:top;">&#174;</span>';
 
       /** @private @jsxobf-clobber @jsxobf-final */
       Progress.TYPE_NORMAL = 0;
@@ -2263,7 +2261,7 @@ window['jsx_main'] = function() {
               '<div style="height:'+height+'px;border:1px solid #8899AA;padding:0px;background-color:#EEEEEE;">'+
                 '<div style="padding: 4px;">'+
                   '<div style="font-size:10px;">' + getMsgStr("b_pow") + '</div>'+
-                  '<div style="font-size:16px;">TIBCO' + Progress.REG + '&#160;<span style="font-weight:bold;">General&#160;Interface&#8482;</span></div>'+
+                  '<div style="font-size:16px;"><span style="font-weight:bold;">General&#160;Interface</span></div>'+
                 '</div>'+
                 '<div style="position:absolute;top:'+(height-barHeight+(strict?2:1))+'px;height:'+barHeight+'px;width:'+(width-(strict?2:8))+'px;background-color:#DDE0EE;border-top:1px solid #8899AA;">'+
                   '<div style="height:'+insideBarHeight+'px;position:absolute;background-color:#BBCCEE;width:0px;overflow:hidden;">&#160;</div>'+
@@ -2284,7 +2282,7 @@ window['jsx_main'] = function() {
           html = '<div><div style="position:absolute;top:'+top+'px;left:'+left+'px;font-family:Arial,sans-serif;width:'+width+'px;height:'+height+'px;padding:0px;">'+
               '<div style="padding: 6px;">'+
                 '<div style="font-size:9px;">' + getMsgStr("b_pow") + '</div>'+
-                '<div style="font-size:12px;">TIBCO' + Progress.REG + '&#160;<span style="font-weight:bold;">General&#160;Interface&#8482;</span></div>'+
+                '<div style="font-size:12px;"><span style="font-weight:bold;">General&#160;Interface</span></div>'+
               '</div>'+
               '<div style="position:absolute;top:'+(height-barHeight+(strict?2:1))+'px;height:'+barHeight+'px;width:'+(width-(strict?2:0))+'px;background-color:#EEF5FF;border:1px solid #88AACC;">'+
                 '<div style="height:'+insideBarHeight+'px;position:absolute;background-color:#BBDDFF;width:0px;overflow:hidden;">&#160;</div>'+
@@ -2321,7 +2319,7 @@ window['jsx_main'] = function() {
             '<div style="height:'+height+'px;border:1px solid #8899AA;padding:0px;background-color:#EEEEEE;">'+
               '<div style="padding: 4px;">'+
                 '<div style="font-size:10px;">' + getMsgStr("b_pow") + '</div>'+
-                '<div style="font-size:16px;">TIBCO' + Progress.REG + '&#160;<span style="font-weight:bold;">General&#160;Interface&#8482;</span></div>'+
+                '<div style="font-size:16px;"><span style="font-weight:bold;">General&#160;Interface</span></div>'+
                 '<div style="padding:6px 0px 0px 0px;font-size:10px;font-family:Verdana,sans-serif;">' + getMsgStr("nosup") +
                    '<div style="color:#000033;padding:8px 0px 0px 0px;margin:0px 0px 0px -2px;">'+
                      '<span style="font-size:8px;">&gt; </span><a style="color:#000033;" href="http://gi.tibco.com/links/sysreqs37/" target="_blank">' + getMsgStr("b_req") + '</a>'+

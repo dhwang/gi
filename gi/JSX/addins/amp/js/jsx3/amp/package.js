@@ -4,7 +4,7 @@
  */
 
 /**
- * The TIBCO General Interface&#8482; Asynchronous Modular Platform (AMP). Classes in this package are only
+ * The General Interface Asynchronous Modular Platform (AMP). Classes in this package are only
  * available to applications that enable the AMP add-in.
  *
  * @since 3.7

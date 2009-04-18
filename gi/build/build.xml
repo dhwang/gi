@@ -5,7 +5,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
-<project name="TIBCO General Interface" default="dist" basedir=".">
+<project name="General Interface" default="dist" basedir=".">
 
   <property name="project.dir" value=".."/>
   <property name="build.dir" value="${project.dir}/build"/>
@@ -185,7 +185,6 @@
       <!-- these properties contain other properties, or can be overridden from strings.properties and so don't work
            in filtersfile -->
       <filter token="gi.ide.notsupported" value="${gi.ide.notsupported}"/>
-      <filter token="build.gi.name.edition" value="${build.gi.name.edition}"/>
       <filter token="gi.productname" value="${gi.productname}"/>
       <filter token="gi.productname.esc" value="${gi.productname.esc}"/>
       <filter token="gi.productname.text" value="${gi.productname.text}"/>
@@ -211,7 +210,7 @@
       depends="init, copy-runtime, copy-ide, compile-js,
           inject-boot-msg, obfuscate, merge-script, amp-ide, restore-copyright,
           compile-locales, dir-manifest, dist-compile-doc, dist-compile-doc-html"
-      description="Compiles and builds a TIBCO General Interface distribution."/>
+      description="Compiles and builds a General Interface distribution."/>
 
   <target name="copy-runtime" depends="init, init-filters">
     <mkdir dir="${dist.dir}"/>
@@ -623,7 +622,7 @@
   </target>
 
   <target name="dist-zip" depends="init, init-filters"
-      description="Packages a TIBCO General Interface distribution in a ZIP file.">
+      description="Packages a General Interface distribution in a ZIP file.">
 
     <!-- Run "dist" target if the files don't seem to already exist in the dist/ directory -->
     <condition property="build.gi.skipdistall"
@@ -640,7 +639,7 @@
   </target>
 
   <target name="dist-nightly" depends="init, init-filters"
-      description="Packages a TIBCO General Interface distribution in a ZIP file.">
+      description="Packages a General Interface distribution in a ZIP file.">
 
     <delete dir="${dist.dir}"/>
     <antcall target="dist" inheritall="true" inheritrefs="true"/>

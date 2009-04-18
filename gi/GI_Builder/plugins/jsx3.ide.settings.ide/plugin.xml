@@ -66,9 +66,9 @@ this._openDialog = function(intPane) {
 
   <extension point="jsx3.ide.settings.ide.pane" id="default">
     <pane label="IDE Settings" img="images/builder.gif"
-          tip="Settings related to General Interface&amp;#8482; Builder." resource="pane_builder"/>
+          tip="Settings related to General Interface Builder." resource="pane_builder"/>
     <pane label="IDE Hot Keys" img="images/hotkeys.gif"
-          tip="Customize hot key shortcuts of General Interface&amp;#8482; Builder." resource="pane_hotkeys"/>
+          tip="Customize hot key shortcuts of General Interface Builder." resource="pane_hotkeys"/>
     <pane label="Paths" img="images/paths.gif"
           tip="Set the user home directory and the local HTTP server root." resource="pane_home"/>
   </extension>

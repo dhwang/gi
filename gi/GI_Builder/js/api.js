@@ -4,7 +4,7 @@
  */
 
 /**
- * The public API of the TIBCO General Interface&#8482; IDE. This package is only available when running in the IDE.
+ * The public API of the General Interface IDE. This package is only available when running in the IDE.
  *
  * @jsxdoc-definition  jsx3.Package.definePackage("jsx3.ide", null, function(){});
  */

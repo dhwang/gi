@@ -6,7 +6,7 @@
 // @jsxobf-clobber  _before _after _around _name _cond _methodkeys _pc _method
 
 /**
- * Simple aspect oriented programming for TIBCO General Interface&#8482;.
+ * Simple aspect oriented programming for General Interface.
  * <p/>
  * Advice can be added before, after, and around any call to an instance method of a GI class. 
  * <p/>

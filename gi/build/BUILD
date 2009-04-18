@@ -1,10 +1,10 @@
 ======================================================================
-TIBCO General Interface(TM) - Professional Edition - Building
+General Interface - Building
 
 ======================================================================
 Introduction
 
-  Building General Interface(TM) creates a copy of the source
+  Building General Interface creates a copy of the source
   distribution optimized for runtime. General Interface runs from
   the unbuilt source directory or from an optimized build.
   Building is therefore an optional step that is highly recommended

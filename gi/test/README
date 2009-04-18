@@ -1,4 +1,4 @@
-To run all the TIBCO General Interface tests, launch gi-jsunit.html
+To run all the General Interface tests, launch gi-jsunit.html
 in the browser to test. Then click the "Run" button.
 
 To add a new test suite, create a new JavaScript file in the tests/

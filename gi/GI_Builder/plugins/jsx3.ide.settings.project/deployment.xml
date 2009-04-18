@@ -26,7 +26,7 @@ objJSX.savePrefs = function() {
 
   var retValue = ns == objSettings.get("namespace") ? true :
       {title: "Restart Required", message:
-        "You must restart General Interface&#8482; Builder for the new project namespace to take effect."};
+        "You must restart General Interface Builder for the new project namespace to take effect."};
   var bRefreshRes = jsx_deployment_objectseturl.getValue() != objSettings.get("objectseturl");
 
   var done = {};

@@ -26,7 +26,7 @@ objJSX.openHelpContents = function() {
     var url = this.getServer().getDynamicProperty("builder_url");
     jsx3.IDE.alert("Documentation Not Installed",
         "It appears that the online documentation is not installed correctly. " +
-        "Please <a href='"+ url +"' target='_blank'>download the General Interface&#8482; documentation</a> and make sure that it is installed in the doc/ directory.");
+        "Please <a href='"+ url +"' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
   }
 };
 

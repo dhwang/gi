@@ -15,7 +15,7 @@ verifyUserHome: function() {
   var file = jsx3.ide.getCurrentUserHome();
   if (file != null) {
     if (! jsx3.ide.isValidUserHome(file)) {
-      jsx3.ide.LOG.error("When running in Internet Explorer, your workspace must be on the same drive as the General Interface(TM) installation.");
+      jsx3.ide.LOG.error("When running in Internet Explorer, your workspace must be on the same drive as the General Interface installation.");
       return false;
     }
 
@@ -70,7 +70,7 @@ onSelectNewUserHome: function(objDir, objAlerter) {
       }
 
       if (! jsx3.ide.isValidUserHome(objDir)) {
-        objAlerter.alert(null, "When running in Internet Explorer, your workspace must be on the same drive as the General Interface(TM) installation.");
+        objAlerter.alert(null, "When running in Internet Explorer, your workspace must be on the same drive as the General Interface installation.");
         return false;
       }
 

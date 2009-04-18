@@ -17,7 +17,7 @@ objJSX.savePrefs = function() {
   if (s.get(id, "path") != path.getValue()) {
     s.set(id, "path", path.getValue());
 //    retValue = {title: "Restart Required",
-//        message: "You must restart General Interface&#8482; Builder to use GIPP from the Project menu."};
+//        message: "You must restart General Interface Builder to use GIPP from the Project menu."};
   }
 
   return retValue;
@@ -91,7 +91,7 @@ objJSX.makeDirty = function(objInput) {
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2" jsxrelativeposition="1"/>
       <strings jsxwidth="100%" jsxpadding="0 0 0 90"
-               jsxtext="Choose the directory of the TIBCO General Interface&#8482; Performance Profiler installation in which to launch projects."/>
+               jsxtext="Choose the directory of the General Interface Performance Profiler installation in which to launch projects."/>
     </object>
   </object>
 </serialization>

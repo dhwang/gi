@@ -67,7 +67,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
       }
       this.setDirty(true);
       
-      jsx3.IDE.alert("Component Modified", "General Interface&#8482; Builder does not support multiple root objects. " + 
+      jsx3.IDE.alert("Component Modified", "General Interface Builder does not support multiple root objects. " +
           "The root objects of this component file have been moved under a single root block. Save the component file " + 
           "to accept these changes.");
     }

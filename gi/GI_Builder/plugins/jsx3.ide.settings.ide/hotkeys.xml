@@ -33,7 +33,7 @@ objJSX.savePrefs = function() {
   prefs.save();
 
   return {title: "Restart Required",
-      message: "You must restart General Interface&#8482; Builder for the changes to take effect."};
+      message: "You must restart General Interface Builder for the changes to take effect."};
 };
 
 objJSX.loadPrefs = function() {

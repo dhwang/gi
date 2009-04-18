@@ -7,7 +7,7 @@
 
 /**
  * This class is used in conjunction with the XML Mapping Utility to provide transactional support for those services using XML-based messaging.
- * Support includes those services defined via Schema, XML, XHTML, and WSDL (SOAP).  In practice a developer would open General Interface&#8482; Builder
+ * Support includes those services defined via Schema, XML, XHTML, and WSDL (SOAP).  In practice a developer would open General Interface Builder
  * to access the XML Mapping Utility.  They would then point the utility at a "pattern master" (i.e., WSDL, Schema, XML, etc) and begin using its
  * visual tools to bind application objects to nodes in the XML messages to be sent and received.
  * The output from the Mapping Utility is referred to as a mapping rule set.  This rule set is an XML document based upon the Common Exchange Format (CXF)

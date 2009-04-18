@@ -184,8 +184,8 @@ jsx3.ide._checkUpgradeProject = jsx3.$Y(function(cb) {
 
   if (cmp < 0) {
     if (proj.isNeedsUpgrade()) {
-      jsx3.IDE.confirm(null, "This project was created by an earlier version of General Interface&#8482; Builder." +
-          " Once this project has been opened by this version of General Interface&#8482; Builder it may not be " +
+      jsx3.IDE.confirm(null, "This project was created by an earlier version of General Interface Builder." +
+          " Once this project has been opened by this version of General Interface Builder it may not be " +
           "compatible with prior versions. Continue?",
           function(d) {
             d.doClose();
@@ -202,7 +202,7 @@ jsx3.ide._checkUpgradeProject = jsx3.$Y(function(cb) {
     cmp = jsx3.util.compareVersions(v, jsx3.System.getVersion());
 
     if (cmp > 0) {
-      jsx3.IDE.alert(null, "This project was created by a higher version of General Interface&#8482; Builder (" +
+      jsx3.IDE.alert(null, "This project was created by a higher version of General Interface Builder (" +
               v + ") and cannot be opened by this version (" + jsx3.System.getVersion() + ").",
           function(d) {
             d.doClose();
@@ -280,9 +280,9 @@ jsx3.ide._onBeforeShutdown = function(objEvent) {
   settings.save();
 
   if (jsx3.ide.isAnyEditorDirty())
-    objEvent.returnValue = "WARNING: You have unsaved changes in your project. Click on Cancel to go back to General Interface(TM) Builder to save your changes.";
+    objEvent.returnValue = "WARNING: You have unsaved changes in your project. Click on Cancel to go back to General Interface Builder to save your changes.";
   else
-    objEvent.returnValue = "Unloading the current page will close General Interface(TM) Builder and end your session.";
+    objEvent.returnValue = "Unloading the current page will close General Interface Builder and end your session.";
 };
 
 jsx3.ide.onShutdown = function(objEvent) {

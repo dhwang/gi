@@ -5,7 +5,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
-<project name="TIBCO General Interface Tools" default="all" basedir=".">
+<project name="General Interface Build Tools" default="all" basedir=".">
 
   <property file="build.properties"/>
 

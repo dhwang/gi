@@ -21,7 +21,7 @@ objJSX.savePrefs = function() {
     if (!oldHomeDir || !oldHomeDir.equals(newHomeDir)) {
       if (jsx3.ide.onSelectNewUserHome(newHomeDir, this.getServer())) {
         retValue = {title: "Restart Required",
-            message: "You must restart General Interface&#8482; Builder to use your new workspace."};
+            message: "You must restart General Interface Builder to use your new workspace."};
       } else {
         return false;
       }
@@ -167,7 +167,7 @@ objJSX.makeDirty = function(objInput) {
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="1"/>
           <strings jsxwidth="100%" jsxpadding="0 0 0 90"
-              jsxtext="The local directory containing your projects, custom addins, and prototypes, as well as your user settings for General Interface&#8482; Builder."/>
+              jsxtext="The local directory containing your projects, custom addins, and prototypes, as well as your user settings for General Interface Builder."/>
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="24"/>
@@ -195,7 +195,7 @@ objJSX.makeDirty = function(objInput) {
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="1"/>
           <strings jsxwidth="100%" jsxpadding="0 0 0 90"
-              jsxtext="The base URI to the General Interface&#8482; directory on a local HTTP server hosting this General Interface&#8482; installation."/>
+              jsxtext="The base URI to the General Interface directory on a local HTTP server hosting this General Interface installation."/>
         </object>
       <object type="jsx3.gui.Block">
         <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="32"/>

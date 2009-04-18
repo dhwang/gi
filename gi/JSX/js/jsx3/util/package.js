@@ -293,7 +293,7 @@ jsx3.Package.definePackage("jsx3.util", function(util) {
 /**
  * A benchmarking utility that facilitates sending timing messages to the logging system. 
  * <p/>
- * <b>This class is only available in the source distribution and debug build of General Interface&#8482;.</b>
+ * <b>This class is only available in the source distribution and debug build of General Interface.</b>
  *
  * @since 3.5
  * @package
@@ -389,7 +389,7 @@ jsx3.Class.defineClass("jsx3.util.Timer", null, null, function(Timer, Timer_prot
  * A name-value map that holds its contents only during the current JavaScript "thread"/stack. All contents of
  * a weak map are cleared after the next window timeout.
  * <p/>
- * <b>This class is only available in the source distribution and debug build of General Interface&#8482;.</b>
+ * <b>This class is only available in the source distribution and debug build of General Interface.</b>
  *
  * @since 3.5
  * @package

@@ -12,5 +12,5 @@
   <record jsxid="jsxerr_exporthtml_directory" 
       jsxtext="The HTML export must be placed directly within the GI installation directory in order for the HTML to render correctly."/>
   <record jsxid="jsxerr_filenotloaded" 
-      jsxtext="A resource required by General Interface&amp;#8482; Builder is not available. This is typically because the ActiveX control needed for file system access was not loaded. Ensure that your browser security settings allow for the loading of ActiveX. Also, ensure that you are running General Interface&amp;#8482; Builder from your local file system and that you have access rights to the files."/>
+      jsxtext="A resource required by General Interface Builder is not available. This is typically because the ActiveX control needed for file system access was not loaded. Ensure that your browser security settings allow for the loading of ActiveX. Also, ensure that you are running General Interface Builder from your local file system and that you have access rights to the files."/>
 </data>

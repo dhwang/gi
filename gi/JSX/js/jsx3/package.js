@@ -668,7 +668,7 @@ jsx3.Package.definePackage("jsx3", function() {
   };
 
   /**
-   * Returns the version of TIBCO General Interface&#8482;.
+   * Returns the version of General Interface.
    *
    * @jsxdoc-definition  jsx3.getVersion = function(){}
    */

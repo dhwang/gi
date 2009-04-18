@@ -44,7 +44,7 @@
       var t = Math.round((gui.offsetHeight - h) / 3);
       gui.style.backgroundColor = "#ffffff";
       gui.innerHTML = '<div style="position:absolute;left:' + l + 'px;top:' + t + 'px;font-family:Verdana,Arial,sans-serif;font-size:12px;">' +
-          '<img src="' + this.resolveURI('splash.jpg') + '" alt="TIBCO General Interface Builder"/>' +
+          '<img src="' + this.resolveURI('splash.jpg') + '" alt="General Interface Builder"/>' +
           '<div style="position:absolute;left:45px;top:113px;width:0px;overflow:hidden;height:10px;' +
              'background-image:url(' + this.resolveURI("progress.jpg") + ');">&#160;</div>' +
           '<div style="position:absolute;left:45px;top:135px;color:white;">' +

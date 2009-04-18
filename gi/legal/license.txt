@@ -1,4 +1,4 @@
-TIBCO General Interface - Professional Edition - BSD License
+General Interface - BSD License
 
 Copyright (c) 2001-2009, TIBCO Software Inc.
 All rights reserved.

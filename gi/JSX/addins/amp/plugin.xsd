@@ -9,7 +9,7 @@
 
   <xs:annotation>
     <xs:documentation xml:lang="en">
-      XML schema that covers the various XML formats of the TIBCO General Interface(TM) Asynchronous Modular
+      XML schema that covers the various XML formats of the General Interface Asynchronous Modular
       Platform (AMP).
     </xs:documentation>
   </xs:annotation>

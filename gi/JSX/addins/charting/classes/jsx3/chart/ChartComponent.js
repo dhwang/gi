@@ -7,7 +7,7 @@ jsx3.require("jsx3.gui.Block");
 
 /**
  * A base class for every logical component of a chart. A chart component exists in the DOM tree and 
- * is selectable with ctrl-click in a component editor in General Interface&#8482; Builder.
+ * is selectable with ctrl-click in a component editor in General Interface Builder.
  */
 jsx3.Class.defineClass("jsx3.chart.ChartComponent", jsx3.gui.Block, null, function(ChartComponent, ChartComponent_prototype) {
 

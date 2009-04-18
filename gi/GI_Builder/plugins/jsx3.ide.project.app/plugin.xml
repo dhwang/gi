@@ -43,9 +43,9 @@
   </extension-point>
 
   <extension point="jsx3.ide.project.project-type" id="type">
-    <type id="jsxapp" label="General Interface&amp;#8482; Application" class="jsx3.ide.project.AppProject"
+    <type id="jsxapp" label="General Interface Application" class="jsx3.ide.project.AppProject"
           panes="wizard1, wizard2" ext-class="jsx3.ide.project.Type"
-          description="A standard General Interface&amp;#8482; application."
+          description="A standard General Interface application."
           >
     </type>
   </extension>
