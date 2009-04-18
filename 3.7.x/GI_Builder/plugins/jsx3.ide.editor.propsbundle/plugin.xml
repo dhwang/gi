@@ -13,6 +13,7 @@
 
   <requires>
     <plugin id="jsx3.ide.editor.props"/>
+    <plugin id="jsx3.gui.ImageButton"/>
   </requires>
 
   <resources>
