@@ -107,21 +107,23 @@ jsx3.Class.defineClass('jsx3.app.Monitor', jsx3.util.Logger.FormatHandler, null,
             this._openWindow();
         }
 
-        if (!w.closed && w.appendMessage) {
-          // When first opening the app monitor, push all in-memory records to the output...
-          if (w.isFirstTime()) {
-            var manager = jsx3.util.Logger.Manager.getManager();
-            var memoryHandler = manager.getHandler("memory");
-            if (memoryHandler) {
-              jsx3.$A(memoryHandler.getRecords()).each(jsx3.$F(function(e) {
-                if (e !== objRecord)
-                  w.appendMessage(this.format(e), jsx3.util.Logger.levelAsString(e.getLevel()));
-              }).bind(this));
+        try {
+          if (!w.closed && w.appendMessage) {
+            // When first opening the app monitor, push all in-memory records to the output...
+            if (w.isFirstTime()) {
+              var manager = jsx3.util.Logger.Manager.getManager();
+              var memoryHandler = manager.getHandler("memory");
+              if (memoryHandler) {
+                jsx3.$A(memoryHandler.getRecords()).each(jsx3.$F(function(e) {
+                  if (e !== objRecord)
+                    w.appendMessage(this.format(e), jsx3.util.Logger.levelAsString(e.getLevel()));
+                }).bind(this));
+              }
             }
-          }
 
-          w.appendMessage(this.format(objRecord), jsx3.util.Logger.levelAsString(objRecord.getLevel()));
-        }
+            w.appendMessage(this.format(objRecord), jsx3.util.Logger.levelAsString(objRecord.getLevel()));
+          }
+        } catch (e) {}
       }
     }
   };
