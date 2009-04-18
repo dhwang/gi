@@ -128,6 +128,10 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
   /** @private @jsxobf-clobber */
   Engine_prototype._load = jsx3.$Y(function(cb) {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", this.getServer().getEnv('namespace'));
+/* @JSC :: end */
+
     var strPath = amp.DIR + "/" + amp.DESCRIPTOR;
 
     var mainPluginsURI = amp.ADDIN.resolveURI(strPath);
@@ -143,7 +147,15 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     var mainXMLDone = this._loadPluginsDescriptor(mainXML, addinXMLDone); // 2nd param just for temporal ordering
 
     var autoDone = this._checkAutoReg(mainXMLDone);   // param just for ordering
-    return jsx3.$Z(this._onFinished, this)(autoDone); // param just for ordering
+    var rv = jsx3.$Z(this._onFinished, this)(autoDone); // param just for ordering
+
+/* @JSC :: begin BENCH */
+    rv.when(function() {
+      t1.log("engine.load");
+    });
+/* @JSC :: end */
+
+    return rv;
   });
 
   /** @private @jsxobf-clobber */
@@ -794,8 +806,21 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     //    amp.LOG.debug("_loadPlugIn " + objPlugIn);
 
     var presDone = this._loadPrereqPlugIns(objPlugIn);
+
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objPlugIn.getId());
+/* @JSC :: end */
+
     var rsrcDone = this._loadNormalRsrcs(objPlugIn, presDone); // 2nd parameter for ordering only
-    return jsx3.$Z(this._onAfterPlugInLoaded, this)(objPlugIn, rsrcDone); // 2nd parameter for ordering only
+    var rv = jsx3.$Z(this._onAfterPlugInLoaded, this)(objPlugIn, rsrcDone); // 2nd parameter for ordering only
+
+/* @JSC :: begin BENCH */
+    rv.when(function() {
+      t1.log("plugin.load");
+    });
+/* @JSC :: end */
+
+    return rv;
   });
 
   /** @private @jsxobf-clobber */
@@ -968,6 +993,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 //      amp.LOG.debug("_newResourceJob " + objResource + " " + strSrc);
       var onDone = jsx3.$F(function(rv) {
         amp.LOG.debug(jsx3._msg("amp.23", objResource, strSrc));
+        amp.LOG.debug(jsx3._msg("amp.23", objResource, strSrc));
         this._prog._done(progId);
         cb.done(rv);
       }).bind(this);
@@ -979,7 +1005,13 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
               if (rv != null) {
                 var target = objResource.getPlugIn() || jsx3;
                 try {
+/* @JSC :: begin BENCH */
+                  var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objResource.getId());
+/* @JSC :: end */
                   target.eval(rv);
+/* @JSC :: begin BENCH */
+                  t1.log("js.eval");
+/* @JSC :: end */
                 } catch (e) {
                   amp.LOG.error(jsx3._msg("amp.32", strSrc, target), jsx3.NativeError.wrap(e));
                 }
@@ -1041,13 +1073,25 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       switch (strType) {
         case "script":
           if (objResource.attr("eval") == "true") {
+/* @JSC :: begin BENCH */
+            var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objResource.getId());
+/* @JSC :: end */
             // Any load="early" resource will not have access to the PlugIn object, so they should not assume
             // "this" context.
             (objResource.getPlugIn() || jsx3).eval((dataNode || xml).getValue());
+/* @JSC :: begin BENCH */
+            t1.log("js.eval");
+/* @JSC :: end */
           } else if (!Engine._ONCE[objResource.getId()]) {
+/* @JSC :: begin BENCH */
+            var t1 = new jsx3.util.Timer("jsx3.amp.Engine", objResource.getId());
+/* @JSC :: end */
             // If eval is not true, this was probably inlined during a build process and should only be evaluated once.
             Engine._ONCE[objResource.getId()] = 1;
             jsx3.eval((dataNode || xml).getValue());
+/* @JSC :: begin BENCH */
+            t1.log("js.eval");
+/* @JSC :: end */
           }
           break;
         case "css":
