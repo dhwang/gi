@@ -28,6 +28,7 @@
     <record jsxid="amp.23" jsxtext="Loaded resource {0} {1}"/>
     <record jsxid="amp.24" jsxtext="No job!"/>
     <record jsxid="amp.25" jsxtext="Loading inline resource {0}"/>
+    <record jsxid="amp.26" jsxtext="Registered plug-in {0} before its required plug-in {1}; possibly an error or typo."/>
     <record jsxid="amp.28" jsxtext="Inline propsbundle resource not implemented"/>
     <record jsxid="amp.29" jsxtext="No inline &lt;data&gt; element defined for resource {0}"/>
     <record jsxid="amp.32" jsxtext="Error evaluating script {0} on target {1}"/>

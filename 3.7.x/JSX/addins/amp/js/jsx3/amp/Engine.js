@@ -356,20 +356,27 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     this._pgdata[strId] = objElm;
     var arrRsrc = this._createResources(objElm.selectSingleNode("amp:resources", amp.XML_NS), strId, strPath);
 
-    var reqDone = this._requiredAreReg(objElm);
+    var reqDone = this._requiredAreReg(strId, objElm);
     var earlyDone = this._loadEarlyRsrc(strId, arrRsrc, reqDone); // 3th param just for ordering
     return jsx3.$Z(this._createPlugIn, this)(strId, strPath, objElm, arrRsrc, earlyDone); // 5th param just for ordering
   });
 
   /** @private @jsxobf-clobber */
   Engine_prototype._requiredAreReg = jsx3.$Y(function(cb) {
-    var objElm = cb.args()[0];
+    var args = cb.args();
+    var strId = args[0], objElm = args[1];
 
     // All required plug-ins will be registered/instantiated before this plug-in is.
     var reqs = this._getRequires(objElm);
 
     reqs = reqs.filter(jsx3.$F(function(e) {
-      return !this.getPlugIn(e);
+      var isReg = this.getPlugIn(e);
+
+      // Warn when a plug-in is registered before a plug-in that it requires. Possible typo!
+      if (!isReg && !this._pluginregdata[e])
+        amp.LOG.warn(jsx3._msg("amp.26", strId, e));
+
+      return !isReg;
     }).bind(this));
 
     if (reqs.length > 0) {
