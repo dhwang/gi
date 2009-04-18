@@ -149,10 +149,12 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   /** @private @jsxobf-clobber */
   Engine_prototype._checkAutoReg = jsx3.$Y(function(cb) {
     var autoRegPI = this.getPlugIn("jsx3.amp.autoreg");
-    if (autoRegPI.hasProvider() && !autoRegPI.hasCompleted())
-      autoRegPI.subscribe("done", function() { cb.done(); });
-    else
-      cb.done();
+    autoRegPI.load().when(function() {
+      if (autoRegPI.hasProvider() && !autoRegPI.hasCompleted())
+        autoRegPI.subscribe("done", function() { cb.done(); });
+      else
+        cb.done();
+    });
   });
   
   /** @private @jsxobf-clobber */
@@ -1031,9 +1033,15 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
       switch (strType) {
         case "script":
-          // Any load="early" resource will not have access to the PlugIn object, so they should not assume
-          // "this" context.
-          (objResource.getPlugIn() || jsx3).eval((dataNode || xml).getValue());
+          if (objResource.attr("eval") == "true") {
+            // Any load="early" resource will not have access to the PlugIn object, so they should not assume
+            // "this" context.
+            (objResource.getPlugIn() || jsx3).eval((dataNode || xml).getValue());
+          } else if (!Engine._ONCE[objResource.getId()]) {
+            // If eval is not true, this was probably inlined during a build process and should only be evaluated once.
+            Engine._ONCE[objResource.getId()] = 1;
+            jsx3.eval((dataNode || xml).getValue());
+          }
           break;
         case "css":
           if (jsx3.CLASS_LOADER.IE) {
@@ -1136,6 +1144,10 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   Engine._loadJS2 = jsx3.$Y(function(cb) {
     var path = cb.args()[0];
 
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", path);
+/* @JSC :: end */
+
     var element = document.createElement("script");
     element.setAttribute("src", path);
     element.setAttribute("type", 'text/javascript');
@@ -1144,6 +1156,9 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     if (element.addEventListener) {
       var evtHandler = function(e) {
         element.removeEventListener("load", evtHandler, false);
+/* @JSC :: begin BENCH */
+        t1.log("js.load");
+/* @JSC :: end */
         cb.done();
       };
 
@@ -1153,6 +1168,9 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         var state = this.readyState;
         if (state == "loaded" || state == "interactive" || state == "complete") {
           element.onreadystatechange = null;
+/* @JSC :: begin BENCH */
+          t1.log("js.load");
+/* @JSC :: end */
           cb.done();
         }
       };

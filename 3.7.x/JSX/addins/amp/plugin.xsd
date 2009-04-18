@@ -473,8 +473,10 @@
         <xs:attribute name="eval" type="xs:boolean" use="optional" default="false">
           <xs:annotation>
             <xs:documentation xml:lang="en">
-              If true then the contents of this resource are evaluated in the context of the plug-in object. This
-              attribute is implicitly true when the resource is inlined. Note that setting this attribute equal to
+              If true then the contents of this resource are evaluated in the context of the plug-in object. If this
+              resource is inlined then the script must be evaluated, though in the context of <code>jsx3</code> rather than the
+              plug-in object. If true the script is evaluated once for each engine that loads the plug-in, otherwise
+              the script is only included or evaluated once for all engines. Note that setting this attribute equal to
               true is incompatible with load="early" since the plug-in will not have been instantiated.
             </xs:documentation>
           </xs:annotation>
