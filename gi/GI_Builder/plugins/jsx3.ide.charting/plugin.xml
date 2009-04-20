@@ -3,9 +3,9 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
-<plugin xmlns="http://www.tibco.com/gi/amp"
+<plugin xmlns="http://www.generalinterface.org/gi/amp"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugin.xsd"
+        xsi:schemaLocation="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugin.xsd"
         id="jsx3.ide.charting"
         name="Charting Add-in Plug-In"
         version="0.1">

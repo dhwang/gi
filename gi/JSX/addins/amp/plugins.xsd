@@ -4,8 +4,8 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
-           targetNamespace="http://www.tibco.com/gi/amp" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:amp="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugin.xsd">
+           targetNamespace="http://www.generalinterface.org/gi/amp" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:amp="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugin.xsd">
 
   <xs:annotation>
     <xs:documentation xml:lang="en">
@@ -14,10 +14,10 @@
     </xs:documentation>
   </xs:annotation>
 
-  <xs:import schemaLocation="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugin.xsd"/>
+  <xs:import schemaLocation="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugin.xsd"/>
   
   <!-- <plugins> -->
-  <xs:element name="plugins" xmlns:amp="http://www.tibco.com/gi/amp">
+  <xs:element name="plugins" xmlns:amp="http://www.generalinterface.org/gi/amp">
     <xs:annotation>
       <xs:documentation xml:lang="en">
         The top-level element of the plugins.xml plug-in registration file.

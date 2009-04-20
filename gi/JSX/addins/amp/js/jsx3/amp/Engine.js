@@ -180,14 +180,14 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       var baseName = objXML.getBaseName();
       var uri = objXML.getNamespaceURI();
 
-      if (baseName == "plugins" && uri == amp.NS) {
+      if (baseName == "plugins" && amp.isNS(uri)) {
         var pathPrefix = new jsx3.net.URI(xmlPath).resolve("").toString();
         pathPrefix = pathPrefix.substring(0, pathPrefix.length - 1);
         var condRV = null;
 
         for (var i = objXML.getChildNodes().iterator(); i.hasNext(); ) {
           var objNode = i.next();
-          if (objNode.getBaseName() == "plugin" && objNode.getNamespaceURI() == amp.NS) {
+          if (objNode.getBaseName() == "plugin" && amp.isNS(objNode.getNamespaceURI())) {
             var c = this._registerPlugInFromRegEntry(objNode, pathPrefix);
             condRV = condRV ? condRV.and(c) : c;
           }
@@ -256,7 +256,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       var baseName = objXML.getBaseName();
       var uri = objXML.getNamespaceURI();
 
-      if (baseName == "plugin" && uri == amp.NS) {
+      if (baseName == "plugin" && amp.isNS(uri)) {
         return this._registerPlugInFromElm(strId, strPath, objXML);
       } else {
         amp.LOG.error(jsx3._msg("amp.05", strId, baseName, uri));
@@ -312,7 +312,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
   /** @private @jsxobf-clobber */
   Engine_prototype._mergeLocalizedDoc = function(xml, locData) {
-    if (locData.getBaseName() != "plugin" || locData.getNamespaceURI() != amp.NS) {
+    if (locData.getBaseName() != "plugin" || !amp.isNS(locData.getNamespaceURI())) {
       amp.LOG.error(jsx3._msg("amp.54", locData.getSourceURL()));
       return;
     }
@@ -331,10 +331,10 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
   /** @private @jsxobf-clobber */
   Engine_prototype._mergeLocalizedDocClob = function(xml, locData, elmName, skipMap) {
-    for (var i = locData.selectNodeIterator("amp:" + elmName + "[@id]", amp.XML_NS); i.hasNext(); ) {
+    for (var i = locData.selectNodeIterator("amp:" + elmName + "[@id]", amp.getXmlNS(locData)); i.hasNext(); ) {
       var xpNode = i.next();
       var id = xpNode.getAttribute("id");
-      var originalNode = xml.selectSingleNode('amp:' + elmName + '[@id="' + id + '"]', amp.XML_NS);
+      var originalNode = xml.selectSingleNode('amp:' + elmName + '[@id="' + id + '"]', amp.getXmlNS(xml));
 
       if (originalNode) {
         jsx3.$A(xpNode.getAttributeNames()).each(function(e) {
@@ -344,7 +344,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         var newChildren = xpNode.getChildNodes().toArray();
         if (newChildren.length > 0) {
           jsx3.$A(originalNode.getChildNodes().toArray().reverse()).each(function(e) {
-            if (e.getNamespaceURI() != amp.NS || !skipMap[e.getBaseName()]) {
+            if (!amp.isNS(e.getNamespaceURI()) || !skipMap[e.getBaseName()]) {
               originalNode.removeChild(e);
             }
           });
@@ -366,7 +366,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
     // Save the XML metadata for each plug-in for later use.
     this._pgdata[strId] = objElm;
-    var arrRsrc = this._createResources(objElm.selectSingleNode("amp:resources", amp.XML_NS), strId, strPath);
+    var arrRsrc = this._createResources(objElm.selectSingleNode("amp:resources", amp.getXmlNS(objElm)), strId, strPath);
 
     var reqDone = this._requiredAreReg(strId, objElm);
     var earlyDone = this._loadEarlyRsrc(strId, arrRsrc, reqDone); // 3th param just for ordering
@@ -440,7 +440,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       for (var i = objElm.getChildNodes().iterator(); i.hasNext(); ) {
         var e = i.next();
     
-        if (e.getNamespaceURI() == amp.NS) {
+        if (amp.isNS(e.getNamespaceURI())) {
           var id = e.getAttribute("id");
 
           if (idMap[id]) {
@@ -453,7 +453,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
           
           var rsrc = amp.Resource._newBeforePlugIn(strPlugInId, strPath + "/" + strPlugInId + "/", id, e, this);
           
-          for (var j = e.selectNodeIterator("amp:prereq", amp.XML_NS); j.hasNext(); ) {
+          for (var j = e.selectNodeIterator("amp:prereq", amp.getXmlNS(e)); j.hasNext(); ) {
             var n = j.next();
             var nid = n.getAttribute("id");
             if (nid)
@@ -474,7 +474,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   /** @private @jsxobf-clobber */
   Engine_prototype._getRequires = function(objElm) {
     var r = jsx3.$A();
-    for (var i = objElm.selectNodeIterator("amp:requires/amp:plugin", amp.XML_NS); i.hasNext(); )
+    for (var i = objElm.selectNodeIterator("amp:requires/amp:plugin", amp.getXmlNS(objElm)); i.hasNext(); )
       r.push(i.next().getAttribute("id"));
     return r;
   };
@@ -570,7 +570,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       }
     }
 
-    for (var i = objElm.selectNodeIterator("amp:bindable", amp.XML_NS); i.hasNext(); ) {
+    for (var i = objElm.selectNodeIterator("amp:bindable", amp.getXmlNS(objElm)); i.hasNext(); ) {
       var node = i.next();
       var key = node.getAttribute("id");
       p.addBindableProp(key, node.getAttribute("value"));
@@ -601,7 +601,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   Engine_prototype._regSubscriptions = function(plugIn, objElm, bPre) {
     var query = bPre ? "[not(@handler)]" : "[@handler]";
 
-    for (var i = objElm.selectNodeIterator("amp:subscribe" + query, amp.XML_NS); i.hasNext(); ) {
+    for (var i = objElm.selectNodeIterator("amp:subscribe" + query, amp.getXmlNS(objElm)); i.hasNext(); ) {
       var n = i.next();
       var eventIds = n.getAttribute("event").split(/\s+/g);
       var handlerName = n.getAttribute("handler");
@@ -642,7 +642,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
   /** @private @jsxobf-clobber-shared */
   Engine._extendInstance = function(obj, objElm) {
-    for (var i = objElm.selectNodeIterator("amp:script | amp:field | amp:method", amp.XML_NS); i.hasNext(); ) {
+    for (var i = objElm.selectNodeIterator("amp:script | amp:field | amp:method", amp.getXmlNS(objElm)); i.hasNext(); ) {
       var n = i.next();
       var name = n.getBaseName();
 
@@ -1068,7 +1068,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       amp.LOG.debug(jsx3._msg("amp.25", objResource));
 
       var xml = objResource.xml();
-      var dataNode = xml.selectSingleNode("amp:data", amp.XML_NS);
+      var dataNode = xml.selectSingleNode("amp:data", amp.getXmlNS(xml));
       var objData = null;
 
       switch (strType) {

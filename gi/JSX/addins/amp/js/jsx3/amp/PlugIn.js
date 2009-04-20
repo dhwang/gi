@@ -87,7 +87,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.PlugIn", null, [jsx3.util.EventDispatcher,
       var name = node.getBaseName();
 
       if (name == "requires") {
-        for (var j = node.selectNodeIterator("amp:plugin", amp.XML_NS); j.hasNext(); )
+        for (var j = node.selectNodeIterator("amp:plugin", amp.getXmlNS(node)); j.hasNext(); )
           this._req.push(j.next().getAttribute("id"));
       } else if (name == "event") {
 

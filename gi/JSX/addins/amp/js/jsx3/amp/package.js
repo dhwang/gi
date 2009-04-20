@@ -12,14 +12,22 @@
 jsx3.lang.Package.definePackage("jsx3.amp", function(amp) {
 
   /** {String} The plug-in definition XML namespace URI. */
-  amp.NS = "http://www.tibco.com/gi/amp";
+  amp.NS = "http://www.generalinterface.org/gi/amp";
 
-  /** 
-   * {Object} 
-   * @package
-   */
-  amp.XML_NS = {};
-  amp.XML_NS[amp.NS] = "amp";
+  /** @private @jsxobf-clobber */
+  amp._NS = {"http://www.tibco.com/gi/amp": true, "http://www.generalinterface.org/gi/amp": true};
+
+  /** @package */
+  amp.isNS = function(ns) {
+    return amp._NS[ns];
+  };
+
+  /** @package */
+  amp.getXmlNS = function(x) {
+    var o = {};
+    o[x.getNamespaceURI()] = "amp";
+    return o;
+  };
 
   /** {String} The name of the plug-ins registration file. */
   amp.DESCRIPTOR = "plugins.xml";

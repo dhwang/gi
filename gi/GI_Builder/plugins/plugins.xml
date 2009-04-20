@@ -5,9 +5,9 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
-<plugins xmlns="http://www.tibco.com/gi/amp"
+<plugins xmlns="http://www.generalinterface.org/gi/amp"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.tibco.com/gi/amp http://gi.tibco.com/xsd/plugins.xsd">
+         xsi:schemaLocation="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugins.xsd">
   
   <plugin id="jsx3.ide.progress"/>
   <plugin id="jsx3.ide"/>
