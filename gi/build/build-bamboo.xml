@@ -45,12 +45,6 @@
     </ant>
     <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}.zip"/>
 
-    <!-- deploy api documentation -->
-    <delete dir="${staging-doc.nightly}/${build.gi.version.name}"/>
-    <copydir
-        src="${project.dir}/${build.loc.dist}/gi/api/html"
-        dest="${staging-doc.nightly}/${build.gi.version.name}"/>
-
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- debug build -->
