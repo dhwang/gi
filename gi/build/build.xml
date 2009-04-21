@@ -166,9 +166,7 @@
     </filterset>
     <filterset id="gi-filters">
       <filtersfile file="${build.dir}/build.properties"/>
-      <filter token="build.version.buildno" value="${build.gi.buildno}"/>
-      <filter token="GI_BETA_WARN" value="${build.gi.beta.warn}"/>
-      <filter token="GI_BETA_EXPIRE" value="${build.gi.beta.expire}"/>
+      <filter token="build.gi.buildno" value="${build.gi.buildno}"/>
       <filtersfile file="${build.properties.strings}"/>
     </filterset>
   </target>
