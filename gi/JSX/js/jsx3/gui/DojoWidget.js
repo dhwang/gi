@@ -112,11 +112,17 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     }
     return newElement;
   };
-  DojoWidget_prototype.attr = function(name, value){
-    if (arguments.length == 1) {
-      return this.dijit.attr(name);
-    }
-    this.dijit.attr(name, value);
+  DojoWidget_prototype.getter = function(name){
+    var dijit = this.dijit;
+    return function() {
+      return dijit.attr(name);
+    };
+  };
+  DojoWidget_prototype.setter = function(name){
+    var dijit = this.dijit;
+    return function(value) {
+      dijit.attr(name, value);
+    };
   };
   DojoWidget_prototype.onDestroy = function(objParent){
     DojoWidget._LOG.warn('destroy');
@@ -166,7 +172,11 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
         }
       }
   };
+  var objectsMissingDocGetters = [];
   function setupAccessors(self){
+    if(!docsInitialized){
+      objectsMissingDocGetters.push(self);
+    }
     iterateProperties(self, function(propDef, i){
       var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
       if(i != "id" && i != "class"){
@@ -180,7 +190,15 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       }
     });
   };
+  var docsInitialized;
   DojoWidget_prototype.getMetadataXML = function(metadataType){
+    if(!docsInitialized){
+      docsInitialized = true;
+      dojox.lang.docs.init(); // make sure it is initialized
+      for(var i = 0, l = objectsMissingDocGetters.length; i < l; i++) {
+        setupAccessors(objectsMissingDocGetters[i]);
+      }
+    }
     var self = this;
     var schemaDefined, dijitClass = this.dijit.constructor;
     var metadata = jsx3.xml.CDF.Document.newDocument();
@@ -204,8 +222,8 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
           jsxtext: firstCap,
           jsxtip: propDef.description,
           eval: propDef.type == 'string' ? 0 : 1,
-          docgetter:"get" + firstCap,
-          docsetter:"set" + firstCap,
+          docgetter: typeof dijitClass.prototype[i] == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
+          docsetter: typeof dijitClass.prototype[i] == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
           getter:"get" + firstCap,
           jsxmask:"jsxtext",
           jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
