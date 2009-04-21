@@ -18,9 +18,12 @@ import org.apache.tools.ant.BuildException;
 public class AmpResourceMergeTask extends AbstractFileTask {
 
   private String ids;
+  private boolean strict = false;
 
   public void execute() throws BuildException {
     ResourceMerger merger = new ResourceMerger();
+    merger.setStrict(strict);
+
     for (File file : getFileSet())
       merger.addFile(file);
 
@@ -45,5 +48,9 @@ public class AmpResourceMergeTask extends AbstractFileTask {
    */
   public void setIds(String ids) {
     this.ids = ids;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

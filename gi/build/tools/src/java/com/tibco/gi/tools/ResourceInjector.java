@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Injects the contents of a Java resource bundle into the source of a JavaScript file. 
@@ -43,6 +44,7 @@ public class ResourceInjector {
   private String replacementToken;
   private Set<Locale> locales;
   private String bundleResource;
+  private boolean strict = false;
 
   /**
    * Performs the injection. Modifies the contents of the <code>textFile</code> property to inject the resources
@@ -74,10 +76,10 @@ public class ResourceInjector {
     writer.close();
 
     if (!textFile.delete())
-      LOG.severe("Could not delete file " + textFile);
+      log(Level.SEVERE, "Could not delete file " + textFile);
 
     if (!tempFile.renameTo(textFile))
-      LOG.severe("Could not save file " + textFile);
+      log(Level.SEVERE, "Could not save file " + textFile);
   }
 
   private String handleLine(String line) {
@@ -144,6 +146,12 @@ public class ResourceInjector {
 
     sb.append("}");
     return sb.toString();
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
   }
 
   /* Convert native String as Unicode escaped  sequence, pass "\\u" as prefix.  */
@@ -214,5 +222,13 @@ public class ResourceInjector {
    */
   public void setBundleResource(String bundleResource) {
     this.bundleResource = bundleResource;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

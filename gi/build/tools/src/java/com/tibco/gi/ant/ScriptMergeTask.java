@@ -5,11 +5,11 @@
 
 package com.tibco.gi.ant;
 
+import java.io.File;
+
 import com.tibco.gi.tools.ScriptMerger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-
-import java.io.File;
 
 /**
  * Ant interface for the {@link ScriptMerger} tool.
@@ -24,6 +24,7 @@ public class ScriptMergeTask extends Task {
   private File outfile;
   private String includes;
   private File log;
+  private boolean strict = false;
 
   public void execute() throws BuildException {
     ScriptMerger merger = new ScriptMerger();
@@ -32,6 +33,7 @@ public class ScriptMergeTask extends Task {
     merger.setTarget(target);
     merger.setOutFile(outfile);
     merger.setLogFile(log);
+    merger.setStrict(strict);
     for (String include : includes.split("[ ,;]+"))
       merger.addRequire(include);
 
@@ -101,5 +103,9 @@ public class ScriptMergeTask extends Task {
    */
   public void setLog(File log) {
     this.log = log;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

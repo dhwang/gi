@@ -4,24 +4,6 @@
  */
 package com.tibco.gi.tools.obfuscator;
 
-import org.apache.xml.serializer.Serializer;
-import org.apache.xml.serializer.SerializerFactory;
-import org.jaxen.JaxenException;
-import org.jaxen.XPath;
-import org.jaxen.dom.DOMXPath;
-import org.mozilla.javascript.CompilerEnvirons;
-import org.mozilla.javascript.ErrorReporter;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.tools.ToolErrorReporter;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +26,24 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.apache.xml.serializer.Serializer;
+import org.apache.xml.serializer.SerializerFactory;
+import org.jaxen.JaxenException;
+import org.jaxen.XPath;
+import org.jaxen.dom.DOMXPath;
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.ErrorReporter;
+import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.tools.ToolErrorReporter;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 /**
  * A file handler knows how to parse a file containing JavaScript code to obfuscate, identify the script elements
@@ -57,39 +57,53 @@ public abstract class FileHandler {
 
   private final static Pattern SCRIPT_NAME = Pattern.compile("\\.js(\\.\\w+)?$");
 
+  public static FileHandler getHandler(File inputFile) {
+    return getHandler(inputFile, false);
+  }
+
   /**
    * Returns an instance of a file handler for a particular input file.
    * @param inputFile
    * @return
    */
-  public static FileHandler getHandler(File inputFile) {
+  public static FileHandler getHandler(File inputFile, boolean strict) {
     String fileName = inputFile.getName().toLowerCase();
+    FileHandler handler;
+
     if (SCRIPT_NAME.matcher(fileName).find()) {
-      return new Script(inputFile);
+      handler = new Script(inputFile);
     } else if (fileName.endsWith(".xml") || fileName.endsWith(".jss")
         || fileName.endsWith(".html") || fileName.endsWith(".xhtml")) {
       try {
         Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputFile);
         Element root = xml.getDocumentElement();
         if ("data".equals(root.getNodeName()))
-          return new CDF(inputFile, xml);
+          handler = new CDF(inputFile, xml);
         else if ("serialization".equals(root.getNodeName()))
-          return new JsxSerialization(inputFile, xml);
+          handler = new JsxSerialization(inputFile, xml);
         else if ("html".equals(root.getNodeName()))
-          return new XHTML(inputFile, xml);
+          handler = new XHTML(inputFile, xml);
         else
-          return new Normal(inputFile);
+          handler = new Normal(inputFile);
       } catch (Exception e) {
+        if (strict)
+          throw new RuntimeException("Error parsing " + inputFile + ": " + e);
+
         LOG.warning("Error parsing " + inputFile + ": " + e);
-        return new Normal(inputFile);
+        handler = new Normal(inputFile);
       }
     } else {
-      return new Normal(inputFile);
+      handler = new Normal(inputFile);
     }
+
+    handler.setStrict(strict);
+
+    return handler;
   }
 
   protected File inputFile;
   protected File outputFile;
+  protected boolean strict = false;
 
   protected FileHandler(File inputFile) {
     this.inputFile = inputFile;
@@ -109,6 +123,16 @@ public abstract class FileHandler {
 
   public File getOutputFile() {
     return outputFile;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
+  }
+
+  protected void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
   }
 
   /**
@@ -247,7 +271,7 @@ public abstract class FileHandler {
         script = this.parseScript(input, inputFile, 1);
         return Collections.singletonList(script);
       } catch (EvaluatorException e) {
-        LOG.severe("JavaScript syntax error in file " + inputFile + ": " + e);
+        this.log(Level.SEVERE, "JavaScript syntax error in file " + inputFile + ": " + e);
       } finally {
         if (input != null) input.close();
       }
@@ -291,7 +315,7 @@ public abstract class FileHandler {
         try {
           input = new FileReader(outputFile);
           if (!checkScript(input, outputFile, 1))
-            LOG.severe("JavaScript syntax error in output file " + outputFile);
+            this.log(Level.SEVERE, "JavaScript syntax error in output file " + outputFile);
         } finally {
           if (input != null) input.close();
         }

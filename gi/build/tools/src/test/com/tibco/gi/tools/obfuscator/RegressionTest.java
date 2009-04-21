@@ -4,18 +4,16 @@
  */
 package com.tibco.gi.tools.obfuscator;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.PrintStream;
-import java.io.FileInputStream;
 import java.io.Reader;
-import java.util.Iterator;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author Jesse Costello-Good
@@ -65,8 +63,10 @@ public class RegressionTest {
     for (NodeWrapper script : handler.getScripts())
       fileScope.addChild(new Scope.Script(script));
 
+    MetaDataParser mdp = new MetaDataParser();
+
     for (Reader reader : handler.getScriptBlocks())
-      MetaDataParser.parse(reader, fileScope);
+      mdp.parse(reader, fileScope);
 
 /*
     if (CREATE_TREES) {

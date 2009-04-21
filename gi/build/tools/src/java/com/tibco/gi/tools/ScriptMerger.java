@@ -4,23 +4,12 @@
  */
 package com.tibco.gi.tools;
 
-import org.jaxen.JaxenException;
-import org.jaxen.dom.DOMXPath;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Writer;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +19,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.logging.Level;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.jaxen.JaxenException;
+import org.jaxen.dom.DOMXPath;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * Merges source files together into a single file. The merged file is the result of including all source files needed
@@ -164,6 +162,7 @@ public class ScriptMerger {
   private File outFile;
   private Set<String> requires = new HashSet<String>();
   private File logFile;
+  private boolean strict = false;
 
   public ScriptMerger() {
   }
@@ -212,7 +211,7 @@ public class ScriptMerger {
             log.println("MERGENOCOMP " + path);
             merged++;
           } else {
-            LOG.warning("Input file " + scriptFile + " was not found.");
+            log(Level.WARNING, "Input file " + scriptFile + " was not found.");
           }
         }
       } else {
@@ -228,13 +227,19 @@ public class ScriptMerger {
 
     if (outFile.exists())
       if (!outFile.delete())
-        LOG.severe("Could not delete " + outFile);
+        log(Level.SEVERE, "Could not delete " + outFile);
     if (!(outFile.getParentFile().isDirectory() || outFile.getParentFile().mkdirs()))
-      LOG.severe("Could not make directory for " + outFile);
+      log(Level.SEVERE, "Could not make directory for " + outFile);
     if (!tempFile.renameTo(outFile))
-      LOG.severe("Could not overwrite " + outFile);
+      log(Level.SEVERE, "Could not overwrite " + outFile);
 
     LOG.info("Merged " + merged + " script files to " + outFile);
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
   }
 
   /**
@@ -293,6 +298,14 @@ public class ScriptMerger {
    */
   public void setLogFile(File logFile) {
     this.logFile = logFile;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 
 }

@@ -5,13 +5,17 @@
 
 package com.tibco.gi.tools;
 
-import org.apache.xml.serializer.OutputPropertiesFactory;
-import org.apache.xml.serializer.Serializer;
-import org.apache.xml.serializer.SerializerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,20 +25,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.logging.Logger;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * Compiles any number of GI API documentation XML source files into a CDF file used in the IDE for JavaScript
@@ -54,6 +48,7 @@ public class TypeAheadCompiler {
   private Set<File> srcFiles = new HashSet<File>();
   private DocumentBuilder parser;
   private Transformer transformer;
+  private boolean strict = false;
 
   /**
    * Runs the compilation.
@@ -78,9 +73,9 @@ public class TypeAheadCompiler {
       try {
         documents.add(parser.parse(srcFile));
       } catch (SAXException e) {
-        LOG.severe("Error loading " + srcFile + ": " + e);
+        log(Level.SEVERE, "Error loading " + srcFile + ": " + e);
       } catch (IOException e) {
-        LOG.severe("Error loading " + srcFile + ": " + e);
+        log(Level.SEVERE, "Error loading " + srcFile + ": " + e);
       }
     }
 
@@ -169,6 +164,12 @@ public class TypeAheadCompiler {
     return ((Document) domResult.getNode()).getDocumentElement();
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
   /**
    * Sets the output file.
    *
@@ -186,6 +187,14 @@ public class TypeAheadCompiler {
    */
   public void addSrcFile(File srcFile) {
     this.srcFiles.add(srcFile);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 
 }

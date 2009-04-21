@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
@@ -63,6 +64,7 @@ public class IdeDocCompiler {
   private Type type = Type.PROPS;
   private URI basePath;
   private File docDir;
+  private boolean strict = false;
 
   private final DocumentBuilder parser;
   private TransformerFactory factory;
@@ -89,10 +91,6 @@ public class IdeDocCompiler {
     if (docDir == null) throw new NullPointerException("Documentation directory must be specified.");
     if (!docDir.isDirectory()) throw new IOException("Documentation directory " + docDir + " does not exist.");
 
-//    LOG.warning("destDir: " + destDir);
-//    LOG.warning("catalogFile: " + catalogFile);
-//    LOG.warning("basePath: " + basePath);
-
     destDir.mkdirs();
 
     Document catalogXML;
@@ -112,8 +110,6 @@ public class IdeDocCompiler {
           continue;
 
         URI inputURI = basePath.resolve(path);
-
-//        LOG.warning("\"" + basePath + "\".resolve(\"" + path + "\") = \"" + inputURI + "\"");
 
         switch (type) {
           case PROPS:
@@ -237,9 +233,6 @@ public class IdeDocCompiler {
           URI includeURI = resolveAgainst.resolve(includePath);
           Document includeDoc = parser.parse(new File(includeURI));
           
-//          if (resolveAgainst != path)
-//            LOG.warning("Got _uri: " + _uri + "  include: " + includeURI);
-
           if (group != null && !"".equals(group)) {
             DOMXPath groupQuery = new DOMXPath("//record[@jsxid='" + group + "']" + (children ? "/record" : ""));
 
@@ -252,7 +245,7 @@ public class IdeDocCompiler {
                 }
               }
             } else {
-              LOG.warning("Group query " + groupQuery + " yeilded no result in file " + path.resolve(includePath) + " (" + resolveAgainst + ")");
+              log(Level.WARNING, "Group query " + groupQuery + " yeilded no result in file " + path.resolve(includePath) + " (" + resolveAgainst + ")");
             }
           } else if (select != null && !"".equals(select)) {
             DOMXPath selectQuery = new DOMXPath(select);
@@ -265,10 +258,10 @@ public class IdeDocCompiler {
                 }
               }
             } else {
-              LOG.warning("Select query " + selectQuery + " yeilded no result in file " + path.resolve(includePath) + " (" + resolveAgainst + ")");
+              log(Level.WARNING, "Select query " + selectQuery + " yeilded no result in file " + path.resolve(includePath) + " (" + resolveAgainst + ")");
             }
           } else {
-            LOG.warning("Include " + include + " does not specify group or select attributes.");
+            log(Level.WARNING, "Include " + include + " does not specify group or select attributes.");
           }
 
           parentNode.removeChild(include);
@@ -373,6 +366,12 @@ public class IdeDocCompiler {
     return destDir.toURI().resolve(pkg.replaceAll("\\.", "/") + "/" + cls + ".html");
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
   public void setDestDir(File destDir) {
     this.destDir = destDir;
   }
@@ -395,5 +394,13 @@ public class IdeDocCompiler {
 
   public void setDocDir(File docDir) {
     this.docDir = docDir;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

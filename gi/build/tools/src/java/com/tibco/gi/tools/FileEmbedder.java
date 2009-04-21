@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -121,6 +122,7 @@ public class FileEmbedder {
   private File file;
   private File outFile;
   private File baseDir;
+  private boolean strict = false;
 
   public void setFile(File file) {
     this.file = file;
@@ -165,7 +167,7 @@ public class FileEmbedder {
           } else if ("type".equals(argName)) {
             type = argValue;
           } else {
-            LOG.warning("Bad @Embed argument '" + argName + "' on line " + lineNum + ".");
+            log(Level.WARNING, "Bad @Embed argument '" + argName + "' on line " + lineNum + ".");
           }
         }
 
@@ -176,7 +178,7 @@ public class FileEmbedder {
           int equals = nextLine.lastIndexOf("=");
 
           if (semi < 0) {
-            LOG.warning("No semicolon in line after @Embed on line " + lineNum + ".");
+            log(Level.WARNING, "No semicolon in line after @Embed on line " + lineNum + ".");
           } else {
             if (equals < 0)
               equals = semi;
@@ -185,7 +187,7 @@ public class FileEmbedder {
             try {
               content = getEmbedContent(source, type, file);
             } catch (IllegalArgumentException e) {
-              LOG.warning("Bad handler type '" + type + "' on line " + lineNum + ".");
+              log(Level.WARNING, "Bad handler type '" + type + "' on line " + lineNum + ".");
               content = nextLine.substring(equals, semi);
             }
 
@@ -198,7 +200,7 @@ public class FileEmbedder {
 
           lineNum++;
         } else {
-          LOG.warning("Incomplete @Embed on line " + lineNum + ".");
+          log(Level.WARNING, "Incomplete @Embed on line " + lineNum + ".");
         }
       } else {
         tmpWriter.write(line);
@@ -210,10 +212,10 @@ public class FileEmbedder {
     fileReader.close();
 
     if (outFile.exists() && !outFile.delete())
-      LOG.severe("Could not delete file " + outFile);
+      log(Level.SEVERE, "Could not delete file " + outFile);
 
     if (!tmpFile.renameTo(outFile))
-      LOG.severe("Could not write to file " + outFile);
+      log(Level.SEVERE, "Could not write to file " + outFile);
   }
 
   private String getEmbedContent(String source, String type, File sourceFile) throws IOException {
@@ -233,5 +235,19 @@ public class FileEmbedder {
     }
 
     return h.handle(file);
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

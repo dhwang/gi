@@ -80,6 +80,7 @@ public class LocaleCompiler {
   private String defaultLocale = "en_US";
   private String rootLocale = "root";
   private boolean mergeLanguages = true;
+  private boolean strict = false;
 
   /**
    * Keep track of any languages that are included in this compile. We will know to include the name of the language in
@@ -176,7 +177,7 @@ public class LocaleCompiler {
       try {
         outDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(out);
       } catch (Exception e) {
-        e.printStackTrace();
+        throw new IOException(e.toString());
       }
     }
 
@@ -265,15 +266,15 @@ public class LocaleCompiler {
       srcDoc = builder.parse(srcStream);
     } catch (IOException e) {
       if (!source.toString().startsWith("file:")) {
-        LOG.log(Level.WARNING, "Error reading source file " + source + ": " + e, e);
+        log(Level.WARNING, "Error reading source file " + source + ": " + e, e);
       } else if (e instanceof FileNotFoundException) {
     // ignore file not found
         // LOG.log(Level.WARNING, "Error reading source file " + source + ": " + e, e);
     } else
-    LOG.log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
+      log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
       return;
     } catch (SAXException e) {
-      LOG.log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
+      log(Level.SEVERE, "Error reading source file " + source + ": " + e, e);
       return;
     } catch (ParserConfigurationException e) {
       throw new Error(e);
@@ -288,7 +289,7 @@ public class LocaleCompiler {
     } else if ("data".equals(docElmName)) {
       mergePropertiesSource(node, srcDoc);
     } else {
-      LOG.warning("Bad source file " + source + " with root element <" + docElmName + ">");
+      log(Level.WARNING, "Bad source file " + source + " with root element <" + docElmName + ">");
     }
   }
 
@@ -516,7 +517,7 @@ public class LocaleCompiler {
                 setLocaleProperty(node, prefix + length, newValue, false);
                 LOG.fine("Corrected format \"" + value + "\" to \"" + newValue + "\"");
               } catch (Exception e1) {
-                LOG.warning("Error parsing date format \"" + value + "\": " + e);
+                log(Level.WARNING, "Error parsing date format \"" + value + "\": " + e);
               }
             }
           }
@@ -598,6 +599,18 @@ public class LocaleCompiler {
     return ctry != null ? new Locale(lang, ctry) : new Locale(lang);
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  private void log(Level level, String msg, Throwable t) {
+    if (strict)
+      throw new RuntimeException(msg, t);
+    LOG.log(level, msg, t);
+  }
+
   /**
    * Add a locale to the target properties bundle.
    *
@@ -665,5 +678,13 @@ public class LocaleCompiler {
    */
   public void setCldrURL(URL cldrURL) {
     this.cldrURL = cldrURL;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

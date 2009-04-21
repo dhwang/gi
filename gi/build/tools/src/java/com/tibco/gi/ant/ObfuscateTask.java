@@ -5,11 +5,11 @@
 
 package com.tibco.gi.ant;
 
-import com.tibco.gi.tools.Obfuscator;
-import org.apache.tools.ant.BuildException;
-
 import java.io.File;
 import java.util.Map;
+
+import com.tibco.gi.tools.Obfuscator;
+import org.apache.tools.ant.BuildException;
 
 /**
  * Ant interface for the {@link Obfuscator} tool.
@@ -21,6 +21,7 @@ public class ObfuscateTask extends AbstractFileTask {
   private boolean params = true, vars = true, optimizeLiterals = false;
   private File blessfile, clobberfile;
   private File inmap, outmap;
+  private boolean strict = false;
 
   public ObfuscateTask() {
   }
@@ -34,6 +35,7 @@ public class ObfuscateTask extends AbstractFileTask {
     obfuscator.setClobberFile(clobberfile);
     obfuscator.setMapInFile(inmap);
     obfuscator.setMapOutFile(outmap);
+    obfuscator.setStrict(strict);
 
     Map<File, File> fileMap = this.getFileMap();
     for (File inFile : fileMap.keySet())
@@ -118,5 +120,9 @@ public class ObfuscateTask extends AbstractFileTask {
    */
   public void setOptliterals(boolean optimizeStrings) {
     this.optimizeLiterals = optimizeStrings;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

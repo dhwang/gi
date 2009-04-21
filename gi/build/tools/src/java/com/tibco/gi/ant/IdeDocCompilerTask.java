@@ -22,6 +22,7 @@ public class IdeDocCompilerTask extends AbstractFileTask {
   private File catalog;
   private String basepath;
   private File docdir;
+  private boolean strict = false;
 
   public IdeDocCompilerTask() {
   }
@@ -29,6 +30,7 @@ public class IdeDocCompilerTask extends AbstractFileTask {
   public void execute() throws BuildException {
     IdeDocCompiler compiler = new IdeDocCompiler();
     compiler.setApiDocPath(apidocpath.toURI());
+    compiler.setStrict(strict);
     if (type != null)
       compiler.setType(type);
     compiler.setDestDir(this.getDestdir());
@@ -65,5 +67,9 @@ public class IdeDocCompilerTask extends AbstractFileTask {
 
   public void setDocdir(File docdir) {
     this.docdir = docdir;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

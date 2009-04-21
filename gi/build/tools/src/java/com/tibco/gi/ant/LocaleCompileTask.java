@@ -5,15 +5,15 @@
 
 package com.tibco.gi.ant;
 
-import com.tibco.gi.tools.LocaleCompiler;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import com.tibco.gi.tools.LocaleCompiler;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 
 /**
  * Ant interface for the {@link LocaleCompiler} tool.
@@ -28,11 +28,13 @@ public class LocaleCompileTask extends Task {
   private String defaultlocale;
   private String sources;
   private String cldr;
+  private boolean strict = false;
 
   public void execute() throws BuildException {
     LocaleCompiler compiler = new LocaleCompiler();
     compiler.setOutFile(outfile);
     compiler.setMergeLanguages(mergelangs);
+    compiler.setStrict(strict);
     if (defaultlocale != null)
       compiler.setDefaultLocale(defaultlocale);
 
@@ -130,5 +132,9 @@ public class LocaleCompileTask extends Task {
    */
   public void setCldr(String cldr) {
     this.cldr = cldr;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

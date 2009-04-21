@@ -5,12 +5,12 @@
 
 package com.tibco.gi.ant;
 
-import com.tibco.gi.tools.ScriptCompiler;
-import org.apache.tools.ant.BuildException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
+import com.tibco.gi.tools.ScriptCompiler;
+import org.apache.tools.ant.BuildException;
 
 /**
  * Ant interface for the {@link ScriptCompiler} tool.
@@ -23,6 +23,7 @@ public class ScriptCompileTask extends AbstractFileTask {
   private String symbols;
   private String aliases;
   private boolean delete = false;
+  private boolean strict = false;
 
   public ScriptCompileTask() {
   }
@@ -33,6 +34,7 @@ public class ScriptCompileTask extends AbstractFileTask {
     compiler.addTargetsString(targets);
     compiler.setDeleteSourceFiles(delete);
     compiler.addAliasesString(aliases);
+    compiler.setStrict(strict);
 
     Map<File, File> fileMap = this.getFileMap();
     for (File inFile : fileMap.keySet())
@@ -84,5 +86,9 @@ public class ScriptCompileTask extends AbstractFileTask {
    */
   public void setAliases(String aliases) {
     this.aliases = aliases;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

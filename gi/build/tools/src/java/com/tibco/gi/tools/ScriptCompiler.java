@@ -87,6 +87,7 @@ public class ScriptCompiler {
   private final Map<String, Set<String>> aliases = new HashMap<String, Set<String>>();
   private final Map<File, File> fileMap = new HashMap<File, File>();
   private boolean deleteSourceFiles = false;
+  private boolean strict = false;
 
   public ScriptCompiler() {
   }
@@ -223,7 +224,7 @@ public class ScriptCompiler {
         if (targets.size() > 0)
           compileFileTargets(scriptFile, outFile);
       } catch (Exception e) {
-        LOG.log(Level.WARNING, "Error compiling " + scriptFile + ": " + e, e);
+        log(Level.WARNING, "Error compiling " + scriptFile + ": " + e, e);
       }
     }
   }
@@ -289,7 +290,7 @@ public class ScriptCompiler {
             Set<String> theseTargets = getTargetsFromCondition(targetsString, seenThisBlock);
             for (String target : theseTargets) {
               if (!writers.containsKey(target) && !aliases.containsKey(target)) {
-                LOG.warning("Bad target: " + target + " " + scriptFile + " @ line " + lineNum);
+                log(Level.WARNING, "Bad target: " + target + " " + scriptFile + " @ line " + lineNum);
               } else {
                 states.put(target, true);
                 seenThisBlock.add(target);
@@ -308,7 +309,7 @@ public class ScriptCompiler {
 
             for (String target : theseTargets) {
               if (!writers.containsKey(target) && !aliases.containsKey(target))
-                LOG.warning("Bad target: " + target + " " + scriptFile + " @ line " + lineNum);
+                log(Level.WARNING, "Bad target: " + target + " " + scriptFile + " @ line " + lineNum);
             }
 
             for (String target : targets) {
@@ -373,7 +374,7 @@ public class ScriptCompiler {
     // Delete the input file if necessary.
     if (deleteSourceFiles)
       if (!scriptFile.delete())
-        LOG.severe("Could not delete " + scriptFile);
+        log(Level.SEVERE, "Could not delete " + scriptFile);
   }
 
   private static File getFileWithTarget(File scriptFile, String target) {
@@ -446,14 +447,14 @@ public class ScriptCompiler {
 
     // Rename the temporary file to the output file.
     if (outFile.exists() && !outFile.delete())
-      LOG.severe("could not delete " + scriptFile);
+      log(Level.SEVERE, "could not delete " + scriptFile);
     if (wroteAnything) {
       if (!tmpFile.renameTo(outFile))
-        LOG.severe("could not rename " + tmpFile + " to " + outFile);
+        log(Level.SEVERE, "could not rename " + tmpFile + " to " + outFile);
     } else {
       LOG.fine("Deleting file " + outFile + " because it was empty.");
       if (!tmpFile.delete())
-        LOG.severe("could not delete " + tmpFile);
+        log(Level.SEVERE, "could not delete " + tmpFile);
     }
   }
 
@@ -512,6 +513,26 @@ public class ScriptCompiler {
     }
 
     return targets;
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  private void log(Level level, String msg, Throwable t) {
+    if (strict)
+      throw new RuntimeException(msg, t);
+    LOG.log(level, msg, t);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 
 }

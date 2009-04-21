@@ -23,6 +23,7 @@ public class HtmlDocTask extends Task {
   private File docdir;
   private String title;
   private String copyright;
+  private boolean strict = false;
 
   public void execute() throws BuildException {
     HtmlDocCompiler compiler = new HtmlDocCompiler();
@@ -31,6 +32,7 @@ public class HtmlDocTask extends Task {
     compiler.setDocDir(docdir);
     compiler.setTitle(title);
     compiler.setCopyright(copyright);
+    compiler.setStrict(strict);
 
     try {
       compiler.run();
@@ -58,5 +60,9 @@ public class HtmlDocTask extends Task {
 
   public void setCopyright(String copyright) {
     this.copyright = copyright;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

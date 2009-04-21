@@ -5,11 +5,11 @@
 
 package com.tibco.gi.ant;
 
+import java.io.File;
+
 import com.tibco.gi.tools.ScriptMergerCleanup;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-
-import java.io.File;
 
 /**
  * Ant interface for the {@link ScriptMergerCleanup} tool.
@@ -23,6 +23,7 @@ public class MergerCleanupTask extends Task {
   private File config;
   private File dir;
   private String scripttarget;
+  private boolean strict = false;
 
   /**
    * Invokes a {@link ScriptMergerCleanup} instance. Either the <code>dir</code> and <code>log</code> or the
@@ -35,6 +36,7 @@ public class MergerCleanupTask extends Task {
       try {
         ScriptMergerCleanup cleanup = new ScriptMergerCleanup();
         cleanup.cleanUpScripts(dir, config, log);
+        cleanup.setStrict(strict);
       } catch (Exception e) {
         e.printStackTrace();
         throw new BuildException(e);
@@ -43,6 +45,7 @@ public class MergerCleanupTask extends Task {
       try {
         ScriptMergerCleanup cleanup = new ScriptMergerCleanup();
         cleanup.addScriptToConfig(config, script, scripttarget);
+        cleanup.setStrict(strict);
       } catch (Exception e) {
         e.printStackTrace();
         throw new BuildException(e);
@@ -101,5 +104,9 @@ public class MergerCleanupTask extends Task {
    */
   public void setScripttarget(String scripttarget) {
     this.scripttarget = scripttarget;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

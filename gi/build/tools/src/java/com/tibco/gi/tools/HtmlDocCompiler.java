@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -77,6 +78,7 @@ public class HtmlDocCompiler {
   private File destDir;
   private String title;
   private String copyright;
+  private boolean strict = false;
 
   private DocumentBuilder parser;
   private TransformerFactory factory;
@@ -273,6 +275,12 @@ public class HtmlDocCompiler {
     return factory.newTransformer(xslDomSource);
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
   /**
    * Sets the directory containing the compiler resources. See {@link HtmlDocCompiler} for more information.
    * @param docDir
@@ -311,5 +319,13 @@ public class HtmlDocCompiler {
    */
   public void setCopyright(String copyright) {
     this.copyright = copyright;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

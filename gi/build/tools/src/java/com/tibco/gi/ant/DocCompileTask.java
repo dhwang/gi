@@ -5,11 +5,11 @@
 
 package com.tibco.gi.ant;
 
+import java.io.File;
+
 import com.tibco.gi.tools.DocCompiler;
 import com.tibco.gi.tools.doc.JsMember;
 import org.apache.tools.ant.BuildException;
-
-import java.io.File;
 
 /**
  * Ant interface for the {@link DocCompiler} tool.
@@ -19,6 +19,7 @@ import java.io.File;
 public class DocCompileTask extends AbstractFileTask {
 
   private JsMember.Access access;
+  private boolean strict = false;
 
   public DocCompileTask() {
   }
@@ -26,6 +27,8 @@ public class DocCompileTask extends AbstractFileTask {
   public void execute() throws BuildException {
     DocCompiler compiler = new DocCompiler();
     compiler.setDestDir(this.getDestdir());
+    compiler.setStrict(strict);
+
     if (access != null)
       compiler.setAccess(access);
 
@@ -50,5 +53,9 @@ public class DocCompileTask extends AbstractFileTask {
     this.access = JsMember.Access.valueOf(access.toUpperCase());
     if (this.access == null && access.length() > 0)
       throw new IllegalArgumentException(access);
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

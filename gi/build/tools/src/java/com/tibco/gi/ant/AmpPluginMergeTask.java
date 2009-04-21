@@ -22,10 +22,12 @@ public class AmpPluginMergeTask extends Task {
 
   private File pluginsfile;
   private String plugins;
+  private boolean strict = false;
 
   public void execute() throws BuildException {
     PluginMerger merger = new PluginMerger();
     merger.setPluginsFile(pluginsfile);
+    merger.setStrict(strict);
 
     if (plugins != null && plugins.length() > 0)
       merger.setPlugins(new HashSet<String>(Arrays.asList(plugins.split("\\s+"))));
@@ -53,5 +55,9 @@ public class AmpPluginMergeTask extends Task {
    */
   public void setPlugins(String plugins) {
     this.plugins = plugins;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

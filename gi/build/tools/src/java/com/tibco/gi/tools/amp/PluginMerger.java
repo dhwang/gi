@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import com.tibco.gi.tools.Utils;
 import org.w3c.dom.Document;
@@ -35,6 +36,7 @@ public class PluginMerger {
   private File pluginsFile;
   private boolean all = true;
   private Set<String> plugins;
+  private boolean strict = false;
 
   public PluginMerger() {
   }
@@ -82,7 +84,7 @@ public class PluginMerger {
                   Document pluginDoc = Utils.parseXML(configFile);
                   Element pluginRoot = pluginDoc.getDocumentElement();
                   if (!id.equals(pluginRoot.getAttribute("id"))) {
-                    LOG.warning("Expecting plug-in " + id + " but got plug-in " + pluginRoot.getAttribute("id"));
+                    log(Level.WARNING, "Expecting plug-in " + id + " but got plug-in " + pluginRoot.getAttribute("id"));
                   } else {
                     NodeList allChildren = pluginRoot.getChildNodes();
                     for (int j = 0; j < allChildren.getLength(); j++) {
@@ -98,15 +100,15 @@ public class PluginMerger {
                     mergedFiles.add(configFile);
                   }
                 } catch (IOException e) {
-                  LOG.severe("Could not parse: " + configFile);
+                  log(Level.SEVERE, "Could not parse: " + configFile);
                 }
               } else {
-                LOG.warning("Plug-in descriptor does not exist: " + configFile);
+                log(Level.WARNING, "Plug-in descriptor does not exist: " + configFile);
               }
             }
           }
         } else {
-          LOG.warning("Plug-in element without ID: " + plugInElement);
+          log(Level.WARNING, "Plug-in element without ID: " + plugInElement);
         }
       }
     }
@@ -121,6 +123,12 @@ public class PluginMerger {
     for (File mergedFile : mergedFiles) {
       mergedFile.delete();
     }
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
   }
 
   /**
@@ -139,5 +147,13 @@ public class PluginMerger {
    */
   public void setPluginsFile(File pluginsFile) {
     this.pluginsFile = pluginsFile;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

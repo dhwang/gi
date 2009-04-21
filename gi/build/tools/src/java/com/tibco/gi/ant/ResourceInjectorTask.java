@@ -22,6 +22,7 @@ public class ResourceInjectorTask extends Task {
   private String token;
   private String bundle;
   private String locales;
+  private boolean strict = false;
 
   public void execute() throws BuildException {
     ResourceInjector injector = new ResourceInjector();
@@ -29,6 +30,7 @@ public class ResourceInjectorTask extends Task {
     injector.setBundleResource(bundle);
     injector.setLocaleKeys(locales.split("\\s*,\\s*"));
     injector.setReplacementToken(token);
+    injector.setStrict(strict);
 
     try {
       injector.run();
@@ -77,5 +79,9 @@ public class ResourceInjectorTask extends Task {
    */
   public void setLocales(String locales) {
     this.locales = locales;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

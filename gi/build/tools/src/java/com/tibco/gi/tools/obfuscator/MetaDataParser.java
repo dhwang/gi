@@ -42,6 +42,15 @@ public class MetaDataParser {
 
   public static final String GLOBAL_PREFIX = "global-";
 
+  private boolean strict = false;
+
+  public MetaDataParser() {
+  }
+
+  public MetaDataParser(boolean strict) {
+    this.strict = strict;
+  }
+
   /**
    * Parses any inline obfuscator metadata in <code>sourceFile</code> and places it in <code>scope</code>. Metadata
    * commands always occur in JavaScript comments and start with <code>"@jsxobf-"</code>. Supported commands are listed
@@ -52,7 +61,7 @@ public class MetaDataParser {
    * @param scope
    * @throws IOException
    */
-  public static void parse(Reader sourceFile, Scope scope) throws IOException {
+  public void parse(Reader sourceFile, Scope scope) throws IOException {
     try {
       EcmaScript parser = new EcmaScript(sourceFile);
 
@@ -75,7 +84,7 @@ public class MetaDataParser {
     }
   }
 
-  private static void parseLineComment(String text, EcmaScript parser, Scope scope) {
+  private void parseLineComment(String text, EcmaScript parser, Scope scope) {
     // A line command must begin with the command and can contain names after the command instead of applying to
     // the following JavaScript declaration.
     Matcher m = LINE_MARKER.matcher(text);
@@ -91,7 +100,7 @@ public class MetaDataParser {
     }
   }
 
-  private static void parseBlockComment(String text, EcmaScript parser, Scope scope) {
+  private void parseBlockComment(String text, EcmaScript parser, Scope scope) {
     // A block comment can contain a command anywhere but only applies to the following JavaScript declaration.
     Matcher m = BLOCK_MARKER.matcher(text);
     if (m.find()) {
@@ -100,7 +109,7 @@ public class MetaDataParser {
     }
   }
 
-  private static void addCommandToScope(Scope scope, String command, String equals, String... names) {
+  private void addCommandToScope(Scope scope, String command, String equals, String... names) {
     Scope applyTo = scope;
     if (command.startsWith(GLOBAL_PREFIX)) {
       command = command.substring(GLOBAL_PREFIX.length());
@@ -111,12 +120,12 @@ public class MetaDataParser {
       if (names.length == 2)
         applyTo.addRenamePattern(names[0], names[1]);
       else
-        LOG.warning("Command rename-pattern must have exactly two arguments {" + Arrays.asList(names) + "}.");
+        log(Level.WARNING, "Command rename-pattern must have exactly two arguments {" + Arrays.asList(names) + "}.");
     } else {
       for (String name : names) {
         if (COMMAND_FINAL.equals(command)) {
           if (equals == null)
-            LOG.warning("Could not parse constant value for final command for " + name + ".");
+            log(Level.WARNING, "Could not parse constant value for final command for " + name + ".");
           else
             scope.getGlobalScope().addFinal(name, equals);
         } else {
@@ -133,7 +142,7 @@ public class MetaDataParser {
             else if (COMMAND_RESERVED.equals(command))
               applyTo.addReservedName(memberName);
             else
-              LOG.warning("Bad obfuscator command '" + command + "' in " + scope.getFileScope().getFile());
+              log(Level.WARNING, "Bad obfuscator command '" + command + "' in " + scope.getFileScope().getFile());
           } else {
             try {
               Pattern p = Pattern.compile(memberName);
@@ -144,11 +153,11 @@ public class MetaDataParser {
               else if (COMMAND_PROTECTED_CLOBBER.equals(command))
                 applyTo.addClobberedSharedName(p);
               else if (COMMAND_RESERVED.equals(command))
-                LOG.warning("Obfuscator command '" + command + "' does not accept pattern argument '" + p + "'");
+                log(Level.WARNING, "Obfuscator command '" + command + "' does not accept pattern argument '" + p + "'");
               else
-                LOG.warning("Bad obfuscator command '" + command + "' in " + scope.getFileScope().getFile());
+                log(Level.WARNING, "Bad obfuscator command '" + command + "' in " + scope.getFileScope().getFile());
             } catch (PatternSyntaxException e) {
-              LOG.warning("Could not parse name pattern '" + memberName + "' for command '" + command + "'.");
+              log(Level.WARNING, "Could not parse name pattern '" + memberName + "' for command '" + command + "'.");
             }
           }
         }
@@ -156,14 +165,14 @@ public class MetaDataParser {
     }
   }
 
-  private static void parseNamesAfterCommand(String command, EcmaScript parser, Scope scope) {
+  private void parseNamesAfterCommand(String command, EcmaScript parser, Scope scope) {
     StringBuilder sb = new StringBuilder();
     Token token = parser.getNextToken();
 
     while (token != null && token.kind != EcmaScriptConstants.EOF) {
       if (token.kind == EcmaScriptConstants.SINGLE_LINE_COMMENT ||
           token.kind == EcmaScriptConstants.MULTI_LINE_COMMENT) {
-        LOG.severe("Encountered comment block before definition for command '" + command +
+        log(Level.SEVERE, "Encountered comment block before definition for command '" + command +
             "' in file " + scope.getFileScope().getFile() + " near line " + token.beginLine);
         break;
       }
@@ -193,9 +202,14 @@ public class MetaDataParser {
     if (m.find()) {
       addCommandToScope(scope, command, index >= 0 ? sb.substring(index + 1).trim() : null, m.group(1));
     } else {
-      LOG.warning("Could not find target of command '" + command + "' in statement '" + sb + "'" +
+      log(Level.WARNING, "Could not find target of command '" + command + "' in statement '" + sb + "'" +
           (token != null ? " near line " + token.endLine : ""));
     }
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
 }

@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -128,9 +129,11 @@ public class Parser {
   private File file;
   private JsMember currentClass;
   private final Collection<JsMember> classes = new ArrayList<JsMember>();
+  private boolean strict = false;
 
-  public Parser(File file) {
+  public Parser(File file, boolean strict) {
     this.file = file;
+    this.strict = strict;
   }
 
   public void reInit(File file) {
@@ -234,10 +237,10 @@ public class Parser {
       LOG.finer(s + " -> " + type);
       return type;
     } catch (IOException e) {
-      LOG.warning("Bad type " + s + " in " + file);
+      log(Level.WARNING, "Bad type " + s + " in " + file);
       return null;
     } catch (ParseException e) {
-      LOG.warning("Bad type " + s + " in " + file);
+      log(Level.WARNING, "Bad type " + s + " in " + file);
       return null;
     }
   }
@@ -288,7 +291,7 @@ public class Parser {
           type = m.group(1);
           text = content.substring(m.end());
         } else {
-          LOG.warning("Bad @param tag: " + content + " in " + file);
+          log(Level.WARNING, "Bad @param tag: " + content + " in " + file);
           return;
         }
       }
@@ -331,7 +334,7 @@ public class Parser {
     } else if ("static".equals(tag)) {
       member.setStatic(true);
     } else {
-//      LOG.warning("Unrecognized tag: " + tag);
+//      log(Level.WARNING, "Unrecognized tag: " + tag);
     }
   }
 
@@ -353,7 +356,7 @@ public class Parser {
             parseFieldDefinition(member, definition);
     if (!ok) {
       member.setType(JsMember.Type.CLASS);
-      LOG.warning("Got UNKNOWN: " + definition);
+      log(Level.WARNING, "Got UNKNOWN: " + definition);
     }
   }
 
@@ -469,7 +472,7 @@ public class Parser {
 
       List<JsParam> removed = member.setParamOrder(paramOrder);
       if (removed.size() > 0)
-        LOG.warning("Unknown parameters " + removed + " in method " +
+        log(Level.WARNING, "Unknown parameters " + removed + " in method " +
             member.getName() + " in " + file);
     }
 
@@ -514,4 +517,17 @@ public class Parser {
     return null;
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
+  }
 }

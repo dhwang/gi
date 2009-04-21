@@ -20,6 +20,7 @@ import org.apache.tools.ant.BuildException;
 public class FileEmbedderTask extends AbstractFileTask {
 
   private File baseDir;
+  private boolean strict = false;
 
   public FileEmbedderTask() {
   }
@@ -27,7 +28,8 @@ public class FileEmbedderTask extends AbstractFileTask {
   public void execute() {
     FileEmbedder embedder = new FileEmbedder();
     embedder.setBaseDir(baseDir);
-    
+    embedder.setStrict(strict);
+
     Map<File, File> fileMap = this.getFileMap();
 
     try {
@@ -48,5 +50,9 @@ public class FileEmbedderTask extends AbstractFileTask {
    */
   public void setBaseDir(File baseDir) {
     this.baseDir = baseDir;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

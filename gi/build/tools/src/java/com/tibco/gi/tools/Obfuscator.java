@@ -82,6 +82,7 @@ public class Obfuscator {
   private File mapInFile;
   private File mapOutFile;
   private final Map<File, File> fileMap = new HashMap<File, File>();
+  private boolean strict = false;
 
   public Obfuscator() {
   }
@@ -195,11 +196,12 @@ public class Obfuscator {
       scope.addClobberedSharedName(s);
 
     Collection<FileHandler> handlers = new ArrayList<FileHandler>();
+    MetaDataParser mdp = new MetaDataParser(strict);
 
     for (File inputFile : fileMap.keySet()) {
       File outputFile = fileMap.get(inputFile);
 
-      FileHandler handler = FileHandler.getHandler(inputFile);
+      FileHandler handler = FileHandler.getHandler(inputFile, strict);
       handler.setOutputFile(outputFile);
 
       try {
@@ -212,12 +214,12 @@ public class Obfuscator {
             fileScope.addChild(new Scope.Script(script));
 
           for (Reader reader : handler.getScriptBlocks()) {
-            MetaDataParser.parse(reader, fileScope);
+            mdp.parse(reader, fileScope);
             reader.close();
           }
         }
       } catch (IOException e) {
-        LOG.log(Level.SEVERE, "Error processing file: " + inputFile, e);
+        log(Level.SEVERE, "Error processing file: " + inputFile, e);
       }
 
       handlers.add(handler);
@@ -230,7 +232,7 @@ public class Obfuscator {
 //        LOG.info("Writing " + handler.getOutputFile());
         handler.writeToOutput();
       } catch (Exception e) {
-        LOG.log(Level.SEVERE, "Error serializing script " + handler.getInputFile() + ": " + e, e);
+        log(Level.SEVERE, "Error serializing script " + handler.getInputFile() + ": " + e, e);
       }
     }
 
@@ -297,5 +299,25 @@ public class Obfuscator {
 
     reader.close();
     return list;
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  private void log(Level level, String msg, Throwable t) {
+    if (strict)
+      throw new RuntimeException(msg, t);
+    LOG.log(level, msg, t);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

@@ -307,11 +307,11 @@
   <target name="compile-js" depends="compile-js-framework, compile-js-charting"/>
 
   <target name="compile-js-framework" depends="init, init-tools" if="build.set.compile.jsx">
-    <gi-embed>
+    <gi-embed strict="${build.gi.strict}">
       <fileset dir="${dist.dir}" includes="${build.source.embed}"/>
     </gi-embed>
 
-    <gi-compile symbols="${build.gi.jsc.symbols}">
+    <gi-compile symbols="${build.gi.jsc.symbols}" strict="${build.gi.strict}">
       <fileset dir="${dist.dir}/JSX/js">
         <include name="**/*.js"/>
       </fileset>
@@ -319,18 +319,18 @@
         <include name="**/*.js"/>
       </fileset>
     </gi-compile>
-    <gi-compile targets="${build.gi.targets}" aliases="${build.gi.targets.aliases}">
+    <gi-compile targets="${build.gi.targets}" aliases="${build.gi.targets.aliases}" strict="${build.gi.strict}">
       <fileset dir="${dist.dir}/JSX/js" includes="${build.source.jsc.jsx}"/>
     </gi-compile>
   </target>
 
   <target name="compile-js-charting" depends="init, init-tools" if="build.set.compile.charting">
-    <gi-compile symbols="${build.gi.jsc.symbols}">
+    <gi-compile symbols="${build.gi.jsc.symbols}" strict="${build.gi.strict}">
       <fileset dir="${dist.dir}/JSX/addins/charting/classes">
         <include name="**/*.js"/>
       </fileset>
     </gi-compile>
-    <gi-compile targets="${build.gi.targets.charting}">
+    <gi-compile targets="${build.gi.targets.charting}" strict="${build.gi.strict}">
       <fileset dir="${dist.dir}/JSX/addins/charting/classes" includes="${build.source.jsc.charting}"/>
     </gi-compile>
   </target>
@@ -342,7 +342,7 @@
         dest="${tmp.dir}" src="${build.boot.bundle.dir}" 
         includes="${build.boot.bundle}*"/>
     
-    <gi-inject 
+    <gi-inject strict="${build.gi.strict}"
         file="${dist.dir}/JSX/js/JSX30.js"
         bundle="${build.boot.bundle}"
         token="/* BOOT BUNDLE */{}"
@@ -371,7 +371,8 @@
   </target>
 
   <target name="obfuscate-jsx" depends="init, init-tools" if="build.set.obfuscate.jsx">
-    <gi-obfuscate optliterals="true"
+    <gi-obfuscate strict="${build.gi.strict}"
+        optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         clobberfile="obfuscate/jsx-clobber.txt"
         inmap="${build.obf.tmpmapfile}"
@@ -385,7 +386,8 @@
         destfile="${build.dir}/obfuscate/charting-clobber.txt.tmp" outputencoding="${build.encoding}">
       <fileset dir="${build.dir}/obfuscate" includes="charting-clobber.txt jsx-clobber.txt"/>
     </concat>
-    <gi-obfuscate optliterals="true"
+    <gi-obfuscate strict="${build.gi.strict}"
+        optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         clobberfile="${build.dir}/obfuscate/charting-clobber.txt.tmp"
         inmap="${build.obf.tmpmapfile}"
@@ -405,11 +407,12 @@
 
     <amp-pmerge pluginsfile="${dist.dir}/JSX/addins/amp/plugins/plugins.xml"/>
 
-    <gi-embed>
+    <gi-embed strict="${build.gi.strict}">
       <fileset dir="${dist.dir}" includes="${build.source.amp.embed}"/>
     </gi-embed>
 
-    <gi-obfuscate optliterals="true"
+    <gi-obfuscate strict="${build.gi.strict}"
+        optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         inmap="${build.obf.tmpmapfile}"
         outmap="${build.obf.tmpmapfile}">
@@ -418,7 +421,8 @@
   </target>
 
   <target name="obfuscate-ide" depends="init, init-tools" if="build.set.obfuscate.ide">
-    <gi-obfuscate optliterals="true"
+    <gi-obfuscate strict="${build.gi.strict}"
+        optliterals="true"
         blessfile="obfuscate/jsx-blessed.txt"
         clobberfile="obfuscate/ide-clobber.txt"
         inmap="${build.obf.tmpmapfile}"
@@ -435,7 +439,7 @@
 
     <for list="${build.gi.targets}" delimiter="," param="target">
       <sequential>
-        <gi-merge
+        <gi-merge strict="${build.gi.strict}"
             dir="${dist.dir}/JSX/js"
             graph="${build.dir}/merge/depends-jsx.xml"
             target="@{target}"
@@ -452,7 +456,7 @@
         replace=".SYSTEM_SCRIPTS=[&quot;@path@/jsx.js&quot;];"
         byline="false"/>
 
-    <gi-mergeclean dir="${dist.dir}/JSX/js" log="${tmp.dir}/merge-jsx.txt"/>
+    <gi-mergeclean dir="${dist.dir}/JSX/js" log="${tmp.dir}/merge-jsx.txt" strict="${build.gi.strict}"/>
     <delete dir="${tmp.dir}"/>
   </target>
 
@@ -462,7 +466,7 @@
 
     <for list="${build.gi.targets.charting}" delimiter="," param="target">
       <sequential>
-        <gi-merge
+        <gi-merge strict="${build.gi.strict}"
             dir="${dist.dir}/JSX/addins/charting"
             graph="${build.dir}/merge/depends-charting.xml"
             target="@{target}"
@@ -471,13 +475,15 @@
             log="${tmp.dir}/merge-charting.txt">
         </gi-merge>
 
-        <gi-mergeclean script="${dist.dir}/JSX/addins/charting/classes/@{target}.js"
+        <gi-mergeclean strict="${build.gi.strict}"
+            script="${dist.dir}/JSX/addins/charting/classes/@{target}.js"
             scripttarget="@{target}"
             config="${dist.dir}/JSX/addins/charting/config.xml"/>
       </sequential>
     </for>
 
-    <gi-mergeclean dir="${dist.dir}/JSX/addins/charting" log="${tmp.dir}/merge-charting.txt"
+    <gi-mergeclean strict="${build.gi.strict}"
+        dir="${dist.dir}/JSX/addins/charting" log="${tmp.dir}/merge-charting.txt"
         config="${dist.dir}/JSX/addins/charting/config.xml"/>
     <delete dir="${tmp.dir}"/>
   </target>
@@ -486,7 +492,7 @@
     <mkdir dir="${tmp.dir}"/>
     <delete file="${tmp.dir}/merge-amp.txt"/>
 
-    <gi-merge
+    <gi-merge strict="${build.gi.strict}"
         dir="${dist.dir}/JSX/addins/amp"
         graph="${build.dir}/merge/depends-amp.xml"
         outfile="${dist.dir}/JSX/addins/amp/amp.js"
@@ -494,9 +500,11 @@
         log="${tmp.dir}/merge-amp.txt">
     </gi-merge>
 
-    <gi-mergeclean script="${dist.dir}/JSX/addins/amp/amp.js"
-                   config="${dist.dir}/JSX/addins/amp/config.xml"/>
-    <gi-mergeclean dir="${dist.dir}/JSX/addins/amp" log="${tmp.dir}/merge-amp.txt"
+    <gi-mergeclean strict="${build.gi.strict}"
+        script="${dist.dir}/JSX/addins/amp/amp.js"
+        config="${dist.dir}/JSX/addins/amp/config.xml"/>
+    <gi-mergeclean strict="${build.gi.strict}"
+        dir="${dist.dir}/JSX/addins/amp" log="${tmp.dir}/merge-amp.txt"
         config="${dist.dir}/JSX/addins/amp/config.xml"/>
     <delete dir="${tmp.dir}"/>
   </target>
@@ -562,19 +570,19 @@
   </target>
 
   <target name="compile-doc-xml" depends="init, init-filters, init-tools">
-    <gi-doc destdir="${dist.dir}/${build.docs.api.xml}" access="${build.docs.access}">
+    <gi-doc destdir="${dist.dir}/${build.docs.api.xml}" access="${build.docs.access}" strict="${build.gi.strict}">
       <fileset dir="${project.dir}" includes="${build.docs.includes}"/>
     </gi-doc>
   </target>
 
   <target name="compile-doc-typeahead" depends="init, init-filters, init-tools">
-    <gi-typeahead outfile="${dist.dir}/${build.typeahead.out}">
+    <gi-typeahead outfile="${dist.dir}/${build.typeahead.out}" strict="${build.gi.strict}">
       <fileset dir="${dist.dir}/${build.docs.api.xml}" includes="${build.typeahead.includes}"/>
     </gi-typeahead>
   </target>
 
   <target name="compile-doc-html" depends="init, init-filters, init-tools">
-    <gi-htmldoc
+    <gi-htmldoc strict="${build.gi.strict}"
         title="${gi.apidocs.title}"
         copyright="${gi.apidocs.copyright}"
         srcdir="${dist.dir}/${build.docs.api.xml}"
@@ -598,21 +606,26 @@
     </copy>
 
     <!-- Compile IDE HTML documentation -->
-    <gi-idedoc type="props" destdir="${dist.dir}/${build.docs.ide.props}"
+    <gi-idedoc strict="${build.gi.strict}"
+        type="props" destdir="${dist.dir}/${build.docs.ide.props}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
         catalog="${project.dir}/GI_Builder/plugins/jsx3.ide.palette.properties/templates/catalog.xml"/>
-    <gi-idedoc type="props" destdir="${dist.dir}/${build.docs.ide.props}"
+    <gi-idedoc strict="${build.gi.strict}"
+        type="props" destdir="${dist.dir}/${build.docs.ide.props}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
         catalog="${project.dir}/JSX/addins/charting/properties/catalog.xml"/>
 
-    <gi-idedoc type="events" destdir="${dist.dir}/${build.docs.ide.events}"
+    <gi-idedoc strict="${build.gi.strict}"
+        type="events" destdir="${dist.dir}/${build.docs.ide.events}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
         catalog="${project.dir}/GI_Builder/plugins/jsx3.ide.palette.events/templates/catalog.xml"/>
-    <gi-idedoc type="events" destdir="${dist.dir}/${build.docs.ide.events}"
+    <gi-idedoc strict="${build.gi.strict}"
+        type="events" destdir="${dist.dir}/${build.docs.ide.events}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
         catalog="${project.dir}/JSX/addins/charting/events/catalog.xml"/>
 
-    <gi-idedoc type="xslparams" destdir="${dist.dir}/${build.docs.ide.xslparams}"
+    <gi-idedoc strict="${build.gi.strict}"
+        type="xslparams" destdir="${dist.dir}/${build.docs.ide.xslparams}"
         apidocpath="${dist.dir}/${build.docs.api.html}" docdir="${tmp.dir}"
         catalog="${project.dir}/GI_Builder/plugins/jsx3.ide.palette.xslparams/templates/catalog.xml"/>
 
@@ -665,7 +678,8 @@
 
     <delete file="${dist.dir}/JSX/locale/locale.xml"/>
 
-    <gi-locale locales="${build.locales.jsx}"
+    <gi-locale strict="${build.gi.strict}"
+        locales="${build.locales.jsx}"
         outfile="${dist.dir}/JSX/locale/locale.xml"
         defaultlocale="${build.locale.default}"
         cldr="${build.locale.cldf.uri}" sources="${build.dir}/locale/jsx/" />

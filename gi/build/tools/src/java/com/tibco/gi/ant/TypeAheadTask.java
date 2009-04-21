@@ -5,10 +5,10 @@
 
 package com.tibco.gi.ant;
 
+import java.io.File;
+
 import com.tibco.gi.tools.TypeAheadCompiler;
 import org.apache.tools.ant.BuildException;
-
-import java.io.File;
 
 /**
  * Ant interface for the {@link TypeAheadCompiler} tool.
@@ -18,6 +18,7 @@ import java.io.File;
 public class TypeAheadTask extends AbstractFileTask {
 
   private File outfile;
+  private boolean strict = false;
 
   public TypeAheadTask() {
   }
@@ -25,6 +26,7 @@ public class TypeAheadTask extends AbstractFileTask {
   public void execute() throws BuildException {
     TypeAheadCompiler compiler = new TypeAheadCompiler();
     compiler.setOutFile(outfile);
+    compiler.setStrict(strict);
 
     for (File inFile : this.getFileSet())
       compiler.addSrcFile(inFile);
@@ -45,5 +47,9 @@ public class TypeAheadTask extends AbstractFileTask {
    */
   public void setOutfile(File outfile) {
     this.outfile = outfile;
+  }
+
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }

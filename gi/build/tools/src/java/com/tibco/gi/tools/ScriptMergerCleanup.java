@@ -5,14 +5,6 @@
 
 package com.tibco.gi.tools;
 
-import org.jaxen.JaxenException;
-import org.jaxen.dom.DOMXPath;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -21,6 +13,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.logging.Level;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.jaxen.JaxenException;
+import org.jaxen.dom.DOMXPath;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * Performs clean-up on source files and directories that may be necessary after running the {@link ScriptMerger} tool.
@@ -30,6 +31,8 @@ import java.util.logging.Logger;
 public class ScriptMergerCleanup {
 
   private static final Logger LOG = Logger.getLogger(ScriptMergerCleanup.class.getName());
+
+  private boolean strict = false;
 
   public ScriptMergerCleanup() {
   }
@@ -63,12 +66,12 @@ public class ScriptMergerCleanup {
         if (!pathsToRemove.contains(path)) {
           if (scriptFile.isFile()) {
             if (!scriptFile.delete())
-              LOG.severe("Could not delete " + scriptFile);
+              log(Level.SEVERE, "Could not delete " + scriptFile);
             if (!(scriptFile.getParentFile().listFiles().length > 0 || scriptFile.getParentFile().delete()))
-              LOG.severe("Could not delete " + scriptFile.getParentFile());
+              log(Level.SEVERE, "Could not delete " + scriptFile.getParentFile());
             deleted++;
           } else {
-            LOG.severe("Not a file: " + scriptFile);
+            log(Level.SEVERE, "Not a file: " + scriptFile);
           }
           pathsToRemove.add(path);
         }
@@ -175,4 +178,17 @@ public class ScriptMergerCleanup {
     Utils.serializeDocument(configDoc, config);
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
+  }
 }

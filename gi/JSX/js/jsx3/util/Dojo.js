@@ -1,4 +1,4 @@
-/**
+/*
 * This simply loads Dojo
 */
 if(typeof dojo == "undefined") {

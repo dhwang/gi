@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import com.tibco.gi.tools.Utils;
@@ -32,6 +33,7 @@ public class ResourceMerger {
   private Set<File> configFiles = new HashSet<File>();
   private Set<Pattern> idsToMerge = new HashSet<Pattern>();
   private Set<File> filesToDelete = new HashSet<File>();
+  private boolean strict = false;
 
   public ResourceMerger() {
   }
@@ -77,7 +79,7 @@ public class ResourceMerger {
             }
           }
         } else {
-          LOG.warning("Unknown root element: " + docElm.getNodeName());
+          log(Level.WARNING, "Unknown root element: " + docElm.getNodeName());
         }
 
         Utils.serializeDocument(doc, file);
@@ -96,7 +98,7 @@ public class ResourceMerger {
 
     if (idMatches(rsrcId)) {
       if (!pluginDir.isDirectory()) {
-        LOG.warning("No plug-in directory for plug-in " + pluginNode.getAttribute("id"));
+        log(Level.WARNING, "No plug-in directory for plug-in " + pluginNode.getAttribute("id"));
         return;
       }
 
@@ -122,7 +124,7 @@ public class ResourceMerger {
 
             filesToDelete.add(rsrcFile);
           } catch (IOException e) {
-            LOG.warning("Error parsing " + rsrcFile + ": " + e);
+            log(Level.WARNING, "Error parsing " + rsrcFile + ": " + e);
           }
         } else if ("script".equals(rsrcType) || "css".equals(rsrcType)) {
           try {
@@ -134,13 +136,13 @@ public class ResourceMerger {
             rsrcNode.removeAttribute("path");
             filesToDelete.add(rsrcFile);
           } catch (IOException e) {
-            LOG.warning("Error reading " + rsrcFile + ": " + e);
+            log(Level.WARNING, "Error reading " + rsrcFile + ": " + e);
           }
         } else {
-          LOG.warning("Resource type " + rsrcType + " not supported: " + rsrcId);
+          log(Level.WARNING, "Resource type " + rsrcType + " not supported: " + rsrcId);
         }
       } else {
-        LOG.warning("Resource " + rsrcId + " does not exist: " + rsrcFile);
+        log(Level.WARNING, "Resource " + rsrcId + " does not exist: " + rsrcFile);
       }
     }
   }
@@ -151,6 +153,12 @@ public class ResourceMerger {
         return true;
     }
     return false;
+  }
+
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
   }
 
   /**
@@ -178,6 +186,14 @@ public class ResourceMerger {
    */
   public void addIdPattern(Pattern p) {
     idsToMerge.add(p);
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 
 }

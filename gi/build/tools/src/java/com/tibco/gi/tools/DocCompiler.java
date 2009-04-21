@@ -177,6 +177,7 @@ public class DocCompiler {
   private final Set<File> srcFiles = new HashSet<File>();
   private JsMember.Access access = JsMember.Access.PUBLIC;
   private final DocumentBuilder parser;
+  private boolean strict = false;
 
   // run state
   private Map<String, JsMember> classMap;
@@ -205,7 +206,7 @@ public class DocCompiler {
     for (File srcFile : srcFiles) {
       try {
         LOG.fine("Compiling documentation in " + srcFile);
-        if (parser == null) parser = new Parser(srcFile);
+        if (parser == null) parser = new Parser(srcFile, strict);
         else parser.reInit(srcFile);
 
         Collection<JsMember> classes = parser.run();
@@ -216,7 +217,7 @@ public class DocCompiler {
             classMap.put(c.getName(), c);
         }
       } catch (ParseException e) {
-        LOG.log(Level.SEVERE, "Error parsing source file " + srcFile + ".", e);
+        log(Level.SEVERE, "Error parsing source file " + srcFile + ".", e);
       }
     }
 
@@ -656,8 +657,9 @@ public class DocCompiler {
       String memberName = parent instanceof Element ?
           ((Element) parent).getAttribute("name") + "." + node.getAttribute("name") :
           node.getAttribute("name");
-      LOG.warning("Text block not XML: " + memberName);
-      LOG.warning(text);
+
+      log(Level.WARNING, "Text block not XML: " + memberName);
+      log(Level.WARNING, text);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -877,6 +879,18 @@ public class DocCompiler {
     }
   }
 
+  private void log(Level level, String msg) {
+    if (strict)
+      throw new RuntimeException(msg);
+    LOG.log(level, msg);
+  }
+
+  private void log(Level level, String msg, Throwable t) {
+    if (strict)
+      throw new RuntimeException(msg, t);
+    LOG.log(level, msg, t);
+  }
+
   private Document newDocument() {
     return parser.newDocument();
   }
@@ -916,5 +930,13 @@ public class DocCompiler {
    */
   public void setAccess(JsMember.Access access) {
     this.access = access;
+  }
+
+  /**
+   * Sets whether to throw exceptions rather than log warning.
+   * @param strict
+   */
+  public void setStrict(boolean strict) {
+    this.strict = strict;
   }
 }
