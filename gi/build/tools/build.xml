@@ -21,8 +21,6 @@
   <property name="dist.jar" value="jsx-tools.jar"/>
   <property name="cli.zip" value="jsx-tools-cli.zip"/>
 
-  <taskdef resource="testngtasks" classpath="${lib.testng}"/>
-
   <target name="all" depends="test, package" description="Runs all tests and build the JAR package.">
   </target>
 
@@ -53,6 +51,10 @@
       <path path="${lib.testng}"/>
       <path path="${dir.build.test}"/>
     </path>
+  </target>
+
+  <target name="init-testng">
+    <taskdef resource="testngtasks" classpath="${lib.testng}"/>
   </target>
 
   <target name="build" depends="init">
@@ -109,7 +111,7 @@
         />
   </target>
 
-  <target name="test" depends="build, build-test" description="Run all tool tests.">
+  <target name="test" depends="init-testng, build, build-test" description="Run all tool tests.">
     <testng
         classpathref="cp.test.run"
         haltonfailure="true"

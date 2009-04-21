@@ -147,38 +147,8 @@
     </macrodef>
   </target>
 
-  <!-- Make sure that the version.properties file exists. If it doesn't, create it with default values. -->
-  <target name="init-version" depends="init">
-    <condition property="build.version.propfileexists" value="true">
-      <available file="${build.properties.version}"/>
-    </condition>
-
-    <antcall target="increment-build"/>
-
-    <propertyfile
-        file="${build.properties.version}"
-        comment=" generated/modified by build.xml">
-      <entry key="build.version.buildno" default="1"/>
-      <entry key="build.version.date" type="date" value="now" pattern="dd-MMM-yyyy"/>
-      <entry key="build.version.time" type="date" value="now" pattern="HH:mm"/>
-      <entry key="build.version.nightly" type="date" value="now" pattern="yyyyMMdd_HHmm"/>
-    </propertyfile>
-
-    <property file="${build.properties.version}"/>
-  </target>
-
-  <!-- Increments the build number. -->
-  <target name="increment-build" depends="init" unless="build.version.propfileexists"
-      description="Increments the build number stored in version.properties.">
-    <propertyfile
-        file="${build.properties.version}"
-        comment=" generated/modified by build.xml">
-      <entry key="build.version.buildno" type="int" operation="+" default="0"/>
-    </propertyfile>
-  </target>
-
   <!-- Initializes substitution tokens used in text file copying. -->
-  <target name="init-filters" depends="init, init-version">
+  <target name="init-filters" depends="init">
     <property file="${build.properties.strings}"/>
     
     <filterset id="gi-filters-text">
@@ -193,13 +163,10 @@
       <filter token="gi.productname.full.text" value="${gi.productname.full.text}"/>
       <filter token="gi.version.full" value="${gi.version.full}"/>
       <filter token="gi.apidocs.title" value="${gi.apidocs.title}"/>
-      <filter token="gi.apidocs.title.esc" value="${gi.apidocs.title.esc}"/>
     </filterset>
     <filterset id="gi-filters">
       <filtersfile file="${build.dir}/build.properties"/>
-      <filter token="build.version.date" value="${build.version.date}"/>
-      <filter token="build.version.time" value="${build.version.time}"/>
-      <filter token="build.version.buildno" value="${build.version.buildno}"/>
+      <filter token="build.version.buildno" value="${build.gi.buildno}"/>
       <filter token="GI_BETA_WARN" value="${build.gi.beta.warn}"/>
       <filter token="GI_BETA_EXPIRE" value="${build.gi.beta.expire}"/>
       <filtersfile file="${build.properties.strings}"/>
@@ -650,27 +617,8 @@
     <zip
         basedir="${dist.dirbase}"
         includes="${dist.gi}/**/*"
-        destfile="${dist.dirbase}/${build.dist.prefix}${build.gi.version.name}${build.dist.suffix}"
+        destfile="${project.dir}/${build.dist.zip}"
         />
-  </target>
-
-  <target name="dist-nightly" depends="init, init-filters"
-      description="Packages a General Interface distribution in a ZIP file.">
-
-    <delete dir="${dist.dir}"/>
-    <antcall target="dist" inheritall="true" inheritrefs="true"/>
-
-    <copy todir="${dist.dir}" verbose="false" encoding="${build.encoding}">
-      <fileset dir="${project.dir}" includes="${build.nightly.toplevel}"/>
-    </copy>
-
-    <zip
-        basedir="${dist.dirbase}"
-        includes="${dist.gi}/**/*"
-        destfile="${dist.dirbase}/${build.nightly.prefix}${build.version.nightly}${build.dist.suffix}"
-        />
-
-    <!--<delete dir="${dist.dir}"/>-->
   </target>
 
   <target name="compile-locales" depends="init, init-filters, init-tools"
@@ -689,6 +637,11 @@
       description="Removes all build artifacts.">
     <delete dir="${dist.dir}"/>
     <delete dir="${tmp.dir}"/>
+  </target>
+
+  <target name="distclean" depends="clean"
+      description="Removes all build artifacts and tools build artifacts.">
+    <ant antfile="${tools.dir}/build.xml" target="clean" inheritall="false" inheritrefs="false"/>
   </target>
 
 </project>

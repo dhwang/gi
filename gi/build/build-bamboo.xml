@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<project name="General Interface Bamboo Interface" basedir=".">
+
+  <property name="staging.nightly" value="."/>
+  <property name="staging.release" value="."/>
+  <property name="staging-doc.nightly" value="."/>
+  <property name="staging-doc.release" value="."/>
+
+  <property name="project.dir" value=".."/>
+  <property name="temp.svninfo" value="svninfo.tmp"/>
+
+  <target name="init">
+    <property file="build.properties"/>
+  </target>
+
+  <target name="compile"
+      description="Compiles GI in strict mode and fails on any warning.">
+    <!-- clean -->
+    <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
+
+    <!-- and compile with strict = true -->
+    <ant antfile="build.xml" target="dist" inheritall="false" inheritrefs="false">
+      <property name="build.gi.strict" value="true"/>
+    </ant>
+  </target>
+
+  <target name="nightly" depends="init"
+      description="Builds and deploys the regular, debug and no-dep flavors of GI in the nightly build directory.">
+    <getsvnrevision path="${project.dir}" property="rev"/>
+    <property name="temp.distzip" value="gi.zip"/>
+
+    <!-- clean -->
+    <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
+
+    <!-- standard build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}.zip"/>
+
+    <!-- deploy api documentation -->
+    <delete dir="${staging-doc.nightly}/${build.gi.version.name}"/>
+    <copydir
+        src="${project.dir}/${build.loc.dist}/gi/api/html"
+        dest="${staging-doc.nightly}/${build.gi.version.name}"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- debug build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}db"/>
+      <property name="build.gi.benchmark" value="true"/>
+      <property name="build.gi.docs" value="false"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}-debug.zip"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- no deprecated code build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}nd"/>
+      <property name="build.gi.deprecated" value="false"/>
+      <property name="build.gi.docs" value="false"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}-nodep.zip"/>
+  </target>
+
+  <target name="nightly-docs" depends="init"
+      description="Builds and deploys the API documentation and deploys it to the nightly staging area.">
+    <getsvnrevision path="${project.dir}" property="rev"/>
+    <tstamp>
+      <format property="timestamp" pattern="M/d/yyyy hh:mm aa"/>
+    </tstamp>
+
+    <!-- clean -->
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <ant antfile="build.xml" target="compile-doc" inheritall="false" inheritrefs="false">
+      <property name="gi.apidocs.title" value="General Interface ${build.gi.version.name} (Nightly r${rev} ${timestamp})"/>
+    </ant>
+
+    <!-- deploy api documentation -->
+    <delete dir="${staging-doc.nightly}/${build.gi.version.name}"/>
+    <copy todir="${staging-doc.nightly}/${build.gi.version.name}">
+      <fileset dir="${project.dir}/${build.loc.dist}/gi/api/html" includes="**"/>
+    </copy>
+  </target>
+
+  <target name="tests">
+
+  </target>
+
+  <target name="release"
+      description="Builds and deploys the regular, debug and max flavors of GI in the release directory.">
+    <getsvnrevision path="${project.dir}" property="rev"/>
+    <property name="temp.distzip" value="gi.zip"/>
+
+    <!-- clean -->
+    <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
+
+    <!-- standard build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}.zip"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- debug build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}db"/>
+      <property name="build.gi.benchmark" value="true"/>
+      <property name="build.gi.docs" value="false"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-debug.zip"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- max build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}nd"/>
+      <property name="build.gi.includes.jsx" value="max"/>
+      <property name="build.gi.docs" value="false"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-max.zip"/>
+  </target>
+
+  <target name="release-docs" depends="init"
+      description="Builds and deploys the API documentation and deploys it to the release staging area.">
+
+    <!-- clean -->
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <ant antfile="build.xml" target="compile-doc" inheritall="false" inheritrefs="false">
+    </ant>
+
+    <!-- deploy api documentation -->
+    <delete dir="${staging-doc.release}/${build.gi.version.name}"/>
+    <copy todir="${staging-doc.release}/${build.gi.version.name}">
+      <fileset dir="${project.dir}/${build.loc.dist}/gi/api/html" includes="**"/>
+    </copy>
+  </target>
+
+  <macrodef name="getsvnrevision">
+    <attribute name="path"/>
+    <attribute name="property"/>
+
+    <sequential>
+      <tempfile property="svninfo.log"/>
+      <exec executable="svn" output="${temp.svninfo}">
+        <arg line="info @{path}"/>
+      </exec>
+
+      <loadfile property="@{property}" srcFile="${temp.svninfo}">
+        <filterchain>
+          <linecontains>
+            <contains value="Last Changed Rev: "/>
+          </linecontains>
+          <deletecharacters chars="Last Changed Rev: "/>
+          <striplinebreaks/>
+        </filterchain>
+      </loadfile>
+      <delete file="${svninfo.log}" quiet="true"/>
+    </sequential>
+  </macrodef>
+
+</project>
+    
