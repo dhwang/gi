@@ -81,6 +81,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Resource", null, [jsx3.util.EventDispatche
   Resource.LOADED = 2;
 
   /**
+   * @private
    * @jsxobf-clobber-shared
    */
   Resource._newBeforePlugIn = function(strPlugInId, strPlugInPath, strId, elm, objEngine) {

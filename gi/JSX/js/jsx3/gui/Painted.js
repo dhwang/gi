@@ -381,7 +381,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
   Painted_prototype.onAfterPaint = function(objGUI) {
   };
 
-  /** @jsxobf-clobber-shared */
+  /** @private @jsxobf-clobber-shared */
   Painted._onAfterPaintCascade = function(objRoot, objGUI) {
     var queue = [objRoot];
     while (queue.length > 0) {

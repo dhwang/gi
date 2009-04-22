@@ -412,7 +412,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     }
   };
 
-  /** @jsxobf-clobber-shared */
+  /** @private @jsxobf-clobber-shared */
   Model_prototype._applyId = function(strNS) {
     this._jsxid = jsx3.app.DOM.newId(strNS);
   };
