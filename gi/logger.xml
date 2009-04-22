@@ -13,7 +13,7 @@
   </handler>
 
   <!-- Logs messages to the Firebug console, when available. -->
-  <handler name="console" class="jsx3.util.Logger.ConsoleHandler"/>
+  <handler name="console" class="jsx3.util.Logger.ConsoleHandler" level="FATAL"/>
 
   <!-- Prints logging messages to Builder's system out panel.
        For logging in Builder to work there should be exactly one handler of type SystemLogHandler
@@ -45,14 +45,13 @@
        disableInIDE (default:true) - disables the application monitor while the IDE is running.
        activateOnHotKey (default:false) - disables the application monitor until the hot key ctrl+alt+m is pressed
           in the application.
-
+-->
   <handler name="appMonitor1" class="jsx3.app.Monitor" require="true">
-    <property name="serverNamespace" value="myApp"/>
+    <!--<property name="serverNamespace" value="myApp"/>-->
     <property name="disableInIDE" eval="true" value="true"/>
     <property name="activateOnHotKey" eval="true" value="false"/>
     <property name="format" value="%t %n (%l) - %M"/>
   </handler>
-  -->
 
   <!-- The global logger. -->
   <logger name="global" level="INFO">
@@ -60,7 +59,7 @@
     <handler-ref name="console"/>
     <handler-ref name="ide"/>
     <handler-ref name="fatal"/>
-    <!--<handler-ref name="appMonitor1"/>-->
+    <handler-ref name="appMonitor1"/>
   </logger>
 
   <logger name="jsx3" level="WARN"/>
