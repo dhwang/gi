@@ -16,7 +16,7 @@ function suite() {
 
       /* Reflection and metadata suite */
       ["jsx3/lang/t_pkg.js", "jsx3/lang/t_object.js", "jsx3/lang/t_method.js", "jsx3/lang/t_class.js",
-          "jsx3/lang/t_package.js"],
+          "jsx3/lang/t_package.js", "jsx3/lang/t_aop.js"],
 
       /* Exception and error suite */
       ["jsx3/lang/t_exception.js", "jsx3/lang/t_error.js"],

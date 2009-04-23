@@ -107,17 +107,20 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
   };
     
   /** @private @jsxobf-clobber */
-  AOP._initMethod = function(objMethod) {
-    var c = objMethod.getDeclaringClass();
-    var mName = objMethod.getName();
+  AOP._initMethod = function(objArr) {
+    var c = objArr[0], mName = objArr[1];
     var key = c.getName() + "$" + mName;
       
     if (!AOP._methodToPC[key]) {
       var proto = c.getConstructor().prototype;
       AOP._methodToPC[key] = {_method:proto[mName], _pc:[]};
+
+      var oldMethod = proto[mName].jsxmethod;
+
       proto[mName] = AOP._newCutPoint(key);
+
       // So that prototype[methodName].jsxmethod is still defined...
-      proto[mName].jsxmethod = AOP._methodToPC[key]._method.jsxmethod;
+      proto[mName].jsxmethod = oldMethod;
     }
 
     return key;
@@ -258,7 +261,7 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
   /** @private @jsxobf-clobber */
   AOP._getMethodsForClass = function(objClass, strMethods) {
     var m = [];
-    var im = null;
+    var proto = objClass.getConstructor().prototype;
     
     if (!(strMethods instanceof Array)) 
       strMethods = [strMethods];
@@ -266,13 +269,14 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
     for (var i = 0; i < strMethods.length; i++) {
       var name = strMethods[i];
       if (name.match(/^\w+$/)) {
-        m.push(objClass.getInstanceMethod(name));
+        var aFunct = proto[name];
+        if (aFunct)
+          m.push([objClass, name]);
       } else {
         var re = new RegExp("^" + name.replace("*", "\\w*") + "$");
-        if (!im) im = objClass.getInstanceMethods();
-        for (var j = 0; j < im.length; j++)
-          if (im[j].getName().match(re))
-            m.push(im[j]);
+        for (var f in proto)
+          if (f.match(re))
+            m.push([objClass, f]);
       }
     }
     
