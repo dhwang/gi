@@ -10,12 +10,22 @@
         name="GIPP Integration Plug-In"
         version="0.1">
 
-  <method id="launch">
+  <method id="launch" params="benchmarkJSPath, interval">
     var gipp = this.getGIPPDir();
+
+    var query = "GI=" + gipp.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=" +
+        gipp.relativePathTo(jsx3.ide.PROJECT.getDirectory());
+
+    if (benchmarkJSPath)
+      query = query + "&amp;BENCHMARK_JS=" + benchmarkJSPath;
+
+    if (interval)
+      query = query + "&amp;INTERVAL=" + interval;
+
     var uri = gipp.toURI();
-    uri = jsx3.net.URI.fromParts(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(), uri.getPath() + "gipp.html",
-        "GI=" + gipp.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=" +
-        gipp.relativePathTo(jsx3.ide.PROJECT.getDirectory()), "");
+    uri = jsx3.net.URI.fromParts(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
+        uri.getPath() + "gipp.html", query, null);
+
     window.open(uri.toString());
   </method>
 

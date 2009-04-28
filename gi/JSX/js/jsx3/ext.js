@@ -12,7 +12,6 @@
   };
 
   var json = function(o) {
-    // TODO: proper escaping
     if (o == null) return "null";
     if (typeof(o) == "object") {
       if (o instanceof Array) {
@@ -23,12 +22,12 @@
       } else {
         var s = [];
         for (var f in o)
-          if (o[f] != o.constructor.prototype[f])
+          if (o.hasOwnProperty(f))
             s.push(f + ":" + json(o[f]));
         return "{" + s.join(",") + "}";
       }
     } else if (typeof(o) == "string") {
-      return "\"" + jsx3.util.strEscapeJSON(o) + "\"";
+      return jsx3.util.strEscapeJSON(o);
     } else {
       return o.toString();
     }
@@ -57,10 +56,6 @@
       var c = jsx3.$O();
       c.extend(this);
       return c;
-    },
-
-    json: function() {
-      return json(this);
     }
   };
 
@@ -74,6 +69,8 @@
   jsx3.$O = function(o) {
     return extend(o || {}, jsx3.$Object);
   };
+
+  jsx3.$O.json = json;
 
   /**
    * Useful extensions to the JavaScript <code>Array</code> class.

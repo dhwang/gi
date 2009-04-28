@@ -1,0 +1,187 @@
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<html>
+  <head>
+    <title>GIPP Test Recorder</title>
+
+<script type="text/javascript" language="JavaScript">
+
+  var inited = false, me, editor, paused = false, asserting = false, loadListener;
+
+  function onReady() {
+    me = window;
+
+    window.setTimeout(function() {
+      editor = me["gippeditor"];
+
+      me.onbeforeunload = new Function("if (window.gippeditor) window.gippeditor.onRecorderStopped();");
+      me.onresize = updateHeight;
+      me.document.onclick = onAppClick;
+
+      updateHeight();
+
+      if (editor) {
+        window.setTimeout(loadApp, 250);
+        editor.onRecorderLaunched();
+      } else
+        if (confirm("This page must be launched directly from General Interface Builder. Close window?"))
+          me.close();
+    }, 0);
+  }
+
+  function updateHeight() {
+    var cnt = document.getElementById("appContainer");
+    var ctrl = document.getElementById("recorderControls");
+    cnt.style.height = document.body.clientHeight - ctrl.offsetHeight;
+  }
+
+  function loadApp() {
+    var cnt = document.getElementById("appContainer");
+    var script = document.createElement("script");
+    script.setAttribute("type", "text/javascript");
+    script.setAttribute("src", editor.getJsxSrc());
+    script.setAttribute("jsxapppath", editor.getJsxAppPath());
+    cnt.appendChild(script);
+
+    loadListener = window.setInterval(checkLoaded, 100);
+  }
+
+  function checkLoaded() {
+    if (!inited && window.jsx3 && jsx3.lang && jsx3.lang.AOP && jsx3.gui && jsx3.gui.Interactive) {
+      inited = true;
+      window.clearInterval(loadListener);
+
+      var classes = [];
+      var pkgs = jsx3.lang.Package.getPackages();
+      for (var i = 0; i < pkgs.length; i++) {
+        var c = pkgs[i].getClasses();
+        for (var j = 0; j < c.length; j++) {
+          if (jsx3.gui.Interactive.jsxclass.isAssignableFrom(c[j]))
+            classes.push(c[j]);
+        }
+      }
+
+      jsx3.lang.AOP.pc("evtCP", {classes:classes, methods:"doEvent"});
+      jsx3.lang.AOP.before("evtCP", function(strType, objContext) {
+        if (!paused && !asserting) {
+          var hasListener = this.hasEvent(strType) || this.getSubscriberCount(strType) > 0;
+
+//          editor.getPlugIn().getLog().warn("evtCP " + [strType, this]);
+          editor.onModelEvent(this, strType, objContext, hasListener);
+        }
+      });
+    }
+  }
+
+  function onPause() {
+    var btn = document.getElementById("playPause");
+    if (paused) {
+      paused = false;
+      btn.innerHTML = "Pause";
+      btn.className = "recorderBtn activeBtn";
+    } else {
+      paused = true;
+      btn.innerHTML = "Play";
+      btn.className = "recorderBtn";
+    }
+  }
+
+  function onWait() {
+    var btn = document.getElementById("assert");
+    if (asserting) {
+      asserting = false;
+      btn.innerHTML = "Capture Wait";
+      btn.className = "recorderBtn";
+    } else {
+      asserting = true;
+      btn.innerHTML = "Cancel Wait";
+      btn.className = "recorderBtn activeBtn";
+    }
+  }
+
+  function onStop() {
+    if (editor)
+      editor.onRecorderStopped();
+    me.close();
+  }
+
+  function onAppClick(event) {
+    if (asserting && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
+      var e = jsx3.gui.Event.wrap(event);
+      var objJSX = jsx3.html.getJSXParent(e.srcElement());
+      if (objJSX) {
+        editor.onAssert(objJSX);
+        onWait();
+      }
+    }
+  }
+
+</script>
+
+<style type="text/css">
+  body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    overflow: hidden;
+  }
+
+  #recorderControls {
+    height: 20px;
+    overflow: hidden;
+    background-color: #666666;
+    font-size: 11px;
+    font-family: Verdana, sans-serif;
+  }
+
+  .padding {
+    padding: 2px 5px;
+  }
+
+  .recorderBtn {
+    height: 16px;
+    overflow: hidden;
+    background-color: #DDDDDD;
+    color: #333333;
+    padding: 0px 5px;
+    float: left;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+
+  .activeBtn {
+    background-color: #BBFFDD;
+  }
+
+  #stop {
+    float: right;
+    margin-right: 0px;
+    background-color: #FFCCCC;
+  }
+
+  #appContainer {
+    width: 100%;
+    overflow: hidden;
+    background-color: #EEEEEE;
+  }
+</style>
+  </head>
+  <body onload="onReady()" SCROLL="no">
+    <div id="recorderControls">
+      <div class="padding">
+        <div id="playPause" class="recorderBtn activeBtn" onclick="onPause();">Pause</div>
+        <div id="assert" class="recorderBtn" onclick="onWait();">Capture Wait</div>
+        <div id="stop" class="recorderBtn" onclick="onStop();">Stop</div>
+      </div>
+    </div>
+    <div id="appContainer"></div>
+  </body>
+</html>

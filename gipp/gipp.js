@@ -502,6 +502,12 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
     return false;
   };
+
+  gipp.log = function(msg) {
+    if (window.console && console.log) {
+      console.log(msg);
+    }
+  }
   
 })(gi.test.gipp);
 
@@ -861,8 +867,18 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       }
 
       if (ex) {
-        var strError = ex.message || ex.toString();
-        strError = strError.replace(/"/g, "&quot;").replace(/'/g, "\\'");
+        var strError;
+
+        if (ex.printStackTrace) 
+          strError = ex.printStackTrace();
+        else {
+          strError = ex.message || ex.toString();
+          if (ex.stack)
+            strError += "\n\n" + ex.stack;
+        }
+
+        strError = strError.replace(/"/g, "&quot;").replace(/'/g, "\\'").replace(/\n/g, "\\n");
+
         this._updateOutput(job.getId(), null, '<span class="error" onclick="window.alert(\'' + strError + '\')">Error</span>', "");
         this._continueNextTest();
       } else {
@@ -881,11 +897,16 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
           /* @jsxobf-clobber */
           this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), this._const("TIMEOUT"));
         } else if (result === gipp.POLL) {
-          this._status("Polling: " + job.getLabel());
-          /* @jsxobf-clobber */
-          this._to_polling = window.setInterval(this._callback("_checkPollingCase"), this._const("INTERVAL"));
-          this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), this._const("POLL_TIMEOUT"));
-          this._updateButtons();
+          // Allow synchronous results when test returns POLL
+          if (gipp.POLL.poll(this._server)) {
+            this._completeTestCase(job.getId());
+          } else {
+            this._status("Polling: " + job.getLabel());
+            /* @jsxobf-clobber */
+            this._to_polling = window.setInterval(this._callback("_checkPollingCase"), this._const("INTERVAL"));
+            this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), this._const("POLL_TIMEOUT"));
+            this._updateButtons();
+          }
         } else {
           this._completeTestCase(job.getId());
         }
@@ -1840,3 +1861,247 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   
 })(gi.test.gipp.evt = {});
   
+
+
+/**
+ * The GIPP API supporting test cases recorded by the General Interface GIPP test recorder.
+ *
+ * @jsxdoc-definition  jsx3.lang.Package.definePackage("gi.test.gipp.recorder", function() {});
+ */
+(function(recorder) {
+
+  var gipp = gi.test.gipp;
+
+  /** @private @jsxobf-clobber */
+  recorder._before = {};
+
+  /** @private @jsxobf-clobber */
+  recorder._after = {};
+
+  /**
+   * Plays test cases recorded by the test recorder. Each test case is an object with the following attributes:
+   * <ul>
+   *   <li>label: </li>
+   *   <li>target: </li>
+   *   <li>action: </li>
+   *   <li>args: </li>
+   *   <li>wait: </li>
+   * </ul>
+   *
+   * @param arrTests {Array}
+   */
+  recorder.playbackTests = function(arrTests) {
+    var noIdSerial = 0;
+    var runner = gipp.getRunner();
+
+    var i = 0;
+    while (i < arrTests.length) {
+      var j = i;
+      var id, wait;
+
+      for (; j < arrTests.length; j++) {
+        var o = arrTests[j];
+        id = o.label;
+        wait = o.wait;
+
+        if (wait || j == arrTests.length - 1)
+          break;
+      }
+
+      id = id || "Missing ID " + (++noIdSerial);
+
+      if (recorder._before[id]) {
+        for (var k = 0; k < recorder._before[id].length; k++)
+          runner.addTest(recorder._before[id][k]);
+      }
+
+      var data = arrTests.slice(i, j + 1);
+      var test = recorder._makeTestCase(id, data, wait);
+      runner.addTest(test);
+
+      if (recorder._after[id]) {
+        for (var k = 0; k < recorder._after[id].length; k++)
+          runner.addTest(recorder._after[id][k]);
+      }
+
+      i = j + 1;
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._makeTestCase = function(id, data, wait) {
+    return new gipp.TestCase(id, function(objServer) {
+      return recorder._testFunction(objServer, data, wait);
+    });
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._testFunction = function(objServer, arrData, strWait) {
+    for (var i = 0; i < arrData.length; i++) {
+      var o = arrData[i];
+      var target = recorder._getTarget(objServer, o.target);
+
+      if (!target)
+        throw new Error("Bad target: " + o.target);
+
+      var args;
+      try {
+        args = eval("var tmp = {" + o.args + "}; tmp");
+      } catch (e) {
+        throw new Error("Bad event arguments: " + o.args);
+      }
+
+      recorder._invokeAction(target, o.action, args);
+    }
+
+    if (strWait == "DONE") {
+      return;
+    } else if (strWait == "SLEEP") {
+      return gipp.SLEEP;
+    } else if (strWait == "SLEEP_LONG") {
+      return gipp.SLEEP_LONG;
+    } else {
+      recorder._setUpPoll(objServer, strWait);
+      return gipp.POLL;
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._invokeAction = function(objTarget, strAction, objArgs) {
+    objArgs.subject = strAction;
+
+    if (objTarget.replayEvent) {
+      objTarget.replayEvent(objArgs);
+    } else {
+      var fct = recorder._getReplayFunction(objTarget, strAction);
+      if (fct) {
+        fct.apply(objTarget, [objArgs]);
+      } else {
+        objTarget.doEvent(strAction, objArgs);
+      }
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._REPLAY = {
+    "jsx3.gui.DatePicker": {
+      jsxchange: function(e) {
+        if (this.doEvent(e) !== false)
+          this.setDate(e.newDATE);
+      }
+    },
+    "jsx3.gui.Select": {
+      jsxselect: function(e) {
+        if (this.doEvent(e) !== false)
+          this.setValue(e.strRECORDID);
+      }
+    },
+    "jsx3.gui.TextBox": {
+      jsxchange: function(e) {
+        if (this.doEvent(e) !== false)
+          this.setValue(e.strVALUE);
+      }
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._getReplayFunction = function(objTarget, strAction) {
+    var c = objTarget.getClass();
+    var fct = null;
+
+    while (c && !fct) {
+      var struct = recorder._REPLAY[c.getName()];
+      if (struct)
+        fct = struct[strAction];
+
+      c = c.getSuperClass();
+    }
+
+    return fct;
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._VERBS = {
+    EXISTS: function(s, target, obj) {
+      return recorder._getTarget(s, target) != null;
+    },
+    VALUE: function(s, target, obj) {
+      var t = recorder._getTarget(s, target);
+      if (t) {
+        return t.getValue() == eval(obj);
+      }
+      return false;
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._setUpPoll = function(objServer, strWait) {
+    if (/^\s*(\w+)\s*,\s*([^,]*?)\s*(?:,\s*(.*))?$/.exec(strWait)) {
+      var verb = RegExp.$1;
+      var targetAddress = RegExp.$2;
+      var object = RegExp.$3;
+
+      var verbStruct = recorder._VERBS[verb];
+
+      if (!verbStruct)
+        throw new Error("Bad verb: " + verb);
+
+      gipp.POLL.poll = function(s) {
+        return verbStruct(s, targetAddress, object);
+      };
+    } else {
+      throw new Error("Bad wait value: " + strWait);
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._getTarget = function(objServer, s) {
+    var tokens = s.split(/\s*\/\s*/g);
+    var target = null;
+
+    for (var i = 0; i < tokens.length; i++) {
+      var t = tokens[i];
+
+      if (t.indexOf("#") == 0) {
+        var id = t.substring(1);
+        target = target ? target.getDescendantOfName(id) : objServer.getJSXByName(id);
+      } else if (!isNaN(t) && target) {
+        target = target.getChild(parseInt(t));
+      } else {
+        return null;
+      }
+    }
+
+    return target;
+  };
+
+  /**
+   * This method may be called before calling <code>playbackTests()</code> in order to play a manual test case
+   * between two recorded test cases. The manual test case will run before the test whose label is equal to
+   * <code>strId</code>.
+   *
+   * @param strId {String} the label of the recorded test case before which to insert the test.
+   * @param objTest {gi.test.gipp.TestCase} the manual test case.
+   */
+  recorder.insertBefore = function(strId, objTest) {
+    if (!recorder._before[strId])
+      recorder._before[strId] = [];
+    recorder._before[strId].push(objTest);
+  };
+
+  /**
+   * This method may be called before calling <code>playbackTests()</code> in order to play a manual test case
+   * between two recorded test cases. The manual test case will run after the test whose label is equal to
+   * <code>strId</code>.
+   *
+   * @param strId {String} the label of the recorded test case after which to insert the test.
+   * @param objTest {gi.test.gipp.TestCase} the manual test case.
+   */
+  recorder.insertAfter = function(strId, objTest) {
+    if (!recorder._after[strId])
+      recorder._after[strId] = [];
+    recorder._after[strId].push(objTest);
+  };
+
+})(gi.test.gipp.recorder = {});
+
