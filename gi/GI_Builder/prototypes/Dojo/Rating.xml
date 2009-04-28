@@ -10,6 +10,6 @@
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
     <strings dijitClassName="dojox.form.Rating" jsxname="dojox.form.Rating" />
-    <variants dijitStyleSheets="(['dojo-toolkit/dojox/form/resources/Rating.css'])" />
+    <variants dijitStyleSheets="(['dojox/form/resources/Rating.css'])" />
   </object>
 </serialization>

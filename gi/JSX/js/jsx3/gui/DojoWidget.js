@@ -14,7 +14,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   var ss = DojoWidget._stylesheets = {};
 
   DojoWidget.insertThemeStyleSheets = function(theme, node){
-    var theme_ss = 'dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css';
+    var theme_ss = jsx3.resolveURI('jsx:///js/dijit/themes/' + theme + '/' + theme + '.css');
 
     if(!ss[theme_ss]){
       DojoWidget.insertStyleSheet(theme_ss, node);
@@ -54,11 +54,11 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     //call constructor for super class
     this.dijitProps = dijitProps||{};
     this.jsxsuper(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML);
-    DojoWidget._LOG.warn('init');
+    DojoWidget._LOG.debug('init');
     this._createDijit(this.dijitProps);
   };
   DojoWidget_prototype.onAfterAssemble = function(){
-    DojoWidget._LOG.warn('onAfterAssemble');
+    DojoWidget._LOG.debug('onAfterAssemble');
     var dijitProps = {};
     for (var i in this) {
       if (i.substring(0,6) == "dijit_") {
@@ -71,11 +71,14 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       this.setEvent(this._jsxevents[i], i);
     }
   };
+  DojoWidget_prototype.onSetChild = function() {
+    return false;
+  };
   DojoWidget_prototype._subPropId = function() {
     return this.dijitClassName;
   };
   DojoWidget_prototype._createDijit = function(props){
-    DojoWidget._LOG.warn('_createDijit: ' + this.getId());
+    DojoWidget._LOG.debug('_createDijit: ' + this.getId());
     if(!this.dijit){
       if (!this.dijitClassName) {
         throw new Error("No dijitClassName defined");
@@ -93,7 +96,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     DojoWidget.insertThemeStyleSheets('tundra', newElement);
     if(this.dijitStyleSheets){
       dojo.forEach(this.dijitStyleSheets, function(style_sheet){
-        DojoWidget.insertStyleSheet(style_sheet, newElement);
+        DojoWidget.insertStyleSheet(jsx3.resolveURI('jsx:///js/' + style_sheet), newElement);
       });
     }
     dojo.attr(newElement, 'id', this.getId());
@@ -125,7 +128,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     };
   };
   DojoWidget_prototype.onDestroy = function(objParent){
-    DojoWidget._LOG.warn('destroy');
+    DojoWidget._LOG.debug('destroy');
     this.dijit.destroyRecursive();
 
     this.jsxsuper(objParent);
@@ -216,8 +219,11 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
        jsxtext: "Dojo"
       });
       function addProperty(propDef, i) {
+        if (propDef.type == 'object' && propDef.name != 'attributeMap' && propDef.name != 'params') {
+          return;
+        }
         var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
-        metadata.insertRecord({
+        var rec = {
           jsxid: i,
           jsxtext: firstCap,
           jsxtip: propDef.description,
@@ -225,9 +231,23 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
           docgetter: typeof dijitClass.prototype[i] == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
           docsetter: typeof dijitClass.prototype[i] == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
           getter:"get" + firstCap,
-          jsxmask:"jsxtext",
+          jsxmask: propDef.type == 'boolean' ? "jsxselect" : "jsxtext",
           jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
-        }, "dojo");
+        };
+        var objRecordNode = metadata.insertRecord(rec, "dojo");
+        if(propDef.type == 'boolean'){
+          // Boolean properties need to have enum elements set up
+          // for the property editor
+          var objXML = metadata.getXML();
+          var trueNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, "enum");
+          trueNode.setAttribute('jsxid', 'jsx3.Boolean.TRUE');
+          trueNode.setAttribute('jsxtext', 'True');
+          objRecordNode.appendChild(trueNode);
+          var falseNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, "enum");
+          falseNode.setAttribute('jsxid', 'jsx3.Boolean.FALSE');
+          falseNode.setAttribute('jsxtext', 'False');
+          objRecordNode.appendChild(falseNode);
+        }
       }
       iterateProperties(self, addProperty);
     }else if(metadataType=="event"){
