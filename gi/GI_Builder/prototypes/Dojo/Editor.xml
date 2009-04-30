@@ -9,6 +9,6 @@
   <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
   <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.Editor"/>
+    <strings dijitClassName="dijit.Editor" dijit_height="100%"/>
   </object>
 </serialization>

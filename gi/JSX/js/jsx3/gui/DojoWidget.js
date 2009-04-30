@@ -2,6 +2,13 @@ jsx3.require("jsx3.util.Dojo");
 jsx3.require("jsx3.gui.Block");
 
 dojo.require("dojox.lang.docs");
+// seems that sometimes there is concurrent loading, so we have to actually specify these explicitly
+dojo.require("dojo._base.connect");
+dojo.require("dojo._base.Deferred");
+dojo.require("dojo._base.json");
+dojo.require("dojo._base.array");
+dojo.require("dojo._base.Color");
+dojo.require("dojo._base.browser");
 dojo.require("dojox.html._base");
 
 /**
@@ -9,10 +16,15 @@ dojo.require("dojox.html._base");
  */
 jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(DojoWidget, DojoWidget_prototype) {
   DojoWidget._LOG = jsx3.util.Logger.getLogger("jsx3.gui.DojoWidget");
-  DojoWidget._LOG.debug("started");
 
   var ss = DojoWidget._stylesheets = {};
 
+  /**
+   * Dynamically inserts the theme style sheet and applies the correct class to the app's DOM
+   * @param name theme to apply
+   * @param node The node to use
+   * @private
+   */
   DojoWidget.insertThemeStyleSheets = function(theme, node){
     var theme_ss = jsx3.resolveURI('jsx:/../dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css');
 
@@ -21,7 +33,12 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       dojo.addClass(dojo.body(), theme);
     }
   };
-
+  /**
+   * Dynamically inserts a style sheet into the DOM
+   * @param name filename of the style sheet to add
+   * @param node The node to use
+   * @private
+   */
   DojoWidget.insertStyleSheet = function(name, node){
     var doc = node.ownerDocument;
     var head = doc.getElementsByTagName("head")[0];
@@ -54,11 +71,9 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     //call constructor for super class
     this.dijitProps = dijitProps||{};
     this.jsxsuper(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML);
-    DojoWidget._LOG.debug('init');
     this._createDijit(this.dijitProps);
   };
   DojoWidget_prototype.onAfterAssemble = function(){
-    DojoWidget._LOG.debug('onAfterAssemble');
     var dijitProps = {};
     for (var i in this) {
       if (i.substring(0,6) == "dijit_") {
@@ -74,15 +89,26 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   DojoWidget_prototype.onSetChild = function() {
     return false;
   };
+  /**
+   * Gets the sub-id of the class
+   * @return the sub-id of the class
+   * @private
+   */
   DojoWidget_prototype._subPropId = function() {
     return this.dijitClassName;
   };
+  
+  /**
+   * Creates a new dijit
+   * @param name {Object} property bag to provide to the dijit constructor
+   * @private
+   */
   DojoWidget_prototype._createDijit = function(props){
-    DojoWidget._LOG.debug('_createDijit: ' + this.getId());
     if(!this.dijit){
       if (!this.dijitClassName) {
         throw new Error("No dijitClassName defined");
       }
+      dojo._postLoad = true; // make sure we don't tempt the widget to use document.write
       dojo.require(this.dijitClassName);
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
       setupAccessors(this);
@@ -115,20 +141,34 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     }
     return newElement;
   };
+
+  /**
+   * Returns a getter for retrieving attribute value from the Dojo widget
+   * @param name {String} Name of the attribute whose value will be retrieved when calling the getter
+   * @return {function} Getter function to return the attribute's value
+   */
   DojoWidget_prototype.getter = function(name){
     var dijit = this.dijit;
     return function() {
       return dijit.attr(name);
     };
   };
+
+  /**
+   * Returns a setter for modifying an attribute's value in the Dojo widget
+   * @param name {String} Name of the attribute whose value will be modified when calling the setter
+   * @return {function} Setter function to modify attribute's value
+   */
   DojoWidget_prototype.setter = function(name){
     var dijit = this.dijit;
     return function(value) {
       dijit.attr(name, value);
     };
   };
+  /**
+   * Handles destruction of the widget
+   */
   DojoWidget_prototype.onDestroy = function(objParent){
-    DojoWidget._LOG.debug('destroy');
     this.dijit.destroyRecursive();
 
     this.jsxsuper(objParent);
@@ -147,6 +187,8 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     });
     return this;
   }
+
+  // iterates over the properties, whether it be from the API docs, or the object's prototype  
   function iterateProperties(self, handler) {
     var schemaDefined, dijitClass = self.dijit.constructor;
       while (dijitClass) {
@@ -176,6 +218,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       }
   };
   var objectsMissingDocGetters = [];
+  // setup the getters and setters on the object
   function setupAccessors(self){
     if(!docsInitialized){
       objectsMissingDocGetters.push(self);
@@ -183,17 +226,24 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     iterateProperties(self, function(propDef, i){
       var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
       if(i != "id" && i != "class"){
-        self["get" + firstCap] = function() {
-          return self.dijit.attr(i);
-        };
-        self["set" + firstCap] = function(value) {
-          self["dijit_" + i] = value;
-          self.dijit.attr(i, value);
-        };
+        if(!self["get" + firstCap] && !self["set" + firstCap]) {
+          (self["get" + firstCap] = function() {
+            return self.dijit.attr(i);
+          })._dojoGetter = true;
+          self["set" + firstCap] = function(value) {
+            self["dijit_" + i] = value;
+            self.dijit.attr(i, value);
+          };
+        }
       }
     });
   };
   var docsInitialized;
+  /**
+   * Returns the metadata in XML form
+   * @param metadataType {String} This can be "prop" for the properties, or "event" for the events
+   * @return {jsx3.xml.CDF} The metadata in CDF/XML form
+   */
   DojoWidget_prototype.getMetadataXML = function(metadataType){
     if(!docsInitialized){
       docsInitialized = true;
@@ -223,30 +273,32 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
           return;
         }
         var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
-        var rec = {
-          jsxid: i,
-          jsxtext: firstCap,
-          jsxtip: propDef.description,
-          eval: propDef.type == 'string' ? 0 : 1,
-          docgetter: typeof dijitClass.prototype[i] == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
-          docsetter: typeof dijitClass.prototype[i] == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
-          getter:"get" + firstCap,
-          jsxmask: propDef.type == 'boolean' ? "jsxselect" : "jsxtext",
-          jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
-        };
-        var objRecordNode = metadata.insertRecord(rec, "dojo");
-        if(propDef.type == 'boolean'){
-          // Boolean properties need to have enum elements set up
-          // for the property editor
-          var objXML = metadata.getXML();
-          var trueNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, "enum");
-          trueNode.setAttribute('jsxid', 'jsx3.Boolean.TRUE');
-          trueNode.setAttribute('jsxtext', 'True');
-          objRecordNode.appendChild(trueNode);
-          var falseNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, "enum");
-          falseNode.setAttribute('jsxid', 'jsx3.Boolean.FALSE');
-          falseNode.setAttribute('jsxtext', 'False');
-          objRecordNode.appendChild(falseNode);
+        if (self["get" + firstCap]._dojoGetter) {
+          var rec = {
+            jsxid: i,
+            jsxtext: firstCap,
+            jsxtip: propDef.description,
+            eval: propDef.type == 'string' ? 0 : 1,
+            docgetter: typeof dijitClass.prototype[i] == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
+            docsetter: typeof dijitClass.prototype[i] == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
+            getter:"get" + firstCap,
+            jsxmask: propDef.type == 'boolean' ? "jsxselect" : "jsxtext",
+            jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
+          };
+          var objRecordNode = metadata.insertRecord(rec, "dojo");
+          if(propDef.type == 'boolean'){
+            // Boolean properties need to have enum elements set up
+            // for the property editor
+            var objXML = metadata.getXML();
+            var trueNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, "enum");
+            trueNode.setAttribute('jsxid', 'jsx3.Boolean.TRUE');
+            trueNode.setAttribute('jsxtext', 'True');
+            objRecordNode.appendChild(trueNode);
+            var falseNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, "enum");
+            falseNode.setAttribute('jsxid', 'jsx3.Boolean.FALSE');
+            falseNode.setAttribute('jsxtext', 'False');
+            objRecordNode.appendChild(falseNode);
+          }
         }
       }
       iterateProperties(self, addProperty);

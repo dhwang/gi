@@ -6,6 +6,7 @@ if(typeof dojo == "undefined") {
   // if we are running from the source version, we will pretend we are spidermonkey
   // providing a load function, which will use the sync loader instead of the
   // destructive document.write technique used by the source version of dojo.js
+  
   load = function(script){
     jsx3.CLASS_LOADER.loadJSFileSync(script.replace(/rhino/,"browser"));
   };
