@@ -9,7 +9,7 @@
 
 <script type="text/javascript" language="JavaScript">
 
-  window.state = {inited:false, editor:null, paused:false, asserting:false, loadListener:null};
+  window.state = {inited:false, editor:null, paused:false, asserting:false, waiting:false, loadListener:null};
 
   function onReady() {
     window.setTimeout(function() {
@@ -17,7 +17,12 @@
 
       window.onbeforeunload = new Function("window.state = {}; if (window.gippeditor) window.gippeditor.onRecorderStopped();");
       window.onresize = updateHeight;
-      window.document.onclick = onAppClick;
+
+      if (window.document.addEventListener) {
+        window.document.addEventListener("click", onAppClick, true);
+      } else {
+        window.document.onclick = onAppClick;
+      }
 
       updateHeight();
 
@@ -66,7 +71,7 @@
       jsx3.lang.AOP.pc("evtCP", {classes:classes, methods:"doEvent"});
 
       jsx3.lang.AOP.before("evtCP", function(strType, objContext) {
-        if (!state.paused && !state.asserting) {
+        if (!state.paused && !state.asserting && !state.waiting) {
           var hasListener = this.hasEvent(strType) || this.getSubscriberCount(strType) > 0;
 
 //          state.editor.getPlugIn().getLog().warn("evtCP " + [strType, this]);
@@ -90,14 +95,33 @@
   }
 
   function onWait() {
+    if (state.asserting)
+      onAssert();
+
+    var btn = document.getElementById("wait");
+    if (state.waiting) {
+      state.waiting = false;
+      btn.innerHTML = "Wait";
+      btn.className = "recorderBtn";
+    } else {
+      state.waiting = true;
+      btn.innerHTML = "Cancel Wait";
+      btn.className = "recorderBtn activeBtn";
+    }
+  }
+
+  function onAssert() {
+    if (state.waiting)
+      onWait();
+
     var btn = document.getElementById("assert");
     if (state.asserting) {
       state.asserting = false;
-      btn.innerHTML = "Capture Wait";
+      btn.innerHTML = "Assert";
       btn.className = "recorderBtn";
     } else {
       state.asserting = true;
-      btn.innerHTML = "Cancel Wait";
+      btn.innerHTML = "Cancel Assert";
       btn.className = "recorderBtn activeBtn";
     }
   }
@@ -109,12 +133,29 @@
   }
 
   function onAppClick(event) {
-    if (state.asserting && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
+    if ((state.asserting || state.waiting) && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
       var e = jsx3.gui.Event.wrap(event);
       var objJSX = jsx3.html.getJSXParent(e.srcElement());
       if (objJSX) {
-        state.editor.onAssert(objJSX);
-        onWait();
+        try {
+          state.editor.onAssert(objJSX, state.waiting);
+        } catch (e) {
+          alert(e.message + "\n" + e.stack);
+        }
+
+        if (state.waiting)
+          onWait();
+        else
+          onAssert();
+      }
+
+      if (event.stopPropagation) {
+        event.stopPropagation();
+        event.preventDefault();
+      } else {
+        event.cancelBubble = true;
+        event.keyCode = 0;
+        event.returnValue = false;
       }
     }
   }
@@ -178,7 +219,8 @@
     <div id="recorderControls">
       <div class="padding">
         <div id="playPause" class="recorderBtn activeBtn" onclick="onPause();">Pause</div>
-        <div id="assert" class="recorderBtn" onclick="onWait();">Capture Wait</div>
+        <div id="assert" class="recorderBtn" onclick="onAssert();">Assert</div>
+        <div id="wait" class="recorderBtn" onclick="onWait();">Wait</div>
         <div id="stop" class="recorderBtn" onclick="onStop();">Stop</div>
       </div>
     </div>

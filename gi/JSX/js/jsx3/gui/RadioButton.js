@@ -83,7 +83,7 @@ jsx3.Class.defineClass("jsx3.gui.RadioButton", jsx3.gui.Block, [jsx3.gui.Form], 
 
     //radio buttons don't toggle state; they ALWAYS become selected when clicked; just set the value
     if (this.getSelected() != RadioButton.SELECTED) {
-      var cancel = this.doEvent(jsx3.gui.Interactive.SELECT, {objEVENT:objEvent});
+      var cancel = this.doEvent(jsx3.gui.Interactive.SELECT, {objEVENT:objEvent, _gipp:1});
       if (cancel !== false)
         this.setSelected(RadioButton.SELECTED, objGUI);
     }

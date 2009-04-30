@@ -413,7 +413,7 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
     if (bChanged && objEvent) {
       var context = null;
       if (objEvent instanceof Event)
-        context = {objEVENT:objEvent};
+        context = {objEVENT:objEvent, _gipp:1};
       this.doEvent(Interactive.CHANGE, context);
     }
 

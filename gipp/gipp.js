@@ -867,19 +867,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       }
 
       if (ex) {
-        var strError;
-
-        if (ex.printStackTrace) 
-          strError = ex.printStackTrace();
-        else {
-          strError = ex.message || ex.toString();
-          if (ex.stack)
-            strError += "\n\n" + ex.stack;
-        }
-
-        strError = strError.replace(/"/g, "&quot;").replace(/'/g, "\\'").replace(/\n/g, "\\n");
-
-        this._updateOutput(job.getId(), null, '<span class="error" onclick="window.alert(\'' + strError + '\')">Error</span>', "");
+        this._updateErrorOutput(job, ex);
         this._continueNextTest();
       } else {
         if (result === gipp.SLEEP_LONG && jsx3.subscribe) {
@@ -898,8 +886,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
           this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), this._const("TIMEOUT"));
         } else if (result === gipp.POLL) {
           // Allow synchronous results when test returns POLL
-          if (gipp.POLL.poll(this._server)) {
-            this._completeTestCase(job.getId());
+          if (this._checkPollingCase()) {
+            ;
           } else {
             this._status("Polling: " + job.getLabel());
             /* @jsxobf-clobber */
@@ -1125,11 +1113,22 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @private @jsxobf-clobber */
   Runner_prototype._checkPollingCase = function() {
-    if (gipp.POLL.poll(this._server)) {
+    try {
+      if (gipp.POLL.poll(this._server)) {
+        window.clearInterval(this._to_polling);
+        delete this._to_polling;
+        delete gipp.POLL.poll;
+        this._completeTestCase(this._thisJob.getId());
+        return true;
+      }
+    } catch (e) {
       window.clearInterval(this._to_polling);
       delete this._to_polling;
       delete gipp.POLL.poll;
-      this._completeTestCase(this._thisJob.getId());
+      this._resultsMap[this._thisJob.getId()].setError(this._runIndex, e);
+      this._updateErrorOutput(this._thisJob, e);
+      this._continueNextTest();
+      return true;
     }
   };
 
@@ -1190,6 +1189,23 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     }
 
     this._updateOutput("gipp.total", "<b>Total</b>", Math.round(t), "ms");
+  };
+
+  /** @private @jsxobf-clobber */
+  Runner_prototype._updateErrorOutput = function(job, ex) {
+    var strError;
+
+    if (ex.printStackTrace)
+      strError = ex.printStackTrace();
+    else {
+      strError = ex.message || ex.toString();
+      if (ex.stack)
+        strError += "\n\n" + ex.stack;
+    }
+
+    strError = strError.replace(/"/g, "&quot;").replace(/'/g, "\\'").replace(/\n/g, "\\n");
+
+    this._updateOutput(job.getId(), null, '<span class="error" onclick="window.alert(\'' + strError + '\')">Error</span>', "");
   };
 
   /** @private @jsxobf-clobber */
@@ -2140,6 +2156,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         else
           this.setValue(e.strRECORDID);
         this.doEvent(e.subject, e);
+      },
+      jsxaftersort: function(e) {
+        // TODO:
       }
     },
     "jsx3.gui.TextBox": {
@@ -2189,19 +2208,80 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /** @private @jsxobf-clobber */
+  recorder._assertEquals = function(fct, msg, s, target, obj) {
+    var t = recorder._getTarget(s, target);
+    if (t) {
+      var v = eval(obj);
+      if (t[fct]() == v)
+        return true;
+      else
+        throw new Error(msg + ": " + t[fct]() + " != " + v);
+    } else {
+      throw new Error("Invalid target: " + target);
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._assertWaitEquals = function(fct, s, target, obj) {
+    var t = recorder._getTarget(s, target);
+    if (t)
+      return t[fct]() == eval(obj);
+    return false;
+  };
+
+  /** @private @jsxobf-clobber */
   recorder._VERBS = {
     EXISTS: function(s, target, obj) {
-      return recorder._getTarget(s, target) != null;
+      if (recorder._getTarget(s, target))
+        return true;
+      else
+        throw new Error("Does not exist: " + target);
     },
     VALUE: function(s, target, obj) {
-      var t = recorder._getTarget(s, target);
-      if (t) {
-        return t.getValue() == eval(obj);
-      }
-      return false;
+      return recorder._assertEquals("getValue", "Values not equal", s, target, obj);
+    },
+    CHECKED: function(s, target, obj) {
+      return recorder._assertEquals("getChecked", "Checked not equal", s, target, obj);
+    },
+    SELECTED: function(s, target, obj) {
+      return recorder._assertEquals("getSelected", "Selected not equal", s, target, obj);
+    },
+    STATE: function(s, target, obj) {
+      return recorder._assertEquals("getState", "States not equal", s, target, obj);
+    },
+    FRONT: function(s, target, obj) {
+      return recorder._assertEquals("isFront", "Visibility not equal", s, target, obj);
     },
     EVAL: function(s, target, obj) {
-      return jsx3.eval(target, {server:s});
+      var rv = jsx3.eval(target, {server:s});
+      if (!rv)
+        throw new Error("Eval returned false: " + rv);
+      return rv;
+    },
+    WAIT_EXISTS: function(s, target, obj) {
+      return recorder._getTarget(s, target) != null;
+    },
+    WAIT_VALUE: function(s, target, obj) {
+      return recorder._assertWaitEquals("getValue", s, target, obj);
+    },
+    WAIT_CHECKED: function(s, target, obj) {
+      return recorder._assertWaitEquals("getChecked", s, target, obj);
+    },
+    WAIT_SELECTED: function(s, target, obj) {
+      return recorder._assertWaitEquals("getSelected", s, target, obj);
+    },
+    WAIT_STATE: function(s, target, obj) {
+      return recorder._assertWaitEquals("getState", s, target, obj);
+    },
+    WAIT_FRONT: function(s, target, obj) {
+      return recorder._assertWaitEquals("isFront", s, target, obj);
+    },
+    WAIT_EVAL: function(s, target, obj) {
+      try {
+        return jsx3.eval(target, {server:s});
+      } catch (e) {
+        return false;
+      }
     }
   };
 

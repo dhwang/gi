@@ -244,7 +244,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
     if (objEvent.rightButton() && (strMenu = this.getMenu()) != null) {
       var objMenu = this.getServer().getJSX(strMenu);
       if (objMenu != null) {
-        var vntResult = this.doEvent(Interactive.MENU, {objEVENT:objEvent, objMENU:objMenu});
+        var vntResult = this.doEvent(Interactive.MENU, {objEVENT:objEvent, objMENU:objMenu, _gipp:1});
         if (vntResult !== false) {
           if (vntResult instanceof Object && vntResult.objMENU instanceof jsx3.gui.Menu)
             objMenu = vntResult.objMENU;
@@ -714,7 +714,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
       this.setTop(newTop);
 
       //execute the onaftermove code
-      this.doEvent(Interactive.AFTER_MOVE, {objEVENT:objEvent, intL:newLeft, intT:newTop});
+      this.doEvent(Interactive.AFTER_MOVE, {objEVENT:objEvent, intL:newLeft, intT:newTop, _gipp:1});
     }
   };
 

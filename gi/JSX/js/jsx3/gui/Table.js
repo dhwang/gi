@@ -614,7 +614,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
         this.doEvent(Interactive.CHANGE, {objEVENT:objEvent,
                                           strRECORDID:strTargetId,
                                           strRECORDIDS:intIds,
-                                          preVALUE:this._jsxprevselection});
+                                          preVALUE:this._jsxprevselection, _gipp:1});
         this._jsxprevselection = intIds
       }
     };
@@ -683,7 +683,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
 
         //fire the 'after sort' event
         this.doEvent(Interactive.AFTER_SORT,
-          {objEVENT:objEvent, intCOLUMNINDEX:intRealIndex, strSORTPATH:this.getSortPath(), strSORTTYPE:this.getSortType()});
+          {objEVENT:objEvent, intCOLUMNINDEX:intRealIndex, strSORTPATH:this.getSortPath(), strSORTTYPE:this.getSortType(), _gipp:1});
       }
     }
   };

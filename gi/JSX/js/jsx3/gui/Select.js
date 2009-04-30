@@ -971,7 +971,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       // fire the onselect event
       if (objEvent)
         this.doEvent(jsx3.gui.Interactive.SELECT,
-            {objEVENT:(objEvent instanceof Event ? objEvent : null), strRECORDID:strRecordId});
+            {objEVENT:(objEvent instanceof Event ? objEvent : null), strRECORDID:strRecordId, _gipp:1});
     }
   };
 

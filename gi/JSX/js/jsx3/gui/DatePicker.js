@@ -328,7 +328,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     var newDate = DatePicker._newDate(ymd[0], ymd[1], ymd[2]);
 
     if (oldDate == null || newDate.getTime() != oldDate.getTime()) {
-      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:oldDate, newDATE:newDate}) !== false) {
+      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:oldDate, newDATE:newDate, _gipp:1}) !== false) {
         this.setDate(newDate);
       }
     }
@@ -392,7 +392,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
       }
 
       // text input change vetoable also
-      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:this.getDate(), newDATE:newDate}) !== false)
+      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:this.getDate(), newDATE:newDate, _gipp:1}) !== false)
         this.setDate(newDate);
     }
   };
@@ -409,7 +409,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
         newD = DatePicker._newDate(d.getFullYear(), d.getMonth(), d.getDate());
       }
 
-      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:d, newDATE:newD}) !== false)
+      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:d, newDATE:newD, _gipp:1}) !== false)
         this.setDate(newD);
     }
 

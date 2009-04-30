@@ -506,7 +506,7 @@ jsx3.Class.defineClass("jsx3.gui.Slider", jsx3.gui.Block, [jsx3.gui.Form], funct
     value = this.constrainValue(value);
 
     if (this.jsxvalue != value) {
-      var cancel = this.doEvent(jsx3.gui.Interactive.CHANGE, {objEVENT:objEvent, fpPREVIOUS: this.jsxvalue, fpVALUE:value});
+      var cancel = this.doEvent(jsx3.gui.Interactive.CHANGE, {objEVENT:objEvent, fpPREVIOUS: this.jsxvalue, fpVALUE:value, _gipp:1});
       if (cancel !== false)
         this.setValue(value);
     }
@@ -564,7 +564,7 @@ jsx3.Class.defineClass("jsx3.gui.Slider", jsx3.gui.Block, [jsx3.gui.Form], funct
     Event.unsubscribe(Event.MOUSEUP, this, "_onDoneDrag");
 
     var fpValue = this.constrainValue(this._getValueFromPosition());
-    var cancel = this.doEvent(jsx3.gui.Interactive.CHANGE, {objEVENT:objEvent.event, fpPREVIOUS:this.jsxvalue, fpVALUE:fpValue});
+    var cancel = this.doEvent(jsx3.gui.Interactive.CHANGE, {objEVENT:objEvent.event, fpPREVIOUS:this.jsxvalue, fpVALUE:fpValue, _gipp:1});
 
     if (cancel === false) {
       this.setValue(this.jsxvalue);

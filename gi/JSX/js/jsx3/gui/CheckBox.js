@@ -143,7 +143,7 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
       var intChecked = (this.getChecked() == CheckBox.CHECKED ? CheckBox.UNCHECKED : CheckBox.CHECKED);
       this.jsxchecked = intChecked;
       this._updateView(objGUI);
-      this.doEvent(jsx3.gui.Interactive.TOGGLE, {objEVENT:objEvent, intCHECKED:intChecked});
+      this.doEvent(jsx3.gui.Interactive.TOGGLE, {objEVENT:objEvent, intCHECKED:intChecked, _gipp:1});
     }
   };
 

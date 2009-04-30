@@ -1422,7 +1422,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         //fire the aftersort event
         this.doEvent(Interactive.AFTER_SORT,
           {objEVENT:objEvent, objCOLUMN:objSortChild, strSORTPATH:strSortPath, strSORTTYPE:strSortType,
-              strDIRECTION:this.getSortDirection()});
+              strDIRECTION:this.getSortDirection(), _gipp:1});
       }
     }
   };
@@ -1558,7 +1558,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (bSuccess) {
       var intNewIndex = objMoveChild.getChildIndex();
       //fire the aftersort event
-      this.doEvent(Interactive.AFTER_REORDER, {objEVENT:objEvent, intOLDINDEX:intOriginalIndex, intNEWINDEX:intNewIndex});
+      this.doEvent(Interactive.AFTER_REORDER, {objEVENT:objEvent, intOLDINDEX:intOriginalIndex, intNEWINDEX:intNewIndex, _gipp:1});
     }
   };
 
@@ -2224,7 +2224,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this.doEvent(Interactive.SELECT, {objEVENT:objEvent,
                                         strRECORDID:strTargetId,
                                         strRECORDIDS:this.getSelectedIds(),
-                                        objCOLUMN:(intCellIndex != null)?this._getDisplayedChildren()[intCellIndex]:null});
+                                        objCOLUMN:(intCellIndex != null)?this._getDisplayedChildren()[intCellIndex]:null, _gipp:1});
       this.doEvent(Interactive.CHANGE, {objEVENT:objEvent});
     }
   };
@@ -2361,7 +2361,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
         //fire the 'after append' event; pass the newly added record node
         if (objEvent)
-          this.doEvent(Interactive.AFTER_APPEND, {objEVENT:objEvent, objRECORDNODE:objNode});
+          this.doEvent(Interactive.AFTER_APPEND, {objEVENT:objEvent, objRECORDNODE:objNode, _gipp:1});
       }
 
       //reset the autoappend row back to its null state
@@ -2493,7 +2493,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       if (objEvent != null && eventRet !== false)
         this.doEvent(Interactive.AFTER_COMMIT,
-          {objEVENT:objEvent, strRECORDID:es.recordId, objCOLUMN:es.column, strVALUE:newValue});
+          {objEVENT:objEvent, strRECORDID:es.recordId, objCOLUMN:es.column, strVALUE:newValue, _gipp:1});
     }
   };
 
@@ -2652,7 +2652,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     this._updateScrollHeight();
 
     // fire the jsxtoggle event for the tree; the user will have contextual handles to
-    if (objEvent) this.doEvent(Interactive.TOGGLE, {objEVENT:objEvent, strRECORDID:strCdfId, objRECORD:objNode, bOPEN:bOpen});
+    if (objEvent) this.doEvent(Interactive.TOGGLE, {objEVENT:objEvent, strRECORDID:strCdfId, objRECORD:objNode, bOPEN:bOpen, _gipp:1});
   };
 
   /**
@@ -3927,7 +3927,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       // fire the 'afterresize' event code
       var bContinue = this.doEvent(Interactive.AFTER_RESIZE,
-                                   {objEVENT:objEvent.event, vntWIDTH:intNewWidth, intCOLUMNINDEX:intIndex});
+                                   {objEVENT:objEvent.event, vntWIDTH:intNewWidth, intCOLUMNINDEX:intIndex, _gipp:1});
 
       //if bound 'afterresize' event returned false, cancel the resize
       if (!(bContinue === false))

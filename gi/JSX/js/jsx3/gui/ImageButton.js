@@ -349,7 +349,7 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
 
     if (this.getType() == ImageButton.TYPE_TOGGLE) {
       var newState = this.getState() == ImageButton.STATE_OFF ? ImageButton.STATE_ON : ImageButton.STATE_OFF;
-      var bCancel = this.doEvent(Interactive.TOGGLE, {objEVENT:objEvent, intSTATE:newState});
+      var bCancel = this.doEvent(Interactive.TOGGLE, {objEVENT:objEvent, intSTATE:newState, _gipp:1});
       if (bCancel !== false) {
         this.setState(newState);
         objGUI.childNodes[0].childNodes[0].src = this._getCurrentImageURL(false, false);

@@ -125,7 +125,7 @@ jsx3.Class.defineClass("jsx3.gui.Stack", jsx3.gui.Block, null, function(Stack, S
     if (objEvent)
       this.doEvent(gui.Interactive.EXECUTE, {objEVENT:(objEvent instanceof Event ? objEvent : null)});
 
-    this.doEvent(gui.Interactive.SHOW);
+    this.doEvent(gui.Interactive.SHOW, {_gipp:1});
 
     if (objGUI)
       jsx3.html.focus(objGUI);

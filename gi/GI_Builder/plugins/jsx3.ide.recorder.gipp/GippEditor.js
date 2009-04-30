@@ -117,6 +117,15 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
         this._running = false;
       }      
     } else {
+      // Select the last record so we insert at the end of the list, which is more likely what is desired than
+      // inserting at the beginning of the list.
+      var g = this._getGrid();
+      if (!g.getValue()) {
+        var lastRecord = g.getXML().getLastChild();
+        if (lastRecord)
+          g.setValue(lastRecord.getAttribute("jsxid"));
+      }
+
       var w = window.open(this.getPlugIn().resolveURI("recorder.html").toString(), "gipprecorder");
       if (w) {
         w["gippeditor"] = this;
@@ -141,6 +150,8 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   Editor_prototype.onInsertRecord = function(rec) {
     var g = this._getGrid();
     var sel = g.getValue();
+
+    g.endEditSession();
 
     if (!rec)
       rec = {jsxid:jsx3.xml.CDF.getKey(), label:"", target:"", action:"", wait:""};
@@ -226,58 +237,21 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
 //    jsx3.log("onModelEvent " + [strType, objJSX]);
     // Some events only matter if they are listened to. But some events matter because they change the state of
     // controls that may be used for further tests.
-    if (hasListener || this._shouldRecord(objJSX, strType)) {
+    if (hasListener || (objContext && objContext._gipp)) {
       this.onInsertRecord({label:"", target:this._getTargetString(objJSX), wait:hasListener ? "DONE" : "",
           action:this._getActionString(strType, objContext), args:this._getActionArgsString(strType, objContext)});
       this.setDirty(true);
     }
   };
 
-  Editor_prototype.onAssert = function(objJSX) {
+  Editor_prototype.onAssert = function(objJSX, bWait) {
     var g = this._getGrid();
     var val = g.getValue();
     if (val) {
-      g.insertRecordProperty(val, "wait", this._getAssertString(objJSX), true);
+      g.endEditSession();
+      g.insertRecordProperty(val, "wait", this._getAssertString(objJSX, bWait), true);
       this.setDirty(true);
     }
-  };
-
-  /** @private @jsxobf-clobber */
-  Editor._SHOULD = {
-    "jsx3.gui.Block": {jsxmenu:1},
-    "jsx3.gui.CheckBox": {jsxtoggle:1},
-    "jsx3.gui.ColorPicker": {jsxchange:1},
-    "jsx3.gui.DatePicker": {jsxchange:1},
-    "jsx3.gui.Dialog": {jsxaftermove:1, jsxafterresize:1},
-    "jsx3.gui.ImageButton": {jsxtoggle:1},
-    "jsx3.gui.Matrix": {jsxselect:1, jsxafterreorder:1, jsxaftersort:1, jsxafterresize:1, jsxafterappend:1, jsxaftercommit:1, jsxtoggle:1},
-    "jsx3.gui.Menu": {jsxexecute:1, jsxmenu:1},
-    "jsx3.gui.RadioButton": {jsxselect:1},
-    "jsx3.gui.Select": {jsxselect:1},
-    "jsx3.gui.Slider": {jsxchange:1},
-    "jsx3.gui.Splitter": {jsxafterresize:1},
-    "jsx3.gui.Stack": {jsxshow:1},
-    "jsx3.gui.Tab": {jsxshow:1},
-    "jsx3.gui.Table": {jsxchange:1},
-    "jsx3.gui.TextBox": {jsxchange:1},
-    "jsx3.gui.TimePicker": {jsxchange:1},
-    "jsx3.gui.ToolbarButton": {jsxchange:1},
-    "jsx3.gui.Tree": {jsxchange:1, jsxtoggle:1}
-  };
-
-  /** @private @jsxobf-clobber */
-  Editor_prototype._shouldRecord = function(objJSX, strType) {
-    var c = objJSX.getClass();
-
-    while (c) {
-      var struct = Editor._SHOULD[c.getName()];
-      if (struct && struct[strType])
-        return true;
-
-      c = c.getSuperClass();
-    }
-
-    return false;  
   };
 
   /** @private @jsxobf-clobber */
@@ -306,15 +280,35 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   };
 
   /** @private @jsxobf-clobber */
-  Editor_prototype._getAssertString = function(objJSX) {
+  Editor_prototype._getAssertString = function(objJSX, bWait) {
+    var prefix = bWait ? "WAIT_" : "";
+
+    var verb, object = null;
     var target = this._getTargetString(objJSX);
-    if (jsx3.gui.Form && objJSX.instanceOf(jsx3.gui.Form)) {
-      var v = objJSX.getValue();
+
+    if (typeof(objJSX.getSelected) == "function") {
+      verb = "SELECTED";
+      object = jsx3.$O.json(objJSX.getSelected());
+    } else if (typeof(objJSX.getChecked) == "function") {
+      verb = "CHECKED";
+      object = jsx3.$O.json(objJSX.getChecked());
+    } else if (typeof(objJSX.getState) == "function") {
+      verb = "STATE";
+      object = jsx3.$O.json(objJSX.getState());
+    } else if (typeof(objJSX.isFront) == "function") {
+      verb = "FRONT";
+      object = jsx3.$O.json(objJSX.isFront());
+    } else if (typeof(objJSX.getValue) == "function") {
+      verb = "VALUE";
+
+      object = objJSX.getValue();
       if (typeof(v) != "number" && typeof(v) != "boolean" && v !== null)
-        v = jsx3.$O.json(v.toString());
-      return "VALUE, " + target + ", " + v;
-    } else
-      return "EXISTS, " + target;
+        object = jsx3.$O.json(v ? v.toString() : v);
+    } else {
+      verb = "EXISTS";
+    }
+
+    return prefix + verb + ", " + target + (object != null ? ", " + object : "");
   };
 
   /** @private @jsxobf-clobber */
@@ -326,20 +320,11 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   Editor_prototype._getActionArgsString = function(strType, objContext) {
     var a = [];
     for (var f in objContext) {
-      if (f == "target") continue;
+      if (f == "target" || f.indexOf("_") == 0) continue;
       
       var obj = objContext[f];
 
-      var className = {};
-      if (obj && obj.getClass) {
-        var c = obj.getClass();
-        while (c) {
-          className[c.getName()] = true;
-          c = c.getSuperClass();
-        }
-      }
-
-      if (className["jsx3.gui.Event"]) {
+      if (this._isOfType(obj, "jsx3.gui.Event")) {
         var o = {type:obj.getType()};
         if (obj.keyCode()) o.keyCode = obj.keyCode();
         if (obj.altKey()) o.altKey = true;
@@ -351,16 +336,40 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
         a.push(f + ":" + jsx3.$O.json(o));
       } else if (obj && obj.getUTCDate) {
         a.push(f + ":new Date('" + obj.toString() + "')");
-      } else if (className["jsx3.app.Model"]) {
+      } else if (this._isOfType(obj, "jsx3.app.Model")) {
         a.push(f + ":" + jsx3.$O.json("JSX(" + this._getTargetString(obj) + ")"));
-      } else if (className["jsx3.xml.Entity"]) {
+      } else if (this._isOfType(obj, "jsx3.xml.Entity")) {
         a.push(f + ":" + jsx3.$O.json("XML(" + obj.toString() + ")"));
+      } else if (typeof(obj) == "number" && obj >= 255) {
+        a.push(f + ":0x" + obj.toString(16).toUpperCase());
       } else {
         a.push(f + ":" + jsx3.$O.json(obj));
       }
     }
 
     return a.join(', ');
+  };
+
+  /**
+   * Allows type introspection to work across windows.
+   * @private @jsxobf-clobber
+   */
+  Editor_prototype._isOfType = function(o, strClass) {
+    if (o.getClass) {
+      var c = o.getClass();
+      while (c) {
+        if (c.getName() == strClass)
+          return true;
+
+        var is = c.getInterfaces();
+        for (var i = 0; i < is.length; i++)
+          if (is[i].getName() == strClass)
+            return true;
+
+        c = c.getSuperClass();
+      }
+    }
+    return false;
   };
 
 });

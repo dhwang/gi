@@ -450,7 +450,7 @@ jsx3.Class.defineClass("jsx3.gui.ColorPicker", jsx3.gui.Block, [jsx3.gui.Form],
     this._updateDisplayedColor(a0 != null, a1 != null || a2 != null, hsb);
 
     // fire model event for color changed
-    this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, intRGB:this.jsxrgb});
+    this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, intRGB:this.jsxrgb, _gipp:1});
   };
 
   /**

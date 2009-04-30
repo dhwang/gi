@@ -733,7 +733,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
   Menu_prototype.showMenu = function(objEvent, objAnchor, intIndex, strParentId, objOffset) {
     // fire handler code
     var bContinue = this.doEvent(Interactive.MENU,
-        {objEVENT:objEvent, objANCHOR:objAnchor, intINDEX:intIndex, strPARENTID:strParentId});
+        {objEVENT:objEvent, objANCHOR:objAnchor, intINDEX:intIndex, strPARENTID:strParentId, _gipp:1});
     if (bContinue === false) return;
 
     //the anchor gets lost in some situations (perhaps when the bound jsxmenu event-handler code fires a repaint event). for now, solve by re-refrencing menus
@@ -1235,7 +1235,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
       //get handle to the jsxexecute attribute
       var myScript = objRecordNode.getAttribute("jsxexecute");
       var bContinue = true;
-      var context = {strRECORDID:strRecordId, objRECORD:objRecordNode};
+      var context = {strRECORDID:strRecordId, objRECORD:objRecordNode, _gipp:1};
       if (objEvent instanceof jsx3.gui.Event)
         context.objEVENT = objEvent;
 

@@ -814,7 +814,7 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
       var newValue = field[inc](this, objGUI.value);
       var dateArr = field._set(this, newValue);
       if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strFIELD:fieldName,
-          newDATE:TimePicker._dateArrToDate(dateArr)}) !== false) {
+          newDATE:TimePicker._dateArrToDate(dateArr), _gipp:1}) !== false) {
         objGUI.value = field._format(this, newValue);
         this._setDateArr(dateArr);
       }
@@ -848,7 +848,7 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     if (oldValue !== newValue) {
       var dateArr = field._set(this, newValue);
       if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strFIELD:fieldName,
-          newDATE:TimePicker._dateArrToDate(dateArr)}) !== false) {
+          newDATE:TimePicker._dateArrToDate(dateArr), _gipp:1}) !== false) {
         this._setDateArr(dateArr);
         if (newValue != null)
           objGUI.value = field._format(this, field._get(this));
@@ -888,7 +888,7 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
 
       var dateArr = field._set(this, newValue);
       if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strFIELD:fieldName,
-          newDATE:TimePicker._dateArrToDate(dateArr)}) !== false) {
+          newDATE:TimePicker._dateArrToDate(dateArr), _gipp:1}) !== false) {
         objGUI.value = field._format(this, newValue);
         this._setDateArr(dateArr);
       }
@@ -925,7 +925,7 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
 
     var dateArr = field._set(this, newValue);
     if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strFIELD:fieldName,
-        newDATE:TimePicker._dateArrToDate(dateArr)}) !== false) {
+        newDATE:TimePicker._dateArrToDate(dateArr), _gipp:1}) !== false) {
       input.value = field._format(this, newValue);
       this._setDateArr(dateArr);
 

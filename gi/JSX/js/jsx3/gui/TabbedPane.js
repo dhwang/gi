@@ -590,7 +590,7 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
 
       if (bFocus) objTab.focus();
 
-      objTab.doEvent(Interactive.SHOW);
+      objTab.doEvent(Interactive.SHOW, {_gipp:1});
       this.doEvent(Interactive.CHANGE);
     }
   };

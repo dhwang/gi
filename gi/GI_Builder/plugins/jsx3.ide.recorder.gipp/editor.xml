@@ -62,7 +62,7 @@ this.getLaunchBtn = function() { return launch; }
                 <object type="jsx3.gui.Matrix">
                   <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxsort="0"
                       jsxdrag="1" jsxdrop="1"/>
-                  <strings jsxname="gippmatrix"/>
+                  <strings jsxname="gippmatrix" jsxfocusstyle=";"/>
                   <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
                   <events
                       jsxbeforeedit="objCOLUMN != colLabel || this.getRecord(strRECORDID).wait != ''"

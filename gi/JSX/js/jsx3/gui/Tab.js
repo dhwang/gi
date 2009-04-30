@@ -270,6 +270,15 @@ jsx3.Class.defineClass("jsx3.gui.Tab", jsx3.gui.Block, null, function(Tab, Tab_p
   };
 
   /**
+   * Returns whether or not this stack is the active (expanded) stack
+   * @return {boolean}
+   */
+  Tab_prototype.isFront = function() {
+    var myIndex = this.getChildIndex();
+    return myIndex >= 0 && this.getParent().getSelectedIndex() == myIndex;
+  };
+
+  /**
    * called when user keys down while the tab's on-screen view has focus
    * @private
    */
