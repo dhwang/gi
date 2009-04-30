@@ -100,7 +100,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   
   /**
    * Creates a new dijit
-   * @param name {Object} property bag to provide to the dijit constructor
+   * @param props {Object} property bag to provide to the dijit constructor
    * @private
    */
   DojoWidget_prototype._createDijit = function(props){
