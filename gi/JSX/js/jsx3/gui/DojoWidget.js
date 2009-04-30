@@ -21,7 +21,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
 
   /**
    * Dynamically inserts the theme style sheet and applies the correct class to the app's DOM
-   * @param name theme to apply
+   * @param theme theme to apply
    * @param node The node to use
    * @private
    */
