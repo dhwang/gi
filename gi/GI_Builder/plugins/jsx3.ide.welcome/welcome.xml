@@ -355,7 +355,7 @@ objJSX._onForumBind = function(objEvent) {
         </object>
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="475" jsxtop="4" jsxwidth="72"/>
-          <strings jsxname="btn_close" jsxtext="CLOSE" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxbgcolor="#6EBEE8"
+          <strings jsxname="btn_close" jsxtext="CLOSE" jsxmargin="0 4 0 0" jsxdisplay="" jsxtextalign="center" jsxbgcolor="#205D9C"
               jsxborder="1px solid #F8F9FD;1px solid #B0B5BB;1px solid #B0B5BB;1px solid #F8F9FD"
               jsxcolor="#FFFFFF" jsxfontweight="bold"/>
           <events jsxexecute="ide_welcome.doClose();"/>
