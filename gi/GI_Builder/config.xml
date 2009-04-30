@@ -9,7 +9,7 @@
   <record jsxid="caption" type="string">@gi.productname.full.text@</record>
   <record jsxid="mode" type="number">1</record>
   <record jsxid="namespace" type="string">jsx3.IDE</record>
-  <record jsxid="cancelerror" type="eval">false</record>
+  <record jsxid="cancelerror" type="eval">true</record>
   <record jsxid="cancelrightclick" type="boolean">true</record>
   <record jsxid="bodyhotkeys" type="boolean">true</record>
   <record jsxid="left" type="number">0</record>
