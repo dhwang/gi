@@ -166,6 +166,10 @@ jsx3.Class.defineClass("jsx3.ide.Editor", null, [jsx3.util.EventDispatcher], fun
     ;
   };
 
+  Editor_prototype.onBeforeClose = function() {
+    ;
+  };
+
   Editor_prototype.onSetMode = function(objContent, strOldMode) {
     ;
   };

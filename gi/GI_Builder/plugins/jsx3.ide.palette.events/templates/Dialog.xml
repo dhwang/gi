@@ -20,6 +20,8 @@
       jsxtip="Fires when the user releases the mouse button after moving this dialog across the screen.">
     <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
     <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="intL" type="int" jsxtext="the new left offet."/>
+    <record jsxid="intT" type="int" jsxtext="the new top offet."/>
   </record>
 
   <record jsxid="jsxbeforeresize" jsxtext="Before Resize"
@@ -33,6 +35,8 @@
       jsxtip="Fires when the user releases the mouse button after resizing this dialog by dragging its lower-right corner.">
     <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
     <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="intW" type="int" jsxtext="the new width."/>
+    <record jsxid="intH" type="int" jsxtext="the new height."/>
   </record>
 
   <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"

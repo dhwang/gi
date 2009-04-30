@@ -9,26 +9,24 @@
 
 <script type="text/javascript" language="JavaScript">
 
-  var inited = false, me, editor, paused = false, asserting = false, loadListener;
+  window.state = {inited:false, editor:null, paused:false, asserting:false, loadListener:null};
 
   function onReady() {
-    me = window;
-
     window.setTimeout(function() {
-      editor = me["gippeditor"];
+      state.editor = window["gippeditor"];
 
-      me.onbeforeunload = new Function("if (window.gippeditor) window.gippeditor.onRecorderStopped();");
-      me.onresize = updateHeight;
-      me.document.onclick = onAppClick;
+      window.onbeforeunload = new Function("window.state = {}; if (window.gippeditor) window.gippeditor.onRecorderStopped();");
+      window.onresize = updateHeight;
+      window.document.onclick = onAppClick;
 
       updateHeight();
 
-      if (editor) {
+      if (state.editor) {
         window.setTimeout(loadApp, 250);
-        editor.onRecorderLaunched();
+        state.editor.onRecorderLaunched();
       } else
         if (confirm("This page must be launched directly from General Interface Builder. Close window?"))
-          me.close();
+          window.close();
     }, 0);
   }
 
@@ -42,17 +40,17 @@
     var cnt = document.getElementById("appContainer");
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
-    script.setAttribute("src", editor.getJsxSrc());
-    script.setAttribute("jsxapppath", editor.getJsxAppPath());
+    script.setAttribute("src", state.editor.getJsxSrc());
+    script.setAttribute("jsxapppath", state.editor.getJsxAppPath());
     cnt.appendChild(script);
 
-    loadListener = window.setInterval(checkLoaded, 100);
+    state.loadListener = window.setInterval(checkLoaded, 100);
   }
 
   function checkLoaded() {
-    if (!inited && window.jsx3 && jsx3.lang && jsx3.lang.AOP && jsx3.gui && jsx3.gui.Interactive) {
-      inited = true;
-      window.clearInterval(loadListener);
+    if (!state.inited && window.jsx3 && jsx3.lang && jsx3.lang.AOP && jsx3.gui && jsx3.gui.Interactive) {
+      state.inited = true;
+      window.clearInterval(state.loadListener);
 
       var classes = [];
       var pkgs = jsx3.lang.Package.getPackages();
@@ -64,13 +62,15 @@
         }
       }
 
+      jsx3.lang.AOP.pcrem("evtCP"); // not sure why i have to clean this up...
       jsx3.lang.AOP.pc("evtCP", {classes:classes, methods:"doEvent"});
+
       jsx3.lang.AOP.before("evtCP", function(strType, objContext) {
-        if (!paused && !asserting) {
+        if (!state.paused && !state.asserting) {
           var hasListener = this.hasEvent(strType) || this.getSubscriberCount(strType) > 0;
 
-//          editor.getPlugIn().getLog().warn("evtCP " + [strType, this]);
-          editor.onModelEvent(this, strType, objContext, hasListener);
+//          state.editor.getPlugIn().getLog().warn("evtCP " + [strType, this]);
+          state.editor.onModelEvent(this, strType, objContext, hasListener);
         }
       });
     }
@@ -78,12 +78,12 @@
 
   function onPause() {
     var btn = document.getElementById("playPause");
-    if (paused) {
-      paused = false;
+    if (state.paused) {
+      state.paused = false;
       btn.innerHTML = "Pause";
       btn.className = "recorderBtn activeBtn";
     } else {
-      paused = true;
+      state.paused = true;
       btn.innerHTML = "Play";
       btn.className = "recorderBtn";
     }
@@ -91,29 +91,29 @@
 
   function onWait() {
     var btn = document.getElementById("assert");
-    if (asserting) {
-      asserting = false;
+    if (state.asserting) {
+      state.asserting = false;
       btn.innerHTML = "Capture Wait";
       btn.className = "recorderBtn";
     } else {
-      asserting = true;
+      state.asserting = true;
       btn.innerHTML = "Cancel Wait";
       btn.className = "recorderBtn activeBtn";
     }
   }
 
   function onStop() {
-    if (editor)
-      editor.onRecorderStopped();
-    me.close();
+    if (state.editor)
+      state.editor.onRecorderStopped();
+    window.close();
   }
 
   function onAppClick(event) {
-    if (asserting && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
+    if (state.asserting && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
       var e = jsx3.gui.Event.wrap(event);
       var objJSX = jsx3.html.getJSXParent(e.srcElement());
       if (objJSX) {
-        editor.onAssert(objJSX);
+        state.editor.onAssert(objJSX);
         onWait();
       }
     }

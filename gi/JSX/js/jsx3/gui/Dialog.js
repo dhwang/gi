@@ -864,7 +864,7 @@ jsx3.Class.defineClass("jsx3.gui.Dialog", jsx3.gui.Block, [jsx3.gui.Alerts], fun
     this._updateDialogProfile({width:intWidth, height:intHeight});
 
     //eval the after resize code
-    this.doEvent(Interactive.AFTER_RESIZE, {objEVENT:objEvent});
+    this.doEvent(Interactive.AFTER_RESIZE, {objEVENT:objEvent, intW:this.getWidth(), intH:this.getHeight()});
   };
 
   /** @private @jsxobf-clobber */

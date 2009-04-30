@@ -18,6 +18,7 @@
     <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
     <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
     <record jsxid="objGUI" type="HTMLElement" jsxtext="the HTML element acted upon."/>
+    <record jsxid="fpPCT1" type="Number" jsxtext="the resulting container subcontainer 1 percentage."/>
   </record>
 
   <record jsxid="jsxdestroy" jsxtext="Destroy" always="1"

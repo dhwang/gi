@@ -115,7 +115,7 @@ this.getLaunchBtn = function() { return launch; }
                     </object>
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
-                    <variants jsxwidth="160"/>
+                    <variants jsxwidth="100"/>
                     <strings jsxname="colAction" jsxcellpadding="3" jsxpadding="3" jsxpath="action" jsxtext="Action"
                         jsxvaluetemplate="
 &lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;

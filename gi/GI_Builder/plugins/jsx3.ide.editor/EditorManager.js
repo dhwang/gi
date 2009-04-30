@@ -174,6 +174,8 @@ jsx3.Class.defineClass("jsx3.ide.ui.EditorManager", jsx3.amp.PlugIn, null, funct
   };
 
   EditorManager_prototype.close = function(editor) {
+    editor.onBeforeClose();
+
     if (editor._editortype.isDialog()) {
       editor.getContent().doClose();
       this._dialogEditors.remove(editor);

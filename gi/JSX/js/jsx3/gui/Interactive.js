@@ -714,7 +714,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
       this.setTop(newTop);
 
       //execute the onaftermove code
-      this.doEvent(Interactive.AFTER_MOVE, {objEVENT:objEvent});
+      this.doEvent(Interactive.AFTER_MOVE, {objEVENT:objEvent, intL:newLeft, intT:newTop});
     }
   };
 

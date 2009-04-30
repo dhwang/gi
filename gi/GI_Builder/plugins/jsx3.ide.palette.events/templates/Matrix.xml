@@ -145,6 +145,7 @@
     <record jsxid="objCOLUMN" type="jsx3.gui.Matrix.Column" jsxtext="the column that this matrix is sorted on."/>
     <record jsxid="strSORTPATH" type="String" jsxtext="the CDF attribute that this matrix is sorted on."/>
     <record jsxid="strSORTTYPE" type="String" jsxtext="the data type assumed for the sort - &lt;code&gt;jsx3.gui.Matrix.Column.TYPE_TEXT (jsxtext=&quot;Text&quot;) &lt;/code&gt; or &lt;code&gt;jsx3.gui.Matrix.Column.TYPE_NUMBER (jsxtext=&quot;Numerical&quot;)&lt;/code&gt;."/>
+    <record jsxid="strDIRECTION" type="int" jsxtext="&lt;code&gt;Matrix.SORT_ASCENDING&lt;/code&gt; or &lt;code&gt;Matrix.SORT_DESCENDING&lt;/code&gt;."/>
   </record>
 
   <record jsxid="jsxbeforeresize" jsxtext="Before Resize"

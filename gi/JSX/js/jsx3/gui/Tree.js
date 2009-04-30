@@ -264,7 +264,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
 /* @JSC :: begin DEP */
     if (bEvent)
-      this.doEvent(Interactive.CHANGE, {objEVENT:null, preVALUE:previousValue});
+      this.doEvent(Interactive.CHANGE, {objEVENT:null, preVALUE:previousValue, newVALUE:this.getValue()});
 /* @JSC :: end */
 
     return this;
@@ -323,7 +323,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     }
 
     if (!bNoEvent)
-      this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, preVALUE:previousValue});
+      this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, preVALUE:previousValue, newVALUE:this.getValue()});
   };
 
   /** @private @jsxobf-clobber */
@@ -795,7 +795,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
       this.doEvent(Interactive.SELECT, {objEVENT:objEvent, strRECORDID:newlySelected[0], strRECORDIDS:newlySelected});
 /* @JSC :: end */
 
-    this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, preVALUE: previousValue});
+    this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, preVALUE: previousValue, newVALUE:this.getValue()});
   };
 
   /**

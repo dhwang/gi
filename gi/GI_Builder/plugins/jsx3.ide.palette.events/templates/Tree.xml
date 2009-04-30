@@ -29,6 +29,8 @@
     <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
     <record jsxid="preVALUE" type="String | Array&lt;String&gt;"
         jsxtext="the result of &lt;code&gt;this.getValue()&lt;/code&gt; before the change event occurs."/>
+    <record jsxid="newVALUE" type="String | Array&lt;String&gt;"
+        jsxtext="the current value of &lt;code&gt;this.getValue()&lt;/code&gt;."/>
   </record>
 
   <record jsxid="jsxtoggle" jsxtext="Toggle"

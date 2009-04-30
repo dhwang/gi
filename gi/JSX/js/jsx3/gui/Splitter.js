@@ -379,7 +379,7 @@ jsx3.Class.defineClass("jsx3.gui.Splitter", jsx3.gui.Block, null, function(Split
     this.setSubcontainer1Pct(numValue, true);
 
     //execute any onAfterDrag code associated with the splitter
-    this.doEvent(Interactive.AFTER_RESIZE, {objEVENT:objEvent, objGUI:objGUI});
+    this.doEvent(Interactive.AFTER_RESIZE, {objEVENT:objEvent, objGUI:objGUI, fpPCT1:numValue});
   };
 
   /** @private @jsxobf-clobber */

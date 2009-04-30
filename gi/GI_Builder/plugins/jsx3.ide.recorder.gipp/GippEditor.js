@@ -104,6 +104,11 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
     return jsx3.IDE.GippEditorPlugin;
   };
 
+  Editor_prototype.onBeforeClose = function() {
+    if (this._running)
+      this.onToggleLaunch();
+  };
+
   Editor_prototype.onToggleLaunch = function() {
     if (this._running) {
       if (this._recorder) {
@@ -181,11 +186,11 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
       if (!bConfirmed && this.isDirty()) {
         jsx3.IDE.confirm("Save Before Launching?",
             "Save file before launching it in GIPP?",
-            jsx3.$F(function (d) {
+            jsx3.$F(function(d) {
               d.doClose();
               this.save();
               this.onLaunchGIPP(true);
-            }).bind(this), jsx3.$F(function() {
+            }).bind(this), jsx3.$F(function(d) {
               d.doClose();
               this.onLaunchGIPP(true);
             }).bind(this), "Save", "Continue", 2);
@@ -238,11 +243,41 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   };
 
   /** @private @jsxobf-clobber */
+  Editor._SHOULD = {
+    "jsx3.gui.Block": {jsxmenu:1},
+    "jsx3.gui.CheckBox": {jsxtoggle:1},
+    "jsx3.gui.ColorPicker": {jsxchange:1},
+    "jsx3.gui.DatePicker": {jsxchange:1},
+    "jsx3.gui.Dialog": {jsxaftermove:1, jsxafterresize:1},
+    "jsx3.gui.ImageButton": {jsxtoggle:1},
+    "jsx3.gui.Matrix": {jsxselect:1, jsxafterreorder:1, jsxaftersort:1, jsxafterresize:1, jsxafterappend:1, jsxaftercommit:1, jsxtoggle:1},
+    "jsx3.gui.Menu": {jsxexecute:1, jsxmenu:1},
+    "jsx3.gui.RadioButton": {jsxselect:1},
+    "jsx3.gui.Select": {jsxselect:1},
+    "jsx3.gui.Slider": {jsxchange:1},
+    "jsx3.gui.Splitter": {jsxafterresize:1},
+    "jsx3.gui.Stack": {jsxshow:1},
+    "jsx3.gui.Tab": {jsxshow:1},
+    "jsx3.gui.Table": {jsxchange:1},
+    "jsx3.gui.TextBox": {jsxchange:1},
+    "jsx3.gui.TimePicker": {jsxchange:1},
+    "jsx3.gui.ToolbarButton": {jsxchange:1},
+    "jsx3.gui.Tree": {jsxchange:1, jsxtoggle:1}
+  };
+
+  /** @private @jsxobf-clobber */
   Editor_prototype._shouldRecord = function(objJSX, strType) {
-    return strType == Interactive.CHANGE ||
-           strType == Interactive.SELECT ||
-           (strType == Interactive.SHOW && ((gui.Tab && objJSX instanceof gui.Tab) || (gui.Stack && objJSX instanceof gui.Stack))) ||
-           strType == Interactive.TOGGLE; 
+    var c = objJSX.getClass();
+
+    while (c) {
+      var struct = Editor._SHOULD[c.getName()];
+      if (struct && struct[strType])
+        return true;
+
+      c = c.getSuperClass();
+    }
+
+    return false;  
   };
 
   /** @private @jsxobf-clobber */
@@ -274,7 +309,10 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   Editor_prototype._getAssertString = function(objJSX) {
     var target = this._getTargetString(objJSX);
     if (jsx3.gui.Form && objJSX.instanceOf(jsx3.gui.Form)) {
-      return "VALUE, " + target + ", " + jsx3.$O.json(objJSX.getValue());
+      var v = objJSX.getValue();
+      if (typeof(v) != "number" && typeof(v) != "boolean" && v !== null)
+        v = jsx3.$O.json(v.toString());
+      return "VALUE, " + target + ", " + v;
     } else
       return "EXISTS, " + target;
   };
@@ -288,19 +326,35 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   Editor_prototype._getActionArgsString = function(strType, objContext) {
     var a = [];
     for (var f in objContext) {
+      if (f == "target") continue;
+      
       var obj = objContext[f];
 
-      if (obj && obj.getClass && obj.getClass().getName() == "jsx3.gui.Event") {
+      var className = {};
+      if (obj && obj.getClass) {
+        var c = obj.getClass();
+        while (c) {
+          className[c.getName()] = true;
+          c = c.getSuperClass();
+        }
+      }
+
+      if (className["jsx3.gui.Event"]) {
         var o = {type:obj.getType()};
-        if (obj.keyCode())
-          o.keyCode = obj.keyCode();
+        if (obj.keyCode()) o.keyCode = obj.keyCode();
         if (obj.altKey()) o.altKey = true;
         if (obj.shiftKey()) o.shiftKey = true;
         if (obj.ctrlKey()) o.ctrlKey = true;
         if (obj.metaKey()) o.metaKey = true;
+//        if (obj.clientX()) o.clientX = obj.clientX();
+//        if (obj.clientY()) o.clientY = obj.clientY();
         a.push(f + ":" + jsx3.$O.json(o));
       } else if (obj && obj.getUTCDate) {
         a.push(f + ":new Date('" + obj.toString() + "')");
+      } else if (className["jsx3.app.Model"]) {
+        a.push(f + ":" + jsx3.$O.json("JSX(" + this._getTargetString(obj) + ")"));
+      } else if (className["jsx3.xml.Entity"]) {
+        a.push(f + ":" + jsx3.$O.json("XML(" + obj.toString() + ")"));
       } else {
         a.push(f + ":" + jsx3.$O.json(obj));
       }

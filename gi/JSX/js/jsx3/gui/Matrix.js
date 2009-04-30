@@ -1334,7 +1334,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (intGhostLeft == this._jsxstartleft) {
       //first validate that the matrix instance even supports sorting at all
       if (this.getCanSort() != jsx3.Boolean.FALSE)
-        this._doSort(objEvent);
+        this._doSort(objEvent.event);
     } else {
       //reorder event
       if (this.getCanReorder() != jsx3.Boolean.FALSE) {
@@ -1344,12 +1344,12 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           if (intLeft >= intGhostLeft) {
             var objPrecededChild = objDisplayedChildren[i];
             var objPrecedeIndex = jsx3.util.arrIndexOf(objChildren, objPrecededChild);
-            this._reorderColumns(objEvent,objMovedChild,objPrecededChild);
+            this._reorderColumns(objEvent.event,objMovedChild,objPrecededChild);
             return;
           }
           intLeft += objWidthArray[i];
         }
-        this._reorderColumns(objEvent,objMovedChild,objDisplayedChildren[objDisplayedChildren.length-1],true);
+        this._reorderColumns(objEvent.event,objMovedChild,objDisplayedChildren[objDisplayedChildren.length-1],true);
       }
     }
   };
@@ -1421,7 +1421,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
         //fire the aftersort event
         this.doEvent(Interactive.AFTER_SORT,
-          {objEVENT:objEvent, objCOLUMN:objSortChild, strSORTPATH:strSortPath, strSORTTYPE:strSortType});
+          {objEVENT:objEvent, objCOLUMN:objSortChild, strSORTPATH:strSortPath, strSORTTYPE:strSortType,
+              strDIRECTION:this.getSortDirection()});
       }
     }
   };
@@ -1540,6 +1541,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var intOldIndex = jsx3.util.arrIndexOf(displayedChildren, objMoveChild);
     var intPIndex = jsx3.util.arrIndexOf(displayedChildren, objPrecedeChild);
     var intFIndex = this.getFixedColumnIndex(-1);
+    var intOriginalIndex = objMoveChild.getChildIndex();
 
     //exit if a frozen column was moved
     if (intOldIndex <= intFIndex) return;
@@ -1556,7 +1558,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (bSuccess) {
       var intNewIndex = objMoveChild.getChildIndex();
       //fire the aftersort event
-      this.doEvent(Interactive.AFTER_REORDER, {objEVENT:objEvent, intOLDINDEX:intOldIndex, intNEWINDEX:intNewIndex});
+      this.doEvent(Interactive.AFTER_REORDER, {objEVENT:objEvent, intOLDINDEX:intOriginalIndex, intNEWINDEX:intNewIndex});
     }
   };
 
@@ -3925,7 +3927,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       // fire the 'afterresize' event code
       var bContinue = this.doEvent(Interactive.AFTER_RESIZE,
-                                   {objEVENT:objEvent, vntWIDTH:intNewWidth, intCOLUMNINDEX:intIndex});
+                                   {objEVENT:objEvent.event, vntWIDTH:intNewWidth, intCOLUMNINDEX:intIndex});
 
       //if bound 'afterresize' event returned false, cancel the resize
       if (!(bContinue === false))

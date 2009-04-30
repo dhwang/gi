@@ -1951,10 +1951,19 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         throw new Error("Bad event arguments: " + o.args);
       }
 
+      for (var f in args) {
+        if (typeof(args[f]) == "string") {
+          if (args[f].indexOf("JSX(") == 0)
+            args[f] = recorder._getTarget(objServer, args[f].substring(4, args[f].length - 1));
+          else if (args[f].indexOf("XML(") == 0)
+            args[f] = (new jsx3.xml.Document()).loadXML(args[f].substring(4, args[f].length - 1));
+        }
+      }
+
       recorder._invokeAction(target, o.action, args);
     }
 
-    if (strWait == "DONE") {
+    if (strWait == "DONE" || strWait == "") {
       return;
     } else if (strWait == "SLEEP") {
       return gipp.SLEEP;
@@ -1968,38 +1977,197 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @private @jsxobf-clobber */
   recorder._invokeAction = function(objTarget, strAction, objArgs) {
-    objArgs.subject = strAction;
+    var ctx = {};
+    for (var f in objArgs)
+      ctx[f] = objArgs[f];
+
+    ctx.subject = strAction;
+
+    if (ctx.objEVENT) {
+      ctx.objEVENT.currentTarget = 1;
+      ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
+    }
 
     if (objTarget.replayEvent) {
-      objTarget.replayEvent(objArgs);
+      objTarget.replayEvent(ctx);
     } else {
       var fct = recorder._getReplayFunction(objTarget, strAction);
       if (fct) {
-        fct.apply(objTarget, [objArgs]);
+        fct.apply(objTarget, [ctx]);
       } else {
-        objTarget.doEvent(strAction, objArgs);
+        objTarget.doEvent(strAction, ctx);
       }
     }
   };
 
   /** @private @jsxobf-clobber */
   recorder._REPLAY = {
+    "jsx3.gui.Block": {
+      jsxmenu: function(e) {
+        var rv = this.doEvent(e.subject, e);
+        if (rv !== false) {
+          var objMenu = e.objMENU;
+          if (rv && rv.objMENU)
+            objMenu = rv.objMENU;
+          objMenu.showContextMenu(e.objEVENT, this);
+        }
+      }
+    },
+    "jsx3.gui.CheckBox": {
+      jsxtoggle: function(e) {
+        this.setChecked(e.intCHECKED);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.ColorPicker": {
+      jsxchange: function(e) {
+        this.setValue(e.intRGB);
+        this.doEvent(e.subject, e);
+      }
+    },
     "jsx3.gui.DatePicker": {
       jsxchange: function(e) {
-        if (this.doEvent(e) !== false)
+        if (this.doEvent(e.subject, e) !== false)
           this.setDate(e.newDATE);
+      }
+    },
+    "jsx3.gui.Dialog": {
+      jsxaftermove: function(e) {
+        this.setDimensions(e.intL, e.intT, null, null, true);
+        this.doEvent(e.subject, e)
+      },
+      jsxafterresize: function(e) {
+        this.setDimensions(null, null, e.intW, e.intW, true);
+        this.doEvent(e.subject, e)
+      }
+    },
+    "jsx3.gui.ImageButton": {
+      jsxtoggle: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setState(e.intSTATE);
+      }
+    },
+    "jsx3.gui.Matrix": {
+      jsxselect: function(e) {
+        if (this.getSelectionModel() == jsx3.gui.Matrix.SELECTION_MULTI_ROW)
+          this.setValue(e.strRECORDIDS);
+        else
+          this.setValue(e.strRECORDID);
+        this.doEvent(e.subject, e);
+      },
+      jsxafterreorder: function(e) {
+        var col = this.getChild(e.intOLDINDEX);
+        var before = this.getChild(e.intOLDINDEX < e.intNEWINDEX ? e.intNEWINDEX + 1 : e.intNEWINDEX);
+
+        if (before)
+          this.insertBefore(col, before, true);
+        else
+          this.adoptChild(col, true);
+
+        this.doEvent(e.subject, e);
+      },
+      jsxaftersort: function(e) {
+        this.setSortPath(e.strSORTPATH);
+        this.setSortType(e.strSORTTYPE);
+        this.doSort(e.intDIRECTION);
+        this.doEvent(e.subject, e);
+      },
+      jsxafterresize: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.getChild(e.intCOLUMNINDEX).setWidth(e.vntWIDTH);
+      },
+      jsxafterappend: function(e) {
+        // TODO:
+        this.doEvent(e.subject, e);
+      },
+      jsxaftercommit: function(e) {
+        // TODO:
+        this.doEvent(e.subject, e);
+      },
+      jsxtoggle: function(e) {
+        this.toggleItem(e.strRECORDID, e.bOPEN);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.Menu": {
+      jsxmenu: function(e) {
+        // TODO:
+        this.doEvent(e.subject, e);
+      },
+      jsxexecute: function(e) {
+        this.repaint();
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.RadioButton": {
+      jsxselect: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setSelected(RadioButton.SELECTED);
       }
     },
     "jsx3.gui.Select": {
       jsxselect: function(e) {
-        if (this.doEvent(e) !== false)
+        if (this.doEvent(e.subject, e) !== false)
           this.setValue(e.strRECORDID);
+      }
+    },
+    "jsx3.gui.Slider": {
+      jsxchange: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setValue(e.fpVALUE);
+      }
+    },
+    "jsx3.gui.Splitter": {
+      jsxafterresize: function(e) {
+        this.setSubcontainer1Pct(e.fpPCT1);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.Stack": {
+      jsxshow: function(e) {
+        this.doShow();
+      }
+    },
+    "jsx3.gui.Tab": {
+      jsxshow: function(e) {
+        this.doShow();
+      }
+    },
+    "jsx3.gui.Table": {
+      jsxchange: function(e) {
+        if (this.getSelectionModel() == jsx3.gui.Table.SELECTION_MULTI_ROW)
+          this.setValue(e.strRECORDIDS);
+        else
+          this.setValue(e.strRECORDID);
+        this.doEvent(e.subject, e);
       }
     },
     "jsx3.gui.TextBox": {
       jsxchange: function(e) {
-        if (this.doEvent(e) !== false)
+        if (this.doEvent(e.subject, e) !== false)
           this.setValue(e.strVALUE);
+      }
+    },
+    "jsx3.gui.TimePicker": {
+      jsxchange: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setDate(e.newDATE);
+      }
+    },
+    "jsx3.gui.ToolbarButton": {
+      jsxchange: function(e) {
+        this.setState(this.getState() == 0 ? 1 : 0);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.Tree": {
+      jsxchange: function(e) {
+        this.setValue(e.newVALUE);
+        this.doEvent(e.subject, e);
+      },
+      jsxtoggle: function(e) {
+        this.toggleItem(e.strRECORDID, e.bOPEN);
+        this.doEvent(e.subject, e);
       }
     }
   };
@@ -2031,6 +2199,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         return t.getValue() == eval(obj);
       }
       return false;
+    },
+    EVAL: function(s, target, obj) {
+      return jsx3.eval(target, {server:s});
     }
   };
 

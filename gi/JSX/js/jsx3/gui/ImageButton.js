@@ -180,8 +180,8 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
   ImageButton_prototype.setState = function(intState) {
     this.jsxstate = intState;
     var img = this.getRendered();
-    if (img != null)
-      img.src = this._getCurrentImageURL(false, false);
+    if (img)
+      img.childNodes[0].childNodes[0].src = this._getCurrentImageURL(false, false);
     return this;
   };
 
