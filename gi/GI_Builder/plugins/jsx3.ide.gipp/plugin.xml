@@ -35,6 +35,8 @@
 
   <method id="getGIPPDir">
     var p = jsx3.ide.getIDESettings().get(this.getId(), "path");
+    if (p)
+      p = jsx3.app.Browser.getLocation().resolve(p);
     return p ? jsx3.ide.getPlugIn("jsx3.io").getFileForURI(p) :
            jsx3.ide.getSystemRelativeFile(this.resolveURI("gipp"));
   </method>

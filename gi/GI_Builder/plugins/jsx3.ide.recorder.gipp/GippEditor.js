@@ -142,9 +142,11 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   };
 
   Editor_prototype.onRecorderStopped = function() {
-    this._running = false;
-    this._recorder = null;
-    this.getContent().getLaunchBtn().setText("Launch Recorder", true);
+    if (this.isAlive()) {
+      this._running = false;
+      this._recorder = null;
+      this.getContent().getLaunchBtn().setText("Launch Recorder", true);
+    }
   };
 
   Editor_prototype.onInsertRecord = function(rec) {
@@ -225,16 +227,16 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
   };
 
   Editor_prototype.getJsxSrc = function() {
-    return this.getPlugIn().resolveURI("recorder.html").relativize(jsx3.resolveURI(jsx3.MAIN_SCRIPT));
+    return this.getPlugIn().resolveURI("recorder.html").relativize(jsx3.resolveURI(jsx3.MAIN_SCRIPT)).toString();
   };
 
   Editor_prototype.getJsxAppPath = function() {
     return this.getPlugIn().resolveURI("recorder.html").relativize(
-        jsx3.resolveURI("jsxuser:///" + jsx3.ide.PROJECT.getPathFromHome()));
+        jsx3.resolveURI("jsxuser:///" + jsx3.ide.PROJECT.getPathFromHome())).toString();
   };
 
   Editor_prototype.onModelEvent = function(objJSX, strType, objContext, hasListener) {
-//    jsx3.log("onModelEvent " + [strType, objJSX]);
+//    jsx3.util.Logger.GLOBAL.logStack(4, "onModelEvent " + [strType, objJSX]);
     // Some events only matter if they are listened to. But some events matter because they change the state of
     // controls that may be used for further tests.
     if (hasListener || (objContext && objContext._gipp)) {
@@ -340,7 +342,7 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
         a.push(f + ":" + jsx3.$O.json("JSX(" + this._getTargetString(obj) + ")"));
       } else if (this._isOfType(obj, "jsx3.xml.Entity")) {
         a.push(f + ":" + jsx3.$O.json("XML(" + obj.toString() + ")"));
-      } else if (typeof(obj) == "number" && obj >= 255) {
+      } else if (typeof(obj) == "number" && obj >= 0xFFF) {
         a.push(f + ":0x" + obj.toString(16).toUpperCase());
       } else {
         a.push(f + ":" + jsx3.$O.json(obj));
@@ -370,6 +372,15 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.Editor, null, function(E
       }
     }
     return false;
+  };
+
+  Editor_prototype.isAlive = function() {
+    try {
+      var c = this.getContent();
+      return c && c.getRendered() && c.getRendered().offsetWidth > 0;
+    } catch (e) {
+      return false;
+    }
   };
 
 });

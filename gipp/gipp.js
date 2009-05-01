@@ -647,8 +647,12 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         for (var f in param)
           element.setAttribute(f, String(param[f]));
       }
+
+      var gi = me._getFormValue("input_gi");
+      if (gi.lastIndexOf("/") != gi.length - 1)
+        gi += "/";
       
-      element.src = me._getFormValue("input_gi") + "/JSX/js/JSX30.js";
+      element.src = me._getFormValue("input_gi") + "JSX/js/JSX30.js";
       element.setAttribute("jsxapppath", strPath);
       element.setAttribute("jsxlt", "true");
       element.setAttribute("caption", ""); // prevent title from changing
@@ -678,7 +682,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       if (apps && apps.length > 0) {
         var app = apps[0];
         var root = app.getJSXByName("JSXROOT");
-        if (root && root.getRendered()) {
+        if (root && root.getRendered() && root.getRendered().offsetWidth > 0) {
           this._server = app;
           return true;
         }

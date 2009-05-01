@@ -15,7 +15,7 @@
     window.setTimeout(function() {
       state.editor = window["gippeditor"];
 
-      window.onbeforeunload = new Function("window.state = {}; if (window.gippeditor) window.gippeditor.onRecorderStopped();");
+      window.onbeforeunload = new Function("cleanAndClose();");
       window.onresize = updateHeight;
 
       if (window.document.addEventListener) {
@@ -31,8 +31,19 @@
         state.editor.onRecorderLaunched();
       } else
         if (confirm("This page must be launched directly from General Interface Builder. Close window?"))
-          window.close();
-    }, 0);
+          cleanAndClose(true);
+    }, 250);
+  }
+
+  function cleanAndClose(bClose) {
+    window.state = {};
+    if (window.gippeditor) {
+      window.gippeditor.onRecorderStopped();
+      window.gippeditor = null;
+    }
+
+    if (bClose)
+      window.close();
   }
 
   function updateHeight() {
@@ -53,32 +64,47 @@
   }
 
   function checkLoaded() {
+    if (exitOnEditorGone()) return;
+
     if (!state.inited && window.jsx3 && jsx3.lang && jsx3.lang.AOP && jsx3.gui && jsx3.gui.Interactive) {
       state.inited = true;
       window.clearInterval(state.loadListener);
 
-      var classes = [];
+      var classes = [jsx3.gui.Interactive.jsxclass];
       var pkgs = jsx3.lang.Package.getPackages();
       for (var i = 0; i < pkgs.length; i++) {
         var c = pkgs[i].getClasses();
         for (var j = 0; j < c.length; j++) {
-          if (jsx3.gui.Interactive.jsxclass.isAssignableFrom(c[j]))
+          if (jsx3.$A(c[j].getInterfaces()).contains(jsx3.gui.Interactive.jsxclass))
             classes.push(c[j]);
         }
       }
+      
+//      state.editor.getPlugIn().getLog().warn("Registering recorder. [" + classes + "]");
 
-      jsx3.lang.AOP.pcrem("evtCP"); // not sure why i have to clean this up...
+      jsx3.lang.AOP.pcrem("evtCP"); // just in case...
       jsx3.lang.AOP.pc("evtCP", {classes:classes, methods:"doEvent"});
 
       jsx3.lang.AOP.before("evtCP", function(strType, objContext) {
         if (!state.paused && !state.asserting && !state.waiting) {
+          if (exitOnEditorGone()) return;
+
           var hasListener = this.hasEvent(strType) || this.getSubscriberCount(strType) > 0;
 
-//          state.editor.getPlugIn().getLog().warn("evtCP " + [strType, this]);
           state.editor.onModelEvent(this, strType, objContext, hasListener);
         }
       });
     }
+  }
+
+  function exitOnEditorGone() {
+    if (state.editor && !state.editor.isAlive()) {
+      if (confirm("General Interface Builder is no longer associated with this recorder, perhaps because it was reloaded. Close window?")) {
+        cleanAndClose(true);
+        return true;
+      }
+    }
+    return false;
   }
 
   function onPause() {
@@ -127,9 +153,7 @@
   }
 
   function onStop() {
-    if (state.editor)
-      state.editor.onRecorderStopped();
-    window.close();
+    cleanAndClose(true);
   }
 
   function onAppClick(event) {
@@ -137,6 +161,8 @@
       var e = jsx3.gui.Event.wrap(event);
       var objJSX = jsx3.html.getJSXParent(e.srcElement());
       if (objJSX) {
+        if (exitOnEditorGone()) return;
+
         try {
           state.editor.onAssert(objJSX, state.waiting);
         } catch (e) {
