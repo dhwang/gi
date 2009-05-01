@@ -601,7 +601,8 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
       throw new jsx3.Exception(jsx3._msg("gui.int.eb", strId, intUp, objGUI));
   };
 
-  //
+/* @JSC :: begin DEP */
+// only used by List
 
   /**
    * @package
@@ -627,6 +628,8 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
     objEvent.cancelBubble();
   };
 
+/* @JSC :: end */
+
   /**
    * @package
    */
@@ -643,6 +646,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
     jsx3.EventHelp.curDragObject = objGUI;
 
     jsx3.EventHelp.FLAG = 3;
+    jsx3.EventHelp._dragging = false; // used for internal moving of parts like dialog resize and column reorder
     jsx3.EventHelp.beginTrackMouse(objEvent);
     objEvent.setCapture(objGUI);
     objEvent.cancelReturn();
@@ -691,6 +695,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
       jsx3.EventHelp.yOff = objY - absY;
       jsx3.EventHelp.curDragObject = objGUI;
       jsx3.EventHelp.FLAG = 1;
+      jsx3.EventHelp._dragging = false; // used for splitter move, dialog move
       jsx3.EventHelp.beginTrackMouse(objEvent);
       objEvent.setCapture(objGUI);
     }
@@ -774,6 +779,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
 
       //set flag used by mousemove listener; it will know to begin a drag if the user moves their mouse
       jsx3.EventHelp.FLAG = 2;
+      jsx3.EventHelp._dragging = true; // used for CDF DnD
       jsx3.EventHelp.beginTrackMouse(objEvent);
     }
 
@@ -1196,6 +1202,8 @@ jsx3.Class.defineClass("jsx3.EventHelp", null, null, function(EventHelp, EventHe
   EventHelp.DEFAULTSPYTOPOFFSET = 5;
   EventHelp.SPYDELAY = 300;
   EventHelp.FLAG = 0;
+  /* @jsxobf-clobber */
+  EventHelp._dragging = false;
 
   EventHelp.yOff = 0;
   EventHelp.xOff = 0;
@@ -1347,7 +1355,7 @@ jsx3.Class.defineClass("jsx3.EventHelp", null, null, function(EventHelp, EventHe
    * @private
    */
   EventHelp.isDragging = function() {
-    return EventHelp.curDragObject != null;
+    return EventHelp.curDragObject != null && EventHelp._dragging;
   };
 
   /**
