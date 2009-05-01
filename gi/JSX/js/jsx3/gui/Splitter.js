@@ -124,26 +124,31 @@ jsx3.Class.defineClass("jsx3.gui.Splitter", jsx3.gui.Block, null, function(Split
     var dblPct1 = this._getPanelMultiplier();
 
     var bHor = this.getOrientation() == Splitter.ORIENTATIONH;
-    var l = 0, t = 0, w = myWidth, h = myHeight;
+    var span = bHor ? myWidth : myHeight;
+
+    var min1 = this.getSubcontainer1Min();
+    var min2 = this.getSubcontainer2Min();
+
+    // bias the 1st container's min span over the second's
+    var firstSpan = Math.round(span * dblPct1);
+    if (firstSpan < min1 || min1 + min2 > span) firstSpan = min1;
+    else if (span - firstSpan < min2) firstSpan = span - min2;
+
+    var thisSpan, thisOffset = 0;
 
     //depending upon the child (0 or 1), return the appropriate sizing;
     if (intIndex == 0) {
-      if (bHor) {
-        //divider is runs north south, ( | )
-        w = parseInt(myWidth * dblPct1);
-      } else {
-        //divider is runs north south, ( | )
-        h = parseInt(myHeight * dblPct1);
-      }
+      thisSpan = firstSpan;
     } else {
-      //this is the second child; remove the splitter width, too (8 pixels)
-      if (bHor) {
-        l = parseInt(myWidth * dblPct1) + 8;
-        w -= l;
-      } else {
-        t = parseInt(myHeight * dblPct1) + 8;
-        h -= t;
-      }
+      thisOffset = firstSpan + 8;
+      thisSpan = span - thisOffset;
+    }
+
+    var l, t, w, h;
+    if (bHor) {
+      l = thisOffset; t = 0; w = thisSpan; h = myHeight;
+    } else {
+      l = 0; t = thisOffset; w = myWidth; h = thisSpan;
     }
 
     return this.setCachedClientDimensions(intIndex,
