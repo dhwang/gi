@@ -9,6 +9,28 @@
 
   <property name="project.dir" value="."/>
 
+  <!-- Selector for text files. Text files can be copied with filtering. -->
+  <selector id="files.text">
+    <or>
+      <filename name="**/*.html"/>
+      <filename name="**/*.htm"/>
+      <filename name="**/*.xhtml"/>
+      <filename name="**/*.hta"/>
+      <filename name="**/*.txt"/>
+      <filename name="**/*.xml"/>
+      <filename name="**/*.css"/>
+      <filename name="**/*.js"/>
+      <filename name="**/*.xsl"/>
+    </or>
+  </selector>
+
+  <!-- Selector for binary files. Binary files can not be copied with filtering. -->
+  <selector id="files.binary">
+    <not>
+      <selector refid="files.text"/>
+    </not>
+  </selector>
+
   <target name="init">
     <!-- Load the application specific settings -->
     <property file="build.properties"/>
@@ -56,14 +78,28 @@
 
     <copy todir="${gipp.dist.dir}">
       <filterset refid="filters"/>
-      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel}"/>
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel}">
+        <selector refid="files.text"/>
+      </fileset>
+    </copy>
+    <copy todir="${gipp.dist.dir}">
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel}">
+        <selector refid="files.binary"/>
+      </fileset>
     </copy>
   </target>
 
   <target name="copy-samples" depends="init" if="build.set.samples">
     <copy todir="${gipp.dist.dir}">
       <filterset refid="filters"/>
-      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel.sampleprojects}"/>
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel.sampleprojects}">
+        <selector refid="files.text"/>
+      </fileset>
+    </copy>
+    <copy todir="${gipp.dist.dir}">
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel.sampleprojects}">
+        <selector refid="files.binary"/>
+      </fileset>
     </copy>
   </target>
 
