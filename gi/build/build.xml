@@ -34,13 +34,13 @@
     </not>
   </selector>
 
-  <taskdef resource="net/sf/antcontrib/antlib.xml">
-    <classpath>
-      <pathelement location="${build.dir}/tools/lib/ant-contrib/ant-contrib-1.0b3.jar"/>
-    </classpath>
-  </taskdef>
-
   <target name="init">
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+        <pathelement location="${build.dir}/tools/lib/ant-contrib/ant-contrib-1.0b3.jar"/>
+      </classpath>
+    </taskdef>
+
     <!-- Load the application specific settings -->
     <property file="${build.dir}/user.properties"/>
     <property file="${build.dir}/build.properties"/>
@@ -200,18 +200,61 @@
       </copy-fileset>
     </copy-with-filter>
 
+    <antcall target="copy-gipp"/>
+  </target>
+
+  <target name="copy-gipp" depends="init">
     <if>
-      <not><equals arg1="" arg2="${build.gipp.dist}"/></not>
+      <and>
+        <not><equals arg1="" arg2="${build.gipp.type}"/></not>
+        <not><equals arg1="" arg2="${build.gipp.location}"/></not>
+        <available file="${project.dir}/${build.gipp.location}"/>
+      </and>
       <then>
-        <property name="build.gipp.src" value="${project.dir}/${build.gipp.dist}"/>
+        <property name="build.gipp.src" value="${project.dir}/${build.gipp.location}"/>
         <property name="build.gipp.dest" value="${dist.dir}/GI_Builder/plugins/jsx3.ide.gipp/gipp"/>
 
-        <echo message="Including GIPP from directory ${build.gipp.src}"/>
-        <mkdir dir="${build.gipp.dest}"/>
-        <copy todir="${build.gipp.dest}">
-          <fileset dir="${build.gipp.src}" includes="**/*"/>
-        </copy>
+        <if>
+          <equals arg1="source" arg2="${build.gipp.type}"/>
+          <then>
+            <echo message="Building GIPP in directory ${build.gipp.src}"/>
+
+            <ant antfile="${build.gipp.src}/build.xml" target="clean" inheritall="false" inheritrefs="false">
+              <property name="gipp.dist.dir" value="build-temp"/>
+            </ant>
+
+            <ant antfile="${build.gipp.src}/build.xml" target="dist" inheritall="false" inheritrefs="false">
+              <property name="gipp.dist.dir" value="build-temp"/>
+              <property name="gipp.dist.sampleprojects" value="false"/>
+              <property name="gipp.dist.docs" value="false"/>
+            </ant>
+
+            <mkdir dir="${build.gipp.dest}"/>
+            <copy todir="${build.gipp.dest}">
+              <fileset dir="${build.gipp.src}/build-temp" includes="**/*"/>
+            </copy>
+
+            <delete dir="${build.gipp.src}/build-temp"/>
+          </then>
+          <elseif>
+            <equals arg1="binary" arg2="${build.gipp.type}"/>
+            <then>
+              <echo message="Copying GIPP from directory ${build.gipp.src}"/>
+
+              <mkdir dir="${build.gipp.dest}"/>
+              <copy todir="${build.gipp.dest}">
+                <fileset dir="${build.gipp.src}" includes="**/*"/>
+              </copy>
+            </then>
+          </elseif>
+          <else>
+            <echo message="Not including GIPP (bad type: ${build.gipp.type})"/>
+          </else>
+        </if>
       </then>
+      <else>
+        <echo>Not including GIPP.</echo>
+      </else>
     </if>
   </target>
 

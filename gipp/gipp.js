@@ -652,7 +652,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       if (gi.lastIndexOf("/") != gi.length - 1)
         gi += "/";
       
-      element.src = me._getFormValue("input_gi") + "JSX/js/JSX30.js";
+      element.src = gi + "JSX/js/JSX30.js";
       element.setAttribute("jsxapppath", strPath);
       element.setAttribute("jsxlt", "true");
       element.setAttribute("caption", ""); // prevent title from changing

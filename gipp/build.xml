@@ -28,6 +28,9 @@
     <condition property="build.set.obfuscate" value="1">
       <equals arg1="${gipp.dist.obfuscate}" arg2="true"/>
     </condition>
+    <condition property="build.set.doc" value="1">
+      <equals arg1="${gipp.dist.docs}" arg2="true"/>
+    </condition>
 
     <path id="cp.tools">
       <path path="${gi.tools.dir}/jsx-tools.jar"/>
@@ -45,7 +48,7 @@
   </target>
 
   <target name="dist"
-      depends="init, copy-gipp, copy-samples, doc, obfuscate"
+      depends="init, copy-gipp, copy-samples, dist-doc, obfuscate"
       description="Builds a distribution of TIBCO General Interface Performance Profiler."/>
 
   <target name="copy-gipp" depends="init">
@@ -70,6 +73,10 @@
         <include name="gipp.js"/>
       </fileset>
     </gi-obfuscate>
+  </target>
+
+  <target name="dist-doc" depends="init" if="build.set.doc">
+    <antcall target="doc"/>
   </target>
 
   <target name="doc" depends="init" description="Compiles the API documentation.">
