@@ -21,7 +21,6 @@
   <plugin id="jsx3.ide.settings.ide"/>
   <plugin id="jsx3.ide.settings.project"/>
   <plugin id="jsx3.ide.editor"/>
-  <plugin id="jsx3.ide.editor.cache"/>
   <plugin id="jsx3.ide.editor.component"/>
   <plugin id="jsx3.ide.editor.focus"/>
   <plugin id="jsx3.ide.palette.properties"/>
@@ -32,6 +31,7 @@
   <plugin id="jsx3.ide.editor.propsbundle"/>
   <plugin id="jsx3.ide.editor.text"/>
   <plugin id="jsx3.ide.editor.xml"/>
+  <plugin id="jsx3.ide.editor.cache"/>
   <plugin id="jsx3.ide.log"/>
   <plugin id="jsx3.ide.apidoc"/>
   <plugin id="jsx3.ide.colorpicker"/>

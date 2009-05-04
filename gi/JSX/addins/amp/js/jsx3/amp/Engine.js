@@ -993,7 +993,6 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 //      amp.LOG.debug("_newResourceJob " + objResource + " " + strSrc);
       var onDone = jsx3.$F(function(rv) {
         amp.LOG.debug(jsx3._msg("amp.23", objResource, strSrc));
-        amp.LOG.debug(jsx3._msg("amp.23", objResource, strSrc));
         this._prog._done(progId);
         cb.done(rv);
       }).bind(this);
@@ -1282,27 +1281,32 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
     /* @jsxobf-clobber */
     _add: function(id) {
-      if (this._on) {
-        if (this._ids[id])
-          amp.LOG.warn(jsx3._msg("amp.34", id));
-        else {
+      if (this._ids[id])
+        amp.LOG.warn(jsx3._msg("amp.34", id));
+      else {
+        if (this._on) {
           this._ids[id] = 1;
           this._total++;
           this._eng._onProgress();
+        } else {
+          this._ids[id] = -1;
         }
       }
     },
 
     /* @jsxobf-clobber */
     _done: function(id) {
-      if (this._on) {
-        if (this._ids[id]) {
-          delete this._ids[id];
+      var v = this._ids[id];
+
+      if (v) {
+        delete this._ids[id];
+
+        if (v > 0) {
           this._donect++;
           this._eng._onProgress();
-        } else {
-          amp.LOG.warn(jsx3._msg("amp.35", id));
         }
+      } else {
+        amp.LOG.warn(jsx3._msg("amp.35", id));
       }
     },
 
