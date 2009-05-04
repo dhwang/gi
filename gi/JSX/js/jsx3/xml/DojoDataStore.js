@@ -13,6 +13,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   DojoDataStore_prototype.init = function(store){
     this.store = store;
   }
+  // create a wrapper for records to be accessed via the XML entity interface
   function createNode(store, item) {
     record = new jsx3.xml.DataStoreItem();
     record.item = item;
@@ -31,6 +32,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   DojoDataStore_prototype.insertRecordNode = function(objRecordNode, strParentRecordId, bRedraw) {
     throw new jsx3.Exception("Not supported");
   };
+  // performs an operation on the record accessed by the given id
   function operationById(store, id, operation) {
     store.fetchItemByIdentity({
       identity: id, 

@@ -1,6 +1,8 @@
 /*
 * This simply loads Dojo
 */
+jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function() {});
+
 if(typeof dojo == "undefined") {
   djConfig = typeof djConfig == "undefined" ? {baseUrl: jsx3.resolveURI("jsx:/../dojo-toolkit/dojo/"), afterOnLoad: true} : djConfig;
   // if we are running from the source version, we will pretend we are spidermonkey
@@ -19,4 +21,4 @@ if(typeof dojo == "undefined") {
     return dojo.query('[label="JSXBODY"]')[0];
   };
 }
-jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function() {});
+
