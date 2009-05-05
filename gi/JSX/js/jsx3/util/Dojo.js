@@ -10,7 +10,7 @@ if(typeof dojo == "undefined") {
   // destructive document.write technique used by the source version of dojo.js
   
   load = function(script){
-    jsx3.CLASS_LOADER.loadJSFileSync(script.replace(/rhino/,"browser"));
+    jsx3.CLASS_LOADER.loadJSFileSync(script.replace(/rhino|spidermonkey/,"browser"));
   };
   jsx3.CLASS_LOADER.loadJSFileSync(jsx3.resolveURI("jsx:/../dojo-toolkit/dojo/dojo.js"));
   delete load;

@@ -211,7 +211,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
           var type = typeof self.dijit[i];
           if (i.charAt(0) != "_" && type != "function") {
             handler({
-              type: type,
+              type: type
             }, i);
           }
         }
