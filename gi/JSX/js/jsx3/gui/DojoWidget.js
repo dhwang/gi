@@ -230,6 +230,12 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
           (self["get" + firstCap] = function() {
             return self.dijit.attr(i);
           })._dojoGetter = true;
+          var defaultValue = self.dijit.constructor.prototype[i];
+          if (defaultValue && typeof defaultValue == 'object') {
+            self["getJSON" + firstCap] = function() {
+              return '(' + dojo.toJson(self.dijit.attr(i)) + ')';
+            };
+          }
           self["set" + firstCap] = function(value) {
             self["dijit_" + i] = value;
             self.dijit.attr(i, value);
@@ -274,15 +280,17 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
         }
         var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
         if (self["get" + firstCap]._dojoGetter) {
+          var defaultValue = dijitClass.prototype[i];
           var rec = {
             jsxid: i,
             jsxtext: firstCap,
             jsxtip: propDef.description,
             eval: propDef.type == 'string' ? 0 : 1,
-            docgetter: typeof dijitClass.prototype[i] == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
-            docsetter: typeof dijitClass.prototype[i] == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
-            getter:"get" + firstCap,
-            jsxmask: propDef.type == 'boolean' ? "jsxselect" : "jsxtext",
+            docgetter: typeof defaultValue == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
+            docsetter: typeof defaultValue == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
+            getter: (defaultValue && typeof defaultValue == 'object') ? "getJSON" + firstCap : "get" + firstCap,
+            jsxmask: propDef.type == 'boolean' ? "jsxselect" : 
+                   /\n/.test(dijitClass.prototype[i]) ? "jsxtextarea" : "jsxtext",
             jsxexecute:'objJSX.set' + firstCap + '(vntValue);'
           };
           var objRecordNode = metadata.insertRecord(rec, "dojo");
