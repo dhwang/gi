@@ -6,11 +6,9 @@
   <name><![CDATA[Toolbar Button]]></name>
   <icon><![CDATA[images/prototypes/toolbar-button.gif]]></icon>
   <description><![CDATA[Toolbar Button, contains both text and icon.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.ToolbarButton">
     <variants/>
-    <strings jsxname="toolbar button" jsximage="jsx:///images/tbb/open.gif" jsxtext="[text]"/>
+    <strings jsxname="toolBarBtn" jsximage="jsx:///images/tbb/open.gif" jsxtext="[text]"/>
     <events jsxexecute="window.alert('button clicked');"/>
   </object>
 </serialization>

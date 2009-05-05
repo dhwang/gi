@@ -6,20 +6,18 @@
   <name><![CDATA[Layout - Top/Over]]></name>
   <icon><![CDATA[images/prototypes/layout-over.gif]]></icon>
   <description><![CDATA[2 top-over-bottom panes in an adaptive layout grid.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="layout (--)" jsxrows="100,*" jsxwidth="100%" jsxheight="100%"/>
+    <strings jsxname="layoutRows" jsxrows="100,*" jsxwidth="100%" jsxheight="100%"/>
     <object type="jsx3.gui.Block">
       <dynamics jsxborder="@Outset"/>
       <variants jsxoverflow="2"/>
-      <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+      <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
     </object>
     <object type="jsx3.gui.Block">
       <dynamics jsxborder="@Outset"/>
       <variants jsxoverflow="1"/>
-      <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+      <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
     </object>
   </object>
 </serialization>

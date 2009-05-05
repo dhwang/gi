@@ -6,8 +6,6 @@
   <name><![CDATA[Tree]]></name>
   <icon><![CDATA[images/prototypes/tree.gif]]></icon>
   <description><![CDATA[Pre-built tree control with custom icons.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Tree">
     <variants jsxxmlasync="1"/>
     <strings jsxname="tree" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;

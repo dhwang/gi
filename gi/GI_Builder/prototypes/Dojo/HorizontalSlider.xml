@@ -6,10 +6,8 @@
   <name><![CDATA[Horizontal Slider]]></name>
   <icon><![CDATA[images/prototypes/slider.gif]]></icon>
   <description><![CDATA[Horizontal Slider]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.HorizontalSlider"/>
+    <strings jsxname="dijitHSlider" dijitClassName="dijit.form.HorizontalSlider"/>
     <variants jsxwidth="200"/>
   </object>
 </serialization>

@@ -6,9 +6,7 @@
   <name><![CDATA[Date Text Box]]></name>
   <icon><![CDATA[images/prototypes/datepicker.gif]]></icon>
   <description><![CDATA[Date Text Box]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.DateTextBox" jsxname="dijit.form.DateTextBox" />
+    <strings dijitClassName="dijit.form.DateTextBox" jsxname="dijitDateTextBox" />
   </object>
 </serialization>

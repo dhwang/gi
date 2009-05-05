@@ -6,8 +6,6 @@
   <name><![CDATA[Sound Button]]></name>
   <icon><![CDATA[images/prototypes/sound.gif]]></icon>
   <description><![CDATA[A button that plays a sound when pressed.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Button">
     <variants jsxindex="0" jsxheight="18"/>
     <strings jsxname="button" jsxtext="play" jsxmargin="0 4 0 0"/>

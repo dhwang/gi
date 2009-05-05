@@ -6,9 +6,7 @@
   <name><![CDATA[Color Palette (3x4)]]></name>
   <icon><![CDATA[images/prototypes/colorpicker.gif]]></icon>
   <description><![CDATA[Color palette]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.ColorPalette" jsxname="dijit.ColorPalette3x4" dijit_palette="3x4"/>
+    <strings dijitClassName="dijit.ColorPalette" jsxname="dijitColorPalette" dijit_palette="3x4"/>
   </object>
 </serialization>

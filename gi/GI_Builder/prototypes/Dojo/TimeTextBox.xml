@@ -6,9 +6,7 @@
   <name><![CDATA[Time Text Box]]></name>
   <icon><![CDATA[images/prototypes/timepicker.gif]]></icon>
   <description><![CDATA[Time Text Box]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.TimeTextBox"/>
+    <strings jsxname="dijitTimeTextBox" dijitClassName="dijit.form.TimeTextBox"/>
   </object>
 </serialization>

@@ -6,8 +6,6 @@
   <name><![CDATA[Stack]]></name>
   <icon><![CDATA[images/prototypes/stack-over.gif]]></icon>
   <description><![CDATA[Horizontal (under/over) or vertical (side by side) stack item.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Stack">
     <strings jsxname="stack" jsxtext="[caption]"/>
     <object type="jsx3.gui.Block">

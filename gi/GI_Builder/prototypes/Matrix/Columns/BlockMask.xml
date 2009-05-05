@@ -8,8 +8,6 @@
   <description><![CDATA[Example of using a block as an edit mask for a matrix column. A block with a single child of type
   jsx3.gui.Form is supported out-of-the-box. For more complex behavior implement the methods getMaskValue(), setMaskValue(),
   and getMaskFirstResponder(). See the API documenation for jsx3.gui.Matrix.BlockMask.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Matrix.Column">
     <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
     <strings jsxname="blockMaskColumn" jsxwidth="150" jsxtext="Value"

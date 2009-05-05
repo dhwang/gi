@@ -6,10 +6,8 @@
   <name><![CDATA[Vertical Slider]]></name>
   <icon><![CDATA[images/prototypes/vertical-slider.gif]]></icon>
   <description><![CDATA[Vertical Slider]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.VerticalSlider"/>
+    <strings jsxname="dijitVSlider" dijitClassName="dijit.form.VerticalSlider"/>
     <variants jsxheight="200"/>
   </object>
 </serialization>

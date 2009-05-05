@@ -6,9 +6,7 @@
   <name><![CDATA[Number Spinner]]></name>
   <icon><![CDATA[images/prototypes/combo.gif]]></icon>
   <description><![CDATA[Number Spinner]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.NumberSpinner"/>
+    <strings jsxname="dijitNumberSpinner" dijitClassName="dijit.form.NumberSpinner"/>
   </object>
 </serialization>

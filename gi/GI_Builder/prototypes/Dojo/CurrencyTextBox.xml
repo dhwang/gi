@@ -6,9 +6,7 @@
   <name><![CDATA[Currency Text Box]]></name>
   <icon><![CDATA[images/prototypes/textbox.gif]]></icon>
   <description><![CDATA[Currency Text Box]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.CurrencyTextBox"/>
+    <strings jsxname="dijitCurrencyTextBox" dijitClassName="dijit.form.CurrencyTextBox"/>
   </object>
 </serialization>

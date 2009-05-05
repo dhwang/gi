@@ -6,8 +6,6 @@
   <name><![CDATA[Mask - Dialog]]></name>
   <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
   <description><![CDATA[Example of using a dialog as an edit mask for a matrix column.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Matrix.Column">
     <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
     <strings jsxname="dialogMaskColumn" jsxwidth="150" jsxtext="Value"

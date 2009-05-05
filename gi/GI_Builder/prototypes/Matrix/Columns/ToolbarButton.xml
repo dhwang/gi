@@ -8,8 +8,6 @@
   <description><![CDATA[Renders a clickable button in each row of a column using the jsx3.gui.ToolbarButton class.
     In the EXECUTE event, the
     CDF record id is available with this.emGetSession().recordId. Honors the @jsxdisabled and @jsxnomask CDF attributes.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Matrix.Column">
     <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
     <strings jsxname="tbButtonColumn" jsxwidth="100" jsxtext="ToolbarButton"

@@ -6,8 +6,6 @@
   <name><![CDATA[Menu]]></name>
   <icon><![CDATA[images/prototypes/menu.gif]]></icon>
   <description><![CDATA[Menu object.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Menu">
     <variants jsxxmlasync="1"/>
     <strings jsxname="menu" jsxtip="menu" jsxtext="menu" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;

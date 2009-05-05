@@ -6,8 +6,6 @@
   <name><![CDATA[Select - Combo]]></name>
   <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
   <description><![CDATA[Combo that selects one of a set of enumerated values. jsxid is the key, jsxtext is the text.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Matrix.Column">
     <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
     <strings jsxname="comboColumn" jsxwidth="100" jsxtext="Combo"

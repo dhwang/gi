@@ -6,10 +6,8 @@
   <name><![CDATA[Progress Bar]]></name>
   <icon><![CDATA[images/icon_32.gif]]></icon>
   <description><![CDATA[Progress Bar]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.ProgressBar"/>
+    <strings jsxname="dijitProgress" dijitClassName="dijit.ProgressBar"/>
     <variants jsxwidth="200"/>
   </object>
 </serialization>

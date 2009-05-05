@@ -6,8 +6,6 @@
   <name><![CDATA[Menu Bar]]></name>
   <icon><![CDATA[images/prototypes/menubar.gif]]></icon>
   <description><![CDATA[menuBar object, used to group multiple menus.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.WindowBar">
     <variants jsxbartype="2"/>
     <strings jsxname="menuBar"/>

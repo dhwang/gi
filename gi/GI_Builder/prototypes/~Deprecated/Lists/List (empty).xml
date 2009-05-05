@@ -6,8 +6,6 @@
   <name><![CDATA[List]]></name>
   <icon><![CDATA[images/prototypes/matrix.gif]]></icon>
   <description><![CDATA[Empty list object with word wrap off and alternating row colors.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.List">
     <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium" jsxclassname="@List Fixed Height (Clear)"/>
     <variants jsxgrowby="1"/>

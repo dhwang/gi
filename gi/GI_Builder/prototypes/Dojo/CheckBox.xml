@@ -6,9 +6,7 @@
   <name><![CDATA[Check Box]]></name>
   <icon><![CDATA[images/prototypes/checkbox.gif]]></icon>
   <description><![CDATA[Check Box]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.DojoWidget">
-    <strings dijitClassName="dijit.form.CheckBox"/>
+    <strings jsxname="dijitCheckbox" dijitClassName="dijit.form.CheckBox"/>
   </object>
 </serialization>

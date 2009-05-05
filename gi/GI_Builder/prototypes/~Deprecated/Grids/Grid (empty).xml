@@ -6,8 +6,6 @@
   <name><![CDATA[Grid]]></name>
   <icon><![CDATA[images/prototypes/matrix.gif]]></icon>
   <description><![CDATA[Grid object with fixed height rows and background image property for alternating row colors.]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Grid">
     <dynamics jsxbgcolor="@Solid Medium" jsxclassname="@List Fixed Height (Clear)" jsxbg="@Alternating Rows"/>
     <variants jsxgrowby="1"/>

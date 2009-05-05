@@ -6,8 +6,6 @@
   <name><![CDATA[Dialog]]></name>
   <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
   <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
-  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
-  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
     <dynamics jsxbgcolor="@Solid Medium"/>
     <variants jsxwidth="431" jsxheight="318" jsxzindex="5100" jsxwindowstate="1"/>
