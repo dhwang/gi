@@ -15,6 +15,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 
   var Entity = jsx3.xml.Entity;
   var Document = jsx3.xml.Document;
+  var IllegalArgumentException = jsx3.IllegalArgumentException;
 
    /**
    * {int} Persistance value fora child that is temporarily part of the DOM tree and will not be persisted.
@@ -438,7 +439,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     } else if (vntItem instanceof jsx3.app.Model) {
       intIndex = vntItem._jsxparent == this ? vntItem.getChildIndex() : -1;
     } else {
-      throw new jsx3.IllegalArgumentException("vntItem", vntItem);
+      throw new IllegalArgumentException("vntItem", vntItem);
     }
 
     var objChild = this.getChild(intIndex);
@@ -483,7 +484,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       // 5) pass ref to parent, since the binding is broken, but the child may still need to have ref to parent
       objChild.onDestroy(this);
     } else {
-      throw new jsx3.IllegalArgumentException("intIndex", intIndex);
+      throw new IllegalArgumentException("intIndex", intIndex);
     }
   };
 
@@ -853,6 +854,119 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     }
 
     return matches;
+  };
+
+  /**
+   * Select objects from the DOM using a CSS3-like selection syntax. This method considers the DOM tree whose
+   * root is this object. The following constructs are supported:
+   * <ul>
+   *   <li><code>jsx3_gui_ClassName</code> - matches objects by their exact class. Replace "." with "_" in the selector.</li>
+   *   <li><code>*</code> - matches any object</li>
+   *   <li><code>#id</code> - matches objects whose name equals <code>id</code></li>
+   *   <li><code>.class-name</code> - matches objects for which <code>getClassName()</code> is defined and returns a
+   *      string that contains the token <code>class-name</code></li>
+   *   <li><code>:first</code> and <code>:last</code> - matches objects that are their parents' first and last children</li>
+   *   <li><code>:nth(n)</code> and <code>nth-child(n)</code> - matches objects whose child index is equal to <code>n</code></li>
+   *   <li><code>:instanceof(ClassName)</code> - matches objects that are instances of the class or interface <code>ClassName</code></li>
+   *   <li><code>[prop=value]</code> - matches objects whose value for field <code>prop</code> equals <code>value</code></li>
+   *   <li><code>[getter()=value]</code> - matches objects whose return value for method <code>getter</code> equals <code>value</code></li>
+   *   <li><code>AB</code> - matches objects that match both A and B</li>
+   *   <li><code>A B</code> - matches descendants of objects matching A that match B</li>
+   *   <li><code>A &gt; B</code> - matches immediate children of objects matching A that match B</li>
+   * </ul>
+   * 
+   * @param strExpr {String} the selection query
+   * @param bSingle {Boolean} if <code>true</code>, return only the first match.
+   * @return {Array<jsx3.app.Model> | jsx3.app.Model}
+   * @throws {jsx3.lang.IllegalArgumentException} if <code>strExpr</code> is an invalid selection query.
+   * @since 3.8
+   */
+  Model_prototype.selectDescendants = function(strExpr, bSingle) {
+    // #id
+    // .jsx3_gui_Block
+    // :nth(0)
+    // A B
+    // a > B
+    var rx = /(\b\w+\b)|(\#[a-zA-Z_]\w*)|(\.[\w\-]+)|(\:[\w\-]+(?:\([^\)]*\))?)|(\[\w+(?:\(\))?=[^\]]*\])|(\*)|( *> *)|( +)/g;
+
+    var parents = jsx3.$A([this]);
+    var considering = null;
+    var deep = true;
+    var considerSelf = true;
+
+    rx.lastIndex = 0;
+
+    var lastEnding = 0, a = null;
+    while (a = rx.exec(strExpr)) {
+      if (lastEnding != a.index)
+        throw new IllegalArgumentException("strExpr", strExpr);
+
+      var fct = null;
+
+      if (a[1]) {
+        // entity type must be first token in generation
+        if (considering)
+          throw new IllegalArgumentException("strExpr", strExpr);
+
+        var className = a[1].replace(/_/g, ".");
+        fct = function(x) { return x.getClass().getName() == className; };
+      } else if (a[2]) {
+        var id = a[2].substring(1);
+        fct = function(x) { return x.getName() == id; };
+      } else if (a[3]) {
+        var className = a[3].substring(1);
+        fct = function(x) { return typeof(x.getClassName) == "function" &&
+            jsx3.$A((x.getClassName() || "").split(/\s+/)).contains(className); };
+      } else if (a[4]) {
+        if (a[4] == ":first") {
+          fct = function(x) { return x.getChildIndex() == 0; };
+        } else if (a[4] == ":last") {
+          fct = function(x) { var c = x.getParent().getChildren(); return x === c[c.length - 1]; };
+        } else if (/:nth(?:\-child)?\( *(\d+) *\)/.test(a[4])) {
+          var index = parseInt(RegExp.$1);
+          fct = function(x) { return x.getChildIndex() == index; };
+        } else if (/:instanceof\( *(\S+?) *\)/.test(a[4])) {
+          var c = jsx3.Class.forName(RegExp.$1);
+          fct = function(x) { return c && x.instanceOf(c); };
+        } else {
+          throw new IllegalArgumentException("strExpr", strExpr);
+        }
+      } else if (a[5]) {
+        var prop = a[5].substring(1, a[5].indexOf("="));
+        var value = a[5].substring(prop.length + 2, a[5].length - 1);
+        if (jsx3.$S(prop).endsWith("()")) {
+          var getter = prop.substring(0, prop.length-2);
+          fct = function(x) { return typeof(x[getter]) == "function" && x[getter]() == value; };
+        } else {
+          fct = function(x) { return x[prop] == value; };
+        }
+      } else if (a[6]) {
+        fct = function(x) { return true; };
+      } else {
+        parents = considering;
+        considering = null;
+        deep = Boolean(a[8]);
+        considerSelf = false;
+      }
+
+      if (fct) {
+        if (considering)
+          considering = considering.filter(fct);
+        else {
+          considering = jsx3.$A();
+          parents.each(function(p) {
+            considering.addAll(p.findDescendants(fct, false, true, !deep, considerSelf));
+          });
+        }
+      }
+
+      lastEnding = rx.lastIndex;
+    }
+
+    if (lastEnding != strExpr.length)
+      throw new IllegalArgumentException("strExpr", strExpr);
+
+    return bSingle ? considering[0] : considering;
   };
 
   /**
@@ -1366,7 +1480,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 /* @JSC :: end */
 
     if (objXML == null)
-      throw new jsx3.IllegalArgumentException("objXML", objXML);
+      throw new IllegalArgumentException("objXML", objXML);
 
     // determine which deserialization routine to use based upon the xmlns attribute for the serialization file
     if (objXML.getRootNode().getNamespaceURI().indexOf(Model.CIF_VERSION) == 0) {
@@ -1376,7 +1490,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 
       //throw error if xml is now invalid
       if (objXML == null)
-        throw new jsx3.IllegalArgumentException("objXML", objXML);
+        throw new IllegalArgumentException("objXML", objXML);
     }
 
     // determine which deserialization routine to use based upon the xmlns attribute for the serialization file
@@ -1505,7 +1619,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     if (Model.META_FIELDS[strKey])
       return this._jsxmeta ? this._jsxmeta[strKey] : "";
     else
-      throw new jsx3.IllegalArgumentException("strKey", strKey);
+      throw new IllegalArgumentException("strKey", strKey);
   };
 
   /**
@@ -1519,7 +1633,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       if (this._jsxmeta == null) this._jsxmeta = {};
       this._jsxmeta[strKey] = strValue;
     } else {
-      throw new jsx3.IllegalArgumentException("strKey", strKey);
+      throw new IllegalArgumentException("strKey", strKey);
     }
   };
 
