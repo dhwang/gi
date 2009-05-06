@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <onAfterDeserialize><![CDATA[
+
+objJSX._firsttime = false;
+
+objJSX.onPaletteLoaded = function() {
+  this.onEditorChanged(jsx3.ide.getActiveEditor(), null);
+
+  var mm = new jsx3.amp.util.MenuManager();
+  mm.addMenuBar("/", menuBar);
+  this.getPlugIn().getExtPoint("ctxmenu").processExts().each(function(e) { mm.addMenu(e); });
+  this.getPlugIn().getExtPoint("ctxmenu-item").processExts().each(function(e) { mm.addItem(e); });
+  mm.finishInit();
+
+  var barMgr = new jsx3.amp.util.ToolbarManager(jsx_ide_complibs_bar);
+  barMgr.addSection("utils");
+  barMgr.addSection("additions", true);
+  this.getPlugIn().getExtPoint("toolbar").processExts().each(function(e) { barMgr.addItem(e); });
+};
+
+objJSX.onPrototypesReloaded = function() {
+  ide_component_libs_tree.repaint();
+};
+
+objJSX.onEditorChanged = function(newEditor, oldEditor) {
+  var onBefore = oldEditor && oldEditor.getMode() == "component";
+  var onNow = newEditor && newEditor.getMode() == "component";
+
+  if (onBefore != onNow) {
+    jsx3.sleep(jsx3.$F(this._onEditorChangedSleep).bind(this, [onNow]), "jsx3.ide.palette.componentlibs", this, true);
+  }
+};
+
+objJSX._onEditorChangedSleep = function(onNow) {
+  if (onNow) {
+    if (!objJSX._firsttime) {
+      objJSX._firsttime = true;
+      var p = this.getPlugIn();
+      jsx3.ide._addJob(jsx3.$F(p.reloadPrototypeLibraries).bind(p, [ide_component_libs_tree]));
+    }
+
+    ide_component_libs_tree.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+    this._setButtonsEnabled(jsx3.gui.Form.STATEENABLED);
+  } else {
+    ide_component_libs_tree.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    this._setButtonsEnabled(jsx3.gui.Form.STATEDISABLED);
+  }
+};
+
+objJSX._setButtonsEnabled = function(enabled) {
+  var buttons = jsx_ide_complibs_bar.getDescendantsOfType(jsx3.gui.ToolbarButton);
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].setEnabled(enabled, true);
+  }
+};
+
+objJSX._onChange = function(v) {
+  this.getPlugIn().publish({subject:"selection", value:v});
+};
+
+objJSX.getTree = function() {
+  return ide_component_libs_tree;
+};
+
+  ]]></onAfterDeserialize>
+    <object type="jsx3.gui.Block">
+      <dynamics/>
+      <variants jsxleft="0" jsxtop="0" jsxoverflow="2" />
+      <strings jsxname="jsx_ide_palette_complibs" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.palette.complibs"/>
+        <object type="jsx3.gui.Block">
+          <strings jsxname="menuBar" jsxdisplay="none"/>
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxoverflow="2" />
+          <strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
+          <events />
+          <properties />
+            <object type="jsx3.gui.WindowBar">
+              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+              <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1" />
+              <strings jsxname="jsx_ide_complibs_bar" />
+            </object>
+            <object type="jsx3.gui.Block">
+              <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
+              <variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+              <strings jsxname="jsx_ide_comps_treeblock" jsxwidth="100%" jsxheight="100%"/>
+                <object type="jsx3.gui.Tree">
+                  <dynamics jsxpadding="@Tree Padding" jsxbgcolor="@Solid Light"/>
+                  <variants jsxuseroot="0" jsxdrag="1"/>
+                  <strings jsxname="ide_component_libs_tree" jsxmenu="jsx3.ide.prototypesctx" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+                  <events jsxdrag="if(objHW = jsx3.gui.Heavyweight.GO(&quot;jsxfocusrectangle&quot;)) objHW.destroy();" jsxadopt="false"
+                      jsxdata="jsx_ide_palette_complibs.getPlugIn().doPLDirData(this,objNODE);"
+                      jsxchange="jsx_ide_palette_complibs._onChange(this.getValue());"/>
+                  <xslparameters jsxsortpath="sorton" jsxindent="16" jsx_img_resolve="0"/>
+                </object>
+            </object>
+        </object>
+    </object>
+</serialization>
