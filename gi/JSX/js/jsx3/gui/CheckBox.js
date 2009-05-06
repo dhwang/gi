@@ -40,6 +40,8 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
    */
   CheckBox.DEFAULTCLASSNAME = "jsx30checkbox";
 
+  CheckBox_prototype.jsxdefaultchecked = CheckBox.UNCHECKED;
+
   var regFalse = /^false|0|null$/i;
 
   /**

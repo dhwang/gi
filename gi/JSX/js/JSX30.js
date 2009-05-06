@@ -1623,7 +1623,7 @@ window['jsx_main'] = function() {
         });
 
         jobManager.addJob(configJob, "jsx3.xml.Document");
-        jobManager.addJob(loadJob, ["jsx3.app.Server", configJob]);
+        jobManager.addJob(loadJob, ["jsx3.app.Server", "logger.init", configJob]);
 
         var appJob = new Job(jobPrefix);
         jobManager.addJob(appJob, loadJob);

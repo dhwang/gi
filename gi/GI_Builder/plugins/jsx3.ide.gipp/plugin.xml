@@ -10,7 +10,7 @@
         name="GIPP Integration Plug-In"
         version="0.1">
 
-  <method id="launch" params="benchmarkJSPath, interval">
+  <method id="launchGIPP" params="benchmarkJSPath, interval">
     var gipp = this.getGIPPDir();
 
     var query = "GI=" + gipp.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=" +
@@ -29,8 +29,15 @@
     window.open(uri.toString());
   </method>
 
-  <method id="isConfigured">
+  <method id="launchGITAK" params="">
+  </method>
+
+  <method id="isGIPPConfigured">
     return this.isValidGIPP(this.getGIPPDir());
+  </method>
+
+  <method id="isGITAKConfigured">
+    return this.isValidGITAK(this.getGITAKDir());
   </method>
 
   <method id="getGIPPDir">
@@ -41,8 +48,20 @@
            jsx3.ide.getSystemRelativeFile(this.resolveURI("gipp"));
   </method>
 
+  <method id="getGITAKDir">
+    var p = jsx3.ide.getIDESettings().get(this.getId(), "pathGitak");
+    if (p)
+      p = jsx3.app.Browser.getLocation().resolve(p);
+    return p ? jsx3.ide.getPlugIn("jsx3.io").getFileForURI(p) :
+           jsx3.ide.getSystemRelativeFile(this.resolveURI("gitak"));
+  </method>
+
   <method id="isValidGIPP" params="objFile">
     return objFile.resolve("gipp.html").isFile();
+  </method>
+
+  <method id="isValidGITAK" params="objFile">
+    return true;
   </method>
 
   <requires>
@@ -53,8 +72,8 @@
   </resources>
 
   <extension point="jsx3.ide.settings.ide.pane" id="default">
-    <pane label="GIPP" img="gipp.gif" resource="pane_gipp"
-          tip="Settings related to the integration with General Interface Performance Profiler."/>
+    <pane label="GIPP &amp; GITAK" img="gipp.gif" resource="pane_gipp"
+          tip="Settings related to integration with the Test Automation Kit and Performance Profiler."/>
   </extension>
 
   <extension point="jsx3.ide.ui.action" id="menu.project">
@@ -63,8 +82,15 @@
         label="Run Project In GIPP..."
         tip="Run project in the General Interface Performance Profiler"
         menupath="/jsx3.ide.project/run" hkconfig="true"
-        execute="this.getPlugIn().launch();"
-        enabled="eval" enabled-eval="jsx3.ide.PROJECT &amp;&amp; this.getPlugIn().isConfigured()"/>
+        execute="this.getPlugIn().launchGIPP();"
+        enabled="eval" enabled-eval="jsx3.ide.PROJECT &amp;&amp; this.getPlugIn().isGIPPConfigured()"/>
+    <action
+        id="jsx3.ide.gipp.rungitak"
+        label="Run Project In GITAK..."
+        tip="Run project in the General Interface Test Automation Kit"
+        menupath="/jsx3.ide.project/run" hkconfig="true"
+        execute="this.getPlugIn().launchGITAK();"
+        enabled="eval" enabled-eval="jsx3.ide.PROJECT &amp;&amp; this.getPlugIn().isGITAKConfigured()"/>
   </extension>
 
 </plugin>

@@ -5,7 +5,7 @@
 
 <html>
   <head>
-    <title>GIPP Test Recorder</title>
+    <title>General Interface Test Recorder</title>
 
 <script type="text/javascript" language="JavaScript">
 
@@ -58,6 +58,7 @@
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", state.editor.getJsxSrc());
     script.setAttribute("jsxapppath", state.editor.getJsxAppPath());
+    script.setAttribute("caption", ""); // prevent title from changing
     cnt.appendChild(script);
 
     state.loadListener = window.setInterval(checkLoaded, 100);

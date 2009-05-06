@@ -3,6 +3,11 @@
 
 this.getGrid = function() { return gippmatrix; }
 this.getLaunchBtn = function() { return launch; }
+this.getPlayerBtn = function() { return gipp; }
+
+this.setGIPP = function(b) {
+  colLabel.setDisplay(b ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE);
+}
 
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Block">
@@ -42,7 +47,7 @@ this.getLaunchBtn = function() { return launch; }
                     <object type="jsx3.gui.Button">
                       <variants jsxindex="0" jsxheight="18"/>
                       <strings jsxname="gipp" jsxtext="Launch in GIPP" jsxmargin="0 8 0 0"/>
-                      <events jsxexecute="content.getEditor().onLaunchGIPP();"/>
+                      <events jsxexecute="content.getEditor().onLaunchPlayer();"/>
                     </object>
                   </object>
                   <object type="jsx3.gui.Block">
@@ -60,110 +65,77 @@ this.getLaunchBtn = function() { return launch; }
                 <variants/>
                 <strings/>
                 <object type="jsx3.gui.Matrix">
-                  <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxsort="0"
+                  <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxsort="0"
                       jsxdrag="1" jsxdrop="1"/>
-                  <strings jsxname="gippmatrix" jsxfocusstyle=";"/>
-                  <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
+                  <strings jsxname="gippmatrix" jsxclassname="recordermatrix" jsxfocusstyle=";" jsxbgcolor="#ffffff"/>
+                  <dynamics jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
                   <events
-                      jsxbeforeedit="objCOLUMN != colLabel || this.getRecord(strRECORDID).wait != ''"
-                      jsxaftercommit="content.getEditor().onEditRecord(strRECORDID);"
+                      jsxaftercommit="content.getEditor().onEditRecord(strRECORDID, objCOLUMN);"
                       jsxdrag="String(objEVENT.srcElement().src).indexOf('icon_56.gif') >= 0"
                       jsxdrop="objSOURCE == this &amp;&amp; content.getEditor().onReorder()" jsxadopt="objTARGET == this"/>
-                  <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#ffffff"/>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants jsxresize="0"/>
-                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
+                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"
+                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="Reorder rows by dragging them from this column"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
+                    <object type="jsx3.gui.ImageButton">
+                      <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+                      <strings jsxname="imagebutton" jsximage="jsxapp:/images/icon_56.gif" jsxstyleoverride="cursor:move;"/>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants/>
+                    <strings jsxname="colLabel" jsxwidth="80" jsxcellpadding="3" jsxpadding="3" jsxpath="label" jsxtext="ID / Label"
+                        jsxcellfontweight="bold" jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The GIPP test case ID"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
+                    <object type="jsx3.gui.TextBox">
+                      <strings jsxname="targetMask" jsxdisplay="none"/>
+                      <dynamics jsxcolor="@Matrix Edit Color"/>
+                      <events jsxkeydown="1;"/>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants/>
+                    <strings jsxname="colTarget" jsxwidth="130" jsxcellpadding="3" jsxpadding="3" jsxpath="target" jsxtext="Target"
+                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="A valid JSX object selector, e.g. #objName"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
+                    <object type="jsx3.gui.TextBox">
+                      <strings jsxname="targetMask" jsxdisplay="none"/>
+                      <dynamics jsxcolor="@Matrix Edit Color"/>
+                      <events jsxkeydown="1;"/>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants/>
+                    <strings jsxname="colAction" jsxwidth="120" jsxtext="Action" jsxcellpadding="3" jsxpadding="3" jsxpath="action"
+                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The action key"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
+                    <object type="jsx3.gui.Select">
+                      <variants jsxtype="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                      <strings jsxname="selectMask" jsxxmlid="jsx3.ide.recorder.actionsxml" jsxdisplay="none"/>
+                      <xslparameters jsxsortpath="jsxid"/>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants/>
+                    <strings jsxname="colValue" jsxwidth="*" jsxcellpadding="3" jsxpadding="3" jsxpath="value" jsxtext="Value"
+                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The action value/parameter"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
+                    <object type="jsx3.gui.TextBox">
+                      <strings jsxname="valueMask" jsxdisplay="none"/>
+                      <dynamics jsxcolor="@Matrix Edit Color"/>
+                      <events jsxkeydown="1;"/>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants jsxresize="0"/>
+                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"
+                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="Delete a row by clicking in this column"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.ImageButton">
                       <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
                       <strings jsxname="imagebutton" jsximage="jsxapp:/images/icon_55.gif"/>
                       <events jsxexecute="content.getEditor().onDeleteRecord(this.emGetSession().recordId);"/>
-                    </object>
-                  </object>
-                  <object type="jsx3.gui.Matrix.Column">
-                    <variants/>
-                    <strings jsxname="colLabel" jsxwidth="100" jsxcellpadding="3" jsxpadding="3" jsxpath="label" jsxtext="ID / Label"
-                        jsxtriggers="label,wait"
-                        jsxvaluetemplate="
-&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
-  &lt;xsl:param name=&quot;jsx_row_number&quot;/&gt;
-  &lt;xsl:choose&gt;
-    &lt;xsl:when test=&quot;@wait != ''&quot;&gt;
-      &lt;xsl:value-of select=&quot;{0}&quot;/&gt;
-    &lt;/xsl:when&gt;
-    &lt;xsl:otherwise&gt;
-      &lt;xsl:attribute name=&quot;style&quot;&gt;background-color:#EEEEEE;color:#999999;margin:-3px;padding:3px;&lt;/xsl:attribute&gt;
-      &amp;#160;
-    &lt;/xsl:otherwise&gt;
-  &lt;/xsl:choose&gt;
-&lt;/xsl:template&gt;"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
-                    <object type="jsx3.gui.TextBox">
-                      <strings jsxname="targetMask" jsxdisplay="none"/>
-                      <dynamics jsxcolor="@Matrix Edit Color"/>
-                      <events jsxkeydown="1;"/>
-                    </object>
-                  </object>
-                  <object type="jsx3.gui.Matrix.Column">
-                    <variants/>
-                    <strings jsxname="colTarget" jsxwidth="*" jsxcellpadding="3" jsxpadding="3" jsxpath="target" jsxtext="Target"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
-                    <object type="jsx3.gui.TextBox">
-                      <strings jsxname="targetMask" jsxdisplay="none"/>
-                      <dynamics jsxcolor="@Matrix Edit Color"/>
-                      <events jsxkeydown="1;"/>
-                    </object>
-                  </object>
-                  <object type="jsx3.gui.Matrix.Column">
-                    <variants jsxwidth="100"/>
-                    <strings jsxname="colAction" jsxcellpadding="3" jsxpadding="3" jsxpath="action" jsxtext="Action"
-                        jsxvaluetemplate="
-&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
-  &lt;xsl:param name=&quot;jsx_row_number&quot;/&gt;
-  &lt;xsl:attribute name=&quot;title&quot;&gt;&lt;xsl:value-of select=&quot;@args&quot;/&gt;&lt;/xsl:attribute&gt;
-  &lt;xsl:value-of select=&quot;{0}&quot;/&gt;&amp;#160;
-&lt;/xsl:template&gt;"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
-                    <object type="jsx3.gui.TextBox">
-                      <strings jsxname="actionMask" jsxdisplay="none"/>
-                      <dynamics jsxcolor="@Matrix Edit Color"/>
-                      <events jsxkeydown="1;"/>
-                    </object>
-                  </object>
-                  <object type="jsx3.gui.Matrix.Column">
-                    <variants/>
-                    <strings jsxname="colWait" jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="wait" jsxtext="Wait For"
-                        jsxvaluetemplate="
-&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
-  &lt;xsl:param name=&quot;jsx_row_number&quot;/&gt;
-  &lt;xsl:choose&gt;
-    &lt;xsl:when test=&quot;{0} = 'DONE' or {0} = 'SLEEP' or {0} = 'SLEEP_LONG'&quot;&gt;
-      &lt;xsl:attribute name=&quot;style&quot;&gt;background-color:#FFFFE5;margin:-3px;padding:3px;&lt;/xsl:attribute&gt;
-      &lt;xsl:value-of select=&quot;{0}&quot;/&gt;
-    &lt;/xsl:when&gt;
-    &lt;xsl:when test=&quot;{0} != ''&quot;&gt;
-      &lt;xsl:value-of select=&quot;{0}&quot;/&gt;
-    &lt;/xsl:when&gt;
-    &lt;xsl:otherwise&gt;
-      &lt;xsl:attribute name=&quot;style&quot;&gt;background-color:#EEEEEE;color:#999999;margin:-3px;padding:3px;&lt;/xsl:attribute&gt;
-      continue
-    &lt;/xsl:otherwise&gt;
-  &lt;/xsl:choose&gt;
-&lt;/xsl:template&gt;"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
-                    <object type="jsx3.gui.TextBox">
-                      <strings jsxname="waitMask" jsxdisplay="none"/>
-                      <dynamics jsxcolor="@Matrix Edit Color"/>
-                      <events jsxkeydown="1;"/>
-                    </object>
-                  </object>
-                  <object type="jsx3.gui.Matrix.Column">
-                    <variants jsxresize="0"/>
-                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
-                    <object type="jsx3.gui.ImageButton">
-                      <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
-                      <strings jsxname="imagebutton" jsximage="jsxapp:/images/icon_56.gif" jsxstyleoverride="cursor:move;"/>
                     </object>
                   </object>
                 </object>

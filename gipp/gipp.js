@@ -1904,8 +1904,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    *   <li>label: </li>
    *   <li>target: </li>
    *   <li>action: </li>
-   *   <li>args: </li>
-   *   <li>wait: </li>
+   *   <li>value: </li>
    * </ul>
    *
    * @param arrTests {Array}
@@ -1917,14 +1916,13 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var i = 0;
     while (i < arrTests.length) {
       var j = i;
-      var id, wait;
+      var id;
 
       for (; j < arrTests.length; j++) {
         var o = arrTests[j];
         id = o.label;
-        wait = o.wait;
 
-        if (wait || j == arrTests.length - 1)
+        if (id || j == arrTests.length - 1)
           break;
       }
 
@@ -1936,7 +1934,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       }
 
       var data = arrTests.slice(i, j + 1);
-      var test = recorder._makeTestCase(id, data, wait);
+      var test = recorder._makeTestCase(id, data);
       runner.addTest(test);
 
       if (recorder._after[id]) {
@@ -1949,49 +1947,51 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /** @private @jsxobf-clobber */
-  recorder._makeTestCase = function(id, data, wait) {
+  recorder._makeTestCase = function(id, data) {
     return new gipp.TestCase(id, function(objServer) {
-      return recorder._testFunction(objServer, data, wait);
+      return recorder._testFunction(objServer, data);
     });
   };
 
   /** @private @jsxobf-clobber */
-  recorder._testFunction = function(objServer, arrData, strWait) {
+  recorder._testFunction = function(objServer, arrData) {
     for (var i = 0; i < arrData.length; i++) {
       var o = arrData[i];
-      var target = recorder._getTarget(objServer, o.target);
 
-      if (!target)
-        throw new Error("Bad target: " + o.target);
-
-      var args;
+      var value;
       try {
-        args = eval("var tmp = {" + o.args + "}; tmp");
+        value = eval("var tmp = " + o.value + "; tmp");
       } catch (e) {
-        throw new Error("Bad event arguments: " + o.args);
+        throw new Error("Bad action value: " + o.value);
       }
 
-      for (var f in args) {
-        if (typeof(args[f]) == "string") {
-          if (args[f].indexOf("JSX(") == 0)
-            args[f] = recorder._getTarget(objServer, args[f].substring(4, args[f].length - 1));
-          else if (args[f].indexOf("XML(") == 0)
-            args[f] = (new jsx3.xml.Document()).loadXML(args[f].substring(4, args[f].length - 1));
+      for (var f in value) {
+        if (typeof(value[f]) == "string") {
+          if (value[f].indexOf("JSX(") == 0)
+            value[f] = recorder._getTarget(objServer, value[f].substring(4, value[f].length - 1));
+          else if (value[f].indexOf("XML(") == 0)
+            value[f] = (new jsx3.xml.Document()).loadXML(value[f].substring(4, value[f].length - 1));
         }
       }
 
-      recorder._invokeAction(target, o.action, args);
-    }
+      if (o.action.indexOf("jsxwait_") == 0) {
+        if (o.action == "jsxwait_sleep")
+          return gipp.SLEEP;
+        else if (o.action == "jsxwait_sleeplong")
+          return gipp.SLEEP_LONG;
+        else {
+          recorder._setUpPoll(objServer, o.target, o.action, value);
+          return gipp.POLL;
+        }
+      } else {
+        var target = recorder._getTarget(objServer, o.target);
 
-    if (strWait == "DONE" || strWait == "") {
-      return;
-    } else if (strWait == "SLEEP") {
-      return gipp.SLEEP;
-    } else if (strWait == "SLEEP_LONG") {
-      return gipp.SLEEP_LONG;
-    } else {
-      recorder._setUpPoll(objServer, strWait);
-      return gipp.POLL;
+        if (!target)
+          throw new Error("Bad target: " + o.target);
+
+
+        recorder._invokeAction(target, o.action, value);
+      }
     }
   };
 
@@ -2235,52 +2235,52 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @private @jsxobf-clobber */
   recorder._VERBS = {
-    EXISTS: function(s, target, obj) {
+    jsxassert_exists: function(s, target, obj) {
       if (recorder._getTarget(s, target))
         return true;
       else
         throw new Error("Does not exist: " + target);
     },
-    VALUE: function(s, target, obj) {
+    jsxassert_value: function(s, target, obj) {
       return recorder._assertEquals("getValue", "Values not equal", s, target, obj);
     },
-    CHECKED: function(s, target, obj) {
+    jsxassert_checked: function(s, target, obj) {
       return recorder._assertEquals("getChecked", "Checked not equal", s, target, obj);
     },
-    SELECTED: function(s, target, obj) {
+    jsxassert_selected: function(s, target, obj) {
       return recorder._assertEquals("getSelected", "Selected not equal", s, target, obj);
     },
-    STATE: function(s, target, obj) {
+    jsxassert_state: function(s, target, obj) {
       return recorder._assertEquals("getState", "States not equal", s, target, obj);
     },
-    FRONT: function(s, target, obj) {
+    jsxassert_front: function(s, target, obj) {
       return recorder._assertEquals("isFront", "Visibility not equal", s, target, obj);
     },
-    EVAL: function(s, target, obj) {
+    jsxassert_eval: function(s, target, obj) {
       var rv = jsx3.eval(target, {server:s});
       if (!rv)
         throw new Error("Eval returned false: " + rv);
       return rv;
     },
-    WAIT_EXISTS: function(s, target, obj) {
+    jsxwait_exists: function(s, target, obj) {
       return recorder._getTarget(s, target) != null;
     },
-    WAIT_VALUE: function(s, target, obj) {
+    jsxwait_value: function(s, target, obj) {
       return recorder._assertWaitEquals("getValue", s, target, obj);
     },
-    WAIT_CHECKED: function(s, target, obj) {
+    jsxwait_checked: function(s, target, obj) {
       return recorder._assertWaitEquals("getChecked", s, target, obj);
     },
-    WAIT_SELECTED: function(s, target, obj) {
+    jsxwait_selected: function(s, target, obj) {
       return recorder._assertWaitEquals("getSelected", s, target, obj);
     },
-    WAIT_STATE: function(s, target, obj) {
+    jsxwait_state: function(s, target, obj) {
       return recorder._assertWaitEquals("getState", s, target, obj);
     },
-    WAIT_FRONT: function(s, target, obj) {
+    jsxwait_front: function(s, target, obj) {
       return recorder._assertWaitEquals("isFront", s, target, obj);
     },
-    WAIT_EVAL: function(s, target, obj) {
+    jsxwait_eval: function(s, target, obj) {
       try {
         return jsx3.eval(target, {server:s});
       } catch (e) {
@@ -2290,44 +2290,21 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /** @private @jsxobf-clobber */
-  recorder._setUpPoll = function(objServer, strWait) {
-    if (/^\s*(\w+)\s*,\s*([^,]*?)\s*(?:,\s*(.*))?$/.exec(strWait)) {
-      var verb = RegExp.$1;
-      var targetAddress = RegExp.$2;
-      var object = RegExp.$3;
+  recorder._setUpPoll = function(objServer, targetAddress, strAction, objValue) {
+    var verbStruct = recorder._VERBS[strAction];
 
-      var verbStruct = recorder._VERBS[verb];
+    if (!verbStruct)
+      throw new Error("Bad action: " + strAction);
 
-      if (!verbStruct)
-        throw new Error("Bad verb: " + verb);
-
-      gipp.POLL.poll = function(s) {
-        return verbStruct(s, targetAddress, object);
-      };
-    } else {
-      throw new Error("Bad wait value: " + strWait);
-    }
+    gipp.POLL.poll = function(s) {
+      return verbStruct(objServer, targetAddress, objValue);
+    };
   };
 
   /** @private @jsxobf-clobber */
   recorder._getTarget = function(objServer, s) {
-    var tokens = s.split(/\s*\/\s*/g);
-    var target = null;
-
-    for (var i = 0; i < tokens.length; i++) {
-      var t = tokens[i];
-
-      if (t.indexOf("#") == 0) {
-        var id = t.substring(1);
-        target = target ? target.getDescendantOfName(id) : objServer.getJSXByName(id);
-      } else if (!isNaN(t) && target) {
-        target = target.getChild(parseInt(t));
-      } else {
-        return null;
-      }
-    }
-
-    return target;
+    // #id.type:pseudo
+    return objServer.getRootBlock().selectDescendants(s, true);
   };
 
   /**
