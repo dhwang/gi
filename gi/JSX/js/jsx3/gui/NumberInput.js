@@ -16,6 +16,7 @@ jsx3.require("jsx3.gui.TextBox", "jsx3.util.NumberFormat");
 jsx3.Class.defineClass("jsx3.gui.NumberInput", jsx3.gui.TextBox, null, function(NumberInput, NumberInput_prototype) {
 
   var NumberFormat = jsx3.util.NumberFormat;
+  var Interactive = jsx3.gui.Interactive;
 
   /**
    * Returns the number format as set with <code>setFormat()</code>.
@@ -71,6 +72,29 @@ jsx3.Class.defineClass("jsx3.gui.NumberInput", jsx3.gui.TextBox, null, function(
   NumberInput_prototype.parseValue = function(input) {
     if (input == "") return null;
     return this._getFormat().parse(input);
+  };
+
+  NumberInput_prototype._ebMouseWheel = function(objEvent, objGUI) {
+    var wd = objEvent.getWheelDelta();
+
+    if (wd != 0) {
+      var v = Number(this.getValue());
+      var original = v;
+
+      if (isNaN(v)) v = 0;
+      v = Math.round(v + wd);
+
+      var veto = this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strPREVIOUS:original, strVALUE:v, _gipp:1});
+      if (veto !== false)
+        this.setValue(v);
+    }
+
+    objEvent.cancelAll();
+  };
+
+  NumberInput_prototype.hasEvent = function(id) {
+    if (id == Interactive.JSXMOUSEWHEEL) return true;
+    return this.jsxsupermix(id);
   };
 
 });
