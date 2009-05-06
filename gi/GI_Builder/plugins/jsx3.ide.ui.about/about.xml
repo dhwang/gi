@@ -37,9 +37,11 @@
       </object>
     </object>
     <object type="jsx3.gui.Block">
-     <variants jsxwidth="234" jsxheight="18" jsxrelativeposition="0" jsxleft="480" jsxtop="8"/>
-     <strings jsxname="jsx_about_img" jsxtagname="IMG"/>
-     <properties src="JSX/images/icons/logo_234_18.gif"/>
+      <variants jsxpadding="8"/>
+      <strings jsxtextalign="right" jsxwidth="100%"/>
+      <object type="jsx3.gui.Image">
+        <strings jsxsrc="JSX/images/icons/logo_234_18.gif"/>
+      </object>
     </object>
     <object type="jsx3.gui.Block">
      <dynamics />
