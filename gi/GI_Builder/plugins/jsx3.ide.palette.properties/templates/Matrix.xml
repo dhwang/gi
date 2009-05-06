@@ -165,6 +165,7 @@
       <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
       <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
     </record>
+    <record include="master.xml" path="/data/record[@jsxid='css']/record[@jsxid='jsxclassname']"/>
   </record>
 
   <record jsxid="jsx3mtxtree" group="1" jsxtext="Tree">

@@ -976,9 +976,11 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //control id (jsxid)
     var sId = this.getId();
 
+    var cn = this.getClassName();
+
     //configure outermost box
     var b1 = this.getBoxProfile(true);
-    b1.setAttributes('id="' + sId + '" class="jsx30matrix" ' + this.paintLabel() + this.renderHandler("mouseup", "_onMouseUp"));
+    b1.setAttributes('id="' + sId + '" class="jsx30matrix' + (cn ? " " + cn : "") + '" ' + this.paintLabel() + this.renderHandler("mouseup", "_onMouseUp"));
 
     //configure body
     var strEvents = this.renderHandlers(Matrix.BRIDGE_EVENTS, 1);
