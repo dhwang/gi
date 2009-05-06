@@ -183,6 +183,14 @@
       return jsx3.$A(a);
     },
 
+    /**
+     * Appends the contents of <code>a</code> to this array.
+     * @param a {Array}
+     */
+    addAll: function(a) {
+      this.push.apply(this, a);
+    },
+
     clone: function() {
       return jsx3.$A(this.concat());
     }
