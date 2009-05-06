@@ -379,6 +379,9 @@
     <table cellpadding="0" cellspacing="0" class="jsx30matrix_rowtable" jsxindent="{($jsx_descendant_index -1) * $jsx_indent}">
       <xsl:attribute name="style">position:relative;float:right;width:<xsl:value-of select="$jsx_cell_width - (($jsx_descendant_index -1) * $jsx_indent)"/>px;height:16px;</xsl:attribute>
       <tr style="{$jsx_style}">
+        <xsl:if test="@jsxclass">
+          <xsl:attribute name="class"><xsl:value-of select="@jsxclass"/></xsl:attribute>
+        </xsl:if>
         <!-- this is the toggle image (plus/minus) -->
         <td jsxtype="plusminus">
           <xsl:attribute name="jsxtype"><xsl:choose>
@@ -517,6 +520,10 @@
 
     <!-- the TR element -->
     <tr id="{$jsx_id}_jsx_{$jsx_cdfkey}" JSXDragId="{$jsx_cdfkey}" JSXDragType="{$jsx_drag_type}" jsxtype="record" jsxid="{$jsx_cdfkey}" jsxrownumber="{$jsx_row_number}" style="{$jsx_rowbg}{$jsx_style}">
+      <xsl:if test="@jsxclass">
+        <xsl:attribute name="class"><xsl:value-of select="@jsxclass"/></xsl:attribute>
+      </xsl:if>
+
       <xsl:if test="@jsxtip and $jsx_no_tip != '1'">
         <xsl:attribute name="title"><xsl:value-of select="@jsxtip"/></xsl:attribute>
       </xsl:if>
