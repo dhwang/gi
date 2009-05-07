@@ -183,6 +183,19 @@ jsx3.Class.defineClass("jsx3.ide.ui.PlugIn", jsx3.amp.PlugIn, null, function(Plu
     img.setPadding("3");
     return img;
   };
+
+  PlugIn_prototype.searchForums = function() {
+    var s = this.getServer();
+    var d = s.getJSXByName("forumSearchDialog");
+    if (d) {
+      d.focus();
+    } else {
+      var rsrc = this.getResource("search-forums");
+      rsrc.load().when(jsx3.$F(function() {
+        this.loadRsrcComponent(rsrc, s.getRootBlock(), true);
+      }).bind(this));
+    }
+  };
   
 });
 

@@ -42,6 +42,7 @@
       <prereq id="palette-menu"/>
     </xml>
     <xml id="menu-path" path="menu-path.xml"/>
+    <xml id="search-forums" path="search-forums.xml" load="manual"/>
   </resources>
 
   <event id="paletteMoved">
@@ -261,45 +262,30 @@
   <extension point="jsx3.ide.ui.action" id="menu.help">
     <action
         id="jsx3.ide.help8a"
-        label="TIBCO Developer Network"
+        label="Online Resources"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow(this.getPlugIn().getServer().getDynamicProperty('builder_url'), 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help8b"
         label="&amp;#160; &amp;#160;Getting Started"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/getting_started.jsp','jsxide_start',null,null,'yes','yes','yes','yes','yes');"/>
-    <action
-        id="jsx3.ide.help8c"
-        label="&amp;#160; &amp;#160;More Resources By Topic"
-        menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/more_resources.jsp','jsxide_more',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/docs/display/DOC','jsxide_start',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help8d"
-        label="&amp;#160; &amp;#160;Discussion Forums"
+        label="&amp;#160; &amp;#160;Search Discussion Forums..."
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow(this.getPlugIn().getServer().getDynamicProperty('gi_forum_url'),'jsxide_forums',null,null,'yes','yes','yes','yes','yes');"/>
-    <action
-        id="jsx3.ide.help8e"
-        label="&amp;#160; &amp;#160;JavaScript, DHTML, and XSLT Resources"
-        menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/useful_links.jsp','jsxide_links',null,null,'yes','yes','yes','yes','yes');"/>
-    <action
-        id="jsx3.ide.help8f"
-        label="&amp;#160; &amp;#160;Support and Educational Services"
-        menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.tibco.com/software/rich_internet_application/general_interface/gi_edu_support_psg.jsp','jsxide_edu',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="this.getPlugIn().searchForums();"/>
 
     <action
         id="jsx3.ide.help9a"
-        label="Open Source Project"
+        label="&amp;#160; &amp;#160;Open Source Project"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://gi.tibco.com/','jsxide_gios',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/docs/display/OS','jsxide_gios',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help9b"
         label="&amp;#160; &amp;#160;Bug and Enhancement Tracking"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://gi.tibco.com/jira/','jsxide_jira',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/bugs/','jsxide_jira',null,null,'yes','yes','yes','yes','yes');"/>
   </extension>
 
   <extension point="jsx3.ide.editor.container" id="editor-container">
