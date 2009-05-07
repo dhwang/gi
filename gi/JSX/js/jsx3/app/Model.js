@@ -868,8 +868,10 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
    *   <li><code>:first</code> and <code>:last</code> - matches objects that are their parents' first and last children</li>
    *   <li><code>:nth(n)</code> and <code>nth-child(n)</code> - matches objects whose child index is equal to <code>n</code></li>
    *   <li><code>:instanceof(ClassName)</code> - matches objects that are instances of the class or interface <code>ClassName</code></li>
-   *   <li><code>[prop=value]</code> - matches objects whose value for field <code>prop</code> equals <code>value</code></li>
-   *   <li><code>[getter()=value]</code> - matches objects whose return value for method <code>getter</code> equals <code>value</code></li>
+   *   <li><code>[prop="value"]</code> and <code>[prop*="value"]</code> - matches objects whose value for field
+   *      <code>prop</code> equals <code>value</code></li> or, with "*", contains <code>value</code>. The quotes around <code>value</code> are optional.
+   *   <li><code>[getter()="value"]</code> and <code>[getter()*="value"]</code> - matches objects whose return value for
+   *      method <code>getter</code> equals <code>value</code></li> or, with "*", contains <code>value</code>. The quotes around <code>value</code> are optional.
    *   <li><code>AB</code> - matches objects that match both A and B</li>
    *   <li><code>A B</code> - matches descendants of objects matching A that match B</li>
    *   <li><code>A &gt; B</code> - matches immediate children of objects matching A that match B</li>
@@ -887,12 +889,13 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     // :nth(0)
     // A B
     // a > B
-    var rx = /(\b\w+\b)|(\#[a-zA-Z_]\w*)|(\.[\w\-]+)|(\:[\w\-]+(?:\([^\)]*\))?)|(\[\w+(?:\(\))?=[^\]]*\])|(\*)|( *> *)|( +)/g;
+    var rx = /(\b\w+\b)|(\#[a-zA-Z_]\w*)|(\.[\w\-]+)|(\:[\w\-]+(?:\([^\)]*\))?)|(\[\w+(?:\(\))?\*?=[^\]]*\])|(\*)|( *> *)|( +)/g;
 
     var parents = jsx3.$A([this]);
     var considering = null;
     var deep = true;
     var considerSelf = true;
+    var isRoot = this.getServer().getRootBlock() == this;
 
     rx.lastIndex = 0;
 
@@ -912,7 +915,12 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
         fct = function(x) { return x.getClass().getName() == className; };
       } else if (a[2]) {
         var id = a[2].substring(1);
-        fct = function(x) { return x.getName() == id; };
+        if (isRoot) {
+          // a small optimization
+          considering = jsx3.$A(this.getServer().getDOM().getAllByName(id));
+        } else {
+          fct = function(x) { return x.getName() == id; };
+        }
       } else if (a[3]) {
         var className = a[3].substring(1);
         fct = function(x) { return typeof(x.getClassName) == "function" &&
@@ -932,14 +940,15 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
           throw new IllegalArgumentException("strExpr", strExpr);
         }
       } else if (a[5]) {
-        var prop = a[5].substring(1, a[5].indexOf("="));
-        var value = a[5].substring(prop.length + 2, a[5].length - 1);
-        if (jsx3.$S(prop).endsWith("()")) {
-          var getter = prop.substring(0, prop.length-2);
-          fct = function(x) { return typeof(x[getter]) == "function" && x[getter]() == value; };
-        } else {
-          fct = function(x) { return x[prop] == value; };
-        }
+        /^\[(\w+)(\(\))?(\*)?="?(.*?)"?\]$/.test(a[5]);
+        var prop = RegExp.$1, useGetter = RegExp.$2, useSearch = RegExp.$3, value = RegExp.$4;
+
+        fct = function(x) {
+          var s = useGetter ? x[prop]() : x[prop];
+          s = s == null ? "" : String(s);
+          jsx3.log([prop, useGetter, useSearch, value, s]);
+          return useSearch ? value.length > 0 && s.indexOf(value) >= 0 : s === value;
+        };
       } else if (a[6]) {
         fct = function(x) { return true; };
       } else {
