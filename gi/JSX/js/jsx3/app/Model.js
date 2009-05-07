@@ -946,7 +946,6 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
         fct = function(x) {
           var s = useGetter ? x[prop]() : x[prop];
           s = s == null ? "" : String(s);
-          jsx3.log([prop, useGetter, useSearch, value, s]);
           return useSearch ? value.length > 0 && s.indexOf(value) >= 0 : s === value;
         };
       } else if (a[6]) {
