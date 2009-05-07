@@ -947,7 +947,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       select.id = strName;
       if (bMulti) {
         select.setAttribute("multiple", "multiple");
-        select.setAttribute("size", "2");
+        select.setAttribute("size", "3");
       }
       select.setAttribute("tabindex", orig.getAttribute("tabindex"));
 

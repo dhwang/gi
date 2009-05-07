@@ -149,7 +149,7 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.recorder.Editor, null, f
               this.onLaunchPlayer(true);
             }).bind(this), "Save", "Continue", 2);
       } else {
-        var gippPlugIn = this.getPlugIn().getEngine().getPlugIn("jsx3.ide.gipp");
+        var gippPlugIn = this.getPlugIn().getEngine().getPlugIn("jsx3.ide.testing");
 
         if (gippPlugIn && gippPlugIn.isGIPPConfigured()) {
           gippPlugIn.launchGIPP(jsx3.ide.PROJECT.getDirectory().relativePathTo(objFile), 50);

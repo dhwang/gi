@@ -24,8 +24,8 @@ objJSX.savePrefs = function() {
 };
 
 objJSX.loadPrefs = function() {
-  path.setValue(this.getPlugIn().getGIPPDir().toURI());
-  pathGitak.setValue(this.getPlugIn().getGITAKDir().toURI());
+  path.setValue(this.getPlugIn().getGIPPPath());
+  pathGitak.setValue(this.getPlugIn().getGITAKPath());
 };
 
 objJSX.doBrowse = function() {

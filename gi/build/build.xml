@@ -212,7 +212,7 @@
       </and>
       <then>
         <property name="build.gipp.src" value="${project.dir}/${build.gipp.location}"/>
-        <property name="build.gipp.dest" value="${dist.dir}/GI_Builder/plugins/jsx3.ide.gipp/gipp"/>
+        <property name="build.gipp.dest" value="${dist.dir}/GI_Builder/plugins/jsx3.ide.testing/gipp"/>
 
         <if>
           <equals arg1="source" arg2="${build.gipp.type}"/>

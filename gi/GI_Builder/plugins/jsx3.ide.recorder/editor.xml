@@ -96,17 +96,6 @@ this.setGIPP = function(b) {
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants/>
-                    <strings jsxname="colTarget" jsxwidth="130" jsxcellpadding="3" jsxpadding="3" jsxpath="target" jsxtext="Target"
-                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="A valid JSX object selector, e.g. #objName"/>
-                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
-                    <object type="jsx3.gui.TextBox">
-                      <strings jsxname="targetMask" jsxdisplay="none"/>
-                      <dynamics jsxcolor="@Matrix Edit Color"/>
-                      <events jsxkeydown="1;"/>
-                    </object>
-                  </object>
-                  <object type="jsx3.gui.Matrix.Column">
-                    <variants/>
                     <strings jsxname="colAction" jsxwidth="120" jsxtext="Action" jsxcellpadding="3" jsxpadding="3" jsxpath="action"
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The action key"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
@@ -114,6 +103,17 @@ this.setGIPP = function(b) {
                       <variants jsxtype="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
                       <strings jsxname="selectMask" jsxxmlid="jsx3.ide.recorder.actionsxml" jsxdisplay="none"/>
                       <xslparameters jsxsortpath="jsxid"/>
+                    </object>
+                  </object>
+                  <object type="jsx3.gui.Matrix.Column">
+                    <variants/>
+                    <strings jsxname="colTarget" jsxwidth="130" jsxcellpadding="3" jsxpadding="3" jsxpath="target" jsxtext="Target"
+                        jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="A valid JSX object selector, e.g. #objName"/>
+                    <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
+                    <object type="jsx3.gui.TextBox">
+                      <strings jsxname="targetMask" jsxdisplay="none"/>
+                      <dynamics jsxcolor="@Matrix Edit Color"/>
+                      <events jsxkeydown="1;"/>
                     </object>
                   </object>
                   <object type="jsx3.gui.Matrix.Column">

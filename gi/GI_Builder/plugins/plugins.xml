@@ -50,7 +50,7 @@
   <plugin id="jsx3.ide.amp"/>
   <plugin id="jsx3.ide.mapping"/>
   <plugin id="jsx3.ide.charting"/>
-  <plugin id="jsx3.ide.gipp"/>
+  <plugin id="jsx3.ide.testing"/>
   <plugin id="jsx3.ide.recorder"/>
   <plugin id="jsx3.ide.recorder.gipp"/>
   <plugin id="jsx3.ide.recorder.gitak"/>

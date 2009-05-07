@@ -133,7 +133,31 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
   };
 
   Editor_prototype.onLaunchPlayer = function(bConfirmed) {
+    var objFile = this.getOpenFile();
+    if (objFile && objFile.isFile()) {
+      if (!bConfirmed && this.isDirty()) {
+        jsx3.IDE.confirm("Save Before Launching?",
+            "Save file before launching it in GITAK?",
+            jsx3.$F(function(d) {
+              d.doClose();
+              this.save();
+              this.onLaunchPlayer(true);
+            }).bind(this), jsx3.$F(function(d) {
+              d.doClose();
+              this.onLaunchPlayer(true);
+            }).bind(this), "Save", "Continue", 2);
+      } else {
+        var gippPlugIn = this.getPlugIn().getEngine().getPlugIn("jsx3.ide.testing");
 
+        if (gippPlugIn && gippPlugIn.isGITAKConfigured()) {
+          gippPlugIn.launchGITAK(jsx3.ide.PROJECT.getDirectory().relativePathTo(objFile));
+        } else {
+          this.getPlugIn().getServer().alert(null, "You must configure the GITAK plug-in in the IDE Settings dialog before launching this file in GITAK.");
+        }
+      }
+    } else {
+      this.getPlugIn().getServer().alert(null, "You must save this file before launching it in GITAK.");
+    }
   };
-  
+
 });
