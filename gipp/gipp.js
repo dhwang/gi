@@ -8,7 +8,7 @@ if (!gi.test) gi.test = new Object();
 if (!gi.test.gipp) gi.test.gipp = new Object();
 
 /**
- * The TIBCO General Interface&#8482; Performance Profiler.
+ * The General Interface Performance Profiler.
  * <p/>
  * Any static field in this package that is not defined <code>final</code> may be overridden by the user. There
  * are a number of places to override these values, which are listed here in increasing precedence:
@@ -145,6 +145,87 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @package */
   gipp.init = function() {
+    // instance a new DOM element
+    var element = document.createElement("link");
+    element.href = "styles.css";
+    element.rel = "stylesheet";
+    element.type = "text/css";
+    document.getElementsByTagName("head")[0].appendChild(element);
+
+    document.body.innerHTML =
+    '<table id="table_main" cellspacing="0">' +
+    '  <tr>' +
+    '    <td id="td_controls">' +
+    '      <div class="twopxspace">&#160;</div>' +
+    '      <div id="logo">' +
+    '        <img src="images/gipp_logo.jpg" alt="TIBCO&reg; General Interface Performance Profiler"/>' +
+    '      </div>' +
+    '      <div class="twopxspace">&#160;</div>' +
+    '      <div id="inputs">' +
+    '        <table id="table_inputs" cellspacing="0">' +
+    '          <tr>' +
+    '            <td class="label">GI:</td>' +
+    '            <td class="input"><input id="input_gi" type="text" name="gi" value="" title="The path to a General Interface directory relative to this page" tabindex="1"></td>' +
+    '          </tr>' +
+    '          <tr>' +
+    '            <td class="label">Project:</td>' +
+    '            <td class="input"><input id="input_project" type="text" name="project" value="" title="The path to a General Interface project directory relative to this page" tabindex="2"></td>' +
+    '          </tr>' +
+    '          <tr>' +
+    '            <td class="label">JS:</td>' +
+    '            <td class="input"><input id="input_js" type="text" name="project" value="" title="The path to a benchmark JavaScript file relative to the project directory" tabindex="3"></td>' +
+    '          </tr>' +
+    '        </table>' +
+    '      </div>' +
+    '      <div class="onepxbrd">&#160;</div>' +
+    '      <div id="controls">' +
+    '        <table id="table_controls" cellspacing="0">' +
+    '          <tr>' +
+    '            <td id="ctrl_left"><span id="runs"></span></td>' +
+    '            <td id="ctrl_right">' +
+    '              <input id="btn_run" type="button" value="Run" onclick="gi.test.gipp.runPause(this);" tabindex="4">' +
+    '              <input id="btn_step" type="button" value="Step" onclick="gi.test.gipp.step();" tabindex="5"> &nbsp; &nbsp;' +
+    '              <input id="btn_reset" type="button" value="Reload" onclick="gi.test.gipp.reload();" tabindex="6">' +
+    '            </td>' +
+    '          </tr>' +
+    '        </table>' +
+    '      </div>' +
+    '      <div id="results">' +
+    '        <table id="table_results" cellspacing="0">' +
+    '          <tr>' +
+    '            <th class="name">Test Case</th>' +
+    '            <th class="val1">Result</th>' +
+    '            <th class="val2">&nbsp;</th>' +
+    '          </tr>' +
+    '          <tr>' +
+    '            <td colspan="3" style="background-image:url(images/dot_separator.gif);font-size:0px;height:3px;padding:0px;">&nbsp;</td>' +
+    '          </tr>' +
+    '        </table>' +
+    '      </div>' +
+    '      <div style="height:2px;overflow:hidden;font-size:1px;">&#160;</div>' +
+    '      <div id="log"><div class="pad"></div></div>' +
+    '      <div class="onepxbrd">&#160;</div>' +
+    '      <div id="div_export">' +
+    '        <input id="btn_export" type="button" disabled="disabled" value="Export CSV" onclick="gi.test.gipp.exportReport();" tabindex="7">' +
+    '        <input id="btn_exportxml" type="button" disabled="disabled" value="Export XML" onclick="gi.test.gipp.exportReportXml();" tabindex="8">' +
+    '        <img src="images/script.gif" alt="Open/Close Script Evaluator" title="Open/Close Script Evaluator" width="13" height="13" style="position:absolute;"' +
+    '            onclick="var s = document.getElementById(\'scriptlet\'); s.style.visibility = s.style.visibility == \'visible\' ? \'hidden\' : \'visible\';">' + 
+    '        <div id="scriptlet" style="position:absolute;">' +
+    '          <textarea id="eval_script" rows="5" cols="100" onkeydown="if (event.ctrlKey && event.keyCode == 13) gi.test.gipp.evaluate(event);"></textarea>' +
+    '          <input id="btn_eval" type="button" value="Evaluate" onclick="gi.test.gipp.evaluate();" title="ctrl+enter">' +
+    '          <div id="eval_result"><div>&nbsp;</div></div>' +
+    '        </div>' +
+    '      </div>' +
+    '      <img src="images/spc.gif" width="300" height="1" alt=""/><br/>' +
+    '    </td>' +
+    '    <td id="td_app">' +
+    '      <div id="app_container">' +
+    '        &nbsp;' +
+    '      </div>' +
+    '    </td>' +
+    '  </tr>' +
+    '</table>';
+
     if (gipp.IMPORT_URLPARAMS)
       gipp._importQueryParams();
     
@@ -1667,7 +1748,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
 /**
  * Convenience methods for invoking events on GUI objects. The methods in this package simulate user interaction
- * with a General Interface&#8482; application by changing the state of a control and at the same time invoking any
+ * with a General Interface application by changing the state of a control and at the same time invoking any
  * bound "model" event.
  *
  * @jsxdoc-definition  jsx3.lang.Package.definePackage("gi.test.gipp.evt", function() {});

@@ -21,9 +21,8 @@ td#td_controls {
 }
 
 div#logo {
-  padding: 3px 3px 6px 3px;
-  background-color: #FFFFFF;
-  background-image: url(images/gipp_logo_bg.gif);
+  padding: 0px;
+  background-color: #AEB7BE;
 }
 div#inputs {
   text-align: right;
