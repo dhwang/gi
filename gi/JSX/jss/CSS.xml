@@ -39,7 +39,7 @@
     <record jsxid="@Label1 FS" type="jsxfontsize" eval="1" jsxtext="10"/>
     <record jsxid="@Label1 FW" type="jsxfontweight" jsxtext="bold"/>
     <record jsxid="@Light" type="jsxcolor" jsxtext="#ffffff"/>
-    <record jsxid="@No BG Image" type="jsxbg" jsxtext="."/>
+    <record jsxid="@No BG Image" type="jsxbg" jsxtext="background:transparent;"/>
     <record jsxid="@CBar Bevel TopDown" eval="1" type="jsxbg" jsxtext="jsx3.html.getCSSFade(false);"/>
     <record jsxid="@CBar Bevel LeftRight" eval="1" type="jsxbg" jsxtext="jsx3.html.getCSSFade(true);"/>
     <record jsxid="@Bevel TopDown Light" type="jsxbg" eval="1" jsxtext="jsx3.html.getCSSFade(false);"/>
@@ -83,7 +83,7 @@
     <record jsxid="@Standard MaxY" type="jsxmaxheight" eval="1" jsxtext="800"/>
     <record jsxid="@Standard MinX" type="jsxminwidth" eval="1" jsxtext="100"/>
     <record jsxid="@Standard MinY" type="jsxminheight" eval="1" jsxtext="150"/>
-    <record jsxid="@Transparent BG" type="jsxbgcolor" jsxtext="-1"/>
+    <record jsxid="@Transparent BG" type="jsxbgcolor" jsxtext="transparent"/>
     <record jsxid="@Min Icon" type="jsximage" jsxtext="jsx:///images/dialog/min.gif"/>
     <record jsxid="@Max Icon" type="jsximage" jsxtext="jsx:///images/dialog/max.gif"/>
     <record jsxid="@Close Icon" type="jsximage" jsxtext="jsx:///images/dialog/close.gif"/>
@@ -115,7 +115,7 @@
     <record jsxid="@List Min Height" jsxtext="jsx30list_r2" type="jsxclassname"/>
     <record jsxid="@List Fixed Height (Light)" type="jsxclassname" jsxtext="jsx30list_r4"/>
     <record jsxid="@Default BG Image (fade) H" type="jsxbghead" eval="1" jsxtext="'background-image:url(' + jsx3.resolveURI('jsx:///images/list/header.gif') + ')'"/>
-    <record jsxid="@No BG Image H" type="jsxbghead" jsxtext="."/>
+    <record jsxid="@No BG Image H" type="jsxbghead" jsxtext="background-image:none;"/>
     <record jsxid="@Bevel TopDown Light H" type="jsxbghead" eval="1" jsxtext="jsx3.html.getCSSFade(false);"/>
     <record jsxid="@Bevel LeftRight H" type="jsxbghead" eval="1" jsxtext="jsx3.html.getCSSFade(true);"/>
     <record jsxid="@Bevel TopDown H" type="jsxbghead" eval="1" jsxtext="jsx3.html.getCSSFade(false);"/>
