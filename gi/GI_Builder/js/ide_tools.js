@@ -138,6 +138,14 @@ doOpenSettings: function(intPane) {
     plugin.load().when(function() {
       plugin.showPane(intPane);
     });
+},
+
+doOpenProjectSettings: function(intPane) {
+  var plugin = jsx3.ide.getPlugIn("jsx3.ide.settings.project");
+  if (plugin)
+    plugin.load().when(function() {
+      plugin.showPane(intPane);
+    });
 }
 
 });

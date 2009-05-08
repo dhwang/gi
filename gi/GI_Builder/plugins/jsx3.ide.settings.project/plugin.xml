@@ -14,6 +14,10 @@
 
 var amp = jsx3.amp;
 
+this.showPane = function(intPane) {
+  this._openDialog(intPane);
+};
+
 this._openDialog = function(intPane) {
   var server = this.getServer();
   var dialog = server.getJSXByName('jsx_deployment');

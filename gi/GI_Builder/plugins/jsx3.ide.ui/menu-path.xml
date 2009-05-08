@@ -9,7 +9,7 @@
   <record jsxid="copyapppath" jsxtext="Copy Path to Clipboard"
     jsxexecute="jsx3.html.copy(jsx3.ide.SERVER.getEnv('apppath'));" />
 
-  <record jsxid="deploy" jsxdivider="1" jsxtext="Project Settings..." jsxexecute="jsx3.ide.showDeploymentOptions();"
+  <record jsxid="deploy" jsxdivider="1" jsxtext="Project Settings..." jsxexecute="jsx3.ide.doOpenProjectSettings();"
       jsxtip="Allows edit of application title, namespace, live/static modes, etc."/>
   <record jsxid="run" jsxtext="Run Project..." jsxexecute="jsx3.ide.runProject(false);"
       jsxtip="Run project in a new browser window..."/>
