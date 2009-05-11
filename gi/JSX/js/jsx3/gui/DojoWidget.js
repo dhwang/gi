@@ -9,6 +9,7 @@ dojo.require("dojo._base.json");
 dojo.require("dojo._base.array");
 dojo.require("dojo._base.Color");
 dojo.require("dojo._base.browser");
+dojo.require("dijit.dijit");
 dojo.require("dojox.html._base");
 
 /**

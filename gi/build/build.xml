@@ -170,11 +170,78 @@
       <filtersfile file="${build.properties.strings}"/>
     </filterset>
   </target>
+  <target name="build-dojo" depends="init">
+    <!--<outofdate>
+      <sourcefiles>
+        <fileset dir="${project.dir}/dojo-toolkit" includes="**" excludes="release/**" />
+        <fileset file="${build.dir}/util/gi-dojo.profile.js"/>  
+      </sourcefiles>
+      <targetfiles path="${project.dir}/dojo-toolkit/release"/>
+      <sequential>-->
+        <echo message="Rebuilding Dojo"/>
+        <mkdir dir="${project.dir}/dojo-toolkit/release"/>
+        <java dir="${project.dir}/dojo-toolkit/util/buildscripts" classpath="${project.dir}/dojo-toolkit/util/shrinksafe/shrinksafe.jar" classname="org.mozilla.javascript.tools.shell.Main" fork="true" >
+          <arg value="build.js"/>
+          <arg value="profileFile=../../../build/gi-dojo.profile.js"/>
+          <arg value="action=release"/>
+          <arg value="copyTests=true"/>
+          <arg value="cssOptimize=comments"/>
+        </java>
+   <!--   </sequential>
+    </outofdate>-->
+    <exec dir="${project.dir}/dojo-toolkit/util/docscripts" executable="php5">
+      <arg value="generate.php" />
+      <arg value="--store=resource" />
+      <arg value="--serialize=json" />
+      <arg value="dojo" />
+      <arg value="dijit" />
+      <arg value="dojox" />
+    </exec>
+    <copy todir="${dist.dir}/dojo-toolkit" preservelastmodified="true">
+      <fileset dir="${project.dir}/dojo-toolkit/release/dojo/">
+        <include name="dojo/dojo.js"/>
+        <include name="dojo/cookie.js"/>
+        <include name="dojo/regexp.js"/>
+        <include name="dojo/parser.js"/>
+        <include name="dojo/resources/*"/>
+        <include name="dojo/_firebug/*"/>
+        <include name="dijit/themes/tundra/**"/>
+        <include name="dijit/themes/soria/**"/>
+        <include name="dijit/themes/*.css"/>
+        <include name="dijit/nls/*"/>
+        <include name="dijit/dijit.js"/>
+        <include name="dijit/Editor.js"/>
+        <include name="dijit/form/nls/*"/>
+        <include name="dijit/form/Button.js"/>
+        <include name="dijit/form/CheckBox.js"/>
+        <include name="dijit/form/ValidationTextBox.js"/>
+        <include name="dijit/form/_DateTimeTextBox.js"/>
+        <include name="dijit/form/DateTextBox.js"/>
+        <include name="dijit/form/TimeTextBox.js"/>
+        <include name="dijit/form/NumberTextBox.js"/>
+        <include name="dijit/form/CurrencyTextBox.js"/>
+        <include name="dijit/form/NumberSpinner.js"/>
+        <include name="dijit/form/HorizontalSlider.js"/>
+        <include name="dijit/form/VerticalSlider.js"/>
+        <include name="dijit/ProgressBar.js"/>
+        <include name="dijit/ColorPalette.js"/>
+        <include name="dojox/form/Rating.js"/>
+        <include name="dojox/form/resources/Rating.css"/>
+        <include name="dijit/gi-dijits-all.js"/>
+        <include name="dojox/lang/docs.js"/>
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/dojo-toolkit/util/docscripts/api" preservelastmodified="true">
+      <fileset dir="${project.dir}/dojo-toolkit/util/docscripts/cache/provides">
+        <include name="**"/>
+      </fileset>
+    </copy>
+  </target>
 
   <target name="dist"
       depends="init, copy-runtime, copy-ide, compile-js,
           inject-boot-msg, obfuscate, merge-script, amp-ide, restore-copyright,
-          compile-locales, dir-manifest, dist-compile-doc, dist-compile-doc-html"
+          compile-locales, dir-manifest, build-dojo, dist-compile-doc, dist-compile-doc-html"
       description="Compiles and builds a General Interface distribution."/>
 
   <target name="copy-runtime" depends="init, init-filters">
