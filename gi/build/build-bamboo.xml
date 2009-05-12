@@ -32,8 +32,11 @@
 
   <target name="nightly" depends="init"
       description="Builds and deploys the regular, debug and no-dep flavors of GI in the nightly build directory.">
+
     <getsvnrevision path="${project.dir}" property="rev"/>
+
     <property name="temp.distzip" value="gi.zip"/>
+    <property name="nightly.zip.prefix" value="${staging.nightly}/gi-${build.gi.version.name}"/>
 
     <!-- clean -->
     <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
@@ -43,7 +46,21 @@
       <property name="build.dist.zip" value="${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}"/>
     </ant>
-    <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}.zip"/>
+    <copy file="../${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}.zip"/>
+    <symlink overwrite="true" link="${nightly.zip.prefix}.latest.zip" resource="${nightly.zip.prefix}.r${rev}.zip"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- Dojo build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}dj"/>
+      <property name="build.gi.docs" value="false"/>
+      <property name="build.dojo.type" value="source"/>
+      <property name="build.dojo.compile-docs" value="true"/>
+    </ant>
+    <copy file="../${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-dojo.zip"/>
+    <symlink overwrite="true" link="${nightly.zip.prefix}.latest-dojo.zip" resource="${nightly.zip.prefix}.r${rev}-dojo.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
@@ -54,7 +71,8 @@
       <property name="build.gi.benchmark" value="true"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
-    <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}-debug.zip"/>
+    <copy file="../${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-debug.zip"/>
+    <symlink overwrite="true" link="${nightly.zip.prefix}.latest-debug.zip" resource="${nightly.zip.prefix}.r${rev}-debug.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
@@ -65,7 +83,8 @@
       <property name="build.gi.deprecated" value="false"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
-    <copy file="../${temp.distzip}" tofile="${staging.nightly}/gi-${build.gi.version.name}.r${rev}-nodep.zip"/>
+    <copy file="../${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
+    <symlink overwrite="true" link="${nightly.zip.prefix}.latest-nodep.zip" resource="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
   </target>
 
   <target name="nightly-docs" depends="init"

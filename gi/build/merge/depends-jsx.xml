@@ -203,4 +203,12 @@
       requires="jsx3.xml.Template jsx3.xml.CDF"/>
   <file path="jsx3/gui/Table.js" provides="jsx3.gui.Table"
       requires="jsx3.xml.Cacheable jsx3.gui.Form jsx3.gui.Block"/>
+
+  <file path="jsx3/util/Dojo.js" provides="jsx3.util.Dojo"
+      requires="jsx3.util.EventDispatcher"/>
+  <file path="jsx3/xml/DojoDataStore.js" provides="jsx3.xml.DojoDataStore"
+      requires="jsx3.util.Dojo jsx3.xml.CDF"/>
+  <file path="jsx3/gui/DojoWidget.js" provides="jsx3.gui.DojoWidget"
+      requires="jsx3.util.Dojo jsx3.gui.Block"/>
+
 </gi-merger>

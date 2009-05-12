@@ -27,7 +27,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
    * @private
    */
   DojoWidget.insertThemeStyleSheets = function(theme, node){
-    var theme_ss = jsx3.resolveURI('jsx:/../dojo-toolkit/dijit/themes/' + theme + '/' + theme + '.css');
+    var theme_ss = jsx3.util.Dojo.getPath('/dijit/themes/' + theme + '/' + theme + '.css');
 
     if(!ss[theme_ss]){
       DojoWidget.insertStyleSheet(theme_ss, node);
@@ -123,7 +123,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     DojoWidget.insertThemeStyleSheets('tundra', newElement);
     if(this.dijitStyleSheets){
       dojo.forEach(this.dijitStyleSheets, function(style_sheet){
-        DojoWidget.insertStyleSheet(jsx3.resolveURI('jsx:/../dojo-toolkit/' + style_sheet), newElement);
+        DojoWidget.insertStyleSheet(jsx3.util.Dojo.getPath('/' + style_sheet), newElement);
       });
     }
     dojo.attr(newElement, 'id', this.getId());

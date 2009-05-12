@@ -170,72 +170,98 @@
       <filtersfile file="${build.properties.strings}"/>
     </filterset>
   </target>
+
   <target name="build-dojo" depends="init">
-    <!--<outofdate>
-      <sourcefiles>
-        <fileset dir="${project.dir}/dojo-toolkit" includes="**" excludes="release/**" />
-        <fileset file="${build.dir}/util/gi-dojo.profile.js"/>  
-      </sourcefiles>
-      <targetfiles path="${project.dir}/dojo-toolkit/release"/>
-      <sequential>-->
-        <echo message="Rebuilding Dojo"/>
-        <mkdir dir="${project.dir}/dojo-toolkit/release"/>
-        <java dir="${project.dir}/dojo-toolkit/util/buildscripts" classpath="${project.dir}/dojo-toolkit/util/shrinksafe/shrinksafe.jar" classname="org.mozilla.javascript.tools.shell.Main" fork="true" >
-          <arg value="build.js"/>
-          <arg value="profileFile=../../../build/gi-dojo.profile.js"/>
-          <arg value="action=release"/>
-          <arg value="copyTests=true"/>
-          <arg value="cssOptimize=comments"/>
-        </java>
-   <!--   </sequential>
-    </outofdate>-->
-    <exec dir="${project.dir}/dojo-toolkit/util/docscripts" executable="php5">
-      <arg value="generate.php" />
-      <arg value="--store=resource" />
-      <arg value="--serialize=json" />
-      <arg value="dojo" />
-      <arg value="dijit" />
-      <arg value="dojox" />
-    </exec>
-    <copy todir="${dist.dir}/dojo-toolkit" preservelastmodified="true">
-      <fileset dir="${project.dir}/dojo-toolkit/release/dojo/">
-        <include name="dojo/dojo.js"/>
-        <include name="dojo/cookie.js"/>
-        <include name="dojo/regexp.js"/>
-        <include name="dojo/parser.js"/>
-        <include name="dojo/resources/*"/>
-        <include name="dojo/_firebug/*"/>
-        <include name="dijit/themes/tundra/**"/>
-        <include name="dijit/themes/soria/**"/>
-        <include name="dijit/themes/*.css"/>
-        <include name="dijit/nls/*"/>
-        <include name="dijit/dijit.js"/>
-        <include name="dijit/Editor.js"/>
-        <include name="dijit/form/nls/*"/>
-        <include name="dijit/form/Button.js"/>
-        <include name="dijit/form/CheckBox.js"/>
-        <include name="dijit/form/ValidationTextBox.js"/>
-        <include name="dijit/form/_DateTimeTextBox.js"/>
-        <include name="dijit/form/DateTextBox.js"/>
-        <include name="dijit/form/TimeTextBox.js"/>
-        <include name="dijit/form/NumberTextBox.js"/>
-        <include name="dijit/form/CurrencyTextBox.js"/>
-        <include name="dijit/form/NumberSpinner.js"/>
-        <include name="dijit/form/HorizontalSlider.js"/>
-        <include name="dijit/form/VerticalSlider.js"/>
-        <include name="dijit/ProgressBar.js"/>
-        <include name="dijit/ColorPalette.js"/>
-        <include name="dojox/form/Rating.js"/>
-        <include name="dojox/form/resources/Rating.css"/>
-        <include name="dijit/gi-dijits-all.js"/>
-        <include name="dojox/lang/docs.js"/>
-      </fileset>
-    </copy>
-    <copy todir="${dist.dir}/dojo-toolkit/util/docscripts/api" preservelastmodified="true">
-      <fileset dir="${project.dir}/dojo-toolkit/util/docscripts/cache/provides">
-        <include name="**"/>
-      </fileset>
-    </copy>
+    <if>
+      <and>
+        <not>
+          <equals arg1="" arg2="${build.dojo.type}"/>
+        </not>
+        <not>
+          <equals arg1="" arg2="${build.dojo.location}"/>
+        </not>
+        <available file="${project.dir}/${build.dojo.location}"/>
+      </and>
+      <then>
+        <property name="build.dojo.src" value="${project.dir}/${build.dojo.location}"/>
+        <property name="build.dojo.dest" value="${dist.dir}/dojo-toolkit"/>
+
+        <if>
+          <equals arg1="source" arg2="${build.dojo.type}"/>
+          <then>
+            <echo message="Building Dojo in directory ${build.dojo.src}"/>
+
+            <property name="build.dojo.temp" value="${project.dir}/${build.loc.dist}/dojo"/>
+            <delete dir="${build.dojo.temp}"/>
+
+            <copy todir="${build.dojo.temp}">
+              <fileset dir="${build.dojo.src}" includes="${build.dojo.source-files}"/>
+            </copy>
+
+            <mkdir dir="${build.dojo.temp}/release"/>
+            <java dir="${build.dojo.temp}/util/buildscripts"
+                classpath="${project.dir}/dojo-toolkit/util/shrinksafe/shrinksafe.jar"
+                classname="org.mozilla.javascript.tools.shell.Main" fork="true">
+              <arg value="build.js"/>
+              <arg value="profileFile=../../../../build/gi-dojo.profile.js"/>
+              <arg value="action=release"/>
+              <arg value="copyTests=true"/>
+              <arg value="cssOptimize=comments"/>
+            </java>
+
+            <if>
+              <equals arg1="true" arg2="${build.dojo.compile-docs}"/>
+              <then>
+                <exec dir="${build.dojo.temp}/util/docscripts" executable="${build.bin.php}">
+                  <arg value="generate.php"/>
+                  <arg value="--store=file"/>
+                  <arg value="--serialize=json"/>
+                  <!--<arg value="dojo"/>-->
+                  <arg value="dijit"/>
+                  <arg value="dojox"/>
+                </exec>
+
+                <copy todir="${dist.dir}/dojo-toolkit">
+                  <fileset dir="${build.dojo.temp}" includes="util/docscripts/api.json"/>
+                </copy>
+<!-- Uncomment this if changing store to "resource"
+                <copy todir="${dist.dir}/dojo-toolkit/util/docscripts/api" preservelastmodified="true" flatten="true">
+                  <fileset dir="${build.dojo.temp}/util/docscripts" includes="cache/**/*.json"/>
+                </copy>
+-->
+              </then>
+              <else>
+                <copy todir="${dist.dir}/dojo-toolkit">
+                  <fileset dir="${build.dojo.temp}" includes="util/docscripts/api.json"/>
+                </copy>
+              </else>
+            </if>
+            
+            <copy todir="${dist.dir}/dojo-toolkit" preservelastmodified="true">
+              <fileset dir="${build.dojo.temp}/release/dojo/" includes="${build.dojo.includes}"/>
+            </copy>
+          </then>
+          <elseif>
+            <equals arg1="binary" arg2="${build.dojo.type}"/>
+            <then>
+              <echo message="Copying Dojo from directory ${build.gipp.src}"/>
+
+              <copy todir="${build.dojo.dest}" preservelastmodified="true">
+                <fileset dir="${build.dojo.src}" includes="**"/>
+              </copy>
+            </then>
+          </elseif>
+          <else>
+            <echo message="Not including Dojo (bad type: ${build.dojo.type})"/>
+            <delete dir="${dist.dir}" includes="${build.dojo.jsx-files}"/>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo>Not including Dojo.</echo>
+        <delete dir="${dist.dir}" includes="${build.dojo.jsx-files}"/>
+      </else>
+    </if>
   </target>
 
   <target name="dist"
