@@ -99,7 +99,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     this._pluginmap = {};
     /* Maps plug-in id to registration index. */
     /* @jsxobf-clobber */
-    this._pluginregdata = {__ct:0};
+    this._pluginregorder = {__ct:0};
     /* {Object<String, jsx3.amp.ExtPoint>}  Indexes extension points by their id. */
     /* @jsxobf-clobber */
     this._extptmap = {};
@@ -213,7 +213,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
 
     // keep track of number of plug-ins requested so we can report progress
     var id = objElm.getAttribute("id");
-    this._pluginregdata[id] = this._pluginregdata.__ct++;
+    this._pluginregorder[id] = this._pluginregorder.__ct++;
 //    amp.LOG.debug("_registerPlugInFromRegEntry " + id);
 
     // Plug-in definition could be inlined in plugins.xml. For it to be inlined it either needs to declare
@@ -385,7 +385,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       var isReg = this.getPlugIn(e);
 
       // Warn when a plug-in is registered before a plug-in that it requires. Possible typo!
-      if (!isReg && !this._pluginregdata[e])
+      if (!isReg && !this._pluginregorder[e])
         amp.LOG.warn(jsx3._msg("amp.26", strId, e));
 
       return !isReg;
@@ -548,8 +548,8 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       this._extmap[pointId].push(ex);
       // TODO: performance tune so as not to sort too much
       this._extmap[pointId].sort(jsx3.$F(function(a, b) {
-        var i1 = this._pluginregdata[a.getPlugIn().getId()] || 0;
-        var i2 = this._pluginregdata[b.getPlugIn().getId()] || 0;
+        var i1 = this._pluginregorder[a.getPlugIn().getId()] || 0;
+        var i2 = this._pluginregorder[b.getPlugIn().getId()] || 0;
         return i1 > i2 ? 1 : (i1 == i2 ? 0 : -1);
       }).bind(this));
 
@@ -762,6 +762,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     if (this._pluginmap[strId])
       throw new jsx3.IllegalArgumentException("Already loaded plug-in " + strId + ".");
 
+    this._pluginregorder[strId] = this._pluginregorder.__ct++;
     return this._registerPlugIn(strPath, strId, objXML);
   });
 
@@ -794,7 +795,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       }
 
       delete this._pluginmap[strId];
-      delete this._pluginregdata[strId];
+      delete this._pluginregorder[strId];
       delete this._pgdata[strId];
       delete this._pgrsrc[strId];
     }
