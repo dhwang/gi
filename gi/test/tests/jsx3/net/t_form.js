@@ -7,7 +7,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
 
   jsunit.require("jsx3.net.Form");
 
-  var ACTION = "http://gi.tibco.com/tests/formdata.cgi";
+  var ACTION = jsunit.HTTP_BASE + "/formdata.cgi";
 
   t.testGetMethod = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
@@ -376,7 +376,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
 
   t.testTimeout = function() {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "http://gi.tibco.com/tests/timeout.cgi", false);
+    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jsunit.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
 
     f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
@@ -394,7 +394,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   t.testTimeout._skip_unless = "NETWORK";
 
   t.testAbort = function() {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "http://gi.tibco.com/tests/timeout.cgi", false);
+    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jsunit.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
 
     f.subscribe("*", t.asyncCallback(function(objEvent) {
@@ -418,7 +418,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
 /* Will just get back the 404 error page rather than any sort of status...
 
   t.testBadURL = function() {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "http://gi.tibco.com/tests/404.cgi", false);
+    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jsunit.HTTP_BASE + "/404.cgi", false);
     f.setField("field", "value");
 
     f.subscribe("*", t.asyncCallback(function(objEvent) {

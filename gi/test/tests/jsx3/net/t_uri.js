@@ -158,11 +158,11 @@ gi.test.jsunit.defineTests("jsx3.net.URI", function(t, jsunit) {
   };
 
   var resolveTests = [
-      ["path/to/file.txt", "http://www.tibco.com/file.txt", "http://www.tibco.com/file.txt"],
-      ["mailto:gi@tibco.com", "../file.txt", "../file.txt"],
-      ["http://www.tibco.com/file.txt?a=b", "#frag", "http://www.tibco.com/file.txt?a=b#frag"],
-      ["http://www.tibco.com/file.txt", "//u@power.tibco.com/file.html", "http://u@power.tibco.com/file.html"],
-      ["http://www.tibco.com/file.txt", "/dir/file.html?a=b", "http://www.tibco.com/dir/file.html?a=b"],
+      ["path/to/file.txt", "http://www.generalinterface.org/file.txt", "http://www.generalinterface.org/file.txt"],
+      ["mailto:gi@generalinterface.org", "../file.txt", "../file.txt"],
+      ["http://www.generalinterface.org/file.txt?a=b", "#frag", "http://www.generalinterface.org/file.txt?a=b#frag"],
+      ["http://www.generalinterface.org/file.txt", "//u@power.generalinterface.org/file.html", "http://u@power.generalinterface.org/file.html"],
+      ["http://www.generalinterface.org/file.txt", "/dir/file.html?a=b", "http://www.generalinterface.org/dir/file.html?a=b"],
       ["/file.txt", "/dir/file.html", "/dir/file.html"],
       ["/a/b/c/file.txt", "../file.html", "/a/b/file.html"],
       ["/a/b/c/file.txt", "file.html", "/a/b/c/file.html"],
@@ -180,17 +180,17 @@ gi.test.jsunit.defineTests("jsx3.net.URI", function(t, jsunit) {
   }
 
   var relativizeTests = [
-      ["mailto:gi@tibco.com", "file.txt", "file.txt"],
-      ["file.txt", "mailto:gi@tibco.com", "mailto:gi@tibco.com"],
+      ["mailto:gi@generalinterface.org", "file.txt", "file.txt"],
+      ["file.txt", "mailto:gi@generalinterface.org", "mailto:gi@generalinterface.org"],
       ["http://localhost/file.html", "file://localhost/file.html", "file://localhost/file.html"],
-      ["http://www.tibco.com/file.html", "http://power.tibco.com/dir/file.html", "http://power.tibco.com/dir/file.html"],
+      ["http://www.generalinterface.org/file.html", "http://power.generalinterface.org/dir/file.html", "http://power.generalinterface.org/dir/file.html"],
       ["file:///file.txt", "file:/dir/file.txt", "/dir/file.txt"],
       ["a/b/c/file.txt", "a/b/d/file.html", "../d/file.html"],
       ["/file.txt", "/file.html", "/file.html"],
       ["/a/file.txt", "/a/file.html", "file.html"],
-      ["http://www.tibco.com/dir/file.html", "http://www.tibco.com/file.html", "/file.html"],
-      ["http://www.tibco.com/a/dir/file.html", "http://www.tibco.com/a/file.html", "../file.html"],
-      ["http://www.tibco.com/dir/file.html", "http://u@www.tibco.com/file.html", "http://u@www.tibco.com/file.html"]
+      ["http://www.generalinterface.org/dir/file.html", "http://www.generalinterface.org/file.html", "/file.html"],
+      ["http://www.generalinterface.org/a/dir/file.html", "http://www.generalinterface.org/a/file.html", "../file.html"],
+      ["http://www.generalinterface.org/dir/file.html", "http://u@www.generalinterface.org/file.html", "http://u@www.generalinterface.org/file.html"]
   ];
 
   for (var i = 0; i < relativizeTests.length; i++) {

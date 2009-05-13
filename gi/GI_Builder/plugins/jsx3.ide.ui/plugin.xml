@@ -251,12 +251,12 @@
         id="jsx3.ide.gitak"
         label="Test Automation Kit (GITAK)"
         menupath="/jsx3.ide.tools/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/product_resources_gitak1.jsp','jsxide_gitak',null,null,'yes','yes','yes','yes','yes')"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/gitak','jsxide_gitak',null,null,'yes','yes','yes','yes','yes')"/>
     <action
         id="jsx3.ide.gipp"
         label="Performance Profiler (GIPP)"
         menupath="/jsx3.ide.tools/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.tibco.com/devnet/gi/product_resources_gipp1.jsp','jsxide_gipp',null,null,'yes','yes','yes','yes','yes')"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/gipp','jsxide_gipp',null,null,'yes','yes','yes','yes','yes')"/>
   </extension>
 
   <extension point="jsx3.ide.ui.action" id="menu.help">
@@ -269,7 +269,7 @@
         id="jsx3.ide.help8b"
         label="&amp;#160; &amp;#160;Getting Started"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/docs/display/DOC','jsxide_start',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/learning','jsxide_start',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help8d"
         label="&amp;#160; &amp;#160;Search Discussion Forums..."
@@ -280,12 +280,12 @@
         id="jsx3.ide.help9a"
         label="&amp;#160; &amp;#160;Open Source Project"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/docs/display/OS','jsxide_gios',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/os_home','jsxide_gios',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help9b"
         label="&amp;#160; &amp;#160;Bug and Enhancement Tracking"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/bugs/','jsxide_jira',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/bugs','jsxide_jira',null,null,'yes','yes','yes','yes','yes');"/>
   </extension>
 
   <extension point="jsx3.ide.editor.container" id="editor-container">

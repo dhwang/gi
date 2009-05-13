@@ -5,7 +5,8 @@
   -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:jf="http://www.jivesoftware.com/xmlns/jiveforums/rss"
-    xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+    xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/">
 
   <xsl:output omit-xml-declaration="yes" method="xml"/>
 
@@ -30,15 +31,26 @@
   </xsl:template>
 
   <xsl:template match="item">
+    <xsl:param name="title">
+      <xsl:choose>
+        <xsl:when test="substring-after(title, ' | ') != ''">
+          <xsl:value-of select="substring-after(title, ' | ')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="title"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+
     <div class="rssitem">
       <a target="_blank">
         <xsl:attribute name="href"><xsl:value-of select="link"/></xsl:attribute>
       <xsl:choose>
-        <xsl:when test="string-length(title) &gt; $maxlength">
-          <xsl:value-of select="substring(title, 0, $maxlength)"/><xsl:text>...</xsl:text>
+        <xsl:when test="string-length($title) &gt; $maxlength">
+          <xsl:value-of select="substring($title, 0, $maxlength)"/><xsl:text>...</xsl:text>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="title"/>
+          <xsl:value-of select="$title"/>
         </xsl:otherwise>
       </xsl:choose>
       </a>
@@ -51,14 +63,14 @@
       <xsl:if test="$showdesc=1">
         <div class="rssdesc">
           <xsl:choose>
-            <xsl:when test="string-length(description) &gt; $descmaxlength">
+            <xsl:when test="string-length(content:encoded) &gt; $descmaxlength">
               <xsl:call-template name="disable-output-escp">
-                <xsl:with-param name="value" select="substring(description, 0, $descmaxlength)"/>
+                <xsl:with-param name="value" select="substring(content:encoded, 0, $descmaxlength)"/>
               </xsl:call-template>
               <xsl:text>...</xsl:text>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:apply-templates select="description" mode="disable-output-escp"/>
+              <xsl:apply-templates select="content:encoded" mode="disable-output-escp"/>
             </xsl:otherwise>
           </xsl:choose>
         </div>

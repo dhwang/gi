@@ -27,7 +27,7 @@ import org.dojo.jsl.parser.EcmaScriptConstants;
 /**
  * Parses <code>JsMember</code> instances from the text content of a JavaScript comment block.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class Parser {
 

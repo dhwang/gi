@@ -6,7 +6,7 @@
 package com.tibco.gi.tools.doc;
 
 /**
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class JsParam {
 

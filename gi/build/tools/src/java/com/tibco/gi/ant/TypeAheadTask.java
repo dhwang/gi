@@ -13,7 +13,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * Ant interface for the {@link TypeAheadCompiler} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class TypeAheadTask extends AbstractFileTask {
 

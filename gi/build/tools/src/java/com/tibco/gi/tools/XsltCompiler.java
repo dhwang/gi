@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * engines of some browsers do not consult the browser cache when retrieving documents referenced by
  * <code>&lt;xsl:import&gt;</code> elements.</li> </ul>
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class XsltCompiler {
 

@@ -23,7 +23,7 @@ import org.apache.tools.ant.util.FileNameMapper;
 /**
  * An abstract base task that provides common functionality related to file sets and mappers.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public abstract class AbstractFileTask extends Task {
 

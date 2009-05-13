@@ -18,7 +18,7 @@ import org.apache.tools.ant.Task;
 /**
  * Ant interface for the {@link LocaleCompiler} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class LocaleCompileTask extends Task {
 

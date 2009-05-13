@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
  * Compiles IDE metadata into HTML documentation. Specifically, this tool creates documentation for
  * GUI properties, GUI (model) events, and XSL parameters.
  * 
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class IdeDocCompiler {
 

@@ -14,7 +14,7 @@ this.onSearchForums = function() {
 };
 
 this.onOpenForums = function() {
-  jsx3.ide.openConsoleWindow('http://www.generalinterface.org/forums/','jsxide_forums',null,null,'yes','yes','yes','yes','yes');
+  jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/forums','jsxide_forums',null,null,'yes','yes','yes','yes','yes');
   this.doClose();
 };
 

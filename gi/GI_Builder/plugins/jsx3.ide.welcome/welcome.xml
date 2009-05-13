@@ -23,10 +23,9 @@ objJSX.openHelpContents = function() {
   if (file.isFile())
     jsx3.ide.openConsoleWindow('doc/html/index.htm', 'jsxide_doc',null,null,'yes','yes','yes','yes','yes');
   else {
-    var url = this.getServer().getDynamicProperty("builder_url");
     jsx3.IDE.alert("Documentation Not Installed",
         "It appears that the online documentation is not installed correctly. " +
-        "Please <a href='"+ url +"' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
+        "Please <a href='http://www.generalinterface.org/alias/get_docs' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
   }
 };
 
@@ -116,12 +115,12 @@ objJSX._onUpdatesBind = function(objEvent) {
       '<rss><channel>' +
       '<item>' +
       '  <title>Got the latest?</title>' +
-      '  <link>http://developer.tibco.com/gi</link>' +
+      '  <link>http://www.generalinterface.org/alias/download</link>' +
       '  <description>Visit the General Interface Developer Center for the latest updates, news, articles, tutorials, how-to videos, discussions, downloads, development utilities, and more.</description>' +
       '</item>' +
       '<item>' +
       '  <title>Where\'s the source code?</title>' +
-      '  <link>http://gi.tibco.com</link>' +
+      '  <link>http://www.generalinterface.org/alias/os_home</link>' +
       '  <description>The General Interface open source project home page connects you with the source code for GI, bug tracking, enhancement requests, specialized GI builds, and more useful tools.</description>' +
       '</item>' +
       '</channel></rss>'
@@ -132,9 +131,6 @@ objJSX._onUpdatesBind = function(objEvent) {
 objJSX._onForumBind = function(objEvent) {
   if (objEvent.xml.getNamespaceURI() == jsx3.app.Cache.XSDNS &&
      (objEvent.xml.getNodeName() == "error" || objEvent.xml.getNodeName() == "timeout")) {
-    var dev_url = this.getServer().getDynamicProperty("dev_url").replace("&", "&amp;");
-    var sample_url = this.getServer().getDynamicProperty("sample_url").replace("&", "&amp;");
-    var feedback_url = this.getServer().getDynamicProperty("feedback_url").replace("&", "&amp;");
 
     objEvent.target.unsubscribe("xmlbind", this);
     objEvent.target.resetXmlCacheData();
@@ -143,15 +139,15 @@ objJSX._onForumBind = function(objEvent) {
       '<rss><channel>' +
       '<item>' +
       '  <title>GI Development</title>' +
-      '  <link>'+ dev_url +'</link>' +
+      '  <link>http://www.generalinterface.org/alias/forum_dev</link>' +
       '</item>' +
       '<item>' +
-      '  <title>GI Sample Applications</title>' +
-      '  <link>'+ sample_url +'</link>' +
+      '  <title>GI Hacking</title>' +
+      '  <link>http://www.generalinterface.org/alias/forum_hacking</link>' +
       '</item>' +
       '<item>' +
       '  <title>GI Feedback</title>' +
-      '  <link>'+ feedback_url +'</link>' +
+      '  <link>http://www.generalinterface.org/alias/forum_feedback</link>' +
       '</item>' +
       '</channel></rss>'
     );
@@ -303,24 +299,23 @@ objJSX._onForumBind = function(objEvent) {
               <variants jsxoverflow="2"/>
               <strings jsxwidth="100%" jsxheight="100%" jsxpadding="0 10 0 0"/>
               <object type="jsx3.gui.Block">
-                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://developer.tibco.com/gi&quot; target=&quot;_blank&quot;&gt;Developer Center&lt;/a&gt;"/>
+                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/learning&quot; target=&quot;_blank&quot;&gt;Developer Center&lt;/a&gt;"/>
               </object>
               <object type="jsx3.gui.Block">
                 <dynamics jsxtext="welcome_text"/>
-                <strings jsxwidth="100%" jsxclassname="cmty_list"
-                     />
+                <strings jsxwidth="100%" jsxclassname="cmty_list"/>
               </object>
             </object>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="2"/>
               <strings jsxwidth="100%" jsxheight="100%" jsxborder="0px;0px;0px;dotted 1px #C7DEF0" jsxpadding="0 10 0 10"/>
               <object type="jsx3.gui.Block">
-                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://gi.tibco.com&quot; target=&quot;_blank&quot;&gt;Open Source Project&lt;/a&gt;"/>
+                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://www.generalinterface.org&quot; target=&quot;_blank&quot;&gt;Open Source Project&lt;/a&gt;"/>
               </object>
               <object type="jsx3.gui.Block">
                 <strings jsxwidth="100%" jsxclassname="cmty_list"
-                    jsxtext="&lt;a href=&quot;http://gi.tibco.com/svnweb/gi/&quot; target=&quot;_blank&quot;&gt;Browse Source Code&lt;/a&gt;&lt;br/&gt;
-                             &lt;a href=&quot;http://gi.tibco.com/jira&quot; target=&quot;_blank&quot;&gt;Bug/Issue Tracking&lt;/a&gt;"/>
+                    jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/os_browse_code&quot; target=&quot;_blank&quot;&gt;Browse Source Code&lt;/a&gt;&lt;br/&gt;
+                             &lt;a href=&quot;http://www.generalinterface.org/alias/bugs&quot; target=&quot;_blank&quot;&gt;Bug/Issue Tracking&lt;/a&gt;"/>
               </object>
             </object>
             <object type="jsx3.gui.Block">

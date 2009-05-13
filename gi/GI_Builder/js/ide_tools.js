@@ -125,10 +125,9 @@ onContextHelp: function(objEvent) {
     }
   } else {
     jsx3.ide.LOG.info(xml.getError());
-    var url = jsx3.IDE.getDynamicProperty("builder_url");
     jsx3.IDE.alert("Documentation Not Installed",
         "You have invoked the context help system but the documentation that this depends on is not installed. " +
-        "Please <a href='" + url + "' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
+        "Please <a href='http://www.generalinterface.org/alias/get_docs' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
   }
 },
 

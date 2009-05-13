@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Ant interface for the {@link XsltCompiler} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class XsltCompileTask extends AbstractFileTask {
 

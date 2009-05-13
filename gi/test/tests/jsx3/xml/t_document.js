@@ -137,7 +137,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
 
   t.testLoadRemote = function() {
     var d = new jsx3.xml.Document();
-    d.load("http://gi.tibco.com/tests/data1.xml");
+    d.load(jsunit.HTTP_BASE + "/data1.xml");
 
     jsunit.assertFalse(d.hasError());
     jsunit.assertEquals("data", d.getNodeName());
@@ -147,7 +147,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
 
   t.testLoadRemoteBadURL = function() {
     var d = new jsx3.xml.Document();
-    d.load("http://gi.tibco.com/tests/404.xml");
+    d.load(jsunit.HTTP_BASE + "/404.xml");
 
     jsunit.assertTrue(d.hasError());
   };
@@ -155,7 +155,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
 
   t.testLoadRemoteBadXML = function() {
     var d = new jsx3.xml.Document();
-    d.load("http://gi.tibco.com/tests/bad1.xml");
+    d.load(jsunit.HTTP_BASE + "/bad1.xml");
 
     jsunit.assertTrue(d.hasError());
   };
@@ -173,7 +173,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
       jsunit.assert("Error loading document: " + objEvent.target.getError(), false);
     }));
 
-    d.load("http://gi.tibco.com/tests/data1.xml", 5000);
+    d.load(jsunit.HTTP_BASE + "/data1.xml", 5000);
   };
   t.testLoadRemoteAsync._async = true;
   t.testLoadRemoteAsync._skip_unless = "NETWORK";
@@ -191,7 +191,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
       jsunit.assert("Should not time out: " + objEvent.target, false);
     }));
 
-    d.load("http://gi.tibco.com/tests/404.xml", 5000);
+    d.load(jsunit.HTTP_BASE + "/404.xml", 5000);
   };
   t.testLoadRemoteAsyncBadURL._async = true;
   t.testLoadRemoteAsyncBadURL._skip_unless = "NETWORK";
@@ -209,7 +209,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
       jsunit.assert("Should not time out: " + objEvent.target, false);
     }));
 
-    d.load("http://gi.tibco.com/tests/bad1.xml", 5000);
+    d.load(jsunit.HTTP_BASE + "/bad1.xml", 5000);
   };
   t.testLoadRemoteAsyncBadXML._async = true;
   t.testLoadRemoteAsyncBadXML._skip_unless = "NETWORK";

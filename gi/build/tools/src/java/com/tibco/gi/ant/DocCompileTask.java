@@ -14,7 +14,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * Ant interface for the {@link DocCompiler} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class DocCompileTask extends AbstractFileTask {
 

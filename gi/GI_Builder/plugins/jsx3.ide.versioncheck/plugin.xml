@@ -39,7 +39,7 @@
             if (jsx3.util.compareVersions(newVersion, myVersion) > 0)
               this.getServer().confirm(
                 "New Version Available", "A new version (" + newVersion + ") of General Interface is available.",
-                function() { window.open(this.getServer().getDynamicProperty("builder_url"), "jsxide_newversion"); }, null,
+                function() { window.open("http://www.generalinterface.org/alias/download", "jsxide_newversion"); }, null,
                 "Download", "Later", 1,
                 function(d) { d.doClose(); settings.set("prefs", "versioncheck", "ignore", newVersion); }, "Ignore Version",
                 {nonModal:1}
@@ -58,7 +58,7 @@
       }
     });
 
-    doc.load("http://gi.tibco.com/versioncheck/gi.xml?ts=" + new Date().getTime());
+    doc.load("http://www.generalinterface.org/version/gi.xml?ts=" + new Date().getTime());
     /* @jsxobf-clobber */
     this._newVchecking = true;
   ]]></method>

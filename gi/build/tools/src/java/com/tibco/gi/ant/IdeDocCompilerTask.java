@@ -13,7 +13,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * Ant interface for the {@link IdeDocCompiler} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class IdeDocCompilerTask extends AbstractFileTask {
 

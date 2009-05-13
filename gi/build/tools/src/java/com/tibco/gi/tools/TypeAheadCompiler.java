@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
  * controls. In particular, the IDE uses it as the data source to a menu, which is invoked by typing ctrl+space in a
  * JavaScript editor.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class TypeAheadCompiler {
 

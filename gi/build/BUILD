@@ -9,7 +9,7 @@ Introduction
   the unbuilt source directory or from an optimized build.
   Building is therefore an optional step that is highly recommended
   for deployed applications. Pre-built distributions of General
-  Interface are available at http://developer.tibco.com.
+  Interface are available at http://www.generalinterface.org.
 
 ======================================================================
 Requirements

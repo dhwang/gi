@@ -51,7 +51,7 @@ import org.xml.sax.SAXException;
  * Because the CLDR does not have all the data that GI requires, this tool also supports merging the compiled CLDR data
  * with any number of other localized properties sources.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class LocaleCompiler {
 

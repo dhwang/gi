@@ -14,7 +14,7 @@ import org.apache.tools.ant.BuildException;
 /**
  * Ant interface for the {@link Obfuscator} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class ObfuscateTask extends AbstractFileTask {
 

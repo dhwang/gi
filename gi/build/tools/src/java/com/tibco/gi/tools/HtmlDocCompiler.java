@@ -55,7 +55,7 @@ import org.xml.sax.SAXException;
  * </ul>
  * If the <code>docDir</code> is not specified then these resources are retrieved from the jsx-tools.jar.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class HtmlDocCompiler {
 

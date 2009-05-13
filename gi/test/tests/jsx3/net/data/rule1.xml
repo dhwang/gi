@@ -5,7 +5,7 @@
     <record jsxid="x43996" jsxtext="Service (http://ws.cdyne.com/psadd...slookup.asmx)" jsxopen="1"
             type="S" soapstyle="document">
       <record jsxid="x23922" jsxtext="ReturnCityState" jsxopen="1" opname="ReturnCityState"
-              endpoint="http://test.tibco.com" method="GET" type="P"
+              endpoint="http://test.generalinterface.org" method="GET" type="P"
               jsxselected="1">
         <headers jsxid="x62269"/>
         <record jsxid="x80256" jsxtext="Input (request)" type="I" stubpath="/SOAP-ENV:Envelope/SOAP-ENV:Body"

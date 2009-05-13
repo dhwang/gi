@@ -34,7 +34,7 @@ import java.util.logging.Level;
  *   ...
  * }</pre>
  * 
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class ResourceInjector {
 

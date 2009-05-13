@@ -14,7 +14,7 @@ import org.apache.tools.ant.Task;
 /**
  * Ant interface for the {@link HtmlDocCompiler} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class HtmlDocTask extends Task {
 

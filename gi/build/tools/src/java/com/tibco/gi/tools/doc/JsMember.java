@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  * Models a JavaScript member extended by the metadata provided by inline JSX documentation.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class JsMember {
 

@@ -14,7 +14,7 @@ import org.apache.tools.ant.Task;
 /**
  * Ant interface for the {@link ScriptMergerCleanup} tool.
  *
- * @author Jesse Costello-Good <jcostell@tibco.com>
+ * @author Jesse Costello-Good
  */
 public class MergerCleanupTask extends Task {
 

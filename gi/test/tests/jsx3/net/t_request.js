@@ -134,7 +134,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testRemoteXML = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/data1.xml");
+    r.open("GET", jsunit.HTTP_BASE + "/data1.xml");
     r.send();
 
     var x = r.getResponseXML();
@@ -146,7 +146,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testRemoteText = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/text1.txt");
+    r.open("GET", jsunit.HTTP_BASE + "/text1.txt");
     r.send();
 
     var text = r.getResponseText();
@@ -158,7 +158,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testRemote404 = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/404.xml");
+    r.open("GET", jsunit.HTTP_BASE + "/404.xml");
     r.send();
 
     var s = r.getStatus();
@@ -168,7 +168,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testRemoteAsync = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/data1.xml", true);
+    r.open("GET", jsunit.HTTP_BASE + "/data1.xml", true);
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assertInstanceOf(objEvent.target, jsx3.net.Request);
@@ -185,7 +185,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testRemoteAsync404 = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/404.xml", true);
+    r.open("GET", jsunit.HTTP_BASE + "/404.xml", true);
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assertInstanceOf(objEvent.target, jsx3.net.Request);
@@ -203,7 +203,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testResponseHeader = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/data1.xml");
+    r.open("GET", jsunit.HTTP_BASE + "/data1.xml");
     r.send();
 
     var h1 = r.getResponseHeader("Content-Type");
@@ -222,7 +222,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testAllResponseHeaders = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/data1.xml");
+    r.open("GET", jsunit.HTTP_BASE + "/data1.xml");
     r.send();
 
     var headers = r.getAllResponseHeaders();
@@ -245,7 +245,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testTimeoutAsync = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/timeout.cgi", true);
+    r.open("GET", jsunit.HTTP_BASE + "/timeout.cgi", true);
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assert("Timed-out request should not fire a response: " + r, false);
@@ -263,7 +263,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testAbort = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/timeout.cgi", true);
+    r.open("GET", jsunit.HTTP_BASE + "/timeout.cgi", true);
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assert("Aborted request should not fire a response: " + r, false);
@@ -289,7 +289,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testRequestHeader = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/headers.cgi?ts=" + (new Date().getTime()));
+    r.open("GET", jsunit.HTTP_BASE + "/headers.cgi?ts=" + (new Date().getTime()));
     r.setRequestHeader("jsxheader1", "jsxvalue1");
     r.send();
 
@@ -305,7 +305,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testAuth = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/auth/data1.xml", false, "gi", "gi");
+    r.open("GET", jsunit.HTTP_BASE + "/auth/data1.xml", false, "gi", "gi");
     r.send();
 
     jsunit.assertEquals(200, r.getStatus());
@@ -319,7 +319,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   // NOTE: fails on Safari http://bugs.webkit.org/show_bug.cgi?id=13075
   t.testAuthFail1 = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/auth2/data2.xml", false);
+    r.open("GET", jsunit.HTTP_BASE + "/auth2/data2.xml", false);
     r.send();
     jsunit.assertEquals(401, r.getStatus());
   };
@@ -328,7 +328,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testAuthFail2 = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/auth2/data3.xml", false, "gi", "wrong");
+    r.open("GET", jsunit.HTTP_BASE + "/auth2/data3.xml", false, "gi", "wrong");
     r.send();
     jsunit.assertEquals(401, r.getStatus());
   };
@@ -338,7 +338,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   // NOTE: fails on Safari http://bugs.webkit.org/show_bug.cgi?id=13075
   t.testAuthAsync = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/auth/data4.xml", true, "gi", "gi");
+    r.open("GET", jsunit.HTTP_BASE + "/auth/data4.xml", true, "gi", "gi");
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assertEquals(200, r.getStatus());
@@ -355,7 +355,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testAuthAsyncFail1 = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/auth2/data5.xml", true);
+    r.open("GET", jsunit.HTTP_BASE + "/auth2/data5.xml", true);
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assertEquals(401, r.getStatus());
@@ -369,7 +369,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   t.testAuthAsyncFail2 = function() {
     var r = new jsx3.net.Request();
-    r.open("GET", "http://gi.tibco.com/tests/auth2/data6.xml", true, "gi", "wrong");
+    r.open("GET", jsunit.HTTP_BASE + "/auth2/data6.xml", true, "gi", "wrong");
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       jsunit.assertEquals(401, r.getStatus());
@@ -384,7 +384,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   t.testSendData = function() {
     var r = new jsx3.net.Request();
     var data = "<request><stuff/></request>";
-    r.open("POST", "http://gi.tibco.com/tests/headers.cgi?ts=" + (new Date().getTime()), false);
+    r.open("POST", jsunit.HTTP_BASE + "/headers.cgi?ts=" + (new Date().getTime()), false);
     r.send(data);
 
     var x = r.getResponseXML();
@@ -403,7 +403,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   t.testSendDataAsync = function() {
     var r = new jsx3.net.Request();
     var data = "<request><stuff/></request>";
-    r.open("POST", "http://gi.tibco.com/tests/headers.cgi?ts=" + (new Date().getTime()), true);
+    r.open("POST", jsunit.HTTP_BASE + "/headers.cgi?ts=" + (new Date().getTime()), true);
 
     r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
       var x = r.getResponseXML();
