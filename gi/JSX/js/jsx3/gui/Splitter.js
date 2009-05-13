@@ -359,6 +359,9 @@ jsx3.Class.defineClass("jsx3.gui.Splitter", jsx3.gui.Block, null, function(Split
       offset = parseInt(objGUI.style.top);
       space = objGUI.parentNode.offsetHeight;
     }
+
+    // reset z-index of handle to the default specified in the CSS
+    jsx3.html.removeStyle(objGUI, "z-index");
     
     var min1 = this.getSubcontainer1Min();
     var min2 = this.getSubcontainer2Min();

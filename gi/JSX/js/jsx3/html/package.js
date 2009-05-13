@@ -192,6 +192,11 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     // objDOM.detachEvent(strName, objFn);
   };
 
+  html.removeStyle = function(objDOM, strName) {
+    strName = strName.replace(/\-(\w)/g, function(a, one) { return one.toUpperCase(); });
+    objDOM.style[strName] = null;
+  };
+
   /**
    * Creates a new style rule and adds to the collection of style rules
    * @param selector {String} style name.  For example: .heavyWeight or .redBoldItem
@@ -368,6 +373,10 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   html.removeEventListener = function(objDOM,strName,objFn) {
     strName = strName.replace(/^on/,"");
     objDOM.removeEventListener(strName, objFn, false);
+  };
+
+  html.removeStyle = function(objDOM, strName) {
+    objDOM.style.removeProperty(strName);
   };
 
   html._FOCUSABLE = {input:true, textarea:true, select:true, body:true, a:true, img:true, button:true, frame:true,
