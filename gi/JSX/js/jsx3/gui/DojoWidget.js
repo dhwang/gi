@@ -146,7 +146,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   /**
    * Returns a getter for retrieving attribute value from the Dojo widget
    * @param name {String} Name of the attribute whose value will be retrieved when calling the getter
-   * @return {function} Getter function to return the attribute's value
+   * @return {Function} Getter function to return the attribute's value
    */
   DojoWidget_prototype.getter = function(name){
     var dijit = this.dijit;
@@ -158,7 +158,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   /**
    * Returns a setter for modifying an attribute's value in the Dojo widget
    * @param name {String} Name of the attribute whose value will be modified when calling the setter
-   * @return {function} Setter function to modify attribute's value
+   * @return {Function} Setter function to modify attribute's value
    */
   DojoWidget_prototype.setter = function(name){
     var dijit = this.dijit;
@@ -168,6 +168,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   };
   /**
    * Handles destruction of the widget
+   * @private
    */
   DojoWidget_prototype.onDestroy = function(objParent){
     this.dijit.destroyRecursive();
