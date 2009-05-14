@@ -4,6 +4,8 @@
   -->
 
 <antlib>
+  <taskdef name="gi-uuid" classname="com.tibco.gi.ant.UUIDTask"/>
+
   <taskdef name="gi-obfuscate" classname="com.tibco.gi.ant.ObfuscateTask"/>
   <taskdef name="gi-compile" classname="com.tibco.gi.ant.ScriptCompileTask"/>
   <taskdef name="gi-merge" classname="com.tibco.gi.ant.ScriptMergeTask"/>
