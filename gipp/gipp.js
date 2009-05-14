@@ -588,7 +588,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     if (window.console && console.log) {
       console.log(msg);
     }
-  }
+  };
   
 })(gi.test.gipp);
 

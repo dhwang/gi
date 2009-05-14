@@ -65,7 +65,7 @@ this.setGIPP = function(b) {
                 <variants/>
                 <strings/>
                 <object type="jsx3.gui.Matrix">
-                  <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxsort="0"
+                  <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxsort="0"
                       jsxdrag="1" jsxdrop="1"/>
                   <strings jsxname="gippmatrix" jsxclassname="recordermatrix" jsxfocusstyle=";" jsxbgcolor="#ffffff"/>
                   <dynamics jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>

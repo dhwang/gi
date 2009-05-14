@@ -25,10 +25,10 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
       // Select the last record so we insert at the end of the list, which is more likely what is desired than
       // inserting at the beginning of the list.
       var g = this._getGrid();
-      if (!g.getValue()) {
+      if (g.getValue().length == 0) {
         var lastRecord = g.getXML().getLastChild();
         if (lastRecord)
-          g.setValue(lastRecord.getAttribute("jsxid"));
+          g.setValue([lastRecord.getAttribute("jsxid")]);
       }
 
       var w = window.open(plugIn().resolveURI("recorder.html").toString(), "gipprecorder");
@@ -57,6 +57,7 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
   Editor_prototype.onInsertRecord = function(rec) {
     var g = this._getGrid();
     var sel = g.getValue();
+    sel = sel[sel.length - 1];
 
     g.endEditSession();
 
@@ -121,16 +122,13 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
 
   Editor_prototype.onAssert = function(objJSX, bWait) {
     var g = this._getGrid();
-    var val = g.getValue();
-    if (val) {
-      g.endEditSession();
+    g.endEditSession();
 
-      var assertTokens = this._getAssertTokens(objJSX, bWait)
-      this.onInsertRecord({label:"", target:this._getTargetString(objJSX),
-          action:assertTokens[0], value:assertTokens[1]});
+    var assertTokens = this._getAssertTokens(objJSX, bWait)
+    this.onInsertRecord({label:"", target:this._getTargetString(objJSX),
+        action:assertTokens[0], value:assertTokens[1]});
 
-      this.setDirty(true);
-    }
+    this.setDirty(true);
   };
 
   /** @private @jsxobf-clobber */
