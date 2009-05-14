@@ -39,7 +39,7 @@ gi.test.jsunit.defineTests("jsx3.net.Service", function(t, jsunit) {
     var s = t._service;
     jsunit.assertInstanceOf(s.getServer(), jsx3.app.Server);
     jsunit.assertEquals("ReturnCityState", s.getOperation());
-    jsunit.assertEquals("http://test.tibco.com", s.getEndpointURL());
+    jsunit.assertEquals("http://test.example.com", s.getEndpointURL());
     jsunit.assertEquals("GET", s.getMethod());
   };
 

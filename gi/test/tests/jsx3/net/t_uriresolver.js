@@ -8,7 +8,7 @@ gi.test.jsunit.defineTests("jsx3.net.URIResolver", function(t, jsunit) {
   jsunit.require("jsx3.net.URIResolver.jsxclass", "jsx3.app.Browser");
 
   t.testResolveRelative = function() {
-    var u = ["file.html", "../dir/file.html", "http://www.generalinterface.org", "file.html?q=v", "file.html#frag",
+    var u = ["file.html", "../dir/file.html", "http://www.example.com", "file.html?q=v", "file.html#frag",
         "file.html?q=v#frag", "/dir/file.html"];
     for (var i = 0; i < u.length; i++)
       jsunit.assertEquals(u[i], jsx3.resolveURI(u[i]));

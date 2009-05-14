@@ -98,12 +98,12 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
   t.testGetNodeName = function() {
     var d = new jsx3.xml.Document().loadXML('<data att="val"/>');
     jsunit.assertEquals("data", d.getNodeName());
-    d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.generalinterface.org"/>');
+    d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.example.com"/>');
     jsunit.assertEquals("foo:data", d.getNodeName());
   };
 
   t.testGetNamespaceURI1 = function() {
-    var ns = "http://foo.generalinterface.org";
+    var ns = "http://foo.example.com";
     var d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="' + ns + '"><foo:record/><record/></foo:data>');
     jsunit.assertEquals(ns, d.getNamespaceURI());
     jsunit.assertEquals(ns, d.getChildNodes().get(0).getNamespaceURI());
@@ -111,23 +111,23 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
   };
 
   t.testGetNamespaceURI2 = function() {
-    var ns = "http://foo.generalinterface.org";
+    var ns = "http://foo.example.com";
     var d = new jsx3.xml.Document().loadXML('<data xmlns="' + ns + '"><record/></data>');
     jsunit.assertEquals(ns, d.getNamespaceURI());
     jsunit.assertEquals(ns, d.getChildNodes().get(0).getNamespaceURI());
   };
 
   t.testGetBaseName = function() {
-    var d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.generalinterface.org"/>');
+    var d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.example.com"/>');
     jsunit.assertEquals("data", d.getBaseName());
   };
 
   t.testGetPrefix = function() {
     var d = new jsx3.xml.Document().loadXML('<data att="val"/>');
     jsunit.assertEquals("", d.getPrefix());
-    d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.generalinterface.org"/>');
+    d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.example.com"/>');
     jsunit.assertEquals("foo", d.getPrefix());
-    d = new jsx3.xml.Document().loadXML('<data xmlns="http://foo.generalinterface.org"/>');
+    d = new jsx3.xml.Document().loadXML('<data xmlns="http://foo.example.com"/>');
     jsunit.assertEquals("", d.getPrefix());
   };
 
@@ -183,7 +183,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("v1", d.getAttribute("a1"));
     jsunit.assertNull(d.getAttribute("n1"));
 
-    d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.generalinterface.org" foo:a1="v1"/>');
+    d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.example.com" foo:a1="v1"/>');
     jsunit.assertNull(d.getAttribute("a1"));
     jsunit.assertEquals("v1", d.getAttribute("foo:a1"));
   };

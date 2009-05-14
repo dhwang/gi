@@ -56,7 +56,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
   Service.simpletypes["base64Binary"] = "bGJpcmRlYXVAdGliY28uY29t";
   Service.simpletypes["float"] = "134.52";
   Service.simpletypes["decimal"] = "0.923874";
-  Service.simpletypes["anyURI"] = "http://www.tibco.com/jsx/";
+  Service.simpletypes["anyURI"] = "http://www.generalinterface.org/";
   Service.simpletypes["NMTOKEN"] = "Y";
   Service.simpletypes["NMTOKENS"] = "NO";
   Service.simpletypes["Name"] = "abc";

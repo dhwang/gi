@@ -310,7 +310,7 @@ objJSX._onForumBind = function(objEvent) {
               <variants jsxoverflow="2"/>
               <strings jsxwidth="100%" jsxheight="100%" jsxborder="0px;0px;0px;dotted 1px #C7DEF0" jsxpadding="0 10 0 10"/>
               <object type="jsx3.gui.Block">
-                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://www.generalinterface.org&quot; target=&quot;_blank&quot;&gt;Open Source Project&lt;/a&gt;"/>
+                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/os_home&quot; target=&quot;_blank&quot;&gt;Open Source Project&lt;/a&gt;"/>
               </object>
               <object type="jsx3.gui.Block">
                 <strings jsxwidth="100%" jsxclassname="cmty_list"
