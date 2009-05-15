@@ -152,6 +152,7 @@
 
     <!-- Stage files -->
     <property name="stagingDir" value="${tests.staging-dir}/${randomDir}"/>
+    <property name="phpTestResultsDir" value="${stagingDir}/test/server/test-reports"/>
 
     <echo message="Staging GI in directort ${stagingDir}"/>
 
@@ -159,6 +160,9 @@
       <fileset dir="${project.dir}/dist/gi" includes="**"/>
       <fileset dir="${project.dir}" includes="test/**"/>
     </copy>
+
+    <mkdir dir="${phpTestResultsDir}"/>
+    <chmod dir="${phpTestResultsDir}" perm="777"/>
 
     <!-- Compile selenium tests -->
     <mkdir dir="${testClassesDir}"/>
@@ -202,7 +206,7 @@
     <!-- Copy test results files to local area -->
     <mkdir dir="${testResultsDir}"/>
     <copy todir="${testResultsDir}" flatten="true">
-      <fileset dir="${project.dir}/test/server/test-reports" includes="**/*.xml"/>
+      <fileset dir="${phpTestResultsDir}" includes="**/*.xml"/>
     </copy>
 
     <!-- Delete staged files -->
