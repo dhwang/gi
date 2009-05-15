@@ -48,7 +48,7 @@ public class JsUnitTest {
 
       // set timeout so that form has enough time to submit and return
       selenium.setSpeed("5000");
-      selenium.waitForCondition("/Done/.test(window.top.mainFrame.mainStatus.document.getElementsByTagName('div')[0].innerHTML)", "" + TIMEOUT);
+      selenium.waitForCondition("/\\bDone\\s+\\([\\d\\.]+\\s+seconds\\)/.test(window.top.mainFrame.mainStatus.document.getElementsByTagName('div')[0].innerHTML)", "" + TIMEOUT);
 
       // just to make sure selenium doesn't close
       selenium.selectFrame("dom=window.top.mainFrame.mainProgress");
