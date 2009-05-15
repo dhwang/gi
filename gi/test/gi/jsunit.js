@@ -16,7 +16,7 @@ gi.test.jsunit._init = function(jsunit) {
   jsunit.JSX_BASE = "../../";
   jsunit.JSX_JS_BASE = jsunit.JSX_BASE + "JSX/js/";
   jsunit.TEST_BASE = "%2E%2E/tests/";
-  jsunit.HTTP_BASE = "http://www.generalinterface.org/tests";
+  jsunit.HTTP_BASE = "../server";
   
   jsunit._PENDING_SUITES = [];
 
