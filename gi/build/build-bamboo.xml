@@ -23,6 +23,8 @@
   <property name="project.dir" value=".."/>
   <property name="temp.svninfo" value="svninfo.tmp"/>
 
+  <property name="buildDir" value="temp"/>
+
   <target name="init">
     <property file="build.properties"/>
     <property file="tools/build.properties"/>
@@ -30,6 +32,8 @@
 
   <target name="init-tools" depends="init">
     <property file="${tools.dir}/build.properties"/>
+
+    <ant antfile="${tools.dir}/build.xml" inheritall="false" inheritrefs="false" target="package"/>
 
     <path id="cp.tools">
       <path path="${tools.dir}/jsx-tools.jar"/>
@@ -135,16 +139,19 @@
     </copy>
   </target>
 
-  <target name="tests" depends="init, init-tools, init-testng"
+  <target name="clean" depends="init">
+    <delete dir="${buildDir}"/>
+    <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
+  </target>
+
+  <target name="tests" depends="init, clean, init-tools, init-testng"
       description="Builds GI, deploys it to a local HTTP server, and invokes Selenium Grid on the unit tests.">
 
     <gi-uuid property="randomDir"/>
-    <property name="testClassesDir" value="test-classes"/>
-    <property name="testResultsDir" value="test-reports"/>
+    <property name="testClassesDir" value="${buildDir}/test-classes"/>
+    <property name="testResultsDir" value="${buildDir}/test-reports"/>
 
     <!-- Clean and build -->
-    <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
-
     <ant antfile="build.xml" target="dist" inheritall="false" inheritrefs="false">
       <property name="build.gi.buildno" value="r${rev}"/>
       <property name="build.gi.docs" value="false"/>
@@ -196,7 +203,7 @@
         haltonfailure="false"
         parallel="methods" threadCount="10" timeOut="3600000"
         suitename="GI Test Suite for Selenium Grid"
-        outputdir="testng">
+        outputdir="${buildDir}/testng-reports">
 
       <sysproperty key="java.security.policy" file="tools/lib/selenium/testng.policy"/>
       <sysproperty key="seleniumSite" value="${tests.staging-url}/${randomDir}/test/"/>

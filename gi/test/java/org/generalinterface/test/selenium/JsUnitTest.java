@@ -54,7 +54,7 @@ public class JsUnitTest {
       selenium.selectFrame("dom=window.top.mainFrame.mainProgress");
     } finally {
       if (selenium != null)
-        selenium.close();
+        selenium.stop();
     }
 
   }
