@@ -161,6 +161,13 @@
       <fileset dir="${project.dir}" includes="test/**"/>
     </copy>
 
+    <!-- make test CGIs executable -->
+    <chmod perm="755"/>
+      <fileset dir="${stagingDir}">
+        <include name="**/*.cgi"/>
+      </fileset>
+    </target>
+
     <mkdir dir="${phpTestResultsDir}"/>
     <chmod dir="${phpTestResultsDir}" perm="777"/>
 
@@ -187,7 +194,7 @@
     <testng
         classpathref="cp.selenium"
         haltonfailure="false"
-        parallel="tests" threadCount="10" timeOut="600000"
+        parallel="methods" threadCount="10" timeOut="3600000"
         suitename="GI Test Suite for Selenium Grid"
         outputdir="testng">
 

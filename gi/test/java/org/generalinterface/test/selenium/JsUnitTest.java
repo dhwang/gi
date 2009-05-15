@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
  */
 public class JsUnitTest {
 
-  public static final int TIMEOUT = 1000 * 60 * 10;
+  public static final int TIMEOUT = 1000 * 60 * 20;
 
   private final String host;
   private final int port;
