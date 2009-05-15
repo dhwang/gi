@@ -18,7 +18,7 @@ function redir() {
   var index = href.lastIndexOf("/");
   var base = href.substring(0, index);
   var basePath = base.replace(/^(file|http|https):\/{0,3}/i, "");
-  window.location.href = base + "/jsunit/testRunner.html?" + "testpage=" + basePath + "/tests/suite.html&autoRun=true";
+  window.location.href = base + "/jsunit/testRunner.html?" + "testpage=" + basePath + "/tests/suite.html&autoRun=false";
 }
 
   </script>

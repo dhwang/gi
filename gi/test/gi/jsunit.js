@@ -13,10 +13,11 @@ if (!gi.test.jsunit) gi.test.jsunit = new Object();
 
 gi.test.jsunit._init = function(jsunit) {
 
+  jsunit.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
   jsunit.JSX_BASE = "../../";
   jsunit.JSX_JS_BASE = jsunit.JSX_BASE + "JSX/js/";
   jsunit.TEST_BASE = "%2E%2E/tests/";
-  jsunit.HTTP_BASE = "../server";
+  jsunit.HTTP_BASE = jsunit.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../server";
   
   jsunit._PENDING_SUITES = [];
 
@@ -155,8 +156,14 @@ gi.test.jsunit._init = function(jsunit) {
 
   jsunit.TestSuite.prototype.asyncCallback = function(fctTest) {
     return function() {
-      if (eval("asyncTestWaiting !== true"))
-        window.alert("Executing async callback before async waiting: " + fctTest);
+      if (eval("asyncTestWaiting !== true")) {
+        var msg = "Executing async callback before async waiting: " + fctTest;
+        if (jsunit.INTERACTIVE) {
+          window.alert(msg);
+        } else {
+          throw new Error(msg);
+        }
+      }
 
       try {
         fctTest.apply(this, arguments);
@@ -223,7 +230,10 @@ gi.test.jsunit._init = function(jsunit) {
 
       var name = objTests.getPrefix() + "__" + f;
       if (jsunit._tests[name]) {
-        window.alert("Redefinition of test " + name);
+        if (jsunit.INTERACTIVE)
+          window.alert("Redefinition of test " + name);
+        else
+          ;
       } else {
         var skipCond = jsunit._getMeta("_skip", objTests[f], objTests);
         var skipUnlessCond = jsunit._getMeta("_skip_unless", objTests[f], objTests);

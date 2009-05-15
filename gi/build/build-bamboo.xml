@@ -162,11 +162,11 @@
     </copy>
 
     <!-- make test CGIs executable -->
-    <chmod perm="755"/>
+    <chmod perm="755">
       <fileset dir="${stagingDir}">
         <include name="**/*.cgi"/>
       </fileset>
-    </target>
+    </chmod>
 
     <mkdir dir="${phpTestResultsDir}"/>
     <chmod dir="${phpTestResultsDir}" perm="777"/>
