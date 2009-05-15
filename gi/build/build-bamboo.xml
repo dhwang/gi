@@ -18,7 +18,7 @@
   <property name="tests.staging-url" value="http://www.generalinterface.org/nightly-tests"/>
   <property name="tests.selenium-host" value="localhost"/>
   <property name="tests.selenium-port" value="4444"/>
-  <property name="tests.selenium-env" value="*firefox2, *firefox3, IE6 on Windows, IE7 on Windows, Safari on Windows"/>
+  <property name="tests.selenium-env" value="Firefox2 on Windows, Firefox3 on Windows, IE6 on Windows, IE7 on Windows, Safari on Windows"/>
 
   <property name="project.dir" value=".."/>
   <property name="temp.svninfo" value="svninfo.tmp"/>
