@@ -1,8 +1,8 @@
-<?
+<?php
 
 if (!isset($_POST["id"]))
 {
-  ?>No ID information, is this an JsUnit report<?
+  ?>No ID information, is this an JsUnit report<?php
   return;
 }
 /****/
@@ -33,7 +33,7 @@ $userAgent, $matches);
         $found = preg_match("/(?P<browser>".$SUPERCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i",
 $userAgent, $matches);
     }
-   
+
     if ($found) {
         $browser      = $matches["browser"];
         $majorVersion = $matches["majorVersion"];
@@ -69,10 +69,12 @@ $userAgent, $matches)){
 
 function getFailedCount($val, $key) {
 global $error, $fails, $tests;
-     if (strpos($val, "|E|") != false)
-	 $errors++;
-	 if (strpos($val, "|F|") != false)
-	 $fails++;
+    if (strpos($val, "|E") != false) {
+	   $errors++;
+	}else
+	if (strpos($val, "|F") != false) {
+		$fails++;
+	}
 	//$tests = $key; // keep updating tests counts with testcase index.
 	//echo $val . ",errors:". $errors . ",fails:". $fails;
 }
@@ -91,14 +93,14 @@ function write_testcase($val, $key, $handle) {
    if ($teststat == "S") {
      $xText = "<testcase id=\"$key\" class=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\"/>\n";
    } else {
-	  $xText = "<testcase id=\"$key\" class=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\" val=\"$val\">\n";
+	  $xText = "<testcase id=\"$key\" class=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\">\n";
 	  if ($teststat == "F") {
-	    $xText = $xText."<failure type=\"failure\"><!CDATA[". $testcase[3] ."]]><failure>\n";
+	    $xText = $xText."<failure type=\"failure\"><![CDATA[". $testcase[3] ."]]></failure>\n";
 	  } else if ($teststat == "E") {
-	    $xText = $xText."<failure type=\"error\"><!CDATA[". $testcase[3] ."]]><failure>\n";
+	    $xText = $xText."<failure type=\"error\"><![CDATA[". $testcase[3] ."]]></failure>\n";
 	  }
-	  $xText = $xText."</testcase>\n"; 
-	} 
+	  $xText = $xText."</testcase>\n";
+	}
 
 	$writer = fwrite($handle, $xText);
 
@@ -131,11 +133,12 @@ $tests = count($_POST['testCases']);
 array_walk($_POST['testCases'], 'getFailedCount');
 
 $headerText = "<?xml version=\"1.0\" ?>\n<testsuites>\n";
-$suiteText = 
-	"<testsuite id=\"$mybrowser\" name=\"jsunit-$runId\" tests=\"$tests\" errors=\"$errors\" failures=\"$fails\" time=\"$totalTime\">\n".
-	"<properties>\n" .
+$suiteText =
+	"<testsuite id=\"$mybrowser\" name=\"$runId\" tests=\"$tests\" errors=\"$errors\" failures=\"$fails\" time=\"$totalTime\">\n".
+	"<properties>\n".
 	"<property name=\"userAgent\" value=\"". $_SERVER['HTTP_USER_AGENT'] . "\" />\n" .
 	"<property name=\"host\" value=\"$host\" />\n" .
+	"<property name=\"baseURL\" value=\"$baseURL\" />\n" .
 	"</properties>\n".
 	" ";
 $endText = "</testsuite>\n</testsuites>\n";
@@ -160,7 +163,7 @@ $url = "http://".$host. substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQ
 echo "<html><body>"; // Need the css style sheet
 resp_print("<a href=\"".$url."/".$filename."\">".$url."/".$filename."</a>" , "URL: ");
 resp_print($filename, "File: ");
-resp_print($_SERVER['HTTP_USER_AGENT'], "Browser: "); 
+resp_print($_SERVER['HTTP_USER_AGENT'], "Browser: ");
 //array_walk($_POST, 'resp_print');
 echo "</body></html>";
 ?>
