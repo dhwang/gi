@@ -183,7 +183,7 @@
     <testng
         classpathref="cp.selenium"
         haltonfailure="false"
-        parallel="tests" threadCount="10"
+        parallel="tests" threadCount="10" timeOut="600000"
         suitename="GI Test Suite for Selenium Grid"
         outputdir="testng">
 
