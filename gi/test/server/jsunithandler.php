@@ -68,7 +68,7 @@ $userAgent, $matches)){
 }
 
 function getFailedCount($val, $key) {
-global $error, $fails, $tests;
+global $errors, $fails, $tests;
     if (strpos($val, "|E") != false) {
 	   $errors++;
 	}else
