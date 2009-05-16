@@ -110,14 +110,15 @@
 
   function onPause() {
     var btn = document.getElementById("playPause");
+    var status = document.getElementById("status");
     if (state.paused) {
       state.paused = false;
-      btn.innerHTML = "Pause";
-      btn.className = "recorderBtn activeBtn";
+      status.innerHTML = "Recording...";
+      btn.className = "btn";
     } else {
       state.paused = true;
-      btn.innerHTML = "Play";
-      btn.className = "recorderBtn";
+      status.innerHTML = "Paused";
+      btn.className = "btn paused";
     }
   }
 
@@ -128,12 +129,10 @@
     var btn = document.getElementById("wait");
     if (state.waiting) {
       state.waiting = false;
-      btn.innerHTML = "Wait";
-      btn.className = "recorderBtn";
+      btn.className = "btn";
     } else {
       state.waiting = true;
-      btn.innerHTML = "Cancel Wait";
-      btn.className = "recorderBtn activeBtn";
+      btn.className = "btn down";
     }
   }
 
@@ -144,12 +143,10 @@
     var btn = document.getElementById("assert");
     if (state.asserting) {
       state.asserting = false;
-      btn.innerHTML = "Assert";
-      btn.className = "recorderBtn";
+      btn.className = "btn";
     } else {
       state.asserting = true;
-      btn.innerHTML = "Cancel Assert";
-      btn.className = "recorderBtn activeBtn";
+      btn.className = "btn down";
     }
   }
 
@@ -203,36 +200,77 @@
   }
 
   #recorderControls {
-    height: 20px;
+    height: 30px;
     overflow: hidden;
-    background-color: #666666;
+    background-image: url(images/bar_bg.png);
     font-size: 11px;
     font-family: Verdana, sans-serif;
   }
 
   .padding {
-    padding: 2px 5px;
+    padding: 7px 7px;
   }
 
-  .recorderBtn {
-    height: 16px;
+  .btn {
     overflow: hidden;
-    background-color: #DDDDDD;
-    color: #333333;
-    padding: 0px 5px;
     float: left;
     cursor: pointer;
-    margin-right: 8px;
   }
 
-  .activeBtn {
-    background-color: #BBFFDD;
+  #assert {
+    width: 66px;
+    height: 16px;
+    background-image: url(images/assert_up.png);
+  }
+
+  #wait {
+    width: 67px; 
+    height: 16px;
+    background-image: url(images/wait_up.png);
+  }
+
+  #assert.down {
+    background-image: url(images/assert_down.png);
+  }
+
+  #wait.down {
+    background-image: url(images/wait_down.png);
   }
 
   #stop {
+    width: 16px;
+    height: 16px;
     float: right;
-    margin-right: 0px;
-    background-color: #FFCCCC;
+    background-image: url(images/stop_up.png);
+  }
+
+  #stop:hover {
+    background-image: url(images/stop_down.png);
+  }
+
+  #playPause {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    float: right;
+    background-image: url(images/pause_up.png);
+  }
+
+  #playPause:hover {
+    background-image: url(images/pause_down.png);
+  }
+
+  #playPause.paused {
+    background-image: url(images/record_up.png);
+  }
+
+  #playPause.paused:hover {
+    background-image: url(images/record_down.png);
+  }
+
+  #status {
+    float: right;
+    margin-right: 10px;
   }
 
   #appContainer {
@@ -245,10 +283,12 @@
   <body onload="onReady()" SCROLL="no">
     <div id="recorderControls">
       <div class="padding">
-        <div id="playPause" class="recorderBtn activeBtn" onclick="onPause();">Pause</div>
-        <div id="assert" class="recorderBtn" onclick="onAssert();">Assert</div>
-        <div id="wait" class="recorderBtn" onclick="onWait();">Wait</div>
-        <div id="stop" class="recorderBtn" onclick="onStop();">Stop</div>
+        <div id="assert" class="btn" onclick="onAssert();" title="Toggle assert command mode"></div>
+        <div id="wait" class="btn" onclick="onWait();" title="Toggle wait command mode"></div>
+
+        <div id="stop" class="btn" onclick="onStop();" title="Stop recording and close window"></div>
+        <div id="playPause" class="btn" onclick="onPause();" title="Toggle recording"></div>
+        <div id="status">Recording...</div>
       </div>
     </div>
     <div id="appContainer"></div>
