@@ -209,7 +209,7 @@
       <sysproperty key="seleniumSite" value="${tests.staging-url}/${randomDir}/test/"/>
       <sysproperty key="seleniumHost" value="${tests.selenium-host}"/>
       <sysproperty key="seleniumPort" value="${tests.selenium-port}"/>
-      <sysproperty key="seleniumEnvs" value="*firefox2, *firefox3, IE6 on Windows, IE7 on Windows"/>
+      <sysproperty key="seleniumEnvs" value="${tests.selenium-env}"/>
 
       <classfileset dir="${testClassesDir}" includes="**/SeleniumGridTestFactory.class"/>
     </testng>
