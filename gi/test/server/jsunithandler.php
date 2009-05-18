@@ -91,9 +91,9 @@ function write_testcase($val, $key, $handle) {
    $class = $nameparts[0];
    $name = $nameparts[1];
    if ($teststat == "S") {
-     $xText = "<testcase id=\"$key\" class=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\"/>\n";
+     $xText = "<testcase id=\"$key\" classname=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\"/>\n";
    } else {
-	  $xText = "<testcase id=\"$key\" class=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\">\n";
+	  $xText = "<testcase id=\"$key\" classname=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\">\n";
 	  if ($teststat == "F") {
 	    $xText = $xText."<failure type=\"failure\"><![CDATA[". $testcase[3] ."]]></failure>\n";
 	  } else if ($teststat == "E") {
