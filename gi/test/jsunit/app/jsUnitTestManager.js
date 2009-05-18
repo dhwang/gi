@@ -252,6 +252,10 @@ jsUnitTestManager.prototype.abort = function ()
 {
   this.setStatus('Aborted');
   this._cleanUp();
+  if (top.shouldSubmitResults()) {
+    this.resultsTimeField.value = secondsSinceRunBegan;
+  	top.submitResults();
+  }
 };
 
 jsUnitTestManager.prototype.getTimeout = function () 

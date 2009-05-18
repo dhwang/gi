@@ -19,6 +19,7 @@
   <property name="tests.selenium-host" value="localhost"/>
   <property name="tests.selenium-port" value="4444"/>
   <property name="tests.selenium-env" value="Firefox2 on Windows, Firefox3 on Windows, IE6 on Windows, IE7 on Windows, Safari on Windows"/>
+  <property name="tests.selenium-threads" value="10"/>
 
   <property name="project.dir" value=".."/>
   <property name="temp.svninfo" value="svninfo.tmp"/>
@@ -201,7 +202,7 @@
     <testng
         classpathref="cp.selenium"
         haltonfailure="false"
-        parallel="methods" threadCount="10" timeOut="3600000"
+        parallel="methods" threadCount="${tests.selenium-threads}" timeOut="3600000"
         suitename="GI Test Suite for Selenium Grid"
         outputdir="${buildDir}/testng-reports">
 
