@@ -1,0 +1,96 @@
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <onAfterDeserialize><![CDATA[
+objJSX.onPaletteLoaded = function() {
+  var xml = (new jsx3.xml.CDF.Document()).loadXML('<data jsxid="jsxroot"><record jsxid="jsxcontacts" jsxtext="Contacts" jsxunselectable="1" jsxopen="1" jsximg="jsxapp:/images/icon_7.gif" jsxnick="" /></data>');
+  jsxxmpptree.setSourceXML(xml);
+
+  var plugIn = this.getPlugIn();
+
+  var mm = new jsx3.amp.util.MenuManager();
+  mm.addMenuBar("/", menuBar);
+  plugIn.getExtPoint("ctxmenu").processExts().each(function(e) { mm.addMenu(e); });
+  plugIn.getExtPoint("ctxmenu-item").processExts().each(function(e) { mm.addItem(e); });
+  mm.finishInit();
+
+  var credentials = plugIn.getCredentials();
+
+
+  if (credentials.server && credentials.username && credentials.password) {
+    jsx3.require("jsx3.util.Dojo");
+    plugIn.connectSession(credentials);
+  } else {
+    plugIn.setUIState(0);
+  }
+}
+objJSX.getXMPPTree = function() {
+  return jsxxmpptree;
+};
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <strings jsxname="xmpppalette" />
+    <dynamics jsxbgcolor="@Solid Light"/>
+    <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxpadding="5" />
+    <object type="jsx3.gui.Block">
+      <strings jsxname="xmpp_conf_block" jsxdisplay="none" jsxheight="100%" jsxwidth="100%" />
+      <object type="jsx3.gui.Button">
+        <strings jsxheight="100%" jsxwidth="100%" jsxtext="Configure"/>
+        <events jsxexecute="jsx3.ide.doOpenSettings(4);" />
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <strings jsxname="xmpp_loading_block" jsxdisplay="none" jsxwidth="100%" jsxheight="100%" jsxtext="Loading..." />
+    </object>
+    <object type="jsx3.gui.Block">
+      <strings jsxname="xmpp_list_block" jsxdisplay="none" jsxwidth="100%" jsxheight="100%" />
+      <object type="jsx3.gui.Block">
+        <strings jsxname="menuBar" jsxdisplay="none"/>
+      </object>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+        <strings jsxname="layoutRows" jsxrows="20,*" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+          <strings jsxname="layoutCols" jsxcols="*,30,30" jsxwidth="100%" jsxheight="100%"/>
+          <object type="jsx3.gui.Block">
+            <dynamics jsxborder="@No jsxborder"/>
+            <strings jsxname="xmpp_username" jsxtext="Username"/>
+          </object>
+          <object type="jsx3.gui.Block">
+            <dynamics jsxborder="@No jsxborder"/>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="16" jsxheight="16" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+              <strings jsxname="xmpp_add" jsxtext="Add" jsximage="images/add.gif" jsxoverimage="images/add.gif" jsxdownimage="images/add.gif" jsxonimage="images/add.gif" jsxdisabledimage="images/add.gif" jsxtip="Add Contact"/>
+              <events jsxexecute="xmpppalette.getPlugIn().doShowAddContact();" />
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <dynamics jsxborder="@No jsxborder"/>
+            <object type="jsx3.gui.ImageButton">
+              <variants jsxwidth="16" jsxheight="16" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+              <strings jsxname="xmpp_shutdown" jsxtext="Power" jsximage="images/power.gif" jsxoverimage="images/power.gif" jsxdownimage="images/power.gif" jsxonimage="images/power.gif" jsxdisabledimage="images/power.gif" jsxtip="Go Offline"/>
+              <events jsxexecute="xmpppalette.getPlugIn().doShutdown();" />
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <strings jsxwidth="100%" jsxheight="100%" />
+          <object type="jsx3.gui.Tree">
+            <variants jsxheaderheight="0" jsxjsxxmlasync="1" jsxdrag="0" jsxdrop="0" jsxmultiselect="0" jsxreorder="0"/>
+            <strings jsxname="jsxxmpptree" jsxpagingmodel="4" jsxmenu="jsx3.ide.xmppctx" />
+            <dynamics jsxbgcolor="@Solid Light"/>
+            <events jsxexecute="xmpppalette.getPlugIn().doStartChat(strRECORDIDS);" />
+            <object type="jsx3.gui.Matrix.Column">
+              <variants/>
+              <strings jsxname="jsxxmpptreecol1" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext"/>
+              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

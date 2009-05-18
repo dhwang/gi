@@ -1,0 +1,186 @@
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <onAfterDeserialize><![CDATA[
+objJSX.getFirstResponder = function() {
+  return server;
+};
+
+objJSX.savePrefs = function() {
+  var srvValue = server.getValue();
+  var portValue = port.getValue();
+  var sslValue = useSSL.getValue();
+  var idValue = userid.getValue();
+  var pwValue = password.getValue();
+  var remValue = remember.getValue();
+  var s = jsx3.ide.getIDESettings();
+  var id = this.getPlugIn().getId();
+
+  var s = jsx3.ide.getIDESettings();
+  var id = this.getPlugIn().getId();
+
+  if (s.get(id, "server") != srvValue)
+    s.set(id, "server", srvValue);
+  if (s.get(id, "port") != portValue)
+    s.set(id, "port", portValue);
+  if (s.get(id, "ssl") != sslValue)
+    s.set(id, "ssl", sslValue);
+
+  if (s.get(id, "remember") != remValue)
+    s.set(id, "remember", remValue);
+  if (remValue) {
+    if (s.get(id, "userid") != idValue)
+      s.set(id, "userid", idValue);
+    if (s.get(id, "password") != pwValue)
+      s.set(id, "password", pwValue);
+  } else {
+    s.set(id, "userid", "");
+    s.set(id, "password", "");
+  }
+
+  return true;
+};
+
+objJSX.loadPrefs = function() {
+  var s = jsx3.ide.getIDESettings();
+  var id = this.getPlugIn().getId();
+
+  server.setValue(s.get(id, "server"));
+  port.setValue(s.get(id, "port"));
+  useSSL.setValue(s.get(id, "ssl"));
+  userid.setValue(s.get(id, "userid"));
+  password.setValue(s.get(id, "password"));
+  remember.setValue(s.get(id, "remember"));
+};
+
+objJSX.makeDirty = function(objInput) {
+  this.getPane().setDirty(true);
+};
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+    <strings jsxname="prefspane" jsxwidth="100%" jsxheight="100%" jsxpadding="8" jsxhelpid="ide.prefs.xmpp"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="30"/>
+      <strings jsxwidth="100%"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="1" jsxoverflow="2"/>
+        <strings jsxcols="90,*" />
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="5 6 0 0" />
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3"/>
+            <strings jsxname="label" jsxtext="Server:" jsxfontweight="bold"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18"/>
+            <strings jsxname="server" jsxmargin="0 4 0 0" jsxvalue=""/>
+            <events jsxincchange="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+      </object>
+	</object>
+	<object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="30"/>
+      <strings jsxwidth="100%"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="1" jsxoverflow="2"/>
+        <strings jsxcols="90,*" />
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3"/>
+            <strings jsxname="label" jsxtext="Port:" jsxfontweight="bold"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18"/>
+            <strings jsxname="port" jsxmargin="0 4 0 0" jsxvalue=""/>
+            <events jsxincchange="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+      </object>
+	</object>
+    <object type="jsx3.gui.CheckBox">
+      <variants jsxheight="18" jsxdefaultchecked="0"/>
+      <strings jsxname="useSSL" jsxtext="Use SSL" jsxmargin="0 4 0 0"/>
+      <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"
+              jsxtoggle="prefspane.makeDirty(this);" />
+    </object>
+	<object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="30"/>
+      <strings jsxwidth="100%"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="1" jsxoverflow="2"/>
+        <strings jsxcols="90,*" />
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3"/>
+            <strings jsxname="label" jsxtext="User ID:" jsxfontweight="bold"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18"/>
+            <strings jsxname="userid" jsxmargin="0 4 0 0"/>
+            <events jsxincchange="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+      </object>
+	</object>
+	<object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="30"/>
+      <strings jsxwidth="100%"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="1" jsxoverflow="2"/>
+        <strings jsxcols="90,*" />
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3"/>
+            <strings jsxname="label" jsxtext="Password:" jsxfontweight="bold"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxtype="2" jsxheight="18"/>
+            <strings jsxname="password" jsxmargin="0 4 0 0"/>
+            <events jsxincchange="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+      </object>
+	</object>
+    <object type="jsx3.gui.CheckBox">
+      <variants jsxheight="18" jsxdefaultchecked="0"/>
+      <strings jsxname="remember" jsxtext="Remember my user ID and password" jsxmargin="0 4 0 0"/>
+      <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"
+              jsxtoggle="prefspane.makeDirty(this);" />
+    </object>
+  </object>
+</serialization>

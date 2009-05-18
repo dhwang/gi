@@ -54,6 +54,7 @@
   <plugin id="jsx3.ide.recorder"/>
   <plugin id="jsx3.ide.recorder.gipp"/>
   <plugin id="jsx3.ide.recorder.gitak"/>
+  <plugin id="jsx3.ide.xmpp"/>
   <plugin id="net.sf.editarea"/>
   <plugin id="com.google.gears"/>
 </plugins>
