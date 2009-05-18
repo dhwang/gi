@@ -202,7 +202,7 @@
     <testng
         classpathref="cp.selenium"
         haltonfailure="false"
-        parallel="methods" threadCount="${tests.selenium-threads}" timeOut="3600000"
+        parallel="methods" threadCount="${tests.selenium-threads}" timeOut="1500000"
         suitename="GI Test Suite for Selenium Grid"
         outputdir="${buildDir}/testng-reports">
 
