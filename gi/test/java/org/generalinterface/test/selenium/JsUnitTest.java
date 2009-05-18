@@ -43,15 +43,15 @@ public class JsUnitTest {
       selenium.start();
 
       selenium.open(uriWithQuery.toString());
-      selenium.selectFrame("dom=window.top.mainFrame.mainStatus");
+//      selenium.selectFrame("dom=window.top.mainFrame.mainStatus");
       selenium.setTimeout("" + TIMEOUT);
 
       // set timeout so that form has enough time to submit and return
       selenium.setSpeed("5000");
-      selenium.waitForCondition("/\\bDone\\s+\\([\\d\\.]+\\s+seconds\\)/.test(window.top.mainFrame.mainStatus.document.getElementsByTagName('div')[0].innerHTML)", "" + TIMEOUT);
+      selenium.waitForCondition("var html = ''; try { html = window.top.mainFrame.mainStatus.document.getElementsByTagName('div')[0].innerHTML; } catch (e) {;} /\\bDone\\s+\\([\\d\\.]+\\s+seconds\\)/.test(html);", "" + TIMEOUT);
 
-      // just to make sure selenium doesn't close
-      selenium.selectFrame("dom=window.top.mainFrame.mainProgress");
+//       just to make sure selenium doesn't close
+//      selenium.selectFrame("dom=window.top.mainFrame.mainProgress");
     } finally {
       if (selenium != null)
         selenium.stop();
