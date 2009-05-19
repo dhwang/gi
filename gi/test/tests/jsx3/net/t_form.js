@@ -21,7 +21,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   t.testGetAction = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     try {
-      jsunit.assertEquals(ACTION, f.getAction());
+      jsunit.assertTrue(jsx3.$S(f.getAction()).endsWith("formdata.cgi"));
     } finally {
       f.destroy();
     }
@@ -51,7 +51,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "#", false);
     try {
       f.setAction(ACTION);
-      jsunit.assertEquals(ACTION, f.getAction());
+      jsunit.assertTrue(jsx3.$S(f.getAction()).endsWith("formdata.cgi"));
     } finally {
       f.destroy();
     }
@@ -255,7 +255,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   t.testFragmentAction = function() {
     var f = new jsx3.net.Form.newFromFragment('<form action="' + ACTION + '"/>');
     try {
-      jsunit.assertEquals(ACTION, f.getAction());
+      jsunit.assertTrue(jsx3.$S(f.getAction()).endsWith("formdata.cgi"));
     } finally {
       f.destroy();
     }

@@ -242,6 +242,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     var headers = r.getAllResponseHeaders();
     jsunit.assertTrue(headers == null || headers === "");
   };
+  t.testAllResponseHeadersLocal._skip_unless = "FILE_SCHEME";
 
   t.testTimeoutAsync = function() {
     var r = new jsx3.net.Request();
