@@ -49,18 +49,21 @@ $userAgent, $matches)){
         }
     }
 
+    $tokens = array("msie" => "ie", "firefox" => "fx", "safari" => "sf", "chrome" => "cr", "opera" => "op");
+
     if (strpos($userAgent, 'linux')) {
-        $os = 'linux';
+        $os = 'lnx';
     }
     else if (strpos($userAgent, 'macintosh') || strpos($userAgent, 'mac os x')) {
         $os = 'mac';
     }
     else if (strpos($userAgent, 'windows') || strpos($userAgent, 'win32')) {
-        $os = 'windows';
+        $os = 'win';
     }
 
     return array(
         "browser"      => $browser,
+        "btoken"       => $tokens[$browser],
         "majorVersion" => $majorVersion,
         "minorVersion" => $minorVersion,
         "fullVersion"  => $fullVersion,
@@ -79,7 +82,7 @@ global $errors, $fails, $tests;
 	//echo $val . ",errors:". $errors . ",fails:". $fails;
 }
 
-function write_testcase($val, $key, $handle) {
+function write_testcase($val, $key, $handle, $browserToken) {
 //jsx3.lang.Package:testStaticFields|0.003|S||
 
    $testcase = split("\|", $val);
@@ -91,9 +94,9 @@ function write_testcase($val, $key, $handle) {
    $class = $nameparts[0];
    $name = $nameparts[1];
    if ($teststat == "S") {
-     $xText = "<testcase id=\"$key\" classname=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\"/>\n";
+     $xText = "<testcase id=\"$key\" classname=\"$class\" name=\"$name ($browserToken)\" time=\"$testtime\" status=\"$teststat\"/>\n";
    } else {
-	  $xText = "<testcase id=\"$key\" classname=\"$class\" name=\"$name\" time=\"$testtime\" status=\"$teststat\">\n";
+	  $xText = "<testcase id=\"$key\" classname=\"$class\" name=\"$name ($browserToken)\" time=\"$testtime\" status=\"$teststat\">\n";
 	  if ($teststat == "F") {
 	    $xText = $xText."<failure type=\"failure\"><![CDATA[". $testcase[3] ."]]></failure>\n";
 	  } else if ($teststat == "E") {
@@ -117,7 +120,8 @@ function resp_print($item, $key)
 
 
 $info = getBrowserInfo();
-$mybrowser = $info["os"]."-".$info["browser"]."-".$info["majorVersion"].$info["minorVersion"]."-". time()  ;
+$mybrowser = $info["os"]."-".$info["browser"]."-".$info["majorVersion"].$info["minorVersion"]."-". time();
+$browserToken = $info["btoken"] . $info["majorVersion"] . substr($info["minorVersion"], 1, 2) . $info["os"];
 
 $runId = $_POST["id"];
 $totalTime =$_POST["time"];
@@ -153,7 +157,7 @@ $filename = $dirpath ."/TestResults-".$mybrowser.".xml";
 $handle = fopen($filename, "w");
 $writer = fwrite($handle, $headerText);
 $writer = fwrite($handle, $suiteText);
-array_walk($_POST["testCases"], "write_testcase", $handle);
+array_walk($_POST["testCases"], "write_testcase", $handle, $browserToken);
 $writer = fwrite($handle, $endText);
 fclose($handle);
 $url = "http://".$host. substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/'));;
