@@ -229,9 +229,10 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       var firstCap = i.charAt(0).toUpperCase() + i.substring(1, i.length);
       if(i != "id" && i != "class"){
         if(!self["get" + firstCap] && !self["set" + firstCap]) {
-          (self["get" + firstCap] = function() {
+          var getter = self["get" + firstCap] = function() {
             return self.dijit.attr(i);
-          })._dojoGetter = true;
+          };
+          getter._dojoGetter = true;
           var defaultValue = self.dijit.constructor.prototype[i];
           if (defaultValue && typeof defaultValue == 'object') {
             self["getJSON" + firstCap] = function() {
