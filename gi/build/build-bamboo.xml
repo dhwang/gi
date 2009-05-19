@@ -152,6 +152,9 @@
     <property name="testClassesDir" value="${buildDir}/test-classes"/>
     <property name="testResultsDir" value="${buildDir}/test-reports"/>
 
+    <echo>Resetting the Selenium grid...</echo>
+    <exec executable="/srv/selenium-grid/restart_test_environment.sh" dir="/srv/selenium-grid"/>
+
     <!-- Clean and build -->
     <ant antfile="build.xml" target="dist" inheritall="false" inheritrefs="false">
       <property name="build.gi.buildno" value="r${rev}"/>
@@ -162,7 +165,7 @@
     <property name="stagingDir" value="${tests.staging-dir}/${randomDir}"/>
     <property name="phpTestResultsDir" value="${stagingDir}/test/server/test-reports"/>
 
-    <echo message="Staging GI in directort ${stagingDir}"/>
+    <echo message="Staging GI in directory ${stagingDir}"/>
 
     <copy todir="${stagingDir}">
       <fileset dir="${project.dir}/dist/gi" includes="**"/>
@@ -198,8 +201,7 @@
       <src path="${project.dir}/test/java"/>
     </javac>
 
-    <echo>Resetting the Selenium grid...</echo>
-    <exec executable="/srv/selenium-grid/restart_test_environment.sh" dir="/srv/selenium-grid"/>
+    <echo>Sleeping for one minute...</echo>
     <sleep seconds="60"/>
 
     <!-- Invoke Selenium hub -->
