@@ -131,7 +131,7 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
     this.setDirty(true);
   };
 
-  /** @private @jsxobf-clobber */
+  /** @private @jsxobf-clobber-shared */
   Editor_prototype._getTargetString = function(objJSX) {
     var dom = objJSX.getServer().getDOM();
     var path = "";

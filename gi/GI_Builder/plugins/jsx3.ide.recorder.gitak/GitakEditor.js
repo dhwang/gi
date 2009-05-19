@@ -160,4 +160,10 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
     }
   };
 
+  /** @private @jsxobf-clobber-shared */
+  Editor_prototype._getTargetString = function(objJSX) {
+    var s = this.jsxsuper(objJSX);
+    return s ? "jsxselector=" + s : s;
+  };
+
 });

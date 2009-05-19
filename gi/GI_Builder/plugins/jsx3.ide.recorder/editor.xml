@@ -55,7 +55,7 @@ this.setGIPP = function(b) {
                     <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"/>
                     <object type="jsx3.gui.Button">
                       <variants jsxindex="0" jsxheight="18"/>
-                      <strings jsxname="button" jsxtext="Insert Test Case" jsxmargin="0 0 0 0"/>
+                      <strings jsxname="button" jsxtext="Insert Row" jsxmargin="0 0 0 0"/>
                       <events jsxexecute="content.getEditor().onInsertRecord();"/>
                     </object>
                   </object>
