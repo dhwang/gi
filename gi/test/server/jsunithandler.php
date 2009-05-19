@@ -15,12 +15,6 @@ $browserToken = "";
  * getBrowserInfo - determine the browser information
  */
 function getBrowserInfo() {
-    $SUPERCLASS_NAMES  = "gecko,mozilla,mosaic,webkit";
-    $SUPERCLASSES_REGX = "(?:".str_replace(",", ")|(?:", $SUPERCLASS_NAMES).")";
-
-    $SUBCLASS_NAMES    = "opera,msie,firefox,chrome,safari";
-    $SUBCLASSES_REGX   = "(?:".str_replace(",", ")|(?:", $SUBCLASS_NAMES).")";
-
     $browser      = "unsupported";
     $majorVersion = "0";
     $minorVersion = "0";
@@ -29,14 +23,14 @@ function getBrowserInfo() {
 
     $userAgent    = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-    // Check "Firefox 3.5"
-    $found = preg_match("/(?P<browser>".$SUBCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
+    // Check "3.0 Safari"
+    $found = preg_match("/(?P<majorVersion>\d+)(?P<minorVersion>(?:[\.\d]*))\s+(?P<browser>(?:safari))/i", $userAgent, $matches);
     if (!$found) {
-      // Check "3.0 Safari"
-      $found = preg_match("/(?P<majorVersion>\d+)(?P<minorVersion>(?:[\.\d]*))\s+(?P<browser>".$SUBCLASSES_REGX.")/i", $userAgent, $matches);
+      // Check "Firefox 3.5"
+      $found = preg_match("/(?P<browser>(?:opera|msie|firefox|chrome|safari))\D*(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
       if (!$found) {
           // Check "Mozilla 5"
-          $found = preg_match("/(?P<browser>".$SUPERCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
+          $found = preg_match("/(?P<browser>(?:gecko|mozilla|mosaic|webkit))\D*(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
       }
     }
 
