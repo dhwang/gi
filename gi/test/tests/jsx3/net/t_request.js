@@ -58,7 +58,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/req__.xml"));
     r.send();
-    jsunit.assertEquals(jsx3.net.Request.STATUS_ERROR, r.getStatus());
+    jsunit.assertTrue(r.getStatus() >= 400 && r.getStatus() < 500);
   };
 
   t.testStatusText = function() {

@@ -115,6 +115,11 @@ gi.test.jsunit._init = function(jsunit) {
     document.getElementsByTagName("head")[0].appendChild(element);
   };
 
+  jsunit.loadGI = function() {
+    jsunit.loadScript(jsunit.JSX_JS_BASE + "JSX30.js", jsunit._doneLoadingJSX30,
+        {jsxappempty:"true"});
+  };
+
   jsunit.TestSuite = function(strPrefix) {
     var tokens = strPrefix.split(/\W/);
     this._prefix = tokens.join("_");
@@ -362,18 +367,9 @@ gi.test.jsunit._init = function(jsunit) {
 
     if (window.setUpPage == null)
       window.setUpPage = function() {};
-
-    if (bFirst) {
-      jsunit.loadScript(jsunit.JSX_JS_BASE + "JSX30.js", jsunit._doneLoadingJSX30,
-          {jsxappempty:"true"});
-    } else if (jsunit._waiting && jsunit._waiting.length == 0) {
-      jsunit._doneLoadingJSX30("");
-    }
   };
 
   jsunit._doneLoadingJSX30 = function(strSrc) {
-//    jsunit.debug("Loaded " + strSrc + ". Still waiting for [" + jsunit._waiting + "]");
-
     if (strSrc == jsunit.JSX_JS_BASE + "JSX30.js") {
       // Copy CLASS_LOADER browser tokens into jsunit
       var tokens = ["IE", "IE7", "MOZ", "FX", "SAF", "KON", "SVG", "VML"];
@@ -392,6 +388,8 @@ gi.test.jsunit._init = function(jsunit) {
           jsunit._waiting.splice(i--, 1);
       } catch (e) {;}
     }
+
+//    jsunit.debug("Loaded " + strSrc + ". Still waiting for [" + jsunit._waiting + "]");
 
     if (jsunit._jsxbaseclasses == null) {
       jsunit._jsxbaseclasses = jsx3.lang.ClassLoader.SYSTEM_SCRIPTS.concat();

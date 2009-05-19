@@ -3,7 +3,6 @@
 var JSUNIT_UNDEFINED_VALUE;
 var JSUNIT_VERSION="2.1";
 var isTestPageLoaded = false;
-var isUserTestsLoaded = true;
 
 //hack for NS62 bug
 function jsUnitFixTop() {
@@ -155,7 +154,7 @@ function assertNotNaN() {
 }
 
 function isLoaded() {
-  return isTestPageLoaded && isUserTestsLoaded;
+  return isTestPageLoaded;
 }
 
 function setUp() {
