@@ -18,8 +18,8 @@
   <property name="tests.staging-url" value="http://www.generalinterface.org/nightly-tests"/>
   <property name="tests.selenium-host" value="localhost"/>
   <property name="tests.selenium-port" value="4444"/>
-  <property name="tests.selenium-env" value="Firefox2 on Windows, Firefox3 on Windows, IE6 on Windows, IE7 on Windows, Safari on Windows"/>
-  <property name="tests.selenium-threads" value="10"/>
+  <property name="tests.selenium-env" value="IE6 on Windows, IE7 on Windows, Firefox2 on Windows, Firefox3 on Windows, Safari3 on Windows, Safari4 on Windows, Chrome1 on Windows"/>
+  <property name="tests.selenium-threads" value="4"/>
 
   <property name="project.dir" value=".."/>
   <property name="temp.svninfo" value="svninfo.tmp"/>
@@ -197,6 +197,10 @@
         >
       <src path="${project.dir}/test/java"/>
     </javac>
+
+    <echo>Resetting the Selenium grid...</echo>
+    <exec executable="/srv/selenium-grid/restart_test_environment.sh" dir="/srv/selenium-grid"/>
+    <sleep seconds="60"/>
 
     <!-- Invoke Selenium hub -->
     <testng
