@@ -9,6 +9,7 @@ if (!isset($_POST["id"]))
 $errors = 0; // Total errors tests
 $fails = 0;  // Total failed tests
 $tests = 0;  // Total tests ran
+$browserToken = "";
 
 /** getBrowserInfo - determine the browser information
 */
@@ -82,7 +83,8 @@ global $errors, $fails, $tests;
 	//echo $val . ",errors:". $errors . ",fails:". $fails;
 }
 
-function write_testcase($val, $key, $handle, $browserToken) {
+function write_testcase($val, $key, $handle) {
+global $browserToken;
 //jsx3.lang.Package:testStaticFields|0.003|S||
 
    $testcase = split("\|", $val);
@@ -157,7 +159,7 @@ $filename = $dirpath ."/TestResults-".$mybrowser.".xml";
 $handle = fopen($filename, "w");
 $writer = fwrite($handle, $headerText);
 $writer = fwrite($handle, $suiteText);
-array_walk($_POST["testCases"], "write_testcase", $handle, $browserToken);
+array_walk($_POST["testCases"], "write_testcase", $handle);
 $writer = fwrite($handle, $endText);
 fclose($handle);
 $url = "http://".$host. substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/'));;
