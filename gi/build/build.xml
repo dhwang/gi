@@ -253,13 +253,13 @@
           </elseif>
           <else>
             <echo message="Not including Dojo (bad type: ${build.dojo.type})"/>
-            <delete dir="${dist.dir}" includes="${build.dojo.jsx-files}"/>
+            <delete dir="${dist.dir}" includes="${build.dojo.jsx-files}" includeemptydirs="true"/>
           </else>
         </if>
       </then>
       <else>
         <echo>Not including Dojo.</echo>
-        <delete dir="${dist.dir}" includes="${build.dojo.jsx-files}"/>
+        <delete dir="${dist.dir}" includes="${build.dojo.jsx-files}" includeemptydirs="true"/>
       </else>
     </if>
   </target>
