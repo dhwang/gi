@@ -134,7 +134,7 @@ gi.test.jsunit.defineTests("jsx3.util.DateFormat", function(t, jsunit) {
     jsunit.assertEquals("02", mf.format(new Date(2000, 0, 1, 14, 0, 0)));
   };
 
-  t.testFormatMSM = function() {
+  t.testFormatMsm = function() {
     var mf;
     mf = new jsx3.util.DateFormat("mm:ss:SSS");
     jsunit.assertEquals("09:15:097", mf.format(new Date(2000, 0, 1, 0, 9, 15, 97)));

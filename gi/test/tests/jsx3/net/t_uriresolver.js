@@ -14,7 +14,7 @@ gi.test.jsunit.defineTests("jsx3.net.URIResolver", function(t, jsunit) {
       jsunit.assertEquals(u[i], jsx3.resolveURI(u[i]));
   };
 
-  t.testResolveJSX = function() {
+  t.testResolveJsx = function() {
     jsunit.assertEquals(jsunit.JSX_BASE + "JSX/file.html", jsx3.resolveURI("jsx:///file.html"));
     jsunit.assertEquals(jsunit.JSX_BASE + "JSX/file.html", jsx3.resolveURI("jsx:/file.html"));
     jsunit.assertEquals(jsunit.JSX_BASE + "JSX/file.html", jsx3.resolveURI("JSX/file.html"));

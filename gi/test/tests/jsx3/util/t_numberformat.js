@@ -138,7 +138,7 @@ gi.test.jsunit.defineTests("jsx3.util.NumberFormat", function(t, jsunit) {
     jsunit.assertEquals("3.4", f.format(3.4));
   };
 
-  t.testGroupingES = function() {
+  t.testGroupingEs = function() {
     var f = new jsx3.util.NumberFormat("#,###", jsx3.util.Locale.valueOf("es"));
     jsunit.assertEquals("100", f.format(100));
     jsunit.assertEquals("1.000", f.format(1000));
@@ -146,7 +146,7 @@ gi.test.jsunit.defineTests("jsx3.util.NumberFormat", function(t, jsunit) {
     jsunit.assertEquals("1.001", f.format(1000.5));
   };
 
-  t.testDecimalPlaceES = function() {
+  t.testDecimalPlaceEs = function() {
     var f = new jsx3.util.NumberFormat("#,##0.#", jsx3.util.Locale.valueOf("es"));
     jsunit.assertEquals("3", f.format(3));
     jsunit.assertEquals("3,4", f.format(3.4));
@@ -228,7 +228,7 @@ gi.test.jsunit.defineTests("jsx3.util.NumberFormat", function(t, jsunit) {
     jsunit.assertEquals(105, f.parse("105."));
   };
 
-  t.testParseGroupES = function() {
+  t.testParseGroupEs = function() {
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.valueOf("es"));
     jsunit.assertEquals(1000, f.parse("1.000"));
     jsunit.assertEquals(1000, f.parse("1000"));
@@ -236,7 +236,7 @@ gi.test.jsunit.defineTests("jsx3.util.NumberFormat", function(t, jsunit) {
     jsunit.assertEquals(1000000, f.parse("1.000.000"));
   };
 
-  t.testParseDecimalES = function() {
+  t.testParseDecimalEs = function() {
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.valueOf("es"));
     jsunit.assertEquals(1.05, f.parse("1,05"));
     jsunit.assertEquals(105, f.parse("105,"));

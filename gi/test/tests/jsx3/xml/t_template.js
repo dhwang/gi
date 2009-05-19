@@ -119,7 +119,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Template", function(t, jsunit) {
 //      jsunit.assertEquals('<doc>&amp;amp;</doc>', d);
   };
 
-  t.testModifyXSL = function() {
+  t.testModifyXsl = function() {
     var xsl = new jsx3.xml.Document().loadXML(trans1);
     var temp = new jsx3.xml.Template(xsl);
     var xml = new jsx3.xml.Document().loadXML(src1);
@@ -134,6 +134,6 @@ gi.test.jsunit.defineTests("jsx3.xml.Template", function(t, jsunit) {
     jsunit.assertEquals("r1", d.selectSingleNode("//doc").getAttribute("id"));
     jsunit.assertEquals("v1", d.selectSingleNode("//doc").getAttribute("a1"));
   };
-  t.testModifyXSL._unless = "IE"; // NOTE: IE doesn't support this ...
+  t.testModifyXsl._unless = "IE"; // NOTE: IE doesn't support this ...
 
 });

@@ -136,7 +136,7 @@ gi.test.jsunit.defineTests("jsx3.app.Model", function(t, jsunit) {
     jsunit.assertNullOrUndef(o.getParent());
   };
 
-  t.testGetNS = function() {
+  t.testGetNs = function() {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
 

@@ -7,7 +7,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
   jsunit.require("jsx3.net.Request");
 
-  t.testGetXML = function() {
+  t.testGetXml = function() {
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/req.xml"));
     r.send();
@@ -18,7 +18,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertEquals("jsxroot", x.getAttribute("jsxid"));
   };
 
-  t.testGetXMLFromText = function() {
+  t.testGetXmlFromText = function() {
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/req.txt"));
     r.send();
@@ -36,7 +36,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertMatches(/^File data\.[\r\n]+$/, text);
   };
 
-  t.testGetTextFromXML = function() {
+  t.testGetTextFromXml = function() {
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/req.xml"));
     r.send();
@@ -47,7 +47,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertMatches(/^<data jsxid="jsxroot">[\r\n]+ +<record a1="v1"\/>[\r\n]+<\/data>[\r\n]+$/, text);
   };
 
-  t.testStatusOK = function() {
+  t.testStatusOk = function() {
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/req.xml"));
     r.send();
@@ -132,7 +132,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   t.testAsyncFail2._async = true;
   t.testAsyncFail2._skip = "SAF";
 
-  t.testRemoteXML = function() {
+  t.testRemoteXml = function() {
     var r = new jsx3.net.Request();
     r.open("GET", jsunit.HTTP_BASE + "/data1.xml");
     r.send();
@@ -142,7 +142,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertInstanceOf(x, jsx3.xml.Document);
     jsunit.assertEquals("data", x.getNodeName());
   };
-  t.testRemoteXML._skip_unless = "NETWORK";
+  t.testRemoteXml._skip_unless = "NETWORK";
 
   t.testRemoteText = function() {
     var r = new jsx3.net.Request();

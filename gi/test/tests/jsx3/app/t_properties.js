@@ -239,7 +239,7 @@ gi.test.jsunit.defineTests("jsx3.app.Properties", function(t, jsunit) {
     jsunit.assertEquals("value1", p.get("key1"));
   };
 
-  t.testLoadXML = function() {
+  t.testLoadXml = function() {
     var d = (new jsx3.xml.Document()).load(t.resolveURI("data/props1.xml"));
     var p = new jsx3.app.Properties();
     p.loadXML(d);

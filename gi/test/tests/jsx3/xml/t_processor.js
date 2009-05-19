@@ -72,7 +72,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Processor", function(t, jsunit) {
     jsunit.assertMatches(/^<doc id="r1"\s*\/>$/, d);
   };
 
-  t.testSetXML = function() {
+  t.testSetXml = function() {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans1));
@@ -131,7 +131,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Processor", function(t, jsunit) {
 //      jsunit.assertEquals('<doc>&amp;amp;</doc>', d);
   };
 
-  t.testModifyXSL = function() {
+  t.testModifyXsl = function() {
     var xsl = new jsx3.xml.Document().loadXML(trans1);
     var xml = new jsx3.xml.Document().loadXML(src1);
     var d = xml.transformNode(xsl, null, true);
@@ -144,6 +144,6 @@ gi.test.jsunit.defineTests("jsx3.xml.Processor", function(t, jsunit) {
     jsunit.assertEquals("r1", d.selectSingleNode("//doc").getAttribute("id"));
     jsunit.assertEquals("v1", d.selectSingleNode("//doc").getAttribute("a1"));
   };
-  t.testModifyXSL._unless = "IE"; // NOTE: IE doesn't support this ...
+  t.testModifyXsl._unless = "IE"; // NOTE: IE doesn't support this ...
 
 });

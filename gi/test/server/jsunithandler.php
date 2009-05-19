@@ -5,14 +5,15 @@ if (!isset($_POST["id"]))
   ?>No ID information, is this an JsUnit report<?php
   return;
 }
-/****/
+
 $errors = 0; // Total errors tests
 $fails = 0;  // Total failed tests
 $tests = 0;  // Total tests ran
 $browserToken = "";
 
-/** getBrowserInfo - determine the browser information
-*/
+/**
+ * getBrowserInfo - determine the browser information
+ */
 function getBrowserInfo() {
     $SUPERCLASS_NAMES  = "gecko,mozilla,mosaic,webkit";
     $SUPERCLASSES_REGX = "(?:".str_replace(",", ")|(?:", $SUPERCLASS_NAMES).")";
@@ -28,11 +29,15 @@ function getBrowserInfo() {
 
     $userAgent    = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-    $found = preg_match("/(?P<browser>".$SUBCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i",
-$userAgent, $matches);
+    // Check "Firefox 3.5"
+    $found = preg_match("/(?P<browser>".$SUBCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
     if (!$found) {
-        $found = preg_match("/(?P<browser>".$SUPERCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i",
-$userAgent, $matches);
+      // Check "3.0 Safari"
+      $found = preg_match("/(?P<majorVersion>\d+)(?P<minorVersion>(?:[\.\d]*))\s+(?P<browser>".$SUBCLASSES_REGX.")/i", $userAgent, $matches);
+      if (!$found) {
+          // Check "Mozilla 5"
+          $found = preg_match("/(?P<browser>".$SUPERCLASSES_REGX.")(?:\D*)(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
+      }
     }
 
     if ($found) {
@@ -41,8 +46,7 @@ $userAgent, $matches);
         $minorVersion = $matches["minorVersion"];
         $fullVersion  = $matches["majorVersion"].$matches["minorVersion"];
         if ($browser != "safari") {
-            if (preg_match("/version\/(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i",
-$userAgent, $matches)){
+            if (preg_match("/version\/(?P<majorVersion>\d*)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches)){
                 $majorVersion = $matches["majorVersion"];
                 $minorVersion = $matches["minorVersion"];
                 $fullVersion  = $majorVersion.".".$minorVersion;
@@ -50,7 +54,7 @@ $userAgent, $matches)){
         }
     }
 
-    $tokens = array("msie" => "ie", "firefox" => "fx", "safari" => "sf", "chrome" => "cr", "opera" => "op");
+    $tokens = array("msie" => "ie", "firefox" => "fx", "safari" => "sf", "chrome" => "ch", "opera" => "op");
 
     if (strpos($userAgent, 'linux')) {
         $os = 'lnx';
@@ -72,11 +76,10 @@ $userAgent, $matches)){
 }
 
 function getFailedCount($val, $key) {
-global $errors, $fails, $tests;
-    if (strpos($val, "|E") != false) {
+  global $errors, $fails, $tests;
+  if (strpos($val, "|E") != false) {
 	   $errors++;
-	}else
-	if (strpos($val, "|F") != false) {
+	} else if (strpos($val, "|F") != false) {
 		$fails++;
 	}
 	//$tests = $key; // keep updating tests counts with testcase index.
@@ -84,7 +87,7 @@ global $errors, $fails, $tests;
 }
 
 function write_testcase($val, $key, $handle) {
-global $browserToken;
+  global $browserToken;
 //jsx3.lang.Package:testStaticFields|0.003|S||
 
    $testcase = split("\|", $val);
@@ -112,10 +115,10 @@ global $browserToken;
 }
 
 // print to stdout array walk (item, key)
-function resp_print($item, $key)
-{
+function resp_print($item, $key) {
    echo "<b>$key</b>: $item<br />";
 }
+
 /****************************/
 /* START MAIN  */
 /****************************/
@@ -123,7 +126,17 @@ function resp_print($item, $key)
 
 $info = getBrowserInfo();
 $mybrowser = $info["os"]."-".$info["browser"]."-".$info["majorVersion"].$info["minorVersion"]."-". time();
-$browserToken = $info["btoken"] . $info["majorVersion"] . substr($info["minorVersion"], 1, 2) . $info["os"];
+
+if ($info["btoken"] == 'ie') {
+  $browserToken = $info["btoken"] . $info["majorVersion"];
+} else {
+  $minor = substr($info["minorVersion"], 1, 1);
+  if ($minor == "0") {
+    $browserToken = $info["btoken"] . $info["majorVersion"] . $info["os"];
+  } else {
+    $browserToken = $info["btoken"] . $info["majorVersion"] . "_" . $minor . $info["os"];
+  }
+}
 
 $runId = $_POST["id"];
 $totalTime =$_POST["time"];

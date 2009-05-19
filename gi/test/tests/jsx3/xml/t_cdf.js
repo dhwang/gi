@@ -16,7 +16,7 @@ gi.test.jsunit.defineTests("jsx3.xml.CDF", function(t, jsunit) {
     jsunit.assertTrue(cdf.instanceOf(jsx3.xml.CDF));
   };
 
-  t.testGetXML = function() {
+  t.testGetXml = function() {
     var cdf = newCDF("data/cdf1.xml");
     var xml = cdf.getXML();
     jsunit.assertInstanceOf(xml, jsx3.xml.Document);
@@ -271,7 +271,7 @@ gi.test.jsunit.defineTests("jsx3.xml.CDF", function(t, jsunit) {
     jsunit.assertEquals("v1", cdf.getRecord("5").n1);
   };
   
-  t.testGetCDFIds = function () {
+  t.testGetCdfIds = function () {
     var cdf = newCDF("data/cdf1.xml");
   var expIds = ['','2','','4','5'];
   var ids = cdf.getRecordIds();

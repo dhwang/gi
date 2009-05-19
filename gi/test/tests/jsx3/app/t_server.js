@@ -50,7 +50,7 @@ gi.test.jsunit.defineTests("jsx3.app.Server", function(t, jsunit) {
 
   };
 
-  t.testGetDOM = function() {
+  t.testGetDom = function() {
 
   };
 

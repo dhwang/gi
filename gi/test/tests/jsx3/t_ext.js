@@ -224,7 +224,7 @@ gi.test.jsunit.defineTests("ext", function(t, jsunit) {
   };
   t.testYAnd._async = true;
 
-  t.testYRVChain = function() {
+  t.testYRvChain = function() {
     var f1 = jsx3.$Y(function(cb) {
       jsx3.sleep(function() {
         cb.done(1);
@@ -243,7 +243,7 @@ gi.test.jsunit.defineTests("ext", function(t, jsunit) {
       jsunit.assertEquals(1, rv.rv());
     }));
   };
-  t.testYRVChain._async = true;
+  t.testYRvChain._async = true;
 
   t.testYOr = function() {
     var ct = 0;

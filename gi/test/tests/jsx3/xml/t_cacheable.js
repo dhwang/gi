@@ -241,7 +241,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Cacheable", function(t, jsunit) {
     jsunit.assertEquals("value1", x.getAttribute("param"));
   };
 
-  t.testGetXSL = function() {
+  t.testGetXsl = function() {
     var c = new gi.test.CacheTest();
     t._server.getBodyBlock().setChild(c);
 

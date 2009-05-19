@@ -36,7 +36,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("element", ne.getNodeName());
   };
 
-  t.testCreateNodeElementNS = function() {
+  t.testCreateNodeElementNs = function() {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var ne = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "el:element","http://namespace");
     jsunit.assertEquals("element", ne.getBaseName());
@@ -50,7 +50,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("attribute", na.getNodeName());
   };
 
-  t.testCreateNodeAttributeNS = function() {
+  t.testCreateNodeAttributeNs = function() {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var ne = d.createNode(jsx3.xml.Entity.TYPEATTRIBUTE, "at:attribute","http://namespace");
     jsunit.assertEquals("attribute", ne.getBaseName());
@@ -58,13 +58,13 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("http://namespace", ne.getNamespaceURI());
   };
 
-  t.testGetXML = function() {
+  t.testGetXml = function() {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var ne = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "element");
     jsunit.assertEquals("<element/>", ne.getXML());
   };
 
-  t.testGetXMLNS = function() {
+  t.testGetXmlNs = function() {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var ne = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "el:element","http://namespace");
     jsunit.assertEquals("<el:element xmlns:el=\"http://namespace\"/>", ne.getXML());
@@ -76,7 +76,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("text", nt.getValue());
   };
 
-  t.testCreateNodeCDATA = function() {
+  t.testCreateNodeCdata = function() {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nd = d.createNode(jsx3.xml.Entity.TYPECDATA, "cdata");
     jsunit.assertEquals("cdata", nd.getValue());
@@ -102,7 +102,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("foo:data", d.getNodeName());
   };
 
-  t.testGetNamespaceURI1 = function() {
+  t.testGetNamespaceUri1 = function() {
     var ns = "http://foo.example.com";
     var d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="' + ns + '"><foo:record/><record/></foo:data>');
     jsunit.assertEquals(ns, d.getNamespaceURI());
@@ -110,7 +110,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("", d.getChildNodes().get(1).getNamespaceURI());
   };
 
-  t.testGetNamespaceURI2 = function() {
+  t.testGetNamespaceUri2 = function() {
     var ns = "http://foo.example.com";
     var d = new jsx3.xml.Document().loadXML('<data xmlns="' + ns + '"><record/></data>');
     jsunit.assertEquals(ns, d.getNamespaceURI());
@@ -490,7 +490,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertEquals("text", nt.toString());
   };
 
-  t.testToStringCDATA = function() {
+  t.testToStringCdata = function() {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nd = d.createNode(jsx3.xml.Entity.TYPECDATA, "cdata");
     jsunit.assertEquals("<![CDATA[cdata]]>", nd.toString());

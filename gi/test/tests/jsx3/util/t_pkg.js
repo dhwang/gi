@@ -52,7 +52,7 @@ gi.test.jsunit.defineTests("jsx3.util", function(t, jsunit) {
     jsunit.assertEquals("fgh", jsx3.util.strTrim("\nfgh\n \n\n"));
   };
 
-  t.testStrEscapeHTML = function() {
+  t.testStrEscapeHtml = function() {
     jsunit.assertEquals("abc", jsx3.util.strEscapeHTML("abc"));
     jsunit.assertEquals("&lt;t a=&quot;v&quot;/&gt;&amp;#160;", jsx3.util.strEscapeHTML('<t a="v"/>&#160;'));
   };

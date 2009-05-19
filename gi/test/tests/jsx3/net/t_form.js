@@ -189,7 +189,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
     }
   };
 
-  t.testSetUTF8 = function() {
+  t.testSetUtf8 = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "", false);
     var value = "\u3CC4";
     try {
@@ -417,7 +417,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
 
 /* Will just get back the 404 error page rather than any sort of status...
 
-  t.testBadURL = function() {
+  t.testBadUrl = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jsunit.HTTP_BASE + "/404.cgi", false);
     f.setField("field", "value");
 
@@ -430,8 +430,8 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
 
     f.send();
   };
-  t.testBadURL._async = true;
-  t.testBadURL._skip_unless = "NETWORK";
+  t.testBadUrl._async = true;
+  t.testBadUrl._skip_unless = "NETWORK";
 */
 
   t.testSendSimple = function() {
@@ -475,7 +475,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   t.testSendWhiteSpace._async = true;
   t.testSendWhiteSpace._skip_unless = "NETWORK";
 
-  t.testSendXML = function() {
+  t.testSendXml = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     var value1 = "<some>&xml &lt;";
 
@@ -494,11 +494,11 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
 
     f.send();
   };
-  t.testSendXML._async = true;
-  t.testSendXML._skip_unless = "NETWORK";
+  t.testSendXml._async = true;
+  t.testSendXml._skip_unless = "NETWORK";
 
 /* Can't get this one to work between the browser and our server...
-  t.testSendUTF8 = function() {
+  t.testSendUtf8 = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     var value1 = "\u3CC4";
 
@@ -518,8 +518,8 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
 
     f.send();
   };
-  t.testSendUTF8._async = true;
-  t.testSendUTF8._skip_unless = "NETWORK";
+  t.testSendUtf8._async = true;
+  t.testSendUtf8._skip_unless = "NETWORK";
 */
 
 });

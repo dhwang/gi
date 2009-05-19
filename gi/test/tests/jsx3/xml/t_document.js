@@ -32,14 +32,14 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
     jsunit.assertFalse("Shouldn't have error: " + d.getError(), d.hasError());
   };
 
-  t.testLoadBadURL = function() {
+  t.testLoadBadUrl = function() {
     var d = new jsx3.xml.Document();
     d.load(t.resolveURI("data/testy1.xml"));
 
     jsunit.assertTrue(d.hasError());
   };
 
-  t.testLoadBadXML = function() {
+  t.testLoadBadXml = function() {
     var d = new jsx3.xml.Document();
     d.load(t.resolveURI("data/bad.xml"));
 
@@ -121,7 +121,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
   };
   t.testLoadAsyncError2._async = true;
 
-  t.testLoadBadXMLAsync = function() {
+  t.testLoadBadXmlAsync = function() {
     var d = new jsx3.xml.Document();
     d.setAsync(true);
     d.subscribe(jsx3.xml.Document.ON_RESPONSE, t.asyncCallback(function(objEvent) {
@@ -133,7 +133,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
 
     d.load(t.resolveURI("data/bad.xml"));
   };
-  t.testLoadBadXMLAsync._async = true;
+  t.testLoadBadXmlAsync._async = true;
 
   t.testLoadRemote = function() {
     var d = new jsx3.xml.Document();
@@ -145,21 +145,21 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
   };
   t.testLoadRemote._skip_unless = "NETWORK";
 
-  t.testLoadRemoteBadURL = function() {
+  t.testLoadRemoteBadUrl = function() {
     var d = new jsx3.xml.Document();
     d.load(jsunit.HTTP_BASE + "/404.xml");
 
     jsunit.assertTrue(d.hasError());
   };
-  t.testLoadRemoteBadURL._skip_unless = "NETWORK";
+  t.testLoadRemoteBadUrl._skip_unless = "NETWORK";
 
-  t.testLoadRemoteBadXML = function() {
+  t.testLoadRemoteBadXml = function() {
     var d = new jsx3.xml.Document();
     d.load(jsunit.HTTP_BASE + "/bad1.xml");
 
     jsunit.assertTrue(d.hasError());
   };
-  t.testLoadRemoteBadXML._skip_unless = "NETWORK";
+  t.testLoadRemoteBadXml._skip_unless = "NETWORK";
 
   t.testLoadRemoteAsync = function() {
     var d = new jsx3.xml.Document();
@@ -178,7 +178,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
   t.testLoadRemoteAsync._async = true;
   t.testLoadRemoteAsync._skip_unless = "NETWORK";
 
-  t.testLoadRemoteAsyncBadURL = function() {
+  t.testLoadRemoteAsyncBadUrl = function() {
     var d = new jsx3.xml.Document();
     d.setAsync(true);
     d.subscribe(jsx3.xml.Document.ON_RESPONSE, t.asyncCallback(function(objEvent) {
@@ -193,10 +193,10 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
 
     d.load(jsunit.HTTP_BASE + "/404.xml", 5000);
   };
-  t.testLoadRemoteAsyncBadURL._async = true;
-  t.testLoadRemoteAsyncBadURL._skip_unless = "NETWORK";
+  t.testLoadRemoteAsyncBadUrl._async = true;
+  t.testLoadRemoteAsyncBadUrl._skip_unless = "NETWORK";
 
-  t.testLoadRemoteAsyncBadXML = function() {
+  t.testLoadRemoteAsyncBadXml = function() {
     var d = new jsx3.xml.Document();
     d.setAsync(true);
     d.subscribe(jsx3.xml.Document.ON_RESPONSE, t.asyncCallback(function(objEvent) {
@@ -211,8 +211,8 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
 
     d.load(jsunit.HTTP_BASE + "/bad1.xml", 5000);
   };
-  t.testLoadRemoteAsyncBadXML._async = true;
-  t.testLoadRemoteAsyncBadXML._skip_unless = "NETWORK";
+  t.testLoadRemoteAsyncBadXml._async = true;
+  t.testLoadRemoteAsyncBadXml._skip_unless = "NETWORK";
 
   t.testSourceUrl = function() {
     var url = t.resolveURI("data/test1.xml");
@@ -228,7 +228,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
     jsunit.assertNullOrUndef(d.getSourceURL());
   };
 
-  t.testLoadXML = function() {
+  t.testLoadXml = function() {
     var d = new jsx3.xml.Document();
     var retVal = d.loadXML("<data><record/></data>");
     jsunit.assertTrue(d === retVal); // loadXML should return this
@@ -236,7 +236,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
     jsunit.assertEquals("data", d.getNodeName());
   };
 
-  t.testLoadXMLError = function() {
+  t.testLoadXmlError = function() {
     var d = new jsx3.xml.Document();
     d.loadXML("<data><record/></data");
     jsunit.assertTrue(d.hasError());
