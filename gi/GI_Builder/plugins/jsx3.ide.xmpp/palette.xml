@@ -31,7 +31,7 @@ objJSX.getXMPPTree = function() {
 };
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Block">
-    <strings jsxname="xmpppalette" />
+    <strings jsxname="xmpppalette" jsxheight="100%" jsxwidth="100%"/>
     <dynamics jsxbgcolor="@Solid Light"/>
     <variants jsxleft="0" jsxtop="0" jsxoverflow="2" jsxpadding="5" />
     <object type="jsx3.gui.Block">
