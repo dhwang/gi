@@ -23,10 +23,12 @@ if (RegExp.$1) {
 
   var loadNext = function() {
     if (giScripts.length > 0) {
+      eval("isUserTestsLoaded = false;");
       var next = giScripts.shift();
       gi.test.jsunit.loadScript(next, loadNext);
     } else {
       gi.test.jsunit.loadGI();
+      eval("isUserTestsLoaded = true;");
     }
   };
 
