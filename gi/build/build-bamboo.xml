@@ -18,8 +18,9 @@
   <property name="tests.staging-url" value="http://www.generalinterface.org/nightly-tests"/>
   <property name="tests.selenium-host" value="localhost"/>
   <property name="tests.selenium-port" value="4444"/>
-  <property name="tests.selenium-env" value="IE6 on Windows, IE7 on Windows, Firefox2 on Windows, Firefox3 on Windows, Safari3 on Windows, Safari4 on Windows, Chrome1 on Windows"/>
+  <property name="tests.selenium-env" value="IE6 on Windows, IE7 on Windows, Firefox2 on Windows, Firefox3 on Windows, Safari3 on Windows, Safari4 on Windows, Chrome1 on Windows, Firefox on Linux"/>
   <property name="tests.selenium-threads" value="4"/>
+  <property name="tests.selenium-reset" value="true"/>
 
   <property name="project.dir" value=".."/>
   <property name="temp.svninfo" value="svninfo.tmp"/>
@@ -49,6 +50,14 @@
     </path>
 
     <taskdef resource="testngtasks" classpathref="cp.testng"/>
+  </target>
+
+  <target name="init-contrib" depends="init">
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+      <classpath>
+        <pathelement location="${tools.dir}/lib/ant-contrib/ant-contrib-1.0b3.jar"/>
+      </classpath>
+    </taskdef>
   </target>
 
   <target name="compile"
@@ -145,15 +154,20 @@
     <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
   </target>
 
-  <target name="tests" depends="init, clean, init-tools, init-testng"
+  <target name="tests" depends="init, clean, init-tools, init-testng, init-contrib"
       description="Builds GI, deploys it to a local HTTP server, and invokes Selenium Grid on the unit tests.">
 
     <gi-uuid property="randomDir"/>
     <property name="testClassesDir" value="${buildDir}/test-classes"/>
     <property name="testResultsDir" value="${buildDir}/test-reports"/>
 
-    <echo>Resetting the Selenium grid...</echo>
-    <exec executable="/srv/selenium-grid/restart_test_environment.sh" dir="/srv/selenium-grid"/>
+    <if>
+      <equals arg1="true" arg2="${tests.selenium-reset}"/>
+      <then>
+        <echo>Resetting the Selenium grid...</echo>
+        <exec executable="/srv/selenium-grid/restart_test_environment.sh" dir="/srv/selenium-grid"/>
+      </then>
+    </if>
 
     <!-- Clean and build -->
     <ant antfile="build.xml" target="dist" inheritall="false" inheritrefs="false">
@@ -201,8 +215,13 @@
       <src path="${project.dir}/test/java"/>
     </javac>
 
-    <echo>Sleeping for one minute...</echo>
-    <sleep seconds="60"/>
+    <if>
+      <equals arg1="true" arg2="${tests.selenium-reset}"/>
+      <then>
+        <echo>Sleeping for one minute...</echo>
+        <sleep seconds="60"/>
+      </then>
+    </if>
 
     <!-- Invoke Selenium hub -->
     <testng
