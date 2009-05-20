@@ -11,6 +11,7 @@ objJSX.getFirstResponder = function() {
 objJSX.savePrefs = function() {
   var srvValue = server.getValue();
   var portValue = port.getValue();
+  var bindValue = bind.getValue();
   var sslValue = useSSL.getValue();
   var idValue = userid.getValue();
   var pwValue = password.getValue();
@@ -25,6 +26,8 @@ objJSX.savePrefs = function() {
     s.set(id, "server", srvValue);
   if (s.get(id, "port") != portValue)
     s.set(id, "port", portValue);
+  if (s.get(id, "bind") != bindValue)
+    s.set(id, "bind", bindValue);
   if (s.get(id, "ssl") != sslValue)
     s.set(id, "ssl", sslValue);
 
@@ -49,6 +52,7 @@ objJSX.loadPrefs = function() {
 
   server.setValue(s.get(id, "server"));
   port.setValue(s.get(id, "port"));
+  bind.setValue(s.get(id, "bind"));
   useSSL.setValue(s.get(id, "ssl"));
   userid.setValue(s.get(id, "userid"));
   password.setValue(s.get(id, "password"));
@@ -111,6 +115,33 @@ objJSX.makeDirty = function(objInput) {
           <object type="jsx3.gui.TextBox">
             <variants jsxheight="18"/>
             <strings jsxname="port" jsxmargin="0 4 0 0" jsxvalue=""/>
+            <events jsxincchange="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+      </object>
+	</object>
+	<object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxrelativeposition="1" jsxheight="30"/>
+      <strings jsxwidth="100%"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="1" jsxoverflow="2"/>
+        <strings jsxcols="90,*" />
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxrelativeposition="1" jsxoverflow="3"/>
+            <strings jsxname="label" jsxtext="Bind URL:" jsxfontweight="bold"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxheight="18"/>
+            <strings jsxname="bind" jsxmargin="0 4 0 0" jsxvalue=""/>
             <events jsxincchange="prefspane.makeDirty(this);"/>
           </object>
         </object>

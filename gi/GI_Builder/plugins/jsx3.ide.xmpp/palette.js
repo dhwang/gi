@@ -42,6 +42,7 @@ jsx3.$O(this).extend({
       password: s.get(id, 'password'),
       server: s.get(id, 'server'),
       port: s.get(id, 'port'),
+      bind: s.get(id, 'bind'),
       use_ssl: s.get(id, 'ssl')
     }
   },
@@ -78,7 +79,7 @@ jsx3.$O(this).extend({
       serviceUrl += ':' + credentials.port;
     }
 
-    serviceUrl += (serviceUrl.charAt(serviceUrl.length-1) == '/' ? '' : '/') + 'http-bind/';
+    serviceUrl += (serviceUrl.charAt(serviceUrl.length-1) == '/' ? '' : '/') + (credentials.bind||'http-bind') + '/';
 
     var useScript = true;
 
