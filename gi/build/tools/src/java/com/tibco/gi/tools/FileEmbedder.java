@@ -88,10 +88,16 @@ public class FileEmbedder {
     StringWriter contents = new StringWriter();
     Utils.serializeDocument(doc, contents, 0);
 
+    String xml = contents.toString();
+    xml = xml.replaceAll("\u00A0", "&#160;");
+    xml = xml.replaceAll("'", "\\\\'");
+
     if (condense)
-      return "'" + contents.toString().replaceAll("'", "\\\\'").replaceAll("\\s*(\n|\r\n|\r)\\s*", "") + "'";
+      xml = xml.replaceAll("\\s*(\n|\r\n|\r)\\s*", "");
     else
-      return "'" + contents.toString().replaceAll("'", "\\\\'").replaceAll("(\n|\r\n|\r)", "\\\\n") + "'";
+      xml = xml.replaceAll("(\n|\r\n|\r)", "\\\\n");
+
+    return "'" + xml + "'";
   }
 
   private static String txtToJsString(File f) throws IOException {

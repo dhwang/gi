@@ -6,7 +6,6 @@
 package com.tibco.gi.ant;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 import com.tibco.gi.tools.FileEmbedder;
@@ -38,7 +37,7 @@ public class FileEmbedderTask extends AbstractFileTask {
         embedder.setOutFile(fileMap.get(inFile));
         embedder.run();
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
       throw new BuildException(e);
     }
