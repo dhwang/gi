@@ -117,6 +117,12 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.recorder.Editor, null, f
     return rec.label|| (rec.action && rec.action.indexOf("jsxwait_") == 0);
   };
 
+  Editor_prototype.onInsertRecord = function(rec) {
+    if (rec && this._isDelimRecord(rec))
+      rec.jsxclass = Editor._DIVCLASS;
+    this.jsxsuper(rec);
+  };
+
   Editor_prototype.onEditRecord = function(recordId, objCol) {
     if (objCol.getPath() == "label" || objCol.getPath() == "action") {
       var g = this._getGrid();

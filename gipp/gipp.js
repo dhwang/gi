@@ -2003,7 +2003,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         var o = arrTests[j];
         id = o.label;
 
-        if (id || j == arrTests.length - 1)
+        if (id || o.action.indexOf("jsxwait_") == 0 || j == arrTests.length - 1)
           break;
       }
 
