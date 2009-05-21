@@ -2317,7 +2317,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   /** @private @jsxobf-clobber */
   recorder._VERBS = {
     jsxassert_exists: function(s, target, obj) {
-      if (recorder._getTarget(s, target))
+      var o = recorder._getTarget(s, target);
+      if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
         return true;
       else
         throw new Error("Does not exist: " + target);
@@ -2344,7 +2345,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       return rv;
     },
     jsxwait_exists: function(s, target, obj) {
-      return recorder._getTarget(s, target) != null;
+      var o = recorder._getTarget(s, target);
+      return o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1";
     },
     jsxwait_value: function(s, target, obj) {
       return recorder._assertWaitEquals("getValue", s, target, obj);
