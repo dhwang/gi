@@ -97,6 +97,22 @@ jsx3.Class.defineClass("jsx3.html.Tag", null, null, function(Tag, Tag_prototype)
       this._children.splice(0, this._children.length);
   };
 
+  /**
+   * Returns the cssClass field.
+   * @return {String} cssClass
+   */
+  Tag_prototype.getClassName = function() {
+    return this._native.className;
+  };
+
+  /**
+   * Sets the cssClass field, the HTML 'class' attribute.
+   * @param cssClass {String} the new value for cssClass
+   */
+  Tag_prototype.setClassName = function( cssClass ) {
+    this._native.className = cssClass;
+  };
+
 /* @JSC */ } else if (jsx3.CLASS_LOADER.SVG) {
 
   Tag_prototype.init = function(strTagNS, strTagName) {
@@ -162,6 +178,22 @@ jsx3.Class.defineClass("jsx3.html.Tag", null, null, function(Tag, Tag_prototype)
       this._native.removeChild(nodes[i]);
   };
 
+  /**
+   * Returns the cssClass field.
+   * @return {String} cssClass
+   */
+  Tag_prototype.getClassName = function() {
+    return this.getProperty("class");
+  };
+
+  /**
+   * Sets the cssClass field, the HTML 'class' attribute.
+   * @param cssClass {String} the new value for cssClass
+   */
+  Tag_prototype.setClassName = function( cssClass ) {
+    this.setProperty("class", cssClass);
+  };
+
 /* @JSC */ }
 
   /**
@@ -194,22 +226,6 @@ jsx3.Class.defineClass("jsx3.html.Tag", null, null, function(Tag, Tag_prototype)
    */
   Tag_prototype.setId = function( id ) {
     this.setProperty("id", id);
-  };
-
-  /**
-   * Returns the cssClass field.
-   * @return {String} cssClass
-   */
-  Tag_prototype.getClassName = function() {
-    return this._native.className;
-  };
-
-  /**
-   * Sets the cssClass field, the HTML 'class' attribute.
-   * @param cssClass {String} the new value for cssClass
-   */
-  Tag_prototype.setClassName = function( cssClass ) {
-    this.setProperty("className", cssClass);
   };
 
   /**

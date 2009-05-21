@@ -72,26 +72,35 @@ jsx3.Class.defineClass('jsx3.app.Browser', null, null, function(Browser, Browser
   Browser._STYLE_CACHE = null;
 
   Browser.getStyleClass = function(strName) {
-    if (Browser._STYLE_CACHE == null) {
-      Browser._STYLE_CACHE = {};
+/* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
+    strName = strName.toLowerCase();
+/* @JSC */ }
 
-  /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+    if (Browser._STYLE_CACHE == null) {
+      var bc = {};
+
+/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
       for (var i = 0; i < document.styleSheets.length; i++) {
         var sheet = document.styleSheets[i];
         for (var j = 0; j < sheet.rules.length; j++) {
           var style = sheet.rules[j];
-          Browser._STYLE_CACHE[style.selectorText] = style.style;
+          bc[style.selectorText] = style.style;
         }
       }
 /* @JSC */ } else {
+      // GI-545: Firefox throws an exception with cross domain CSS, including when file:// accesses a URL higher up
       for (var i = 0; i < document.styleSheets.length; i++) {
         var sheet = document.styleSheets[i];
-        for (var j = 0; j < sheet.cssRules.length; j++) {
-          var style = sheet.cssRules[j];
-          Browser._STYLE_CACHE[style.selectorText] = style.style;
-        }
+        try {
+          for (var j = 0; j < sheet.cssRules.length; j++) {
+            var style = sheet.cssRules[j];
+            bc[style.selectorText] = style.style;
+          }
+        } catch (e) {}
       }
 /* @JSC */ }
+
+      Browser._STYLE_CACHE = bc;
     }
 
     return Browser._STYLE_CACHE[strName];

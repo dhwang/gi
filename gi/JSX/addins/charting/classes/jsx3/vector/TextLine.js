@@ -184,14 +184,19 @@ jsx3.Class.defineClass("jsx3.vector.TextLine", jsx3.vector.Shape, [jsx3.html.Fon
   
   TextLine_prototype.paintUpdate = function() {
     if (! this.getProperty("fill")) {
-      if (this._fill != null) {
+      if (this._fill) {
         this.setProperty("fill", this._fill.getColorHtml(),
                          "fill-opacity", this._fill.getAlpha());
       } else {
-        this.removeProperty("fill", "fill-opacity");
+        var style = Browser.getStyleClass("." + this.getClassName()) || Number(0);
+        if (style && style.color != null) {
+          this.setProperty("fill", style.color);
+        } else {
+          this.removeProperty("fill", "fill-opacity");
+        }
       }
     }
-    
+
     if (this._stroke != null) {
       var width = this._stroke.getWidth();
       this.setProperty("stroke", this._stroke.getColorHtml(),
