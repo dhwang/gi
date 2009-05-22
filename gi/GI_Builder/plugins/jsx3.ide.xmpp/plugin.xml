@@ -43,7 +43,7 @@
   </resources>
 
   <extension point="jsx3.ide.settings.ide.pane" id="default">
-    <pane label="GI Chat"
+    <pane label="GI Chat" img="images/xmpp.gif"
           tip="Settings related to XMPP." resource="xmpp_settings"/>
   </extension>
 
@@ -80,6 +80,6 @@
         label="Delete"
         menupath="/jsx3.ide.xmppctx/edit"
         execute="this.getPlugIn().deleteFromRoster(menu.getContextParent().getRecord(menu.getContextParent().getValue()));"
-        img="jsxapp:/images/icon_55.gif"/>
+        img="images/delete.gif"/>
   </extension>
 </plugin>
