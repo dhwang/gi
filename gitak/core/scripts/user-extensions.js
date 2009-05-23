@@ -18,6 +18,8 @@ Copyright 2006-2008 TIBCO Software, Inc
         - see the release notes under gitak/gi for list of changed and new features.
         - added include command, which is modified from include command v2.1 by Robert Zimmermann
  (0.9) Updated to Selenium 0.8.3 core, Selenium RC 0.9.2
+ (0.9.1) update support for Firefox 3
+		- Add gi dom locator, "gi".
  */
 
 /* element outerHTML works only on IE. jsx3.html.getOuterHTML() is GI 3.2 crossbrowser function*/
@@ -927,6 +929,8 @@ Selenium.prototype.doClickJsxSelect = function(locator, optionLocator) {
       _triggerEvent(mElement, 'focus', true);
       _triggerMouseEvent(mElement, 'mousedown', true);
       _triggerMouseEvent(mElement, 'mouseup', true);
+      
+       //triggerKeyEvent(selectElement, 'keydown', jsx3.gui.Event.KEY_ARROW_DOWN, true)
       }
 
     if (optionLocator) { // jsx3.sleep is not in 3.1.x!! drop support for 3.1.x.
@@ -1705,7 +1709,7 @@ Selenium.prototype.doSelectJsxRecords = function(locator, xpath) {
   var objGUI;
   if (locator.indexOf("=") > 0) {
     this.browserbot.findElement(locator);
-    objGUI = storeVars.LASTJSXOBJ;
+    objGUI = storedVars.LASTJSXOBJ;
   }
   
   if (!objGUI)
@@ -2200,26 +2204,22 @@ PageBot.prototype.findByJsxIdentity = function(identity, inWindow) {
  *  @return JSX object
  */
   var appServer;
-  inWindow = inWindow || this.getCurrentWindow(false);
-  window.top.jsx3 = inWindow.jsx3
+  var appWindow = this.topWindow || inWindow;
+  window.top.jsx3 = appWindow.jsx3;
 
   var jsxobj = null;
 
-   if (jsx3) {
-    selenium.jsxversion = jsx3.getVersion();
+  if (jsx3) {
+    selenium.jsxversion = jsx3.getVersion(); 
     var ancestor = this._jsxroot;
-    var pdotc = this.getParentChild(identity);
-
-    if ( typeof(pdotc) != 'string') {
-        ancestor=pdotc[0];
-        identity=pdotc[1];
-    }
 
     LOG.debug('** findByJsxIdentity =' + identity + ',ancestor=' + ancestor);
 	  var objAncestor;
 	// getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
+  
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
       appServer = eval("selenium.browserbot.getCurrentWindow()."+selenium.jsxNamespace); 
+  
     if (appServer) {
      //LOG.debug('namespace defined='  + appServer);
      objAncestor = appServer.getJSXByName(ancestor); 
@@ -2252,24 +2252,19 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
  *  @return JSX object
  */
   var appServer;
-  // init jsx3 object in case this is first locator called
   var appWindow = this.topWindow;
-  window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3
+
   var jsxobj = null;
 
    if (jsx3) {
     selenium.jsxversion = jsx3.getVersion();
     var ancestor = this._jsxroot;
-    var pdotc = this.getParentChild(jsxname);
-
-    if ( typeof(pdotc) != 'string') {
-        ancestor=pdotc[0];
-        jsxname=pdotc[1];
-    }
 
     LOG.debug('** findByJsxName =' + jsxname + ',ancestor=' + ancestor);
-	
+	  if (jsxname.indexOf("/") != -1) // there's a forward slash in there.
+      jsxobj = this.findByJsxDom(jsxname, inWindow);
+    else {  
     //NOTE: getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
     var objAncestor;
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
@@ -2285,6 +2280,8 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
             }
          ,false,false,false,true) : null;
     }
+    
+    } // jsxdom locator
     if (jsxobj && storedVars) {
       storedVars['LASTJSXNAME'] = jsxobj.getName();
     }
@@ -2303,24 +2300,25 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
  *  @return JSX object
   */
   var appServer;
-  var appWindow = this.topWindow;
+  var appWindow = this.topWindow; // topWindow should be renamed app under test window, autWindow.
   window.top.jsx3 = appWindow.jsx3;
   
   var jsxobj = null;
+
   var type = eval(jsxtype); // is this jsxtype loaded?
+  if (jsxtype.match(/^jsx3/) && typeof(type) == "undefined") {
+    jsx3.require(jsxtype);
+    type = eval(jsxtype);
+  }
   
   if (jsx3 && type) {
     selenium.jsxversion = jsx3.getVersion();
-
     var ancestor = this._jsxroot;
-    var pdotc = this.getParentChild(jsxname);
 
-    if ( typeof(pdotc) != 'string') {
-      ancestor=pdotc[0];
-      jsxname=pdotc[1];
-    }
-
-    LOG.debug('** findByJsxNameAndType jsxname=' + jsxname  + ',type='+ jsxtype + ',parent=' + ancestor);
+    if (jsxname.indexOf("/") != -1) // there's a forward slash in there.
+      jsxobj = this.findByJsxDom(jsxname, inWindow);
+    else {  
+      LOG.debug('** findByJsxNameAndType jsxname=' + jsxname  + ',type='+ jsxtype + ',parent=' + ancestor);
     var objAncestor;
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
       appServer = eval("appWindow."+selenium.jsxNamespace); 
@@ -2336,6 +2334,7 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
                 return ((objJSX.getName() == jsxname) && objJSX.instanceOf(jsxtype) );
               },
     false,false,false,true) : null;
+    }
     
     if (jsxobj && storedVars) {
       storedVars['LASTJSXNAME'] = jsxobj.getName();
@@ -2356,7 +2355,6 @@ PageBot.prototype.findByJsxText = function(text, inWindow) {
   var appServer;
   LOG.debug('findByJsxText =' + text  );
   var appWindow = this.topWindow;
-  window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3
 
   var jsxobj = null;
@@ -2453,6 +2451,7 @@ PageBot.prototype.findByJsxValue = function(value, inWindow) {
     selenium.jsxversion = jsx3.getVersion();
     if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
       appServer = eval("appWindow."+selenium.jsxNamespace); 
+      
     if (appServer) {
        LOG.debug('Using namespace='  + appServer);
        jsxobj = appServer.getRootBlock().findDescendants(
@@ -2472,20 +2471,28 @@ PageBot.prototype.findByJsxValue = function(value, inWindow) {
   return jsxobj;
 };
 
-PageBot.prototype.findByJsxDom = function (domtext, inWindow) {
+PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
 /**
- * GI DOM path locator.  gi=jsxname/[@jsxtext="Menu"]/child[1]/jsx3.gui.Splitter/jsx3.gui.TextBox[1]
- * Template.Block subclass can use type=com.tibco.ux.SlideOut or [@jsxtype="com.tibco.ux.SlideOut"] 
+ * GI DOM path locator.  gi=#jsxname/[@jsxtext="Menu"]/child[1]/jsx3.gui.Splitter/jsx3.gui.TextBox[1]
+   .jsx3.gui.Splitter
+    #mytemplategui/jsx3.gui.Select
+   
+ * Template.Block subclass can use $com.tibco.ux.SlideOut or [@jsxtype="com.tibco.ux.SlideOut"] 
  * Custom type  "::customtype/
  * @param text (String) dom path
  * @param inWindow (String) window object of application under test
  * @return objJSX (Object) jsx object located by jsx dom path.
- */
- var ExpChildNode = /^child\[(\d+)\]/;
- var ExpTypeJsx = /^(jsx3\..*)\[(\d+)\]{0,1}/;
+ 
+  var ExpTypeJsx = /^(jsx3\..*)\[(\d+)\]{0,1}/;
  var ExpTypeAny = /^#(.+)\[(\d+)\]{0,1}/;
  var ExpProperty = /^\[@(.+)\]/;
  LOG.debug('findByJsxDom='+  domtext);
+ */
+ var ExpChildNode = /^child\[(\d+)\]/;
+ var ExpTypeJsx = /^(jsx3\.[^\[]*)(\[(\d+)\])?/i;
+ var ExpTypeAny = /^\.([^\[]+)(\[(\d+)\])?/i;
+ var ExpProperty = /^\[@(.*)\]/;
+ LOG.debug('findByJsxDom='+  dompath);
  var appWindow = this.topWindow;
  window.top.jsx3 = null;
  window.top.jsx3 = appWindow.jsx3
@@ -2494,19 +2501,20 @@ PageBot.prototype.findByJsxDom = function (domtext, inWindow) {
  if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
   appServer = eval("appWindow."+selenium.jsxNamespace); 
       
- var items=domtext.split("/"); // use forward slash to separate the object
+ var tokens=dompath.split(/\//); // use forward slash to separate the object
  var empty = "";
- var singleSlash = (items[0] == empty && items[1] != empty);
- var doubleSlash = (items[0] == empty && items[1] == empty); 
+ var singleSlash = (tokens[0] == empty && tokens[1] != empty);
+ var doubleSlash = (tokens[0] == empty && tokens[1] == empty); 
  var start = (doubleSlash) ? 2 : (singleSlash) ? 1 : 0;
  LOG.debug("start at index = " + start );
  
  // Always get the root objJSX
  var root = (singleSlash) ? "JSXBODY" : this._jsxroot;
  var objJSX = (appServer) ?  objJSX = appServer.getJSXByName(root) : objJSX = jsx3.GO(root);
+ LOG.debug("root=" + root + "obj=" +objJSX);
  // get subsequent using dom path
- for (var i=start; objJSX && i < items.length; i++) {
-    var childname = items[i].trim();
+ for (var i=start; objJSX && i < tokens.length; i++) {
+    var childname = tokens[i];
     if (ExpChildNode.test(childname)) 
     {
     /* childname=child[index] */
@@ -2515,10 +2523,11 @@ PageBot.prototype.findByJsxDom = function (domtext, inWindow) {
     } 
     else if (ExpTypeJsx.test(childname) || ExpTypeAny.test(childname) ) 
     {
-    /* childname=jsx3.gui.Type  */      
+    /* childname=jsx3.gui.Type | jsx3.gui.Type[index]  */   
+      LOG.debug('type=' + childname + " reg$1=" + RegExp.$1 + " reg$2="+ RegExp.$2 + " reg$3" + RegExp.$3);
       var type = RegExp.$1;
-      var index = RegExp.$2;
-      if (index != "") {
+      var index = RegExp.$3;
+      if (index && index != "") {
         // the index-nth child of type, exact type only.
         var all = objJSX.getDescendantsOfType(type, true); // search only direct children
         if (all && all[index])
@@ -2608,7 +2617,7 @@ PageBot.prototype.locateElementByJsxLookup = function(text, inDocument, inWindow
    if (!objJSX)
     Assert.fail("Element not found using name = " + name);
 
-   LOG.debug(objJSX + ", subtype = " + type + ", item="+ item + ", col=" + col);
+   LOG.debug(objJSX + ", type = " + type + ", item="+ item + ", col=" + col);
 	var element = (!col) ? getActionableObject(objJSX, type, item) : getActionableObject(objJSX, type, item, col);
 	//LOG.debug("element = " + getOuterHTML(element));
    return element;
@@ -4456,5 +4465,6 @@ IncludeCommand.prototype.doInclude = function(fileName) {
 Selenium.prototype.doInclude = function(fileName, timeout) {
     //LOG.debug(IncludeCommand.LOG_PREFIX + "modified from v2.1 -- dhwang");
     var includeCommand = new IncludeCommand();
-    return Selenium.decorateFunctionWithTimeout(includeCommand.doInclude(fileName), timeout);
+    Selenium.decorateFunctionWithTimeout(includeCommand.doInclude, timeout);
+    includeCommand.doInclude(fileName);
 };
