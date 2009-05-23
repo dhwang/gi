@@ -550,14 +550,15 @@ jsUnitTestManager.prototype._problemDetailMessageFor = function (excep)
 
 jsUnitTestManager.prototype._setTextOnLayer = function (layerName, str)
 {
-  var html = '';
+  /* avoid some string concat, speed up test on IE6 */
+  /*var html = ''; 
   html += '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
   html += '<html><head><link rel="stylesheet" type="text/css" href="css/jsUnitStyle.css"><\/head>';
   html += '<body><div>';
   html += str;
   html += '<\/div><\/body>';
-  html += '<\/html>';
-  this.uiFrames[layerName].document.write(html);
+  html += '<\/html>';*/
+  this.uiFrames[layerName].document.body.innerHTML = "<div>" + str + "</div>"; //write(html);
   this.uiFrames[layerName].document.close();
 };
 
