@@ -38,8 +38,8 @@
 
   <method id="launchGITAK" params="testFilePath">
     var gitak = this.getGITAKDir();
-
-    var query = "GI=" + gitak.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=" +
+    // Test Runner is under "core/" subdirectory, need go one more up from gitak.relativePath
+    var query = "GI=../" + gitak.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=../" +
         gitak.relativePathTo(jsx3.ide.PROJECT.getDirectory());
 
     if (testFilePath) {
@@ -51,7 +51,8 @@
         query = query + "&amp;TESTS=[" + paths.join(",") + "]";
       }
     }
-
+    query = "test=TestSuiteAuto.html&amp;" + query;
+    
     var uri = gitak.toURI();
     uri = jsx3.net.URI.fromParts(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
         uri.getPath() + "core/TestRunner.html", query, null);

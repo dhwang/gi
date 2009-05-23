@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+        <script type="text/javascript">
+        
+        function getQueryParam (searchKey) {
+        var str = window.parent.location.search.substr(1);
+        if (str == null) return null;
+        var clauses = str.split('&');
+        (console) ? console.log(clauses): "";
+        for (var i = 0; i < clauses.length; i++) {
+            var keyValuePair = clauses[i].split('=', 2);
+            var key = unescape(keyValuePair[0]);
+            var testRunner = window.parent;
+            testRunner.storedVars[key] = unescape(keyValuePair[1]); // save query params in 
+            if (key == searchKey) {
+                return unescape(keyValuePair[1]);
+            }
+        }
+        return null;
+        }
+        
+        function load_tests() {
+          var elbody = document.getElementById("suiteTable");
+          var tests = getQueryParam("TESTS");         
+          var appPath = getQueryParam("APP");         
+          if (!tests) return; 
+          
+          if (console) console.debug(" tests = " + tests);
+          var testcases = tests.slice(1,-1).split(",");
+            if (elbody) {
+              var ctext = [elbody.innerHTML];
+              for (var i = 0; i < testcases.length; i++)
+                var name = testcases[i];
+                ctext[ctext.length] = ["<tr><td><a href='", appPath+name, "'>",name, "</a></td></tr>\n"].join("");
+              elbody.innerHTML = ctext.join("");
+            }
+        }
+        </script>
+    </head>
+<body onload="load_tests();" >
+<table id="suiteTable" class="selenium ">
+<tr><td>GI Builder Test Case Runner</td></tr>
+</table>
+</body>
+</html>

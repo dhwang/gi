@@ -61,40 +61,44 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
     <!-- GITAK extensions-->
         <script language="JavaScript" type="text/javascript">
             function openDomViewer() {
-                var autFrame = document.getElementById('selenium_myiframe');
-                var autFrameDocument = new SeleniumFrame(autFrame).getDocument();
-                this.rootDocument = autFrameDocument;
-                /*GITAK's GI DOM viewer, accessible after executing first extended command (e.g. clickJsxElement|JsxMenuName|) */
-                try { 
-                    jsx3.require("jsx3.gui.Window");
-                    this.globalJSXBODY = jsx3.GO('JSXBODY');
+              var autFrame = document.getElementById('selenium_myiframe');
+              var autFrameDocument = new SeleniumFrame(autFrame).getDocument();
+              this.rootDocument = autFrameDocument;
+              
+              /*GITAK's GI DOM viewer, accessible after executing first extended command (e.g. clickJsxElement|JsxMenuName|) */
+              try { 
+                  jsx3.require("jsx3.gui.Window");
+                  this.globalJSXBODY = jsx3.GO('JSXBODY');
+                  var currentUrl = window.location.href; // get selenium path from browser URL
+                  var start_page = currentUrl.split('?')[0]; // get first part without parameters
+                  var localpath = start_page.slice(0, start_page.lastIndexOf('/core'));
 
-                    var currentUrl = window.top.location.href; // get selenium path from browser URL
-                    var start_page = currentUrl.split('?')[0]; // get first part without parameters
-                    var localpath = start_page.slice(0, start_page.lastIndexOf('/core'));
+                  globalJSXBODY.getServer().loadInclude(localpath +'/gi/domviewer/JsxDom32/js/logic.js', 'domjs', 'script', false);
+                  if (!browserVersion.isIE || !browserVersion.isHTA) {
+                      globalJSXBODY.load(localpath +'/gi/domviewer/JsxDom32/components/dlgJsxDom.xml');
+                  } else {
+                      var w = globalJSXBODY.getServer().getAppWindow("DomWin");
+                      if (w == null) {
+                        w = globalJSXBODY.getServer().createAppWindow("DomWin");
+                        w.setHeight(400);
+                        w.setWidth(500);
+                        w.setTitle("JSX DOM");
+                        w.setResizable(true);
+                      
+                      w.unsubscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
+                      w.subscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
 
-                    globalJSXBODY.getServer().loadInclude(localpath +'/gi/domviewer/JsxDom32/js/logic.js', 'domjs', 'script', false);
-                    var w = globalJSXBODY.getServer().getAppWindow("DomWin");
-                    if (w == null) {
-                      w = globalJSXBODY.getServer().createAppWindow("DomWin");
-                      w.setHeight(400);
-                      w.setWidth(500);
-                      w.setTitle("JSX DOM");
-                      w.setResizable(true);
-                    
-                    w.unsubscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
-                    w.subscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
-
-                    w.getRootBlock().load(localpath +'/gi/domviewer/JsxDom32/components/dlgJsxDom.xml');
-                    
-                    }
-                    if (!w.isOpen()) { //and show the window if it isn'talready visible
-                      w.open();
-                    }
-                    w.focus();
+                      w.getRootBlock().load(localpath +'/gi/domviewer/JsxDom32/components/dlgJsxDom.xml');
+                      
+                      }
+                      if (!w.isOpen()) { //and show the window if it isn'talready visible
+                        w.open();
+                      }
+                      w.focus();
+                  }
                 } catch (e) {
                     LOG.error(e.message);
-                    //Use Selenium DOM viewer if GI DOM viewer not available 
+                    /* Use Selenium DOM viewer if GI DOM viewer not available */
                     var domViewer = window.open(getDocumentBase(document) + 'domviewer/domviewer.html');              
                 }
                 return false;
@@ -104,8 +108,12 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
                 var w = globalJSXBODY.getServer().getAppWindow("DomWin");
                 if (w.getRootBlock().getChild(0))
                    w.getRootBlock.removeChildren();
-                w.close();
+                if (w.doClose)
+                  w.doClose();
+                else
+                  w.close();
             }
+            
             function toggleBannerDisplay(elm) {
                 if (elm.style.display == "") {
                     elm.style.display = "none";
@@ -147,7 +155,7 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
     <table class="layout">
         <tr class="selenium">
             <th style="height: 30px;">
-                <a href="http://developer.tibco.com"><img src="../gi/image/GI_jumpTab.gif" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" alt="TIBCO Developer Network"/>
+                <a href="http://www.generalinterface.org/"><img src="../gi/image/GI_jumpTab.gif" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" alt="TIBCO Developer Network"/>
                 </a>
             </th>
         </tr>
