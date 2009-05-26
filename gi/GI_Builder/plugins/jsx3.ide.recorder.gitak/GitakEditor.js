@@ -30,7 +30,7 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
           '</head>\n' +
           '<body>\n' +
           '  <table cellpadding="1" cellspacing="1" border="1">\n' +
-          '    <caption>Tests recorder by the General Interface Builder test recorder</caption>\n' +
+          '    <caption>Tests recorded by General Interface Builder</caption>\n' +
           '    <tbody>\n' +
           '      <tr>\n' +
           '        <td rowspan="1" colspan="3">' + jsx3.ide.PROJECT.getTitle() + '</td>\n' +

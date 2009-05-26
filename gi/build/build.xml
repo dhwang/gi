@@ -294,6 +294,7 @@
     </copy-with-filter>
 
     <antcall target="copy-gipp"/>
+    <antcall target="copy-gitak"/>
   </target>
 
   <target name="copy-gipp" depends="init">
@@ -347,6 +348,38 @@
       </then>
       <else>
         <echo>Not including GIPP.</echo>
+      </else>
+    </if>
+  </target>
+
+  <target name="copy-gitak" depends="init">
+    <if>
+      <and>
+        <not><equals arg1="" arg2="${build.gitak.type}"/></not>
+        <not><equals arg1="" arg2="${build.gitak.location}"/></not>
+        <available file="${project.dir}/${build.gitak.location}"/>
+      </and>
+      <then>
+        <property name="build.gitak.src" value="${project.dir}/${build.gitak.location}"/>
+        <property name="build.gitak.dest" value="${dist.dir}/GI_Builder/plugins/jsx3.ide.testing/gitak"/>
+
+        <if>
+          <equals arg1="source" arg2="${build.gitak.type}"/>
+          <then>
+            <echo message="Copying GITAK from directory ${build.gitak.src}"/>
+
+            <mkdir dir="${build.gitak.dest}"/>
+            <copy todir="${build.gitak.dest}">
+              <fileset dir="${build.gitak.src}" includes="core/**/* gi/**/*"/>
+            </copy>
+          </then>
+          <else>
+            <echo message="Not including GITAK (bad type: ${build.gitak.type})"/>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo>Not including GITAK.</echo>
       </else>
     </if>
   </target>
