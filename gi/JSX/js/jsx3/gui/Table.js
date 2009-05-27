@@ -1567,7 +1567,9 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
         this._jsxcolumnprofile.loadXML(this.jsxcolumnprofile);
         if (this._jsxcolumnprofile.hasError()) {
           LOG.error("The column profile document has errors. A new, empty CDF Document will be used instead. (Description: " + this._jsxcolumnprofile.getError().description + ")");
-          this._jsxcolumnprofile = CDF.Document.newDocument()
+          this._jsxcolumnprofile = CDF.Document.newDocument();
+        } else {
+          this._jsxcolumnprofile.convertProperties(this.getServer().getProperties());
         }
       }
     }
