@@ -218,8 +218,8 @@
     <if>
       <equals arg1="true" arg2="${tests.selenium-reset}"/>
       <then>
-        <echo>Sleeping for one minute...</echo>
-        <sleep seconds="60"/>
+        <echo>Sleeping for two minutes...</echo>
+        <sleep seconds="120"/>
       </then>
     </if>
 
