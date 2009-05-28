@@ -1808,7 +1808,7 @@ window['jsx_main'] = function() {
         var jobPrefix = "addin." + strKey;
 
         if (this._addins[strKey]) {
-          ;
+          return this._jobManager.node(jobPrefix);
         } else {
           this._addins[strKey] = {};
 
