@@ -40,7 +40,8 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.recorder.Editor, null, f
           "// Doing so will prevent the file from being read by General Interface Builder.\n" + 
           "\n";
       this._suffix = "\n\n" +
-          "// Insert manual tests here.\n\n" +
+          "// Insert manual tests here using gi.test.gipp.recorder.insertBefore() and insertAfter().\n\n" +
+          "// Do not modify the following line.\n" +
           "gi.test.gipp.recorder.playbackTests(recorderTests);";
     }
   };

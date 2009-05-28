@@ -2040,10 +2040,16 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       var o = arrData[i];
 
       var value;
-      try {
-        value = eval("var tmp = " + o.value + "; tmp");
-      } catch (e) {
-        throw new Error("Bad action value: " + o.value);
+      if (o.value) {
+        if (o.action == "jsxassert_eval" || o.action == "jsxwait_eval") {
+          value = o.value;
+        } else {
+          try {
+            value = eval("var tmp = " + o.value + "; tmp");
+          } catch (e) {
+            throw new Error("Bad action value: " + o.value);
+          }
+        }
       }
 
       for (var f in value) {
@@ -2069,7 +2075,6 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
         if (!target)
           throw new Error("Bad target: " + o.target);
-
 
         recorder._invokeAction(target, o.action, value);
       }
@@ -2296,8 +2301,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   recorder._assertEquals = function(fct, msg, s, target, obj) {
     var t = recorder._getTarget(s, target);
     if (t) {
-      var v = eval(obj);
-      if (t[fct]() == v)
+      if (t[fct]() == obj)
         return true;
       else
         throw new Error(msg + ": " + t[fct]() + " != " + v);
@@ -2310,7 +2314,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   recorder._assertWaitEquals = function(fct, s, target, obj) {
     var t = recorder._getTarget(s, target);
     if (t)
-      return t[fct]() == eval(obj);
+      return t[fct]() == obj;
     return false;
   };
 
@@ -2339,7 +2343,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       return recorder._assertEquals("isFront", "Visibility not equal", s, target, obj);
     },
     jsxassert_eval: function(s, target, obj) {
-      var rv = jsx3.eval(target, {server:s});
+      var o = recorder._getTarget(s, target);
+      var rv = jsx3.eval.apply(o, [obj]);
       if (!rv)
         throw new Error("Eval returned false: " + rv);
       return rv;
@@ -2364,8 +2369,9 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       return recorder._assertWaitEquals("isFront", s, target, obj);
     },
     jsxwait_eval: function(s, target, obj) {
+      var o = recorder._getTarget(s, target);
       try {
-        return jsx3.eval(target, {server:s});
+        return jsx3.eval.apply(o, [obj]);
       } catch (e) {
         return false;
       }

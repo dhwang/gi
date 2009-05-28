@@ -35,6 +35,9 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
           '      <tr>\n' +
           '        <td rowspan="1" colspan="3">' + jsx3.ide.PROJECT.getTitle() + '</td>\n' +
           '      </tr>\n' +
+          '      <tr>\n' +
+          '        <td>open</td><td>${GI}/shell.html?jsxapppath=${APP}</td><td></td>\n' +
+          '      </tr>\n' +
           '    </tbody>\n' +
           '  </table>\n' +
           '</body>\n' +
@@ -114,7 +117,7 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
       return false;
     } else {
       var xml = this._toXML();
-      if (jsx3.ide.writeUserXmlFile(this.getOpenFile(), xml)) {
+      if (jsx3.ide.writeUserXmlFile(this.getOpenFile(), jsx3.ide.makeXmlPretty(xml, true))) {
         this.setDirty(false);
         this.publish({subject:"saved"});
         return true;
