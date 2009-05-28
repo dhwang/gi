@@ -965,6 +965,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
           parents.each(function(p) {
             considering.addAll(p.findDescendants(fct, false, true, !deep, considerSelf));
           });
+
+          considering = considering.unique();
         }
       }
 

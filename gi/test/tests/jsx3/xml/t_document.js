@@ -310,13 +310,13 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
     jsunit.assertEquals("2", n.getAttribute("a"));
   };
 
-  t.testDeclaredNamespaces = function() {
-    // TODO: Luke
-  };
-
-  t.testNamespaceAxis = function() {
-    // TODO: Luke
-  };
+//  t.testDeclaredNamespaces = function() {
+//    // TODO: Luke
+//  };
+//
+//  t.testNamespaceAxis = function() {
+//    // TODO: Luke
+//  };
 
   /**
    * Tests a bug revealed in IE. A synchronous request issued after an asynchronous document load will cause the

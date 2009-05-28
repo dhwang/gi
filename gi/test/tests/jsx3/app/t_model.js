@@ -185,11 +185,158 @@ gi.test.jsunit.defineTests("jsx3.app.Model", function(t, jsunit) {
   };
 
   t.testFindDescendants = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
 
+    var match = root.findDescendants(function(x) { return x.getName() == "nestedChild"; });
+    jsunit.assertEquals("nestedChild", match.getName());
+    jsunit.assertEquals(3, match.f1);
+  };
+
+  t.testFindDescendantsMultiple = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var matches = root.findDescendants(function(x) { return x.getName() == "nestedChild"; }, null, true);
+    jsunit.assertEquals("nestedChild", matches[0].getName());
+    jsunit.assertEquals("nestedChild", matches[1].getName());
+    jsunit.assertNotEquals(matches[0], matches[1]);
+  };
+
+  t.testFindDescendantsBreadthDepth = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.findDescendants(function(x) { return x.f1 == 3; });
+    jsunit.assertEquals("10", match1.getName());
+
+    var match2 = root.findDescendants(function(x) { return x.f1 == 3; }, true);
+    jsunit.assertEquals("nestedChild", match2.getName());
+  };
+
+  t.testFindDescendantsShallow = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var matches = root.findDescendants(function(x) { return x.f1 == 3; }, null, true, true);
+    jsunit.assertEquals(1, matches.length);
+    jsunit.assertEquals("10", matches[0].getName());
+  };
+
+  t.testFindDescendantsSelf = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.findDescendants(function(x) { return true; }, false, false, false, true);
+    jsunit.assertEquals("root", match1.getName());
+
+    var match2 = root.findDescendants(function(x) { return true; }, false, false, false, false);
+    jsunit.assertEquals("child1", match2.getName());
   };
 
   t.testFindAncestor = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
 
+    var match1 = root.findAncestor(function(x) { return true; });
+    jsunit.assertEquals(root.getParent(), match1);
+
+    var match2 = root.findAncestor(function(x) { return x.getName() == "JSXROOT"; });
+    jsunit.assertEquals(root.getServer().getRootBlock(), match2);
+  };
+
+  t.testSelectId = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("#child1");
+    jsunit.assertEquals(1, match1.length);
+
+    var match2 = root.selectDescendants("#nestedChild");
+    jsunit.assertEquals(2, match2.length);
+
+    var match3 = root.selectDescendants("#none");  
+    jsunit.assertEquals(0, match3.length);
+  };
+
+  t.testSelectDescendant = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("#child2 #child2");
+    jsunit.assertEquals(1, match1.length);
+    jsunit.assertEquals(2, match1[0].f1);
+
+    var match2 = root.selectDescendants("#child2 #lastChild");
+    jsunit.assertEquals(0, match2.length);
+  };
+
+  t.testSelectDirectDescendant = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("#root > #lastChild");
+    jsunit.assertEquals(1, match1.length);
+
+    var match2 = root.selectDescendants("#root > #nestedChild");
+    jsunit.assertEquals(0, match2.length);
+  };
+
+  t.testSelectStar = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("#child2 *");
+    jsunit.assertEquals(3, match1.length);
+  };
+
+  t.testSelectIndex = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("#root > :first");
+    jsunit.assertEquals(1, match1.length);
+    jsunit.assertEquals("child1", match1[0].getName());
+
+    var match2 = root.selectDescendants("#root > :last");
+    jsunit.assertEquals(1, match2.length);
+    jsunit.assertEquals("lastChild", match2[0].getName());
+
+    var match3 = root.selectDescendants("#root > :nth(1)");
+    jsunit.assertEquals(1, match3.length);
+    jsunit.assertEquals("child2", match3[0].getName());
+  };
+
+  t.testSelectType = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("#root > jsx3_app_Model");
+    jsunit.assertEquals(3, match1.length);
+
+    var match2 = root.selectDescendants("#root > :instanceof(jsx3.app.Model)");
+    jsunit.assertEquals(4, match2.length);
+  };
+
+  t.testSelectProperty = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("[f1=3]");
+    jsunit.assertEquals(2, match1.length);
+  };
+
+  t.testSelectGetter = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".");
+    var root = s.getBodyBlock().load("data/comp1.xml");
+
+    var match1 = root.selectDescendants("[getName()=lastChild]");
+    jsunit.assertEquals(1, match1.length);
+    jsunit.assertEquals("lastChild", match1[0].getName());
+
+    var match2 = root.selectDescendants('[getName()="lastChild"]');
+    jsunit.assertEquals(1, match2.length);
+    jsunit.assertEquals("lastChild", match2[0].getName());
   };
 
   t.testGetAncestorOfName = function() {
@@ -265,20 +412,20 @@ gi.test.jsunit.defineTests("jsx3.app.Model", function(t, jsunit) {
     jsunit.assertEquals(1, o[0].f1);
   };
 
-  t.testGetFirstChildOfType = function() {
-
-  };
-
-  t.testSetChild = function() {
-
-  };
-
-  t.testRemoveChild = function() {
-
-  };
-
-  t.testRemoveChildren = function() {
-
-  };
+//  t.testGetFirstChildOfType = function() {
+//    // TODO:
+//  };
+//
+//  t.testSetChild = function() {
+//    // TODO:
+//  };
+//
+//  t.testRemoveChild = function() {
+//    // TODO:
+//  };
+//
+//  t.testRemoveChildren = function() {
+//    // TODO:
+//  };
 
 });

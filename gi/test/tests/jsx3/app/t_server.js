@@ -30,36 +30,36 @@ gi.test.jsunit.defineTests("jsx3.app.Server", function(t, jsunit) {
     jsunit.assertUndefined(gi.test.app1);
   };
 
-  t.testGetAppPath = function() {
-
-  };
-
-  t.testGetCache = function() {
-
-  };
-
-  t.testGetBodyBlock = function() {
-
-  };
-
-  t.testGetRootBlock = function() {
-
-  };
-
-  t.testDefaultLocale = function() {
-
-  };
-
-  t.testGetDom = function() {
-
-  };
-
-  t.testGetDynamicProperty = function() {
-
-  };
-
-  t.testSetDynamicProperty = function() {
-
-  };
+//  t.testGetAppPath = function() {
+//    // TODO:
+//  };
+//
+//  t.testGetCache = function() {
+//    // TODO:
+//  };
+//
+//  t.testGetBodyBlock = function() {
+//    // TODO:
+//  };
+//
+//  t.testGetRootBlock = function() {
+//    // TODO:
+//  };
+//
+//  t.testDefaultLocale = function() {
+//    // TODO:
+//  };
+//
+//  t.testGetDom = function() {
+//    // TODO:
+//  };
+//
+//  t.testGetDynamicProperty = function() {
+//    // TODO:
+//  };
+//
+//  t.testSetDynamicProperty = function() {
+//    // TODO:
+//  };
 
 });

@@ -28,7 +28,7 @@
       </object>
     </object>
     <object type="jsx3.app.Model">
-      <variants />
+      <variants f1="3"/>
       <strings jsxname="10"/>
     </object>
     <object type="jsx3.app.Model">

@@ -236,9 +236,9 @@ gi.test.jsunit.defineTests("jsx3.xml.CDF", function(t, jsunit) {
     jsunit.assertEquals("{prop4", r.a4);
   };
 
-  t.testRedrawRecord = function() {
-    // TODO: spoof redraw record and test that is is called correctly
-  };
+//  t.testRedrawRecord = function() {
+//    // TODO: spoof redraw record and test that is is called correctly
+//  };
 
   t.testDocNewDocument = function() {
     var cdf = jsx3.xml.CDF.Document.newDocument();
