@@ -204,6 +204,19 @@
       <plugin id="jsx3.html.Style"/>
     </requires>
   </plugin>
+  <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.util.Dojo"/>
+  <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.xml.DojoDataStore">
+    <requires>
+      <plugin id="jsx3.util.Dojo"/>
+    </requires>
+  </plugin>
+  <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.DojoWidget">
+    <requires>
+      <plugin id="jsx3.util.Dojo"/>
+      <plugin id="jsx3.gui.Block"/>
+    </requires>
+  </plugin>
+
   <plugin id="jsx3.gui.Alerts.alert">
     <requires>
       <plugin id="jsx3.gui.Button"/>
