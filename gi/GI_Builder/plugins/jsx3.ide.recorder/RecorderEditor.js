@@ -182,8 +182,8 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
       verb = "value";
 
       object = objJSX.getValue();
-      if (typeof(v) != "number" && typeof(v) != "boolean" && v !== null)
-        object = jsx3.$O.json(v ? v.toString() : v);
+      if (typeof(object) != "number" && typeof(object) != "boolean" && object !== null)
+        object = jsx3.$O.json(object ? object.toString() : object);
     } else {
       verb = "exists";
     }
