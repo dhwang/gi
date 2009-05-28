@@ -15,7 +15,7 @@
   ]]></method>
 
   <requires>
-    <plugin id="jsx3.amp.util.prefspanel"/>
+    <!--<plugin id="jsx3.amp.util.prefspanel"/>-->
     <plugin id="jsx3.ide.ui"/>
     <plugin id="jsx3.gui.Matrix"/>
   </requires>
@@ -43,13 +43,13 @@
   </resources>
 
   <extension point="jsx3.ide.settings.ide.pane" id="default">
-    <pane label="GI Chat" img="images/xmpp.gif"
+    <pane label="Chat" img="images/xmpp.gif"
           tip="Settings related to XMPP." resource="xmpp_settings"/>
   </extension>
 
   <extension point="jsx3.ide.ui.palette" id="xmpp.palette">
-    <palette label="GI Chat" hotkey="ctrl+0"
-             resource="xmpp_palette" default-position="q1" idegroup="per-project"/>
+    <palette label="Chat" hotkey="ctrl+0"
+             resource="xmpp_palette" default-position="q1" default-closed="true" idegroup="per-project"/>
   </extension>
 
   <!-- The palette context menu -->
@@ -80,6 +80,6 @@
         label="Delete"
         menupath="/jsx3.ide.xmppctx/edit"
         execute="this.getPlugIn().deleteFromRoster(menu.getContextParent().getRecord(menu.getContextParent().getValue()));"
-        img="images/delete.gif"/>
+        img="jsxapp:/images/icon_55.gif"/>
   </extension>
 </plugin>
