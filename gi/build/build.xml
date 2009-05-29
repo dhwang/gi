@@ -370,7 +370,7 @@
 
             <mkdir dir="${build.gitak.dest}"/>
             <copy todir="${build.gitak.dest}">
-              <fileset dir="${build.gitak.src}" includes="core/**/* gi/**/*"/>
+              <fileset dir="${build.gitak.src}" includes="core/**/* gi/* gi/scripts/**/* gi/image/**/* gi/domviewer/**/*"/>
             </copy>
           </then>
           <else>
