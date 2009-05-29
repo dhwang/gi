@@ -184,17 +184,19 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
     //act, the conditional below attempts to load the document if any one of three conditions is met:
     // 1) running from the file system, 2) content-type contains the string, 'xml', or 3) the status code is 200-299
 
-    if (okStatus) {
-      var strCT = objReq.getResponseHeader("content-type");
-
-      if (jsx3.util.strEmpty(strCT) || /xml/i.test(strCT)) {
-        this.loadXML(objReq.getResponseText());
-        return;
-      }
+    var contentType = "";
+    if (!okStatus) {
+      try {
+        contentType = objReq.getResponseHeader("content-type");
+      } catch (e) {}
     }
 
-    //TODO: I want a different error message here
-    this.setError(102, jsx3._msg("xml.doc_status", this._url, status));
+    if (okStatus || jsx3.util.strEmpty(contentType) || /xml|xsl/i.test(contentType)) {
+      this.loadXML(objReq.getResponseText());
+    } else {
+      //TODO: I want a different error message here
+      this.setError(102, jsx3._msg("xml.doc_status", this._url, s));
+    }
   };
   
   /** @private @jsxobf-clobber */
