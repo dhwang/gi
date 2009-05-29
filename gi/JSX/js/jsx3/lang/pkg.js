@@ -44,12 +44,12 @@ if (jsx3.lang == null) jsx3.lang = {};
     var a = arguments;
     
     if (a.callee) {
-      for (a = a.callee; a != null && stack.length < jsx3.lang.STACK_MAX; a = a.caller) {
+      for (a = a.callee; a && a.caller && stack.length < jsx3.lang.STACK_MAX; a = a.caller) {
         if (--skip >= 0) continue;
         stack[stack.length] = a.caller;
       }
     } else {
-      for (a = a.caller; a != null; a = a.caller) {
+      for (a = a.caller; a && a.callee; a = a.caller) {
         if (--skip >= 0) continue;
         stack[stack.length] = a.callee;
       }

@@ -148,6 +148,10 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
         req.subscribe("*", this, "_onRequestEvent");
 
       req.send(null, intTimeout);
+    } else if (bAsync) {
+      jsx3.sleep(function() {
+        this._initFromReq(req);
+      }, null, this);
     }
 
     if (!bAsync)
@@ -170,20 +174,27 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
   
   /** @private @jsxobf-clobber */
   Document_prototype._initFromReq2 = function(objReq) {
+    var s = objReq.getStatus();
+    var okStatus = s >= 200 && s < 400;
+
     //LUKE (3.6.2/3.7): the following is an attempt to determine if an XML document should even be loaded via getResponseXML
     //Since the document class now uses the request class to load content, missing documents are returned as XHTML 404 Web pages.
     //This causes a regression where an HTML document is returned instead of null. To bypass, the HTTP status and the content-type
     //can be used to better limit if an XML was actually located.  Since NOT returning a document is a restrictive
     //act, the conditional below attempts to load the document if any one of three conditions is met:
     // 1) running from the file system, 2) content-type contains the string, 'xml', or 3) the status code is 200-299
-    var status = objReq.getStatus() + "";
-    var strCT = objReq.getResponseHeader("content-type");
-    if(jsx3.util.strEmpty(strCT) ? true : (/xml/i.test(strCT) || /^2[0-9]+[0-9]+/.test(status))) {
-      this.loadXML(objReq.getResponseText());
-    } else {
-      //TODO: I want a different error message here
-      this.setError(102, jsx3._msg("xml.doc_status", this._url, status));
+
+    if (okStatus) {
+      var strCT = objReq.getResponseHeader("content-type");
+
+      if (jsx3.util.strEmpty(strCT) || /xml/i.test(strCT)) {
+        this.loadXML(objReq.getResponseText());
+        return;
+      }
     }
+
+    //TODO: I want a different error message here
+    this.setError(102, jsx3._msg("xml.doc_status", this._url, status));
   };
   
   /** @private @jsxobf-clobber */

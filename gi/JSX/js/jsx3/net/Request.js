@@ -468,6 +468,8 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
       this._status = Request.STATUS_ERROR;
       this._request = {};
     }
+
+    this.publish({subject:Request.EVENT_ON_RESPONSE});
   };
 /* @JSC */ }
 

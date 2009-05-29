@@ -54,7 +54,7 @@ gi.test.jsunit.defineTests("jsx3.lang.Exception", function(t, jsunit) {
     jsunit.assertInstanceOf(e, jsx3.lang.Exception);
     var s = e.getStack();
     jsunit.assertInstanceOf(s, Array);
-    jsunit.assertTrue(s.length >= 4);
+    jsunit.assertTrue("Stack should be at least 4 high but is only " + s.length, s.length >= 4);
     jsunit.assertEquals(a, s[0]);
     jsunit.assertEquals(b, s[1]);
     jsunit.assertEquals(c, s[2]);
@@ -80,8 +80,8 @@ gi.test.jsunit.defineTests("jsx3.lang.Exception", function(t, jsunit) {
     }
 
     var s = e.printStackTrace();
-    jsunit.assertNotNull("Stack trace should include anonymous function.", s.match(/at anonymous\(a, b, c\) {/));
-    jsunit.assertNotNull("Stack trace should include function b()." + s, s.match(/at b\(y, z\) {/));
+    jsunit.assertTrue("Stack trace should include anonymous function:\n" + s, /at anonymous\(a, b, c\) {/.test(s));
+    jsunit.assertTrue("Stack trace should include function b():\n" + s, /at b\(y, z\) {/.test(s));
   };
 
 });
