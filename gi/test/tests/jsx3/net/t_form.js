@@ -235,7 +235,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
 
   t.testFragmentMethod1 = function() {
-    var f = new jsx3.net.Form.newFromFragment('<form action="#"/>');
+    var f = new jsx3.net.Form.newFromFragment('<form action="#"></form>');
     try {
       jsunit.assertEquals(jsx3.net.Form.METHOD_GET, f.getMethod());
     } finally {
@@ -244,7 +244,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
 
   t.testFragmentMethod2 = function() {
-    var f = new jsx3.net.Form.newFromFragment('<form method="POST" action="#"/>');
+    var f = new jsx3.net.Form.newFromFragment('<form method="POST" action="#"></form>');
     try {
       jsunit.assertEquals(jsx3.net.Form.METHOD_POST, f.getMethod());
     } finally {
@@ -253,7 +253,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
 
   t.testFragmentAction = function() {
-    var f = new jsx3.net.Form.newFromFragment('<form action="' + ACTION + '"/>');
+    var f = new jsx3.net.Form.newFromFragment('<form action="' + ACTION + '"></form>');
     try {
       jsunit.assertTrue(jsx3.$S(f.getAction()).endsWith("formdata.cgi"));
     } finally {
@@ -262,7 +262,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
 
   t.testFragmentMultipart1 = function() {
-    var f = new jsx3.net.Form.newFromFragment('<form action="#"/>');
+    var f = new jsx3.net.Form.newFromFragment('<form action="#"></form>');
     try {
       jsunit.assertFalse(f.getMultipart());
     } finally {
@@ -271,7 +271,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
 
   t.testFragmentMultipart2 = function() {
-    var f = new jsx3.net.Form.newFromFragment('<form action="#" enctype="multipart/form-data"/>');
+    var f = new jsx3.net.Form.newFromFragment('<form action="#" enctype="multipart/form-data"></form>');
     try {
       jsunit.assertTrue(f.getMultipart());
     } finally {
@@ -380,10 +380,10 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
     f.setField("field", "value");
 
     f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
-      jsunit.assert("Aborted form should not fire a response: " + objEvent, false);
+      jsunit.assert("Timed out form should not fire a response: " + objEvent, false);
     }));
     f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, t.asyncCallback(function(objEvent) {
-      jsunit.assert("Aborted form should not fire an error: " + objEvent, false);
+      jsunit.assert("Timed out form should not fire an error: " + objEvent, false);
     }));
     f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, t.asyncCallback(function(objEvent) {
     }));
@@ -453,6 +453,23 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
   };
   t.testSendSimple._async = true;
   t.testSendSimple._skip_unless = "NETWORK";
+
+  t.testReceiveText = function() {
+    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
+
+    f.subscribe("*", t.asyncCallback(function(objEvent) {
+      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+        var text = f.getResponseText();
+        jsunit.assertTrue("Response text: " + text, /^File data.(\n|\r\n|\r)?$/.test(text));
+      } else {
+        jsunit.assert("Form should only fire response event: " + objEvent.subject + " " + objEvent.message, false);
+      }
+    }));
+
+    f.send();
+  };
+  t.testReceiveText._async = true;
+  t.testReceiveText._skip_unless = "NETWORK";
 
   t.testSendWhiteSpace = function() {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);

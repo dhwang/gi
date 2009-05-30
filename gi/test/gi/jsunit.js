@@ -382,7 +382,7 @@ gi.test.jsunit._init = function(jsunit) {
         jsx3.setEnv(p, params[p]);
     }
 
-    for (var i = 0; i < jsunit._waiting.length; i++) {
+    for (var i = 0; jsunit._waiting && i < jsunit._waiting.length; i++) {
       try {
         if (eval(jsunit._waiting[i]) != null)
           jsunit._waiting.splice(i--, 1);
@@ -408,7 +408,7 @@ gi.test.jsunit._init = function(jsunit) {
       jsunit._definePendingTests();
     }
 
-    if (jsunit._waiting.length > 0) {
+    if (jsunit._waiting && jsunit._waiting.length > 0) {
       if (jsunit._jsxbaseclasses.length > 0) {
         var nextPath = jsunit._jsxbaseclasses.shift();
         // HACK: without timeout was causing stack overflow on Safari

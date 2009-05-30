@@ -331,7 +331,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
     this.publish({subject:Form.EVENT_ON_RESPONSE});
   };
 
-/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+/* @JSC */ if (jsx3.CLASS_LOADER.IE || jsx3.CLASS_LOADER.SAF) {
 
   /**
    * Sends the form. Sending the form is always asynchronous. Once a form has been sent it may not be reused.
@@ -342,6 +342,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
     if (intPollInterval == null) intPollInterval = Form.DEFAULT_POLL;
     if (intTimeout == null) intTimeout = Form.DEFAULT_TIMEOUT;
 
+    var originalDoc = this._iframe.document;
     this._form.submit();
 
     var count = 0;
@@ -349,11 +350,13 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
 
     var me = this;
     /* @jsxobf-clobber */
-    this._intervalId = window.setInterval(function() {me.responsePoll(++count < max);}, intPollInterval);
+    this._intervalId = window.setInterval(function() {
+      me.responsePoll(++count < max, originalDoc !== me._iframe.document);
+    }, intPollInterval);
   };
 
   /* @jsxobf-clobber */
-  Form_prototype.responsePoll = function(bContinue) {
+  Form_prototype.responsePoll = function(bContinue, bReloaded) {
     try {
       this._iframe.document.readyState == ""; // empty statement may trigger exception
     } catch (e) {
@@ -363,7 +366,8 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
       return;
     }
 
-    if (this._iframe.document.readyState == "complete" || this._iframe.document.readyState == "loaded") {
+    if (bReloaded && (this._iframe.document.readyState == "complete" || this._iframe.document.readyState == "loaded")) {
+//    if (this._iframe.contentDocument && (this._iframe.contentDocument.readyState == "complete" || this._iframe.contentDocument.readyState == "loaded")) {
       window.clearInterval(this._intervalId);
       this._intervalId = null;
       this.onResponseLoad();
@@ -394,20 +398,16 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
    */
   Form_prototype.getResponseText = function() {
     var dcmt = this._iframe.document;
+    var docElm = dcmt ? dcmt.documentElement : null;
 
     //first check form invalid header info returned from the server (mimeType fails in these cases)
-    if (typeof(dcmt.mimeType) != "unknown") {
-      // BROWSER: won't work in Mozilla
-      if (dcmt.mimeType.indexOf("XML") == 0) {
-        return dcmt.XMLDocument.xml;
-      } else if(dcmt.mimeType.indexOf("HTML") == 0) {
-        return jsx3.html.getOuterHTML(this._iframe.document.childNodes[0]);
-      } else if(dcmt.mimeType.indexOf("Text") == 0) {
-        return this._iframe.document.childNodes[0].innerText;
-      }
+    if (docElm && docElm.textContent) {
+      return docElm.textContent;
+    } else if (dcmt.body && dcmt.body.childNodes[0]) {
+      return dcmt.body.childNodes[0].innerHTML;
     }
 
-    return this._iframe.document.body.innerHTML;
+    return null;
   };
   
   /**
@@ -417,30 +417,27 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
   Form_prototype.getResponseXML = function() {
     var dcmt = this._iframe.document;
 
-    if ((typeof(dcmt.mimeType) == "string" && dcmt.mimeType.indexOf("XML") == 0) || (dcmt.XMLDocument && dcmt.XMLDocument.documentElement)) {
-      var objDoc = new jsx3.xml.Document();
-      objDoc.loadXML(dcmt.XMLDocument.documentElement.xml);
-      return objDoc;
+    var doc = new jsx3.xml.Document();
+
+    if (dcmt.XMLDocument && dcmt.XMLDocument.documentElement) {
+      doc.loadXML(dcmt.XMLDocument.documentElement.xml);
     } else {
       var source = null;
-      if (dcmt.mimeType.indexOf("HTML") == 0) {
-        source = jsx3.html.getOuterHTML(this._iframe.document.childNodes[0]);
-      } else if (dcmt.mimeType.indexOf("Text") == 0) {
-        source = this._iframe.document.childNodes[0].innerText;
-      } else {
-        source = this._iframe.document.body.innerHTML;
+      if (dcmt.documentElement) {
+        source = window.XMLSerializer ? (new XMLSerializer()).serializeToString(dcmt) : dcmt.xml;
+      } else if (dcmt.body) {
+        source = dcmt.body.innerHTML;
       }
 
-      var doc = new jsx3.xml.Document();
       doc.loadXML(source);
 
       if (doc.hasError()) {
         LOG.error(jsx3._msg("htfrm.bad_xml", doc.getError()));
-        return null;
+        doc = null;
       }
-      
-      return doc;
     }
+
+    return doc;
   };
   
 /* @JSC */ } else {
@@ -514,7 +511,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
     if (dcmt instanceof XMLDocument) {
       return (new XMLSerializer()).serializeToString(dcmt);
     } else if (dcmt instanceof HTMLDocument) {
-      return jsx3.html.getOuterHTML(dcmt);
+      return dcmt.body.childNodes[0].innerHTML;
     } else {
       LOG.warn(jsx3._msg("htfrm.bad_dt", dcmt));
       return "";
@@ -524,12 +521,23 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
   Form_prototype.getResponseXML = function() {
     var dcmt = this._iframe.contentDocument;
 
-    if (dcmt instanceof XMLDocument || dcmt instanceof HTMLDocument) {
-      return new jsx3.xml.Document().loadXML(this.getResponseText());
+    var doc = new jsx3.xml.Document();
+
+    if (dcmt instanceof XMLDocument) {
+      doc.loadXML((new XMLSerializer()).serializeToString(dcmt));
+    } else if (dcmt instanceof HTMLDocument) {
+      doc.loadXML(jsx3.html.getOuterHTML(dcmt));
     } else {
       LOG.warn(jsx3._msg("htfrm.bad_dt", dcmt));
-      return new jsx3.xml.Document().loadXML("<html/>");
+      doc = null;
     }
+
+    if (doc.hasError()) {
+      LOG.error(jsx3._msg("htfrm.bad_xml", doc.getError()));
+      doc = null;
+    }
+
+    return doc;
   };
 
 /* @JSC */ }
