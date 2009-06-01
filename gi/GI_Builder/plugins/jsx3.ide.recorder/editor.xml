@@ -100,7 +100,7 @@ this.setGIPP = function(b) {
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The action key"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.Select">
-                      <variants jsxtype="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                      <variants jsxtype="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxshare="1"/>
                       <strings jsxname="selectMask" jsxxmlid="jsx3.ide.recorder.actionsxml" jsxdisplay="none"/>
                       <xslparameters jsxsortpath="jsxid"/>
                     </object>
