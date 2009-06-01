@@ -1782,7 +1782,7 @@ Selenium.prototype.doJsxmenu = function (locator, value) {
     this._doRecorderAction("jsxmenu", objJSX, value);
 }
 */
-Selenium.prototype.doJsxCommand = function (locator, value) {
+Selenium.prototype._doJsxCommand = function (locator, value) {
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
       try {
         value = eval("var tmp = " + value + "; tmp");
@@ -1793,27 +1793,25 @@ Selenium.prototype.doJsxCommand = function (locator, value) {
       this._doRecorderAction(action, objJSX, value);
 }
 
-Selenium.prototype.doJsxAssertWait = function (locator, value) {
+Selenium.prototype._isJsxEquals = function (locator, value) {
     //TODO -- remove debug log
     LOG.debug("assertwait loc=" + locator + ", val =" + value);
 
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
 
-    //if (!objJSX) return;
-    
-    var action = currentTest.currentRow.getCommand().command;
-    try {
-        value = eval("var tmp = " + value + "; tmp");
-      } catch (e) {
-        throw new SeleniumError("Bad action value: " + value);
-      }
-    var verbStruct = recorder._VERBS[action];
-    if (!verbStruct) {
-      throw new SeleniumError("Bad action: " + strAction);
-    }
-    var appServer = jsx3.GO('JSXROOT').getServer();
-    LOG.debug("appserver = " + appServer); 
-    return verbStruct(appServer, objJSX, value);
+    if (objJSX) {
+		var action = currentTest.currentRow.getCommand().command;
+		LOG.debug("action = " + action); 
+		  try {
+			value = eval("var tmp = " + value + "; tmp");
+		  } catch (e) {
+			//throw new SeleniumError("Bad action value: " + value);
+			LOG.debug("Bad action value: " + value);
+		  }
+		var verbStruct = recorder._VERBS[action];
+		return (verbStruct) ? verbStruct(objJSX.getServer(), objJSX, value) : false;
+	}
+	return false;
 }
 
 var recorder = classCreate();
@@ -1834,7 +1832,7 @@ var recorder = classCreate();
   CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
     for (var i = 0; i < recorder.actions.length; i++) {
       var actionName = recorder.actions[i];
-      var actionMethod = seleniumApi.doJsxCommand;
+      var actionMethod = seleniumApi._doJsxCommand;
       var actionBlock = fnBind(actionMethod, seleniumApi);
       this.registerAction(actionName, actionBlock, false);
     }
@@ -1844,11 +1842,11 @@ var recorder = classCreate();
   CommandHandlerFactory.prototype._registerJsxWait = function(seleniumApi) {
     for (var i = 0; i < recorder.waits.length; i++) {
       var actionName = recorder.waits[i];
-      var actionMethod = seleniumApi.doJsxAssertWait;
+      var actionMethod = seleniumApi._isJsxEquals;
       var actionBlock = fnBind(actionMethod, seleniumApi);
-      var isBoolean = (actionBlock != "jsxwait_exist");
-      var predicateBlock = this._predicateForAccessor(actionBlock, true, isBoolean); // isBoolean
-      // TBD     
+	  //console.debug("register " + actionName);
+      var predicateBlock = this._predicateForAccessor(actionBlock, true, true); //requiresTarget, isBoolean
+      // make into wait commands     
       var waitForActionMethod = this._waitForActionForPredicate(predicateBlock);
       var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
 
@@ -2088,7 +2086,7 @@ var recorder = classCreate();
     },
     jsxwait_exists: function(s, target, obj) {
       var o = target;
-      return o != null && o.getRendered() != null;
+      return (o != null && o.getRendered() != null) ? true : false;
 //      && o.getRendered().getAttribute("jsxdomholder") != "1";
     },
     jsxwait_value: function(s, target, obj) {
@@ -2114,20 +2112,7 @@ var recorder = classCreate();
       }
     }
   };
-  
-    /** @private @jsxobf-clobber */
-  recorder._assertEquals = function(fct, msg, s, target, obj) {
-    var t = target;
-    if (t) {
-      if (t[fct]() == obj)
-        return true;
-      else
-        throw new Error(msg + ": " + t[fct]() + " != " + v);
-    } else {
-      throw new Error("Invalid target: " + target);
-    }
-  };
-  
+    
    /** @private @jsxobf-clobber */
   recorder._assertWaitEquals = function(fct, s, target, obj) {
     var t = target;
