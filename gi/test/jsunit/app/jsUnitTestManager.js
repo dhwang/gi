@@ -46,7 +46,7 @@ function jsUnitTestManager()
 // seconds to wait for each test page to load
 jsUnitTestManager.TESTPAGE_WAIT_SEC  = 20;
 jsUnitTestManager.TIMEOUT_LENGTH     = 20;
-jsUnitTestManager.ASYNC_TIMEOUT      = 5000;
+jsUnitTestManager.ASYNC_TIMEOUT      = 10000;
 
 // seconds to wait for setUpPage to complete
 jsUnitTestManager.SETUPPAGE_TIMEOUT    = 60; 
