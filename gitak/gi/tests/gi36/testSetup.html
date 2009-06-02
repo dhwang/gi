@@ -24,25 +24,30 @@ Copyright 2006-2008 TIBCO Software Inc.
     <tr>
       <td rowspan="1" colspan="3">Test Setup Procedures</td>
     </tr>
-    <tr>
-      <td>store</td>
-      <td>
-          file:///C:/tibco/gi/nightly/gi</td>
-      <td>GIPATH</td>
-    </tr>
+
     <tr>
       <td>storeEval</td>
       <td>document.location.href.split("/core")[0];</td>
-      <td>SELENIUMPATH</td>
+      <td>GITAKPATH</td>
     </tr>
      <tr>
       <td>echo</td>
-      <td>${SELENIUMPATH}</td>
+      <td>${GITAKPATH}</td>
       <td></td>
+    </tr>
+    <!--tr>
+      <td>store</td>
+      <td>${GITAKPATH}/../gi/dist</td>
+      <td>GIPATH</td>
+    </tr-->
+    <tr>
+      <td>store</td>
+      <td>/C:/tibco/gi/nightly/gi</td>
+      <td>GIPATH</td>
     </tr>
     <tr>
       <td>store</td>
-      <td>${SELENIUMPATH}/gi/samples/gi36</td>
+      <td>${GITAKPATH}/gi/samples/gi36</td>
       <td>SAMPLESPATH</td>
     </tr>
     <tr>

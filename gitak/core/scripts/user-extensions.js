@@ -1744,43 +1744,36 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
   //recorder._invokeAction = function(objTarget, strAction, objArgs) {
 
   var ctx = {};
-    for (var f in value) {
-      ctx[f] = value[f];
-      LOG.debug("ctx[" + f + "]=" + value[f]);
-    }
-    ctx.subject = strAction;
-    if (ctx.objEVENT) {
-      ctx.objEVENT.currentTarget = 1;
-      ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
-    }
+	for (var f in value) {
+	  ctx[f] = value[f];
+	  LOG.debug("ctx[" + f + "]=" + value[f]);
+	}
+	ctx.subject = strAction;
+	if (ctx.objEVENT) {
+	  ctx.objEVENT.currentTarget = 1;
+	  ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
+	}
 
-    if (objTarget.replayEvent) {
-      objTarget.replayEvent(ctx);
-    } else {
-      var fct = recorder._getReplayFunction(objTarget, strAction);
-      if (fct) {
-        LOG.debug("function " + fct);
-        fct.apply(objTarget, [ctx]);
-      } else {
-        objTarget.doEvent(strAction, ctx);
-      }
-    }
+	if (objTarget.replayEvent) {
+	  objTarget.replayEvent(ctx);
+	} else {
+	  var fct = recorder._getReplayFunction(objTarget, strAction);
+	  if (fct) {
+		LOG.debug("function " + fct);
+		fct.apply(objTarget, [ctx]);
+	  } else {
+		objTarget.doEvent(strAction, ctx);
+	  }
+	}
 }
 /*
 Selenium.prototype.doJsxchange = function (locator, value) {
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
     this._doRecorderAction('jsxchange', objJSX, value);
 }
-
-Selenium.prototype.doJsxexecute = function (locator, value) {
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-    this._doRecorderAction('jsxexecute', objJSX, value);
-}
-
-Selenium.prototype.doJsxmenu = function (locator, value) {
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-    this._doRecorderAction("jsxmenu", objJSX, value);
-}
+*/
+/**
+* _doJsxCommand : generic do jsx commands 
 */
 Selenium.prototype._doJsxCommand = function (locator, value) {
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
@@ -1793,41 +1786,59 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
       this._doRecorderAction(action, objJSX, value);
 }
 
+
 Selenium.prototype._isJsxEquals = function (locator, value) {
     //TODO -- remove debug log
     LOG.debug("assertwait loc=" + locator + ", val =" + value);
 
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-
     if (objJSX) {
 		var action = currentTest.currentRow.getCommand().command;
 		LOG.debug("action = " + action); 
+		if (action == "jsxwait_sleep") {
+		  this.doPause(1000); // fake a little sleep.
+		} else if (action == "jsxwait_sleeplong") {
+		  if (recorder._queuestate == undefined) {
+			jsx3.subscribe(jsx3.QUEUE_DONE, this, recorder._sleepQueueEmpty);			
+			jsx3.sleep(function() {});
+			recorder._queuestate = "sleeping";
+		   } else if ( recorder._queuestate == "empty") {
+			delete recorder_queuestate;
+			return true;
+		   } else {
+		    return false;
+		   }
+    	} else {
 		  try {
 			value = eval("var tmp = " + value + "; tmp");
 		  } catch (e) {
-			//throw new SeleniumError("Bad action value: " + value);
 			LOG.debug("Bad action value: " + value);
 		  }
 		var verbStruct = recorder._VERBS[action];
 		return (verbStruct) ? verbStruct(objJSX.getServer(), objJSX, value) : false;
+		}
 	}
 	return false;
 }
 
 var recorder = classCreate();
- recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
+recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
    "jsxexecute", "jsxaftermove", "jsxafterresize", "jsxselect", 
    "jsxafterreorder", "jsxaftersort", "jsxaftercommit", "jsxshow"];
 
-   recorder.asserts = ["jsxassert_exists", "jsxassert_value",
+recorder.asserts = ["jsxassert_exists", "jsxassert_value",
   "jsxassert_checked", "jsxassert_selected", "jsxassert_state",
   "jsxassert_front", "jsxassert_eval"];
   
-  recorder.waits = ["jsxwait_exists", "jsxwait_value","jsxwait_checked",
+recorder.waits = ["jsxwait_exists", "jsxwait_value","jsxwait_checked",
   "jsxwait_selected","jsxwait_state", "jsxwait_front", "jsxwait_eval",
   "jsxwait_sleep",
   "jsxwait_sleeplong"];
+recorder._queuestate;
   
+recorder._sleepQueueEmpty = function () {
+  recorder._queuestate = "empty";
+} 
   // Allow registration of new JSX commands
   CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
     for (var i = 0; i < recorder.actions.length; i++) {
@@ -2059,10 +2070,10 @@ var recorder = classCreate();
     jsxassert_exists: function(s, target, obj) {
       var o = target;
       if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
-        return true;
-      else
-        throw new Error("Does not exist: " + target);
-    },
+        return o.getRendered();
+	  else
+	    return null;
+	},
     jsxassert_value: function(s, target, obj) {
       return recorder._assertEquals("getValue", "Values not equal", s, target, obj);
     },
@@ -2151,7 +2162,7 @@ Selenium.prototype.getMatrixRowIndex = function(locator) {
 // TODO
 //Selenium.prototype.getJsxRecordIds
 //Selenium.prototype.doLoadData
-//Selenium.prototype.doDragDropJsxInsert
+//Selenium.prototype.doDragJsxInsert
 
 Selenium.prototype.getJsxTypeCount = function(strNameType) {
 /**
@@ -2275,7 +2286,7 @@ Selenium.prototype.getJsxSelectedIds = function(locator) {
   if (result) {
     identity = result[2]; // if this is a locator, only take the name/id part.
   }
-  var objJSX = this.browserbot.findByJsxIdentity(identity);  
+  var objJSX = this.browserbot.findByJsxDom(identity);  
 	var selected = (objJSX) ? objJSX.getValue() : Assert.fail("JSX with name or id = "+ identity + " is not found!");
 	if (!selected.length) selected = [selected]; // only one selected, still returns an array.
 	return selected;
@@ -2297,36 +2308,36 @@ Selenium.prototype.getJsxCDFDocument = function(identity) {
   if (result) {
     identity = result[2]; // if this is a locator, only take the name/id part.
   }
-  var objJSX = this.browserbot.findByJsxIdentity(identity);  
+  var objJSX = this.browserbot.findByJsxDom(identity);  
   if (objJSX && objJSX.getXML ) 
     return objJSX.getXML();
   else
     Assert.fail("JSX with name or id = "+ identity + " is not found!");
 }
 
-Selenium.prototype.getJsxText = function(selector) {
+Selenium.prototype.getJsxText = function(identity) {
 /**
-* @param selector {String} the jsxname or jsxid 
+* @param identity {String} the jsxname or jsxid 
 * @return text {String} the jsxtext property if there is one
 */
- var s = selector;
- if (selector.indexOf("=") > 0)
-   s = getNameValue(selector).value;
-  var jsxobj = this.browserbot.findByJsxSelector(s);
-  return (jsxobj && jsxobj.getText ) ? jsxobj.getText() : "";
+ var nameid = identity;
+ if (identity.indexOf("=") > 0)
+   nameid = getNameValue(identity).value;
+  var jsxobj = this.browserbot.findByJsxDom(nameid);
+  return (jsxobj && jsxobj.getText ) ? jsxobj.getText() : null;
 }
 
-Selenium.prototype.getJsxValue = function(selector) {
+Selenium.prototype.getJsxValue = function(identity) {
 /**
 * TODO -- this seems somewhat like getSelectedId? which use the same getValue method.
-* @param selector {String} the jsxname or jsxid 
+* @param identity {String} the jsxname or jsxid 
 * @return value {String} the jsxvalue property if there is one
 */
- var s = selector;
- if (selector.indexOf("=") > 0)
-   s = getNameValue(selector).value;
-  var jsxobj = this.browserbot.findByJsxSelector(s);
-  return (jsxobj && jsxobj.getValue) ? jsxobj.getValue() : "";
+ var nameid = identity;
+ if (identity.indexOf("=") > 0)
+   nameid = getNameValue(identity).value;
+  var jsxobj = this.browserbot.findByJsxDom(nameid);
+  return (jsxobj) ? jsxobj.getValue() : "";
 }
 
 Selenium.prototype.isJsxMenuWindowPresent = function(locatorId) {
