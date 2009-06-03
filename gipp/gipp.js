@@ -51,8 +51,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
    * {Object} A test case function may return this to indicate that it is an asynchronous test. The test case should
    *   set <code>POLL.poll</code> to a Function that returns <code>true</code> when the test is completed. The
    *   benchmark harness will call <code>POLL.poll()</code> at an interval until it returns <code>true</code>. The
-   *   harness will pass the Server instance as the only parameter to the polling function.
+   *   harness will pass the Server instance as the only parameter to the polling function. Optionally, the test
+   *   case may set <code>POLL.timeout</code> to override <code>gipp.POLL_TIMEOUT</code> for itself only.
    * @final
+   * @see #POLL_TIMEOUT
    */
   gipp.POLL = new Object();
   
@@ -971,13 +973,16 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
           this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), this._const("TIMEOUT"));
         } else if (result === gipp.POLL) {
           // Allow synchronous results when test returns POLL
+          var timeoutMillis = gipp.POLL.timeout || this._const("POLL_TIMEOUT");
+          gipp.POLL.timeout = this._const("POLL_TIMEOUT");
+
           if (this._checkPollingCase()) {
             ;
           } else {
             this._status("Polling: " + job.getLabel());
             /* @jsxobf-clobber */
             this._to_polling = window.setInterval(this._callback("_checkPollingCase"), this._const("INTERVAL"));
-            this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), this._const("POLL_TIMEOUT"));
+            this._to_timeout = window.setTimeout(this._callback("_timeoutTestCase", [job.getId()]), timeoutMillis);
             this._updateButtons();
           }
         } else {
@@ -2003,7 +2008,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         var o = arrTests[j];
         id = o.label;
 
-        if (id || o.action.indexOf("jsxwait_") == 0 || j == arrTests.length - 1)
+        if (id || recorder._POLLS[o.action] || j == arrTests.length - 1)
           break;
       }
 
@@ -2061,7 +2066,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         }
       }
 
-      if (o.action.indexOf("jsxwait_") == 0) {
+      if (recorder._POLLS[o.action]) {
         if (o.action == "jsxwait_sleep")
           return gipp.SLEEP;
         else if (o.action == "jsxwait_sleeplong")
@@ -2097,11 +2102,17 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     if (objTarget.replayEvent) {
       objTarget.replayEvent(ctx);
     } else {
-      var fct = recorder._getReplayFunction(objTarget, strAction);
-      if (fct) {
-        fct.apply(objTarget, [ctx]);
+      // check the assert verbs first
+      var anAssert = recorder._ASSERTS[strAction];
+      if (anAssert) {
+        anAssert(objTarget.getServer(), objTarget, objArgs);
       } else {
-        objTarget.doEvent(strAction, ctx);
+        var fct = recorder._getReplayFunction(objTarget, strAction);
+        if (fct) {
+          fct.apply(objTarget, [ctx]);
+        } else {
+          objTarget.doEvent(strAction, ctx);
+        }
       }
     }
   };
@@ -2304,7 +2315,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       if (t[fct]() == obj)
         return true;
       else
-        throw new Error(msg + ": " + t[fct]() + " != " + v);
+        throw new Error(msg + ": " + t[fct]() + " != " + obj);
     } else {
       throw new Error("Invalid target: " + target);
     }
@@ -2319,36 +2330,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /** @private @jsxobf-clobber */
-  recorder._VERBS = {
-    jsxassert_exists: function(s, target, obj) {
-      var o = recorder._getTarget(s, target);
-      if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
-        return true;
-      else
-        throw new Error("Does not exist: " + target);
-    },
-    jsxassert_value: function(s, target, obj) {
-      return recorder._assertEquals("getValue", "Values not equal", s, target, obj);
-    },
-    jsxassert_checked: function(s, target, obj) {
-      return recorder._assertEquals("getChecked", "Checked not equal", s, target, obj);
-    },
-    jsxassert_selected: function(s, target, obj) {
-      return recorder._assertEquals("getSelected", "Selected not equal", s, target, obj);
-    },
-    jsxassert_state: function(s, target, obj) {
-      return recorder._assertEquals("getState", "States not equal", s, target, obj);
-    },
-    jsxassert_front: function(s, target, obj) {
-      return recorder._assertEquals("isFront", "Visibility not equal", s, target, obj);
-    },
-    jsxassert_eval: function(s, target, obj) {
-      var o = recorder._getTarget(s, target);
-      var rv = jsx3.eval.apply(o, [obj]);
-      if (!rv)
-        throw new Error("Eval returned false: " + rv);
-      return rv;
-    },
+  recorder._POLLS = {
     jsxwait_exists: function(s, target, obj) {
       var o = recorder._getTarget(s, target);
       return o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1";
@@ -2379,12 +2361,46 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   };
 
   /** @private @jsxobf-clobber */
+  recorder._ASSERTS = {
+    jsxassert_exists: function(s, target, obj) {
+      var o = recorder._getTarget(s, target);
+      if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
+        return true;
+      else
+        throw new Error("Does not exist: " + target);
+    },
+    jsxassert_value: function(s, target, obj) {
+      return recorder._assertEquals("getValue", "Values not equal", s, target, obj);
+    },
+    jsxassert_checked: function(s, target, obj) {
+      return recorder._assertEquals("getChecked", "Checked not equal", s, target, obj);
+    },
+    jsxassert_selected: function(s, target, obj) {
+      return recorder._assertEquals("getSelected", "Selected not equal", s, target, obj);
+    },
+    jsxassert_state: function(s, target, obj) {
+      return recorder._assertEquals("getState", "States not equal", s, target, obj);
+    },
+    jsxassert_front: function(s, target, obj) {
+      return recorder._assertEquals("isFront", "Visibility not equal", s, target, obj);
+    },
+    jsxassert_eval: function(s, target, obj) {
+      var o = recorder._getTarget(s, target);
+      var rv = jsx3.eval.apply(o, [obj]);
+      if (!rv)
+        throw new Error("Eval returned false: " + rv);
+      return rv;
+    }
+  };
+
+  /** @private @jsxobf-clobber */
   recorder._setUpPoll = function(objServer, targetAddress, strAction, objValue) {
-    var verbStruct = recorder._VERBS[strAction];
+    var verbStruct = recorder._POLLS[strAction];
 
     if (!verbStruct)
       throw new Error("Bad action: " + strAction);
 
+    gipp.POLL.timeout = 10000; // TODO: per command timeout value
     gipp.POLL.poll = function(s) {
       return verbStruct(objServer, targetAddress, objValue);
     };
@@ -2392,6 +2408,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @private @jsxobf-clobber */
   recorder._getTarget = function(objServer, s) {
+    if (s instanceof jsx3.app.Model) return s;
     // #id.type:pseudo
     return objServer.getRootBlock().selectDescendants(s, true);
   };

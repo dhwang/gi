@@ -166,19 +166,19 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
 
     var verb, object = null;
 
-    if (typeof(objJSX.getSelected) == "function") {
+    if (Editor._isFunct(objJSX.getSelected)) {
       verb = "selected";
       object = jsx3.$O.json(objJSX.getSelected());
-    } else if (typeof(objJSX.getChecked) == "function") {
+    } else if (Editor._isFunct(objJSX.getChecked)) {
       verb = "checked";
       object = jsx3.$O.json(objJSX.getChecked());
-    } else if (typeof(objJSX.getState) == "function") {
+    } else if (Editor._isFunct(objJSX.getState)) {
       verb = "state";
       object = jsx3.$O.json(objJSX.getState());
-    } else if (typeof(objJSX.isFront) == "function") {
+    } else if (Editor._isFunct(objJSX.isFront)) {
       verb = "front";
       object = jsx3.$O.json(objJSX.isFront());
-    } else if (typeof(objJSX.getValue) == "function") {
+    } else if (Editor._isFunct(objJSX.getValue)) {
       verb = "value";
 
       object = objJSX.getValue();
@@ -189,6 +189,11 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
     }
 
     return [prefix + verb, object];
+  };
+
+  /** @private @jsxobf-clobber */
+  Editor._isFunct = function(f) {
+    return typeof(f) == "function" || (f && f.apply && f.call);
   };
 
   /** @private @jsxobf-clobber */

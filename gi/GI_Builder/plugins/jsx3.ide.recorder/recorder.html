@@ -20,6 +20,9 @@
 
       if (window.document.addEventListener) {
         window.document.addEventListener("click", onAppClick, true);
+      } else if (window.document.attachEvent) {
+        window.document.attachEvent("onclick", onAppClick);
+        window.document.body.className = "ie";
       } else {
         window.document.onclick = onAppClick;
       }
@@ -130,9 +133,11 @@
     if (state.waiting) {
       state.waiting = false;
       btn.className = "btn";
+      stopCapture();
     } else {
       state.waiting = true;
       btn.className = "btn down";
+      startCapture();
     }
   }
 
@@ -144,9 +149,25 @@
     if (state.asserting) {
       state.asserting = false;
       btn.className = "btn";
+      stopCapture();
     } else {
       state.asserting = true;
       btn.className = "btn down";
+      startCapture();
+    }
+  }
+
+  function stopCapture() {
+    if (!document.addEventListener && document.attachEvent) {
+      document.releaseCapture();
+    }
+  }
+
+  function startCapture() {
+    if (!document.addEventListener && document.attachEvent) {
+      window.setTimeout(function() {
+        document.setCapture();
+      }, 0);
     }
   }
 
@@ -217,6 +238,46 @@
     cursor: pointer;
   }
 
+  body.ie #assert {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/assert_up.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #wait {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/wait_up.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #assert.down {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/assert_down.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #wait.down {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/wait_down.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #stop {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/stop_up.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #stop:hover {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/stop_down.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #playPause {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/pause_up.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #playPause:hover {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/pause_down.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #playPause.paused {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/record_up.png', sizingMethod='scale'); background-image: none;
+  }
+
+  body.ie #playPause.paused:hover {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/record_down.png', sizingMethod='scale'); background-image: none;
+  }
+
   #assert {
     width: 66px;
     height: 16px;
@@ -279,6 +340,7 @@
     background-color: #EEEEEE;
   }
 </style>
+
   </head>
   <body onload="onReady()" SCROLL="no">
     <div id="recorderControls">
