@@ -194,7 +194,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
   html.removeStyle = function(objDOM, strName) {
     strName = strName.replace(/\-(\w)/g, function(a, one) { return one.toUpperCase(); });
-    objDOM.style[strName] = null;
+    objDOM.style.removeAttribute(strName);
   };
 
   /**
