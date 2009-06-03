@@ -269,6 +269,13 @@ gi.test.jsunit.defineTests("jsx3.app.Model", function(t, jsunit) {
 
     var match2 = root.selectDescendants("#child2 #lastChild");
     jsunit.assertEquals(0, match2.length);
+
+    var match3 = root.selectDescendants("#none #child2");
+    jsunit.assertEquals(0, match3.length);
+
+    // Test the optimized code for selecting from root
+    var match4 = s.getRootBlock().selectDescendants("#none #child2");
+    jsunit.assertEquals(0, match4.length);
   };
 
   t.testSelectDirectDescendant = function() {

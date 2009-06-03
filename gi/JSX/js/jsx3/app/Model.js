@@ -896,11 +896,12 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     var deep = true;
     var considerSelf = true;
     var isRoot = this.getServer().getRootBlock() == this;
+    var bEscape = false;
 
     rx.lastIndex = 0;
 
     var lastEnding = 0, a = null;
-    while (a = rx.exec(strExpr)) {
+    while ((a = rx.exec(strExpr)) && !bEscape) {
       if (lastEnding != a.index)
         throw new IllegalArgumentException("strExpr", strExpr);
 
@@ -916,7 +917,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       } else if (a[2]) {
         var id = a[2].substring(1);
         if (isRoot) {
-          // a small optimization
+          // a small optimization when starting with "#id" from the root node
           considering = jsx3.$A(this.getServer().getDOM().getAllByName(id));
         } else {
           fct = function(x) { return x.getName() == id; };
@@ -951,10 +952,16 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       } else if (a[6]) {
         fct = function(x) { return true; };
       } else {
-        parents = considering;
-        considering = null;
-        deep = Boolean(a[8]);
-        considerSelf = false;
+        if (!considering)
+          throw new IllegalArgumentException("strExpr", strExpr); // should never happen
+        else if (considering.length == 0)
+          bEscape = true; // escape the loop when a subselection has yielded no objects
+        else {
+          parents = considering;
+          considering = null;
+          deep = Boolean(a[8]);
+          considerSelf = isRoot = false;
+        }
       }
 
       if (fct) {
@@ -973,7 +980,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       lastEnding = rx.lastIndex;
     }
 
-    if (lastEnding != strExpr.length)
+    if (!bEscape && lastEnding != strExpr.length)
       throw new IllegalArgumentException("strExpr", strExpr);
 
     return bSingle ? considering[0] : considering;
