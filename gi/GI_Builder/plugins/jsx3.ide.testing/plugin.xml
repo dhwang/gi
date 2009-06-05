@@ -102,7 +102,7 @@
   </resources>
 
   <extension point="jsx3.ide.settings.ide.pane" id="default">
-    <pane label="GIPP &amp; GITAK" img="gipp.gif" resource="pane_gipp"
+    <pane label="GIPP &amp;&amp; GITAK" img="gipp.gif" resource="pane_gipp"
           tip="Settings related to integration with the Test Automation Kit and Performance Profiler."/>
   </extension>
 
