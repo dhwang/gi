@@ -76,6 +76,7 @@
 
     <getsvnrevision path="${project.dir}" property="rev"/>
 
+    <mkdir dir="${buildDir}"/>
     <property name="temp.distzip" value="${buildDir}/gi.zip"/>
     <property name="nightly.zip.prefix" value="${staging.nightly}/gi-${build.gi.version.name}"/>
 
@@ -256,7 +257,10 @@
 
   <target name="release" depends="init"
       description="Builds and deploys the regular, debug and max flavors of GI in the release directory.">
+
     <getsvnrevision path="${project.dir}" property="rev"/>
+
+    <mkdir dir="${buildDir}"/>
     <property name="temp.distzip" value="${buildDir}/gi.zip"/>
 
     <!-- clean -->
