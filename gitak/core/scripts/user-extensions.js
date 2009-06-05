@@ -1739,398 +1739,6 @@ Selenium.prototype.doSelectJsxRecords = function(locator, xpath) {
   }
   
 }
-
-Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
-  //recorder._invokeAction = function(objTarget, strAction, objArgs) {
-
-  var ctx = {};
-	for (var f in value) {
-	  ctx[f] = value[f];
-	  LOG.debug("ctx[" + f + "]=" + value[f]);
-	}
-	ctx.subject = strAction;
-	if (ctx.objEVENT) {
-	  ctx.objEVENT.currentTarget = 1;
-	  ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
-	}
-
-	if (objTarget.replayEvent) {
-	  objTarget.replayEvent(ctx);
-	} else {
-	  var fct = recorder._getReplayFunction(objTarget, strAction);
-	  if (fct) {
-		LOG.debug("function " + fct);
-		fct.apply(objTarget, [ctx]);
-	  } else {
-		objTarget.doEvent(strAction, ctx);
-	  }
-	}
-}
-/*
-Selenium.prototype.doJsxchange = function (locator, value) {
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-    this._doRecorderAction('jsxchange', objJSX, value);
-}
-*/
-/**
-* _doJsxCommand : generic do jsx commands 
-*/
-Selenium.prototype._doJsxCommand = function (locator, value) {
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-      try {
-        value = eval("var tmp = " + value + "; tmp");
-      } catch (e) {
-        throw new Error("Bad action value: " + value);
-      }
-      var action = currentTest.currentRow.getCommand().command;
-      this._doRecorderAction(action, objJSX, value);
-}
-
-
-Selenium.prototype._isJsxEquals = function (locator, value) {
-    //TODO -- remove debug log
-    LOG.debug("assertwait loc=" + locator + ", val =" + value);
-
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-    if (objJSX) {
-		var action = currentTest.currentRow.getCommand().command;
-		LOG.debug("action = " + action); 
-		if (action == "jsxwait_sleep") {
-		  this.doPause(1000); // fake a little sleep.
-		} else if (action == "jsxwait_sleeplong") {
-		  if (recorder._queuestate == undefined) {
-			jsx3.subscribe(jsx3.QUEUE_DONE, this, recorder._sleepQueueEmpty);			
-			jsx3.sleep(function() {});
-			recorder._queuestate = "sleeping";
-		   } else if ( recorder._queuestate == "empty") {
-			delete recorder_queuestate;
-			return true;
-		   } else {
-		    return false;
-		   }
-    	} else {
-		  try {
-			value = eval("var tmp = " + value + "; tmp");
-		  } catch (e) {
-			LOG.debug("Bad action value: " + value);
-		  }
-		var verbStruct = recorder._VERBS[action];
-		return (verbStruct) ? verbStruct(objJSX.getServer(), objJSX, value) : false;
-		}
-	}
-	return false;
-}
-
-var recorder = classCreate();
-recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
-   "jsxexecute", "jsxaftermove", "jsxafterresize", "jsxselect", 
-   "jsxafterreorder", "jsxaftersort", "jsxaftercommit", "jsxshow"];
-
-recorder.asserts = ["jsxassert_exists", "jsxassert_value",
-  "jsxassert_checked", "jsxassert_selected", "jsxassert_state",
-  "jsxassert_front", "jsxassert_eval"];
-  
-recorder.waits = ["jsxwait_exists", "jsxwait_value","jsxwait_checked",
-  "jsxwait_selected","jsxwait_state", "jsxwait_front", "jsxwait_eval",
-  "jsxwait_sleep",
-  "jsxwait_sleeplong"];
-recorder._queuestate;
-  
-recorder._sleepQueueEmpty = function () {
-  recorder._queuestate = "empty";
-} 
-  // Allow registration of new JSX commands
-  CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
-    for (var i = 0; i < recorder.actions.length; i++) {
-      var actionName = recorder.actions[i];
-      var actionMethod = seleniumApi._doJsxCommand;
-      var actionBlock = fnBind(actionMethod, seleniumApi);
-      this.registerAction(actionName, actionBlock, false);
-    }
-  }
-
-  // WAIT
-  CommandHandlerFactory.prototype._registerJsxWait = function(seleniumApi) {
-    for (var i = 0; i < recorder.waits.length; i++) {
-      var actionName = recorder.waits[i];
-      var actionMethod = seleniumApi._isJsxEquals;
-      var actionBlock = fnBind(actionMethod, seleniumApi);
-	  //console.debug("register " + actionName);
-      var predicateBlock = this._predicateForAccessor(actionBlock, true, true); //requiresTarget, isBoolean
-      // make into wait commands     
-      var waitForActionMethod = this._waitForActionForPredicate(predicateBlock);
-      var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
-
-      this.registerAction(actionName, waitForActionBlock, false, true);
-    }
-  }
-
-  // Override the default registration method
-  CommandHandlerFactory.prototype.registerAll = function(seleniumApi) {
-        this._registerAllAccessors(seleniumApi);
-        this._registerAllActions(seleniumApi);
-        this._registerAllAsserts(seleniumApi);
-        this._registerJsxActions(seleniumApi);
-        this._registerJsxWait(seleniumApi);
-  }
-
-  recorder._REPLAY = {
-    "jsx3.gui.Block": {
-      jsxmenu: function(e) {
-        var rv = this.doEvent(e.subject, e);
-        if (rv !== false) {
-          var objMenu = e.objMENU;
-          if (rv && rv.objMENU)
-            objMenu = rv.objMENU;
-          objMenu.showContextMenu(e.objEVENT, this);
-        }
-      }
-    },
-    "jsx3.gui.CheckBox": {
-      jsxtoggle: function(e) {
-        this.setChecked(e.intCHECKED);
-        this.doEvent(e.subject, e);
-      }
-    },
-    "jsx3.gui.ColorPicker": {
-      jsxchange: function(e) {
-        this.setValue(e.intRGB);
-        this.doEvent(e.subject, e);
-      }
-    },
-    "jsx3.gui.DatePicker": {
-      jsxchange: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setDate(e.newDATE);
-      }
-    },
-    "jsx3.gui.Dialog": {
-      jsxaftermove: function(e) {
-        this.setDimensions(e.intL, e.intT, null, null, true);
-        this.doEvent(e.subject, e)
-      },
-      jsxafterresize: function(e) {
-        this.setDimensions(null, null, e.intW, e.intW, true);
-        this.doEvent(e.subject, e)
-      }
-    },
-    "jsx3.gui.ImageButton": {
-      jsxtoggle: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setState(e.intSTATE);
-      }
-    },
-    "jsx3.gui.Matrix": {
-      jsxselect: function(e) {
-        if (this.getSelectionModel() == jsx3.gui.Matrix.SELECTION_MULTI_ROW)
-          this.setValue(e.strRECORDIDS);
-        else
-          this.setValue(e.strRECORDID);
-        this.doEvent(e.subject, e);
-      },
-      jsxafterreorder: function(e) {
-        var col = this.getChild(e.intOLDINDEX);
-        var before = this.getChild(e.intOLDINDEX < e.intNEWINDEX ? e.intNEWINDEX + 1 : e.intNEWINDEX);
-
-        if (before)
-          this.insertBefore(col, before, true);
-        else
-          this.adoptChild(col, true);
-
-        this.doEvent(e.subject, e);
-      },
-      jsxaftersort: function(e) {
-        this.setSortPath(e.strSORTPATH);
-        this.setSortType(e.strSORTTYPE);
-        this.doSort(e.intDIRECTION);
-        this.doEvent(e.subject, e);
-      },
-      jsxafterresize: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.getChild(e.intCOLUMNINDEX).setWidth(e.vntWIDTH);
-      },
-      jsxafterappend: function(e) {
-        // TODO:
-        this.doEvent(e.subject, e);
-      },
-      jsxaftercommit: function(e) {
-        // TODO:
-        this.doEvent(e.subject, e);
-      },
-      jsxtoggle: function(e) {
-        this.toggleItem(e.strRECORDID, e.bOPEN);
-        this.doEvent(e.subject, e);
-      }
-    },
-    "jsx3.gui.Menu": {
-      jsxmenu: function(e) {
-        // TODO:
-        this.doEvent(e.subject, e);
-      },
-      jsxexecute: function(e) {
-        this.repaint();
-        this.doEvent(e.subject, e);
-      }
-    },
-    "jsx3.gui.RadioButton": {
-      jsxselect: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setSelected(RadioButton.SELECTED);
-      }
-    },
-    "jsx3.gui.Select": {
-      jsxselect: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setValue(e.strRECORDID);
-      }
-    },
-    "jsx3.gui.Slider": {
-      jsxchange: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setValue(e.fpVALUE);
-      }
-    },
-    "jsx3.gui.Splitter": {
-      jsxafterresize: function(e) {
-        this.setSubcontainer1Pct(e.fpPCT1);
-        this.doEvent(e.subject, e);
-      }
-    },
-    "jsx3.gui.Stack": {
-      jsxshow: function(e) {
-        this.doShow();
-      }
-    },
-    "jsx3.gui.Tab": {
-      jsxshow: function(e) {
-        this.doShow();
-      }
-    },
-    "jsx3.gui.Table": {
-      jsxchange: function(e) {
-        if (this.getSelectionModel() == jsx3.gui.Table.SELECTION_MULTI_ROW)
-          this.setValue(e.strRECORDIDS);
-        else
-          this.setValue(e.strRECORDID);
-        this.doEvent(e.subject, e);
-      },
-      jsxaftersort: function(e) {
-        // TODO:
-      }
-    },
-    "jsx3.gui.TextBox": {
-      jsxchange: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setValue(e.strVALUE);
-      }
-    },
-    "jsx3.gui.TimePicker": {
-      jsxchange: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setDate(e.newDATE);
-      }
-    },
-    "jsx3.gui.ToolbarButton": {
-      jsxchange: function(e) {
-        this.setState(this.getState() == 0 ? 1 : 0);
-        this.doEvent(e.subject, e);
-      }
-    },
-    "jsx3.gui.Tree": {
-      jsxchange: function(e) {
-        this.setValue(e.newVALUE);
-        this.doEvent(e.subject, e);
-      },
-      jsxtoggle: function(e) {
-        this.toggleItem(e.strRECORDID, e.bOPEN);
-        this.doEvent(e.subject, e);
-      }
-    }
-  };
-
-  /** @private @jsxobf-clobber */
-  recorder._getReplayFunction = function(objTarget, strAction) {
-    var c = objTarget.getClass();
-    var fct = null;
-
-    while (c && !fct) {
-      LOG.debug('_REPLAY[' + c.getName() + ']');
-      var struct = recorder._REPLAY[c.getName()];
-      if (struct)
-        fct = struct[strAction];
-
-      c = c.getSuperClass();
-    }
-
-    return fct;
-  };
-
-    /** @private @jsxobf-clobber */
-  recorder._VERBS = {
-    jsxassert_exists: function(s, target, obj) {
-      var o = target;
-      if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
-        return o.getRendered();
-	  else
-	    return null;
-	},
-    jsxassert_value: function(s, target, obj) {
-      return recorder._assertEquals("getValue", "Values not equal", s, target, obj);
-    },
-    jsxassert_checked: function(s, target, obj) {
-      return recorder._assertEquals("getChecked", "Checked not equal", s, target, obj);
-    },
-    jsxassert_selected: function(s, target, obj) {
-      return recorder._assertEquals("getSelected", "Selected not equal", s, target, obj);
-    },
-    jsxassert_state: function(s, target, obj) {
-      return recorder._assertEquals("getState", "States not equal", s, target, obj);
-    },
-    jsxassert_front: function(s, target, obj) {
-      return recorder._assertEquals("isFront", "Visibility not equal", s, target, obj);
-    },
-    jsxassert_eval: function(s, target, obj) {
-      var rv = jsx3.eval(target, {server:s});
-      if (!rv)
-        throw new Error("Eval returned false: " + rv);
-      return rv;
-    },
-    jsxwait_exists: function(s, target, obj) {
-      var o = target;
-      return (o != null && o.getRendered() != null) ? true : false;
-//      && o.getRendered().getAttribute("jsxdomholder") != "1";
-    },
-    jsxwait_value: function(s, target, obj) {
-      return recorder._assertWaitEquals("getValue", s, target, obj);
-    },
-    jsxwait_checked: function(s, target, obj) {
-      return recorder._assertWaitEquals("getChecked", s, target, obj);
-    },
-    jsxwait_selected: function(s, target, obj) {
-      return recorder._assertWaitEquals("getSelected", s, target, obj);
-    },
-    jsxwait_state: function(s, target, obj) {
-      return recorder._assertWaitEquals("getState", s, target, obj);
-    },
-    jsxwait_front: function(s, target, obj) {
-      return recorder._assertWaitEquals("isFront", s, target, obj);
-    },
-    jsxwait_eval: function(s, target, obj) {
-      try {
-        return jsx3.eval(target, {server:s});
-      } catch (e) {
-        return false;
-      }
-    }
-  };
-    
-   /** @private @jsxobf-clobber */
-  recorder._assertWaitEquals = function(fct, s, target, obj) {
-    var t = target;
-    if (t)
-      return t[fct]() == obj;
-    return false;
-  };
   
 // getJsxRecordIndex
 Selenium.prototype.getMatrixRowIndex = function(locator) {
@@ -2244,7 +1852,7 @@ Selenium.prototype.getJsxByText = function (jsxText) {
 
 Selenium.prototype.getJsxSelectedIndex = function(locator) {
 // index of selected option item, multi-select item, matrix row
-  return this.getSelectedIndexes(locator)[0];
+  return this.getJsxSelectedIndexes(locator)[0];
 }
 
 Selenium.prototype.getJsxSelectedIndexes = function(locator) {
@@ -2286,7 +1894,10 @@ Selenium.prototype.getJsxSelectedIds = function(locator) {
   if (result) {
     identity = result[2]; // if this is a locator, only take the name/id part.
   }
-  var objJSX = this.browserbot.findByJsxDom(identity);  
+  var objJSX = this.browserbot.findByJsxDom(identity);
+  if (objJSX && objJSX.isInstanceOf("jsx3.gui.Matrix"))
+   var selected = objJSX.getSelectedIds();
+  else   
 	var selected = (objJSX) ? objJSX.getValue() : Assert.fail("JSX with name or id = "+ identity + " is not found!");
 	if (!selected.length) selected = [selected]; // only one selected, still returns an array.
 	return selected;
@@ -2345,31 +1956,22 @@ Selenium.prototype.isJsxMenuWindowPresent = function(locatorId) {
  *
  * @param locatorId {String} Menu dropdown level id
  */
-
     var elmMenuWindow = this.browserbot.locateElementByJsxMenuWindowId(locatorId, this.browserbot.getDocument());
    //if (elmMenuWindow) LOG.debug('elmMenu = ' + getOuterHTML(elmMenuWindow));
    return (elmMenuWindow) ? true : false;
 }
 
-Selenium.prototype.isJsxSelectWindowPresent = function (locator) {
+Selenium.prototype.isJsxSelectWindowPresent = function () {
 /**
  * Is the Select control drop down list present.
- * @param locator {String} not used. we are looking for the only select window object.
  */
   var elmSelectWindow = this.browserbot.getDocument().getElementById("jsx30curvisibleoptions");   
   return (elmSelectWindow) ? true : false;
 }
 
 Selenium.prototype.isJsxButtonPresent = function(text) {
-/** TODO - Dprecate this command, redu
+/** TODO - Dprecate this command
  * Asserts that the specified JsxButton element can be found.
-assertJsxButtonPresent( )
-assertJsxButtonNotPresent( )
-verifyJsxButtonPresent( )
-verifyJsxButtonNotPresent( )
-waitForJsxButtonPresent( )
-waitForJsxButtonNotPresent( )
-
  * @param text {String} label text or jsxname (or locator like JsxButtonName=jsxname and JsxButtonText=press me)
  */
     try {
@@ -2400,7 +2002,7 @@ waitForJsxPresent( )
 waitForJsxNotPresent( )
 
 Example
-  assertJsxPresent  | rootblock/tabbedpane/child[0]/mtxGridEditable/columnText | |
+  assertJsxPresent  | rootblock/tabbedpane/child[0]/mtxGridEditable | |
   verifyJsxPresent  | JsxDateNextYear=dpkrStartDate | |
   waitForJsxPresent | JsxDialogCaption=*Blah* | |
 
@@ -2413,7 +2015,7 @@ Example
 		 var objJSX = this.browserbot.findByJsxDom(text);
          objGUI = (objJSX) ? objJSX.getRendered() : null;
 		}
-    if (!objGUI) { // only do this if objGUI is not found using jsxname search.
+		if (!objGUI) { // only do this if objGUI is not found using jsxname search.
 		 LOG.info(" findElement() " + text);
 		 objGUI = this.browserbot.findElement(text);
 		}
@@ -2970,8 +2572,7 @@ PageBot.prototype.findByJsxSelector = function (s, inDocument, inWindow) {
   window.top.jsx3 = appWindow.jsx3;
   var objRoot = null;
   LOG.debug('findByJsxSelector : ' + s  );
-  if (jsx3) {
-    
+  if (jsx3) {    
     if (selenium.jsxNamespace) {
         appServer = eval("appWindow."+selenium.jsxNamespace);
         objRoot = appServer.getRootBlock();
@@ -4889,3 +4490,377 @@ Selenium.prototype.doInclude = function(fileName, timeout) {
     Selenium.decorateFunctionWithTimeout(includeCommand.doInclude, timeout);
     includeCommand.doInclude(fileName);
 };
+
+Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
+  //recorder._invokeAction = function(objTarget, strAction, objArgs) {
+
+  var ctx = {};
+	for (var f in value) {
+	  ctx[f] = value[f];
+	  LOG.debug("ctx[" + f + "]=" + value[f]);
+	}
+	ctx.subject = strAction;
+	if (ctx.objEVENT) {
+	  ctx.objEVENT.currentTarget = 1;
+	  ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
+	}
+
+	if (objTarget.replayEvent) {
+	  objTarget.replayEvent(ctx);
+	} else {
+	  var fct = recorder._getReplayFunction(objTarget, strAction);
+	  if (fct) {
+		LOG.debug("function " + fct);
+		fct.apply(objTarget, [ctx]);
+	  } else {
+		objTarget.doEvent(strAction, ctx);
+	  }
+	}
+}
+/*
+Selenium.prototype.doJsxchange = function (locator, value) {
+    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
+    this._doRecorderAction('jsxchange', objJSX, value);
+}
+*/
+/**
+* _doJsxCommand : generic do jsx commands 
+*/
+Selenium.prototype._doJsxCommand = function (locator, value) {
+    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
+      try {
+        value = eval("var tmp = " + value + "; tmp");
+      } catch (e) {
+        throw new Error("Bad action value: " + value);
+      }
+      var action = currentTest.currentRow.getCommand().command;
+      this._doRecorderAction(action, objJSX, value);
+}
+
+
+var recorder = classCreate();
+recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
+   "jsxexecute", "jsxaftermove", "jsxafterresize", "jsxselect", 
+   "jsxafterreorder", "jsxaftersort", "jsxaftercommit", "jsxshow"];
+  
+/* TODO -- implement these methods
+  "jsxwait_sleep"
+  "jsxwait_sleeplong"
+*/
+  // Allow registration of new JSX commands
+  CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
+    for (var i = 0; i < recorder.actions.length; i++) {
+      var actionName = recorder.actions[i];
+      var actionMethod = seleniumApi._doJsxCommand;
+      var actionBlock = fnBind(actionMethod, seleniumApi);
+      this.registerAction(actionName, actionBlock, false);
+    }
+  }
+
+  // Recorder value need evaluation create custom predicate assertion method
+  CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
+        return function(target, value) {
+		  try {
+			value =  eval("var tmp = " + value + "; tmp");
+		  } catch (e) {
+			Assert.fail("Bad action value: " + value);
+		  }
+		  LOG.debug("assert jsx predicate, " + value);
+          var result = predicateBlock(target, value);
+          if (!result.isTrue) {
+              Assert.fail(result.message);
+          }
+        };
+  }
+  
+  CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
+    // Convert an jsxget_blah(target, value) function into a jsxwait_blah(target, value) function.
+        return function(target, value) {
+		  try {
+			value =  eval("var tmp = " + value + "; tmp");
+		  } catch (e) {
+			LOG.error("Bad action value: " + value);
+		  }
+		    LOG.debug("create jsxwait predicate, " + value);
+            var terminationCondition = function () {
+                try {
+                    return predicateBlock(target, value).isTrue;
+                } catch (e) {
+                    // Treat exceptions as meaning the condition is not yet met.
+                    // Useful, for example, for waitForValue when the element has
+                    // not even been created yet.
+                    // TODO: possibly should rethrow some types of exception.
+                    return false;
+                }
+            };
+            return Selenium.decorateFunctionWithTimeout(terminationCondition, this.defaultTimeout);
+        };
+
+  }
+  // jsxassert_ jsxwait_
+  CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
+  	for (var functionName in recorder._VERBS) {
+      var match = /^(jsxget|jsxis)_(.+)$/.exec(functionName);
+      if (match) {
+		  var accessMethod = recorder._VERBS[functionName];
+		  var accessBlock = fnBind(accessMethod, seleniumApi);
+		  //console.debug("register " + functionName);
+		  var baseName = match[2];
+		  var isBoolean = (match[1] == "jsxis");
+		  var predicateBlock = this._predicateForAccessor(accessBlock, true, isBoolean); //requiresTarget, isBoolean
+
+		  //var predicateBlock = this._predicateForSingleArgAccessor(accessBlock);
+		  var assertBlock = this._jsxAssertionFromPredicate(predicateBlock);
+		  this.registerAssert("jsxassert_" + baseName, assertBlock, true);
+
+		  // make into wait commands     
+		  var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
+		  var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
+		  this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
+	  }
+    }
+  }
+  // Override the default registration method
+  CommandHandlerFactory.prototype.registerAll = function(seleniumApi) {
+        this._registerAllAccessors(seleniumApi);
+        this._registerAllActions(seleniumApi);
+        this._registerAllAsserts(seleniumApi);
+        this._registerJsxActions(seleniumApi);
+		this._registerJsxAssert(seleniumApi);
+  }
+
+  recorder._REPLAY = {
+    "jsx3.gui.Block": {
+      jsxmenu: function(e) {
+        var rv = this.doEvent(e.subject, e);
+        if (rv !== false) {
+          var objMenu = e.objMENU;
+          if (rv && rv.objMENU)
+            objMenu = rv.objMENU;
+          objMenu.showContextMenu(e.objEVENT, this);
+        }
+      }
+    },
+    "jsx3.gui.CheckBox": {
+      jsxtoggle: function(e) {
+        this.setChecked(e.intCHECKED);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.ColorPicker": {
+      jsxchange: function(e) {
+        this.setValue(e.intRGB);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.DatePicker": {
+      jsxchange: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setDate(e.newDATE);
+      }
+    },
+    "jsx3.gui.Dialog": {
+      jsxaftermove: function(e) {
+        this.setDimensions(e.intL, e.intT, null, null, true);
+        this.doEvent(e.subject, e)
+      },
+      jsxafterresize: function(e) {
+        this.setDimensions(null, null, e.intW, e.intW, true);
+        this.doEvent(e.subject, e)
+      }
+    },
+    "jsx3.gui.ImageButton": {
+      jsxtoggle: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setState(e.intSTATE);
+      }
+    },
+    "jsx3.gui.Matrix": {
+      jsxselect: function(e) {
+        if (this.getSelectionModel() == jsx3.gui.Matrix.SELECTION_MULTI_ROW)
+          this.setValue(e.strRECORDIDS);
+        else
+          this.setValue(e.strRECORDID);
+        this.doEvent(e.subject, e);
+      },
+      jsxafterreorder: function(e) {
+        var col = this.getChild(e.intOLDINDEX);
+        var before = this.getChild(e.intOLDINDEX < e.intNEWINDEX ? e.intNEWINDEX + 1 : e.intNEWINDEX);
+
+        if (before)
+          this.insertBefore(col, before, true);
+        else
+          this.adoptChild(col, true);
+
+        this.doEvent(e.subject, e);
+      },
+      jsxaftersort: function(e) {
+        this.setSortPath(e.strSORTPATH);
+        this.setSortType(e.strSORTTYPE);
+        this.doSort(e.intDIRECTION);
+        this.doEvent(e.subject, e);
+      },
+      jsxafterresize: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.getChild(e.intCOLUMNINDEX).setWidth(e.vntWIDTH);
+      },
+      jsxafterappend: function(e) {
+        // TODO:
+        this.doEvent(e.subject, e);
+      },
+      jsxaftercommit: function(e) {
+        // TODO:
+        this.doEvent(e.subject, e);
+      },
+      jsxtoggle: function(e) {
+        this.toggleItem(e.strRECORDID, e.bOPEN);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.Menu": {
+      jsxmenu: function(e) {
+        // TODO:
+        this.doEvent(e.subject, e);
+      },
+      jsxexecute: function(e) {
+        this.repaint();
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.RadioButton": {
+      jsxselect: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setSelected(RadioButton.SELECTED);
+      }
+    },
+    "jsx3.gui.Select": {
+      jsxselect: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setValue(e.strRECORDID);
+      }
+    },
+    "jsx3.gui.Slider": {
+      jsxchange: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setValue(e.fpVALUE);
+      }
+    },
+    "jsx3.gui.Splitter": {
+      jsxafterresize: function(e) {
+        this.setSubcontainer1Pct(e.fpPCT1);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.Stack": {
+      jsxshow: function(e) {
+        this.doShow();
+      }
+    },
+    "jsx3.gui.Tab": {
+      jsxshow: function(e) {
+        this.doShow();
+      }
+    },
+    "jsx3.gui.Table": {
+      jsxchange: function(e) {
+        if (this.getSelectionModel() == jsx3.gui.Table.SELECTION_MULTI_ROW)
+          this.setValue(e.strRECORDIDS);
+        else
+          this.setValue(e.strRECORDID);
+        this.doEvent(e.subject, e);
+      },
+      jsxaftersort: function(e) {
+        // TODO:
+      }
+    },
+    "jsx3.gui.TextBox": {
+      jsxchange: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setValue(e.strVALUE);
+      }
+    },
+    "jsx3.gui.TimePicker": {
+      jsxchange: function(e) {
+        if (this.doEvent(e.subject, e) !== false)
+          this.setDate(e.newDATE);
+      }
+    },
+    "jsx3.gui.ToolbarButton": {
+      jsxchange: function(e) {
+        this.setState(this.getState() == 0 ? 1 : 0);
+        this.doEvent(e.subject, e);
+      }
+    },
+    "jsx3.gui.Tree": {
+      jsxchange: function(e) {
+        this.setValue(e.newVALUE);
+        this.doEvent(e.subject, e);
+      },
+      jsxtoggle: function(e) {
+        this.toggleItem(e.strRECORDID, e.bOPEN);
+        this.doEvent(e.subject, e);
+      }
+    }
+  };
+
+  /** @private @jsxobf-clobber */
+  recorder._getReplayFunction = function(objTarget, strAction) {
+    var c = objTarget.getClass();
+    var fct = null;
+
+    while (c && !fct) {
+      LOG.debug('_REPLAY[' + c.getName() + ']');
+      var struct = recorder._REPLAY[c.getName()];
+      if (struct)
+        fct = struct[strAction];
+
+      c = c.getSuperClass();
+    }
+
+    return fct;
+  };
+
+    /** @private @jsxobf-clobber */
+  recorder._VERBS = {
+    jsxis_exists: function(locator, value) {
+      var o = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+      if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
+        return true;
+	  else
+	    throw new Error("Does not exist: " + target);
+	},
+    jsxget_value: function(locator, value) {
+	  var target = selenium.browserbot.findByJsxSelector(locator.split("=")[1]);
+	  return (target) ? target.getValue() : null;
+    },
+    jsxget_checked: function(locator, value) {
+	  //jsxget_checked
+	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+	  return (target) ? target.getChecked() : null;
+    },
+    jsxget_selected: function(locator, value) {
+	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+	  return (target) ? target.getSelected() : null;
+    },
+    jsxget_state: function(locator, value) {
+	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+	  return (target) ? target.getState() : null;
+    },
+    jsxget_front: function(locator, value) {
+	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+	  return (target) ? target.isFront() : null; // Visibility not equal
+    },
+    jsxget_eval: function(locator, value) {
+	  try {
+		  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+		  var server  = target.getServer();
+		  var rv = jsx3.eval(target, {server:s});
+		  if (!rv)
+			throw new Error("Eval returned false: " + rv);
+		  return rv;
+	  } catch (e) {
+		Assert.fail("Eval failed : " + e.message); 
+	  }
+    }
+};
+    
