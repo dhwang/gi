@@ -76,7 +76,7 @@
 
     <getsvnrevision path="${project.dir}" property="rev"/>
 
-    <property name="temp.distzip" value="gi.zip"/>
+    <property name="temp.distzip" value="${buildDir}/gi.zip"/>
     <property name="nightly.zip.prefix" value="${staging.nightly}/gi-${build.gi.version.name}"/>
 
     <!-- clean -->
@@ -84,47 +84,47 @@
 
     <!-- standard build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}.zip"/>
+    <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}.zip"/>
     <symlink overwrite="true" link="${nightly.zip.prefix}.latest.zip" resource="${nightly.zip.prefix}.r${rev}.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- Dojo build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}dj"/>
       <property name="build.gi.docs" value="false"/>
       <property name="build.dojo.type" value="source"/>
       <property name="build.dojo.compile-docs" value="true"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-dojo.zip"/>
+    <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-dojo.zip"/>
     <symlink overwrite="true" link="${nightly.zip.prefix}.latest-dojo.zip" resource="${nightly.zip.prefix}.r${rev}-dojo.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- debug build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}db"/>
       <property name="build.gi.benchmark" value="true"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-debug.zip"/>
+    <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-debug.zip"/>
     <symlink overwrite="true" link="${nightly.zip.prefix}.latest-debug.zip" resource="${nightly.zip.prefix}.r${rev}-debug.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- no deprecated code build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}nd"/>
       <property name="build.gi.deprecated" value="false"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
+    <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
     <symlink overwrite="true" link="${nightly.zip.prefix}.latest-nodep.zip" resource="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
   </target>
 
@@ -254,42 +254,65 @@
 
   </target>
 
-  <target name="release"
+  <target name="release" depends="init"
       description="Builds and deploys the regular, debug and max flavors of GI in the release directory.">
     <getsvnrevision path="${project.dir}" property="rev"/>
-    <property name="temp.distzip" value="gi.zip"/>
+    <property name="temp.distzip" value="${buildDir}/gi.zip"/>
 
     <!-- clean -->
     <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
 
     <!-- standard build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}.zip"/>
+    <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- debug build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}db"/>
       <property name="build.gi.benchmark" value="true"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-debug.zip"/>
+    <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-debug.zip"/>
 
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- max build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
-      <property name="build.dist.zip" value="${temp.distzip}"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="r${rev}nd"/>
       <property name="build.gi.includes.jsx" value="max"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
-    <copy file="${project.dir}/${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-max.zip"/>
+    <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-max.zip"/>
+
+    <!-- dojo build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
+      <property name="build.gi.buildno" value="r${rev}dj"/>
+      <property name="build.gi.includes.jsx" value="max"/>
+      <property name="build.gi.docs" value="false"/>
+      <property name="build.dojo.type" value="source"/>
+      <property name="build.dojo.compile-docs" value="true"/>
+    </ant>
+    <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-dojo.zip"/>
+
+    <!-- source build -->
+    <delete dir="${buildDir}"/>
+    <mkdir dir="${buildDir}"/>
+    <copy todir="${buildDir}/gi-${build.gi.version.name}-source" includeemptydirs="false">
+      <fileset dir="${project.dir}"
+          excludes="**/.svn/** dist/** gipp/** gitak/** dojo-toolkit/** build/${buildDir}/** build/tools/build/**"/>
+    </copy>
+    <zip basedir="${buildDir}/gi-${build.gi.version.name}-source" destfile="temp.zip"/>
+    <move file="temp.zip" tofile="${staging.release}/gi-${build.gi.version.name}-source.zip"/>
+
+    <delete dir="${buildDir}"/>
   </target>
 
   <target name="release-docs" depends="init"
@@ -302,9 +325,12 @@
     </ant>
 
     <!-- deploy api documentation -->
-    <delete dir="${staging-doc.release}/${build.gi.version.name}"/>
-    <copy todir="${staging-doc.release}/${build.gi.version.name}">
+    <delete dir="${staging-doc.release}/${build.gi.version}"/>
+    <copy todir="${staging-doc.release}/${build.gi.version}">
       <fileset dir="${project.dir}/${build.loc.dist}/gi/api/html" includes="**"/>
+    </copy>
+    <copy todir="${staging-doc.release}/${build.gi.version}">
+      <fileset dir="${project.dir}/${build.loc.dist}/gi/api" includes="events/** properties/** xslparams/**"/>
     </copy>
   </target>
 
