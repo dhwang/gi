@@ -1,17 +1,22 @@
 <html>
     <head>
         <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+        <script type="text/javascript" src="scripts/htmlutils.js"></script>
         <script type="text/javascript">
         
         function getQueryParam (searchKey) {
         var str = window.parent.location.search.substr(1);
         if (str == null) return null;
+        var topWindow = window.parent;
         var clauses = str.split('&');
+
         for (var i = 0; i < clauses.length; i++) {
             var keyValuePair = clauses[i].split('=', 2);
             var key = unescape(keyValuePair[0]);
-            var testRunner = window.parent;
-            testRunner.storedVars[key] = unescape(keyValuePair[1]); // save query params in 
+            if (key == "GI" || key == "APP" )
+             topWindow.storedVars[key] = prepareUrl( unescape(keyValuePair[1]) );
+            else 
+            topWindow.storedVars[key] = unescape(keyValuePair[1]); // save query params in 
             if (key == searchKey) {
                 return unescape(keyValuePair[1]);
             }
@@ -19,21 +24,39 @@
         return null;
         }
         
+        prepareUrl = function(includeUrl) {
+           // using selenium-core handling of urls (see absolutify in htmlutils.js)
+          var baseUrl = window.parent.location.href.split('?')[0];
+          var prepareUrl;
+          // htmlSuite mode of SRC? TODO is there a better way to decide whether in SRC mode?
+          if (window.location.href.indexOf("selenium-server") != -1) {
+              //LOG.debug(IncludeCommand.LOG_PREFIX + "we seem to run in SRC, do we?");
+              preparedUrl = absolutify(includeUrl, window.parent.htmlTestRunner.controlPanel.getTestSuiteName());
+          } else {
+              preparedUrl = absolutify(includeUrl, baseUrl);
+          }
+          //LOG.info(IncludeCommand.LOG_PREFIX + "using url to get include '" + preparedUrl + "'");
+          alert(preparedUrl);
+          return preparedUrl;
+        };
+        
         function load_tests() {
-          var elbody = document.getElementById("suiteTable");
-          var tests = getQueryParam("TESTS");         
-          var appPath = getQueryParam("APP");         
-          if (!tests) return; 
-          
-          var testcases = tests.slice(1,-1).split(",");
-            if (elbody) {
-              var ctext = ["" + elbody.innerHTML];
+          var table = document.getElementById("suiteTable");
+          var tests = getQueryParam("TESTS");
+          var topWindow = window.parent;
+          var appPath = topWindow.storedVars["APP"]; //getQueryParam("APP");         
+          if (tests) {
+            var testcases = tests.slice(1,-1).split(",");
+            if (table) {           
               for (var i = 0; i < testcases.length; i++) {
+                var newRow = table.insertRow(1);
+                var newCell = newRow.insertCell(0)
                 var name = testcases[i];
-                ctext[ctext.length] = ["<tr><td><a href='", appPath+name, "'>",name, "</a></td></tr>\n"].join("");
-			  }
-              elbody.innerHTML = ctext.join("");
+                var testcase = ["<a href='", appPath+name, "'>",name, "</a>\n"].join("");
+                newCell.innerHTML = testcase;
+              }
             }
+          }
         }
         </script>
     </head>
