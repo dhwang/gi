@@ -430,7 +430,7 @@ gi.test.jsunit._init = function(jsunit) {
         jsunit._waiting = [];
         window.setTimeout(function() {
           jsunit.debug("Setting status to complete (A).");
-          eval('setUpPageStatus = "complete";');
+          jsunit._testLoaded();
         }, 0);
       }
     } else {
@@ -438,9 +438,15 @@ gi.test.jsunit._init = function(jsunit) {
 
       window.setTimeout(function() {
         jsunit.debug("Setting status to complete (B).");
-        eval('setUpPageStatus = "complete";');
+        jsunit._testLoaded();
       }, 0);
     }
+  };
+
+  jsunit._testLoaded = function() {
+    // For some reason, on Safari 4 JS files loaded after the page loads do not generate page load events. This breaks
+    // the way JsUnit works by default so we need to set isTestPageLoaded here explicitly. 
+    eval('setUpPageStatus = "complete"; isTestPageLoaded = true;');
   };
 
   jsunit._loadJsxIncludes = function() {
@@ -655,6 +661,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.fail = function() {
     return fail.apply(null, arguments);
+    if (window.console) window.console.error.apply(window.console, arguments);
   };
 
   /**
@@ -662,6 +669,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.warn = function() {
     if (window.warn) warn.apply(null, arguments);
+    if (window.console) window.console.warn.apply(window.console, arguments);
   };
 
   /**
@@ -669,6 +677,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.inform = function() {
     if (window.inform) inform.apply(null, arguments);
+    if (window.console) window.console.info.apply(window.console, arguments);
   };
 
   /**
@@ -676,6 +685,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.debug = function() {
     if (window.debug) debug.apply(null, arguments);
+    if (window.console) window.console.debug.apply(window.console, arguments);
   };
 
 };
