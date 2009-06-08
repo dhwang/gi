@@ -20,6 +20,7 @@ Copyright 2006-2008 TIBCO Software, Inc
  (0.9) Updated to Selenium 0.8.3 core, Selenium RC 0.9.2
  (0.9.1) update support for Firefox 3
 		- Add gi dom locator, "gi".
+    - Add jsxselector , css3 like, gi dom locator.
  */
 
 /* element outerHTML works only on IE. jsx3.html.getOuterHTML() is GI 3.2 crossbrowser function*/
@@ -30,23 +31,6 @@ function getOuterHTML(element) {
     else // if we're not running 3.2.0 use default, which works only in IE.
       return element.outerHTML;
 }
-
-function getIEversion()
-// Returns the version of Internet Explorer or a -1
-// (indicating the use of another browser).
-{
-  var rv = -1; // Return value assumes failure.
-  if (navigator.appName == 'Microsoft Internet Explorer')
-  {
-    var ua = navigator.userAgent;
-    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-    if (re.exec(ua) != null)
-      rv = parseFloat( RegExp.$1 );
-  }
-  return rv;
-}
-
-
 
 function _triggerMouseEvent(element, eventType, canBubble, clientX, clientY) {
     var objPos = {};
@@ -4486,10 +4470,16 @@ IncludeCommand.prototype.doInclude = function(fileName) {
 
 Selenium.prototype.doInclude = function(fileName, timeout) {
     //LOG.debug(IncludeCommand.LOG_PREFIX + "modified from v2.1 -- dhwang");
+    if (isNaN(parseInt(timeout))) {
+        timeout = Selenium.DEFAULT_TIMEOUT;;
+    }     
     var includeCommand = new IncludeCommand();
     Selenium.decorateFunctionWithTimeout(includeCommand.doInclude, timeout);
     includeCommand.doInclude(fileName);
 };
+
+/*===================================================*/
+//Extended commands for recorder playback.
 
 Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
   //recorder._invokeAction = function(objTarget, strAction, objArgs) {
@@ -4510,14 +4500,14 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
 	} else {
 	  var fct = recorder._getReplayFunction(objTarget, strAction);
 	  if (fct) {
-		LOG.debug("function " + fct);
-		fct.apply(objTarget, [ctx]);
+      LOG.debug("function " + fct);
+      fct.apply(objTarget, [ctx]);
 	  } else {
-		objTarget.doEvent(strAction, ctx);
+      objTarget.doEvent(strAction, ctx);
 	  }
 	}
 }
-/*
+/* standard way of adding command
 Selenium.prototype.doJsxchange = function (locator, value) {
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
     this._doRecorderAction('jsxchange', objJSX, value);
@@ -4537,6 +4527,25 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
       this._doRecorderAction(action, objJSX, value);
 }
 
+Selenium.prototype.doJsxwait_sleep = function (timeout) {
+  this.doPause(timeout);
+}
+
+Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
+  return function(target, value) {
+        timeout = parseInt(timeout)
+		    LOG.debug("sleep_long, " + timeout);
+        var terminationCondition = function () {
+          try {
+            return ;// sleep queue empty
+          } catch (e) {
+            // Treat exceptions as meaning the condition is not yet met.
+            return false;
+          }
+        };
+      return Selenium.decorateFunctionWithTimeout(terminationCondition, timeout);
+
+}
 
 var recorder = classCreate();
 recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
@@ -4559,42 +4568,42 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
 
   // Recorder value need evaluation create custom predicate assertion method
   CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
-        return function(target, value) {
+    return function(target, value) {
 		  try {
-			value =  eval("var tmp = " + value + "; tmp");
+        value =  eval("var tmp = " + value + "; tmp");
 		  } catch (e) {
-			Assert.fail("Bad action value: " + value);
+        //Assert.fail("Bad action value: " + value);
 		  }
 		  LOG.debug("assert jsx predicate, " + value);
-          var result = predicateBlock(target, value);
-          if (!result.isTrue) {
-              Assert.fail(result.message);
-          }
-        };
+      var result = predicateBlock(target, value);
+      if (!result.isTrue) {
+          Assert.fail(result.message);
+      }
+    };
   }
   
   CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
     // Convert an jsxget_blah(target, value) function into a jsxwait_blah(target, value) function.
-        return function(target, value) {
+    return function(target, value) {
 		  try {
-			value =  eval("var tmp = " + value + "; tmp");
+        value =  eval("var tmp = " + value + "; tmp");
 		  } catch (e) {
-			LOG.error("Bad action value: " + value);
+        LOG.error("Bad action value: " + value);
 		  }
 		    LOG.debug("create jsxwait predicate, " + value);
-            var terminationCondition = function () {
-                try {
-                    return predicateBlock(target, value).isTrue;
-                } catch (e) {
-                    // Treat exceptions as meaning the condition is not yet met.
-                    // Useful, for example, for waitForValue when the element has
-                    // not even been created yet.
-                    // TODO: possibly should rethrow some types of exception.
-                    return false;
-                }
-            };
-            return Selenium.decorateFunctionWithTimeout(terminationCondition, this.defaultTimeout);
+        var terminationCondition = function () {
+          try {
+            return predicateBlock(target, value).isTrue;
+          } catch (e) {
+            // Treat exceptions as meaning the condition is not yet met.
+            // Useful, for example, for waitForValue when the element has
+            // not even been created yet.
+            // TODO: possibly should rethrow some types of exception.
+            return false;
+          }
         };
+      return Selenium.decorateFunctionWithTimeout(terminationCondition, this.defaultTimeout);
+    };
 
   }
   // jsxassert_ jsxwait_
@@ -4626,7 +4635,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
         this._registerAllActions(seleniumApi);
         this._registerAllAsserts(seleniumApi);
         this._registerJsxActions(seleniumApi);
-		this._registerJsxAssert(seleniumApi);
+        this._registerJsxAssert(seleniumApi);
   }
 
   recorder._REPLAY = {
@@ -4822,12 +4831,12 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
 
     /** @private @jsxobf-clobber */
   recorder._VERBS = {
-    jsxis_exists: function(locator, value) {
+    jsxis_exists: function(locator) {
       var o = this.browserbot.findByJsxSelector(locator.split("=")[1]);
       if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
         return true;
-	  else
-	    throw new Error("Does not exist: " + target);
+      else
+        return false;
 	},
     jsxget_value: function(locator, value) {
 	  var target = selenium.browserbot.findByJsxSelector(locator.split("=")[1]);

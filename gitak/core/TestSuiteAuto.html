@@ -1,13 +1,14 @@
 <html>
     <head>
         <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-        <script type="text/javascript" src="scripts/htmlutils.js"></script>
+        <script type="text/javascript" src="scripts/htmlutils.js"></script> 
         <script type="text/javascript">
         
         function getQueryParam (searchKey) {
-        var str = window.parent.location.search.substr(1);
-        if (str == null) return null;
         var topWindow = window.parent;
+        var str = topWindow.location.search.substr(1);
+        if (str == null) return null;
+
         var clauses = str.split('&');
 
         for (var i = 0; i < clauses.length; i++) {
@@ -25,18 +26,16 @@
         }
         
         prepareUrl = function(includeUrl) {
-           // using selenium-core handling of urls (see absolutify in htmlutils.js)
-          var baseUrl = window.parent.location.href.split('?')[0];
+          // using selenium-core handling of urls (see absolutify in htmlutils.js)
+          var topWindow = window.parent;
+          var baseUrl = topWindow.location.href.split('?')[0];
           var prepareUrl;
           // htmlSuite mode of SRC? TODO is there a better way to decide whether in SRC mode?
-          if (window.location.href.indexOf("selenium-server") != -1) {
-              //LOG.debug(IncludeCommand.LOG_PREFIX + "we seem to run in SRC, do we?");
-              preparedUrl = absolutify(includeUrl, window.parent.htmlTestRunner.controlPanel.getTestSuiteName());
+          if (topWindow.location.href.indexOf("selenium-server") != -1) {
+              preparedUrl = absolutify(includeUrl, topWindow.htmlTestRunner.controlPanel.getTestSuiteName());
           } else {
               preparedUrl = absolutify(includeUrl, baseUrl);
           }
-          //LOG.info(IncludeCommand.LOG_PREFIX + "using url to get include '" + preparedUrl + "'");
-          alert(preparedUrl);
           return preparedUrl;
         };
         
@@ -62,7 +61,9 @@
     </head>
 <body onload="load_tests();" >
 <table id="suiteTable" class="selenium ">
+<tbody>
 <tr><td>GI Builder Test Case Runner</td></tr>
+<tbody>
 </table>
 </body>
 </html>
