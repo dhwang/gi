@@ -8,7 +8,7 @@
     <title>Application Monitor</title>
 
     <style type="text/css">
-      pre.jsx_appmonitor { padding:0px; margin:0px; }
+      pre.jsx_appmonitor { padding:0px; margin:0px; white-space:pre; font-family:monospace; }
       /* These colors should match the ones defined in ide.css for consistency. */
       pre.FATAL { color:#660099; }
       pre.ERROR { color:#990000; }
@@ -43,8 +43,9 @@
 
         // Speed-up for IE6
         if (content.insertAdjacentHTML) {
+          strMessage = String(strMessage).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
           content.insertAdjacentHTML("beforeEnd",
-              '<pre class="jsx_appmonitor ' + strClass+ '">' + strMessage.replace(/\n/g, '<br/>') + '</pre>');
+              '<pre class="jsx_appmonitor ' + strClass+ '">' + strMessage + '</pre>');
         } else {
           var oElm = document.createElement("pre");
           oElm.className = "jsx_appmonitor" + (strClass ? (" " + strClass) : "");
