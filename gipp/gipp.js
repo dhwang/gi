@@ -956,6 +956,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       if (ex) {
         this._updateErrorOutput(job, ex);
         this._continueNextTest();
+        this._updateButtons();
       } else {
         if (result === gipp.SLEEP_LONG && jsx3.subscribe) {
           this._status("Sleeping: " + job.getLabel());
@@ -1165,6 +1166,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     var msg = this._doc.createElement("div");
     msg.appendChild(this._doc.createTextNode(gipp._strEscapeHTML(strMessage)));
     div.appendChild(msg);
+
+    gipp.log(strMessage);
   };
 
   /** @private @jsxobf-clobber */
@@ -1218,6 +1221,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
       this._resultsMap[this._thisJob.getId()].setError(this._runIndex, e);
       this._updateErrorOutput(this._thisJob, e);
       this._continueNextTest();
+      this._updateButtons();
       return true;
     }
   };
@@ -1366,21 +1370,24 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
   
   /** @private @jsxobf-clobber */
   Runner_prototype._continueNextTest = function() {
-    if (this._running) {
-      if (this._jobIndex < this._jobList.length) {
+    if (this._jobIndex < this._jobList.length) {
+      if (this._running) {
         /* @jsxobf-clobber */
         this._to_tick = window.setTimeout(this._callback("_nextJob"), this._const("TICK"));
-      } else {
-        this._updateTotal();
+      }
+    } else {
+      this._updateTotal();
 
-        if (this._runIndex < this._runs - 1) {
-          this._runIndex++;
-          this._jobIndex = 0;
-          this._setRun(this._runIndex + 1);
+      if (this._runIndex < this._runs - 1) {
+        this._runIndex++;
+        this._jobIndex = 0;
+        this._setRun(this._runIndex + 1);
+
+        if (this._running) {
           this._to_tick = window.setTimeout(this._callback("_nextJob"), this._const("TICK"));
-        } else {
-          this._allTestsFinished();
         }
+      } else {
+        this._allTestsFinished();
       }
     }
   };
