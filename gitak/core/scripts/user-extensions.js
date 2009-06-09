@@ -2643,8 +2643,8 @@ PageBot.prototype.locateElementByJsxName = function(jsxname, inDocument, inWindo
  *  @param inDocument (document) current document object
  *  @return HTML element
  */
- if (jsxname.indexOf("=") > 0)
-   jsxname = getNameValue(jsxname).value;
+ //if (jsxname.indexOf("=") > 0)
+ //  jsxname = getNameValue(jsxname).value;
  var oJSX =  this.findByJsxName(jsxname, inWindow);
 
    return (oJSX) ? oJSX.getRendered() : null;
@@ -2657,8 +2657,8 @@ PageBot.prototype.locateElementByJsxText = function(text, inDocument, inWindow) 
  *  @return HTML element
  */
 
- if (text.indexOf("=") > 0)
-   text = getNameValue(text).value;
+ //if (text.indexOf("=") > 0)
+ //  text = getNameValue(text).value;
  text = stripQuotes(text);
  
  //LOG.debug('locateElementByJsxText ' + text );   
@@ -2669,15 +2669,13 @@ PageBot.prototype.locateElementByJsxText = function(text, inDocument, inWindow) 
 
 PageBot.prototype.locateElementByJsxAlertCaption = function(text, inDocument, inWindow) {
 /**
- * Alerts
- *	Mixin interface allows implementors to show alerts, confirms, and prompts.
- * locateElementByJsxAlertCaption -- locate alert box by caption text
+ * LocateElementByJsxAlertCaption - locate alert box by caption text
  * Caption ext can be glob, regexp, or exact text pattern.
  *  @param text {String} Text pattern in alert caption
  *  @param inDocument (document) current document object
  *  @return HTML element
  */
-      text = stripQuotes(text);
+   text = stripQuotes(text);
    LOG.debug("locateElementByJsxAlertCaption =" + text );
    // alert belong to system root, unless spawn from a dialog object, which is rare
    var oBlock = this.findByJsxTextAndType(text, "jsx3.gui.WindowBar", inWindow);
@@ -4528,23 +4526,37 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
 }
 
 Selenium.prototype.doJsxwait_sleep = function (timeout) {
-  this.doPause(timeout);
-}
-
-Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
   return function(target, value) {
-        timeout = parseInt(timeout)
+        if (timeout) timeout = parseInt(timeout);
+        else timeout = this.defaultTimeout;
 		    LOG.debug("sleep_long, " + timeout);
+        this._isAwake = false;
+        jsx3.sleep(function() {selenium._isAwake = true;}, "sleep", this );
         var terminationCondition = function () {
-          try {
-            return ;// sleep queue empty
-          } catch (e) {
-            // Treat exceptions as meaning the condition is not yet met.
-            return false;
-          }
+            return this._isAwake;// sleep queue empty
         };
       return Selenium.decorateFunctionWithTimeout(terminationCondition, timeout);
+  }
+}
 
+Selenium.prototype._sleepQueueEmpty = function(strName) {
+    jsx3.unsubscribe(jsx3.QUEUE_DONE, this, "_sleepQueueEmpty");
+    this._isQueueEmpty = true;
+};
+  
+Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
+  return function(target, value) {
+        if (timeout) timeout = parseInt(timeout);
+        else timeout = this.defaultTimeout;
+		    LOG.debug("sleep_long, " + timeout);
+        this._isQueueEmpty = false;
+        jsx3.subscribe(jsx3.QUEUE_DONE, this, "_sleepQueueEmpty");
+        jsx3.sleep(function() {});
+        var terminationCondition = function () {
+            return this._isQueueEmpty;// sleep queue empty
+        };
+      return Selenium.decorateFunctionWithTimeout(terminationCondition, timeout);
+  }
 }
 
 var recorder = classCreate();
