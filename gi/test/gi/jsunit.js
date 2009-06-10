@@ -661,7 +661,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.fail = function() {
     return fail.apply(null, arguments);
-    if (window.console) window.console.error.apply(window.console, arguments);
+    if (window.console) try { window.console.error.apply(window.console, arguments); } catch (e) {}
   };
 
   /**
@@ -669,7 +669,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.warn = function() {
     if (window.warn) warn.apply(null, arguments);
-    if (window.console) window.console.warn.apply(window.console, arguments);
+    if (window.console) try { window.console.warn.apply(window.console, arguments); } catch (e) {}
   };
 
   /**
@@ -677,7 +677,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.inform = function() {
     if (window.inform) inform.apply(null, arguments);
-    if (window.console) window.console.info.apply(window.console, arguments);
+    if (window.console) try { window.console.info.apply(window.console, arguments); } catch (e) {}
   };
 
   /**
@@ -685,7 +685,7 @@ gi.test.jsunit._init = function(jsunit) {
    */
   jsunit.debug = function() {
     if (window.debug) debug.apply(null, arguments);
-    if (window.console) window.console.debug.apply(window.console, arguments);
+    if (window.console) try { window.console.debug.apply(window.console, arguments); } catch (e) {}
   };
 
 };
