@@ -1206,6 +1206,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
 
   /** @private @jsxobf-clobber */
   Runner_prototype._checkPollingCase = function() {
+    // Private API works around bug in Firefox 3
+    if (window.jsx3 && jsx3.net && jsx3.net.Request && jsx3.net.Request.INSYNC)
+      return;
+
     try {
       if (gipp.POLL.poll(this._server)) {
         window.clearInterval(this._to_polling);
