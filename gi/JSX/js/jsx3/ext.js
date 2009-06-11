@@ -12,25 +12,28 @@
   };
 
   var json = function(o) {
-    if (o == null) return "null";
-    if (typeof(o) == "object") {
-      if (o instanceof Array) {
-        var s = [];
-        for (var i = 0; i < o.length; i++)
-          s.push(json(o[i]));
-        return "[" + s.join(",") + "]";
-      } else {
-        var s = [];
-        for (var f in o)
-          if (o.hasOwnProperty(f))
-            s.push(f + ":" + json(o[f]));
-        return "{" + s.join(",") + "}";
-      }
+    var j;
+
+    if (o == null)
+      j = "null";
+    else if (jsx3.$A.is(o)) {
+      var s = [];
+      for (var i = 0; i < o.length; i++)
+        s.push(json(o[i]));
+      j = "[" + s.join(",") + "]";
+    } else if (typeof(o) == "object") {
+      var s = [];
+      for (var f in o)
+        if (!o.hasOwnProperty || o.hasOwnProperty(f))
+          s.push(f + ":" + json(o[f]));
+      j = "{" + s.join(",") + "}";
     } else if (typeof(o) == "string") {
-      return jsx3.util.strEscapeJSON(o);
+      j = jsx3.util.strEscapeJSON(o);
     } else {
-      return o.toString();
+      j = o.toString();
     }
+    
+    return j;
   };
 
   /**
@@ -564,23 +567,25 @@
    * @since 3.7
    */
   jsx3.$A = function(a) {
-    if (a == null)
+    if (a == null) {
       a = [];
-    else if (typeof(a) == "object") {
-      if (a instanceof Array) {
+    } else if (a instanceof Array) {
 
-      } else if (typeof(a.length) == "number") {
-        // works on arguments array
-        var t = [];
-        for (var i = 0; i < a.length; i++)
-          t[i] = a[i];
-        a = t;
-      } else {
-        a = [a];
-      }
-    } else
+    } else if (jsx3.$A.is(a)) {
+      // works on arguments array
+      var t = [];
+      for (var i = 0; i < a.length; i++)
+        t[i] = a[i];
+      a = t;
+    } else {
       a = [a];
+    }
+
     return extend(a, jsx3.$Array);
+  };
+
+  jsx3.$A.is = function(a) {
+    return a && typeof(a) == "object" && (a instanceof Array || typeof(a.length) == "number");
   };
 
   /**
@@ -591,7 +596,7 @@
    * @since 3.7
    */
   jsx3.$H = function(o) {
-    if (o && typeof(o) == "object" && typeof(o.length) != "undefined") {
+    if (jsx3.$A.is(o)) {
       var h = {};
       for (var i = 0; i < o.length; i++)
         h[o[i]] = 1;

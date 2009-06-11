@@ -25,6 +25,9 @@ gi.test.jsunit.defineTests("ext", function(t, jsunit) {
     jsunit.assertTrue(a instanceof Array);
     jsunit.assertTypeOf(a.each, "function");
     jsunit.assertEquals(0, a.length);
+
+    a = jsx3.$A(null);
+    jsunit.assertEquals(0, a.length);
   };
 
   t.testANew2 = function() {
@@ -39,6 +42,9 @@ gi.test.jsunit.defineTests("ext", function(t, jsunit) {
     jsunit.assertTrue(a instanceof Array);
     jsunit.assertEquals(2, a.length);
     jsunit.assertEquals("a", a[0]);
+
+    a = jsx3.$A([null]);
+    jsunit.assertEquals(1, a.length);
   };
 
   t.testAEach = function() {

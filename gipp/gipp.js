@@ -2201,11 +2201,18 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
           this.getChild(e.intCOLUMNINDEX).setWidth(e.vntWIDTH);
       },
       jsxafterappend: function(e) {
-        // TODO:
+        var o = {};
+        var attr = e.objRECORDNODE.getAttributeNames();
+        for (var i = 0; i < attr.length; i++)
+          o[attr[i]] = e.objRECORDNODE.getAttribute(attr[i]);
+
+        e.objRECORDNODE = this.insertRecord(o, this.getRenderingContext() || "jsxroot", true);
         this.doEvent(e.subject, e);
       },
       jsxaftercommit: function(e) {
-        // TODO:
+        var col = e.objCOLUMN;
+        col.setValueForRecord(e.strRECORDID, e.strVALUE);
+        this.redrawCell(e.strRECORDID, col);
         this.doEvent(e.subject, e);
       },
       jsxtoggle: function(e) {
@@ -2215,7 +2222,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     },
     "jsx3.gui.Menu": {
       jsxmenu: function(e) {
-        // TODO:
+        // QUESTION: not sure what to do here...
         this.doEvent(e.subject, e);
       },
       jsxexecute: function(e) {
@@ -2243,7 +2250,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     },
     "jsx3.gui.Splitter": {
       jsxafterresize: function(e) {
-        this.setSubcontainer1Pct(e.fpPCT1);
+        this.setSubcontainer1Pct(e.fpPCT1, true);
         this.doEvent(e.subject, e);
       }
     },
@@ -2266,7 +2273,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         this.doEvent(e.subject, e);
       },
       jsxaftersort: function(e) {
-        // TODO:
+        this.setSortPath(e.strSORTPATH);
+        this.setSortType(e.strSORTTYPE);
+        this.doSort(e.intDIRECTION);
+        this.doEvent(e.subject, e);
       }
     },
     "jsx3.gui.TextBox": {

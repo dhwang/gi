@@ -3846,7 +3846,7 @@ PageBot.prototype.locateElementByJsxSplitterName = function(text, inDocument, in
 
 PageBot.prototype.locateElementByJsxStackText = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Stack by stack text label text pattern(glob | regex | exact)
- *	This class is equivalent to a tab, but uses the stack metaphor; like a tab, it has one child—a block for its content; a jsx3.gui.Stack instance should only be contained by a jsx3.gui.StackGroup instance for proper rendering.
+ *	This class is equivalent to a tab, but uses the stack metaphor; like a tab, it has one childï¿½a block for its content; a jsx3.gui.Stack instance should only be contained by a jsx3.gui.StackGroup instance for proper rendering.
  *
  *  @param text {String} text label on the Stack
  *  @param inDocument (document) current document object
@@ -4170,7 +4170,7 @@ PageBot.prototype.locateElementByCss = function(locator, document) {
 };
 
 // Original -- $Id: includeCommand.js 166 2006-12-11 22:03:45Z rob $
-/* TIBCO Software Inc., Copyright © 2007-2008
+/* TIBCO Software Inc., Copyright ï¿½ 2007-2008
 	Modified by Darren Hwang, 2007 */
 /*extern document, window, XMLHttpRequest, ActiveXObject */
 /*extern Selenium, htmlTestRunner, LOG, HtmlTestCaseRow, testFrame, storedVars, URLConfiguration */
@@ -4726,11 +4726,18 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
           this.getChild(e.intCOLUMNINDEX).setWidth(e.vntWIDTH);
       },
       jsxafterappend: function(e) {
-        // TODO:
+        var o = {};
+        var attr = e.objRECORDNODE.getAttributeNames();
+        for (var i = 0; i < attr.length; i++)
+          o[attr[i]] = e.objRECORDNODE.getAttribute(attr[i]);
+
+        e.objRECORDNODE = this.insertRecord(o, this.getRenderingContext() || "jsxroot", true);
         this.doEvent(e.subject, e);
       },
       jsxaftercommit: function(e) {
-        // TODO:
+        var col = e.objCOLUMN;
+        col.setValueForRecord(e.strRECORDID, e.strVALUE);
+        this.redrawCell(e.strRECORDID, col);
         this.doEvent(e.subject, e);
       },
       jsxtoggle: function(e) {
@@ -4740,7 +4747,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     },
     "jsx3.gui.Menu": {
       jsxmenu: function(e) {
-        // TODO:
+        // QUESTION: not sure what to do here...
         this.doEvent(e.subject, e);
       },
       jsxexecute: function(e) {
@@ -4768,7 +4775,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     },
     "jsx3.gui.Splitter": {
       jsxafterresize: function(e) {
-        this.setSubcontainer1Pct(e.fpPCT1);
+        this.setSubcontainer1Pct(e.fpPCT1, true);
         this.doEvent(e.subject, e);
       }
     },
@@ -4791,7 +4798,10 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
         this.doEvent(e.subject, e);
       },
       jsxaftersort: function(e) {
-        // TODO:
+        this.setSortPath(e.strSORTPATH);
+        this.setSortType(e.strSORTTYPE);
+        this.doSort(e.intDIRECTION);
+        this.doEvent(e.subject, e);
       }
     },
     "jsx3.gui.TextBox": {

@@ -227,6 +227,8 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
         a.push(f + ":" + jsx3.$O.json("XML(" + obj.toString() + ")"));
       } else if (typeof(obj) == "number" && obj >= 0xFFF) {
         a.push(f + ":0x" + obj.toString(16).toUpperCase());
+      } else if (obj && obj.ownerDocument) {
+        ; // skip any DOM nodes
       } else {
         a.push(f + ":" + jsx3.$O.json(obj));
       }
