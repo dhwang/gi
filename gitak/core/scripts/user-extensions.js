@@ -400,10 +400,10 @@ Selenium.prototype.doPartialCheckJsx = function(locator) {
 /** Partial check jsx3.gui.CheckBox control [-] partial checked state
   * @param locator {String} CheckBox locator
   */
-    var jsxname = getNameValue(locator).value;
-    if (jsxname) {
-        LOG.debug('Apply partial check to ' + jsxname);
-        this.browserbot.findByJsxName(jsxname).setChecked(jsx3.gui.CheckBox.PARTIAL);
+    var objJSX = this.browserbot.findJsxObject(locator)
+    if (objJSX && objJSX.setChecked) {
+        LOG.debug('Apply partial check to ' + objJSX);
+        objJSX.setChecked(jsx3.gui.CheckBox.PARTIAL);
     } else
     Assert.fail("Cannot partical check, " + locator + " not found");
 };
@@ -1873,16 +1873,12 @@ Selenium.prototype.getJsxSelectedIds = function(locator) {
 *@param locator {String} jsxname or jsxid of the ui control
 *@return jsxids (Array) of IDs selected option item, multi-select item, matrix row
 */
-  var identity = locator;
-  var result = locator.match(/^(\w+)=(.+)/);
-  if (result) {
-    identity = result[2]; // if this is a locator, only take the name/id part.
-  }
-  var objJSX = this.browserbot.findByJsxDom(identity);
-  if (objJSX && objJSX.isInstanceOf("jsx3.gui.Matrix"))
-   var selected = objJSX.getSelectedIds();
+  var objJSX = this.browserbot.findJsxObject(locator);
+  LOG.debug(locator + ", getselectedids , obj= "+ objJSX);
+  if (objJSX && objJSX.getSelectedIds)
+    var selected = objJSX.getSelectedIds();
   else   
-	var selected = (objJSX) ? objJSX.getValue() : Assert.fail("JSX with name or id = "+ identity + " is not found!");
+    var selected = (objJSX) ? objJSX.getValue() : Assert.fail( locator + " is not found!");
 	if (!selected.length) selected = [selected]; // only one selected, still returns an array.
 	return selected;
 }
@@ -1893,46 +1889,35 @@ Selenium.prototype.getJsxSelectedId = function(locator) {
 	return (selected) ? selected[0] : null;
 }
 
-Selenium.prototype.getJsxCDFDocument = function(identity) {
-/*
-* @param identity {String} name or id
+Selenium.prototype.getJsxDocument = function(locator) {
+/** GetJsxDocument - store/verify/waitFor Jsx Document.
+* @param locator {String} locator string
 * @return document {String} CDF Document object associated with a control as string.
 */
-
-  var result = identity.match(/^(\w+)=(.+)/);
-  if (result) {
-    identity = result[2]; // if this is a locator, only take the name/id part.
-  }
-  var objJSX = this.browserbot.findByJsxDom(identity);  
+  var objJSX = this.browserbot.findJsxObject(locator);  
   if (objJSX && objJSX.getXML ) 
     return objJSX.getXML();
   else
-    Assert.fail("JSX with name or id = "+ identity + " is not found!");
+    Assert.fail(locator + " is not found!");
 }
 
-Selenium.prototype.getJsxText = function(identity) {
+Selenium.prototype.getJsxText = function(locator) {
 /**
-* @param identity {String} the jsxname or jsxid 
+* @param locator {String} locator string
 * @return text {String} the jsxtext property if there is one
 */
- var nameid = identity;
- if (identity.indexOf("=") > 0)
-   nameid = getNameValue(identity).value;
-  var jsxobj = this.browserbot.findByJsxDom(nameid);
+  var jsxobj = this.browserbot.findJsxObject(locator);
   return (jsxobj && jsxobj.getText ) ? jsxobj.getText() : null;
 }
 
-Selenium.prototype.getJsxValue = function(identity) {
+Selenium.prototype.getJsxValue = function(locator) {
 /**
 * TODO -- this seems somewhat like getSelectedId? which use the same getValue method.
-* @param identity {String} the jsxname or jsxid 
+* @param locator {String} locator string
 * @return value {String} the jsxvalue property if there is one
 */
- var nameid = identity;
- if (identity.indexOf("=") > 0)
-   nameid = getNameValue(identity).value;
-  var jsxobj = this.browserbot.findByJsxDom(nameid);
-  return (jsxobj) ? jsxobj.getValue() : "";
+  var jsxobj = this.browserbot.findJsxObject(locator);
+  return (jsxobj && jsxobj.getValue ) ? jsxobj.getValue() : null;
 }
 
 Selenium.prototype.isJsxMenuWindowPresent = function(locatorId) {
@@ -1965,8 +1950,7 @@ Selenium.prototype.isJsxButtonPresent = function(text) {
           element = this.browserbot.locateElementByJsxButtonText(text, this.browserbot.getDocument());
         if (!element)  // locator search
 	      element = this.browserbot.findElement(text);
-        if (element)
-	        return true;
+        return (element) ? true : false;
     } catch (e) {
       LOG.debug("exception caught in isJsxButtonPresent");
     }
@@ -1996,8 +1980,8 @@ Example
   try {
 		if (text.indexOf("=") < 0) {
 		 LOG.info(" findByJsxName " + text);
-		 var objJSX = this.browserbot.findByJsxDom(text);
-         objGUI = (objJSX) ? objJSX.getRendered() : null;
+		 var objJSX = this.browserbot.findJsxObject(text);
+     objGUI = (objJSX) ? objJSX.getRendered() : null;
 		}
 		if (!objGUI) { // only do this if objGUI is not found using jsxname search.
 		 LOG.info(" findElement() " + text);
@@ -2550,11 +2534,12 @@ PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
   return objJSX;
 }
 
-PageBot.prototype.findByJsxSelector = function (s, inDocument, inWindow) {
+PageBot.prototype.findByJsxSelector = function (s, inWindow) {
   var appServer;
   var appWindow = this.topWindow;
   window.top.jsx3 = appWindow.jsx3;
   var objRoot = null;
+  var objJSX = null;
   LOG.debug('findByJsxSelector : ' + s  );
   if (jsx3) {    
     if (selenium.jsxNamespace) {
@@ -2565,16 +2550,33 @@ PageBot.prototype.findByJsxSelector = function (s, inDocument, inWindow) {
     }
     LOG.debug('objRoot : ' + objRoot);
     if (objRoot) {
-     var objJSX = objRoot.selectDescendants(s, true);
+      objJSX = objRoot.selectDescendants(s, true);
       if (objJSX) storedVars['LASTJSXNAME'] = objJSX.getName();
-      storedVars['LASTJSXOBJ'] = objJSX ;    
-      LOG.debug('objJSX : ' + objJSX);
+      storedVars['LASTJSXOBJ'] = objJSX;    
       return objJSX;
     }
   }
   return null;
 }
 
+PageBot.prototype.findJsxObject = function(locator, inWindow) {
+    var locatorType = 'gi';
+    var locatorString = locator;
+
+    // If there is a locator prefix, use the specified strategy
+    var result = locator.match(/^([A-Za-z]+)=(.+)/);
+    if (result) {
+        locatorType = result[1].toLowerCase();
+        locatorString = result[2];
+    }        
+    if (locatorType == "gi" || locatorType.match(/^jsx/) )
+        return this.findByJsxDom(locatorString, inWindow);
+    if (locatorType == "jsxselector")
+        return this.findByJsxSelector(locatorString, inWindow);
+     
+    return null;
+
+}
 /** Locate element using JSX selector implementation.
  *  @param text {String} CSS3 like selector string. e.g. "#jsxname"
  *  @param inDocument (document) current document object
@@ -2582,10 +2584,10 @@ PageBot.prototype.findByJsxSelector = function (s, inDocument, inWindow) {
  *  @return HTML element
  */
 
-PageBot.prototype.locateElementBySelector = function (selector, inDocument, inWindow) {
- LOG.debug('>>>>locateElementbyGISelector');
+PageBot.prototype.locateElementByJsxSelector = function(selector, inDocument, inWindow) {
+ LOG.debug('>>>>locateElementbyGISelector'  + selector);
  
- var objJSX = this.findByJsxSelector(selector, inDocument, inWindow);
+ var objJSX = this.findByJsxSelector(selector, inWindow);
  return (objJSX) ? objJSX.getRendered() : null; 
 }
 PageBot.prototype.locateElementBySelector.prefix = "jsxselector";
@@ -2593,49 +2595,33 @@ PageBot.prototype.locateElementBySelector.prefix = "jsxselector";
 
 PageBot.prototype.locateElementByJsxLookup = function(text, inDocument, inWindow) {
 /** Locate by actional element - This is a generic locator using jsxlookups implementation.
- *  @param text {String} jsxname|jsxtext[,subtype[,id][,index][,row.column]]
+ *  @param text {String} gi=jsxname|jsxtext[,subtype[,id][,index][,row.column]]
  *  @param inDocument (document) current document object
  *  @param inWindow (document) current document object
  *  @return HTML element
  */
 	var name = text.trim();
   var type, item, col;
-	var selectPattern = /(.*)\[(jsx.*)=(.*)\]/;
+  var lookPattern = /([^,]*),([^,]*),(.*)/;
 	var cellPattern = /(\d+)\.(\d+)/;
 
-	if (text.indexOf(",") != -1) {
-		var params = text.split(/,/);
-		name = params[0].trim();
-		type = params[1].trim();
+  if (match = text.match(lookPattern)) {
+    name = match[1].trim();
+    type = match[2].trim();
+    if ( match[3] ) {
+      item = match[3].trim();
+      if (match2 = item.match(cellPattern) ) {
+        item = match2[1]; col = match2[2];
+      }
+    }
+  }
+  var objJSX = this.findByJsxDom(name, inWindow);
+  if (!objJSX) return null;
 
-		if (params[2]) {
-			item = params[2].trim();
-			if(cellPattern.test(item)) {
-				var pieces = item.match(cellPattern);
-				item = pieces[1]; col = pieces[2];
-			}
-		}
-	} 
-
-   var objJSX = this.findByJsxDom(name, inWindow);
-   if (!objJSX)
-    Assert.fail("Element not found using name = " + name);
-
-   LOG.debug(objJSX + ", type = " + type + ", item="+ item + ", col=" + col);
-	var element = (!col) ? getActionableObject(objJSX, type, item) : getActionableObject(objJSX, type, item, col);
-	//LOG.debug("element = " + getOuterHTML(element));
-   return element;
+  LOG.debug(objJSX + ", type = " + type + ", item="+ item + ", col=" + col);
+	return (!col) ? getActionableObject(objJSX, type, item) : getActionableObject(objJSX, type, item, col);
 };
 PageBot.prototype.locateElementByJsxLookup.prefix = "gi";
-
-// TODO -- to be tested.
-PageBot.prototype.locateElementByJsxDom = function(domtext, inDocument, inWindow) {
-
- var objJSX = this.findByJsxDom(domtext, inWindow);
- 
- return (objJSX) ? objJSX.getRendered() : null;
-}
-PageBot.prototype.locateElementByJsxDom.prefix = "gidom";
 
 PageBot.prototype.locateElementByJsxName = function(jsxname, inDocument, inWindow) {
 /** Locate element by jsxname - This is a generic locator for all jsx components
@@ -3846,8 +3832,6 @@ PageBot.prototype.locateElementByJsxSplitterName = function(text, inDocument, in
 
 PageBot.prototype.locateElementByJsxStackText = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Stack by stack text label text pattern(glob | regex | exact)
- *	This class is equivalent to a tab, but uses the stack metaphor; like a tab, it has one child�a block for its content; a jsx3.gui.Stack instance should only be contained by a jsx3.gui.StackGroup instance for proper rendering.
- *
  *  @param text {String} text label on the Stack
  *  @param inDocument (document) current document object
  *  @return HTML element
@@ -3857,9 +3841,6 @@ PageBot.prototype.locateElementByJsxStackText = function(text, inDocument, inWin
    LOG.debug("locateElementByJsxStack text = " + text);
 
    var jsxObj =  this.findByJsxTextAndType(text, 'jsx3.gui.Stack', inWindow);
-
-   //LOG.debug("stack obj = " + jsxObj);
-
    return (jsxObj != null) ? jsxObj.getRendered() : null;
 };
 
@@ -4170,7 +4151,7 @@ PageBot.prototype.locateElementByCss = function(locator, document) {
 };
 
 // Original -- $Id: includeCommand.js 166 2006-12-11 22:03:45Z rob $
-/* TIBCO Software Inc., Copyright � 2007-2008
+/* TIBCO Software Inc., Copyright © 2007-2008
 	Modified by Darren Hwang, 2007 */
 /*extern document, window, XMLHttpRequest, ActiveXObject */
 /*extern Selenium, htmlTestRunner, LOG, HtmlTestCaseRow, testFrame, storedVars, URLConfiguration */
@@ -4516,6 +4497,7 @@ Selenium.prototype.doJsxchange = function (locator, value) {
 */
 Selenium.prototype._doJsxCommand = function (locator, value) {
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
+    if (objJSX) {
       try {
         value = eval("var tmp = " + value + "; tmp");
       } catch (e) {
@@ -4523,6 +4505,7 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
       }
       var action = currentTest.currentRow.getCommand().command;
       this._doRecorderAction(action, objJSX, value);
+    }
 }
 
 Selenium.prototype.doJsxwait_sleep = function (timeout) {
@@ -4582,9 +4565,10 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
     return function(target, value) {
 		  try {
+        if (value && value != "")
         value =  eval("var tmp = " + value + "; tmp");
 		  } catch (e) {
-        //Assert.fail("Bad action value: " + value);
+        Assert.fail("Bad action value: " + value);
 		  }
 		  LOG.debug("assert jsx predicate, " + value);
       var result = predicateBlock(target, value);
@@ -4618,7 +4602,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     };
 
   }
-  // jsxassert_ jsxwait_
+  // Register jsxassert_ and jsxwait_ commands
   CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
   	for (var functionName in recorder._VERBS) {
       var match = /^(jsxget|jsxis)_(.+)$/.exec(functionName);
@@ -4854,38 +4838,37 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     /** @private @jsxobf-clobber */
   recorder._VERBS = {
     jsxis_exists: function(locator) {
-      var o = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+      var o = selenium.browserbot.findJsxObject(locator);
       if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
         return true;
       else
         return false;
 	},
     jsxget_value: function(locator, value) {
-	  var target = selenium.browserbot.findByJsxSelector(locator.split("=")[1]);
-	  return (target) ? target.getValue() : null;
+      var target = selenium.browserbot.findJsxObject(locator);
+      return (target) ? target.getValue() : null;
     },
     jsxget_checked: function(locator, value) {
-	  //jsxget_checked
-	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
-	  return (target) ? target.getChecked() : null;
+      var target = selenium.browserbot.findJsxObject(locator);
+      return (target) ? target.getChecked() : null;
     },
     jsxget_selected: function(locator, value) {
-	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
-	  return (target) ? target.getSelected() : null;
+      var target = selenium.browserbot.findJsxObject(locator);
+      return (target) ? target.getSelected() : null;
     },
     jsxget_state: function(locator, value) {
-	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
-	  return (target) ? target.getState() : null;
+      var target = selenium.browserbot.findJsxObject(locator);
+      return (target) ? target.getState() : null;
     },
     jsxget_front: function(locator, value) {
-	  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
-	  return (target) ? target.isFront() : null; // Visibility not equal
+      var target = selenium.browserbot.findJsxObject(locator);
+      return (target) ? target.isFront() : null; // Visibility not equal
     },
     jsxget_eval: function(locator, value) {
 	  try {
-		  var target = this.browserbot.findByJsxSelector(locator.split("=")[1]);
+		  var target = selenium.browserbot.findJsxObject(locator);
 		  var server  = target.getServer();
-		  var rv = jsx3.eval(target, {server:s});
+		  var rv = jsx3.eval(value, {server:s});
 		  if (!rv)
 			throw new Error("Eval returned false: " + rv);
 		  return rv;
