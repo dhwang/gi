@@ -2,8 +2,9 @@
 
 <html>
 <!--
- * Modified by TIBCO Software Inc., © 2008
- * TIBCO General Interface Test Automation Kit (GITAK) 0.9.x
+ * Copyright TIBCO Software Inc., © 2008
+ * Copyright www.generalinterface.org  © 2009
+ * General Interface Test Automation Kit (GITAK) 0.9.x
 -->
 <head>
     <HTA:APPLICATION ID="SeleniumHTARunner" APPLICATIONNAME="Selenium" />
@@ -29,7 +30,7 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
         -->
         <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"/>
 
-        <title>TIBCO General Interface&trade; Test Automation Kit (GITAK) TestRunner - Selenium</title>
+        <title>General Interface Test Automation Kit (GITAK) TestRunner - Selenium</title>
 		
         <link rel="stylesheet" type="text/css" href="selenium.css"/>
         <script type="text/javascript" src="scripts/narcissus-defs.js"></script>
@@ -96,8 +97,7 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
                       }
                       w.focus();
                   }
-                } catch (e) {
-                    LOG.error(e.message);
+                } catch (e) {                   
                     /* Use Selenium DOM viewer if GI DOM viewer not available */
                     var domViewer = window.open(getDocumentBase(document) + 'domviewer/domviewer.html');              
                 }
@@ -123,9 +123,9 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
             }
 
 			function checkMode() {
-			// multi-window enabled then hide banner
-			if (htmlTestRunner && htmlTestRunner.controlPanel.isMultiWindowMode())
-				toggleBannerDisplay(document.getElementById('banner'));
+        // multi-window enabled then hide banner
+				if (htmlTestRunner && htmlTestRunner.controlPanel.isMultiWindowMode())
+          toggleBannerDisplay(document.getElementById('banner'));
 			}
         </script>
 </head>
@@ -155,7 +155,7 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
     <table class="layout">
         <tr class="selenium">
             <th style="height: 30px;">
-                <a href="http://www.generalinterface.org/"><img src="../gi/image/GI_jumpTab.gif" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" alt="TIBCO Developer Network"/>
+                <a href="http://www.generalinterface.org/"><img src="../gi/image/GI_jumpTab.gif" style="border-right: 0px; border-top: 0px; border-left: 0px; border-bottom: 0px" alt="www.generalinterface.org"/>
                 </a>
             </th>
         </tr>

@@ -13,7 +13,7 @@ function redir() {
   var index = href.lastIndexOf("/");
   var base = href.substring(0, index);
   var basePath = base.replace(/^(file|http|https):\/{0,3}/i, "");
-  var giPath = "/c:/tibco/gi/tibco-gi-3.6.2-pro-max";
+  var giPath = "/c:/tibco/gi/tibco-gi-3.7.1-pro-max";
   var url = base + "/sample-portal.html?gipath=" + giPath;
   alert('Launching sample using URL=' + url);
   window.location.href = url;
