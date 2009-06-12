@@ -55,7 +55,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
         load: function(text){
           var text = dojox.html._adjustCssPaths(name, text);
           if(s.styleSheet){ // IE
-            if(!ss.styleSheet.cssText){
+            if(!s.styleSheet.cssText){
               s.styleSheet.cssText = text;
             }else{
               s.styleSheet.cssText += text;
