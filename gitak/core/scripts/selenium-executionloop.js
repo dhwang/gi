@@ -108,7 +108,7 @@ TestLoop.prototype = {
 
         command.target = selenium.preprocessParameter(command.target);
         command.value = selenium.preprocessParameter(command.value);
-        LOG.debug("Command found, going to execute " + command.command);
+        LOG.debug("Command found, going to execute " + command.command + " t=" + new Date());
         this.result = handler.execute(selenium, command);
         
 

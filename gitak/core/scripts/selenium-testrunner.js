@@ -1410,9 +1410,9 @@ objectExtend(GIRunnerTestLoop.prototype, {
         var com = this.currentCommand.command;
         // Display time taken for open and waitFor commands -- GITAK
        //PageBus.publish('GITAK.TESTRUNNER.commandstarted', { time:cmdEndTime });
-        if (com == 'open' || (com.search(/^waitFor/) != -1)){
+        if (com == 'open' || /^waitFor/.test(com) || /^jsxwait/.test(com) ){
             var elapsed = this.cmdEndTime - this.cmdStartTime;
-            var delay = this.pauseInterval || this.getCommandInterval();
+            var delay = this.getCommandInterval();
             if (delay) elapsed = elapsed - delay; // substract interval or pause time
             this.currentRow.setMessage('elapsed ' + elapsed +' ms');
         }

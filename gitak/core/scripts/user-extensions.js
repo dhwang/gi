@@ -234,6 +234,48 @@ function getNameId(nameIdString) {
         return params;
 }
 
+/**
+* jsxopen - Open a GI application from given URL
+* @param url {String} the URL path fo the GI application
+*/
+Selenium.prototype.doJsxopen = function (url) {
+    var ts_open = new Date();
+    this.browserbot.openLocation(url);
+    LOG.debug('open jsx application url=' + url);
+    var w = this.browserbot.getCurrentWindow();
+    var self = this;
+    var isJsxLoaded = function () {      
+      if ( self.isPageLoaded || self.browserbot.isNewPageLoaded()) {
+        self.isPageLoaded = true;
+        if (w.jsx3) {
+          window.jsx3 = w.jsx3;
+          var apps = null;
+          if (jsx3.lang && jsx3.lang.System && jsx3.lang.System.getAllApps)
+            apps = jsx3.lang.System.getAllApps();
+          else if (jsx3.app && jsx3.app.Server && jsx3.app.Server.allServers)
+            apps = jsx3.app.Server.allServers();
+
+          if (apps && apps.length > 0) {
+          var app = apps[0];
+          var jsxbody = app.getJSXByName("JSXBODY");
+          var isJsxBodyLoaded = ( jsxbody && jsxbody.getChild(0) && jsxbody.getChild(0).getRendered() ) ;
+          LOG.debug("isJsxBodyLoaded check :"+ isJsxBodyLoaded); // can only check for the first application block
+          if (isJsxBodyLoaded) {
+             self._jsxappname = app;
+             delete self.isPageLoaded;
+             var ts_elapsed = ( new Date() ) - ts_open;
+             self.doEcho("elapsed " + ts_elapsed + "ms");
+             return true;
+           }
+          }
+        }
+       } // isPageLoaded     
+      return false;
+    }
+    
+    return Selenium.decorateFunctionWithTimeout(isJsxLoaded, this.defaultTimeout);
+}
+
 //Copy input element value or text.
 Selenium.prototype.doCopy = function(locator) {
 /**
@@ -337,6 +379,7 @@ Selenium.prototype.isImageComplete = function(idsrc) {
     }
     return (imgElement) ? imgElement.complete : false;
 };
+
 
 Selenium.prototype.doChooseJsxCancelConfirmPrompt = function(text) {
 /** ChooseCancelConfirmPrompt -- choose cancel on confirm or prompt dialog.
@@ -2134,18 +2177,6 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
   LOG.debug("root=" + this.browserbot.jsxroot);
 }
 
-PageBot.prototype.getParentChild = function(jsxname) {
-/**
- * getParentChild - split the jsxname into parent name and child name if in "parent.child" notation
- * @param jsxname {String} possible "parent.child" notation
- * @return Array | String  parentjsxname=array[0],childjsxname=array[1] or just childjsxname
- */
-    if (jsxname.indexOf(".") > 0) {
-      return jsxname.split(".");
-    } else {
-      return jsxname;
-    }
-}
 
 PageBot.prototype.findByJsxIdentity = function(identity, inWindow) {
 /**
@@ -2544,12 +2575,12 @@ PageBot.prototype.findByJsxSelector = function (s, inWindow) {
   if (jsx3) {    
     if (selenium.jsxNamespace) {
         appServer = eval("appWindow."+selenium.jsxNamespace);
-        objRoot = appServer.getRootBlock();
+        objRoot = appServer.getJSXByName("JSXROOT");
     } else {
         objRoot = jsx3.GO("JSXROOT");
     }
     LOG.debug('objRoot : ' + objRoot);
-    if (objRoot) {
+    if (objRoot && objRoot.selectDescendants) {
       objJSX = objRoot.selectDescendants(s, true);
       if (objJSX) storedVars['LASTJSXNAME'] = objJSX.getName();
       storedVars['LASTJSXOBJ'] = objJSX;    
@@ -2569,10 +2600,11 @@ PageBot.prototype.findJsxObject = function(locator, inWindow) {
         locatorType = result[1].toLowerCase();
         locatorString = result[2];
     }        
-    if (locatorType == "gi" || locatorType.match(/^jsx/) )
-        return this.findByJsxDom(locatorString, inWindow);
-    if (locatorType == "jsxselector")
+    if (/^jsxselector/.test(locatorType) )
         return this.findByJsxSelector(locatorString, inWindow);
+    else
+    if (locatorType == "gi" || /^jsx/.test(locatorType) )
+        return this.findByJsxDom(locatorString, inWindow);
      
     return null;
 
@@ -2590,7 +2622,7 @@ PageBot.prototype.locateElementByJsxSelector = function(selector, inDocument, in
  var objJSX = this.findByJsxSelector(selector, inWindow);
  return (objJSX) ? objJSX.getRendered() : null; 
 }
-PageBot.prototype.locateElementBySelector.prefix = "jsxselector";
+PageBot.prototype.locateElementByJsxSelector.prefix = "jsxselector";
 
 
 PageBot.prototype.locateElementByJsxLookup = function(text, inDocument, inWindow) {
@@ -2629,8 +2661,6 @@ PageBot.prototype.locateElementByJsxName = function(jsxname, inDocument, inWindo
  *  @param inDocument (document) current document object
  *  @return HTML element
  */
- //if (jsxname.indexOf("=") > 0)
- //  jsxname = getNameValue(jsxname).value;
  var oJSX =  this.findByJsxName(jsxname, inWindow);
 
    return (oJSX) ? oJSX.getRendered() : null;
@@ -2642,12 +2672,7 @@ PageBot.prototype.locateElementByJsxText = function(text, inDocument, inWindow) 
  *  @param inDocument (document) current document object
  *  @return HTML element
  */
-
- //if (text.indexOf("=") > 0)
- //  text = getNameValue(text).value;
  text = stripQuotes(text);
- 
- //LOG.debug('locateElementByJsxText ' + text );   
  var oJSX =  this.findByJsxText(text, inWindow);
 
  return (oJSX) ? oJSX.getRendered() : null;
@@ -2730,9 +2755,6 @@ PageBot.prototype.locateElementByJsxButtonText = function(text, inDocument, inWi
    var oButton = this.findByJsxTextAndType(text, "jsx3.gui.Button", inWindow);
    if (oButton == null) // must be tbb button?, image button have no text.
       oButton = this.findByJsxTextAndType(text, "jsx3.gui.ToolbarButton", inWindow);
-
-   //LOG.debug("jsxbutton = " + oButton);
-
    return (oButton != null) ? oButton.getRendered() : null;
 };
 

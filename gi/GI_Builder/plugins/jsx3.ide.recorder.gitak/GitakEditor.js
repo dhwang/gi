@@ -36,7 +36,7 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
           '        <td rowspan="1" colspan="3">' + jsx3.ide.PROJECT.getTitle() + '</td>\n' +
           '      </tr>\n' +
           '      <tr>\n' +
-          '        <td>open</td><td>${GI}/shell.html?jsxapppath=${APP}</td><td></td>\n' +
+          '        <td>jsxopen</td><td>${GI}/shell.html?jsxapppath=${APP}</td><td></td>\n' +
           '      </tr>\n' +
           '    </tbody>\n' +
           '  </table>\n' +
