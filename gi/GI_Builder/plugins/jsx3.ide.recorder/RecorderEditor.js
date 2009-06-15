@@ -242,7 +242,8 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
    * @private @jsxobf-clobber
    */
   Editor_prototype._isOfType = function(o, strClass) {
-    if (o.getClass) {
+    // o can be null here
+    if (o && o.getClass) {
       var c = o.getClass();
       while (c) {
         if (c.getName() == strClass)
