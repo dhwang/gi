@@ -2292,6 +2292,7 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
     var bRef = false;
     var bGroupRef = false;
     var bBook = false;
+    var baseSchemaNode;
 
     //if there is no 'type' on node, it's probably simple
     if (!bFirst && !bDrill & (strType == null || strType == "")) {
@@ -2336,8 +2337,10 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
       } else {
         //this is probably a 'ref' to another node. If not, it's unsupported
         strMyNodeName =  objSchemaNode.getAttribute("ref");
-        //3.6 Fix: if the referenced node is unqualified, target the containing schema, using its target namespace.
-        myTSQ = this.getBaseName(strRef) == strRef && !jsx3.util.strEmpty(strRefURI) ?  "[@targetNamespace='" + strRefURI + "']" : "";
+        baseSchemaNode = objSchemaNode;
+        //Per the xmlschema spec: [T]he value of the ref attribute must reference a global element,
+        //i.e. one that has been declared under schema rather than as part of a complex type definition.
+        myTSQ = !jsx3.util.strEmpty(strRefURI) ? "[@targetNamespace='" + strRefURI + "']" : "";
       }
 
       //check again if the node name has been resolved as either a base or ref
@@ -2402,17 +2405,17 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
     this.setFormDefaults(myNewNode,objSchemaNode);
 
     //with the new rule now added, add restrictions for minoccur maxoccur
-    var myMax = objSchemaNode.getAttribute("maxOccurs");
+    var myMax = (baseSchemaNode || objSchemaNode).getAttribute("maxOccurs");
     if (myMax != null && myMax != "") {
       this.bindComplexRule(objRulesTree,myNewNode,"restrictions","maxoccur",myMax);
     }
 
-    var myMin = objSchemaNode.getAttribute("minOccurs")
+    var myMin = (baseSchemaNode || objSchemaNode).getAttribute("minOccurs");
     if (myMin != null && myMin != "" && myMin != 1) {
       this.bindComplexRule(objRulesTree,myNewNode,"restrictions","minoccur",myMin);
     }
 
-    if (objSchemaNode.getAttribute("nillable") == "true") {
+    if ((baseSchemaNode || objSchemaNode).getAttribute("nillable") == "true") {
       this.bindComplexRule(objRulesTree,myNewNode,"restrictions","minoccur",0);
       this.bindComplexRule(objRulesTree,myNewNode,"restrictions","nillable","true");
     }
