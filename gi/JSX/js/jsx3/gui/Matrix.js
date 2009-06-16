@@ -6177,36 +6177,54 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * (e.g., <code>[objColumn].getPath()</code>) as well as all sibling Columns that are triggered by the named attribute
    * (e.g., <code>[objColumn].getTriggers()</code>) will also be redrawn.
    * @param bSuppressTriggers {Boolean} if true, no other sibling Columns will be updated, even if they share a common path or designate the path as one of their triggers.
+   * @param-private objTRXML {jsx3.xml.Entity} if present, use instead of generating the row XHTML via XSLT
    * @see jsx3.gui.Matrix.Column#setPath()
    * @see jsx3.gui.Matrix.Column#setTriggers()
    */
-  Matrix_prototype.redrawCell = function(strRecordId,objColumn,bSuppressTriggers) {
+  Matrix_prototype.redrawCell = function(strRecordId,objColumn,bSuppressTriggers,objTRXML) {
     //this is an update to the cell value. Call the cellvalue template (xslt) directly for the content; then call the formatHandler (all synchronous)
-    var objCell = this._getCellByIndex(strRecordId,objColumn.getDisplayIndex());
+    var intCellIndex = objColumn.getDisplayIndex();
+    var objCell = this._getCellByIndex(strRecordId,intCellIndex);
     if (objCell) {
-      //get handle to the div that will contain the output of the user-managed cellvalue template
       var objDiv = objCell.childNodes[0];
-
-      //if in hierarchical mode, resolve to a different element (the system uses additional elements when in hiearchical mode)
-      if (this.getRenderingModel() == Matrix.REND_HIER && objColumn.getChildIndex() == 0  && this.getRenderNavigators(1) != 0) {
-        while (objDiv && objDiv.tagName.toLowerCase() != "tr") objDiv = objDiv.childNodes[0];
-        if (objDiv) {
-          objDiv = objDiv.lastChild.firstChild;
-        } else {
-          //shouldn't happen. remove else after testing
-          LOG.error("redrawCell can not resolve the on-screen HTML element ot update");
-          return;
+      if(this.getRenderingModel() == Matrix.REND_HIER) {
+        var objMyGUI = this._getStructureById(strRecordId);
+        var objContent = objMyGUI.parentNode;
+        var strXHTML = this._drawStructure(strRecordId,objContent.getAttribute("jsxcontextindex"));
+        var objDoc = new jsx3.xml.Document();
+        if(!objTRXML) {
+          objTRXML = objDoc.loadXML(strXHTML);
+          while(objTRXML && objTRXML.getBaseName() != "tr")
+            objTRXML = objTRXML.getFirstChild();
+          if(!objTRXML)
+            return;
         }
+        if(objColumn.getChildIndex() == 0  && this.getRenderNavigators(1) != 0) {
+          var objtrxml = objTRXML.getFirstChild();
+          while(objtrxml && objtrxml.getBaseName() != "tr")
+            objtrxml = objtrxml.getFirstChild();
+          var objTR = objDiv;
+          while (objTR && objTR.tagName.toLowerCase() != "tr")
+            objTR = objTR.childNodes[0];
+          if(!objtrxml || !objDiv)
+            return;
+          objDiv = objTR.lastChild.firstChild;
+          this._updateTD(objtrxml,objTR,2);
+        } else {
+          this._updateTD(objTRXML,objCell.parentNode,intCellIndex);
+        }
+      } else {
+        var objTR = objCell.parentNode;
+        if(!objTRXML)
+          objTRXML = this._getTR(strRecordId);
+        if(this.getRenderingModel() == Matrix.REND_HIER) {
+          while(objTRXML && objTRXML.getBaseName() != "tr")
+            objTRXML = objTRXML.getFirstChild();
+          if(!objTRXML)
+            return;
+        }
+        this._updateTD(objTRXML,objTR,intCellIndex);
       }
-
-      //use XSLT 'cellvalue' mode to generate the specific HTML content for the cell
-      var objParams = {};
-      objParams.jsx_return_at_all_costs = true;
-      objParams.jsx_mode = "cellvalue";
-      objParams.jsx_record_context = strRecordId;
-      objParams.jsx_cell_value_template_id = objColumn.getId() + "_value";
-      var strHTML = this.doTransform(objParams);
-      objDiv.innerHTML = strHTML;
 
       //perform the 2-pass, using the formthandler (if it exists)
       var objFormatHandler = objColumn._getFormatHandler();
@@ -6223,7 +6241,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         for (var i=0;i<oKids.length;i++) {
           var strTriggers = oKids[i].getTriggers() + "";
           if (oKids[i] != objColumn && (oKids[i].getPath() == objColumn.getPath() || strTriggers.search(re) >= 0))
-            this.redrawCell(strRecordId,oKids[i],true);
+            this.redrawCell(strRecordId,oKids[i],true,objTRXML);
         }
       }
     }
@@ -6289,9 +6307,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         this._applyFormatHandlers(myToken);
       } else {
         //update the content for each child cell in this row (NOTE: the called method will also apply the formathandlers)
-        var objChildren = this._getDisplayedChildren();
-        for (var i=0;i<objChildren.length;i++)
-          this.redrawCell(strRecordId,objChildren[i],true);
+        var objTR = this._updateTR(this._getRowById(strRecordId),strRecordId);
+        this._doFormatRow(objTR,strRecordId);
       }
     } else if (strRecordId != null && intAction == jsx3.xml.CDF.DELETE) {
       if (this.getRenderingModel() == Matrix.REND_HIER) {
@@ -6482,55 +6499,82 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Matrix_prototype._createNewTR = function(objTBody,strRecordId) {
     //get the HTML for this table row (TR) via XSLT
     var myDoc = this.getDocument();
+    var objEntity = this._getTR(strRecordId);
+    var objTR = myDoc.createElement("tr");
+    Matrix.convertXMLToDOM(objEntity,objTR,true);
+    for (var i = objEntity.getChildIterator(); i.hasNext(); ) {
+      objEntity = i.next();
+      var objTD = myDoc.createElement("td");
+      Matrix.convertXMLToDOM(objEntity,objTD,true);
+      objTR.appendChild(objTD);
+      objTD.innerHTML = objEntity.getFirstChild().getXML();
+    }
+    return objTR;
+  };
+
+  /* @jsxobf-clobber */
+  Matrix_prototype._getTR = function(strRecordId) {
+    //generate a TR XML Node using XSLT
     var objParams = {};
     objParams.jsx_column_widths = this._getViewPaneWidth();
     objParams.jsx_rendering_context = this.getRecordNode(strRecordId).getParent().getAttribute("jsxid");
     objParams.jsx_rendering_context_child = strRecordId;
     objParams.jsx_mode = "record";
     var strXHTML = this.doTransform(objParams);
-
-    //create the TR DOM element and apply all attributes from the XHTML source
     var objDoc = new jsx3.xml.Document();
     objDoc.loadXML(strXHTML);
-    var objEntity = objDoc.getRootNode();
-    var objTR = myDoc.createElement("tr");
-    Matrix.convertXMLToDOM(objEntity,objTR);
+    return objDoc.getRootNode();
+  };
 
-    //loop to create the TD DOM element(s) and apply all attributes from the XHTML source
+  /* @jsxobf-clobber */
+  Matrix_prototype._updateTR = function(objTR,strRecordId) {
+    //update a TR and all TD children with generated XHTML
+    var objEntity = this._getTR(strRecordId);
+    Matrix.convertXMLToDOM(objEntity,objTR,false);
+    var j = 0;
     for (var i = objEntity.getChildIterator(); i.hasNext(); ) {
       objEntity = i.next();
-      var objTD = myDoc.createElement("td");
-      Matrix.convertXMLToDOM(objEntity,objTD);
-      objTR.appendChild(objTD);
-      //short-cut DOM build-out via innerHTML
+      var objTD = objTR.childNodes[j];
+      Matrix.convertXMLToDOM(objEntity,objTD,false);
       objTD.innerHTML = objEntity.getFirstChild().getXML();
+      j++;
     }
-
     return objTR;
   };
 
-  /**
+  /* @jsxobf-clobber */
+  Matrix_prototype._updateTD = function(objTRXML,objTR,intCellIndex) {
+    //update a single TD with the generated XHTML
+    var objTDXML = objTRXML.selectSingleNode("*[" + (intCellIndex+1) + "]");
+    var objTD = objTR.childNodes[intCellIndex];
+    Matrix.convertXMLToDOM(objTDXML,objTD,false);
+    objTD.innerHTML = objTDXML.getFirstChild().getXML();
+  };
+
+   /**
    * applies the attributes belonging to the XML entity, objEntity, and applies to the browser DOM element, objDOM
    * @param objEntity {jsx3.xml.Entity} jsx3.xml.Entity instance
    * @param objDOM {HTMLElement} native browser DOM element (a TR/TD)
+   * @param bBox {Boolean} if true, transfer box-type styles to the target
    * @private
    * @jsxobf-clobber
    */
-  Matrix.convertXMLToDOM = function(objEntity,objDOM) {
+  Matrix.convertXMLToDOM = function(objEntity,objDOM,bBox) {
     var names = objEntity.getAttributeNames();
+    var re = /^(on(?:mousedown|click|focus|blur|mouseup|mouseover|mouseout|dblclick|scroll|keydown|keypress))/i;
+    var re_style = /(?:border:|border-top|border-left|border-bottom|border-right|padding|height|width)[^;]*;/gi;
     for (var i = 0; i < names.length; i++) {
       var strName = names[i];
       var strValue = objEntity.getAttribute(strName);
 
       //note that these are not all events, but rather those events that are/may be implemented by the matrix control
-      var re = /^(on(?:mousedown|click|focus|blur|mouseup|mouseover|mouseout|dblclick|scroll|keydown|keypress))/i;
       if (strName.match(re)) {
         //attach the event
         html.addEventListener(objDOM, strName.toLowerCase(), strValue);
       } else if (strName == "class") {
         objDOM.className = strValue;
       } else if (strName == "style") {
-        jsx3.gui.Painted.convertStyleToStyles(objDOM, strValue);
+        jsx3.gui.Painted.convertStyleToStyles(objDOM, bBox ? strValue : strValue.replace(re_style,""));
       } else {
         objDOM.setAttribute(strName,strValue);
       }
