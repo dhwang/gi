@@ -50,13 +50,23 @@ objJSX.loadPrefs = function() {
   var s = jsx3.ide.getIDESettings();
   var id = this.getPlugIn().getId();
 
-  server.setValue(s.get(id, "server"));
-  port.setValue(s.get(id, "port"));
-  bind.setValue(s.get(id, "bind"));
-  useSSL.setValue(s.get(id, "ssl"));
-  userid.setValue(s.get(id, "userid"));
-  password.setValue(s.get(id, "password"));
-  remember.setValue(s.get(id, "remember"));
+  if (s.get(id)) {
+    // the settings have been saved before
+    server.setValue(s.get(id, "server"));
+    port.setValue(s.get(id, "port"));
+    bind.setValue(s.get(id, "bind"));
+    useSSL.setValue(s.get(id, "ssl"));
+    userid.setValue(s.get(id, "userid"));
+    password.setValue(s.get(id, "password"));
+    remember.setValue(s.get(id, "remember"));
+  } else {
+    server.setValue("chat.generalinterface.org");
+    port.setValue("80");
+    bind.setValue("http-bind");
+    remember.setValue(1);
+
+    this.savePrefs();
+  }
 };
 
 objJSX.makeDirty = function(objInput) {
@@ -87,7 +97,7 @@ objJSX.makeDirty = function(objInput) {
           <dynamics jsxborder="@No jsxborder"/>
           <object type="jsx3.gui.TextBox">
             <variants jsxheight="18"/>
-            <strings jsxname="server" jsxmargin="0 4 0 0" jsxvalue=""/>
+            <strings jsxname="server" jsxmargin="0 4 0 0" jsxvalue="chat.generalinterface.org"/>
             <events jsxincchange="prefspane.makeDirty(this);"/>
           </object>
         </object>
@@ -114,7 +124,7 @@ objJSX.makeDirty = function(objInput) {
           <dynamics jsxborder="@No jsxborder"/>
           <object type="jsx3.gui.TextBox">
             <variants jsxheight="18"/>
-            <strings jsxname="port" jsxmargin="0 4 0 0" jsxvalue=""/>
+            <strings jsxname="port" jsxmargin="0 4 0 0" jsxvalue="80"/>
             <events jsxincchange="prefspane.makeDirty(this);"/>
           </object>
         </object>
@@ -141,7 +151,7 @@ objJSX.makeDirty = function(objInput) {
           <dynamics jsxborder="@No jsxborder"/>
           <object type="jsx3.gui.TextBox">
             <variants jsxheight="18"/>
-            <strings jsxname="bind" jsxmargin="0 4 0 0" jsxvalue=""/>
+            <strings jsxname="bind" jsxmargin="0 4 0 0" jsxvalue="http-bind"/>
             <events jsxincchange="prefspane.makeDirty(this);"/>
           </object>
         </object>
@@ -208,7 +218,7 @@ objJSX.makeDirty = function(objInput) {
       </object>
 	</object>
     <object type="jsx3.gui.CheckBox">
-      <variants jsxheight="18" jsxdefaultchecked="0"/>
+      <variants jsxheight="18" jsxchecked="1"/>
       <strings jsxname="remember" jsxtext="Remember my user ID and password" jsxmargin="0 4 0 0"/>
       <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"
               jsxtoggle="prefspane.makeDirty(this);" />
