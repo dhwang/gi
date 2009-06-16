@@ -130,12 +130,10 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.recorder.Editor, null, f
       var rec = this._getGrid().getRecord(recordId);
 
       if (this._isDelimRecord(rec)) {
-        g.insertRecordProperty(recordId, "jsxclass", Editor._DIVCLASS, false);
+        g.insertRecordProperty(recordId, "jsxclass", Editor._DIVCLASS, true);
       } else {
-        g.deleteRecordProperty(recordId, "jsxclass", false);
+        g.insertRecordProperty(recordId, "jsxclass", "", true);
       }
-
-      g.repaintData();
     }
     
     this.setDirty(true);
