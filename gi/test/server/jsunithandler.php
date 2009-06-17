@@ -23,8 +23,8 @@ function getBrowserInfo() {
 
     $userAgent    = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-    // Check "3.0 Safari"
-    $found = preg_match("/(?P<majorVersion>\d+)(?P<minorVersion>(?:[\.\d]*))\s+(?P<browser>(?:safari))/i", $userAgent, $matches);
+    // Check "Chrome/2.0" and "3.0 Safari"
+    $found = preg_match("/(?:(?P<isChrome>chrome)/)?(?P<majorVersion>\d+)(?P<minorVersion>(?:[\.\d]*))\s+(?P<browser>(?:safari))/i", $userAgent, $matches);
     if (!$found) {
       // Check "Firefox 3.5"
       $found = preg_match("/(?P<browser>(?:opera|msie|firefox|chrome|safari))\D*(?P<majorVersion>\d+)(?P<minorVersion>(?:\.\d*)*)/i", $userAgent, $matches);
@@ -35,7 +35,7 @@ function getBrowserInfo() {
     }
 
     if ($found) {
-        $browser      = $matches["browser"];
+        $browser      = $matches["isChrome"] ? $matches["isChrome"] : $matches["browser"];
         $majorVersion = $matches["majorVersion"];
         $minorVersion = $matches["minorVersion"];
         $fullVersion  = $matches["majorVersion"].$matches["minorVersion"];

@@ -10,7 +10,17 @@
  *
  */
 
+var alreadyRan = false;
+
 function suite() {
+  gi.test.jsunit.warn("suite() in suite.js");
+
+  // Chrome seems to call this function twice for some reason
+  if (alreadyRan)
+    return gi.test.jsunit.newJsSuite();
+
+  alreadyRan = true;
+  
   return gi.test.jsunit.newJsSuite(
       ["jsx3/t_ext.js"],
 

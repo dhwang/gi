@@ -372,7 +372,7 @@ gi.test.jsunit._init = function(jsunit) {
   jsunit._doneLoadingJSX30 = function(strSrc) {
     if (strSrc == jsunit.JSX_JS_BASE + "JSX30.js") {
       // Copy CLASS_LOADER browser tokens into jsunit
-      var tokens = ["IE", "IE7", "MOZ", "FX", "SAF", "KON", "SVG", "VML"];
+      var tokens = ["IE", "IE7", "MOZ", "FX", "SAF", "GOG", "KON", "SVG", "VML"];
       for (var i = 0; i < tokens.length; i++)
         jsunit[tokens[i]] = jsx3.CLASS_LOADER[tokens[i]];
 

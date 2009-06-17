@@ -22,7 +22,7 @@ gi.test.jsunit.defineTests("jsx3.lang.NativeError", function(t, jsunit) {
     }
   };
   // NOTE: Internet Explorer (6?) doesn't provide line number unless the error bubbles all the way to window.onerror
-  t.testLineNumber._unless = "IE";
+  t.testLineNumber._unless = "GOG IE";
 
   t.testWrap = function() {
     var ex = null;
@@ -74,7 +74,7 @@ gi.test.jsunit.defineTests("jsx3.lang.NativeError", function(t, jsunit) {
     }
   };
   // NOTE: Internet Explorer (6?) always reports the host HTML page, not the JS URL.
-  t.testFileName._unless = "IE";
+  t.testFileName._unless = "GOG IE";
 
   t.testInitCapture = function() {
     // not sure this is going to be possible since we need to get an exception to bubble all the way to the top

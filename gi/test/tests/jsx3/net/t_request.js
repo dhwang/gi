@@ -211,10 +211,12 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertTrue(h1.indexOf("xml") >= 0);
 
     var h2 = r.getResponseHeader("Last-Modified");
-    jsunit.assertTypeOf(h2, "string");
-    var d = new Date(h2);
-    jsunit.assertTrue(d.getFullYear() >= 2007);
-
+    if (h2) { // Chrome in Selenium grid doesn't get this header due to the proxy
+      jsunit.assertTypeOf(h2, "string");
+      var d = new Date(h2);
+      jsunit.assertTrue(d.getFullYear() >= 2007);
+    }
+    
     var h3 = r.getResponseHeader("XXX-Not-Provided");
     jsunit.assertTrue(h3 == null || h3 === "");
   };
@@ -229,7 +231,7 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertTypeOf(headers, "string");
 
     jsunit.assertMatches(/\bContent\-Type:/, headers);
-    jsunit.assertMatches(/\bLast\-Modified:/, headers);
+    jsunit.assertMatches(/\bServer:/, headers);
     jsunit.assertMatches(/\bContent\-Length:/, headers);
   };
   t.testAllResponseHeaders._skip_unless = "NETWORK";
