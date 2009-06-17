@@ -231,7 +231,6 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
     jsunit.assertTypeOf(headers, "string");
 
     jsunit.assertMatches(/\bContent\-Type:/, headers);
-    jsunit.assertMatches(/\bServer:/, headers);
     jsunit.assertMatches(/\bContent\-Length:/, headers);
   };
   t.testAllResponseHeaders._skip_unless = "NETWORK";
