@@ -15,7 +15,6 @@
   ]]></method>
 
   <requires>
-    <!--<plugin id="jsx3.amp.util.prefspanel"/>-->
     <plugin id="jsx3.ide.ui"/>
     <plugin id="jsx3.gui.Matrix"/>
   </requires>
@@ -81,5 +80,23 @@
         menupath="/jsx3.ide.xmppctx/edit"
         execute="this.getPlugIn().deleteFromRoster(menu.getContextParent().getRecord(menu.getContextParent().getValue()));"
         img="jsxapp:/images/icon_55.gif"/>
+  </extension>
+
+  <!-- Toolbar buttons, etc -->
+  <extension-point id="toolbar">
+    <processor type="instantiator" instance-class="jsx3.amp.util.ToolbarItem"/>
+  </extension-point>
+
+  <extension point="jsx3.ide.xmpp.toolbar" id="toolbar">
+    <native id="username" section="text" xmlns="urn:tibco.com/v3.0">
+      <object type="jsx3.gui.Block">
+        <dynamics jsxborder="@No jsxborder" />
+        <strings jsxname="xmpp_username" jsxtext="Username" jsxstyleoverride="padding-right: 5px; padding-top: 5px;" jsxheight="22" />
+      </object>
+    </native>
+    <button id="add" img="images/add.gif" tip="Add contact" section="actions"
+            execute="this.getPlugIn().doShowAddContact();" />
+    <button id="shutdown" img="images/power.gif" tip="Go offline" section="actions"
+            execute="this.getPlugIn().doPower();" />
   </extension>
 </plugin>

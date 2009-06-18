@@ -15,7 +15,6 @@ objJSX.onNewMessage = function(instance, msg) {
   if (!this.chatInstance || this.chatInstance.chatid != instance.chatid) {
     this.chatInstance = instance;
   }
-  console.log(msg);
   if (msg) {
     this.displayMessage(msg);
   }

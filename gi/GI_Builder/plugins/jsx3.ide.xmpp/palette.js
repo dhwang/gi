@@ -13,6 +13,23 @@ jsx3.$O(this).extend({
     return ui && ui.getXMPPTree();
   },
 
+  getTreeDocument: function(blank){
+    var xml = new jsx3.xml.CDF.Document();
+    xml.loadXML('<data jsxid="jsxroot"><record jsxid="jsxrootnode" jsxtext="rootnode" jsxunselectable="1" jsxopen="1" jsximg="jsxapp:/images/icon_7.gif"/></data>');
+    return xml;
+  },
+
+  getToolbarItem: function(name) {
+    var p = this.getPalette();
+    if (p) {
+      var u = p.getUIObject();
+      if (u) {
+        return u.getDescendantOfName(name);
+      }
+    }
+    return null;
+  },
+
   setUIState: function(state) {
     // Displays the correct Block depending on the
     // state of the XMPP settings/connection
@@ -21,14 +38,24 @@ jsx3.$O(this).extend({
       jsx3.gui.Block.DISPLAYBLOCK :
       jsx3.gui.Block.DISPLAYNONE,
     true);
-    ui.getDescendantOfName("xmpp_loading_block").setDisplay(state == 1?
+    ui.getDescendantOfName("xmpp_list_block").setDisplay(state > 0?
       jsx3.gui.Block.DISPLAYBLOCK :
       jsx3.gui.Block.DISPLAYNONE,
     true);
-    ui.getDescendantOfName("xmpp_list_block").setDisplay(state == 2?
-      jsx3.gui.Block.DISPLAYBLOCK :
-      jsx3.gui.Block.DISPLAYNONE,
-    true);
+    var add_button = this.getToolbarItem('jsx3.ide.xmpp.toolbar.add');
+    if (state < 2) {
+      this.setUsername('Loading...');
+      add_button.setEnabled(0, true);
+    } else {
+      add_button.setEnabled(1, true);
+    }
+  },
+
+  setUsername: function(name) {
+    var b = this.getToolbarItem('xmpp_username');
+    if (b) {
+      b.setText(name, true);
+    }
   },
 
   getCredentials: function() {
@@ -50,11 +77,26 @@ jsx3.$O(this).extend({
   getRecord: function(item, notImgFromStatus) {
     // Returns a record object for use with the palette's
     // tree's XML.
+    var name = (item.name||item.jid) + (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '');
     return {
       jsxid: item.jid,
       jsxnick: item.name,
-      jsxtext: (item.name||item.jid) + (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : ''),
-      jsximg: 'images/none.gif'
+      jsxtext: name,
+      jsximg: 'images/none.gif',
+      jsxsort: '1-' + name
+    };
+  },
+
+  getGroupRecord: function(group_name) {
+    return {
+      jsxid: group_name,
+      jsxtext: group_name == 'jsxcontacts' ? 'Contacts' : group_name,
+      jsximg: 'jsxapp:/images/icon_7.gif',
+      jsxgroup: group_name,
+      jsxsort: group_name.toLowerCase(),
+      jsxnick: '',
+      jsxopen: 1,
+      jsxunselectable: 1
     };
   },
 
@@ -120,6 +162,10 @@ jsx3.$O(this).extend({
     dojo.body = function(){
       return dojo.doc.body || dojo.doc.getElementsByTagName("body")[0]; // Node
     }
+
+    var xml = this.getTreeDocument();
+    this._getTree().setSourceXML(xml);
+
     this.setUIState(1);
     this.session.open(credentials.username, credentials.password, 'TIBCO/GIChat');
     dojo.body = oldDojoBody;
@@ -130,15 +176,37 @@ jsx3.$O(this).extend({
     // and updates the palette's tree.
     var objTree = this._getTree();
     if (objTree) {
+      var xml = objTree.getXML();
       for (var i = 0, l = this.session.roster.length; i<l; i++) {
-        var buddy = this.session.roster[i];
-        this.roster[buddy.jid] = buddy;
-        var rec = objTree.getRecordNode(buddy.jid);
-        if(!rec) {
-          objTree.insertRecord(this.getRecord(buddy), 'jsxcontacts', false);
-        }
+        this._addContactToRoster(this.session.roster[i], objTree, xml);
       }
       objTree.repaint();
+    }
+  },
+
+  _addContactToRoster: function(item, objTree, xml) {
+    if (!objTree) {
+      objTree = this._getTree();
+    }
+    if (objTree) {
+      if (!xml) {
+        xml = objTree.getXML();
+      }
+      var group_name = 'jsxcontacts';
+      this.roster[item.jid] = item;
+
+      if (item.groups.length) {
+        group_name = item.groups[0];
+      }
+
+      var rec = objTree.getRecordNode(item.jid);
+      if (!rec) {
+        var group_node = xml.selectSingleNode('//record[@jsxgroup="' + group_name + '"]');
+        if (!group_node) {
+            objTree.insertRecord(this.getGroupRecord(group_name), 'jsxrootnode', false);
+        }
+        objTree.insertRecord(this.getRecord(item), group_name, false);
+      }
     }
   },
 
@@ -147,8 +215,9 @@ jsx3.$O(this).extend({
     // the user's status as "online" and displays the contact
     // tree.
 
-    //console.log('Active!', arguments);
+    //jsx3.ide.LOG.warn('Active!', arguments);
     this.session.presenceService.publish({});
+    this.setUsername(this.session.jid);
     this.setUIState(2);
   },
 
@@ -156,7 +225,7 @@ jsx3.$O(this).extend({
     // Called when the session adds a contact.  Inserts
     // the contact's record into the tree's XML.
 
-    //console.log('RosterAdded!', arguments);
+    //jsx3.ide.LOG.warn('RosterAdded!', arguments);
     var objTree = this._getTree();
 
     // need this because dojox.xmpp doesn't add the item
@@ -165,7 +234,8 @@ jsx3.$O(this).extend({
     this.roster[item.jid] = item;
 
     if (objTree) {
-      objTree.insertRecord(this.getRecord(item), 'jsxcontacts', true);
+      this._addContactToRoster(item, objTree);
+      objTree.repaint();
     }
   },
 
@@ -173,11 +243,16 @@ jsx3.$O(this).extend({
     // Called when the session changes the roster.  Updates
     // the tree's record for the contact.
 
-    //console.log('RosterChanged!', arguments);
+    //jsx3.ide.LOG.warn('RosterChanged!', arguments);
     var objTree = this._getTree();
 
     if (objTree) {
-      objTree.insertRecordProperty(oldItem.jid, 'jsxtext', (newItem.name||newItem.jid) + (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : ''), true);
+      var record = objTree.getRecord(oldItem.jid);
+      var name = (newItem.name||newItem.jid) + (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '');
+      record.jsxtext = name;
+      record.jsxsort = record.jsxsort.substr(0, 1) + '-' + name;
+      objTree.insertRecord(record, null, false);
+      objTree.repaint();
     }
   },
 
@@ -186,12 +261,13 @@ jsx3.$O(this).extend({
     // from the roster.  Removes the record from
     // the tree.
 
-    //console.log('RosterRemoved!', arguments);
+    //jsx3.ide.LOG.warn('RosterRemoved!', arguments);
     var objTree = this._getTree();
     delete this.roster[item.id];
 
     if (objTree) {
-      objTree.deleteRecord(item.id, true);
+      objTree.deleteRecord(item.id, false);
+      objTree.repaint();
     }
   },
 
@@ -199,7 +275,7 @@ jsx3.$O(this).extend({
     // Called when the session updates the roster.
     // Updates the tree based on the session's roster.
 
-    //console.log('RosterUpdated!', arguments);
+    //jsx3.ide.LOG.warn('RosterUpdated!', arguments);
     this.updateTree();
   },
 
@@ -208,31 +284,53 @@ jsx3.$O(this).extend({
     // status.  Updates the icon for the contact in
     // the tree based on status.
 
-    //console.log('PresenceUpdate!', arguments);
+    //jsx3.ide.LOG.warn('PresenceUpdate!', arguments);
     var objTree = this._getTree();
     if (objTree) {
+      var record = objTree.getRecord(buddy.from);
       var image = '';
+      var sort = '0-';
       switch(buddy.show) {
+        case 'none':
+          sort = '1-';
         case 'away':
         case 'dnd':
-        case 'none':
         case 'xa':
         case 'online':
           image = buddy.show;
           break;
+        case 'offline':
+          sort = '1-';
+          image = 'none';
+          break;
         default:
           image = 'online';
       }
-      objTree.insertRecordProperty(buddy.from, 'jsximg', 'images/' + image + '.gif', true);
+      record.jsximg = 'images/' + image + '.gif';
+      record.jsxsort = sort + record.jsxtext;
+      objTree.insertRecord(record, null, false);
+      objTree.repaint();
     }
   }).throttled(),
 
   /***********************
    * UI Dialog functions *
    ***********************/
-  doShutdown: function(){
+  doPower: function(){
     // Closes the XMPP session.
-    this.session.close();
+    if (this.session.state != dojox.xmpp.xmpp.TERMINATE) {
+      this.session.close();
+      var tree = this._getTree();
+      tree.setSourceXML(this.getTreeDocument(true));
+      tree.repaint();
+      this.setUsername('Offline');
+      this.getToolbarItem('jsx3.ide.xmpp.toolbar.add').setEnabled(0, true);
+    } else {
+      var credentials = this.getCredentials();
+      jsx3.require("jsx3.util.Dojo");
+      this.connectSession(credentials);
+    }
+
   },
 
   doShowAddContact: function() {
@@ -273,7 +371,7 @@ jsx3.$O(this).extend({
     // Sets the nickname for the contact using the roster
     // service.
     var nickname = dialog.getNickname();
-    //console.log(dialog.jsxjid, nickname);
+    //jsx3.ide.LOG.warn(dialog.jsxjid, nickname);
     this.session.rosterService.updateRosterItem(dialog.jsxjid, nickname);
     dialog.doClose();
   },

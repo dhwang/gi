@@ -19,7 +19,7 @@ jsx3.$O(this).extend({
     // to register a chat instance.  Makes sure our
     // internal list of chat instances is up to date.
 
-    console.log('RegisterChatInstance!', arguments);
+    //jsx3.ide.LOG.warn('RegisterChatInstance!', arguments);
 
     var ci = this.chatInstances;
     if (instance.uid) {
@@ -39,7 +39,7 @@ jsx3.$O(this).extend({
     });
 
     dojo.connect(instance, 'setState', this, function(state) {
-      console.log("IM: ",  instance.uid, " is now ", state);
+      //jsx3.ide.LOG.warn("IM: ",  instance.uid, " is now ", state);
     });
   },
 
