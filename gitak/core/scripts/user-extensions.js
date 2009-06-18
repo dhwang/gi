@@ -32,19 +32,10 @@ function getOuterHTML(element) {
       return element.outerHTML;
 }
 
-function _triggerMouseEvent(element, eventType, canBubble, clientX, clientY) {
-    var objPos = {};
-    clientX = clientX ? clientX : 0;
-    clientY = clientY ? clientY : 0;
-    objPos.L = clientX;
-    objPos.T = clientY;
-
-    triggerLeftMouseEvent(element, eventType, canBubble, objPos);
-}
 function _triggerKeyEvent(element, keyType, key, canBubble) {
     triggerKeyEvent(element, keyType, key, canBubble,
         selenium.browserbot.controlKeyDown,
-            selenium.browserbot.altKeyDown,
+        selenium.browserbot.altKeyDown,
         selenium.browserbot.shiftKeyDown,
         selenium.browserbot.metaKeyDown);
 }
@@ -73,7 +64,7 @@ function triggerLeftMouseEvent(element, eventType, canBubble, objPos) {
           metaKey = selenium.browserbot.metaKeyDown;
     }
 
-    canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
+    canBubble = (!canBubble) ? true : canBubble;
     if (element.fireEvent) {
         var evt = element.ownerDocument.createEventObject();
         evt.clientY = clientY;
@@ -121,12 +112,12 @@ function triggerLeftMouseEvent(element, eventType, canBubble, objPos) {
 
         element.dispatchEvent(evt);
     }
-};
+}
 
 
 /* Fire a right mouse button mouse event in a browser-compatible manner */
 function triggerRightMouseEvent(element, eventType, canBubble, objPos) {
-    canBubble = (typeof(canBubble) == undefined) ? true : canBubble;
+    canBubble = (!canBubble) ? true : canBubble;
     LOG.debug("right mouse event type = " + eventType);
     var screenX = 0;
     var screenY = 0;
@@ -150,7 +141,7 @@ function triggerRightMouseEvent(element, eventType, canBubble, objPos) {
             evt.shiftKey = selenium.browserbot.shiftKeyDown;
             evt.altKey = selenium.browserbot.altKeyDown;
             evt.metaKey = selenium.browserbot.metaKeyDown;
-		}
+        }
 		
         evt.bubbles = canBubble;
 	    evt.relatedTarget = element;
@@ -171,13 +162,22 @@ function triggerRightMouseEvent(element, eventType, canBubble, objPos) {
     }
 }
 
+function _triggerMouseEvent(element, eventType, canBubble, clientX, clientY) {
+    var objPos = {};
+    clientX = clientX ? clientX : 0;
+    clientY = clientY ? clientY : 0;
+    objPos.L = clientX;
+    objPos.T = clientY;
+
+    triggerLeftMouseEvent(element, eventType, canBubble, objPos);
+}
 // helper,
 function getAbsoluteTop(elmId) {
 	// Get an object top position from the upper left viewport corner
 	// Tested with relative and nested objects
     var o = elmId;
 	oTop = o.offsetTop;            // Get top position from the parent object
-	while(o.offsetParent!=null) { // Parse the parent hierarchy up to the document element
+	while(o.offsetParent) { // Parse the parent hierarchy up to the document element
 		oParent = o.offsetParent;  // Get parent object reference
 		oTop += oParent.offsetTop; // Add parent top position
 		o = oParent;
@@ -190,7 +190,7 @@ function getAbsoluteLeft(elmId) {
 	// Tested with relative and nested objects
     var o = elmId; // must be an HTML element
  	oLeft = o.offsetLeft;            // Get top position from the parent object
-	while(o.offsetParent!=null) { // Parse the parent hierarchy up to the document element
+	while(o.offsetParent) { // Parse the parent hierarchy up to the document element
 		oParent = o.offsetParent;  // Get parent object reference
 		oLeft += oParent.offsetLeft; // Add parent top position
 		o = oParent;
@@ -201,9 +201,9 @@ function getAbsoluteLeft(elmId) {
 
 // remove first and last ' or " string quotes
 function stripQuotes(qstr) {
-    if ((qstr.indexOf('"') == 0) || qstr.indexOf("'") == 0)
+    if ((qstr.indexOf('"') === 0) || qstr.indexOf("'") === 0) {
        qstr = qstr.slice(1, -1);
-    //LOG.debug('stripped text='+qstr)
+    }//LOG.debug('stripped text='+qstr)
     return qstr;
 }
 
@@ -271,10 +271,10 @@ Selenium.prototype.doJsxopen = function (url) {
         }
        } // isPageLoaded     
       return false;
-    }
+    };
     
     return Selenium.decorateFunctionWithTimeout(isJsxLoaded, this.defaultTimeout);
-}
+};
 
 //Copy input element value or text.
 Selenium.prototype.doCopy = function(locator) {
@@ -285,7 +285,7 @@ Selenium.prototype.doCopy = function(locator) {
  var element = this.browserbot.findElement(locator);
  var clip = element.value || getText(element);
  jsx3.html.copy(clip);
-}
+};
 
 Selenium.prototype.doPaste = function(locator, storeName) {
 /**
@@ -302,7 +302,7 @@ Selenium.prototype.doPaste = function(locator, storeName) {
   if (element && element.tagName == "input") {
     this.browserbot.replaceText(element, clip);
   }
-}
+};
 
 Selenium.prototype.doFireRightMouse = function(locator, eventName) {
 	/**
@@ -318,6 +318,7 @@ Selenium.prototype.doFireRightMouse = function(locator, eventName) {
 
     triggerRightMouseEvent(element, eventName, false, pos);
 };
+
 Selenium.prototype.doFireLeftMouse = function(locator, eventName) {
 	/**
    * Explicitly simulate an event from left mouse button, to trigger the corresponding &quot;on<em>event</em>&quot;
@@ -390,7 +391,7 @@ Selenium.prototype.doChooseJsxCancelConfirmPrompt = function(text) {
    // alert belong to system root, unless spawn from a dialog object, which is rare
    var oBlock = this.browserbot.findByJsxText(text);
 
-   if (oBlock == null) {
+   if (!oBlock) {
      Assert.fail("Alert caption text or message text '" + text + "' not found.");
      return;
    }
@@ -408,7 +409,7 @@ Selenium.prototype.doChooseJsxCancelConfirmPrompt = function(text) {
    } else {
      Assert.fail("Jsx alert dialog containing '" + text + "' not found.");
    }
-}
+};
 
 Selenium.prototype.doCheckJsx = function(locator) {
     /** Check a jsx3.gui.RadioButton or jsx3.gui.CheckBox control.
@@ -423,7 +424,7 @@ Selenium.prototype.doCheckJsx = function(locator) {
    } else
     Assert.fail("Cannot check checkbox, " + locator + " not found");
 
-}
+};
 
 Selenium.prototype.doUnCheckJsx = function(locator) {
     /** UnCheck a jsx3.gui.RadioButton or jsx3.gui.CheckBox control.
@@ -437,13 +438,13 @@ Selenium.prototype.doUnCheckJsx = function(locator) {
         _triggerMouseEvent(outerSpan, 'click', true);
    } else
     Assert.fail("Cannot uncheck checkbox, " + locator + " not found");
-}
+};
 
 Selenium.prototype.doPartialCheckJsx = function(locator) {
 /** Partial check jsx3.gui.CheckBox control [-] partial checked state
   * @param locator {String} CheckBox locator
   */
-    var objJSX = this.browserbot.findJsxObject(locator)
+    var objJSX = this.browserbot.findJsxObject(locator);
     if (objJSX && objJSX.setChecked) {
         LOG.debug('Apply partial check to ' + objJSX);
         objJSX.setChecked(jsx3.gui.CheckBox.PARTIAL);
@@ -463,7 +464,7 @@ Selenium.prototype.doToggleJsxCheckBox = function(locator, value) {
      _triggerMouseEvent(outerSpan, 'click', true);
    } else
     Assert.fail("Cannot toggle checkbox, " + locator + " not found");
-}
+};
 
 Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
 /** Depending on the Matrix column mask type, perform different action. For example, matrix text box column will have the value provided typed in.
@@ -473,7 +474,7 @@ Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
  */
    LOG.debug("Action matrix cell" + locator + " with " + value);
 
-   var strategy = locator.split(/=/); // should be a Matrix Cell locator
+   var strategy = locator.split(/\=/); // should be a Matrix Cell locator
    var params;
    if (strategy[1].search(/\./) != -1)
         params = strategy[1].split(/\./); // matrix.r.c
@@ -496,7 +497,7 @@ Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
    //_triggerMouseEvent(cell_item, 'click', false);
    var columns = jsxMatrix.getChildren();
    var session = null;
-   for (var i=0; (i < columns.length) && (session == null); i++){
+   for (var i=0; (i < columns.length) && (!session); i++){
         if (columns[i].getChildren().length > 0)
           session = columns[i].getChild(0).emGetSession();
    }
@@ -595,9 +596,9 @@ Selenium.prototype.doClickJsxDialogButton = function(dlgLocator, btnLocator) {
        break;
       }
    }
-   if (buttonElement != null ) {
-	_triggerEvent(buttonElement, 'focus', true);
-	_triggerMouseEvent(buttonElement, 'click', true);
+   if (buttonElement !== null ) {
+    _triggerEvent(buttonElement, 'focus', true);
+    _triggerMouseEvent(buttonElement, 'click', true);
    }
 };
 //TODO -- Deprecated clickDateIcon
@@ -868,7 +869,7 @@ Selenium.prototype.doClickJsxMatrixTreeToggle = function(locator) {
 
    var jsxMatrix = this.browserbot.findByJsxNameAndType(mtxJsxName, 'jsx3.gui.Matrix');
 
-   if (jsxMatrix != null) {
+   if (jsxMatrix !== null) {
     LOG.debug('matrix = ' + jsxMatrix);
     var elmToggle = getActionableObject(jsxMatrix, 'toggler', jsxid);
     //LOG.debug("Tree toggle element = " + getOuterHTML(elmToggle));
@@ -1000,8 +1001,9 @@ Selenium.prototype.doClickJsxToolbarButton = function(text) {
    LOG.debug("doJsxClickToolbarButton label/jsxname = " + text );
    text.trim();
    var buttonElement = this.browserbot.locateElementByJsxToolbarButtonName(text, null);
-   if (buttonElement == null)
+   if (!buttonElement) {
      buttonElement = this.browserbot.locateElementByJsxToolbarButtonText(text, null);
+   }
    _triggerMouseEvent(buttonElement, 'focus', true);
    _triggerMouseEvent(buttonElement, 'click', true);
 }
@@ -1767,7 +1769,7 @@ Selenium.prototype.doSelectJsxRecords = function(locator, xpath) {
   
 }
   
-// getJsxRecordIndex
+// TODO -- store matrix row (index|id) of matching condition (text|radio/checkbox=checked|button=pressed)
 Selenium.prototype.getMatrixRowIndex = function(locator) {
 /**
  * Return the row index of a Matrix
@@ -1783,7 +1785,7 @@ Selenium.prototype.getMatrixRowIndex = function(locator) {
 
 		var previousSibling;
 		var index = 0;
-		while ((previousSibling = jsxElement.previousSibling) != null) {
+		while ((previousSibling = jsxElement.previousSibling) !== null) {
 			if (!this._isCommentOrEmptyTextNode(previousSibling)) {
 				index++;
 			}
@@ -2079,7 +2081,7 @@ Selenium.prototype.assertJsxAlertOK= function(text) {
    // alert belong to system root, unless spawn from a dialog object, which is rare
    var oBlock = this.browserbot.findByJsxText(text);
 
-   if (oBlock == null) {
+   if (!oBlock) {
      Assert.fail("Alert caption text or message text '" + text + "' not found.");
      return;
    }
@@ -2118,7 +2120,7 @@ Selenium.prototype.assertJsxPromptOK= function(text, value) {
 
    // alert belong to system root, unless spawn from a dialog object, which is rare
    var oBlock = this.browserbot.findByJsxText(text);
-   if (oBlock == null) {
+   if (!oBlock) {
      Assert.fail("Prompt caption text or message text '" + text + "' not found.");
      return;
    }
@@ -2252,7 +2254,7 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
       appServer = eval("appWindow."+selenium.jsxNamespace); 
     if (appServer) {
       objAncestor = appServer.getJSXByName(ancestor);
-      jsxobj = (objAncestor != null) ? objAncestor.getDescendantOfName(jsxname) : null;	 
+      jsxobj = (objAncestor !== null) ? objAncestor.getDescendantOfName(jsxname) : null;	 
     } else {
 	    objAncestor = jsx3.GO(ancestor); // This could be undefined.
        jsxobj = (objAncestor) ? objAncestor.findDescendants(
@@ -2579,7 +2581,6 @@ PageBot.prototype.findByJsxSelector = function (s, inWindow) {
     } else {
         objRoot = jsx3.GO("JSXROOT");
     }
-    LOG.debug('objRoot : ' + objRoot);
     if (objRoot && objRoot.selectDescendants) {
       objJSX = objRoot.selectDescendants(s, true);
       if (objJSX) storedVars['LASTJSXNAME'] = objJSX.getName();
@@ -2611,8 +2612,8 @@ PageBot.prototype.findJsxObject = function(locator, inWindow) {
 }
 /** Locate element using JSX selector implementation.
  *  @param text {String} CSS3 like selector string. e.g. "#jsxname"
- *  @param inDocument (document) current document object
- *  @param inWindow (document) current document object
+ *  @param inDocument {Object} current document object
+ *  @param inWindow {Object} current document object
  *  @return HTML element
  */
 
@@ -2628,8 +2629,8 @@ PageBot.prototype.locateElementByJsxSelector.prefix = "jsxselector";
 PageBot.prototype.locateElementByJsxLookup = function(text, inDocument, inWindow) {
 /** Locate by actional element - This is a generic locator using jsxlookups implementation.
  *  @param text {String} gi=jsxname|jsxtext[,subtype[,id][,index][,row.column]]
- *  @param inDocument (document) current document object
- *  @param inWindow (document) current document object
+ *  @param inDocument {Object} current document object
+ *  @param inWindow {Object} current document object
  *  @return HTML element
  */
 	var name = text.trim();
@@ -2658,23 +2659,20 @@ PageBot.prototype.locateElementByJsxLookup.prefix = "gi";
 PageBot.prototype.locateElementByJsxName = function(jsxname, inDocument, inWindow) {
 /** Locate element by jsxname - This is a generic locator for all jsx components
  *  @param jsxname {String} jsxname of the object
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
- var oJSX =  this.findByJsxName(jsxname, inWindow);
-
-   return (oJSX) ? oJSX.getRendered() : null;
+ var oJSX =  this.findByJsxName(stripQuotes(jsxname), inWindow);
+ return (oJSX) ? getActionableObject(oJSX) : null;
 };
 
 PageBot.prototype.locateElementByJsxText = function(text, inDocument, inWindow) {
 /** Locate element by jsxtext - This is a generic locator for all jsx components
  *  @param text {String} jsxtext of the object
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
- text = stripQuotes(text);
- var oJSX =  this.findByJsxText(text, inWindow);
-
+ var oJSX =  this.findByJsxText(stripQuotes(text), inWindow);
  return (oJSX) ? oJSX.getRendered() : null;
 };
 
@@ -2683,24 +2681,22 @@ PageBot.prototype.locateElementByJsxAlertCaption = function(text, inDocument, in
  * LocateElementByJsxAlertCaption - locate alert box by caption text
  * Caption ext can be glob, regexp, or exact text pattern.
  *  @param text {String} Text pattern in alert caption
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    text = stripQuotes(text);
    LOG.debug("locateElementByJsxAlertCaption =" + text );
    // alert belong to system root, unless spawn from a dialog object, which is rare
    var oBlock = this.findByJsxTextAndType(text, "jsx3.gui.WindowBar", inWindow);
-
    LOG.debug("alert = " + oBlock.getParent()); // dialog should be immediate parent of caption bar
-
-   return (oBlock != null) ? oBlock.getParent().getRendered() : null;
+   return (oBlock) ? oBlock.getParent().getRendered() : null;
 };
 
 PageBot.prototype.locateElementByJsxAlertText = function(text, inDocument, inWindow) {
 /** Locate alert box by alert text in body
  * Alert text can be glob, regexp, or exact text pattern.
  *  @param text {String} Text pattern in Alert body
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element *
  *
 */
@@ -2746,16 +2742,16 @@ PageBot.prototype.locateElementByJsxButtonText = function(text, inDocument, inWi
 /**
  * Locate jsx3.gui.Button and ImageButton by label text by pattern (glob, regex, exact)
  *  @param text {String} Text pattern in Block
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    LOG.debug("locateElementByJsxButtonText text = " + text);
 
    text = stripQuotes(text);
    var oButton = this.findByJsxTextAndType(text, "jsx3.gui.Button", inWindow);
-   if (oButton == null) // must be tbb button?, image button have no text.
+   if (!oButton) // must be tbb button?, image button have no text.
       oButton = this.findByJsxTextAndType(text, "jsx3.gui.ToolbarButton", inWindow);
-   return (oButton != null) ? oButton.getRendered() : null;
+   return (oButton) ? oButton.getRendered() : null;
 };
 
 
@@ -2766,7 +2762,7 @@ PageBot.prototype.locateElementByJsxBlockName = function(name, inDocument, inWin
  * jsx3.gui.Block  (Same for Dialog) -- find by jsxname
  *
  *  @param name {String} Block jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  * note: can be located with locator = "//DIV[@label="+ name + "]";
  */
@@ -2775,14 +2771,14 @@ PageBot.prototype.locateElementByJsxBlockName = function(name, inDocument, inWin
 
    var oBlock = this.findByJsxNameAndType(name, "jsx3.gui.Block", inWindow) ;
 
-   return (oBlock != null) ? oBlock.getRendered() : null;
+   return (oBlock) ? oBlock.getRendered() : null;
 }
 
 PageBot.prototype.locateElementByJsxDateName = function(name, inDocument, inWindow) {
 /**	Locate jsx.gui.DatePicker by jsxname
  *	A form element that allows for the selection of an arbitrary date by showing a navigable calendar.
  *  @param name {String} DatePicker jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    name = stripQuotes(name);
@@ -2790,7 +2786,7 @@ PageBot.prototype.locateElementByJsxDateName = function(name, inDocument, inWind
 
    var oBlock = this.findByJsxNameAndType(name, "jsx3.gui.DatePicker", inWindow) ;
 
-   return (oBlock != null) ? oBlock.getRendered() : null;
+   return (oBlock) ? oBlock.getRendered() : null;
 };
 
 PageBot.prototype.locateElementByJsxDateIcon = function(name, inDocument, inWindow) {
@@ -2798,7 +2794,7 @@ PageBot.prototype.locateElementByJsxDateIcon = function(name, inDocument, inWind
  *	A form element that allows for the selection of an arbitrary date by showing a navigable calendar
  * when the icon element is clicked.
  *  @param name {String} DatePicker jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    name = stripQuotes(name);
@@ -2819,7 +2815,7 @@ PageBot.prototype.locateElementByJsxDateInput = function(name, inDocument, inWin
  *	A form element that allows for the selection of an arbitrary date by showing a navigable calendar
  * when the icon element is clicked.
  *  @param name {String} DatePicker jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     name = stripQuotes(name);
@@ -2839,7 +2835,7 @@ PageBot.prototype.locateElementByJsxDateDay = function(text, inDocument, inWindo
 /**	Locate day element of jsx.gui.DatePicker by 'jsxname,day'
  *	A form element that allows for the selection of an arbitrary date by showing a navigable calendar. <TD class=normal id=_jsx_testDatePicker_3_2006-0-1 >
  *  @param text {String} jsxname,day where 'today' is a special value to select current day date.
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    LOG.debug("locateElementByJsxDateDay text =" + text );
@@ -2873,7 +2869,7 @@ PageBot.prototype.locateElementByJsxDateDay = function(text, inDocument, inWindo
 PageBot.prototype.locateElementByJsxDateNextYear = function(jsxName, inDocument, inWindow) {
 /**	Locate next year icon element of jsx.gui.DatePicker by 'jsxname'
  *  @param jsxname {String} jsxname of the DatePicker
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    jsxName = stripQuotes(jsxName);
@@ -2887,7 +2883,7 @@ PageBot.prototype.locateElementByJsxDateNextYear = function(jsxName, inDocument,
 PageBot.prototype.locateElementByJsxDatePrevYear = function(jsxName, inDocument, inWindow) {
 /**	Locate previous year icon element of jsx.gui.DatePicker by 'jsxname'
  *  @param jsxname {String} jsxname of the DatePicker
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     jsxName = stripQuotes(jsxName);
@@ -2901,7 +2897,7 @@ PageBot.prototype.locateElementByJsxDatePrevYear = function(jsxName, inDocument,
 PageBot.prototype.locateElementByJsxDateNextMonth = function(jsxName, inDocument, inWindow) {
 /**	Locate next month icon element of jsx.gui.DatePicker by 'jsxname'
  *  @param jsxname {String} jsxname of the DatePicker
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
 
@@ -2916,7 +2912,7 @@ PageBot.prototype.locateElementByJsxDateNextMonth = function(jsxName, inDocument
 PageBot.prototype.locateElementByJsxDatePrevMonth = function(jsxName, inDocument, inWindow) {
 /**	Locate previous month icon element of jsx.gui.DatePicker by 'jsxname'
  *  @param jsxname {String} jsxname of the DatePicker
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     jsxName = stripQuotes(jsxName);
@@ -2932,7 +2928,7 @@ PageBot.prototype.locateElementByJsxDialogCaption = function(text, inDocument, i
  *	This class is used to generate a popup window/dialog box object.
  *   var locator = "//SPAN[text()="+ name + "]";
  *  @param text {String} Dialog caption text pattern
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
    text = stripQuotes(text);
@@ -2954,20 +2950,15 @@ PageBot.prototype.locateElementByJsxDialogName = function(name, inDocument, inWi
  *
  * note: can be located with locator = "//DIV[@label="+ name + "]";
  *  @param text {String} Dialog jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
 
    LOG.debug("locateElementByJsxDialogName jsxname =" + name );
-
    if ((name.indexOf('"') == 0) || name.indexOf("'") == 0)
      name = name.slice(1, -1);
-
-   var oBlock = this.findByJsxNameAndType(name, "jsx3.gui.Dialog", inWindow );
-
-   //LOG.debug("jsx3.gui.Dialog = " + oBlock);
-
-   return (oBlock != null) ? oBlock.getRendered() : null;
+   var dlg = this.findByJsxNameAndType(name, "jsx3.gui.Dialog", inWindow );
+   return (dlg) ? getActionableObject(dlg) : null;
 };
 
 PageBot.prototype.locateElementByJsxDialogBody = function(name, inDocument, inWindow) {
@@ -2977,7 +2968,7 @@ PageBot.prototype.locateElementByJsxDialogBody = function(name, inDocument, inWi
  *
  * note: can be located with locator = "//DIV[@label="+ name + "]";
  *  @param text {String} Dialog jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
 
@@ -2989,7 +2980,7 @@ PageBot.prototype.locateElementByJsxDialogBody = function(name, inDocument, inWi
 
    //LOG.debug("jsx3.gui.Dialog = " + oBlock);
 
-   return (oBlock != null) ? oBlock.getRendered().childNodes[1] : null;
+   return (oBlock) ? oBlock.getRendered().childNodes[1] : null;
 };
 
 PageBot.prototype.locateElementByJsxGridCell = function(text, inDocument, inWindow) {
@@ -2997,7 +2988,7 @@ PageBot.prototype.locateElementByJsxGridCell = function(text, inDocument, inWind
  *	The jsx3.gui.Grid class is a subclass of the jsx3.gui.List class.
  *
  *  @param text {String} gridJsxName.jsxid.column
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  *
 */
@@ -3028,7 +3019,7 @@ PageBot.prototype.locateElementByJsxListName = function(text, inDocument, inWind
  * SPAN[class=jsx30list label=jsxname]
  *
  *  @param text {String} list jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3047,7 +3038,7 @@ PageBot.prototype.locateElementByJsxListHeaderIndex = function(text, inDocument,
 /* Locate List column header
  *
  *  @param text {String} list jsxname,column index
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    text = stripQuotes(text);
@@ -3075,7 +3066,7 @@ PageBot.prototype.locateElementByJsxListRowId = function(text, inDocument, inWin
 /** Locate jsx3.gui.List row with list jsxname,record jsxid
  * List row event : focus, blur
  *  @param text {String} list jsxname,record jsxid
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    text = stripQuotes(text);
@@ -3094,7 +3085,7 @@ PageBot.prototype.locateElementByJsxListRowId = function(text, inDocument, inWin
 PageBot.prototype.locateElementByJsxListRowText = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.List Row by row text
  *  @param text {String} some text in the list row.
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
     text = stripQuotes(text);
@@ -3107,7 +3098,7 @@ PageBot.prototype.locateElementByJsxListRowText = function(text, inDocument, inW
     // get all jsxids in the list
     var row = null;
     var recids  =  jsxList.getXML().selectNodes('//record');
-    while (recids.hasNext() && (row == null)) {
+    while (recids.hasNext() && (!row)) {
         var listRecordJsxId = recids.next().getAttribute('jsxid');
         // find row element by listId+recordId
         var listRowId = jsxList.getId() + listRecordJsxId;
@@ -3136,7 +3127,7 @@ PageBot.prototype.locateElementByJsxMatrixName = function(text, inDocument, inWi
  * SPAN[class=jsx30list label=jsxname]
  *
  *  @param text {String} list jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3157,7 +3148,7 @@ PageBot.prototype.locateElementByJsxMatrixVScroller = function(text, inDocument,
  * SPAN[class=jsx30list label=jsxname]
  *
  *  @param text {String} list jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3178,7 +3169,7 @@ PageBot.prototype.locateElementByJsxMatrixHScroller = function(text, inDocument,
  * SPAN[class=jsx30list label=jsxname]
  *
  *  @param text {String} list jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3197,7 +3188,7 @@ PageBot.prototype.locateElementByJsxMatrixCellIndex = function(text, inDocument,
 /** Locate jsx3.gui.Matrix cell with  jsxname.rowIndex.columnIndex
  * List row event : focus, blur
  *  @param text {String} Matrix jsxname.rowindex.colindex
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    text = stripQuotes(text);
@@ -3232,7 +3223,7 @@ PageBot.prototype.locateElementByJsxMatrixCellId = function(text, inDocument, in
 /** Locate jsx3.gui.Matrix cell with Matrix jsxname.record_jsxid.column_index
  * List row event : focus, blur
  *  @param text {String} Matrix jsxname.record_jsxid.column_index
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3262,7 +3253,7 @@ PageBot.prototype.locateElementByJsxMatrixCellText = function(text, inDocument, 
 /** Locate jsx3.gui.Matrix cell  with jsxname,text_pattern
  *
  *  @param text {String} Matrix jsxname,text_pattern
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3297,7 +3288,7 @@ PageBot.prototype.locateElementByJsxMatrixHeaderIndex = function(text, inDocumen
 /* Locate Matrix column header by jsxname and column index
  *
  *  @param text {String} jsxname,column index
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
     text = stripQuotes(text);
@@ -3322,7 +3313,7 @@ PageBot.prototype.locateElementByJsxMatrixRowIndex = function(text, inDocument, 
 /** Locate jsx3.gui.Matrix row with list jsxname,record jsxid
  * List row event : focus, blur
  *  @param text {String} Matrix jsxname,record jsxid
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3347,7 +3338,7 @@ PageBot.prototype.locateElementByJsxMatrixRowId = function(text, inDocument, inW
 /** Locate jsx3.gui.Matrix row with list jsxname,record jsxid
  * List row event : focus, blur
  *  @param text {String} Matrix jsxname,record jsxid
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3369,7 +3360,7 @@ PageBot.prototype.locateElementByJsxMatrixRowText = function(text, inDocument, i
 /** Locate jsx3.gui.Matrix row with list jsxname,record jsxid
  * List row event : focus, blur
  *  @param text {String} Matrix jsxname,record jsxid
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    text = stripQuotes(text);
@@ -3400,7 +3391,7 @@ PageBot.prototype.locateElementByJsxMatrixTreeItemText = function(text, inDocume
 /** Locate jsx3.gui.Matrix TreeItem by text label.
  *  Tree item event : click
  *  @param text {String} Matrix jsxname,text
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element (the text label node, functional equivalent with icon node)
  */
    text = stripQuotes(text);
@@ -3437,7 +3428,7 @@ PageBot.prototype.locateElementByJsxMatrixTreeItemIndex = function(text, inDocum
 /** Locate jsx3.gui.Matrix TreeItem by text label.
  *  Tree item event : click
  *  @param text {String} Matrix jsxname,text
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element (the text label node, functional equivalent with icon node)
  */
    text = stripQuotes(text);
@@ -3464,7 +3455,7 @@ PageBot.prototype.locateElementByJsxMatrixTreeItemId = function(text, inDocument
 /** Locate jsx3.gui.Matrix TreeItem with  jsxname,record jsxid
  * List row event : focus, blur
  *  @param text {String} Matrix jsxname,record jsxid
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element (the icon node)
  */
     text = stripQuotes(text);
@@ -3489,7 +3480,7 @@ PageBot.prototype.locateElementByJsxMenuText = function(text, inDocument, inWind
 /**
  * Locate jsx3.gui.Menu element by menu label text (glob|regex pattern)
  * @param {String} text Label text of the menu
- * @param inDocument (document) current document object
+ * @param inDocument {Object} current document object
  * @return HTML element
  */
     text = stripQuotes(text);
@@ -3507,7 +3498,7 @@ PageBot.prototype.locateElementByJsxMenuName = function(jsxname, inDocument, inW
  * Locate Menu by jsxname. Note xpath locator=//span[@class='jsx30toolbarbutton' and @label='imagemenu']
  * Menu - this class is used to create menus, similar in functionality to system menus used for by the OS.
  *  @param jsxname {String} jsxname of Menu
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    jsxname = stripQuotes(jsxname);
@@ -3563,7 +3554,7 @@ PageBot.prototype.locateElementByJsxMenuItemText = function(text, inDocument, in
 PageBot.prototype.locateElementByJsxMenuItemIndex = function(nameId, inDocument, inWindow) {
 /** Locate Menu Item locator by Menu jsxname and Item index (1 based). This returns the outside DIV instead of TD element
  * @param text locator defined by jsxname,jsxid. For example "menu,1"
- * @param inDocument (document) current document object
+ * @param inDocument {Object} current document object
  * @return HTML element
  */
 
@@ -3587,7 +3578,7 @@ PageBot.prototype.locateElementByJsxMenuItemIndex = function(nameId, inDocument,
 PageBot.prototype.locateElementByJsxMenuItemId = function(nameId, inDocument, inWindow) {
 /** Locate Menu Item locator by Menu jsxname and Item jsxid. This returns the outside DIV instead of TD element
  * @param text locator defined by jsxname,jsxid. For example "menu,1"
- * @param inDocument (document) current document object
+ * @param inDocument {Object} current document object
  * @return HTML element
  */
 
@@ -3615,7 +3606,7 @@ PageBot.prototype.locateElementByJsxMenuItemId = function(nameId, inDocument, in
 PageBot.prototype.locateElementByJsxRadioName = function(text, inDocument, inWindow) {
 /** Locate RadioButton by the jsxname of Radio input
  *  @param text {String} Radio jsxname
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
 
@@ -3633,7 +3624,7 @@ PageBot.prototype.locateElementByJsxRadioName = function(text, inDocument, inWin
 PageBot.prototype.locateElementByJsxRadioText = function(text, inDocument, inWindow) {
 /** Locate RadioButton by the text label of the radio
  *  @param text {String} Radio jsxtext
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    LOG.debug("locateElementByJsxRadioText text = " + text);
@@ -3650,7 +3641,7 @@ PageBot.prototype.locateElementByJsxRadioText = function(text, inDocument, inWin
 PageBot.prototype.locateElementByJsxRadioValue = function(text, inDocument, inWindow) {
 /** Locate RadioButton by the value attribute of Radio input
  *  @param text {String} Radio jsxvalue
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    LOG.debug("locateElementByJsxRadioValue value = " + text);
@@ -3667,7 +3658,7 @@ PageBot.prototype.locateElementByJsxRadioValue = function(text, inDocument, inWi
 /* Locate Select element by jsxname
  *	This class is used to create a DHTML version of the standard windows select box.
  *  @param text {String} jsxname of Select
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
 PageBot.prototype.locateElementByJsxSelectName = function(text, inDocument, inWindow) {
@@ -3686,7 +3677,7 @@ PageBot.prototype.locateElementByJsxSelectName = function(text, inDocument, inWi
 /* Locate Select element by jsxname
  *	This class is used to create a DHTML version of the standard windows select box.
  *  @param text {String} jsxname of Select
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
 PageBot.prototype.locateElementByJsxComboInputName = function(text, inDocument, inWindow) {
@@ -3709,7 +3700,7 @@ PageBot.prototype.locateElementByJsxComboInputName = function(text, inDocument, 
 PageBot.prototype.locateElementByJsxSelectItemId = function(nameId, inDocument, inWindow) {
 /* Locate Select Item by select jsxname and select record jsxid
  *  @param nameId {String} jsxname,jsxid of select item
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    nameId = stripQuotes(nameId);
@@ -3736,7 +3727,7 @@ PageBot.prototype.locateElementByJsxSelectItemId = function(nameId, inDocument, 
 PageBot.prototype.locateElementByJsxSelectItemIndex = function(nameId, inDocument, inWindow) {
     /* Locate Select Item by select jsxname and select item index (1 based)
      *  @param nameId {String} jsxname,index of Select item
-     *  @param inDocument (document) current document object
+     *  @param inDocument {Object} current document object
      *  @return HTML element
      */
    nameId = stripQuotes(nameId);
@@ -3758,7 +3749,7 @@ PageBot.prototype.locateElementByJsxSelectItemIndex = function(nameId, inDocumen
 PageBot.prototype.locateElementByJsxSelectItemText = function(jsxname, inDocument, inWindow) {
 /* Locate Select Item by select jsxname and select item text
  *  @param jsxname {String} jsxname,text of Select item
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
 
@@ -3777,7 +3768,7 @@ PageBot.prototype.locateElementByJsxSelectItemText = function(jsxname, inDocumen
    var item = null;
 
     var recids  =  jsxSelect.getXML().selectNodes('//record');
-    while (recids.hasNext() && (item == null) ) {
+    while (recids.hasNext() && !item ) {
       var itemJsxId = recids.next().getAttribute('jsxid');
       // find row element by listId+recordId
       var itemId = jsxSelect.getId() +  itemJsxId;
@@ -3802,7 +3793,7 @@ PageBot.prototype.locateElementByJsxSliderName = function(text, inDocument, inWi
  * Slider
  *	GUI control provides a draggable slider.
  *  @param text {String} jsxname of Slider
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3819,7 +3810,7 @@ PageBot.prototype.locateElementByJsxSliderHandle = function(text, inDocument, in
 /**
  * Locate the handle of slider, a GUI control provides a draggable slider.
  *  @param text {String} jsxname of Slider
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3837,7 +3828,7 @@ PageBot.prototype.locateElementByJsxSplitterName = function(text, inDocument, in
  *	This class manages layouts by providing a container that will paint its first two child GUI objects
  *	 separated by a 'splitter' (either vertical or horizontal).
  *  @param text {String} jsxname of Splitter
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */   if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
       text = text.slice(1, -1);
@@ -3855,7 +3846,7 @@ PageBot.prototype.locateElementByJsxSplitterName = function(text, inDocument, in
 PageBot.prototype.locateElementByJsxStackText = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Stack by stack text label text pattern(glob | regex | exact)
  *  @param text {String} text label on the Stack
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3871,7 +3862,7 @@ PageBot.prototype.locateElementByJsxStackName = function(text, inDocument, inWin
  * --TODO, the actionable tag is not on top level div/span,
  *   it's actually under the first cell of child table element???
  *  @param text {String} jsxname of Stack
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3889,7 +3880,7 @@ PageBot.prototype.locateElementByJsxTabName = function(text, inDocument, inWindo
 /** Locate Tab by jsxname
  *	jsx3.gui.Tab instances are always bound to a parent "jsx3.gui.TabbedPane" instance that contains them.
  *  @param text {String} jsxname of Tab
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3907,7 +3898,7 @@ PageBot.prototype.locateElementByJsxTabText = function(text, inDocument, inWindo
 /** Locate Tab by tab text label
  *	jsx3.gui.Tab instances are always bound to a parent "jsx3.gui.TabbedPane" instance that contains them.
  *  @param text {String} jsxname of Tab
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
 
@@ -3926,7 +3917,7 @@ PageBot.prototype.locateElementByJsxTreeName = function(text, inDocument, inWind
 /** Locate Tree, which is a DHTML-based navigational trees (similar to the tree structure used by Windows Explorer with folders and files).
  * jsx3.gui.Tree by jsxname
  *  @param text {String} jsxname of Tree
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3945,7 +3936,7 @@ PageBot.prototype.locateElementByJsxTreeName = function(text, inDocument, inWind
 PageBot.prototype.locateElementByJsxTreeItemText = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Tree item by Record jsxid and Tree jsxname
  *  @param text {String} jsxname,jsxid of Tree item
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -3963,7 +3954,7 @@ PageBot.prototype.locateElementByJsxTreeItemText = function(text, inDocument, in
 
    var jsxItems = getActionableObject(jsxTree, 'items'); // get all tree items
    var jsxElement = null;
-   for (var i = 0; (i < jsxItems.length) && (jsxElement == null); i++) {
+   for (var i = 0; (i < jsxItems.length) && !jsxElement; i++) {
        var itemLabel = getText(jsxItems[i].childNodes[2]);
        //LOG.debug("expected = "+ jsxText + " label=" + itemLabel);
        if (PatternMatcher.matches(jsxText, itemLabel))
@@ -3976,7 +3967,7 @@ PageBot.prototype.locateElementByJsxTreeItemText = function(text, inDocument, in
 PageBot.prototype.locateElementByJsxTreeItemIndex = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Tree item by Tree jsxname and index
  *  @param text {String} jsxname,index of Tree item
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    var params = text.split(",");
@@ -3996,7 +3987,7 @@ PageBot.prototype.locateElementByJsxTreeItemIndex = function(text, inDocument, i
 PageBot.prototype.locateElementByJsxTreeItemId = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Tree item by Record jsxid and Tree jsxname
  *  @param text {String} jsxname,jsxid of Tree item
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    if ((text.indexOf('"') == 0) || text.indexOf("'") == 0)
@@ -4026,7 +4017,7 @@ PageBot.prototype.locateElementByJsxTextboxName = function(text, inDocument, inW
 /** Locate jsx3.gui.TextBox by jsxname (exact).
  *	This jsx3.gui.TextBox class allows integration of a standard HTML text input into the JSX DOM.
  *  @param text {String} jsxname of textbox
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML input element
 */
    text = stripQuotes(text);
@@ -4100,7 +4091,7 @@ PageBot.prototype.locateElementByJsxToolbarButtonName = function(text, inDocumen
  *	This class provides a standard interface for creating toolbar buttons.
  *  jsx3.gui.ToolbarButton (also used on dialog box min/max/close buttons )
  *  @param text {String} jsxname of ToolbarButton
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
  */
    //LOG.debug("locateElementByJsxClickToolbarButton jsxname=" + text );
@@ -4118,7 +4109,7 @@ PageBot.prototype.locateElementByJsxToolbarButtonText = function(text, inDocumen
 /**
  * toolbarButton by button text (pattern: glob, regexp)
  *  @param text {String} jsxname of ToolbarButton
- *  @param inDocument (document) current document object
+ *  @param inDocument {Object} current document object
  *  @return HTML element
 */
 
@@ -4569,10 +4560,6 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
    "jsxexecute", "jsxaftermove", "jsxafterresize", "jsxselect", 
    "jsxafterreorder", "jsxaftersort", "jsxaftercommit", "jsxshow"];
   
-/* TODO -- implement these methods
-  "jsxwait_sleep"
-  "jsxwait_sleeplong"
-*/
   // Allow registration of new JSX commands
   CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
     for (var i = 0; i < recorder.actions.length; i++) {
@@ -4587,11 +4574,11 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
     return function(target, value) {
 		  try {
-        if (value && value != "")
-        value =  eval("var tmp = " + value + "; tmp");
+        if (value && value != "") value =  eval("var tmp = " + value + "; tmp");       
 		  } catch (e) {
         Assert.fail("Bad action value: " + value);
 		  }
+      value = "exact:" + value;
 		  LOG.debug("assert jsx predicate, " + value);
       var result = predicateBlock(target, value);
       if (!result.isTrue) {
@@ -4627,24 +4614,25 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   // Register jsxassert_ and jsxwait_ commands
   CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
   	for (var functionName in recorder._VERBS) {
-      var match = /^(jsxget|jsxis)_(.+)$/.exec(functionName);
+      var match = /^(jsxget|jsxdo)_(.+)$/.exec(functionName);
       if (match) {
-		  var accessMethod = recorder._VERBS[functionName];
-		  var accessBlock = fnBind(accessMethod, seleniumApi);
-		  //console.debug("register " + functionName);
-		  var baseName = match[2];
-		  var isBoolean = (match[1] == "jsxis");
-		  var predicateBlock = this._predicateForAccessor(accessBlock, true, isBoolean); //requiresTarget, isBoolean
+        var accessMethod = recorder._VERBS[functionName];
+        var accessBlock = fnBind(accessMethod, seleniumApi);
+        //console.debug("register " + functionName);
+        var baseName = match[2];
+        var isBoolean = (match[1] == "jsxis");
 
-		  //var predicateBlock = this._predicateForSingleArgAccessor(accessBlock);
-		  var assertBlock = this._jsxAssertionFromPredicate(predicateBlock);
-		  this.registerAssert("jsxassert_" + baseName, assertBlock, true);
+        this.registerAccessor(functionName, accessBlock);
+        var predicateBlock = this._predicateForAccessor(accessBlock, true, isBoolean);
 
-		  // make into wait commands     
-		  var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
-		  var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
-		  this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
-	  }
+        var assertBlock = this._jsxAssertionFromPredicate(predicateBlock);
+        this.registerAssert("jsxassert_" + baseName, assertBlock, true);
+
+        // make into wait commands     
+        var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
+        var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
+        this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
+      }
     }
   }
   // Override the default registration method
@@ -4824,7 +4812,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     },
     "jsx3.gui.ToolbarButton": {
       jsxchange: function(e) {
-        this.setState(this.getState() == 0 ? 1 : 0);
+        this.setState(this.getState() === 0 ? 1 : 0);
         this.doEvent(e.subject, e);
       }
     },
@@ -4859,7 +4847,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
 
     /** @private @jsxobf-clobber */
   recorder._VERBS = {
-    jsxis_exists: function(locator) {
+    jsxdo_exists: function(locator) {
       var o = selenium.browserbot.findJsxObject(locator);
       if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
         return true;
@@ -4868,35 +4856,35 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
 	},
     jsxget_value: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);
-      return (target) ? target.getValue() : null;
+      return (target) ? target.getValue().toString() : Assert.fail(locator + " not found");
     },
     jsxget_checked: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);
-      return (target) ? target.getChecked() : null;
+      return (target) ? target.getChecked().toString() : Assert.fail(locator + " not found");
     },
     jsxget_selected: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);
-      return (target) ? target.getSelected() : null;
+      return (target) ? target.getSelected().toString() : Assert.fail(locator + " not found");
     },
     jsxget_state: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);
-      return (target) ? target.getState() : null;
+      return (target) ? target.getState().toString() : Assert.fail(locator + " not found");
     },
     jsxget_front: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);
-      return (target) ? target.isFront() : null; // Visibility not equal
+      return (target & target.isFront()) ? "true" : "false"; // Visibility not equal
     },
     jsxget_eval: function(locator, value) {
-	  try {
-		  var target = selenium.browserbot.findJsxObject(locator);
-		  var server  = target.getServer();
-		  var rv = jsx3.eval(value, {server:s});
-		  if (!rv)
-			throw new Error("Eval returned false: " + rv);
-		  return rv;
-	  } catch (e) {
-		Assert.fail("Eval failed : " + e.message); 
-	  }
+      try {
+        var target = selenium.browserbot.findJsxObject(locator);
+        var server  = target.getServer();
+        var rv = jsx3.eval(value, {server:s});
+        if (!rv)
+        throw new Error("Eval returned false: " + rv);
+        return rv;
+      } catch (e) {
+        Assert.fail("Eval failed : " + e.message); 
+      }
     }
 };
     
