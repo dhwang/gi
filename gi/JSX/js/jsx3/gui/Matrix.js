@@ -6817,7 +6817,23 @@ jsx3.Class.defineInterface("jsx3.gui.Matrix.EditMask", null, function(EditMask, 
   EditMask_prototype._emBeginEdit = function(strValue, objTdDim, objPaneDim, objMatrix, objColumn, strRecordId, objTD) {
     /* @jsxobf-clobber */
     this._jsxmaskeditsession = {matrix:objMatrix, column:objColumn, recordId:strRecordId, td:objTD, value:strValue};
-    return this.emBeginEdit(strValue, objTdDim, objPaneDim, objMatrix, objColumn, strRecordId, objTD) !== false;
+    var ok = this.emBeginEdit(strValue, objTdDim, objPaneDim, objMatrix, objColumn, strRecordId, objTD) !== false;
+
+    // A new event that allows the test recorder to re-populate emGetSession(). When emGetSession() returns a defined
+    // value, custom events on the edit mask have a better chance of working correctly.
+    if (ok)
+      this.doEvent("jsxbeginmask", {objMATRIX:objMatrix, objCOLUMN:objColumn, strRECORDID:strRecordId,
+          strVALUE:strValue, _gipp:1});
+
+    return ok;
+  };
+
+  /**
+   * Used by GIPP and GITAK to replay the <code>jsxbeginmask</code> event.
+   * @package
+   */
+  EditMask_prototype.replayMask = function(evt) {
+    this._jsxmaskeditsession = {matrix:evt.objMATRIX, column:evt.objCOLUMN, recordId:evt.strRECORDID, td:null, value:evt.strVALUE};
   };
 
   /**

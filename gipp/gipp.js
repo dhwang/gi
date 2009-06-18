@@ -2139,6 +2139,10 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
             objMenu = rv.objMENU;
           objMenu.showContextMenu(e.objEVENT, this);
         }
+      },
+      jsxbeginmask: function(e) {
+        this.replayMask(e);
+        this.doEvent(e.subject, e);
       }
     },
     "jsx3.gui.CheckBox": {

@@ -4654,6 +4654,10 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
             objMenu = rv.objMENU;
           objMenu.showContextMenu(e.objEVENT, this);
         }
+      },
+      jsxbeginmask: function(e) {
+        this.replayMask(e);
+        this.doEvent(e.subject, e);
       }
     },
     "jsx3.gui.CheckBox": {
