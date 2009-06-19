@@ -8,8 +8,11 @@ objJSX.initializeTitle = function(buddy) {
   windowBar.setText(buddy.name||buddy.jid, true);
   this.contactName = buddy.name||buddy.jid;
 
-  var xml = (new jsx3.xml.CDF.Document()).loadXML('<data jsxid="jsxroot"></data>');
-  jsxconversationarea.setSourceXML(xml);
+  jsxconversationarea.removeChildren();
+
+  var df = jsx3.util.DateFormat;
+
+  this.date_format = df.getDateTimeInstance(df.SHORT, df.SHORT);
 };
 objJSX.onNewMessage = function(instance, msg) {
   if (!this.chatInstance || this.chatInstance.chatid != instance.chatid) {
@@ -20,14 +23,20 @@ objJSX.onNewMessage = function(instance, msg) {
   }
 };
 objJSX.displayMessage = function(msg) {
-  try {
-    jsxconversationarea.insertRecord({
-      jsxid: (new Date()).valueOf(),
-      jsxcontactname: msg.from ? this.contactName : 'me',
-      jsxtext: msg.body,
-      jsxdate: new Date()
-    }, null, true);
-  } catch(e) {}
+  var cameIn = new Date();
+
+  var newMessage = new jsx3.gui.Block('jsxmessage-'+(msg.from||this.contactName)+String(cameIn.valueOf()),
+                                      null, null, "100%");
+
+  var who = new jsx3.gui.Block(null, null, null, "25%", "100%", msg.from ? this.contactName : 'me');
+  who.setFontWeight(jsx3.gui.Block.FONTBOLD);
+
+  var what = new jsx3.gui.Block(null, null, null, "50%", "100%", msg.body);
+  var when = new jsx3.gui.Block(null, null, null, "25%", "100%", this.date_format.format(cameIn));
+
+  newMessage.setChild(who).setChild(what).setChild(when);
+
+  jsxconversationarea.setChild(newMessage).repaint();
 };
 objJSX.sendMessage = function(evt) {
   if (evt) {
@@ -48,7 +57,7 @@ objJSX.sendMessage = function(evt) {
 };
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="431" jsxheight="318" jsxzindex="5000" jsxwindowstate="1" jsxleft="70" jsxtop="31"/>
+    <variants jsxwidth="431" jsxheight="318" jsxzindex="5009" jsxwindowstate="1" jsxleft="70" jsxtop="26"/>
     <strings jsxname="jsx_chat_dialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">
@@ -74,62 +83,44 @@ objJSX.sendMessage = function(evt) {
       </object>
     </object>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="1" jsxloadtype="1"/>
+      <variants jsxoverflow="3" jsxloadtype="1"/>
       <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-      <object type="jsx3.gui.LayoutGrid">
-        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-        <strings jsxname="layoutRows" jsxrows="*,100" jsxwidth="100%" jsxheight="100%" jsxbgcolor=""/>
+      <object type="jsx3.gui.Splitter">
+        <variants jsxorientation="1" jsxleft="0" jsxtop="0"/>
+        <strings jsxname="splitterH" jsxsubcontainer1pct="56.02836879432624%"/>
         <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2"/>
-          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
-          <dynamics jsxborder="@Outset"/>
-          <object type="jsx3.gui.Matrix">
-            <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxscalewidth="1" jsxjsxxmlasync="1" jsxsort="0" jsxresize="0" jsxreorder="0" jsxautorow="0" jsxdrag="0" jsxdrop="0" jsxheaderheight="0"/>
-            <strings jsxname="jsxconversationarea" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxrenderingmodel="shallow"/>
-            <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"/>
-            <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"/>
-            <object type="jsx3.gui.Matrix.Column">
-              <variants jsxwidth="100" jsxsort="0" jsxresize="0"/>
-              <strings jsxname="textColumn" jsxtext="Text" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxcontactname"/>
-              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
-            </object>
-            <object type="jsx3.gui.Matrix.Column">
-              <variants/>
-              <strings jsxname="htmlColumn" jsxwidth="*" jsxtext="HTML" jsxvaluetemplate="@unescape" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtext" jsxformathandler="@unescape"/>
-              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
-            </object>
-            <object type="jsx3.gui.Matrix.Column">
-              <variants/>
-              <strings jsxname="dateColumn" jsxwidth="100" jsxtext="Date" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxdate" jsxformathandler="@datetime,short" jsxdatatype="number"/>
-              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
-            </object>
+          <variants jsxoverflow="1"/>
+          <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@Inset" jsxpadding="@8Pixel"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1"/>
+            <strings jsxname="jsxconversationarea" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+            <dynamics jsxbgcolor="@Solid Light"/>
           </object>
         </object>
         <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1"/>
-          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
-          <dynamics jsxborder="@Outset"/>
+          <variants jsxoverflow="3"/>
+          <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@Inset" jsxpadding="@8Pixel"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-            <strings jsxname="layoutCols" jsxcols="*,100" jsxwidth="100%" jsxheight="100%"/>
+            <strings jsxname="layoutRows" jsxrows="*,18" jsxwidth="100%" jsxheight="100%"/>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="2"/>
-              <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
-              <dynamics jsxborder="@Outset"/>
+              <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="0 0 8 0"/>
               <object type="jsx3.gui.TextBox">
                 <variants jsxtype="1" jsxenabled="1"/>
                 <strings jsxwidth="100%" jsxheight="100%" jsxname="jsxchatarea" jsxmargin="0 0 0 0" jsxvalue=""/>
-                <events jsxkeypress="jsx_chat_dialog.sendMessage(objEVENT);" />
+                <events jsxkeypress="jsx_chat_dialog.sendMessage(objEVENT);"/>
               </object>
             </object>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="1"/>
-              <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
-              <dynamics jsxborder="@Outset"/>
+              <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxfontweight="bold"/>
               <object type="jsx3.gui.Button">
-                <variants jsxindex="0"/>
-                <strings jsxheight="100%" jsxname="jsxsend" jsxtext="Send" jsxmargin="auto" jsxwidth="100%" jsxtextalign="center"/>
-                <events jsxexecute="jsx_chat_dialog.sendMessage();" />
+                <variants jsxindex="0" jsxheight="18"/>
+                <strings jsxname="jsxsend" jsxtext="Send" jsxtextalign="left"/>
+                <events jsxexecute="jsx_chat_dialog.sendMessage();"/>
               </object>
             </object>
           </object>
