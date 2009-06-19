@@ -151,14 +151,14 @@ jsx3.Class.defineClass("jsx3.ide.mapper.ServiceTest", jsx3.gui.Block, null, func
 
     var objXML = objMap.getRulesXML();
     if (objXML) {
-      var objRoot = objXML.selectSingleNode("//record[@type='S']");
+      var objRoot = objXML.selectSingleNode("//record[@type='S'] | /data/record/[@type='T']");
       if (objRoot == null) objRoot = objXML.getRootNode();
       if (objRoot == null) {
         jsx3.util.Logger("MapTester","No valid CXF source document (an empty rules tree).",9);
       } else {
         objSel.clearXmlData(false);
         objSel.setValue();
-        var objNodes = objXML.selectNodes("//record[@type='S']/record");
+        var objNodes = objXML.selectNodes("//record[@type='S']/record | /data/record[@type='T']");
         for (var i=objNodes.iterator(); i.hasNext(); ) {
           var objNode = i.next();
           objSel.insertRecord({jsxid:objNode.getAttribute("opname"),jsxtext:objNode.getAttribute("jsxtext")},null,false);
