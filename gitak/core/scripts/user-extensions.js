@@ -4756,7 +4756,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     "jsx3.gui.RadioButton": {
       jsxselect: function(e) {
         if (this.doEvent(e.subject, e) !== false)
-          this.setSelected(RadioButton.SELECTED);
+          this.setSelected(1); // jsx3.gui.RadioButton.SELECTED
       }
     },
     "jsx3.gui.Select": {

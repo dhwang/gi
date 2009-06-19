@@ -55,7 +55,7 @@ objJSX.doBrowseGitak = function() {
 };
 
 objJSX._onBrowseChoose = function(objFile) {
-  if (objFile.resolve("gipp.html").isFile()) {
+  if (this.getPlugIn().isValidGIPP(objFile)) {
     path.setValue(objFile.toURI());
     this.makeDirty();
   } else {
@@ -64,8 +64,12 @@ objJSX._onBrowseChoose = function(objFile) {
 };
 
 objJSX._onBrowseChooseGitak = function(objFile) {
-  path.setValue(objFile.toURI());
-  this.makeDirty();
+  if (this.getPlugIn().isValidGITAK(objFile)) {
+    pathGitak.setValue(objFile.toURI());
+    this.makeDirty();
+  } else {
+    this.getAncestorOfType(jsx3.gui.Dialog).alert(null, "Invalid GITAK directory: " + objFile);
+  }
 };
 
 objJSX.makeDirty = function(objInput) {
