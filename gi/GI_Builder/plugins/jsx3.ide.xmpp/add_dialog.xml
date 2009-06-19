@@ -9,7 +9,7 @@ objJSX.getJID = function(){
 }
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="399" jsxheight="133" jsxzindex="5005" jsxwindowstate="1" jsxresize="0" jsxmodal="1" jsxleft="97" jsxtop="80"/>
+    <variants jsxwidth="399" jsxheight="133" jsxzindex="5015" jsxwindowstate="1" jsxresize="0" jsxmodal="1" jsxleft="66" jsxtop="103"/>
     <strings jsxname="jsx_xmpp_add_dialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">
@@ -23,9 +23,9 @@ objJSX.getJID = function(){
       </object>
     </object>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="1" jsxloadtype="1"/>
-      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="" jsxmargin=""/>
-      <dynamics jsxbgcolor="@Solid Light"/>
+      <variants jsxoverflow="2" jsxloadtype="1"/>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxmargin=""/>
+      <dynamics jsxpadding="@8Pixel"/>
       <object type="jsx3.gui.LayoutGrid">
         <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
         <strings jsxname="layoutRows" jsxrows="30,30,30" jsxwidth="100%" jsxheight="100%"/>
@@ -35,7 +35,7 @@ objJSX.getJID = function(){
           <dynamics jsxborder="@No jsxborder"/>
           <object type="jsx3.gui.Block">
             <variants jsxrelativeposition="1" jsxoverflow="3"/>
-            <strings jsxname="label" jsxtext="Enter Jabber ID" jsxfontweight="bold" jsxpadding="10 0 0 10"/>
+            <strings jsxname="label" jsxtext="Enter Jabber ID" jsxfontweight="bold" jsxpadding=""/>
           </object>
         </object>
         <object type="jsx3.gui.Block">
@@ -44,22 +44,22 @@ objJSX.getJID = function(){
           <dynamics jsxborder="@No jsxborder"/>
           <object type="jsx3.gui.TextBox">
             <variants jsxheight="18"/>
-            <strings jsxname="textbox" jsxmargin="0 4 0 10" jsxwidth="90%" jsxvalue="" jsxpadding=""/>
+            <strings jsxname="textbox" jsxwidth="100%"/>
           </object>
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="1"/>
-          <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="0 0 0 0"/>
+          <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="0 0 0 0" jsxtextalign="right"/>
           <object type="jsx3.gui.Button">
-            <variants jsxindex="0" jsxheight="18" jsxwidth="50"/>
-            <strings jsxname="button" jsxtext="Add" jsxmargin="10 4 0 10"/>
-            <dynamics jsxbgcolor="@Solid Medium"/>
-            <events jsxexecute="jsx_xmpp_add_dialog.getPlugIn()._doAddContact(objEVENT, jsx_xmpp_add_dialog);"/>
+            <variants jsxindex="0" jsxheight="18"/>
+            <strings jsxname="button" jsxtext="Cancel" jsxmargin="0 4 0 0"/>
+            <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"/>
           </object>
           <object type="jsx3.gui.Button">
-            <variants jsxindex="0" jsxheight="18" jsxwidth="50"/>
-            <strings jsxname="button" jsxtext="Cancel" jsxmargin="10 4 0 0"/>
-            <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"/>
+            <variants jsxindex="0" jsxheight="18"/>
+            <strings jsxname="button" jsxtext="Add" jsxmargin="0 4 0 0" jsxfontweight="bold"/>
+            <dynamics jsxbgcolor="@Solid Medium"/>
+            <events jsxexecute="jsx_xmpp_add_dialog.getPlugIn()._doAddContact(objEVENT, jsx_xmpp_add_dialog);"/>
           </object>
         </object>
       </object>

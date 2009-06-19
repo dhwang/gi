@@ -150,6 +150,9 @@ jsx3.$O(this).extend({
     dojo.connect(this.session, 'onRosterUpdated', this, 'onRosterUpdated');
     dojo.connect(this.session, 'onPresenceUpdate', this, 'onPresenceUpdate');
     dojo.connect(this.session, 'onRegisterChatInstance', this, 'onRegisterChatInstance');
+    dojo.connect(this.session, 'onLoginFailure', this, function(){
+      this.setUIState(0);
+    });
 
     // automatically approve all subscription requests
     dojo.connect(this.session, 'onSubscriptionRequest', this, function(from){
