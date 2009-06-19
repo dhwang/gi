@@ -3178,11 +3178,17 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
           if (bAllowAdopt !== false && bContinue !== false) {
             //get properties from the drop icon that designate if this is an insert or append
-
             var strIds = jsx3.EventHelp.getDragIds();
+            var objTheTarget = objContext ? this.getRecordNode(objContext.row.getAttribute("jsxid")) : null;
             for (var i=0;i<strIds.length;i++) {
               //only allow drop not dropping in front of self or on top of self or on a descendant of self
-              if (!(this == objSource && objContext && this._isDescendantOrSelf(this.getRecordNode(objContext.row.getAttribute("jsxid")),this.getRecordNode(strIds[i])))) {
+              var objTheMoved = this.getRecordNode(strIds[i]);
+              if(objTheTarget && this.getRecordNode(strIds[i]).equals(objTheTarget) && bInsertBefore && objTheTarget.getNextSibling()) {
+                //shift the target to the next sibling if the record being dropped is the same as the target
+                objTheTarget = objTheTarget.getNextSibling();
+                targetRecordId = objTheTarget.getAttribute("jsxid");
+              }
+              if (!(this == objSource && objContext && this._isDescendantOrSelf(objTheTarget,objTheMoved))) {
                 //remove the selection flag from the involved record
                 objSource.deleteRecordProperty(strIds[i], "jsxselected", false);
 
