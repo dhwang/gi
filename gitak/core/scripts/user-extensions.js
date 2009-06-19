@@ -4516,6 +4516,17 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
       } catch (e) {
         throw new Error("Bad action value: " + value);
       }
+      
+      for (var f in value) {
+        if (typeof(value[f]) == "string") {
+          if (match = value[f].match(/^JSX\((.*)\)$/))
+            value[f] = this.browserbot.findJsxObject(match[1]);
+          else if (match = value[f].match(/^XML\((.*)\)$/))
+            value[f] = (new jsx3.xml.Document()).loadXML(match[1]);
+        }
+      }
+
+
       var action = currentTest.currentRow.getCommand().command;
       this._doRecorderAction(action, objJSX, value);
     }
@@ -4554,12 +4565,7 @@ Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
       return Selenium.decorateFunctionWithTimeout(terminationCondition, timeout);
   }
 }
-
-var recorder = classCreate();
-recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
-   "jsxexecute", "jsxaftermove", "jsxafterresize", "jsxselect", 
-   "jsxafterreorder", "jsxaftersort", "jsxaftercommit", "jsxshow"];
-  
+ 
   // Allow registration of new JSX commands
   CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
     for (var i = 0; i < recorder.actions.length; i++) {
@@ -4644,7 +4650,12 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
         this._registerJsxAssert(seleniumApi);
   }
 
-  recorder._REPLAY = {
+var recorder = classCreate();
+recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
+   "jsxexecute", "jsxaftermove", "jsxafterresize", "jsxselect", 
+   "jsxafterreorder", "jsxaftersort", "jsxbeginmask", "jsxaftercommit", "jsxshow"];
+
+   recorder._REPLAY = {
     "jsx3.gui.Block": {
       jsxmenu: function(e) {
         var rv = this.doEvent(e.subject, e);
