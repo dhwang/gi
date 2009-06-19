@@ -6186,7 +6186,6 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var intCellIndex = objColumn.getDisplayIndex();
     var objCell = this._getCellByIndex(strRecordId,intCellIndex);
     if (objCell) {
-      var objDiv = objCell.childNodes[0];
       if(this.getRenderingModel() == Matrix.REND_HIER) {
         var objMyGUI = this._getStructureById(strRecordId);
         var objContent = objMyGUI.parentNode;
@@ -6208,10 +6207,9 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
             objTR = objTR.childNodes[0];
           if(!objtrxml || !objDiv)
             return;
-          objDiv = objTR.lastChild.firstChild;
-          this._updateTD(objtrxml,objTR,2);
+          objDiv = this._updateTD(objtrxml,objTR,2);
         } else {
-          this._updateTD(objTRXML,objCell.parentNode,intCellIndex);
+          objDiv = this._updateTD(objTRXML,objCell.parentNode,intCellIndex);
         }
       } else {
         var objTR = objCell.parentNode;
@@ -6223,8 +6221,9 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           if(!objTRXML)
             return;
         }
-        this._updateTD(objTRXML,objTR,intCellIndex);
+        objDiv = this._updateTD(objTRXML,objTR,intCellIndex);
       }
+      objDiv = objDiv.childNodes[0];
 
       //perform the 2-pass, using the formthandler (if it exists)
       var objFormatHandler = objColumn._getFormatHandler();
@@ -6267,7 +6266,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   };
 
   /**
-   * Generates the HTML for a sturcutre (a structure is what is generated when rendering
+   * Generates the HTML for a structure (a structure is what is generated when rendering
    * in hierarchical mode) and any descendant structures per the paging model (stepped or none/2pass)
    * @param strRecordId {String} <code>jsxid</code> value for the record node (according to the CDF) to draw
    * @param intContentIndex {int} positive integer representing the descendant depth of the structure (1 is root)
@@ -6549,6 +6548,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var objTD = objTR.childNodes[intCellIndex];
     Matrix.convertXMLToDOM(objTDXML,objTD,false);
     objTD.innerHTML = objTDXML.getFirstChild().getXML();
+    return objTD;
   };
 
    /**
@@ -6562,7 +6562,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Matrix.convertXMLToDOM = function(objEntity,objDOM,bBox) {
     var names = objEntity.getAttributeNames();
     var re = /^(on(?:mousedown|click|focus|blur|mouseup|mouseover|mouseout|dblclick|scroll|keydown|keypress))/i;
-    var re_style = /(?:border:|border-top|border-left|border-bottom|border-right|padding|height|width)[^;]*;/gi;
+    var re_style = /(?:border:|border-top|border-left|border-bottom|border-right|padding|height|width|background-color)[^;]*;/gi;
     for (var i = 0; i < names.length; i++) {
       var strName = names[i];
       var strValue = objEntity.getAttribute(strName);
