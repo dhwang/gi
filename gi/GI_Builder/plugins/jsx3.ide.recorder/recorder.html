@@ -11,6 +11,12 @@
 
   window.state = {inited:false, editor:null, paused:false, asserting:false, waiting:false, loadListener:null};
 
+  var isIe = false;
+
+  function cntr() {
+    return document.getElementById("appContainer");
+  }
+
   function onReady() {
     window.setTimeout(function() {
       state.editor = window["gippeditor"];
@@ -18,11 +24,21 @@
       window.onbeforeunload = new Function("cleanAndClose();");
       window.onresize = updateHeight;
 
+      var cnt = cntr();
+
       if (window.document.addEventListener) {
         window.document.addEventListener("click", onAppClick, true);
-      } else if (window.document.attachEvent) {
-        window.document.attachEvent("onclick", onAppClick);
-        window.document.body.className = "ie";
+
+        // In Firefox also need to cancel all these events if we are waiting or asserting
+        // so that GUI controls don't see them, cancel them, and prevent click from bubbling
+        window.document.addEventListener("mousedown", onAppMouse, true);
+        window.document.addEventListener("mouseup", onAppMouse, true);
+        window.document.addEventListener("focus", onAppMouse, true);
+      } else if (cnt.attachEvent) {
+        // setCapture does not work on document so we need to register the event handler on appContainer instead
+        cnt.attachEvent("onclick", onAppClick);
+        isIe = true;
+        window.document.body.className = "ie"; // CSS for transparent PNGs
       } else {
         window.document.onclick = onAppClick;
       }
@@ -50,13 +66,13 @@
   }
 
   function updateHeight() {
-    var cnt = document.getElementById("appContainer");
+    var cnt = cntr();
     var ctrl = document.getElementById("recorderControls");
     cnt.style.height = document.body.clientHeight - ctrl.offsetHeight;
   }
 
   function loadApp() {
-    var cnt = document.getElementById("appContainer");
+    var cnt = cntr();
     var script = document.createElement("script");
     script.setAttribute("type", "text/javascript");
     script.setAttribute("src", state.editor.getJsxSrc());
@@ -158,17 +174,17 @@
   }
 
   function stopCapture() {
-    if (!document.addEventListener && document.attachEvent) {
-      document.releaseCapture();
-    }
+    if (isIe)
+      cntr().releaseCapture();
   }
 
   function startCapture() {
-    if (!document.addEventListener && document.attachEvent) {
+    // Internet Explorer capture code. Ensures that all mouse events go to appContainer before they
+    // are received by any GUI controls. setCapture does not work on document.
+    if (isIe)
       window.setTimeout(function() {
-        document.setCapture();
+        cntr().setCapture();
       }, 0);
-    }
   }
 
   function onStop() {
@@ -192,16 +208,30 @@
           onWait();
         else
           onAssert();
-      }
 
-      if (event.stopPropagation) {
-        event.stopPropagation();
-        event.preventDefault();
-      } else {
-        event.cancelBubble = true;
-        event.keyCode = 0;
-        event.returnValue = false;
+        // Cancel the event bubble (Fx and IE code)
+        if (event.stopPropagation) {
+          event.stopPropagation();
+          event.preventDefault();
+        } else {
+          event.cancelBubble = true;
+          event.keyCode = 0;
+          event.returnValue = false;
+        }
+      } else if (isIe) {
+        // If setCapture is on then even clicks on the recorder controls will be captured. This code
+        // ensures the onclick handler is called when one of these buttons is clicked while capturing is on.
+        var target = event.target || event.srcElement;
+        if (target && target.className == "btn" && target.onclick)
+          target.onclick(event);
       }
+    }
+  }
+
+  function onAppMouse(event) {
+    if (state.asserting || state.waiting) {
+      event.stopPropagation();
+      event.preventDefault();
     }
   }
 
