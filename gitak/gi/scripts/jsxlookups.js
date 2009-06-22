@@ -55,8 +55,8 @@ _jsxlookups.jsx3_gui_DatePicker    = {
                                                     },events:"click,mouseout,mouseover"}
                                      };
 _jsxlookups.jsx3_gui_Dialog        = {
-                                      undefined:{dom:function(objJSX) {
-                                                      return Dialog_getRenderedDialog();
+                                      undefined:{dom:function(objJSX) {                                      
+                                                      return Dialog_getRenderedDialog(objJSX);
                                                     },events:"keydown,mousedown"},
                                       modalmask:{dom:function(objJSX) {
                                                       return (objJSX.getModal() == 1) ? objJSX.getRendered().childNodes[0] : null;
@@ -65,6 +65,9 @@ _jsxlookups.jsx3_gui_Dialog        = {
                                                       var objBar = objJSX.getCaptionBar();
                                                       return (objBar) ? objBar.getRendered() : null;
                                                     },events:"mousedown"},
+                                      body:{dom:function(objJSX) {
+                                                      return (objJSX.getModal() == 1) ? objJSX.getRendered().childNodes[2] : objJSX.getRendered().childNodes[1];
+                                                    },events:""},
                                       resizer:{dom:function(objJSX) {
                                                       return (objJSX.getResize() == 1) ? objJSX.getRendered().childNodes[3] : null;
                                                     },events:"mousedown"}
@@ -427,26 +430,26 @@ _jsxlookups.jsx3_gui_Table_getIterableRows = function(objGUI) {
 function getActionableObject(objJSX,STYPE) {
   if(objJSX) {
     var objClass = objJSX.getClass();
-    var strName = objClass.getName().replace(/\./g,"_");
+    var className = objClass.getName().replace(/\./g,"_");
 	// When objJSX is a sub-class of jsx3.gui.Foo, we need to figure out which Foo this object was derived from -- Jim & Peter CDC 2007-08-09
-    while (!(_jsxlookups[strName]) && (objClass = objClass.getSuperClass()) ) {
-        strName = objClass.getName().replace(/\./g,"_");
+    while (!(_jsxlookups[className]) && (objClass = objClass.getSuperClass()) ) {
+        className = objClass.getName().replace(/\./g,"_");
     }
 
-    var domGetter = _jsxlookups[strName][STYPE+""].dom;
+    var domGetter = _jsxlookups[className][STYPE+""].dom;
     var objGUI = objJSX.getRendered();
     if(typeof(domGetter) == "function") {
       //the native HTML element will be resolved by calling a custom function
       objGUI = domGetter(objJSX,arguments[2],arguments[3]);
-    } else {
+    } else if (domGetter != "") {
       //the native HTML element will be resolved by traversing the DOM
       var objStruct = domGetter.split(/\s*,\s*/);
-	  
       for(var i=0;i<objStruct.length;i++)
-         objGUI = (objGUI) ?  objGUI.childNodes[objStruct[i]-0] : null; 
+         objGUI = (objGUI) ? objGUI.childNodes[objStruct[i]-0] : null; 
     }
     return objGUI;
   }
+  return null;
 }
 
 
@@ -478,12 +481,15 @@ function getActionableConstants(strClassName) {
 }
 
 function Dialog_getRenderedDialog(objJSX) {
-   var objGUI = objJSX.getRendered();
-   if (objGUI != null && objJSX.jsxmodal) {
-     return objGUI.childNodes[1];
-   } else {
-     return objGUI;
-   }
+   if (objJSX) {
+     var objGUI = objJSX.getRendered();
+     LOG.debug("objGUI : " + jsx3.html.getOuterHTML(objGUI) );
+     if (objJSX.jsxmodal) {
+       return objGUI.childNodes[1];
+     } else {
+       return objGUI;
+     }
+   } 
  };
  
 

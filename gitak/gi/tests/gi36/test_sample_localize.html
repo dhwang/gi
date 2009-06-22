@@ -62,9 +62,10 @@ Copyright 2006-2008 TIBCO Software Inc.
 	<tr>
         <td>clickJsxMenu</td>
         <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>&nbsp;</td>
+        <td>JsxMenuItemId=mnuLocaleSelectMenu,fr</td>
       </tr>
-      <tr>
+      <!-- two step menu, could be useful if menu content is delayed in loading -->
+      <!--tr>
         <td>waitForJsxMenuWindowPresent</td>
         <td>1</td>
         <td>&nbsp;</td>
@@ -73,7 +74,7 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>clickJsxMenuItem</td>
         <td>JsxMenuItemId=mnuLocaleSelectMenu,fr</td>
         <td>&nbsp;</td>
-      </tr>
+      </tr-->
       <tr>
         <td>assertElementPresent</td>
         <td>JsxStackText=*sans arbres de kaki*</td>
@@ -117,7 +118,7 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>JsxMenuItemIndex=mnuLocaleSelectMenu,3</td>
       </tr>
       <tr>
-        <td>assertElementPresent</td>
+        <td>waitForElementPresent</td>
         <td>JsxStackText=*sans arbres de kaki*</td>
         <td>&nbsp;</td>
       </tr>

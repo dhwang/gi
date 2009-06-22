@@ -241,14 +241,15 @@ function getNameId(nameIdString) {
 Selenium.prototype.doJsxopen = function (url) {
     var ts_open = new Date();
     this.browserbot.openLocation(url);
-    LOG.debug('open jsx application url=' + url);
+    LOG.debug('open jsx url=' + url);
+    
     var w = this.browserbot.getCurrentWindow();
     var self = this;
     var isJsxLoaded = function () {      
       if ( self.isPageLoaded || self.browserbot.isNewPageLoaded()) {
         self.isPageLoaded = true;
         if (w.jsx3) {
-          window.jsx3 = w.jsx3;
+          var jsx3 = w.jsx3;
           var apps = null;
           if (jsx3.lang && jsx3.lang.System && jsx3.lang.System.getAllApps)
             apps = jsx3.lang.System.getAllApps();
@@ -256,20 +257,20 @@ Selenium.prototype.doJsxopen = function (url) {
             apps = jsx3.app.Server.allServers();
 
           if (apps && apps.length > 0) {
-          var app = apps[0];
-          var jsxbody = app.getJSXByName("JSXBODY");
-          var isJsxBodyLoaded = ( jsxbody && jsxbody.getChild(0) && jsxbody.getChild(0).getRendered() ) ;
-          LOG.debug("isJsxBodyLoaded check :"+ isJsxBodyLoaded); // can only check for the first application block
-          if (isJsxBodyLoaded) {
-             self._jsxappname = app;
-             delete self.isPageLoaded;
-             var ts_elapsed = ( new Date() ) - ts_open;
-             self.doEcho("elapsed " + ts_elapsed + "ms");
-             return true;
-           }
+            var app = apps[0];
+            var jsxbody = app.getJSXByName("JSXBODY");
+            var isJsxBodyLoaded = ( jsxbody && jsxbody.getChild(0) && jsxbody.getChild(0).getRendered() ) ;
+            LOG.debug("isJsxBodyLoaded check :"+ isJsxBodyLoaded); // can only check for the first application block
+            if (isJsxBodyLoaded) {
+               self._jsxappname = app;
+               delete self.isPageLoaded;
+               var ts_elapsed = ( new Date() ) - ts_open;
+               self.doEcho("elapsed " + ts_elapsed + "ms");
+               return true;
+             }
           }
         }
-       } // isPageLoaded     
+      } // isPageLoaded     
       return false;
     };
     
@@ -1205,8 +1206,7 @@ Selenium.prototype.doMoveJsxSliderPercent = function(locator, value) {
 
 Selenium.prototype.doMoveJsxSliderRelative = function(locator, value) {
 	/**
-   * Simulates a user pressing the mouse button (without releasing it yet) on
-   * the slider handle element.
+   * Simulates a user moving the slider handle.
    *
    * @param locator {String} an <a href="#locators">element locator</a>
    * @param value {String} position defined in [+/-]Y pixel position, relative to locator element position.
@@ -1238,18 +1238,16 @@ Selenium.prototype.doMoveJsxSliderRelative = function(locator, value) {
 Selenium.prototype.doDragJsxDialogResize = function(locator, posval) {
 	/**
    * Simulates a user doing drag resize on a dialog box.
-   *
+   * Equivalent DragJsxBy("mydialog,resizer", "10,10").
    * @param locator {String} an <a href="#locators">element locator</a>
    * @param posval {String} offset x,y pixel position, relative to current element position.
    */
 
     // find the resize div handle, child node 4 under dialog
-    var element = this.browserbot.findElement(locator).childNodes[3];
-    //LOG.debug('resize element = ' + getOuterHTML(element));
-    var locParams = locator.split('=');
-    var strategy = locParams[0];
-    var jsxname = locParams[1];
-    var jsxObj = storedVars.LASTJSXOBJ; //this.browserbot.findByJsxName(jsxname);
+    var jsxObj = this.browserbot.findJsxObject(locator);
+    var element  = getActionableObject(jsxObj, "resizer");
+    if (!element) Assert.fail( locator + " not found!");
+    
     var jsxPos = jsxObj.getAbsolutePosition();
 
     LOG.debug('dialog resize pos.t=' + jsxPos.T + ",pos.l=" + jsxPos.L );
@@ -1289,9 +1287,10 @@ Selenium.prototype.doDragJsxDialogTo = function(locator, posval) {
    * @param posval {String} offset x,y pixel position, relative to current element position.
    */
 
-    var element = this.browserbot.findElement(locator).childNodes[0];
-    var jsxname = locator.split('=')[1];
-    var jsxObj = storedVars.LASTJSXOBJ; //this.browserbot.findByJsxName(jsxname);
+    var jsxObj = this.browserbot.findJsxObject(locator);
+    var element  = getActionableObject(jsxObj, "captionbar");
+    if (!element) Assert.fail( locator + " not found!");
+
     if (jsx3.html) { // 3.2.0 class
         element = getActionableObject(jsxObj, 'captionbar');
     }
@@ -1319,8 +1318,8 @@ Selenium.prototype.doDragJsxTo = function(locator, movementsString) {
 /** 
   * Simulates a user doing drag-and-drop on the specified jsxname object.
   * Drags an element a certain distance and then drops it
-  * @param locator an element locator
-  * @param movementsString offset in pixels from the current location to which the element should be moved, e.g., "+70,-300"
+  * @param locator {String} an element locator
+  * @param movementsString {String} offset in pixels from the current location to which the element should be moved, e.g., "+70,-300"
   */
     var element = this.browserbot.findElement(locator);
     var pos = storedVars.LASTJSXOBJ.getAbsolutePosition();
@@ -1735,15 +1734,7 @@ Selenium.prototype.doSelectJsxRecords = function(locator, xpath) {
  * @param jsxname {String} the jsxname or locator
  * @param xpath {String} record selection xpath for example //record[@status='Deployed']
 */
-  var objGUI;
-  if (locator.indexOf("=") > 0) {
-    this.browserbot.findElement(locator);
-    objGUI = storedVars.LASTJSXOBJ;
-  }
-  
-  if (!objGUI)
-    objGUI = this.browserbot.findByJsxName(locator);
-
+  var objGUI = this.browserbot.findJsxObject(locator);
   if (!objGUI)
     Assert.fail("Cannot locate GUI with locator=" + locator);
   
@@ -1776,7 +1767,7 @@ Selenium.prototype.getMatrixRowIndex = function(locator) {
  * @param locator {String} record locator by id or text.
  * @return index {Number} record row/item index number.
 */
- var strategy=locator.split(/=/)[0];
+ var strategy=locator.split(/\=/)[0];
  var isMatrix = /JsxMatrixRow/i;
  var jsxElement;
 	jsxElement = this.browserbot.findElement(locator);
@@ -1934,7 +1925,7 @@ Selenium.prototype.getJsxSelectedId = function(locator) {
 	return (selected) ? selected[0] : null;
 }
 
-Selenium.prototype.getJsxDocument = function(locator) {
+Selenium.prototype.getJsxXmlDocument = function(locator) {
 /** GetJsxDocument - store/verify/waitFor Jsx Document.
 * @param locator {String} locator string
 * @return document {String} CDF Document object associated with a control as string.
@@ -1943,7 +1934,7 @@ Selenium.prototype.getJsxDocument = function(locator) {
   if (objJSX && objJSX.getXML ) 
     return objJSX.getXML();
   else
-    Assert.fail(locator + " is not found!");
+    Assert.fail(locator + " is not found or contain no xml.");
 }
 
 Selenium.prototype.getJsxText = function(locator) {
@@ -2180,71 +2171,22 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
 }
 
 
-PageBot.prototype.findByJsxIdentity = function(identity, inWindow) {
-/**
- * findByJsxName - find jsx object in body using its jsxname or jsxid
- *  @param value {String} JSX object jsxname or jsxid
- *  @return JSX object
- */
-  var appServer;
-  var appWindow = this.topWindow || inWindow;
-  window.top.jsx3 = appWindow.jsx3;
-
-  var jsxobj = null;
-
-  if (jsx3) {
-    selenium.jsxversion = jsx3.getVersion(); 
-    var ancestor = this.jsxroot;
-
-    LOG.debug('** findByJsxIdentity =' + identity + ',ancestor=' + ancestor);
-	  var objAncestor;
-	// getJSXByName() does not return the same object as findDescendants(), which access the assoc array directly
-  
-    if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
-      appServer = eval("appWindow."+selenium.jsxNamespace); 
-  
-    if (appServer) {
-     //LOG.debug('namespace defined='  + appServer);
-     objAncestor = appServer.getJSXByName(ancestor); 
-     jsxobj =  (objAncestor) ? objAncestor.findDescendants(
-        function(objJSX) {
-          return (objJSX.getId() == identity || objJSX.getName() == identity);
-        }
-     ,false,false,false,true) : null;
-    } else {
-	    objAncestor = jsx3.GO(ancestor); 
-      jsxobj = (objAncestor) ? objAncestor.findDescendants(
-            function(objJSX) {
-              return (objJSX.getId() == identity || objJSX.getName() == identity);
-            }
-         ,false,false,false,true) : null;
-    }
-    if (jsxobj && storedVars) {
-      storedVars['LASTJSXNAME'] = jsxobj.getName();
-    }
-    storedVars['LASTJSXOBJ'] = jsxobj;
-  } //endif jsx3
-  return jsxobj;
-
-}
-
 PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
 /**
  * findByJsxName - find jsx object in body using its jsxname
  *  @param value {String} JSX object jsxname
  *  @return JSX object
  */
-  var appServer;
+  var appServer = selenium._jsxappname; // set by jsxopen
   var appWindow = this.topWindow;
   window.top.jsx3 = appWindow.jsx3
-
   var jsxobj = null;
 
    if (jsx3) {
     selenium.jsxversion = jsx3.getVersion();
     var ancestor = this.jsxroot;
 
-    LOG.debug('** findByJsxName =' + jsxname + ',ancestor=' + ancestor);
+    LOG.debug('** findByJsxName = ' + jsxname + ',ancestor= ' + ancestor);
 	  if (jsxname.indexOf("/") != -1) // there's a forward slash in there.
       jsxobj = this.findByJsxDom(jsxname, inWindow);
     else {  
@@ -2254,10 +2196,10 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
       appServer = eval("appWindow."+selenium.jsxNamespace); 
     if (appServer) {
       objAncestor = appServer.getJSXByName(ancestor);
-      jsxobj = (objAncestor !== null) ? objAncestor.getDescendantOfName(jsxname) : null;	 
+      jsxobj = (objAncestor) ? objAncestor.getDescendantOfName(jsxname) : null;	 
     } else {
 	    objAncestor = jsx3.GO(ancestor); // This could be undefined.
-       jsxobj = (objAncestor) ? objAncestor.findDescendants(
+      jsxobj = (objAncestor) ? objAncestor.findDescendants(
             function(objJSX) {
               return (objJSX.getName() == jsxname);
             }
@@ -2271,6 +2213,7 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
     // set this no matter if it was found or not, jsxobj could be null.
     storedVars['LASTJSXOBJ'] = jsxobj;
    } // endif jsx3 
+   LOG.debug("jsxobj = " + jsxobj);
    return jsxobj;
 }
 
@@ -2282,7 +2225,7 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
  *  @param jsxtype {String} JSX object class type
  *  @return JSX object
   */
-  var appServer;
+  var appServer = selenium._jsxappname; // set by jsxopen
   var appWindow = this.topWindow; // topWindow should be renamed app under test window, autWindow.
   window.top.jsx3 = appWindow.jsx3;
   
@@ -2335,7 +2278,7 @@ PageBot.prototype.findByJsxText = function(text, inWindow) {
  *  @param root {String} Root block name
  *  @return JSX object
  */
-  var appServer;
+  var appServer = selenium._jsxappname; // set by jsxopen
   LOG.debug('findByJsxText =' + text  );
   var appWindow = this.topWindow;
   window.top.jsx3 = appWindow.jsx3;
@@ -2378,8 +2321,7 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
  *  @param jsxtype {String} JSX object class type
  *  @return JSX object
  */
-  var appServer;
-
+  var appServer = selenium._jsxappname; // set by jsxopen
   var appWindow = this.topWindow;
   window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3;
@@ -2422,7 +2364,7 @@ PageBot.prototype.findByJsxValue = function(value, inWindow) {
  *  @param value {String} JSX object jsxvalue
  *  @return JSX object
  */
-  var appServer;
+  var appServer = selenium._jsxappname; // set by jsxopen
   LOG.debug('findByJsxValue='+ jsxtype );
   var appWindow = this.topWindow;
   window.top.jsx3 = null;
@@ -2477,7 +2419,7 @@ PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
  window.top.jsx3 = null;
  window.top.jsx3 = appWindow.jsx3;
  
- var appServer;
+ var appServer = selenium._jsxappname; // set by jsxopen
  if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
   appServer = eval("appWindow."+selenium.jsxNamespace); 
       
@@ -2568,7 +2510,7 @@ PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
 }
 
 PageBot.prototype.findByJsxSelector = function (s, inWindow) {
-  var appServer;
+  var appServer = selenium._jsxappname; // set by jsxopen
   var appWindow = this.topWindow;
   window.top.jsx3 = appWindow.jsx3;
   var objRoot = null;
@@ -2577,9 +2519,9 @@ PageBot.prototype.findByJsxSelector = function (s, inWindow) {
   if (jsx3) {    
     if (selenium.jsxNamespace) {
         appServer = eval("appWindow."+selenium.jsxNamespace);
-        objRoot = appServer.getJSXByName("JSXROOT");
+        objRoot = appServer.getJSXByName(this.jsxroot);
     } else {
-        objRoot = jsx3.GO("JSXROOT");
+        objRoot = jsx3.GO(this.jsxroot);
     }
     if (objRoot && objRoot.selectDescendants) {
       objJSX = objRoot.selectDescendants(s, true);
@@ -2673,7 +2615,7 @@ PageBot.prototype.locateElementByJsxText = function(text, inDocument, inWindow) 
  *  @return HTML element
  */
  var oJSX =  this.findByJsxText(stripQuotes(text), inWindow);
- return (oJSX) ? oJSX.getRendered() : null;
+ return (oJSX) ? getActionableObject(oJSX) : null;
 };
 
 PageBot.prototype.locateElementByJsxAlertCaption = function(text, inDocument, inWindow) {
@@ -2947,39 +2889,24 @@ PageBot.prototype.locateElementByJsxDialogCaption = function(text, inDocument, i
 PageBot.prototype.locateElementByJsxDialogName = function(name, inDocument, inWindow) {
 /** Locate Dialog jsx3.gui.Dialog by jsxname
  *	This class is used to generate a popup window/dialog box object.
- *
- * note: can be located with locator = "//DIV[@label="+ name + "]";
- *  @param text {String} Dialog jsxname
+ * *  @param text {String} Dialog jsxname
  *  @param inDocument {Object} current document object
  *  @return HTML element
 */
 
-   LOG.debug("locateElementByJsxDialogName jsxname =" + name );
-   if ((name.indexOf('"') == 0) || name.indexOf("'") == 0)
-     name = name.slice(1, -1);
+   LOG.debug("locateElementByJsxDialogName jsxname = " + name );
    var dlg = this.findByJsxNameAndType(name, "jsx3.gui.Dialog", inWindow );
    return (dlg) ? getActionableObject(dlg) : null;
 };
 
 PageBot.prototype.locateElementByJsxDialogBody = function(name, inDocument, inWindow) {
 /** Locate Dialog Body element
- *	This class is used to generate a popup window/dialog box object.
- * jsx3.gui.Dialog by jsxname
- *
- * note: can be located with locator = "//DIV[@label="+ name + "]";
  *  @param text {String} Dialog jsxname
  *  @param inDocument {Object} current document object
  *  @return HTML element
 */
-
    LOG.debug("locateElementByJsxDialog body jsxname =" + name );
-   if ((name.indexOf('"') == 0) || name.indexOf("'") == 0)
-     name = name.slice(1, -1);
-
    var oBlock = this.findByJsxNameAndType(name, "jsx3.gui.Dialog", inWindow );
-
-   //LOG.debug("jsx3.gui.Dialog = " + oBlock);
-
    return (oBlock) ? oBlock.getRendered().childNodes[1] : null;
 };
 
@@ -4020,14 +3947,12 @@ PageBot.prototype.locateElementByJsxTextboxName = function(text, inDocument, inW
  *  @param inDocument {Object} current document object
  *  @return HTML input element
 */
-   text = stripQuotes(text);
-   LOG.debug("locateElementByJsxTextboxName = " + text);
+  text = stripQuotes(text);
+  LOG.debug("locateElementByJsxTextboxName = " + text);
 
-   var jsxText =  this.findByJsxNameAndType( text, "jsx3.gui.TextBox", inWindow );
+  var jsxText =  this.findByJsxNameAndType( text, "jsx3.gui.TextBox", inWindow );
 
- return (jsxText != null) ? jsxText.getRendered() : null;
-
-
+  return (jsxText != null) ? jsxText.getRendered() : null;
 };
 
 // TODO -- reduce code
@@ -4516,7 +4441,7 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
       } catch (e) {
         throw new Error("Bad action value: " + value);
       }
-      
+      // process special json value
       for (var f in value) {
         if (typeof(value[f]) == "string") {
           if (match = value[f].match(/^JSX\((.*)\)$/))
@@ -4525,8 +4450,6 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
             value[f] = (new jsx3.xml.Document()).loadXML(match[1]);
         }
       }
-
-
       var action = currentTest.currentRow.getCommand().command;
       this._doRecorderAction(action, objJSX, value);
     }
@@ -4580,7 +4503,7 @@ Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
   CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
     return function(target, value) {
 		  try {
-        if (value && value != "") value =  eval("var tmp = " + value + "; tmp");       
+        if (value && value !== "") { value =  eval("var tmp = " + value + "; tmp"); }
 		  } catch (e) {
         Assert.fail("Bad action value: " + value);
 		  }
@@ -4609,7 +4532,6 @@ Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
             // Treat exceptions as meaning the condition is not yet met.
             // Useful, for example, for waitForValue when the element has
             // not even been created yet.
-            // TODO: possibly should rethrow some types of exception.
             return false;
           }
         };
