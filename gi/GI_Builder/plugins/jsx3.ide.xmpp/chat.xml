@@ -8,11 +8,16 @@ objJSX.initializeTitle = function(buddy) {
   windowBar.setText(buddy.name||buddy.jid, true);
   this.contactName = buddy.name||buddy.jid;
 
-  jsxconversationarea.removeChildren();
+  this._initializeConvArea = true;
 
   var df = jsx3.util.DateFormat;
 
   this.date_format = df.getDateTimeInstance(df.SHORT, df.SHORT);
+};
+objJSX.getConvArea = function() {
+  if (this._jsxblock == null)
+    this._jsxblock = this.getDescendantOfName('jsxconversationarea');
+  return this._jsxblock;
 };
 objJSX.onNewMessage = function(instance, msg) {
   if (!this.chatInstance || this.chatInstance.chatid != instance.chatid) {
@@ -22,21 +27,67 @@ objJSX.onNewMessage = function(instance, msg) {
     this.displayMessage(msg);
   }
 };
-objJSX.displayMessage = function(msg) {
-  var cameIn = new Date();
+objJSX.showLast = function() {
+  var objGUI = jsxconversationarea.getRendered();
+  if (!this._scrollTOID && objGUI.lastChild &&
+       (objGUI.scrollTop >= objGUI.lastChild.offsetTop - parseInt(objGUI.style.height) - 2 * objGUI.lastChild.offsetHeight)) {
+    this._scrollTOID = window.setTimeout(jsx3.$F(function() {
+      this._scrollTOID = null;
 
-  var newMessage = new jsx3.gui.Block('jsxmessage-'+(msg.from||this.contactName)+String(cameIn.valueOf()),
-                                      null, null, "100%");
+      if (objGUI && objGUI.lastChild)
+        objGUI.scrollTop = objGUI.lastChild.offsetTop;
+    }).bind(this), 200);
+  }
+};
+objJSX.displayMessage = function(msg, ci) {
+  var cameIn = ci || new Date();
+  var scrollToLast = true;
 
-  var who = new jsx3.gui.Block(null, null, null, "25%", "100%", msg.from ? this.contactName : 'me');
-  who.setFontWeight(jsx3.gui.Block.FONTBOLD);
+  var convArea = jsxconversationarea.getRendered();
 
-  var what = new jsx3.gui.Block(null, null, null, "50%", "100%", msg.body);
-  var when = new jsx3.gui.Block(null, null, null, "25%", "100%", this.date_format.format(cameIn));
+  var self = this;
+  var processMessageLog = function() {
+    self._msgLogTO = null;
+    
+    var convArea = self.getConvArea().getRendered();
+    if (!convArea) {
+      self._msgLogTO = window.setTimeout(jsx3.$F(function() {
+        processMessageLog();
+      }), 200);
+    } else {
+      var m;
+      while(m = self._msgLog.shift()) {
+        self.displayMessage(m.msg, m.cameIn);
+      }
+      self._msgLog = null;
+    }
+  };
+  if (!convArea) {
+    if (!this._msgLog) {
+      this._msgLog = [];
+    }
+    this._msgLog.push({ cameIn: cameIn, msg: msg });
+    if (this._msgLogTO) {
+      return;
+    }
 
-  newMessage.setChild(who).setChild(what).setChild(when);
+    this._msgLogTO = window.setTimeout(jsx3.$F(function() {
+      processMessageLog();
+    }), 200);
+    return;
+  }
+  var cssFix = jsx3.gui.Painted.Box.getCssFix();
 
-  jsxconversationarea.setChild(newMessage).repaint();
+  jsx3.html.insertAdjacentHTML(convArea, 'beforeEnd',
+    '<span style="position: relative; ' + cssFix + ' width: 25%; font-weight: bold;">' + 
+    (msg.from ? this.contactName : 'me') +
+    '</span><span style="position: relative; ' + cssFix + ' width: 50%;">' +
+    msg.body +
+    '</span><span style="position: relative; ' + cssFix + ' width: 25%; text-align: right;">' +
+    this.date_format.format(cameIn) +
+    '</span>');
+
+  this.showLast();
 };
 objJSX.sendMessage = function(evt) {
   if (evt) {
