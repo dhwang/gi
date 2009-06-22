@@ -16,8 +16,13 @@ jsx3.Class.defineClass("jsx3.ide.Preferences", jsx3.app.Settings, null, function
 
       if (objFile && objFile.isFile()) {
         var xml = new jsx3.xml.Document();
-        xml.loadXML(objFile.read());
-  
+        xml.load(objFile.toURI()); // first try loading via XHR (should work with BOM)
+
+        if (xml.hasError()) { // then try file read
+          xml = new jsx3.xml.Document();
+          xml.loadXML(objFile.read());
+        }
+        
         if (xml.hasError()) {
           jsx3.ide.LOG.warn("Error reading preferences XML " + objFile.toURI() + ": " + xml.getError());
         } else if (xml.getBaseName() != "data") {
