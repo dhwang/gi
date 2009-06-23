@@ -150,19 +150,24 @@ jsx3.$O(this).extend({
     dojo.connect(this.session, 'onRosterUpdated', this, 'onRosterUpdated');
     dojo.connect(this.session, 'onPresenceUpdate', this, 'onPresenceUpdate');
     dojo.connect(this.session, 'onRegisterChatInstance', this, 'onRegisterChatInstance');
-    dojo.connect(this.session, 'onLoginFailure', this, function(){
+    dojo.connect(this.session, 'onTerminate', this, function(newState, oldState, message) {
+      if(message == 'error') {
+        this.setUIState(0);
+      }
+    });
+    dojo.connect(this.session, 'onLoginFailure', this, function() {
       this.setUIState(0);
     });
 
     // automatically approve all subscription requests
-    dojo.connect(this.session, 'onSubscriptionRequest', this, function(from){
+    dojo.connect(this.session, 'onSubscriptionRequest', this, function(from) {
       this.session.presenceService.approveSubscription(from);
     });
 
     // this is so the iframes get appended to the actual body rather than
     // the loaded application's body
     var oldDojoBody = dojo.body;
-    dojo.body = function(){
+    dojo.body = function() {
       return dojo.doc.body || dojo.doc.getElementsByTagName("body")[0]; // Node
     }
 
