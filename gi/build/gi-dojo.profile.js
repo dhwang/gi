@@ -187,7 +187,13 @@ dependencies = {
 				"dijit.form.VerticalSlider",
 				"dojox.form.Rating"
 			]
-		}
+		},
+    {
+      name: "../dojox/xmpp/xmppSession.js",
+      dependencies: [
+        'dojox.xmpp.xmppSession'
+      ]
+    }
 	],
 
 	prefixes: [
