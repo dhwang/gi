@@ -130,6 +130,9 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     document.body.appendChild(newElement);
     var style = (this.jsxheight ? "height:" + this.jsxheight + "px;" : "") +
                 (this.jsxwidth ? "width:" + this.jsxwidth + "px;" : "") + 
+                (this.jsxleft ? "left:" + this.jsxleft + "px;" : "") +
+                (this.jsxtop? "top:" + this.jsxtop + "px;" : "") + 
+                (typeof this.jsxrelativeposition == "number" ? "position:" + (this.jsxrelativeposition ? "relative" : "absolute") : "") + 
                 this.paintFontSize() + this.paintBackgroundColor() + this.paintBackground() +
                 this.paintColor() + this.paintOverflow() + this.paintFontName() +
                 this.paintZIndex() + this.paintFontWeight() + this.paintTextAlign() +
