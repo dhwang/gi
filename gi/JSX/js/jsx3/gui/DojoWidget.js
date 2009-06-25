@@ -138,7 +138,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
                 this.paintZIndex() + this.paintFontWeight() + this.paintTextAlign() +
                 this.paintCursor() + this.paintVisibility() + this.paintBlockDisplay() + this.paintCSSOverride();
 
-    newElement.setAttribute("style", style);
+    newElement.style.cssText = style;
     this.dijit.placeAt(newElement);
     if(this.jsxheight) {
       newElement.firstChild.style.height = "100%";
