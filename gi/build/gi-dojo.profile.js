@@ -125,6 +125,7 @@ dependencies = {
 				"../dijit/form/NumberTextBox.js"
 			],
 			keepRequires : [
+				"dijit.form.ValidationTextBox",
 				"dijit.form.NumberTextBox"
 			],
 			dependencies: [
