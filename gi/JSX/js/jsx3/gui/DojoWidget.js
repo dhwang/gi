@@ -1,3 +1,4 @@
+// @jsxobf-clobber-shared  _jsxevents
 jsx3.require("jsx3.util.Dojo");
 jsx3.require("jsx3.gui.Block");
 
@@ -19,7 +20,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
   DojoWidget._LOG = jsx3.util.Logger.getLogger("jsx3.gui.DojoWidget");
 
   var ss = DojoWidget._stylesheets = {};
-
+  var correctedPopups;
   /**
    * Dynamically inserts the theme style sheet and applies the correct class to the app's DOM
    * @param theme theme to apply
@@ -111,6 +112,13 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       }
       dojo._postLoad = true; // make sure we don't tempt the widget to use document.write
       dojo.require(this.dijitClassName);
+      if(!correctedPopups && dijit.popup){
+        correctedPopups = true;        
+        dojo.connect(dijit.popup, "open", function(){
+          dojo.query(".dijitPopup").addClass("jsx30block");
+        });
+      }
+      
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
       setupAccessors(this);
     }
