@@ -293,7 +293,7 @@ _doFocusDown: function(e) {
     jsx3.gui.Event.subscribe(jsx3.gui.Event.MOUSEMOVE, this, this._doFocusMove);
     jsx3.gui.Event.subscribe(jsx3.gui.Event.MOUSEUP, this, this._doFocusUp);
   } else {
-    //jsx3.out('a',objJSX.getMaskProperties()[myPoint]);
+    //jsx3.log('a',objJSX.getMaskProperties()[myPoint]);
   }
 },
 

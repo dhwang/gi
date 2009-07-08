@@ -487,7 +487,7 @@ _getClassPropertiesDoc: function(objJSX) {
       if (strURL == null)
         strURL = objPathURI.resolve(objNode.getAttribute("include")).toString();
 
-//      jsx3.out("_getClassPropertiesDoc 1", strPath + " -> " + objNode.getAttribute("include") + " = " + strURL, null, false)
+//      jsx3.log("_getClassPropertiesDoc 1", strPath + " -> " + objNode.getAttribute("include") + " = " + strURL, null, false)
       var strMasterPath = objNode.getAttribute("path");
       var strGroup = objNode.getAttribute("group");
       var strChildren = objNode.getAttribute("children");

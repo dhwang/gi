@@ -265,7 +265,7 @@ objJSX.onSearchProgress = function(objEvent) {
 objJSX.onSearchResults = function(objEvent) {
   delete this._searcher;
 
-//  jsx3.out("onSearchResults", "done searching with result count: " + objEvent.target.getResultCount(), null, false);
+//  jsx3.log("onSearchResults", "done searching with result count: " + objEvent.target.getResultCount(), null, false);
 
   var searcher = objEvent.target;
   var resultsPane = search_results;

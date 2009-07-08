@@ -9,6 +9,6 @@
   <object type="jsx3.gui.CheckBox">
     <variants jsxheight="18"/>
     <strings jsxname="checkbox" jsxtext="[checkbox label]" jsxmargin="0 4 0 0"/>
-    <events jsxexecute="jsx3.out('mycheck','the jsxexecute method was fired for checkbox, ' + this.getId());"/>
+    <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"/>
   </object>
 </serialization>

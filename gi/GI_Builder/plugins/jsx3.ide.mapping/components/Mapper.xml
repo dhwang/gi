@@ -292,7 +292,7 @@
       }
     } else {
       //log error
-      jsx3.out("iddp","No valid entries for the current dynamic property file. File was not saved.");
+      jsx3.log("iddp","No valid entries for the current dynamic property file. File was not saved.");
     }
   };
 
