@@ -14,11 +14,12 @@ objJSX.onPaletteLoaded = function() {
   plugIn.getExtPoint("ctxmenu-item").processExts().each(function(e) { mm.addItem(e); });
   mm.finishInit();
 
+  var credentials = plugIn.getCredentials();
 
-  if (this.getPlugIn().isConfigured()) {
-    var credentials = plugIn.getCredentials();
-    jsx3.require("jsx3.util.Dojo");
-    plugIn.connectSession(credentials);
+  if (plugIn.isConfigured() && credentials.autologin) {
+    plugIn.loadXMPP().when(function() {
+      plugIn.connectSession(credentials);
+    });
   } else {
     plugIn.setUIState(0);
   }
@@ -67,7 +68,7 @@ objJSX.getXMPPTree = function() {
             <variants jsxrelativeposition="0" jsxoverflow="2" />
             <strings jsxcols="*,60" jsxwidth="100%" jsxheight="100%"/>
             <object type="jsx3.gui.Block">
-              <strings jsxname="xmpp_username" jsxpadding="5 5 0 0" jsxheight="22"/>
+              <strings jsxname="xmpp_username" jsxpadding="5 5 0 0" jsxheight="22" jsxfontweight="bold"/>
             </object>
             <object type="jsx3.gui.Block">
               <strings jsxtextalign="center" jsxwidth="100%" jsxheight="100%"/>

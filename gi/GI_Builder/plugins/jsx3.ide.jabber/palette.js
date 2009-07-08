@@ -83,6 +83,7 @@ jsx3.$O(this).extend({
       username: s.get(id, 'userid'),
       password: this._temppw || s.get(id, 'password'),
       server: s.get(id, 'server'),
+      autologin: Boolean(s.get(id, 'autologin')),
       port: s.get(id, 'port'),
       bind: s.get(id, 'bind'),
       use_ssl: s.get(id, 'ssl')
@@ -124,7 +125,6 @@ jsx3.$O(this).extend({
     // Determines if we need to use the iframe transport
     // for a cross-domain situation.
 
-    dojo.require("dojox.xmpp.xmppSession");
     var jid_parts = credentials.username.split('@');
     var domain = jid_parts[1];
     var serviceUrl = credentials.server;
@@ -344,6 +344,24 @@ jsx3.$O(this).extend({
     return this.session && this.session.state != dojox.xmpp.xmpp.TERMINATE;
   },
 
+  loadXMPP: jsx3.$Y(function(cb) {
+    var eng = this.getEngine();
+    eng.getPlugIn("jsx3.util.Dojo").load().when(function() {
+      var Dojo = jsx3.util.Dojo;
+
+      var f = jsx3.ide.getSystemRelativeFile(jsx3.resolveURI(Dojo.getPath()));
+      if (f.isDirectory()) {
+        Dojo.load();
+        dojo.require("dojox.xmpp.xmppSession");
+        cb.done();
+      } else {
+        var plugIn = eng.getPlugIn("jsx3.ide.xmpp");
+        window.djConfig = typeof djConfig == "undefined" ? {baseUrl: plugIn.resolveURI("dojo/").toString(), afterOnLoad: true} : djConfig;
+        plugIn.load().when(cb);
+      }
+    });
+  }),
+
   /***********************
    * UI Dialog functions *
    ***********************/
@@ -353,8 +371,9 @@ jsx3.$O(this).extend({
       this.doShutdown();
     } else {
       var credentials = this.getCredentials();
-      jsx3.require("jsx3.util.Dojo");
-      this.connectSession(credentials);
+      this.loadXMPP().when(jsx3.$F(function() {
+        this.connectSession(credentials);
+      }).bind(this));
     }
   },
 

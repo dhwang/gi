@@ -17,6 +17,7 @@ objJSX.savePrefs = function() {
   var idValue = userid.getValue();
   var pwValue = password.getValue();
   var remValue = remember.getValue();
+  var autoValue = autologin.getValue();
   var s = jsx3.ide.getIDESettings();
   var id = this.getPlugIn().getId();
 
@@ -34,6 +35,8 @@ objJSX.savePrefs = function() {
 
   if (s.get(id, "remember") != remValue)
     s.set(id, "remember", remValue);
+  if (s.get(id, "autologin") != autoValue)
+    s.set(id, "autologin", autoValue);
   if (s.get(id, "userid") != idValue)
     s.set(id, "userid", idValue);
 
@@ -62,13 +65,13 @@ objJSX.loadPrefs = function() {
     userid.setValue(s.get(id, "userid"));
     password.setValue(s.get(id, "password"));
     remember.setValue(s.get(id, "remember"));
+    autologin.setValue(s.get(id, "autologin"));
   } else {
     server.setValue("chat.generalinterface.org");
     port.setValue("80");
     bind.setValue("http-bind");
     remember.setValue(1);
-
-    this.savePrefs();
+    autologin.setValue(1);
   }
 };
 
@@ -82,7 +85,7 @@ objJSX.makeDirty = function(objInput) {
     <strings jsxname="prefspane" jsxwidth="100%" jsxheight="100%" jsxpadding="8" jsxhelpid="ide.prefs.jabber"/>
       <object type="jsx3.gui.LayoutGrid">
         <variants jsxrelativeposition="1" jsxoverflow="2"/>
-        <strings jsxcols="100,*" jsxrows="26,26,26,26,26,26,26"/>
+        <strings jsxcols="100,*" jsxrows="26,26,26,26,26,26,26,26"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2"/>
           <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="5 6 0 0" jsxtext="Jabber Server:" jsxtextalign="right" jsxfontweight="bold"/>
@@ -122,15 +125,12 @@ objJSX.makeDirty = function(objInput) {
             <events jsxincchange="prefspane.makeDirty(this);"/>
           </object>
         </object>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2"/>
-          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxfontweight="bold" jsxpadding="5 6 0 0"/>
-        </object>
+        <object type="jsx3.gui.Block"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="3"/>
           <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
           <object type="jsx3.gui.CheckBox">
-            <variants jsxheight="18" jsxdefaultchecked="0"/>
+            <variants jsxheight="18"/>
             <strings jsxname="useSSL" jsxtext="Use SSL" jsxmargin="0 4 0 0"/>
             <events jsxtoggle="prefspane.makeDirty(this);"/>
           </object>
@@ -161,16 +161,23 @@ objJSX.makeDirty = function(objInput) {
             <events jsxincchange="prefspane.makeDirty(this);"/>
           </object>
         </object>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2"/>
-          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtext="" jsxpadding="5 6 0 0" jsxfontweight="bold" jsxtextalign="right"/>
-        </object>
+        <object type="jsx3.gui.Block"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="3"/>
           <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
           <object type="jsx3.gui.CheckBox">
-            <variants jsxheight="18" jsxchecked="1" jsxdefaultchecked="0"/>
-            <strings jsxname="remember" jsxtext="Remember password (password will be stored in plain text)" jsxmargin="0 4 0 0"/>
+            <variants jsxheight="18"/>
+            <strings jsxname="remember" jsxtext="Remember password (password will be stored as plain text)" jsxmargin="0 4 0 0"/>
+            <events jsxtoggle="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
+          <object type="jsx3.gui.CheckBox">
+            <variants jsxheight="18"/>
+            <strings jsxname="autologin" jsxtext="Login automatically on start up" jsxmargin="0 4 0 0"/>
             <events jsxtoggle="prefspane.makeDirty(this);"/>
           </object>
         </object>

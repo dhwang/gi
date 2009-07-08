@@ -2,17 +2,21 @@
  * Copyright (c) 2001-2009, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-jsx3.require("jsx3.util.Dojo");
+
 /**
  * Provides access to Dojo data store through the CDF interface
  */
 jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(DojoDataStore, DojoDataStore_prototype) {
+
   var CDF = jsx3.xml.CDF;
+
   /** @private @jsxobf-clobber */
   DojoDataStore._LOG = jsx3.util.Logger.getLogger(CDF.jsxclass.getName());
+
   DojoDataStore_prototype.init = function(store){
     this.store = store;
-  }
+  };
+
   // create a wrapper for records to be accessed via the XML entity interface
   function createNode(store, item) {
     record = new jsx3.xml.DataStoreItem();
@@ -20,6 +24,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
     record.store = store;
     return record;
   }
+
   DojoDataStore_prototype.insertRecord = function(objRecord, strParentRecordId, bRedraw) {
     // TODO: handle parent id
     var item = this.store.newItem(objRecord);
@@ -32,6 +37,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   DojoDataStore_prototype.insertRecordNode = function(objRecordNode, strParentRecordId, bRedraw) {
     throw new jsx3.Exception("Not supported");
   };
+
   // performs an operation on the record accessed by the given id
   function operationById(store, id, operation) {
     store.fetchItemByIdentity({
@@ -41,6 +47,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
       }
     });
   }
+
   DojoDataStore_prototype.insertRecordProperty = function(strRecordId,strPropName,strPropValue,bRedraw) {
     operationById(this.store, strRecordId, function(store, item){
       store.setValue(item, strPropName, strPropValue);
@@ -62,6 +69,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
       this.redrawRecord(strRecordId, CDF.UPDATE);
     }
   };
+
   DojoDataStore_prototype.adoptRecord = function(strSourceId, strRecordId, strParentRecordId, bRedraw) {
     throw new jsx3.Exception("Not supported");
   };
@@ -114,7 +122,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
 
   DojoDataStore_prototype.getRecordNode = function(strRecordId) {
     var record;
-    operationById(this,store, strRecordId, function(store, item) {
+    operationById(store, strRecordId, function(store, item) {
       record = createNode(store, item);
     });
     return record;
@@ -127,6 +135,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   DojoDataStore_prototype.reloadFromSource = function(bSystem) {
     // no-op
   };
+
   DojoDataStore_prototype.redrawRecord = function() {
     // no-op
   };
@@ -134,12 +143,15 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   DojoDataStore_prototype.assignIds = function() {    
     // no-op, this should already be handled by the data store
   };
+
   DojoDataStore_prototype.getKey = function() {
     throw new jsx3.Exception("Not supported");
   };
+
   DojoDataStore_prototype.newDocument = function() {
     throw new jsx3.Exception("Not supported");
   };
+
   DojoDataStore_prototype.getVersion = function() {
     return 1;
   };
@@ -147,15 +159,19 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   DojoDataStore_prototype.convertProperties = function(objProps, arrProps, bUnion) {
     throw new jsx3.Exception("Not supported");
   };
+
   DojoDataStore_prototype.hasError = function() {
     return false;
   };
+
   DojoDataStore_prototype.getNamespaceURI = function() {
     return null;
   };
+
   DojoDataStore_prototype.getRootNode = function() {
     return null;
   };
+
   DojoDataStore_prototype.getNative = function() {
     throw new jsx3.Exception("Not supported");
   };
@@ -167,11 +183,14 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
  * convenience methods on an XML document.
  */
 jsx3.Class.defineClass("jsx3.xml.DataStoreItem", jsx3.xml.Entity, null, function(DataStoreItem, DataStoreItem_prototype) {
+
   DataStoreItem_prototype.init = function(){
-  }
+  };
+
   DataStoreItem_prototype.getAttribute = function(name) {
     return this.store.getValue(this.item, name);
   };
+
   DataStoreItem_prototype.getAttributeNames = function() {
     return this.store.getAttributes();
   };

@@ -1,6 +1,7 @@
 // @jsxobf-clobber-shared  _jsxevents
-jsx3.require("jsx3.util.Dojo");
-jsx3.require("jsx3.gui.Block");
+jsx3.require("jsx3.util.Dojo", "jsx3.gui.Block");
+
+jsx3.util.Dojo.load();
 
 dojo.require("dojox.lang.docs");
 // seems that sometimes there is concurrent loading, so we have to actually specify these explicitly
