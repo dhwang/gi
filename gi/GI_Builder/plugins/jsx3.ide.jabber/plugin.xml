@@ -32,9 +32,8 @@
       <prereq plugin="jsx3.amp.util.toolbarmgr"/>
     </xml>
 
-    <script id="xmpp_chat_js" path="chat.js" eval="true"/>
     <xml id="xmpp_chat_dialog" path="chat.xml">
-      <prereq id="xmpp_chat_js"/>
+      <prereq id="xmpp_js"/>
     </xml>
     <xml id="xmpp_add_dialog" path="add_dialog.xml" load="manual" />
     <xml id="xmpp_nick_dialog" path="nick_dialog.xml" load="manual" />

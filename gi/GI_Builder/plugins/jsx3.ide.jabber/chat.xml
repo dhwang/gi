@@ -4,6 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <onAfterDeserialize><![CDATA[
+
 objJSX.initializeTitle = function(buddy) {
   windowBar.setText(buddy.name||buddy.jid, true);
   this.contactName = buddy.name||buddy.jid;
@@ -14,11 +15,13 @@ objJSX.initializeTitle = function(buddy) {
 
   this.date_format = df.getDateTimeInstance(df.SHORT, df.SHORT);
 };
+
 objJSX.getConvArea = function() {
   if (this._jsxblock == null)
     this._jsxblock = this.getDescendantOfName('jsxconversationarea');
   return this._jsxblock;
 };
+
 objJSX.onNewMessage = function(instance, msg) {
   if (!this.chatInstance || this.chatInstance.chatid != instance.chatid) {
     this.chatInstance = instance;
@@ -27,6 +30,7 @@ objJSX.onNewMessage = function(instance, msg) {
     this.displayMessage(msg);
   }
 };
+
 objJSX.showLast = function() {
   var objGUI = jsxconversationarea.getRendered();
   if (!this._scrollTOID && objGUI.lastChild &&
@@ -39,6 +43,7 @@ objJSX.showLast = function() {
     }).bind(this), 200);
   }
 };
+
 objJSX.displayMessage = function(msg, ci) {
   var cameIn = ci || new Date();
   var scrollToLast = true;
@@ -89,6 +94,7 @@ objJSX.displayMessage = function(msg, ci) {
 
   this.showLast();
 };
+
 objJSX.sendMessage = function(evt) {
   if (evt) {
     if (!evt.enterKey() || evt.shiftKey()) {
@@ -103,9 +109,16 @@ objJSX.sendMessage = function(evt) {
     txt = txt.replace(/\n/g, '<br/>');
     this.chatInstance.sendMessage({ body: txt });
     this.displayMessage({ body: txt });
+    
     jsxchatarea.setValue('', true);
+    this._updateBtnState("");
   } catch(e) {}
 };
+
+objJSX._updateBtnState = function(msg) {
+  jsxsend.setEnabled(msg.length > 0, true);
+};
+
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
     <variants jsxwidth="431" jsxheight="318" jsxzindex="5009" jsxwindowstate="1" jsxleft="70" jsxtop="26"/>
@@ -162,7 +175,7 @@ objJSX.sendMessage = function(evt) {
               <object type="jsx3.gui.TextBox">
                 <variants jsxtype="1" jsxenabled="1"/>
                 <strings jsxwidth="100%" jsxheight="100%" jsxname="jsxchatarea" jsxmargin="0 0 0 0" jsxvalue=""/>
-                <events jsxkeypress="jsx_chat_dialog.sendMessage(objEVENT);"/>
+                <events jsxkeypress="jsx_chat_dialog.sendMessage(objEVENT);" jsxincchange="jsx_chat_dialog._updateBtnState(strVALUE);"/>
               </object>
             </object>
             <object type="jsx3.gui.Block">
@@ -170,7 +183,7 @@ objJSX.sendMessage = function(evt) {
               <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtextalign="right" jsxfontweight="bold"/>
               <object type="jsx3.gui.Button">
                 <variants jsxindex="0" jsxheight="18"/>
-                <strings jsxname="jsxsend" jsxtext="Send" jsxtextalign="left"/>
+                <strings jsxname="jsxsend" jsxtext="Send" jsxtextalign="left" jsxenabled="0"/>
                 <events jsxexecute="jsx_chat_dialog.sendMessage();"/>
               </object>
             </object>

@@ -160,13 +160,13 @@ jsx3.$O(this).extend({
     this.chatInstances = {};
     this.chatDialogs = {};
 
-    dojo.connect(this.session, 'onActive', this, 'onActive');
-    dojo.connect(this.session, 'onRosterAdded', this, 'onRosterAdded');
-    dojo.connect(this.session, 'onRosterChanged', this, 'onRosterChanged');
-    dojo.connect(this.session, 'onRosterRemoved', this, 'onRosterRemoved');
-    dojo.connect(this.session, 'onRosterUpdated', this, 'onRosterUpdated');
-    dojo.connect(this.session, 'onPresenceUpdate', this, 'onPresenceUpdate');
-    dojo.connect(this.session, 'onRegisterChatInstance', this, 'onRegisterChatInstance');
+    dojo.connect(this.session, 'onActive', this, '_onActive');
+    dojo.connect(this.session, 'onRosterAdded', this, '_onRosterAdded');
+    dojo.connect(this.session, 'onRosterChanged', this, '_onRosterChanged');
+    dojo.connect(this.session, 'onRosterRemoved', this, '_onRosterRemoved');
+    dojo.connect(this.session, 'onRosterUpdated', this, '_onRosterUpdated');
+    dojo.connect(this.session, 'onPresenceUpdate', this, '_onPresenceUpdate');
+    dojo.connect(this.session, 'onRegisterChatInstance', this, '_onRegisterChatInstance');
     dojo.connect(this.session, 'onTerminate', this, function(newState, oldState, message) {
       if (message == 'error') {
         this.getLog().error("Received onTerminate message: " + message);
@@ -237,7 +237,7 @@ jsx3.$O(this).extend({
     }
   },
 
-  onActive: function(){
+  _onActive: function(){
     // Called when the XMPP session is active.  Publishes
     // the user's status as "online" and displays the contact
     // tree.
@@ -245,9 +245,11 @@ jsx3.$O(this).extend({
     //jsx3.ide.LOG.warn('Active!', arguments);
     this.session.presenceService.publish({});
     this.setUIState(2);
+
+    this._playSound("connect");
   },
 
-  onRosterAdded: function(item){
+  _onRosterAdded: function(item){
     this.getLog().trace("onRosterAdded " + jsx3.$O.json(item));
     // Called when the session adds a contact.  Inserts
     // the contact's record into the tree's XML.
@@ -265,7 +267,7 @@ jsx3.$O(this).extend({
     }
   },
 
-  onRosterChanged: function(newItem, oldItem){
+  _onRosterChanged: function(newItem, oldItem){
     this.getLog().trace("onRosterChanged " + jsx3.$O.json(newItem) + " " + jsx3.$O.json(oldItem));
     // Called when the session changes the roster.  Updates
     // the tree's record for the contact.
@@ -282,7 +284,7 @@ jsx3.$O(this).extend({
     }
   },
 
-  onRosterRemoved: function(item){
+  _onRosterRemoved: function(item){
     this.getLog().trace("onRosterRemoved " + jsx3.$O.json(item));
     // Called when the session removes a concact
     // from the roster.  Removes the record from
@@ -297,7 +299,7 @@ jsx3.$O(this).extend({
     }
   },
 
-  onRosterUpdated: function(){
+  _onRosterUpdated: function(){
     this.getLog().trace("onRosterUpdated " + jsx3.$O.json(arguments[0]));
     // Called when the session updates the roster.
     // Updates the tree based on the session's roster.
@@ -306,7 +308,84 @@ jsx3.$O(this).extend({
     this._updateTree();
   },
 
-  onPresenceUpdate: jsx3.$F(function(buddy){
+  doStartChat: function(selectedNodes) {
+    // Called when a contact's tree node is double
+    // clicked.  Registers the chat instance with the
+    // service and invites the contact to a chat.
+
+    var chatInstance = new dojox.xmpp.ChatService();
+    this.session.registerChatInstance(chatInstance);
+    chatInstance.invite(selectedNodes);
+  },
+
+  _onRegisterChatInstance: function(instance, message){
+    // Called when the XMPP service gets a request
+    // to register a chat instance.  Makes sure our
+    // internal list of chat instances is up to date.
+
+    //jsx3.ide.LOG.warn('RegisterChatInstance!', arguments);
+
+    var ci = this.chatInstances;
+    if (instance.uid) {
+      if (!ci[instance.uid] || ci[instance.uid].chatid != instance.chatid) {
+        this._newMessage(instance, instance.uid, message);
+      }
+      ci[instance.uid] = instance;
+    }
+
+    dojo.connect(instance, 'onInvite', this, function(jid) {
+      ci[jid] = instance;
+      this._newMessage(instance, jid, null);
+    });
+
+    dojo.connect(instance, 'onNewMessage', this, function(msg) {
+      this._newMessage(instance, instance.uid, msg);
+    });
+
+    dojo.connect(instance, 'setState', this, function(state) {
+      //jsx3.ide.LOG.warn("IM: ",  instance.uid, " is now ", state);
+    });
+  },
+
+  _newMessage: function(instance, jid, message) {
+    // Called when a chat session gets a new message.
+    // Determines if a new dialog needs to be rendered
+    // and passes the message to the dialog.
+
+    var cd = this.chatDialogs;
+    if (!cd[jid] || !cd[jid]._jsxparent) {
+      this.getResource("xmpp_chat_dialog").load().when(jsx3.$F(function() {
+        var dialog = cd[jid] = this.loadRsrcComponent("xmpp_chat_dialog", this.getServer().getRootBlock(), false);
+        dialog.getParent().paintChild(dialog);
+
+        dialog.focus();
+
+        dialog.initializeTitle(this.roster[jid]);
+        dialog.onNewMessage(instance, message);
+      }).bind(this));
+    } else {
+      cd[jid].onNewMessage(instance, message);
+    }
+
+    if (message)
+      this._playSound("message");
+  },
+
+  _playSound: function(key) {
+    var settings = jsx3.ide.getIDESettings();
+    if (settings.get(this.getId(), "sounds")) {
+      if (!this._soundsreged) {
+        this._soundsreged = true;
+        jsx3.ide.registerSound(this.getId() + ".message", this.resolveURI("sounds/message.wav"));
+        jsx3.ide.registerSound(this.getId() + ".connect", this.resolveURI("sounds/connect.wav"));
+        jsx3.ide.registerSound(this.getId() + ".disconnect", this.resolveURI("sounds/disconnect.wav"));
+      }
+
+      jsx3.ide.playSound(this.getId() + "." + key);
+    }
+  },
+
+  _onPresenceUpdate: jsx3.$F(function(buddy){
     this.getLog().trace("onPresenceUpdate " + jsx3.$O.json(buddy));
 
     // Called when the session updates a contact's
@@ -388,6 +467,8 @@ jsx3.$O(this).extend({
     tree.setSourceXML(this.getTreeDocument(true));
     tree.repaint();
     this.setUIState(0);
+
+    this._playSound("disconnect");
   },
 
   doShowAddContact: function() {

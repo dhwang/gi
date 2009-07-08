@@ -40,6 +40,8 @@ objJSX.savePrefs = function() {
   if (s.get(id, "userid") != idValue)
     s.set(id, "userid", idValue);
 
+  s.set(id, "sounds", sounds.getValue());
+
   if (remValue) {
     this.getPlugIn().setTempPassword(null);
     if (s.get(id, "password") != pwValue)
@@ -66,6 +68,7 @@ objJSX.loadPrefs = function() {
     password.setValue(s.get(id, "password"));
     remember.setValue(s.get(id, "remember"));
     autologin.setValue(s.get(id, "autologin"));
+    sounds.setValue(s.get(id, "sounds"));
   } else {
     server.setValue("chat.generalinterface.org");
     port.setValue("80");
@@ -85,7 +88,7 @@ objJSX.makeDirty = function(objInput) {
     <strings jsxname="prefspane" jsxwidth="100%" jsxheight="100%" jsxpadding="8" jsxhelpid="ide.prefs.jabber"/>
       <object type="jsx3.gui.LayoutGrid">
         <variants jsxrelativeposition="1" jsxoverflow="2"/>
-        <strings jsxcols="100,*" jsxrows="26,26,26,26,26,26,26,26"/>
+        <strings jsxcols="100,*" jsxrows="26,26,26,26,26,26,26,26,26"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2"/>
           <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="5 6 0 0" jsxtext="Jabber Server:" jsxtextalign="right" jsxfontweight="bold"/>
@@ -178,6 +181,16 @@ objJSX.makeDirty = function(objInput) {
           <object type="jsx3.gui.CheckBox">
             <variants jsxheight="18"/>
             <strings jsxname="autologin" jsxtext="Login automatically on start up" jsxmargin="0 4 0 0"/>
+            <events jsxtoggle="prefspane.makeDirty(this);"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 0 0 0"/>
+          <object type="jsx3.gui.CheckBox">
+            <variants jsxheight="18"/>
+            <strings jsxname="sounds" jsxtext="Play sounds" jsxmargin="0 4 0 0"/>
             <events jsxtoggle="prefspane.makeDirty(this);"/>
           </object>
         </object>
