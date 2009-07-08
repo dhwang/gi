@@ -6,8 +6,8 @@
 <plugin xmlns="http://www.generalinterface.org/gi/amp"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugin.xsd"
-        id="jsx3.ide.xmpp"
-        name="XMPP (Jabber) Plug-In"
+        id="jsx3.ide.jabber"
+        name="Jabber Plug-In"
         version="0.1">
 
   <method id="getPalette"><![CDATA[
@@ -41,6 +41,15 @@
     <xml id="xmpp_delete_dialog" path="delete_dialog.xml" load="manual" />
   </resources>
 
+  <subscribe event="jsx3.ide.settings.ide.saved" when="loaded">
+    if (evt.pane.getTitle() == "Chat") {
+      if (this.isConfigured())
+        this.setUIState(0);
+      else
+        this.doShutdown();
+    }
+  </subscribe>
+  
   <extension point="jsx3.ide.settings.ide.pane" id="default">
     <pane label="Chat" img="images/xmpp.gif"
           tip="Settings related to XMPP." resource="xmpp_settings"/>
@@ -48,7 +57,7 @@
 
   <extension point="jsx3.ide.ui.palette" id="xmpp.palette">
     <palette label="Chat" hotkey="ctrl+0"
-             resource="xmpp_palette" default-position="q1" default-closed="true" idegroup="per-project"/>
+             resource="xmpp_palette" default-position="q3" default-closed="true" idegroup="per-ide"/>
   </extension>
 
   <!-- The palette context menu -->
@@ -61,13 +70,13 @@
     <processor type="instantiator" instance-class="jsx3.ide.ui.IdeMenuItem"/>
   </extension-point>
 
-  <extension point="jsx3.ide.xmpp.ctxmenu" id="ctxmenu">
+  <extension point="jsx3.ide.jabber.ctxmenu" id="ctxmenu">
     <menu id="jsx3.ide.xmppctx" path="/">
       <section id="edit"/>
     </menu>
   </extension>
 
-  <extension point="jsx3.ide.xmpp.ctxmenu-item" id="ctxmenu-item">
+  <extension point="jsx3.ide.jabber.ctxmenu-item" id="ctxmenu-item">
     <action
         id="alias"
         label="Set Nickname"
@@ -82,21 +91,4 @@
         img="jsxapp:/images/icon_55.gif"/>
   </extension>
 
-  <!-- Toolbar buttons, etc -->
-  <extension-point id="toolbar">
-    <processor type="instantiator" instance-class="jsx3.amp.util.ToolbarItem"/>
-  </extension-point>
-
-  <extension point="jsx3.ide.xmpp.toolbar" id="toolbar">
-    <native id="username" section="text" xmlns="urn:tibco.com/v3.0">
-      <object type="jsx3.gui.Block">
-        <dynamics jsxborder="@No jsxborder" />
-        <strings jsxname="xmpp_username" jsxtext="Username" jsxstyleoverride="padding-right: 5px; padding-top: 5px;" jsxheight="22" />
-      </object>
-    </native>
-    <button id="add" img="images/add.gif" tip="Add contact" section="actions"
-            execute="this.getPlugIn().doShowAddContact();" />
-    <button id="shutdown" img="images/power.gif" tip="Go offline" section="actions"
-            execute="this.getPlugIn().doPower();" />
-  </extension>
 </plugin>

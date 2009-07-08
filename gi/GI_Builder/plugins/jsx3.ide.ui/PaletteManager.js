@@ -292,7 +292,8 @@ jsx3.Class.defineClass("jsx3.ide.ui.PaletteMenuItem", jsx3.ide.ui.IdeMenuItem, n
   };
 
   PaletteMenuItem_prototype.isEnabled = function() {
-    return jsx3.ide.PROJECT != null;
+    var p = this._palette;
+    return (p._xml && p._xml.attr("idegroup") == "per-ide") || jsx3.ide.PROJECT != null;
   };
 
   PaletteMenuItem_prototype.isSelected = function() {

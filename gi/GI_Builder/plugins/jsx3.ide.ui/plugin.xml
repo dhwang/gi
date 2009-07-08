@@ -148,6 +148,7 @@
       <section id="per-file"/>
       <divider id="per-node"/>
       <divider id="per-project"/>
+      <section id="per-ide"/>
       <divider id="misc"/>
       <section id="additions"/>
     </menu>

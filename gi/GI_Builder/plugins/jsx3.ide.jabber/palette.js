@@ -34,20 +34,26 @@ jsx3.$O(this).extend({
     // Displays the correct Block depending on the
     // state of the XMPP settings/connection
     var ui = this.getPalette().getUIObject();
-    ui.getDescendantOfName("xmpp_conf_block").setDisplay(state == 0?
-      jsx3.gui.Block.DISPLAYBLOCK :
-      jsx3.gui.Block.DISPLAYNONE,
-    true);
-    ui.getDescendantOfName("xmpp_list_block").setDisplay(state > 0?
-      jsx3.gui.Block.DISPLAYBLOCK :
-      jsx3.gui.Block.DISPLAYNONE,
-    true);
-    var add_button = this.getToolbarItem('jsx3.ide.xmpp.toolbar.add');
-    if (state < 2) {
-      this.setUsername('Loading...');
-      add_button.setEnabled(0, true);
+    var Block = jsx3.gui.Block;
+
+    if (state == 0 && !this.isConfigured()) {
+      ui.getDescendantOfName("xmpp_conf_block").setDisplay(Block.DISPLAYBLOCK, true);
+      ui.getDescendantOfName("xmpp_list_block").setDisplay(Block.DISPLAYNONE, true);
     } else {
-      add_button.setEnabled(1, true);
+      ui.getDescendantOfName("xmpp_list_block").setDisplay(Block.DISPLAYBLOCK, true);
+      ui.getDescendantOfName("xmpp_conf_block").setDisplay(Block.DISPLAYNONE, true);
+
+      var add_button = ui.getDescendantOfName("btnadd");
+
+      if (state == 0) {
+        this.setUsername('Offline');
+      } else if (state == 1) {
+        this.setUsername('Loading...');
+        add_button.setEnabled(0, true);
+      } else if (state == 2) {
+        this.setUsername(this.session.jid);
+        add_button.setEnabled(1, true);
+      }
     }
   },
 
@@ -58,6 +64,15 @@ jsx3.$O(this).extend({
     }
   },
 
+  isConfigured: function() {
+    var credentials = this.getCredentials();
+    return credentials.server && credentials.username && credentials.password;
+  },
+
+  setTempPassword: function(pw) {
+    this._temppw = pw;
+  },
+
   getCredentials: function() {
     // Gets the saved credentials from the
     // user's settings
@@ -66,7 +81,7 @@ jsx3.$O(this).extend({
 
     return {
       username: s.get(id, 'userid'),
-      password: s.get(id, 'password'),
+      password: this._temppw || s.get(id, 'password'),
       server: s.get(id, 'server'),
       port: s.get(id, 'port'),
       bind: s.get(id, 'bind'),
@@ -74,7 +89,7 @@ jsx3.$O(this).extend({
     }
   },
 
-  getRecord: function(item, notImgFromStatus) {
+  _getRecord: function(item, notImgFromStatus) {
     // Returns a record object for use with the palette's
     // tree's XML.
     var name = (item.name||item.jid) + (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '');
@@ -91,8 +106,9 @@ jsx3.$O(this).extend({
     return {
       jsxid: group_name,
       jsxtext: group_name == 'jsxcontacts' ? 'Contacts' : group_name,
-      jsximg: 'jsxapp:/images/icon_7.gif',
+      jsximg: '',
       jsxgroup: group_name,
+      jsxstyle: 'font-weight:bold;',
       jsxsort: group_name.toLowerCase(),
       jsxnick: '',
       jsxopen: 1,
@@ -151,12 +167,14 @@ jsx3.$O(this).extend({
     dojo.connect(this.session, 'onPresenceUpdate', this, 'onPresenceUpdate');
     dojo.connect(this.session, 'onRegisterChatInstance', this, 'onRegisterChatInstance');
     dojo.connect(this.session, 'onTerminate', this, function(newState, oldState, message) {
-      if(message == 'error') {
-        this.setUIState(0);
+      if (message == 'error') {
+        this.getLog().error("Received onTerminate message: " + message);
+        this.doShutdown();
       }
     });
-    dojo.connect(this.session, 'onLoginFailure', this, function() {
-      this.setUIState(0);
+    dojo.connect(this.session, 'onLoginFailure', this, function(message) {
+      this.getLog().error("Received onLoginFailure message: " + message);
+      this.doShutdown();
     });
 
     // automatically approve all subscription requests
@@ -179,7 +197,7 @@ jsx3.$O(this).extend({
     dojo.body = oldDojoBody;
   },
 
-  updateTree: function() {
+  _updateTree: function() {
     // Iterates through the XMPP session's roster
     // and updates the palette's tree.
     var objTree = this._getTree();
@@ -211,9 +229,9 @@ jsx3.$O(this).extend({
       if (!rec) {
         var group_node = xml.selectSingleNode('//record[@jsxgroup="' + group_name + '"]');
         if (!group_node) {
-            objTree.insertRecord(this.getGroupRecord(group_name), 'jsxrootnode', false);
+            objTree.insertRecord(this.getGroupRecord(group_name), 'jsxrootnode', true);
         }
-        objTree.insertRecord(this.getRecord(item), group_name, false);
+        objTree.insertRecord(this._getRecord(item), group_name, true);
       }
     }
   },
@@ -225,11 +243,11 @@ jsx3.$O(this).extend({
 
     //jsx3.ide.LOG.warn('Active!', arguments);
     this.session.presenceService.publish({});
-    this.setUsername(this.session.jid);
     this.setUIState(2);
   },
 
   onRosterAdded: function(item){
+    this.getLog().trace("onRosterAdded " + jsx3.$O.json(item));
     // Called when the session adds a contact.  Inserts
     // the contact's record into the tree's XML.
 
@@ -243,11 +261,11 @@ jsx3.$O(this).extend({
 
     if (objTree) {
       this._addContactToRoster(item, objTree);
-      objTree.repaint();
     }
   },
 
   onRosterChanged: function(newItem, oldItem){
+    this.getLog().trace("onRosterChanged " + jsx3.$O.json(newItem) + " " + jsx3.$O.json(oldItem));
     // Called when the session changes the roster.  Updates
     // the tree's record for the contact.
 
@@ -259,12 +277,12 @@ jsx3.$O(this).extend({
       var name = (newItem.name||newItem.jid) + (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '');
       record.jsxtext = name;
       record.jsxsort = record.jsxsort.substr(0, 1) + '-' + name;
-      objTree.insertRecord(record, null, false);
-      objTree.repaint();
+      objTree.insertRecord(record, null, true);
     }
   },
 
   onRosterRemoved: function(item){
+    this.getLog().trace("onRosterRemoved " + jsx3.$O.json(item));
     // Called when the session removes a concact
     // from the roster.  Removes the record from
     // the tree.
@@ -274,20 +292,22 @@ jsx3.$O(this).extend({
     delete this.roster[item.id];
 
     if (objTree) {
-      objTree.deleteRecord(item.id, false);
-      objTree.repaint();
+      objTree.deleteRecord(item.id, true);
     }
   },
 
   onRosterUpdated: function(){
+    this.getLog().trace("onRosterUpdated " + jsx3.$O.json(arguments[0]));
     // Called when the session updates the roster.
     // Updates the tree based on the session's roster.
 
     //jsx3.ide.LOG.warn('RosterUpdated!', arguments);
-    this.updateTree();
+    this._updateTree();
   },
 
   onPresenceUpdate: jsx3.$F(function(buddy){
+    this.getLog().trace("onPresenceUpdate " + jsx3.$O.json(buddy));
+
     // Called when the session updates a contact's
     // status.  Updates the icon for the contact in
     // the tree based on status.
@@ -316,29 +336,38 @@ jsx3.$O(this).extend({
       }
       record.jsximg = 'images/' + image + '.gif';
       record.jsxsort = sort + record.jsxtext;
-      objTree.insertRecord(record, null, false);
-      objTree.repaint();
+      objTree.insertRecord(record, null, true);
     }
   }).throttled(),
+
+  isConnected: function() {
+    return this.session && this.session.state != dojox.xmpp.xmpp.TERMINATE;
+  },
 
   /***********************
    * UI Dialog functions *
    ***********************/
-  doPower: function(){
+  doPower: function() {
     // Closes the XMPP session.
-    if (this.session.state != dojox.xmpp.xmpp.TERMINATE) {
-      this.session.close();
-      var tree = this._getTree();
-      tree.setSourceXML(this.getTreeDocument(true));
-      tree.repaint();
-      this.setUsername('Offline');
-      this.getToolbarItem('jsx3.ide.xmpp.toolbar.add').setEnabled(0, true);
+    if (this.isConnected()) {
+      this.doShutdown();
     } else {
       var credentials = this.getCredentials();
       jsx3.require("jsx3.util.Dojo");
       this.connectSession(credentials);
     }
+  },
 
+  doShutdown: function() {
+    if (this.session) {
+      this.session.close();
+      this.session = null;
+    }
+    
+    var tree = this._getTree();
+    tree.setSourceXML(this.getTreeDocument(true));
+    tree.repaint();
+    this.setUIState(0);
   },
 
   doShowAddContact: function() {

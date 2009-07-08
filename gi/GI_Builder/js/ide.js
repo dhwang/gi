@@ -137,9 +137,10 @@ jsx3.ide._onStartUp3 = jsx3.$Y(function(cb) {
   //determine the project we'll be editing
   var myProject = jsx3.ide.PROJECT;
 
+  jsx3.gui.Event.subscribe(jsx3.gui.Event.BEFOREUNLOAD, jsx3.ide._onBeforeShutdown);
+
   if (myProject) {
     //a project has been specified
-    jsx3.gui.Event.subscribe(jsx3.gui.Event.BEFOREUNLOAD, jsx3.ide._onBeforeShutdown);
 
     var settings = jsx3.ide.getIDESettings();
     settings.set('lastProject', jsx3.ide.getCurrentUserHome().toURI().relativize(myProject.getDirectory().toURI()).toString());
@@ -279,10 +280,12 @@ jsx3.ide._onBeforeShutdown = function(objEvent) {
   var settings = jsx3.ide.getIDESettings();
   settings.save();
 
-  if (jsx3.ide.isAnyEditorDirty())
-    objEvent.returnValue = "WARNING: You have unsaved changes in your project. Click on Cancel to go back to General Interface Builder to save your changes.";
-  else
-    objEvent.returnValue = "Unloading the current page will close General Interface Builder and end your session.";
+  if (jsx3.ide.PROJECT) {
+    if (jsx3.ide.isAnyEditorDirty())
+      objEvent.returnValue = "WARNING: You have unsaved changes in your project. Click on Cancel to go back to General Interface Builder to save your changes.";
+    else
+      objEvent.returnValue = "Unloading the current page will close General Interface Builder and end your session.";
+  }
 };
 
 jsx3.ide.onShutdown = function(objEvent) {

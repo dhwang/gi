@@ -16,14 +16,5 @@
       <record jsxid="snapto" type="string">10</record>
       <record jsxid="domdeletewarn" type="boolean">false</record>
     </record>
-    <record jsxid="jsx3.ide.xmpp" type="map">
-      <record jsxid="server" type="string">chat.generalinterface.org</record>
-      <record jsxid="port" type="string">80</record>
-      <record jsxid="bind" type="string">http-bind</record>
-      <record jsxid="ssl" type="number">0</record>
-      <record jsxid="remember" type="number">1</record>
-      <record jsxid="userid" type="string"/>
-      <record jsxid="password" type="string"/>
-    </record>
   </record>
 </data>
