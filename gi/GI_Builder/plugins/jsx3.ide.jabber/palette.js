@@ -47,6 +47,7 @@ jsx3.$O(this).extend({
 
       if (state == 0) {
         this.setUsername('Offline');
+        add_button.setEnabled(0, true);
       } else if (state == 1) {
         this.setUsername('Loading...');
         add_button.setEnabled(0, true);
