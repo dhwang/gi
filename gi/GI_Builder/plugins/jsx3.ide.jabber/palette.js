@@ -94,7 +94,7 @@ jsx3.$O(this).extend({
   _getRecord: function(item, notImgFromStatus) {
     // Returns a record object for use with the palette's
     // tree's XML.
-    var name = (item.name||item.jid) + (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '');
+    var name = (item.name||item.jid) /*+ (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '')*/;
     return {
       jsxid: item.jid,
       jsxnick: item.name,
@@ -277,7 +277,7 @@ jsx3.$O(this).extend({
 
     if (objTree) {
       var record = objTree.getRecord(oldItem.jid);
-      var name = (newItem.name||newItem.jid) + (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '');
+      var name = (newItem.name||newItem.jid) /*+ (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '')*/;
       record.jsxtext = name;
       record.jsxsort = record.jsxsort.substr(0, 1) + '-' + name;
       objTree.insertRecord(record, null, true);
@@ -492,9 +492,16 @@ jsx3.$O(this).extend({
     // Adds the contact to the user's roster and requests
     // a subscription to their presence.
     var contact = dialog.getJID();
-    this.session.rosterService.addRosterItem(contact, contact);
-    this.session.presenceService.subscribe(contact);
-    dialog.doClose();
+    contact = jsx3.$S(contact).trim();
+
+    if (/^[^\@\s]+\@[^\@\s]+$/.test(contact)) {
+      this.session.rosterService.addRosterItem(contact, contact);
+      this.session.presenceService.subscribe(contact);
+      dialog.doClose();
+    } else {
+      this.getLog().error("Invalid Jabber ID: " + contact);
+      dialog.beep();
+    }
   },
 
   editNickname: function(user) {
