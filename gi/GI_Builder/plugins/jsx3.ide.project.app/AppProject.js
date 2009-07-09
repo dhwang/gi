@@ -196,7 +196,7 @@ jsx3.Class.defineClass("jsx3.ide.project.AppProject", jsx3.ide.Project, null, fu
   AppProject_prototype.getResources = function() {
     if (!this._rsrc) {
       this._rsrc = jsx3.$A(this.getSettings().get("includes")).map(function(e) {
-        return new jsx3.ide.ProjectRsrc(e.id, e.type, e.load, e.src);
+        return new jsx3.ide.ProjectRsrc(e.id, e.type, (e.onLoad === true || e.load == 1) ? 1 : 0, e.src);
       });
     }
     return this._rsrc;

@@ -29,19 +29,19 @@
     <record jsxid="0" type="map">
       <record jsxid="id" type="string">main_component</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="onLoad" type="boolean">false</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/appCanvas.xml</record>
     </record>
     <record jsxid="1" type="map">
       <record jsxid="id" type="string">main_js</record>
       <record jsxid="type" type="string">script</record>
-      <record jsxid="onLoad" type="boolean">true</record>
+      <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">js/logic.js</record>
     </record>
     <record jsxid="2" type="map">
       <record jsxid="id" type="string">openhiloclose_xml</record>
       <record jsxid="type" type="string">xml</record>
-      <record jsxid="onLoad" type="boolean">false</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">xml/openhiloclose.xml</record>
     </record>
     <record jsxid="3" type="map">
@@ -59,19 +59,19 @@
     <record jsxid="5" type="map">
       <record jsxid="id" type="string">plotchart_xml</record>
       <record jsxid="type" type="string">xml</record>
-      <record jsxid="onLoad" type="boolean">false</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">xml/plotchart.xml</record>
     </record>
     <record jsxid="6" type="map">
       <record jsxid="id" type="string">pointColoring_xml</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="onLoad" type="boolean">false</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/pointColoring.xml</record>
     </record>
     <record jsxid="7" type="map">
       <record jsxid="id" type="string">stockPrice_xml</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="onLoad" type="boolean">false</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/stockPrice.xml</record>
     </record>
   </record>
