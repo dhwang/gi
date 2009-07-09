@@ -100,7 +100,7 @@ playSound: function(strName, intVolume) {
       var body = jsx3.IDE.getBodyBlock();
       body.setChild(sound);
       body.paintChild(sound);
-      jsx3.sleep(function(){ sound.play(); }); // timeout seems to work in IE, not Fx
+      window.setTimeout(function() { sound.play(); }, 1000); // timeout seems to work in IE, not Fx
     } else {
       sound.play();
     }

@@ -892,9 +892,11 @@ div.jsx30matrix_dragicon {
 
 /** jsx3.gui.Sound */
 #JSX embed.jsx30sound {
-  width: 0px;
-  height: 0px;
+  left: 0px; top: 0px; 
+  width: 1px;
+  height: 1px;
   position: absolute;
+  opacity: 0.01;
 }
 
 /** jsx3.gui.Window */
