@@ -319,6 +319,8 @@ jsx3.$O(this).extend({
   },
 
   _onRegisterChatInstance: function(instance, message){
+    this.getLog().trace("onRegisterChatInstance " + jsx3.$O.json(instance, false) + " " + jsx3.$O.json(message, false));
+
     // Called when the XMPP service gets a request
     // to register a chat instance.  Makes sure our
     // internal list of chat instances is up to date.
@@ -333,18 +335,21 @@ jsx3.$O(this).extend({
       ci[instance.uid] = instance;
     }
 
-    dojo.connect(instance, 'onInvite', this, function(jid) {
+    dojo.connect(instance, 'onInvite', this, jsx3.$F(function(jid) {
       ci[jid] = instance;
+      this.getLog().trace("onInvite " + jid + " " + instance.chatid);
       this._newMessage(instance, jid, null);
-    });
+    }).bind(this));
 
-    dojo.connect(instance, 'onNewMessage', this, function(msg) {
+    dojo.connect(instance, 'onNewMessage', this, jsx3.$F(function(msg) {
+      this.getLog().trace("onNewMessage " + jsx3.$O.json(msg, false) + " " + instance.chatid);
       this._newMessage(instance, instance.uid, msg);
-    });
+    }).bind(this));
 
-    dojo.connect(instance, 'setState', this, function(state) {
+    dojo.connect(instance, 'setState', this, jsx3.$F(function(state) {
+      this.getLog().trace("setState " + state + " " + instance.chatid);
       //jsx3.ide.LOG.warn("IM: ",  instance.uid, " is now ", state);
-    });
+    }).bind(this));
   },
 
   _newMessage: function(instance, jid, message) {

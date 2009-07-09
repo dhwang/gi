@@ -11,7 +11,8 @@
     return target;
   };
 
-  var json = function(o) {
+  var json = function(o, recurse) {
+    if (typeof(recurse) == "undefined") recurse = true;
     var j;
 
     if (o == null)
@@ -19,13 +20,13 @@
     else if (jsx3.$A.is(o)) {
       var s = [];
       for (var i = 0; i < o.length; i++)
-        s.push(json(o[i]));
+        s.push(recurse ? json(o[i]) : o[i]);
       j = "[" + s.join(",") + "]";
     } else if (typeof(o) == "object") {
       var s = [];
       for (var f in o)
         if (!o.hasOwnProperty || o.hasOwnProperty(f))
-          s.push(f + ":" + json(o[f]));
+          s.push(f + ":" + (recurse ? json(o[f]) : o[f]));
       j = "{" + s.join(",") + "}";
     } else if (typeof(o) == "string") {
       j = jsx3.util.strEscapeJSON(o);

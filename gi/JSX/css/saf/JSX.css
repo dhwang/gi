@@ -63,7 +63,7 @@ input[type="checkbox"]:focus {
   border: solid 1px #9898a5;
   border-right-color: #d8d8e5;
   border-bottom-color: #d8d8e5;
-  margin-bottom: 2px;
+  margin: 0px;
   font-family: Verdana, Arial, sans-serif;
   font-size: 10px;
   vertical-align: top;

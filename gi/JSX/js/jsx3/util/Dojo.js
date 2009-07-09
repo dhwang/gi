@@ -38,6 +38,9 @@ jsx3.util.DojoPubSub.hub = new jsx3.util.DojoPubSub();
 
 /**
  * Requiring this class loads Dojo.
+ *
+ * @see jsx3.gui.DojoWidget
+ * @see jsx3.xml.DojoDataStore
  */
 jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function(Dojo) {
 

@@ -148,3 +148,9 @@ pre.jsxide_TRACE { color:#888888; }
 .jsx3ide_welcome .cmty_topic a { color: #E6ECF2; }
 .jsx3ide_welcome .cmty_list { font-size: 10px; color: #FFF2BD; }
 .jsx3ide_welcome .cmty_list a { color: #FFF2BD; }
+
+.chatdialog table { width: 100%; }
+.chatdialog table td { font-size: 10px; padding: 2px; vertical-align: top; }
+.chatdialog table td.name { font-weight: bold; white-space: nowrap; padding-right: 10px; }
+.chatdialog table td.message { width: 100%; padding-right: 6px; }
+.chatdialog table td.date { text-align: right; white-space: nowrap; color: #b8b8c5; }
