@@ -20,11 +20,13 @@
   </requires>
 
   <resources>
+    <script id="xmpp_js" path="palette.js" eval="true"/>
+
     <xml id="xmpp_settings" path="settings.xml" load="manual">
+      <prereq id="xmpp_js"/>
       <prereq plugin="jsx3.amp.util.prefspanel"/>
     </xml>
 
-    <script id="xmpp_js" path="palette.js" eval="true"/>
     <xml id="xmpp_palette" path="palette.xml">
       <prereq id="xmpp_js"/>
       <prereq plugin="jsx3.ide.ui"/>
