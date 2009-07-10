@@ -44,10 +44,8 @@
 
   <subscribe event="jsx3.ide.settings.ide.saved" when="loaded">
     if (evt.pane.getTitle() == "Chat") {
-      if (this.isConfigured())
-        this.setUIState(0);
-      else
-        this.doShutdown();
+      // if connected will shut down, if not connected, will repaint the UI according to whether pw is set
+      this.doShutdown();
     }
   </subscribe>
   

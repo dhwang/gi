@@ -358,7 +358,7 @@ jsx3.$O(this).extend({
     // and passes the message to the dialog.
 
     var cd = this.chatDialogs;
-    if (!cd[jid] || !cd[jid]._jsxparent) {
+    if (!cd[jid] || !cd[jid].getParent()) {
       this.getResource("xmpp_chat_dialog").load().when(jsx3.$F(function() {
         var dialog = cd[jid] = this.loadRsrcComponent("xmpp_chat_dialog", this.getServer().getRootBlock(), false);
         dialog.getParent().paintChild(dialog);
@@ -435,7 +435,7 @@ jsx3.$O(this).extend({
       var Dojo = jsx3.util.Dojo;
 
       var f = jsx3.ide.getSystemRelativeFile(jsx3.resolveURI(Dojo.getPath()));
-      if (f.isDirectory()) {
+      if (f.exists() && f.isDirectory()) {
         Dojo.load();
         dojo.require("dojox.xmpp.xmppSession");
         cb.done();
@@ -466,14 +466,13 @@ jsx3.$O(this).extend({
     if (this.session) {
       this.session.close();
       this.session = null;
+      this._playSound("disconnect");
     }
     
     var tree = this._getTree();
     tree.setSourceXML(this.getTreeDocument(true));
     tree.repaint();
     this.setUIState(0);
-
-    this._playSound("disconnect");
   },
 
   doShowAddContact: function() {
