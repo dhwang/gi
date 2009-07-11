@@ -2,7 +2,7 @@
   <name><![CDATA[Layout (--)]]></name>
   <icon></icon>
   <description><![CDATA[2 top-over-bottom panes in an adaptive layout grid.]]></description>
-  <onBeforeDeserialize></onBeforeDeserialize>
+  <onBeforeDeserialize>effAdopt.preLoad(objPARENT);</onBeforeDeserialize>
   <onAfterDeserialize></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrepeat="3" jsxsizearray="['150','36','*']" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" jsxbestguess="1" jsxorientation="0"></variants>

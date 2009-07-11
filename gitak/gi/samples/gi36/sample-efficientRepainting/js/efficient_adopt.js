@@ -1,5 +1,3 @@
-jsx3.require("jsx3.gui.Dialog", "jsx3.gui.WindowBar", "jsx3.gui.ImageButton", "jsx3.gui.Stack", "jsx3.gui.Tab");
-
 jsx3.lang.Package.definePackage(
    "eg.effAdopt",                   // the full name of the class to create
    function(effAdopt) {
@@ -7,6 +5,17 @@ jsx3.lang.Package.definePackage(
  * Active container
  */
 effAdopt.activeContainer = 'dialog'
+
+effAdopt.APP;
+
+  effAdopt.preLoad = function (objJSX) {
+    effAdopt.APP = objJSX.getServer();
+
+    this.APP.getCache().getOrOpenAsync("components/list_of_states.xml");
+    this.APP.getCache().getOrOpenAsync("components/containers/stack.xml");
+    this.APP.getCache().getOrOpenAsync("components/containers/tab.xml");
+
+  }
   /**
     * loads a new GUI component (dialog, stack, tab) into the view without requiring repaint
     */

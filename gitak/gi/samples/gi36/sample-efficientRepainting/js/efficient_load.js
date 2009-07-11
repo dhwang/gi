@@ -1,5 +1,3 @@
-jsx3.require("jsx3.gui.Dialog", "jsx3.gui.WindowBar", "jsx3.gui.ImageButton");
-
  jsx3.lang.Package.definePackage(
    "eg.effLoad",                   // the full name of the class to create
    function(effLoad) {
