@@ -212,6 +212,9 @@ jsx3.$O(this).extend({
   },
 
   _addContactToRoster: function(item, objTree, xml) {
+    if (item.status == "from") {
+      this.session.presenceService.subscribe(item.jid);
+    }
     if (!objTree) {
       objTree = this._getTree();
     }
@@ -265,6 +268,7 @@ jsx3.$O(this).extend({
     if (objTree) {
       this._addContactToRoster(item, objTree);
     }
+    objTree.repaint();
   },
 
   _onRosterChanged: function(newItem, oldItem){
