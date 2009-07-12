@@ -401,6 +401,9 @@ jsx3.$O(this).extend({
     var objTree = this._getTree();
     if (objTree) {
       var record = objTree.getRecord(buddy.from);
+      if (!record) {
+        return;
+      }
       var image = '';
       var sort = '0-';
       switch(buddy.show) {
