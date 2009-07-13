@@ -1,0 +1,27 @@
+div.gi-banner div.gi-logo {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/GI_logo.png', sizingMethod='scale');
+}
+
+div.gi-banner div.gi-bannerdl {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/download-arrow_90x64.png', sizingMethod='scale');
+}
+
+div.gi-banner div.gi-bannerlc {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/learningCenter_90x64.png', sizingMethod='scale');
+}
+
+div.gi-banner div.gi-bannerfm {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/forum_90x64.png', sizingMethod='scale');
+}
+
+div.gi-globalnav div.gi-search .searchinput {
+  margin-top: 2px;
+}
+
+div.gi-sl1c {
+  float: left;
+}

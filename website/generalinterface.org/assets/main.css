@@ -1,0 +1,479 @@
+/* Global styles */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8em;
+}
+
+a, a:link, a:visited {
+  text-decoration: none;
+  color: #0079C1;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Overall template styles */
+
+body.gi {
+  padding: 0px; margin: 0px;
+  color: #333333;
+  background-color: white;
+}
+
+div.gi-pagewidth {
+  margin: 0px auto;
+  width: 960px;
+  text-align: left;
+  position: relative;
+}
+
+div.gi-header div.gi-pagewidth {
+  width: 940px;
+  padding: 0px 0px 0px 20px;
+}
+
+div.gi-header div.gi-banner div.gi-pagewidth {
+  width: 960px;
+  padding: 0px;
+}
+
+div.gi-header div.dojofound {
+  padding-top: 3px;
+  height: 17px; overflow: hidden;
+  color: #727272;
+  font-size: 0.9em;
+}
+
+div.gi-header div.dojofound span {
+  padding-top: .2em;
+}
+
+div.gi-header div.gi-banner {
+  height: 110px; overflow: hidden;
+  background-image: url(headerBar.jpg);
+  background-repeat: repeat-x;
+  background-position: center top;
+}
+
+div.gi-banner div.gi-logo {
+  background-image: url(GI_logo.png);
+  width: 182px; height: 70px;
+  margin-top: 20px;
+  float: left; display: inline-block;
+  cursor: pointer;
+}
+
+div.gi-bannericns {
+  margin-top: 20px; 
+  float: right; display: inline-block;
+}
+
+div.gi-bannericns div {
+  float: left;
+  cursor: pointer;
+}
+
+div.gi-banner div.gi-bannerdl {
+  background-image: url(download-arrow_90x64.png);
+  width: 90px; height: 64px;
+}
+
+div.gi-banner div.gi-bannerlc {
+  background-image: url(learningCenter_90x64.png);
+  width: 90px; height: 64px;
+}
+
+div.gi-banner div.gi-bannerfm {
+  background-image: url(forum_90x64.png);
+  width: 90px; height: 64px;
+}
+
+div.gi-globalnav {
+  background-image: url(navbg.gif);
+  height: 27px;
+  overflow: hidden;
+}
+
+div.gi-globalnav div.gi-pagewidth {
+  margin: 0px auto;
+  width: 950px;
+  padding: 0px 0px 0px 10px;
+  text-align: left;
+  position: relative;
+}
+
+div.gi-globalnav ul {
+  margin: 0px; padding: 0px;
+  float: left;
+  height: 27px;
+  overflow: hidden;
+}
+
+div.gi-globalnav ul li {
+  list-style: none;
+  margin: 0px;
+  float: left;
+  font-size: 0.85em;
+  padding: 0.7em 10px;
+  height: 27px;
+  overflow: hidden;
+}
+
+div.gi-globalnav ul li.navon {
+  background-image: url(navbgon.gif);
+  border-right: 1px solid #B1B1B1;
+  border-left: 1px solid #B1B1B1;
+}
+
+div.gi-globalnav ul li, div.gi-globalnav ul li a, div.gi-globalnav ul li a:link, div.gi-globalnav ul li a:visited {
+  color: #727272;
+  font-weight: bold;
+}
+
+div.gi-globalnav div.gi-search {
+  width: 254px;
+  float: right;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+div.gi-globalnav div.gi-search div {
+  vertical-align: middle;
+}
+
+div.gi-globalnav div.gi-search .searchinput {
+  margin-top: 3px;
+  height: 16px;
+  padding: 0px;
+  width: 220px;
+  vertical-align: top;
+}
+
+div.gi-globalnav div.gi-search .searchbtn {
+  margin-top: 4px;
+  vertical-align: top;
+}
+
+div.gi-body {
+  position: relative;
+}
+
+/* Page layout styles */
+
+div.gi-l1c1 {
+  padding: 30px 10px 20px 0px;
+  width: 670px;
+  margin-left: 20px;
+}
+
+div.gi-l1c2 {
+  position: absolute; left: 700px; top: 0px;
+  padding: 30px 20px 20px 20px;
+  width: 220px;
+  background-color: #e2ecf3;
+  background-image: url(sideBar_backgroundTile.jpg);
+  background-repeat: repeat-x;
+}
+
+div.gi-l2 {
+  padding: 30px 0px 20px 0px;
+  width: 940px;
+  margin-left: 20px;
+}
+
+div.gi-body h1 {
+  margin: 0px 0px 10px 0px;
+  font-weight: normal;
+  font-size: 2.5em;
+  color: #0079C1;
+}
+
+div.gi-l1c2 h2 {
+  color: #0079C1;
+  font-weight: normal;
+  font-size: 1.5em;
+  margin: 0px;
+}
+
+div.gi-l1c1 h4 {
+  margin: 0px 0px 2px 0px;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+div.gi-sl1 {
+  margin: 25px 0px 50px 0px;
+}
+
+div.gi-sl1 h2 {
+  text-transform: capitalize;
+  font-weight: normal;
+  font-size: 1.4em;
+  color: #0079C1;
+  margin: 0px 0px 2px 0px;
+}
+
+div.gi-sl1 h3 {
+  font-weight: normal;
+  font-size: 1.1em;
+  color: #0079C1;
+  margin: 0px 0px 7px 0px;
+}
+
+div.gi-sl1c {
+  vertical-align: top;
+  display: inline-block;
+}
+
+div.gi-sl1c1 {
+  width: 200px;
+}
+
+div.gi-sl1c2 {
+  margin-left: 20px;
+  width: 200px;
+}
+
+div.gi-sl1c3 {
+  margin-left: 20px;
+  width: 210px;
+}
+
+/* Home page RSS styles */
+
+div#rss {
+  font-size: 0.9em;
+}
+
+div#rss div.entry {
+  margin-bottom: 2em;
+}
+
+div#rss div.entry h3.postTitle {
+  font-size: 1em; font-weight: bold;
+  margin: 1em 0em 0.2em 0em;
+}
+
+div#rss div.entry em.date {
+  font-size: 0.8em; color: #666666;
+}
+
+div#rss div.entry p.description {
+  font-size: 0.95em;
+  margin: 0.5em 0em 1em 0em;
+}
+
+div#rss div.entry p.description br {
+  line-height: 0.6em;
+}
+
+div#rss div.entry a.readmore {
+  padding-left: 6px;
+}
+
+/* Forums styles */
+
+body#phpbb.gi div.gi-body {
+  font-size: 0.8em;
+  margin-top: 10px;
+  width: 940px;
+  padding-left: 20px;
+}
+
+body#phpbb.gi div#wrap {
+  padding: 0px;
+}
+
+body#phpbb.gi #search-box {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 10px;
+}
+
+body#phpbb.gi #search-box a, body#phpbb.gi #search-box a:link, body#phpbb.gi #search-box a:visited {
+  color: #0079C1;
+  font-size: 0.8em;
+}
+
+/* Confluence styles */
+
+body#com-atlassian-confluence.gi div.gi-body {
+  margin-top: 3px;
+  width: 940px;
+  padding-left: 20px;
+}
+
+body#com-atlassian-confluence.gi div.gi-body #breadcrumbs li span {
+  color: #666666;
+}
+
+body#com-atlassian-confluence.gi div.gi-body #main {
+  border: none; padding: 0px;	
+}
+
+body#com-atlassian-confluence.gi div.gi-body #header {
+  padding: 0px;	
+}
+
+body#com-atlassian-confluence.gi div.gi-body h1 {
+  margin-top: 8px;	
+}
+
+body#com-atlassian-confluence .pagetitle .global {
+  display: none;
+}
+
+body#com-atlassian-confluence #header {
+  background-color: transparent;
+}
+
+body#com-atlassian-confluence #breadcrumbs {
+  font-size: 0.9em;	
+}
+
+body#com-atlassian-confluence #header a, 
+body#com-atlassian-confluence #breadcrumbs, 
+body#com-atlassian-confluence #header .ajs-menu-bar li.ajs-menu-item a.trigger {
+  color: #0079C1;
+}
+
+#com-atlassian-confluence h1 {
+  margin: 15px 0 0 0;
+  line-height: 1;
+}
+
+#com-atlassian-confluence .page-metadata {
+  margin: 2px 0px 20px 0px;
+  color: #999999;
+}
+
+#com-atlassian-confluence .page-metadata a {
+  color: #999999;
+}
+
+#com-atlassian-confluence #breadcrumbs li {
+  background: transparent url(/assets/confluence_breadcrumbs.jpg) no-repeat scroll 3px center;
+}
+
+#com-atlassian-confluence #breadcrumbs li.first {
+  background: none;
+}
+
+body#com-atlassian-confluence.gi div.gi-body .spacetree {
+  font-size: 0.85em;
+}
+
+#com-atlassian-confluence #footer {
+  background: transparent;
+}
+
+#com-atlassian-confluence #footer p.license, #com-atlassian-confluence #footer p.license a {
+  background: #235F9E none repeat scroll 0 0;
+  padding-bottom: 3px;
+}
+
+#com-atlassian-confluence #footer #poweredby {
+  background: transparent;
+  padding: 0px;
+  color: #999999;
+}
+
+#com-atlassian-confluence #footer #poweredby a {
+  color: #999999;
+}
+
+/* Confluence layouts */
+
+#com-atlassian-confluence table.layout1 {
+}
+
+#com-atlassian-confluence table.layout1 td.col1 {
+  padding: 0px 10px 20px 0px;
+  width: 670px;
+  border: 0px;
+  vertical-align: top;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.col1 {
+  width: 670px;
+  overflow: hidden;
+}
+
+#com-atlassian-confluence table.layout1 td.col2 {
+  padding: 17px;
+  width: 220px;
+  background-color: #e2ecf3;
+  background-image: url(sideBar_backgroundTile.jpg);
+  background-repeat: repeat-x;
+  border: 3px double #C1CED6;
+  vertical-align: top;
+}
+
+#com-atlassian-confluence table.layout1 td.col2 h2 {
+  font-weight: normal;
+  font-size: 1.4em;
+  color: #0079C1;
+  margin: 0px 0px 2px 0px;
+}
+
+#com-atlassian-confluence .plugin_pagetree_children { 
+  margin-left: -10px; 
+}
+
+#com-atlassian-confluence .plugin_pagetree_children li {
+  font-weight: bold;
+}
+
+#com-atlassian-confluence .plugin_pagetree_children li li {
+  font-weight: normal;
+}
+
+#com-atlassian-confluence .spacetree * li {
+  margin-left: 15px;
+  text-indent: -10px;
+}
+
+#com-atlassian-confluence table.layout1 td.col2 div.col2 {
+  width: 220px;
+  overflow: hidden;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1 {
+  margin: 25px 0px 50px 0px;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1 h2 {
+  font-weight: normal;
+  font-size: 1.4em;
+  color: #0079C1;
+  margin: 0px 0px 2px 0px;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1 h3 {
+  font-weight: normal;
+  font-size: 1.1em;
+  color: #0079C1;
+  margin: 0px 0px 7px 0px;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c {
+  vertical-align: top;
+  display: inline-block;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c1 {
+  width: 200px;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c2 {
+  margin-left: 20px;
+  width: 200px;
+}
+
+#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c3 {
+  margin-left: 20px;
+  width: 210px;
+}
+

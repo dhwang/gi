@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>General Interface</title>
+
+<meta name="description" content="General Interface is an open source 
+    Ajax toolkit and development environment that makes it faster
+    and easier for you to build and deploy web-based applications that have 
+    the rich feel and functionality of desktop software."/>
+<meta name="keywords" content="generalinterface, gi, ajax, browser, toolkit, 
+    tibco, web, developer, development, programming, web applications, soa,
+    javascript, xml, xsl, html, open source, dojo"/>
+  
+<link rel="stylesheet" type="text/css" href="assets/main.css"/>
+<!--[if IE]>
+ <link rel="stylesheet" type="text/css" href="assets/main_ie.css"/>
+<![endif]-->
+
+<script type="text/javascript" src="assets/jquery-1.3.2.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+  fetchRSS("announce", "http://www.generalinterface.org/forums/rss.php?f=9", 3);
+  fetchRSS("forums", "http://www.generalinterface.org/forums/rss.php?mode=topics", 6);
+});
+
+function fetchRSS(id, url, max) {
+  //clear the content in the div for the next feed.
+  var container = $("#" + id);
+  
+  $.ajax({dataType:"text", url: url, success: function(d, textStatus) {
+    container.empty();
+    
+    var count = 0;
+
+    //find each 'item' in the file and parse it
+    $($.xmlDOM(d)).find('item').each(function() {
+      if (++count > max) return;
+
+      //name the current found item this for this particular loop run
+      var $item = $(this);
+      // grab the post title
+      var title = $item.find('title').text();
+      // grab the post's URL
+      var link = $item.find('link').text();
+      // next, the description
+      var description = $item.find('description').text();
+      if (/^(.*)<p>Statistics/.test(description)) description = RegExp.$1;
+      //don't forget the pubdate
+      var pubDate = $item.find('pubDate').text();
+  
+      // now create a var 'html' to store the markup we're using to output the feed to the browser window
+      var html = "<div class=\"entry\"><h3 class=\"postTitle\">" + title + "<\/h3>";
+      html += "<em class=\"date\">" + pubDate + "</em>";
+      html += "<p class=\"description\">" + description;
+      html += "<a class=\"readmore\" href=\"" + link + "\">More &raquo;<\/a><\/div>";
+      html += "</p>";
+
+      //put that feed content on the screen!
+      container.append($(html));  
+    });
+  }, error: function(req, textStatus, errorThrown) {
+  }});
+}
+</script>
+
+</head>
+
+<body class="gi">
+
+<div class="gi-page">
+<div class="gi-header">
+  <div class="dojofound gi-pagewidth">
+    <span>General Interface is an <a href="/docs/display/OS">open source project</a> hosted by
+      the <a href="http://www.dojofoundation.org">Dojo Foundation</a></span>
+  </div>
+  <div class="gi-banner">
+    <div class="gi-pagewidth">
+      <a href="/"><div class="gi-logo"></div></a>
+      <div class="gi-bannericns">
+        <a href="/docs/display/GETGI"><div class="gi-bannerdl"></div></a>
+        <a href="/docs/display/DOC"><div class="gi-bannerlc"></div></a>
+        <a href="/forums/"><div class="gi-bannerfm"></div></a>
+      </div>
+    </div>
+  </div>
+  <div class="gi-globalnav">
+    <div class="gi-pagewidth">
+      <ul>
+        <li class="navon"><a href="/">Home</a></li>
+        <li><a href="/docs/display/GETGI">Downloads</a></li>
+        <li><a href="/docs/display/DOC">Learning Center</a></li>
+        <li><a href="/forums/">Forum</a></li>
+        <li><a href="/docs/display/OS">Project</a></li>
+      </ul>
+
+      <div class="gi-search">
+        <form action="/search.html" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="014400610683534545227:c5t7wmhpmoi" />
+            <input type="hidden" name="cof" value="FORID:9" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input class="searchinput" type="text" name="q" />
+            <input class="searchbtn" type="image" name="sa" src="assets/searchButton.jpg" />
+          </div>
+        </form>
+
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">google.load("elements", "1", {packages: "transliteration"});</script>
+        <script type="text/javascript" src="http://www.google.com/coop/cse/t13n?form=cse-search-box&t13n_langs=en"></script>
+
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gi-body gi-pagewidth">
+
+  <div class="gi-l1c1">
+
+    <h1>Welcome</h1>
+
+    <h4>About General Interface</h4>
+    <div style="padding-right:30px;">
+      <i>General Interface</i> is an open source Ajax toolkit and development environment that makes it faster
+      and easier for you to build and deploy web-based applications that have the rich feel and
+      functionality of desktop software. General Interface's server-less architecture means it is
+      flexible for many uses, such as the frontend of an SOA implementation.
+    </div>
+
+    <div class="gi-sl1">
+      <div class="gi-sl1c gi-sl1c1">
+       <h2>BUILDER</h2>
+       <h3>Build Faster</h3>
+       General Interface Builder is a visual development tool that makes building Web
+        applications as easy as drag and drop. Builder features a host of visual tools
+        for modeling GUIs, mapping to SOAP and JSON Web services, introspecting objects,
+        debugging JavaScript, and authoring client-side logic. Builder is itself an
+        application powered by the General Interface Framework.
+      </div>
+      <div class="gi-sl1c gi-sl1c2">
+       <h2>FRAMEWORK</h2>
+       <h3>Deploy Faster</h3>
+        General Interface Framework is an Ajax engine &ndash; a lean set of JavaScript libraries
+        that load and run completely within the browser. These libraries include classes
+        for rich cross-browser GUI controls, charting, localization, logging and debugging,
+        network communication, XML and SOAP. Framework provides a single API for Internet
+        Explorer, Firefox, and Safari, freeing you to focus on application logic.
+
+      </div>
+      <div class="gi-sl1c gi-sl1c3">
+       <h2>COMMUNITY</h2>
+       <h3>Learn Faster</h3>
+        General Interface Community includes all the resources you need to be successful
+        when you build your applications. The Community features <a href="/forums/">User forums</a>, 
+	<a href="/docs/display/GIDOCS">documentation</a>,
+        <a href="/docs/display/DOC/Video+Tutorials">video tutorials</a>, 
+	<a href="/docs/pages/viewpage.action?pageId=2392105">samples</a>, and best practices. Community companion utilities,
+        <a href="/docs/display/DOC/GIPP">GIPP</a> and <a href="/docs/display/DOC/GITAK">GITAK</a>, 
+	will help you create automated tests for your applications.
+        <br/><br/>
+        On the <a href="/docs/display/OS">Project page</a> you can download the 
+	full source code, report and track bugs,
+        and get involved to make General Interface even better.
+      </div>
+    </div>
+
+    <div class="footer-links" style="clear:both;">
+    <div><strong>View</strong>: 2-Minute Explainer</div>
+    <div><strong>Datasheet</strong>: General Interface Ajax Toolkit</div>
+    <div><strong>Resources</strong>: General Interface FAQ, TIBCO Developer Network Developer Network, Downloads and Whitepapers</div>
+    <div><strong>Sample Applications</strong>: Xignite Stock Portolfio, Real-Time Ajax, More Sample Apps...</div>
+    <div><strong>Professional Support</strong>: Link to Tibco Support</div>
+    </div>
+
+<!--
+<div>
+<div id="cse" style="width: 90%;">Loading</div>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+   google.load('search', '1');
+   google.setOnLoadCallback(function(){
+      new google.search.CustomSearchControl('014400610683534545227:c5t7wmhpmoi').draw('cse');
+   }, true);
+</script>
+</div>
+-->
+  </div>
+  <div class="gi-l1c2">
+
+<div id="rss">
+<div>
+<h2>Latest News</h2>
+<div id="announce"><span class="loading">Loading announcements...</span></div>
+</div>
+
+<div>
+<h2>Recent Forum Posts</h2>
+<div id="forums"><span class="loading">Loading posts...</span></div>
+</div>
+</div>
+
+</div>
+</div>
+
+  </div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8828555-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+IndexOptions FancyIndexing VersionSort
+ReadmeName .footer.html
+
+Options Indexes MultiViews FollowSymLinks
+Order allow,deny
+Allow from all
