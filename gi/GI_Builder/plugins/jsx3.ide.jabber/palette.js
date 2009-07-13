@@ -313,6 +313,10 @@ jsx3.$O(this).extend({
       record.jsxsort = record.jsxsort.substr(0, 1) + '-' + name;
       objTree.insertRecord(record, null, true);
     }
+
+    if (this.chatDialogs[newItem.jid]) {
+      this.chatDialogs[newItem.jid].initializeTitle(newItem);
+    }
   },
 
   _onRosterRemoved: function(item){

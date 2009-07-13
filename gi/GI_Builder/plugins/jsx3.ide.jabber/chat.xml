@@ -6,8 +6,8 @@
   <onAfterDeserialize><![CDATA[
 
 objJSX.initializeTitle = function(buddy) {
-  windowBar.setText("Chat with " + buddy.name||buddy.jid, true);
   this.contactName = buddy.name||buddy.jid;
+  windowBar.setText("Chat with " + this.contactName, true);
 
   this._initializeConvArea = true;
 
