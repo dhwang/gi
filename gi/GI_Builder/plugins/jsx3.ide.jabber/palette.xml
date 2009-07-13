@@ -18,7 +18,18 @@ objJSX.onPaletteLoaded = function() {
 
   if (plugIn.isConfigured() && credentials.autologin) {
     plugIn.loadXMPP().when(function() {
-      plugIn.connectSession(credentials);
+      if (!plugIn.session || plugIn.session.state == "Terminate") {
+        plugIn.connectSession(credentials);
+      } else {
+        jsxxmpptree.setSourceXML(plugIn.getTreeDocument());
+
+        var item = null;
+        for (item in plugIn.roster) {
+          plugIn._addContactToRoster(plugIn.roster[item], jsxxmpptree);
+        }
+        jsxxmpptree.repaint();
+        plugIn.setUIState(2);
+      }
     });
   } else {
     plugIn.setUIState(0);

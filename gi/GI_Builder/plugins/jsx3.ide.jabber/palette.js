@@ -91,17 +91,44 @@ jsx3.$O(this).extend({
     }
   },
 
+  _addStatusProperties: function(presence, record) {
+      var image = '';
+      var sort = '0-';
+      switch(presence) {
+        case 'none':
+          sort = '1-';
+        case 'away':
+        case 'dnd':
+        case 'xa':
+        case 'online':
+          image = presence;
+          break;
+        case 'offline':
+          sort = '1-';
+          image = 'none';
+          break;
+        default:
+          image = 'online';
+      }
+      record.jsximg = 'images/' + image + '.gif';
+      record.jsxsort = sort + record.jsxtext;
+  },
+
   _getRecord: function(item, notImgFromStatus) {
     // Returns a record object for use with the palette's
     // tree's XML.
     var name = (item.name||item.jid) /*+ (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '')*/;
-    return {
+    var record = {
       jsxid: item.jid,
       jsxnick: item.name,
       jsxtext: name,
       jsximg: 'images/none.gif',
       jsxsort: '1-' + name
     };
+    if (item.presence) {
+      this._addStatusProperties(item.presence, record);
+    }
+    return record;
   },
 
   getGroupRecord: function(group_name) {
@@ -401,6 +428,10 @@ jsx3.$O(this).extend({
     // status.  Updates the icon for the contact in
     // the tree based on status.
 
+    if (this.roster[buddy.from]) {
+      this.roster[buddy.from].presence = buddy.show;
+    }
+
     //jsx3.ide.LOG.warn('PresenceUpdate!', arguments);
     var objTree = this._getTree();
     if (objTree) {
@@ -408,26 +439,8 @@ jsx3.$O(this).extend({
       if (!record) {
         return;
       }
-      var image = '';
-      var sort = '0-';
-      switch(buddy.show) {
-        case 'none':
-          sort = '1-';
-        case 'away':
-        case 'dnd':
-        case 'xa':
-        case 'online':
-          image = buddy.show;
-          break;
-        case 'offline':
-          sort = '1-';
-          image = 'none';
-          break;
-        default:
-          image = 'online';
-      }
-      record.jsximg = 'images/' + image + '.gif';
-      record.jsxsort = sort + record.jsxtext;
+      this._addStatusProperties(buddy.show, record);
+
       objTree.insertRecord(record, null, true);
     }
   }).throttled(),
