@@ -473,6 +473,7 @@ jsx3.$O(this).extend({
     if (this.session) {
       this.session.close();
       this.session = null;
+      this.roster = {};
       this._playSound("disconnect");
     }
     
