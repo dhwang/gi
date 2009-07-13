@@ -396,7 +396,7 @@ jsx3.$O(this).extend({
 
         dialog.focus();
 
-        dialog.initializeTitle(this.roster[jid]);
+        dialog.initializeTitle(this.roster[jid]||{ jid: jid });
         dialog.onNewMessage(instance, message);
       }).bind(this));
     } else {
