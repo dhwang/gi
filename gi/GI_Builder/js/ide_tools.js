@@ -110,25 +110,15 @@ playSound: function(strName, intVolume) {
 onContextHelp: function(objEvent) {
   jsx3.ide.LOG.debug("Open context sensitive help: " + objEvent.helpid);
 
-  var xml = new jsx3.xml.CDF.Document().load("jsx:///../doc/html/ctx/context.xml");
-  if (! xml.hasError()) {
-    var rec = xml.getRecord(objEvent.helpid);
-    if (! rec) {
-      if (! w) jsx3.ide.LOG.warn("No context help entry for " + objEvent.helpid + ". Falling back to ide.");
-      rec = xml.getRecord("ide");
-    }
+  var path = "http://www.generalinterface.org/alias/search/" + jsx3.getVersion() + "/" + objEvent.helpid;
+  var w = window.open(path, "jsxidectxhelp");
+  if (! w) jsx3.ide.LOG.warn("A pop-up blocker may have prevented context help from opening.");
+},
 
-    if (rec) {
-      var path = rec.jsxtext;
-      var w = window.open(path, "jsxidectxhelp");
-      if (! w) jsx3.ide.LOG.warn("A pop-up blocker may have prevented context help from opening.");
-    }
-  } else {
-    jsx3.ide.LOG.info(xml.getError());
-    jsx3.IDE.alert("Documentation Not Installed",
-        "You have invoked the context help system but the documentation that this depends on is not installed. " +
-        "Please <a href='http://www.generalinterface.org/alias/get_docs' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
-  }
+openUserGuides: function() {
+  var path = "http://www.generalinterface.org/alias/userguide/" + jsx3.getVersion();
+  var w = window.open(path, "jsxideguides");
+  if (! w) jsx3.ide.LOG.warn("A pop-up blocker may have prevented the site from opening.");
 },
 
 doOpenSettings: function(intPane) {

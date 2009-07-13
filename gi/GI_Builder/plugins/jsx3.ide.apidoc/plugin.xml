@@ -104,8 +104,7 @@
         id="jsx3.ide.help1_2"
         label="{jsx3.ide.apidoc.mi1}" img="jsxapp:/images/icon_59.gif"
         menupath="/jsx3.ide.help/api" hkconfig="true"
-        execute="jsx3.ide.openConsoleWindow('doc/html/index.htm', 'jsxide_doc',null,null,'yes','yes','yes','yes','yes');"
-        enabled="file" enabled-file="../doc/html/index.htm"/>
+        execute="jsx3.ide.openUserGuides();"/>
     <action
         id="jsx3.ide.help1"
         label="{jsx3.ide.apidoc.mi2}"

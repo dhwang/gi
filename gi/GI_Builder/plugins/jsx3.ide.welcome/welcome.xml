@@ -19,14 +19,7 @@ objJSX.onOpenExisting = function(e) {
 };
 
 objJSX.openHelpContents = function() {
-  var file = jsx3.ide.getSystemRelativeFile('doc/html/index.htm');
-  if (file.isFile())
-    jsx3.ide.openConsoleWindow('doc/html/index.htm', 'jsxide_doc',null,null,'yes','yes','yes','yes','yes');
-  else {
-    jsx3.IDE.alert("Documentation Not Installed",
-        "It appears that the online documentation is not installed correctly. " +
-        "Please <a href='http://www.generalinterface.org/alias/get_docs' target='_blank'>download the General Interface documentation</a> and make sure that it is installed in the doc/ directory.");
-  }
+  jsx3.ide.openUserGuides();
 };
 
 objJSX.openAPIDoc = function() {

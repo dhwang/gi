@@ -265,7 +265,7 @@
         id="jsx3.ide.help8a"
         label="Online Resources"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/resources', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help8b"
         label="&amp;#160; &amp;#160;Getting Started"
