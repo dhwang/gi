@@ -36,6 +36,12 @@ objJSX.onPaletteLoaded = function() {
   }
 };
 
+objJSX.onPaletteUnloaded = function() {
+  var plugIn = this.getPlugIn();
+  if (plugIn.doShutdown)
+    plugIn.doShutdown();
+};
+
 objJSX.getXMPPTree = function() {
   return jsxxmpptree;
 };

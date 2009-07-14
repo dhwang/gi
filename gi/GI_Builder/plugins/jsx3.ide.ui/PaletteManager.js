@@ -161,7 +161,11 @@ jsx3.Class.defineClass("jsx3.ide.ui.PaletteManager", null, null, function(Palett
   };
 
   PaletteManager_prototype.closePalette = function(objPalette) {
-    var oldContainer = objPalette.getUIObject().getContainer();
+    var content = objPalette.getUIObject();
+    if (content.onPaletteUnloaded)
+      content.onPaletteUnloaded();
+
+    var oldContainer = content.getContainer();
     var oldParent = oldContainer.getParent();
     oldParent.removeChild(oldContainer);
 
