@@ -1328,7 +1328,9 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
         }
         objVars.setAttribute(p, "[" + asString.join(",") + "]");
       } else if (type == "object") {
-        ;
+        if (val instanceof Date) {
+          objVars.setAttribute(p, "new Date(" + val.getTime() + ")");
+        }
       } else {
         if (this._jsxdynamic == null || this._jsxdynamic[p] == null) {
           //ensure that this property gets evaluated during deserialization if it is a number or boolean
