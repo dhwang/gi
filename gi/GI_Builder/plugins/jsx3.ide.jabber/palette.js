@@ -91,30 +91,26 @@ jsx3.$O(this).extend({
     }
   },
 
+  _presSorts: {none:9, offline:9, away:4, dnd:3, xa:5, online:1},
+
+  _presImages: {none:"none", offline:"none", away:"away", dnd:"dnd", xa:"xa", online:"online"},
+
   _addStatusProperties: function(presence, record) {
-      var image = '';
-      var sort = '0-';
-      switch(presence) {
-        case 'none':
-          sort = '1-';
-        case 'away':
-        case 'dnd':
-        case 'xa':
-        case 'online':
-          image = presence;
-          break;
-        case 'offline':
-          sort = '1-';
-          image = 'none';
-          break;
-        default:
-          image = 'online';
-      }
-      record.jsximg = 'images/' + image + '.gif';
-      record.jsxsort = sort + record.jsxtext;
+    if (!presence) presence = "none";
+
+    var sort = this._presSorts[presence];
+
+    if (!sort)
+      this.getLog().debug("Unknown presence: " + presence);
+
+    var image = this._presImages[presence];
+
+    record.jsximg = 'images/' + image + '.gif';
+    record.jsxsortlevel = sort;
+    record.jsxsort = sort + "-" + String(record.jsxtext).toLowerCase();
   },
 
-  _getRecord: function(item, notImgFromStatus) {
+  _getRecord: function(item) {
     // Returns a record object for use with the palette's
     // tree's XML.
     var name = (item.name||item.jid) /*+ (item.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '')*/;
@@ -122,12 +118,11 @@ jsx3.$O(this).extend({
       jsxid: item.jid,
       jsxnick: item.name,
       jsxtext: name,
-      jsximg: 'images/none.gif',
-      jsxsort: '1-' + name
+      jsximg: 'images/none.gif'
     };
-    if (item.presence) {
-      this._addStatusProperties(item.presence, record);
-    }
+
+    this._addStatusProperties(item.presence, record);
+
     return record;
   },
 
@@ -225,30 +220,35 @@ jsx3.$O(this).extend({
     dojo.body = oldDojoBody;
   },
 
-  _updateTree: function() {
+  _updateTree: jsx3.$F(function() {
     // Iterates through the XMPP session's roster
     // and updates the palette's tree.
     var objTree = this._getTree();
     if (objTree) {
-      var xml = objTree.getXML();
-      for (var i = 0, l = this.session.roster.length; i<l; i++) {
-        this._addContactToRoster(this.session.roster[i], objTree, xml);
-      }
+      for (var i = 0, l = this.session.roster.length; i<l; i++)
+        this._addContactToRoster(this.session.roster[i], objTree);
+
       objTree.repaint();
     }
-  },
+  }).throttled(),
 
-  _addContactToRoster: function(item, objTree, xml) {
-    if (item.status == "from") {
+  _repaintTree: jsx3.$F(function() {
+    var objTree = this._getTree();
+    if (objTree)
+      objTree.repaint();
+  }).throttled(),
+
+  _addContactToRoster: function(item, objTree) {
+    if (item.status == "from")
       this.session.presenceService.subscribe(item.jid);
-    }
+
     if (!objTree) {
       objTree = this._getTree();
     }
+
     if (objTree) {
-      if (!xml) {
-        xml = objTree.getXML();
-      }
+      var xml = objTree.getXML();
+
       var group_name = 'jsxcontacts';
       this.roster[item.jid] = item;
 
@@ -260,9 +260,9 @@ jsx3.$O(this).extend({
       if (!rec) {
         var group_node = xml.selectSingleNode('//record[@jsxgroup="' + group_name + '"]');
         if (!group_node) {
-            objTree.insertRecord(this.getGroupRecord(group_name), 'jsxrootnode', true);
+            objTree.insertRecord(this.getGroupRecord(group_name), 'jsxrootnode', false);
         }
-        objTree.insertRecord(this._getRecord(item), group_name, true);
+        objTree.insertRecord(this._getRecord(item), group_name, false);
       }
     }
   },
@@ -294,8 +294,8 @@ jsx3.$O(this).extend({
 
     if (objTree) {
       this._addContactToRoster(item, objTree);
+      this._repaintTree();
     }
-    objTree.repaint();
   },
 
   _onRosterChanged: function(newItem, oldItem){
@@ -310,8 +310,10 @@ jsx3.$O(this).extend({
       var record = objTree.getRecord(oldItem.jid);
       var name = (newItem.name||newItem.jid) /*+ (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '')*/;
       record.jsxtext = name;
-      record.jsxsort = record.jsxsort.substr(0, 1) + '-' + name;
-      objTree.insertRecord(record, null, true);
+      record.jsxsort = record.jsxsortlevel + "-" + String(name).toLowerCase();
+
+      objTree.insertRecord(record, null, false);
+      this._repaintTree();
     }
 
     if (this.chatDialogs[newItem.jid]) {
@@ -329,9 +331,8 @@ jsx3.$O(this).extend({
     var objTree = this._getTree();
     delete this.roster[item.id];
 
-    if (objTree) {
+    if (objTree)
       objTree.deleteRecord(item.id, true);
-    }
   },
 
   _onRosterUpdated: function(){
@@ -425,7 +426,7 @@ jsx3.$O(this).extend({
     }
   },
 
-  _onPresenceUpdate: jsx3.$F(function(buddy){
+  _onPresenceUpdate: function(buddy){
     this.getLog().trace("onPresenceUpdate " + jsx3.$O.json(buddy));
 
     // Called when the session updates a contact's
@@ -440,14 +441,13 @@ jsx3.$O(this).extend({
     var objTree = this._getTree();
     if (objTree) {
       var record = objTree.getRecord(buddy.from);
-      if (!record) {
-        return;
+      if (record) {
+        this._addStatusProperties(buddy.show, record);
+        objTree.insertRecord(record, null, false);
+        this._repaintTree();
       }
-      this._addStatusProperties(buddy.show, record);
-
-      objTree.insertRecord(record, null, true);
     }
-  }).throttled(),
+  },
 
   isConnected: function() {
     return this.session && this.session.state != dojox.xmpp.xmpp.TERMINATE;
