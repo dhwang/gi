@@ -122,6 +122,10 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       
       this.dijit = new (dojo.getObject(this.dijitClassName))(props);
       setupAccessors(this);
+      var self = this;
+      dojo.connect(self.dijit, "onChange", function(){
+        self.dijit_value = self.dijit.attr("value");
+      });
     }
   };
   DojoWidget_prototype.isDomPaint = function(){
@@ -148,6 +152,8 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
                 this.paintCursor() + this.paintVisibility() + this.paintBlockDisplay() + this.paintCSSOverride();
 
     newElement.style.cssText = style;
+    newElement.title = this.getTip();
+    
     this.dijit.placeAt(newElement);
     if(this.jsxheight) {
       newElement.firstChild.style.height = "100%";
