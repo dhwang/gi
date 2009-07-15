@@ -135,15 +135,17 @@ objJSX._onForumBind = function(objEvent) {
       '  <link>http://www.generalinterface.org/alias/forum_dev</link>' +
       '</item>' +
       '<item>' +
-      '  <title>GI Hacking</title>' +
-      '  <link>http://www.generalinterface.org/alias/forum_hacking</link>' +
+      '  <title>GI Performance Profiler</title>' +
+      '  <link>http://www.generalinterface.org/alias/forum_gipp</link>' +
       '</item>' +
       '<item>' +
-      '  <title>GI Feedback</title>' +
-      '  <link>http://www.generalinterface.org/alias/forum_feedback</link>' +
+      '  <title>GI Test Automation Kit</title>' +
+      '  <link>http://www.generalinterface.org/alias/forum_gitak</link>' +
       '</item>' +
       '</channel></rss>'
     );
+
+    forumheader.setText("Forums", true);
   }
 };
 
@@ -226,7 +228,7 @@ objJSX._onForumBind = function(objEvent) {
               <strings jsxwidth="100%" jsxclassname="content_list"
                   jsxtext="&lt;img src=&quot;GI_Builder/images/icon_16.gif&quot;/&gt;&lt;a
                   href=&quot;#&quot; onclick=&quot;jsx3.html.getJSXParent(this).getAncestorOfName('ide_welcome').openHelpContents(event);return false;&quot;
-                  target=&quot;_blank&quot;&gt;User Guides&lt;/a&gt;&lt;br/&gt;
+                  target=&quot;_blank&quot;&gt;Online User Guides&lt;/a&gt;&lt;br/&gt;
                 &lt;img src=&quot;GI_Builder/images/icon_16.gif&quot;/&gt;&lt;a
                   href=&quot;#&quot; onclick=&quot;jsx3.html.getJSXParent(this).getAncestorOfName('ide_welcome').openAPIDoc(event);return false;&quot;
                   target=&quot;_blank&quot;&gt;API Documentation&lt;/a&gt;"/>
@@ -244,7 +246,7 @@ objJSX._onForumBind = function(objEvent) {
             <object type="jsx3.gui.LayoutGrid">
               <strings jsxrows="16,*" />
               <object type="jsx3.gui.Block">
-                <strings jsxwidth="100%" jsxclassname="content_topic" jsxtext="COMMUNITY NEWS"/>
+                <strings jsxwidth="100%" jsxclassname="content_topic" jsxtext="LATEST NEWS"/>
               </object>
               <object type="jsx3.gui.BlockX">
                 <variants jsxxmlasync="1" jsxoverflow="1"/>
@@ -292,7 +294,7 @@ objJSX._onForumBind = function(objEvent) {
               <variants jsxoverflow="2"/>
               <strings jsxwidth="100%" jsxheight="100%" jsxpadding="0 10 0 0"/>
               <object type="jsx3.gui.Block">
-                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/learning&quot; target=&quot;_blank&quot;&gt;Developer Center&lt;/a&gt;"/>
+                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/learning&quot; target=&quot;_blank&quot;&gt;Learning Center&lt;/a&gt;"/>
               </object>
               <object type="jsx3.gui.Block">
                 <dynamics jsxtext="welcome_text"/>
@@ -308,14 +310,15 @@ objJSX._onForumBind = function(objEvent) {
               <object type="jsx3.gui.Block">
                 <strings jsxwidth="100%" jsxclassname="cmty_list"
                     jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/os_browse_code&quot; target=&quot;_blank&quot;&gt;Browse Source Code&lt;/a&gt;&lt;br/&gt;
-                             &lt;a href=&quot;http://www.generalinterface.org/alias/bugs&quot; target=&quot;_blank&quot;&gt;Bug/Issue Tracking&lt;/a&gt;"/>
+                             &lt;a href=&quot;http://www.generalinterface.org/alias/bugs&quot; target=&quot;_blank&quot;&gt;Bug/Enhancement Tracking&lt;/a&gt;&lt;br/&gt;
+                             &lt;a href=&quot;http://www.generalinterface.org/alias/planning&quot; target=&quot;_blank&quot;&gt;Planning &amp;#38; Roadmap&lt;/a&gt;"/>
               </object>
             </object>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="2"/>
               <strings jsxwidth="100%" jsxheight="100%" jsxborder="0px;0px;0px;dotted 1px #C7DEF0" jsxpadding="0 0 0 10"/>
               <object type="jsx3.gui.Block">
-                <strings jsxwidth="100%" jsxclassname="cmty_topic" jsxtext="Popular Forum Topics"/>
+                <strings jsxwidth="100%" jsxname="forumheader" jsxclassname="cmty_topic" jsxtext="Popular Forum Topics"/>
               </object>
               <object type="jsx3.gui.BlockX">
                 <variants jsxxmlasync="1"/>

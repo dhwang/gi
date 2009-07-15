@@ -113,8 +113,8 @@
   <record jsxid="mnuTypeAheadXSL" jsxtext="language/eng/typeahead_xsl.xml"/>
   <!-- builder links to external sites -->
   <record jsxid="signup_url" jsxtext="http://www.generalinterface.org/alias/signup" />
-  <record jsxid="welcome_text" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/learning&quot; target=&quot;_blank&quot;&gt;Get Started&lt;/a&gt;&lt;br/&gt;
-    &lt;a href=&quot;http://www.generalinterface.org/alias/forum_dev&quot; target=&quot;_blank&quot;&gt;Developer Forums&lt;/a&gt;&lt;br/&gt;
+  <record jsxid="welcome_text" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/samples&quot; target=&quot;_blank&quot;&gt;Sample Applications&lt;/a&gt;&lt;br/&gt;
+    &lt;a href=&quot;http://www.generalinterface.org/alias/forums&quot; target=&quot;_blank&quot;&gt;Forums&lt;/a&gt;&lt;br/&gt;
     &lt;a href=&quot;http://www.generalinterface.org/alias/support&quot; target=&quot;_blank&quot;&gt;Support &amp;amp; Training&lt;/a&gt;"/>
   <record jsxid="rss_announce_url" jsxtext="http://www.generalinterface.org/alias/announce_rss"/>
   <record jsxid="rss_popular_url" jsxtext="http://www.generalinterface.org/alias/forums_rss" />

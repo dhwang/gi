@@ -158,6 +158,7 @@
       <section id="additions"/>
       <divider id="links"/>
       <divider id="about"/>
+      <divider id="license"/>
     </menu>
   </extension>
 
@@ -263,23 +264,34 @@
   <extension point="jsx3.ide.ui.action" id="menu.help">
     <action
         id="jsx3.ide.help8a"
-        label="Online Resources"
+        label="Learning Center"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/resources', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/learning', 'jsxide_power',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help8b"
-        label="&amp;#160; &amp;#160;Getting Started"
+        label="&amp;#160; &amp;#160;Sample Applications"
         menupath="/jsx3.ide.help/links"
-        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/learning','jsxide_start',null,null,'yes','yes','yes','yes','yes');"/>
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/samples','jsxide_samples',null,null,'yes','yes','yes','yes','yes');"/>
+    <action
+        id="jsx3.ide.help8b1"
+        label="&amp;#160; &amp;#160;Tutorials"
+        menupath="/jsx3.ide.help/links"
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/tutorials','jsxide_tutorials',null,null,'yes','yes','yes','yes','yes');"/>
+
+    <action
+        id="jsx3.ide.help8c"
+        label="Forums"
+        menupath="/jsx3.ide.help/links"
+        execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/forums','jsxide_forums',null,null,'yes','yes','yes','yes','yes');"/>
     <action
         id="jsx3.ide.help8d"
-        label="&amp;#160; &amp;#160;Search Discussion Forums..."
+        label="&amp;#160; &amp;#160;Search Forums..."
         menupath="/jsx3.ide.help/links"
         execute="this.getPlugIn().searchForums();"/>
 
     <action
         id="jsx3.ide.help9a"
-        label="&amp;#160; &amp;#160;Open Source Project"
+        label="Open Source Project"
         menupath="/jsx3.ide.help/links"
         execute="jsx3.ide.openConsoleWindow('http://www.generalinterface.org/alias/os_home','jsxide_gios',null,null,'yes','yes','yes','yes','yes');"/>
     <action
