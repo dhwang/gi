@@ -127,13 +127,14 @@ jsx3.$O(this).extend({
   },
 
   getGroupRecord: function(group_name) {
+    var text = group_name == 'jsxcontacts' ? 'Contacts' : group_name;
     return {
       jsxid: group_name,
-      jsxtext: group_name == 'jsxcontacts' ? 'Contacts' : group_name,
+      jsxtext: text,
       jsximg: '',
       jsxgroup: group_name,
       jsxstyle: 'font-weight:bold;',
-      jsxsort: group_name.toLowerCase(),
+      jsxsort: text.toLowerCase(),
       jsxnick: '',
       jsxopen: 1,
       jsxunselectable: 1
@@ -311,6 +312,7 @@ jsx3.$O(this).extend({
       var name = (newItem.name||newItem.jid) /*+ (newItem.substatus == dojox.xmpp.presence.SUBSCRIPTION_REQUEST_PENDING ? ' (awaiting authorization)' : '')*/;
       record.jsxtext = name;
       record.jsxsort = record.jsxsortlevel + "-" + String(name).toLowerCase();
+      record.jsxnick = newItem.name;
 
       objTree.insertRecord(record, null, false);
       this._repaintTree();
@@ -488,7 +490,11 @@ jsx3.$O(this).extend({
 
   doShutdown: function() {
     if (this.session) {
-      this.session.close();
+      try {
+        this.session.close();
+      } catch (e) {
+        this.getLog().warn("Error disconnecting: " + jsx3.NativeError.wrap(e));
+      }
       this.session = null;
       this.roster = {};
       this._playSound("disconnect");
@@ -532,8 +538,7 @@ jsx3.$O(this).extend({
     // Called when user selects "Set Nickname" from context
     // menu.  Loads the nickname dialog and sets it up.
     this.getResource("xmpp_nick_dialog").load().when(jsx3.$F(function() {
-      var dialog = this.loadRsrcComponent("xmpp_nick_dialog", this.getServer().getRootBlock(), false);
-      dialog.getParent().paintChild(dialog);
+      var dialog = this.loadRsrcComponent("xmpp_nick_dialog", this.getServer().getRootBlock());
 
       dialog.focus();
       dialog.setNickname(user.jsxid, user.jsxnick);
