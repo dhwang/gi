@@ -36,7 +36,7 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
           '        <td rowspan="1" colspan="3">' + jsx3.ide.PROJECT.getTitle() + '</td>\n' +
           '      </tr>\n' +
           '      <tr>\n' +
-          '        <td>jsxopen</td><td>${GI}/shell.html?jsxapppath=${APP}</td><td></td>\n' +
+          '        <td>jsxopen</td><td>${GI}/shell.html?jsxapppath=${APP}</td>&amp;nbsp;<td></td>\n' +
           '      </tr>\n' +
           '    </tbody>\n' +
           '  </table>\n' +
@@ -169,4 +169,9 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
     return s ? "jsxselector=" + s : s;
   };
 
+  /** @private @jsxobf-clobber */
+  Editor_prototype._getActionString = function(strType, objContext) {
+    var action = (strType) ? "do_" + strType : strType;
+    return action;
+  };
 });

@@ -1,5 +1,5 @@
 /*
-Copyright 2006-2008 TIBCO Software, Inc
+Copyright 2006-2009 TIBCO Software, Inc
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -4253,7 +4253,15 @@ Selenium.prototype.doInclude = function(fileName, timeout) {
 //Extended commands for recorder playback.
 
 Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
-  //recorder._invokeAction = function(objTarget, strAction, objArgs) {
+  // process special json value
+  for (var f in value) {
+    if (typeof(value[f]) == "string") {
+      if (match = value[f].match(/^JSX\((.*)\)$/))
+        value[f] = this.browserbot.findJsxObject(match[1]);
+      else if (match = value[f].match(/^XML\((.*)\)$/))
+        value[f] = (new jsx3.xml.Document()).loadXML(match[1]);
+    }
+  }
 
   var ctx = {};
 	for (var f in value) {
@@ -4271,7 +4279,7 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
 	} else {
 	  var fct = recorder._getReplayFunction(objTarget, strAction);
 	  if (fct) {
-      LOG.debug("function " + fct);
+      LOG.debug("replay function =" + fct);
       fct.apply(objTarget, [ctx]);
 	  } else {
       objTarget.doEvent(strAction, ctx);
@@ -4284,10 +4292,10 @@ Selenium.prototype.doJsxchange = function (locator, value) {
     this._doRecorderAction('jsxchange', objJSX, value);
 }
 */
-/**
-* _doJsxCommand : generic do jsx commands 
+/*
+* _doJsxAction : dispatch recorder commands 
 */
-Selenium.prototype._doJsxCommand = function (locator, value) {
+Selenium.prototype.doJsxAction = function (locator, value) {
     var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
     if (objJSX) {
       try {
@@ -4295,19 +4303,13 @@ Selenium.prototype._doJsxCommand = function (locator, value) {
       } catch (e) {
         throw new Error("Bad action value: " + value);
       }
-      // process special json value
-      for (var f in value) {
-        if (typeof(value[f]) == "string") {
-          if (match = value[f].match(/^JSX\((.*)\)$/))
-            value[f] = this.browserbot.findJsxObject(match[1]);
-          else if (match = value[f].match(/^XML\((.*)\)$/))
-            value[f] = (new jsx3.xml.Document()).loadXML(match[1]);
-        }
-      }
       var action = currentTest.currentRow.getCommand().command;
+      if (match = action.match(/^(do_)(.*)/) ) {
+           action = match[2];
+      } 
       this._doRecorderAction(action, objJSX, value);
     }
-}
+};
 
 Selenium.prototype.doJsxwait_sleep = function (timeout) {
   return function(target, value) {
@@ -4321,7 +4323,7 @@ Selenium.prototype.doJsxwait_sleep = function (timeout) {
         };
       return Selenium.decorateFunctionWithTimeout(terminationCondition, timeout);
   }
-}
+};
 
 Selenium.prototype._sleepQueueEmpty = function(strName) {
     jsx3.unsubscribe(jsx3.QUEUE_DONE, this, "_sleepQueueEmpty");
@@ -4341,89 +4343,106 @@ Selenium.prototype.doJsxwait_sleeplong = function (timeout) {
         };
       return Selenium.decorateFunctionWithTimeout(terminationCondition, timeout);
   }
+};
+
+// Override the default getCommandHandler to handle unregistered recorder actions
+CommandHandlerFactory.prototype.getCommandHandler = function(command) {
+  var cmd;
+  if (this.handlers[command]) {
+      return this.handlers[command];
+  }
+  if (match = command.match(/^(do_)(.*)/) ) {
+     cmd = match[2];
+  }   
+  var handler = this.handlers[cmd]; // registered actions
+  if (!handler && match) {
+    LOG.debug("unregistered command " + cmd + ", return doJsxAction");
+    handler = this.handlers["jsxAction"];
+  }
+  return handler;
+};
+
+// Allow registration of recorder JSX commands
+CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
+  for (var i = 0; i < recorder.actions.length; i++) {
+    var actionName = recorder.actions[i];
+    var actionMethod = seleniumApi.doJsxAction;
+    var actionBlock = fnBind(actionMethod, seleniumApi);
+    this.registerAction(actionName, actionBlock, false);
+  }
 }
- 
-  // Allow registration of new JSX commands
-  CommandHandlerFactory.prototype._registerJsxActions = function(seleniumApi) {
-    for (var i = 0; i < recorder.actions.length; i++) {
-      var actionName = recorder.actions[i];
-      var actionMethod = seleniumApi._doJsxCommand;
-      var actionBlock = fnBind(actionMethod, seleniumApi);
-      this.registerAction(actionName, actionBlock, false);
+
+// Recorder value need evaluation create custom predicate assertion method
+CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
+  return function(target, value) {
+    try {
+      if (value && value !== "") { value =  eval("var tmp = " + value + "; tmp"); }
+    } catch (e) {
+      Assert.fail("Bad action value: " + value);
+    }
+    value = "exact:" + value;
+    LOG.debug("assert jsx predicate, " + value);
+    var result = predicateBlock(target, value);
+    if (!result.isTrue) {
+        Assert.fail(result.message);
+    }
+  };
+}
+
+CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
+  // Convert into a jsxwait_blah(target, value) function.
+  return function(target, value) {
+    try {
+      if (value && value !== "") value =  eval("var tmp = " + value + "; tmp");
+    } catch (e) {
+      LOG.error("Bad action value: " + value);
+    }
+      var terminationCondition = function () {
+        try {
+          return predicateBlock(target, value).isTrue;
+        } catch (e) {
+          // Treat exceptions as meaning the condition is not yet met.
+          // Useful, for example, for waitForValue when the element has
+          // not even been created yet.
+          return false;
+        }
+      };
+    return Selenium.decorateFunctionWithTimeout(terminationCondition, this.defaultTimeout);
+  };
+
+}
+// Register jsxassert_ and jsxwait_ commands
+CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
+  for (var functionName in recorder._VERBS) {
+    var match = /^(jsxget|jsxdo)_(.+)$/.exec(functionName);
+    if (match) {
+      var accessMethod = recorder._VERBS[functionName];
+      var accessBlock = fnBind(accessMethod, seleniumApi);
+      //console.debug("register " + functionName);
+      var baseName = match[2];
+      var isBoolean = (match[1] == "jsxdo");
+
+      this.registerAccessor(functionName, accessBlock);
+      var predicateBlock = this._predicateForAccessor(accessBlock, true, isBoolean);
+
+      var assertBlock = this._jsxAssertionFromPredicate(predicateBlock);
+      this.registerAssert("jsxassert_" + baseName, assertBlock, true);
+
+      // make into wait commands     
+      var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
+      var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
+      this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
     }
   }
-
-  // Recorder value need evaluation create custom predicate assertion method
-  CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateBlock) {
-    return function(target, value) {
-		  try {
-        if (value && value !== "") { value =  eval("var tmp = " + value + "; tmp"); }
-		  } catch (e) {
-        Assert.fail("Bad action value: " + value);
-		  }
-      value = "exact:" + value;
-		  LOG.debug("assert jsx predicate, " + value);
-      var result = predicateBlock(target, value);
-      if (!result.isTrue) {
-          Assert.fail(result.message);
-      }
-    };
-  }
-  
-  CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
-    // Convert into a jsxwait_blah(target, value) function.
-    return function(target, value) {
-		  try {
-        if (value && value !== "") value =  eval("var tmp = " + value + "; tmp");
-		  } catch (e) {
-        LOG.error("Bad action value: " + value);
-		  }
-        var terminationCondition = function () {
-          try {
-            return predicateBlock(target, value).isTrue;
-          } catch (e) {
-            // Treat exceptions as meaning the condition is not yet met.
-            // Useful, for example, for waitForValue when the element has
-            // not even been created yet.
-            return false;
-          }
-        };
-      return Selenium.decorateFunctionWithTimeout(terminationCondition, this.defaultTimeout);
-    };
-
-  }
-  // Register jsxassert_ and jsxwait_ commands
-  CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
-  	for (var functionName in recorder._VERBS) {
-      var match = /^(jsxget|jsxdo)_(.+)$/.exec(functionName);
-      if (match) {
-        var accessMethod = recorder._VERBS[functionName];
-        var accessBlock = fnBind(accessMethod, seleniumApi);
-        //console.debug("register " + functionName);
-        var baseName = match[2];
-        var isBoolean = (match[1] == "jsxdo");
-
-        this.registerAccessor(functionName, accessBlock);
-        var predicateBlock = this._predicateForAccessor(accessBlock, true, isBoolean);
-
-        var assertBlock = this._jsxAssertionFromPredicate(predicateBlock);
-        this.registerAssert("jsxassert_" + baseName, assertBlock, true);
-
-        // make into wait commands     
-        var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
-        var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
-        this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
-      }
-    }
-  }
-  // Override the default registration method
-  CommandHandlerFactory.prototype.registerAll = function(seleniumApi) {
-        this._registerAllAccessors(seleniumApi);
-        this._registerAllActions(seleniumApi);
-        this._registerAllAsserts(seleniumApi);
-        this._registerJsxActions(seleniumApi);
-        this._registerJsxAssert(seleniumApi);
-  }
+}
+// Override the default registration method
+CommandHandlerFactory.prototype.registerAll = function(seleniumApi) {
+      this._registerAllAccessors(seleniumApi);
+      this._registerAllActions(seleniumApi);
+      this._registerAllAsserts(seleniumApi);
+      this._registerJsxActions(seleniumApi);
+      this._registerJsxAssert(seleniumApi);
+}
 
 var recorder = classCreate();
 recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
