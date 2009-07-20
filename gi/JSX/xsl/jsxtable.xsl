@@ -43,6 +43,8 @@
   <xsl:param name="jsx_8"/>
   <xsl:param name="jsx_9"/>
   <xsl:param name="jsx_10"/>
+  <xsl:param name="jsxmininclusive">0</xsl:param>
+  <xsl:param name="jsxmaxinclusive"></xsl:param>
 
   <!-- the root entry template -->
   <xsl:template match="/">
@@ -51,6 +53,19 @@
         <xsl:when test="$jsxasyncmessage and $jsxasyncmessage!=''">
           <xsl:value-of select="$jsxasyncmessage"/>
         </xsl:when>
+        <xsl:when test="$jsxmaxinclusive">
+          <table class="jsx30table" style="top:{$jsxheaderheight}px;{$jsxtablestyles}" cellpadding="0"
+                 cellspacing="0">
+            <xsl:for-each select="//record">
+            <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
+            <xsl:choose><xsl:when test="position() &gt;= $jsxmininclusive and position() &lt;= $jsxmaxinclusive">
+              <xsl:apply-templates select="." mode="record">
+                <xsl:with-param name="position" select="position()-1"/>
+              </xsl:apply-templates>
+            </xsl:when></xsl:choose>
+          </xsl:for-each>
+          </table>
+        </xsl:when>        
         <xsl:otherwise>
           <table class="jsx30table" style="top:{$jsxheaderheight}px;{$jsxtablestyles}" cellpadding="0"
                  cellspacing="0">
