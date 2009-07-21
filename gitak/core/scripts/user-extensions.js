@@ -776,50 +776,6 @@ Selenium.prototype.doClickJsxElement = function(locator, modifier) {
 
 };
 
-Selenium.prototype.doClickJsxGridDelete = function(locator) {
-/**
- * Click on a grid delete cell
- * @param locator {String} Grid cell locator JsxGridCell=jsxname.jsxid.colIndex
- *
- */
-   LOG.debug("doClickJsxGridDelete locator = " + locator );
-   // action is attached to the child <div> element of the grid cell <td> element
-   var divElement = this.browserbot.findElement(locator).childNodes[0];
-   if (divElement) {
-     _triggerMouseEvent(divElement, 'mouseover', true);
-     _triggerMouseEvent(divElement, 'click', true); // actual onclick
-   }
-};
-
-Selenium.prototype.doClickJsxListHeader = function(locator) {
-/**
- * Click on a list header cell.  Need special command because Sorting is
- * trigger by a ghost element that is dynamically inserted.
- * @param locator {String} list header locator JsxListHeaderIndex=jsxname,colIndex
- *
- */
-   LOG.debug("doClickJsxListHeader locator = " + locator );
-   var text = locator.split("=")[1];
-   var params = text.split(",");
-   var listJsxName = params[0];
-   var listColumnIndex = parseInt(params[1]);
-   var jsxElement = null;
-   var jsxList = this.browserbot.findByJsxNameAndType(listJsxName, 'jsx3.gui.List');
-
-   if (jsxList != null) {
-    LOG.debug('list = ' + jsxList);
-    var col = jsxList.getChild(listColumnIndex);
-    jsxElement = col.getRendered();
-
-    if (jsxElement) {
-     _triggerMouseEvent(jsxElement, 'mousedown', true);
-     var ghostElement = this.browserbot.getCurrentWindow(true).document.getElementById(jsxList.getId() + "_jsxghost");
-     //LOG.debug('ghost = ' + getOuterHTML(ghostElement));
-     _triggerMouseEvent(ghostElement, 'mouseup', true);
-    }
-   }
-};
-
 Selenium.prototype.doClickJsxMatrixHeader = function(locator) {
 /**
  * Click on a Matrix header cell
@@ -1531,32 +1487,6 @@ Selenium.prototype.doSpyJsxElement = function(locator) {
      //_triggerMouseEvent(mElement, 'mouseover', true);
    }
 };
-
-Selenium.prototype.doTypeJsxGridCell = function(locator, text) {
-/** Type in grid text box column, Deprecated.
-  * @param locator {String} Cell with jsxid id123 and column 1  = gridJsxName.id123.1
-  * @param text {String} value to type into Grid cell
- */
-   LOG.warn("Grid is deprecated, grid cell" + locator + " with " + text);
-
-   var strategy = locator.split('=');
-   var params = strategy[1].split("."); // gridJsxName.r.c
-   var jsxName = params[0];
-   jsxName=stripQuotes(jsxName);
-   LOG.debug("grid jsxname = " + jsxName);
-
-   var jsxGrid =  this.browserbot.findByJsxNameAndType(jsxName, 'jsx3.gui.Grid');
-   var cell_item = this.browserbot.findElement(locator);
-   _triggerEvent(cell_item, 'focus', true);
-    var activeMask = jsxGrid.getActiveMask();
-   if (activeMask) {
-       _triggerEvent(activeMask.getRendered(), 'focus', true);
-       activeMask.setValue(text);
-       _triggerEvent(activeMask.getRendered(), 'blur', true);
-   }
-   _triggerEvent(cell_item, 'blur', true);
-};
-
 
 Selenium.prototype.doPickJsxTime = function(jsxname, value) {
 /** Pick a time value in the form of HH:mm:SS.sss into a jsx3.gui.TimePicker
