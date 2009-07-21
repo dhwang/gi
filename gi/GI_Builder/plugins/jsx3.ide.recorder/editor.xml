@@ -7,6 +7,9 @@ this.getPlayerBtn = function() { return gipp; }
 
 this.setGIPP = function(b) {
   colLabel.setDisplay(b ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE);
+  if (!b) { /* use gitak specific actions list*/
+     colAction.getChild(0).setXMLId("jsx3.ide.recorder.gitak.gitakxml");
+  }
 }
 
   ]]></onAfterDeserialize>

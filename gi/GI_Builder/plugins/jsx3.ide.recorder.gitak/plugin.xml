@@ -18,6 +18,7 @@
   <resources>
     <script id="type" path="GitakType.js" load="early"/>
     <script id="editor" path="GitakEditor.js"/>
+    <xml id="gitakxml" path="actions.xml" load="early"/>    
   </resources>
 
   <extension point="jsx3.ide.file-type" id="type">
