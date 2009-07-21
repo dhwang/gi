@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -224,6 +225,29 @@ public class Utils {
     List<K> sorted = new ArrayList<K>(map.keySet());
     Collections.sort(sorted);
     return sorted;
+  }
+
+  public static String getNewLanguageCode(Locale l) {
+    // The inverse of Java's Locale.convertOldISOCodes()
+    // makes sure that the new language key is returned, rather than the old key
+    String language = l.getLanguage();
+    if ("iw".equals(language)) {
+      return "he";
+    } else if ("ji".equals(language)) {
+      return "yi";
+    } else if ("in".equals(language)) {
+      return "id";
+    } else {
+      return language;
+    }
+  }
+
+  public static String getNewLocaleKey(Locale l) {
+    String country = l.getCountry();
+    if (country != null && country.length() > 0)
+      return getNewLanguageCode(l) + "_" + country;
+    else
+      return getNewLanguageCode(l);
   }
 
 }

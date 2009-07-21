@@ -65,7 +65,7 @@ public class LocaleCompiler {
 
   private static final Comparator LOCALE_COMPARATOR = new Comparator<Locale>() {
     public int compare(Locale a, Locale b) {
-      return a.toString().compareTo(b.toString());
+      return Utils.getNewLocaleKey(a).compareTo(Utils.getNewLocaleKey(b));
     }
   };
 
@@ -126,7 +126,7 @@ public class LocaleCompiler {
       uris.add(mergeURIs(cldrURL, SUPPLEMENTAL_PATH));
 
       // If this is the default locale, merge any data from the root.xml files of the source directories.
-      if (locale.toString().equals(defaultLocale)) {
+      if (locale.equals(new Locale(defaultLocale))) {
         uris.add(mergeURIs(cldrURL, MAIN_PATH + rootLocale + ".xml"));
         uris.addAll(mergeURIs(sourceURLs, rootLocale + ".xml"));
         main = true;
@@ -134,22 +134,22 @@ public class LocaleCompiler {
 
       // Merge any localized resources from the source directories for this locale. Any source is allowed to not
       // have a resource for this locale ... it will just be ignored.
-      uris.add(mergeURIs(cldrURL, MAIN_PATH + locale.toString() + ".xml"));
-      uris.addAll(mergeURIs(sourceURLs, locale.toString() + ".xml"));
+      uris.add(mergeURIs(cldrURL, MAIN_PATH + Utils.getNewLocaleKey(locale) + ".xml"));
+      uris.addAll(mergeURIs(sourceURLs, Utils.getNewLocaleKey(locale) + ".xml"));
 
       // Figure out the file to merge into. We may need to strip off the country code and add it to the file
       // named with just the language code.
       String keyParent = null;
       if (mergeLanguages) {
-        if (locale.getLanguage().equals(defaultLocale.substring(0, 2))) {
+        if (Utils.getNewLanguageCode(locale).equals(defaultLocale.substring(0, 2))) {
           keyParent = rootLocale;
           main = true;
         } else if (locale.getCountry().length() > 0) {
-          keyParent = locale.getLanguage();
+          keyParent = Utils.getNewLanguageCode(locale);
         }
       }
 
-      mergeSourceFiles(uris, locale.toString(), keyParent, main);
+      mergeSourceFiles(uris, Utils.getNewLocaleKey(locale), keyParent, main);
     }
   }
 
@@ -205,11 +205,11 @@ public class LocaleCompiler {
 
       // get all the locales that are stored externally
       for (Locale locale : locales) {
-        if (locale.toString().equals(defaultLocale)) continue;
+        if (locale.equals(new Locale(defaultLocale))) continue;
         if (mergeLanguages && locale.getCountry().length() > 0) {
           Locale l2 = new Locale(locale.getLanguage());
           if (locales.contains(l2)) locale = l2;
-          if (locale.toString().equals(defaultLocale.substring(0, 2))) continue;
+          if (locale.equals(new Locale(defaultLocale.substring(0, 2)))) continue;
         }
 
         extLocales.add(locale);
@@ -218,7 +218,7 @@ public class LocaleCompiler {
       // serialize them into the locales attribute of the root element
       StringBuilder sb = new StringBuilder();
       for (Locale l : extLocales)
-        sb.append(",").append(l.toString());
+        sb.append(",").append(Utils.getNewLocaleKey(l));
       data.setAttribute("locales", sb.length() > 0 ? sb.substring(1) : "");
     }
 
@@ -627,7 +627,7 @@ public class LocaleCompiler {
    */
   public void addLocale(Locale locale) {
     this.locales.add(locale);
-    languages.add(locale.getLanguage());
+    languages.add(Utils.getNewLanguageCode(locale));
     countries.add(locale.getCountry());
   }
 

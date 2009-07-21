@@ -113,7 +113,7 @@ public class ResourceInjector {
     for (Locale locale : locales) {
       if (locale.equals(defaultLocale)) continue;
 
-      String language = locale.getLanguage();
+      String language = Utils.getNewLanguageCode(locale);
       String country = locale.getCountry();
       sb.append(",").append(language);
       if (country != null && country.length() > 0)
