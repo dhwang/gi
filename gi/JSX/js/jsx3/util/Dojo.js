@@ -11,33 +11,35 @@ jsx3.Class.defineClass("jsx3.util.DojoPubSub", null, [jsx3.util.EventDispatcher]
   var defaultPublish = jsx3.util.EventDispatcher.prototype.publish;
 
   DojoPubSub_prototype.publish = function(message) {
-    message._fromGI = true
-    dojo.publish(message.subject, [message]);
-    return defaultPublish.call(this, message);
+    if (jsx3.util.Dojo.isLoaded()) {
+      message._fromGI = true;
+      dojo.publish(message.subject, [message]);
+      return defaultPublish.call(this, message);
+    }
   };
 
   DojoPubSub_prototype.subscribe = function(topic, context, method) {
-    var self = this;
-    if (!eventHandlers[topic]) {
-      eventHandlers[topic] = dojo.subscribe(topic, null, function(m) {
-        if(!(m && m._fromGI)) {
-          var message = {subject: topic};
-          for (var i = 0; i < arguments.length; i++) {
-            message[i] = arguments[i];
+    if (jsx3.util.Dojo.isLoaded()) {
+      var self = this;
+      if (!eventHandlers[topic]) {
+        eventHandlers[topic] = dojo.subscribe(topic, null, function(m) {
+          if(!(m && m._fromGI)) {
+            var message = {subject: topic};
+            for (var i = 0; i < arguments.length; i++) {
+              message[i] = arguments[i];
+            }
+            defaultPublish.call(self, message);
           }
-          defaultPublish.call(self, message);
-        }
-      });
+        });
+      }
+      return this.jsxsupermix(topic, context, method);
     }
-    return this.jsxsupermix(topic, context, method);
   };
 
 });
 
-jsx3.util.DojoPubSub.hub = new jsx3.util.DojoPubSub();
-
 /**
- * Requiring this class loads Dojo.
+ * Provides the ability to load the Dojo JavaScript library.
  *
  * @see jsx3.gui.DojoWidget
  * @see jsx3.xml.DojoDataStore
@@ -46,14 +48,16 @@ jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function(Dojo) {
 
   /**
    * {jsx3.util.EventDispatcher}
-   * A bridge to Dojo's publish/subscribe hub. Events on dojo's hub can be subscribed to through this
-   * instance. Events can also be published through this bridge, and they will be broadcast on Dojo's hub.
+   * A bridge to Dojo's publish/subscribe hub. Events on the Dojo hub can be subscribed to through this
+   * instance. Events can also be published through this bridge, and they will be broadcast on the Dojo hub.
+   * <code>Dojo.load()</code> must be called before this object can be used.
+   * @see #load()
    */
   Dojo.hub = new jsx3.util.DojoPubSub();
 
   /**
    * Returns the resolved path to Dojo or a file within Dojo. Dojo is assumed to be installed in the directory
-   * <code>dojo-toolkit</code> as a peer of <code>JSX</code>. This location may be overridden by setting the
+   * <code>dojo-toolkit/</code> as a peer of <code>JSX/</code>. This location may be overridden by setting the
    * <code>jsx_dojo</code> deployment parameter.
    *
    * @param s {String} the relative path of a Dojo resource.
@@ -63,6 +67,10 @@ jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function(Dojo) {
     return jsx3.resolveURI(prefix + (s ? s : ""));
   };
 
+  /**
+   * Loads the Dojo JavaScript library. Dojo must be installed at URI <code>jsx:/../dojo-toolkit</code> or the
+   * <code>jsx_dojo</code> deployment parameter must be set to the location where Dojo is installed.
+   */
   Dojo.load = function() {
     if (typeof dojo == "undefined") {
       window.djConfig = typeof djConfig == "undefined" ? {baseUrl: jsx3.util.Dojo.getPath("/dojo/"), afterOnLoad: true} : djConfig;
@@ -82,6 +90,14 @@ jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function(Dojo) {
         return dojo.query('[label="JSXBODY"]')[0];
       };
     }
+  };
+
+  /**
+   * Returns whether Dojo has been loaded.
+   * @return {boolean}
+   */
+  Dojo.isLoaded = function() {
+    return typeof dojo != "undefined";
   };
   
 });

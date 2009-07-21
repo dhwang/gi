@@ -4,7 +4,7 @@
  */
 
 /**
- * Provides access to Dojo data store through the CDF interface
+ * Provides access to Dojo data store through the CDF interface.
  */
 jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(DojoDataStore, DojoDataStore_prototype) {
 
@@ -13,13 +13,17 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
   /** @private @jsxobf-clobber */
   DojoDataStore._LOG = jsx3.util.Logger.getLogger(CDF.jsxclass.getName());
 
+  /**
+   * The instance initializer.
+   * @param store {Object} the Dojo data store object.
+   */
   DojoDataStore_prototype.init = function(store){
     this.store = store;
   };
 
   // create a wrapper for records to be accessed via the XML entity interface
   function createNode(store, item) {
-    record = new jsx3.xml.DataStoreItem();
+    var record = new jsx3.xml.DataStoreItem();
     record.item = item;
     record.store = store;
     return record;
@@ -181,6 +185,7 @@ jsx3.Class.defineClass("jsx3.xml.DojoDataStore", null, [jsx3.xml.CDF], function(
 /**
  * A subclass of <code>jsx3.xml.Document</code> that implements the CDF interface. This class simply exposes the CDF
  * convenience methods on an XML document.
+ * @package
  */
 jsx3.Class.defineClass("jsx3.xml.DataStoreItem", jsx3.xml.Entity, null, function(DataStoreItem, DataStoreItem_prototype) {
 

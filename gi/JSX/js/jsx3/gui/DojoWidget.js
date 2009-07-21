@@ -15,34 +15,42 @@ dojo.require("dijit.dijit");
 dojo.require("dojox.html._base");
 
 /**
- * Provides an adapter for Dojo widgets
+ * An adapter for Dojo widgets. Allows Dojo widgets (Dijits) to be used as GI DOM nodes from within a
+ * General Interface application. 
  */
 jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(DojoWidget, DojoWidget_prototype) {
-  DojoWidget._LOG = jsx3.util.Logger.getLogger("jsx3.gui.DojoWidget");
 
-  var ss = DojoWidget._stylesheets = {};
+  /**
+   * {dijit._Widget} The native Dojo widget object.
+   */
+  DojoWidget_prototype.dijit = null;
+
+  var ss = {};
+
   var correctedPopups;
+
   /**
    * Dynamically inserts the theme style sheet and applies the correct class to the app's DOM
    * @param theme theme to apply
    * @param node The node to use
    * @private
    */
-  DojoWidget.insertThemeStyleSheets = function(theme, node){
+  DojoWidget._insertThemeStyleSheets = function(theme, node){
     var theme_ss = jsx3.util.Dojo.getPath('/dijit/themes/' + theme + '/' + theme + '.css');
 
-    if(!ss[theme_ss]){
-      DojoWidget.insertStyleSheet(theme_ss, node);
+    if (!ss[theme_ss]) {
+      DojoWidget._insertStyleSheet(theme_ss, node);
       dojo.addClass(dojo.body(), theme);
     }
   };
+
   /**
    * Dynamically inserts a style sheet into the DOM
    * @param name filename of the style sheet to add
    * @param node The node to use
    * @private
    */
-  DojoWidget.insertStyleSheet = function(name, node){
+  DojoWidget._insertStyleSheet = function(name, node){
     var doc = node.ownerDocument;
     var head = doc.getElementsByTagName("head")[0];
     var s = ss[name];
@@ -70,13 +78,26 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     }
   };
 
-  DojoWidget_prototype.init = function(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML,dijitProps) {
+  /**
+   * The instance initializer.
+   * @param strName
+   * @param vntLeft
+   * @param vntTop
+   * @param vntWidth
+   * @param vntHeight
+   * @param dijitProps {Object} the properties to send to the Dojo class constructor.
+   */
+  DojoWidget_prototype.init = function(strName,vntLeft,vntTop,vntWidth,vntHeight,dijitProps) {
     //call constructor for super class
     this.dijitProps = dijitProps||{};
-    this.jsxsuper(strName,vntLeft,vntTop,vntWidth,vntHeight,strHTML);
+    this.jsxsuper(strName,vntLeft,vntTop,vntWidth,vntHeight);
     this._createDijit(this.dijitProps);
   };
-  DojoWidget_prototype.onAfterAssemble = function(){
+
+  /**
+   * @package
+   */
+  DojoWidget_prototype.onAfterAssemble = function() {
     var dijitProps = {};
     for (var i in this) {
       if (i.substring(0,6) == "dijit_") {
@@ -89,9 +110,14 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       this.setEvent(this._jsxevents[i], i);
     }
   };
+
+  /**
+   * @package
+   */
   DojoWidget_prototype.onSetChild = function() {
     return false;
   };
+
   /**
    * Gets the sub-id of the class
    * @return the sub-id of the class
@@ -128,62 +154,45 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       });
     }
   };
+
+  /**
+   * @package
+   */
   DojoWidget_prototype.isDomPaint = function(){
     return !!this.dijitClassName;
   };
-  DojoWidget_prototype.paintDom = function(a){
-    var newElement = document.createElement("div");
-    DojoWidget.insertThemeStyleSheets('tundra', newElement);
-    if(this.dijitStyleSheets){
+
+  /**
+   * @package
+   */
+  DojoWidget_prototype.paintDom = function() {
+    jsx3.html.insertAdjacentHTML(document.body, "beforeEnd", this.paint());
+    var newElement = document.body.lastChild;
+
+    DojoWidget._insertThemeStyleSheets('tundra', newElement);
+    
+    if (this.dijitStyleSheets) {
       dojo.forEach(this.dijitStyleSheets, function(style_sheet){
-        DojoWidget.insertStyleSheet(jsx3.util.Dojo.getPath('/' + style_sheet), newElement);
+        DojoWidget._insertStyleSheet(jsx3.util.Dojo.getPath('/' + style_sheet), newElement);
       });
     }
-    dojo.attr(newElement, 'id', this.getId());
-    document.body.appendChild(newElement);
-    var style = (this.jsxheight ? "height:" + this.jsxheight + "px;" : "") +
-                (this.jsxwidth ? "width:" + this.jsxwidth + "px;" : "") + 
-                (this.jsxleft ? "left:" + this.jsxleft + "px;" : "") +
-                (this.jsxtop? "top:" + this.jsxtop + "px;" : "") + 
-                (typeof this.jsxrelativeposition == "number" ? "position:" + (this.jsxrelativeposition ? "relative" : "absolute") : "") + 
-                this.paintFontSize() + this.paintBackgroundColor() + this.paintBackground() +
-                this.paintColor() + this.paintOverflow() + this.paintFontName() +
-                this.paintZIndex() + this.paintFontWeight() + this.paintTextAlign() +
-                this.paintCursor() + this.paintVisibility() + this.paintBlockDisplay() + this.paintCSSOverride();
 
-    newElement.style.cssText = style;
-    newElement.title = this.getTip();
-    
     this.dijit.placeAt(newElement);
-    if(this.jsxheight) {
+    if (this.getHeight())
       newElement.firstChild.style.height = "100%";
-    }
+
     return newElement;
   };
 
   /**
-   * Returns a getter for retrieving attribute value from the Dojo widget
-   * @param name {String} Name of the attribute whose value will be retrieved when calling the getter
-   * @return {Function} Getter function to return the attribute's value
+   * Gets or sets a property of the native Dojo object. Calling this method with two parameters sets the property.
+   * @param name {String} the name of the property to get or set.
+   * @param value {Object} the new value of the property.
    */
-  DojoWidget_prototype.getter = function(name){
-    var dijit = this.dijit;
-    return function() {
-      return dijit.attr(name);
-    };
+  DojoWidget_prototype.attr = function(name, value) {
+    return this.dijit.attr.apply(this.dijit, arguments);
   };
 
-  /**
-   * Returns a setter for modifying an attribute's value in the Dojo widget
-   * @param name {String} Name of the attribute whose value will be modified when calling the setter
-   * @return {Function} Setter function to modify attribute's value
-   */
-  DojoWidget_prototype.setter = function(name){
-    var dijit = this.dijit;
-    return function(value) {
-      dijit.attr(name, value);
-    };
-  };
   /**
    * Handles destruction of the widget
    * @private
@@ -193,6 +202,10 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
 
     this.jsxsuper(objParent);
   };
+
+  /**
+   * @package
+   */
   DojoWidget_prototype.setEvent = function(script, eventName){
     this.getEvents()[eventName] = script;
     var handles = this._eventHandles = this._eventHandles || {};
@@ -206,7 +219,7 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       objJSX.doEvent(eventName, {objEVENT: event});
     });
     return this;
-  }
+  };
 
   // iterates over the properties, whether it be from the API docs, or the object's prototype  
   function iterateProperties(self, handler) {
@@ -237,7 +250,9 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
         }
       }
   };
+
   var objectsMissingDocGetters = [];
+
   // setup the getters and setters on the object
   function setupAccessors(self){
     if(!docsInitialized){
@@ -265,13 +280,16 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       }
     });
   };
+  
   var docsInitialized;
+
   /**
    * Returns the metadata in XML form
    * @param metadataType {String} This can be "prop" for the properties, or "event" for the events
    * @return {jsx3.xml.CDF} The metadata in CDF/XML form
+   * @package
    */
-  DojoWidget_prototype.getMetadataXML = function(metadataType){
+  DojoWidget_prototype.getMetadataXML = function(metadataType) {
     if(!docsInitialized){
       docsInitialized = true;
       dojox.lang.docs.init(); // make sure it is initialized
@@ -283,13 +301,13 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     var schemaDefined, dijitClass = this.dijit.constructor;
     var metadata = jsx3.xml.CDF.Document.newDocument();
     if (metadataType == "prop") {
-      for (var i in {"object":1, "position":1, "1":1, "font":1, "box_nobg":1, "css":1, "interaction":1, "access":1}) {
-        metadata.insertRecord({
-          include: "master.xml",
-          absinclude: "GI_Builder/plugins/jsx3.ide.palette.properties/templates/master.xml",
-          group: i
-        });
-      }
+
+      metadata.insertRecord({
+        include: "master.xml",
+        absinclude: "GI_Builder/plugins/jsx3.ide.palette.properties/templates/master.xml",
+        group: "object"
+      });
+
       metadata.insertRecord({
         group: "1",
        jsxid: "dojo",
@@ -307,8 +325,8 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
             jsxtext: firstCap,
             jsxtip: propDef.description,
             eval: propDef.type == 'string' ? 0 : 1,
-            docgetter: typeof defaultValue == "undefined" ? 'getter("' + i + '")' : "get" + firstCap,
-            docsetter: typeof defaultValue == "undefined" ? 'setter("' + i + '")' : "set" + firstCap,
+            docgetter: typeof defaultValue == "undefined" ? 'attr("' + i + '")' : "get" + firstCap,
+            docsetter: typeof defaultValue == "undefined" ? 'attr("' + i + '", val)' : "set" + firstCap,
             getter: (defaultValue && typeof defaultValue == 'object') ? "getJSON" + firstCap : "get" + firstCap,
             jsxmask: propDef.type == 'boolean' ? "jsxselect" : 
                    /\n/.test(dijitClass.prototype[i]) ? "jsxtextarea" : "jsxtext",
@@ -331,6 +349,13 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
         }
       }
       iterateProperties(self, addProperty);
+      for (var i in {position:1, "1":1, "font":1, "box_nobg":1, "css":1, "interaction":1, "access":1}) {
+        metadata.insertRecord({
+          include: "master.xml",
+          absinclude: "GI_Builder/plugins/jsx3.ide.palette.properties/templates/master.xml",
+          group: i
+        });
+      }
     }else if(metadataType=="event"){
       function addMethod(methodDef, i) {
         metadata.insertRecord({
@@ -364,6 +389,6 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
       }
     }
     return metadata;
+  };
 
-  }
 });
