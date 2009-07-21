@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Licensed under TIBCO BSD license, see license.txt under directory samples/legal
+  -->
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.4">
   <name>Sample App Template</name>
   <icon/>

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <!--
   ~ Copyright (c) 2001-2009, TIBCO Software Inc.
-  ~ Use, modification, and distribution subject to terms of license.
+  ~ Licensed under TIBCO BSD license, see license.txt under directory samples/legal
   -->
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.4">
   <name>Layout (--)</name>

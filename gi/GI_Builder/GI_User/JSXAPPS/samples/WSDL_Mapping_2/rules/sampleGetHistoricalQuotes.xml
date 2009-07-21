@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
   ~ Copyright (c) 2001-2009, TIBCO Software Inc.
-  ~ Use, modification, and distribution subject to terms of license.
+  ~ Licensed under TIBCO BSD license, see license.txt under directory samples/legal
   -->
 <data jsxid="jsxroot" jsxnamespace="jsx3.ide.mapper.Mapper" jsxversion="1.0">
   <record jsxid="24312" jsxtext="WSDL (wsdl/Historicals.wsdl)" jsxopen="1" src="wsdl/Historicals.wsdl" type="W" path="/jsx1:definitions">
