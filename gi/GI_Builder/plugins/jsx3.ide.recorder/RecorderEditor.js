@@ -265,7 +265,8 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
       var c = this.getContent();
       return c && c.getRendered() && c.getRendered().offsetWidth > 0;
     } catch (e) {
-      return false;
+      plugIn().getLog().debug(jsx3.NativeError.wrap(e));
+      return true; // sometimes unexplained error in IE8
     }
   };
 

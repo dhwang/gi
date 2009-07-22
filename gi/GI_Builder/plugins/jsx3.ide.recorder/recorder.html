@@ -12,6 +12,7 @@
   window.state = {inited:false, editor:null, paused:false, asserting:false, waiting:false, loadListener:null};
 
   var isIe = false;
+  var ignoreClick = false;
 
   function cntr() {
     return document.getElementById("appContainer");
@@ -55,11 +56,13 @@
   }
 
   function cleanAndClose(bClose) {
-    window.state = {};
-    if (window.gippeditor) {
-      window.gippeditor.onRecorderStopped();
-      window.gippeditor = null;
-    }
+    try {
+      window.state = {};
+      if (window.gippeditor) {
+        window.gippeditor.onRecorderStopped();
+        window.gippeditor = null;
+      }
+    } catch (e) {}
 
     if (bClose)
       window.close();
@@ -106,7 +109,7 @@
       jsx3.lang.AOP.pc("evtCP", {classes:classes, methods:"doEvent"});
 
       jsx3.lang.AOP.before("evtCP", function(strType, objContext) {
-        if (!state.paused && !state.asserting && !state.waiting) {
+        if (!ignoreClick && !state.paused && !state.asserting && !state.waiting) {
           if (exitOnEditorGone()) return;
 
           var hasListener = this.hasEvent(strType) || this.getSubscriberCount(strType) > 0;
@@ -118,11 +121,18 @@
   }
 
   function exitOnEditorGone() {
-    if (state.editor && !state.editor.isAlive()) {
+    var alive = false;
+    try {
+      alive = state.editor && state.editor.isAlive();
+    } catch (e) {}
+
+    if (!alive) {
+      ignoreClick = true;
       if (confirm("General Interface Builder is no longer associated with this recorder, perhaps because it was reloaded. Close window?")) {
         cleanAndClose(true);
         return true;
       }
+      ignoreClick = false;
     }
     return false;
   }
@@ -192,7 +202,7 @@
   }
 
   function onAppClick(event) {
-    if ((state.asserting || state.waiting) && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
+    if (!window.closed && !ignoreClick && (state.asserting || state.waiting) && window.jsx3 && jsx3.html && jsx3.html.getJSXParent) {
       var e = jsx3.gui.Event.wrap(event);
       var objJSX = jsx3.html.getJSXParent(e.srcElement());
       if (objJSX) {
