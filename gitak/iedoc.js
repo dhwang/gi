@@ -1,6 +1,6 @@
 /*
- * Modified by TIBCO Software Inc., © 2007
- * TIBCO General Interface Test Automation Kit (GITAK) 0.8
+ * Modified by TIBCO Software Inc., ï¿½ 2007
+ * General Interface Test Automation Kit (GITAK) 0.8
  */
  
 function stripDoPrefix(name) {

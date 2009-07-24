@@ -1,6 +1,6 @@
 /*
- * Modified by TIBCO Software Inc., © 2008
- * TIBCO General Interface Test Automation Kit (GITAK) 0.9
+ * Modified by TIBCO Software Inc., ï¿½ 2008
+ * General Interface Test Automation Kit (GITAK) 0.9
  */
 /*
  * Copyright 2004 ThoughtWorks, Inc.

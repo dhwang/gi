@@ -1,5 +1,5 @@
 ======================================================================
-TIBCO General Interface(TM) Test Automation Kit Server
+General Interface Test Automation Kit Server
  with Selenium Remote Control 0.9.2
 
 ======================================================================
@@ -27,16 +27,16 @@ The Selenium Server is great for testing complex AJAX-based web user interfaces 
 Browser Platforms
 
 ---------------------------------
-TIBCO General Interface(TM) Framework
+General Interface Framework
 
-  TIBCO General Interface Framework and applications created with
-  TIBCO General Interface Builder execute in a web browser listed below.
+  General Interface Framework and applications created with
+  General Interface Builder execute in a web browser listed below.
 
-  A web server or HTTP server is required to host the deployed TIBCO
-  General Interface Framework and TIBCO General Interface
+  A web server or HTTP server is required to host the deployed 
+  General Interface Framework and General Interface
   applications.
 
-  TIBCO General Interface Framework and TIBCO General Interface
+  General Interface Framework and General Interface
   applications run on the following browsers.
 
   Internet Explorer 7.0 and 6.0.x for:
@@ -60,9 +60,9 @@ TIBCO General Interface(TM) Framework
       Windows Vista
 
 -------------------------------
-TIBCO General Interface(TM) Builder
+General Interface Builder
 
-  TIBCO General Interface Builder runs on the following
+  General Interface Builder runs on the following
   browsers.
 
   Internet Explorer 7.0 and 6.0.x for:

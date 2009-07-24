@@ -5,7 +5,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
-<project name="TIBCO General Interface Performance Profiler" default="dist" basedir=".">
+<project name="General Interface Performance Profiler" default="dist" basedir=".">
 
   <property name="project.dir" value="."/>
 
@@ -71,7 +71,7 @@
 
   <target name="dist"
       depends="init, copy-gipp, copy-samples, dist-doc, obfuscate"
-      description="Builds a distribution of TIBCO General Interface Performance Profiler."/>
+      description="Builds a distribution of General Interface Performance Profiler."/>
 
   <target name="copy-gipp" depends="init">
     <mkdir dir="${gipp.dist.dir}"/>

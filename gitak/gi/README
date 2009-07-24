@@ -1,18 +1,18 @@
 
 ======================================================================
-Product Name:    TIBCO General Interface(TM) Test Automation Kit
+Product Name:    General Interface Test Automation Kit
 
 ======================================================================
 Introduction
 
-  This product includes the Selenium Core Test tool and TIBCO 
-  General Interface(TM) samples, tests, templates, and library 
+  This product includes the Selenium Core Test tool and 
+  General Interface samples, tests, templates, and library
   extensions.
 
 ======================================================================
 Browsers and Platforms
 
-  TIBCO General Interface Test Automation Kit runs on the following 
+  General Interface Test Automation Kit runs on the following
   browsers and platforms. 
 
   Internet Explorer 7.0 and 6.0.x for:  
@@ -47,7 +47,7 @@ Software Requirements
 
   TIBCO Software:
 
-    Any of these releases of TIBCO General Interface(TM) - 3.2 - 3.5
+    Any of these releases of General Interface - 3.2 - 3.5
 
   Third-party Software:
 
@@ -67,10 +67,10 @@ Documentation
 
   Release Notes and Installation Guide
 
-    See TIBCO General Interface Test Automation Kit Release Notes 
+    See General Interface Test Automation Kit Release Notes
     for information about new features and closed and known issues.
 
-    See TIBCO General Interface Test Automation Kit User's Guide 
+    See General Interface Test Automation Kit User's Guide
     for detailed installation instructions.
 
 ======================================================================

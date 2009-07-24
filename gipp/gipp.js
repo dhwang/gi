@@ -160,7 +160,7 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     '    <td id="td_controls">' +
     '      <div class="twopxspace">&#160;</div>' +
     '      <div id="logo">' +
-    '        <img src="images/gipp_logo.jpg" alt="TIBCO&reg; General Interface Performance Profiler"/>' +
+    '        <img src="images/gipp_logo.jpg" alt="General Interface Performance Profiler"/>' +
     '      </div>' +
     '      <div class="twopxspace">&#160;</div>' +
     '      <div id="inputs">' +

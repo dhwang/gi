@@ -1,27 +1,27 @@
 ======================================================================
-TIBCO General Interface(TM) Performance Profiler
+General Interface Performance Profiler
 
 ======================================================================
 Introduction
 
-  TIBCO General Interface Performance Profiler is a JavaScript 
-  profiling tool for benchmarking the speed of TIBCO General 
-  Interface(TM) applications.
+  General Interface Performance Profiler is a JavaScript 
+  profiling tool for benchmarking the speed of General
+  Interface applications.
 
 ======================================================================
 License
 
-  License information for TIBCO General Interface Performance 
+  License information for General Interface Performance
   Profiler is contained in the LICENSE file.
 
 ======================================================================
 Getting Started
 
-  To get started with TIBCO General Interface Performance
+  To get started with General Interface Performance
   Profiler, open gipp.html in a supported web browser (see Browser
-  Platforms below). For information on how to use TIBCO General 
+  Platforms below). For information on how to use General 
   Interface Performance Profiler and how to run the matrix-benchmark
-  sample, see TIBCO General Interface Performance
+  sample, see General Interface Performance
   Profiler Developer Guide in the doc/ directory.
   
 ======================================================================

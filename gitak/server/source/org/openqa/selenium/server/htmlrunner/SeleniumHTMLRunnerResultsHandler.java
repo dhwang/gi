@@ -3,8 +3,8 @@
  *
  */
 /*
- * Modified by TIBCO Software Inc., © 2008
- * TIBCO General Interface Test Automation Kit (GITAK)
+ * Modified by TIBCO Software Inc., ï¿½ 2008
+ * General Interface Test Automation Kit (GITAK)
  */
 package org.openqa.selenium.server.htmlrunner;
 
