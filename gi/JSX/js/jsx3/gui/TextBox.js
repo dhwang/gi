@@ -629,7 +629,13 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
   };
 
   /**
-   * validates form field, ensuring it contains the correct data set
+   * Validates the text box against its validation type.
+   * <p/>
+   * Note that for this text box to pass validation for a regular expression, <code>re</code>, the following
+   * expression must evaluate to <code>true</code>: <code>this.getValue().search(re) == 0</code>.
+   * <code>String.search()</code> may behave differently than <code>RegExp.test()</code>; consult the JavaScript
+   * documentation for more information.
+   * 
    * @return {boolean} true if field contains a valid value given @VALIDATIONTYPE
    */
   TextBox_prototype.doValidate = function() {
