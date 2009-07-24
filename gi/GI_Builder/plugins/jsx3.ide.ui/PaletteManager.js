@@ -103,6 +103,8 @@ jsx3.Class.defineClass("jsx3.ide.ui.PaletteManager", null, null, function(Palett
       rsrc.load().when(jsx3.$F(function() {
         var content = p.getUIObject();
         if (content) {
+          // inactive stack pane is display none or undefined; change to block.
+          content.setDisplay(jsx3.gui.Block.DISPLAYBLOCK); 
           container.getPaletteContentHolder().adoptChild(content);
 
           var oldContainer = content.getContainer();
