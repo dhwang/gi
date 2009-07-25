@@ -4431,8 +4431,14 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     },
     "jsx3.gui.Matrix": {
       jsxselect: function(e) {
-        if (this.getSelectionModel() == jsx3.gui.Matrix.SELECTION_MULTI_ROW)
-          this.setValue(e.strRECORDIDS);
+        if (this.getSelectionModel() == jsx3.gui.Matrix.SELECTION_MULTI_ROW) {
+          var jsxids = e.strRECORDIDS;
+          //this.setValue(strIds); // this is not working in GITAK?
+          this.deselectAllRecords();
+          for(var i=0;i<jsxids.length;i++)
+            this.selectRecord(jsxids[i]);
+          this.revealRecord(jsxids[0]);
+        }
         else
           this.setValue(e.strRECORDID);
         this.doEvent(e.subject, e);
