@@ -468,12 +468,17 @@ Selenium.prototype.doToggleJsxCheckBox = function(locator, value) {
     Assert.fail("Cannot toggle checkbox, " + locator + " not found");
 };
 
-Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
+Selenium.prototype.doClickJsxCellMask = function(locator, value) {
 /** Depending on the Matrix column mask type, perform different action. For example, matrix text box column will have the value provided typed in.
   * Matrix select column will have the provided locator item selected (and a combo/select will have the provided value typed in). etc.
   * @param locator {String} Cell locator. For example, JsxMatrixCellId=matrixJsxName.id123.1
   * @param value {String} Cell value. Can be a secondary locator like JsxMenuItemId or JsxSelectItemIndex.
  */
+  // TODO -- support value=JSXACTION( action:"type", locator:"gi=customui,1", value:"somevalue")
+  this.doActionJsxMaskCell(locator, value);
+};
+
+Selenium.prototype.doActionJsxMaskCell = function(locator, value) {
    LOG.debug("Action matrix cell" + locator + " with " + value);
 
    var strategy = locator.split(/\=/); // should be a Matrix Cell locator
@@ -1690,7 +1695,7 @@ Selenium.prototype.doSelectJsxRecords = function(locator, xpath) {
 }
   
 // TODO -- store matrix row (index|id) of matching condition (text|radio/checkbox=checked|button=pressed)
-Selenium.prototype.getMatrixRowIndex = function(locator) {
+Selenium.prototype.getJsxRecordIndex = function(locator) {
 /**
  * Return the row index of a Matrix
  * @param locator {String} record locator by id or text.
