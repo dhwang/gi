@@ -1,5 +1,5 @@
 /*
- * Modified by TIBCO Software Inc., � 2008
+ * Modified by TIBCO Software Inc., © 2008
  * General Interface Test Automation Kit (GITAK) 0.8.1, 0.9.1
  */
 

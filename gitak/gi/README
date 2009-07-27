@@ -1,18 +1,18 @@
 
 ======================================================================
-Product Name:    General Interface Test Automation Kit
+Product Name:    General Interface(TM) Test Automation Kit
 
 ======================================================================
 Introduction
 
   This product includes the Selenium Core Test tool and 
-  General Interface samples, tests, templates, and library
-  extensions.
+  General Interface samples, tests, templates, and library  extensions.
+
 
 ======================================================================
 Browsers and Platforms
 
-  General Interface Test Automation Kit runs on the following
+  General Interface Test Automation Kit runs on the following 
   browsers and platforms. 
 
   Internet Explorer 7.0 and 6.0.x for:  
@@ -45,51 +45,48 @@ Minimum Disk Space and Memory Requirements
 ======================================================================
 Software Requirements
 
-  TIBCO Software:
+    Any of these releases of General Interface 3.8 and later
 
-    Any of these releases of General Interface - 3.2 - 3.5
+
 
   Third-party Software:
 
     Selenium 0.8.2 (included in installation)
        Note that this is not a full Selenium distribution. JsUnit, 
        Dojo, and cssQuery libraries have been removed. You may obtain 
-       the full distribution of Selenium from http://openqa.org.
+       the full distribution of Selenium from http://www.openqa.org.
      
 ======================================================================
-Documentation 
+GeneralInterface.org
 
-  Online Access
 
-    Access the product documentation set on-line from the product's 
-    installation doc directory on disk in the tibco-gitak-0.8\gi\doc 
-    directory.     
 
-  Release Notes and Installation Guide
 
-    See General Interface Test Automation Kit Release Notes
-    for information about new features and closed and known issues.
 
-    See General Interface Test Automation Kit User's Guide
-    for detailed installation instructions.
 
-======================================================================
-TIBCO Developer Network Access
+
+
+
+
+
+
+
+
+
+
+
 
   Have questions about the software?  
   Need to report a bug?  
   Want to suggest a product enhancement?
 
-  Visit the TIBCO Developer Network at http://developer.tibco.com for 
-  public peer-to-peer forum discussions related to this software.
-
-  The TIBCO Developer Network is a peer-to-peer based community and is 
-  not part of formal support provided by TIBCO.
+  Visit the General Interface Open Source at http://GeneralInterface.org 
+  for    public peer-to-peer forum discussions related to this software.
 
 ======================================================================
 Licensing
 
-Copyright (c) 2006-2007, TIBCO Software Inc.
+Copyright (c) 2006-2009, TIBCO Software Inc.
 All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you 
@@ -308,7 +305,3 @@ implied. See the License for the specific language governing
 permissions and limitations under the License.
 
 ====================================================================
-Copyright
-
-Copyright (C) 2006-2007 TIBCO Software Inc. ALL RIGHTS RESERVED.
-TIBCO Software Inc. Confidential Information 

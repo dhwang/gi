@@ -1,5 +1,5 @@
 /*
- * Modified by TIBCO Software Inc., ï¿½ 2007
+ * Modified by TIBCO Software Inc., © 2007
  * General Interface Test Automation Kit (GITAK) 0.8
  * Changes : a missing "var" declaration was added, line 337 "var processed".
  */
@@ -340,7 +340,7 @@ objectExtend(RemoteRunner.prototype, {
         //decodeURIComponent doesn't strip plus signs
         var processed = commandRequest.replace(/\+/g, "%20");
         // strip trailing spaces
-        var processed = processed.replace(/\s+$/, "");
+        processed = processed.replace(/\s+$/, "");
         var vars = processed.split("&");
         var cmdArgs = new Object();
         for (var i = 0; i < vars.length; i++) {

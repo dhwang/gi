@@ -3878,8 +3878,7 @@ PageBot.prototype.locateElementByCss = function(locator, document) {
 };
 
 // Original -- $Id: includeCommand.js 166 2006-12-11 22:03:45Z rob $
-/* TIBCO Software Inc., Copyright © 2007-2008
-	Modified by Darren Hwang, 2007 */
+/* Modified by Darren Hwang, 2007 */
 /*extern document, window, XMLHttpRequest, ActiveXObject */
 /*extern Selenium, htmlTestRunner, LOG, HtmlTestCaseRow, testFrame, storedVars, URLConfiguration */
 
@@ -4599,7 +4598,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   recorder._VERBS = {
     jsxdo_exists: function(locator) {
       var o = selenium.browserbot.findJsxObject(locator);
-      if (o != null && o.getRendered() != null && o.getRendered().getAttribute("jsxdomholder") != "1")
+      if (o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1")
         return true;
       else
         return false;
