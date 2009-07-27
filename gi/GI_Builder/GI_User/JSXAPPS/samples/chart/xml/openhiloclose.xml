@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
   ~ Copyright (c) 2001-2009, TIBCO Software Inc.
-  ~ Use, modification, and distribution subject to terms of license.
+  ~ Licensed under TIBCO BSD license, see license.txt under directory samples/
   -->
 <data jsxid="jsxroot">
  <record date="2" open="5" hi="6" low="4.95" close="5.85"/>
