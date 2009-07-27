@@ -6599,7 +6599,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Matrix_prototype.setValue = function(strId) {
     this.deselectAllRecords();
     if(strId) {
-      if (strId instanceof Array) {
+      if (jsx3.$A.is(strId) ) {
         if (this.getSelectionModel() != Matrix.SELECTION_MULTI_ROW && strId.length > 1)
           throw new jsx3.IllegalArgumentException("strId", strId);
       } else {
