@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2001-2009, TIBCO Software Inc.
- * Licensed under TIBCO BSD license, see license.txt under directory samples/legal
+ * Licensed under TIBCO BSD license, see license.txt under directory samples/
  */
 
 /**
