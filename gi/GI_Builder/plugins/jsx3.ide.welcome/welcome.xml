@@ -62,9 +62,9 @@ objJSX.initTool = function() {
       '" width="12" height="12" style="vertical-align:top;margin-right:4px;"/>' + closeBtn.getText(), true);
 
   // set version string
-  var v = jsx3.getVersion().split(/\./g);
-  v = v.slice(0, v[2] == 0 ? 2 : 3).join(".");
-  version.setText("Version " + v);
+  var v = jsx3.getVersion();//.split(/\./g);
+//  v = v.slice(0, v[2] == 0 ? 2 : 3).join(".");
+  version.setText("Version " + v, true);
 
   // set recent projects
   var recentHTML = "";
@@ -180,8 +180,8 @@ objJSX._onForumBind = function(objEvent) {
           <strings jsxname="image" jsxsrc="ws_header.jpg" jsxbgcolor="#567BC6"/>
         </object>
         <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2" jsxrelativeposition="0" jsxtop="51" jsxfontsize="11"/>
-          <strings jsxname="version" jsxtext="" jsxcolor="#FFFFFF" jsxpadding="0 14 0 0"
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxtop="51"/>
+          <strings jsxname="version" jsxtext="" jsxcolor="#DDEEFF" jsxpadding="0 8 0 0"
               jsxtextalign="right" jsxwidth="100%"/>
         </object>
         <object type="jsx3.gui.Block">
