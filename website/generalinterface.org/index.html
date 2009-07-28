@@ -5,14 +5,16 @@
 <head>
 <title>General Interface</title>
 
-<meta name="description" content="General Interface is an open source 
+<meta name="description" content="General Interface is an open source
     Ajax toolkit and development environment that makes it faster
-    and easier for you to build and deploy web-based applications that have 
+    and easier for you to build and deploy web-based applications that have
     the rich feel and functionality of desktop software."/>
-<meta name="keywords" content="generalinterface, gi, ajax, browser, toolkit, 
+<meta name="keywords" content="generalinterface, gi, ajax, browser, toolkit,
     tibco, web, developer, development, programming, web applications, soa,
     javascript, xml, xsl, html, open source, dojo"/>
-  
+
+<meta name="verify-v1" content="hgBP3LW4FVCtswUSDpFMeQCDddL5mJxKHOULysuiCGU=" >
+
 <link rel="stylesheet" type="text/css" href="assets/main.css"/>
 <!--[if IE]>
  <link rel="stylesheet" type="text/css" href="assets/main_ie.css"/>
@@ -22,17 +24,17 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-  fetchRSS("announce", "http://www.generalinterface.org/forums/rss.php?f=9", 3);
-  fetchRSS("forums", "http://www.generalinterface.org/forums/rss.php?mode=topics", 6);
+  fetchRSS("announce", "http://" + location.host + "/forums/rss.php?f=9", 3, true);
+  fetchRSS("forums", "http://" + location.host + "/forums/rss.php?mode=topics", 6, false);
 });
 
-function fetchRSS(id, url, max) {
+function fetchRSS(id, url, max, abstr) {
   //clear the content in the div for the next feed.
   var container = $("#" + id);
-  
+
   $.ajax({dataType:"text", url: url, success: function(d, textStatus) {
     container.empty();
-    
+
     var count = 0;
 
     //find each 'item' in the file and parse it
@@ -43,6 +45,10 @@ function fetchRSS(id, url, max) {
       var $item = $(this);
       // grab the post title
       var title = $item.find('title').text();
+      var category = $item.find('category').text();
+      if (category && title.indexOf(category) == 0)
+        title = title.substring(category.length).replace(/^\s*\|\s*/, "");
+
       // grab the post's URL
       var link = $item.find('link').text();
       // next, the description
@@ -50,16 +56,17 @@ function fetchRSS(id, url, max) {
       if (/^(.*)<p>Statistics/.test(description)) description = RegExp.$1;
       //don't forget the pubdate
       var pubDate = $item.find('pubDate').text();
-  
+
       // now create a var 'html' to store the markup we're using to output the feed to the browser window
-      var html = "<div class=\"entry\"><h3 class=\"postTitle\">" + title + "<\/h3>";
+      var html = "<div class=\"entry\"><h3 class=\"postTitle\"><a href=\"" + link + "\">" + title + "</a><\/h3>";
       html += "<em class=\"date\">" + pubDate + "</em>";
-      html += "<p class=\"description\">" + description;
+      if (abstr)
+        html += "<p class=\"description\">" + description;
       html += "<a class=\"readmore\" href=\"" + link + "\">More &raquo;<\/a><\/div>";
       html += "</p>";
 
       //put that feed content on the screen!
-      container.append($(html));  
+      container.append($(html));
     });
   }, error: function(req, textStatus, errorThrown) {
   }});
@@ -154,19 +161,25 @@ function fetchRSS(id, url, max) {
        <h2>COMMUNITY</h2>
        <h3>Learn Faster</h3>
         General Interface Community includes all the resources you need to be successful
-        when you build your applications. The Community features <a href="/forums/">User forums</a>, 
+        when you build your applications. The Community features <a href="/forums/">User forums</a>,
 	<a href="/docs/display/GIDOCS">documentation</a>,
-        <a href="/docs/display/DOC/Video+Tutorials">video tutorials</a>, 
+        <a href="/docs/display/DOC/Tutorials">video tutorials</a>,
 	<a href="/docs/pages/viewpage.action?pageId=2392105">samples</a>, and best practices. Community companion utilities,
-        <a href="/docs/display/DOC/GIPP">GIPP</a> and <a href="/docs/display/DOC/GITAK">GITAK</a>, 
+        <a href="/docs/display/DOC/GIPP">GIPP</a> and <a href="/docs/display/DOC/GITAK">GITAK</a>,
 	will help you create automated tests for your applications.
         <br/><br/>
-        On the <a href="/docs/display/OS">Project page</a> you can download the 
+        On the <a href="/docs/display/OS">Project page</a> you can download the
 	full source code, report and track bugs,
         and get involved to make General Interface even better.
       </div>
     </div>
 
+    <div class="tibco-banner">
+      General Interface is sponsored by TIBCO Software. For more information on
+      enterprise <a href="/docs/display/DOC/Support">licensing and support</a>
+      visit <a href="http://www.tibco.com/software/rich-internet-application/general-interface/default.jsp">tibco.com</a>.
+    </div>
+    <!--
     <div class="footer-links" style="clear:both;">
     <div><strong>View</strong>: 2-Minute Explainer</div>
     <div><strong>Datasheet</strong>: General Interface Ajax Toolkit</div>
@@ -174,7 +187,7 @@ function fetchRSS(id, url, max) {
     <div><strong>Sample Applications</strong>: Xignite Stock Portolfio, Real-Time Ajax, More Sample Apps...</div>
     <div><strong>Professional Support</strong>: Link to Tibco Support</div>
     </div>
-
+    -->
 <!--
 <div>
 <div id="cse" style="width: 90%;">Loading</div>

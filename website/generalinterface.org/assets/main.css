@@ -14,6 +14,21 @@ a:hover {
   text-decoration: underline;
 }
 
+h1, h2, h3, h4, h5, h6,
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
+h1 a:link, h2 a:link, h3 a:link, h4 a:link, h5 a:link, h6 a:link,
+h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited,
+.wiki-content h1, .wiki-content h2, .wiki-content h3, .wiki-content h4, .wiki-content h5, .wiki-content h6,
+.wiki-content h1 a, .wiki-content h2 a, .wiki-content h3 a, .wiki-content h4 a, .wiki-content h5 a, .wiki-content h6 a {
+  color: #275671;
+}
+
+h6 { font-size: 0.9em; }
+
+h1, h1 a, h1 a:link, h1 a:visited, .wiki-content h1, .wiki-content h1 a {
+  color: #146291;
+}
+
 /* Overall template styles */
 
 body.gi {
@@ -66,7 +81,7 @@ div.gi-banner div.gi-logo {
 }
 
 div.gi-bannericns {
-  margin-top: 20px; 
+  margin-top: 20px;
   float: right; display: inline-block;
 }
 
@@ -187,11 +202,9 @@ div.gi-body h1 {
   margin: 0px 0px 10px 0px;
   font-weight: normal;
   font-size: 2.5em;
-  color: #0079C1;
 }
 
 div.gi-l1c2 h2 {
-  color: #0079C1;
   font-weight: normal;
   font-size: 1.5em;
   margin: 0px;
@@ -204,21 +217,20 @@ div.gi-l1c1 h4 {
 }
 
 div.gi-sl1 {
-  margin: 25px 0px 50px 0px;
+  margin: 25px 0px 20px 0px;
+  clear: both;
 }
 
 div.gi-sl1 h2 {
   text-transform: capitalize;
   font-weight: normal;
   font-size: 1.4em;
-  color: #0079C1;
   margin: 0px 0px 2px 0px;
 }
 
 div.gi-sl1 h3 {
   font-weight: normal;
   font-size: 1.1em;
-  color: #0079C1;
   margin: 0px 0px 7px 0px;
 }
 
@@ -241,6 +253,19 @@ div.gi-sl1c3 {
   width: 210px;
 }
 
+div.tibco-banner {
+  padding: 15px 30px 15px 170px;
+  background-image: url(tibco.gif);
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  background-color: #F4F4F4;
+  border-top: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
+  margin-bottom: 20px;
+  color: #888888;
+  clear: both;
+}
+
 /* Home page RSS styles */
 
 div#rss {
@@ -254,6 +279,10 @@ div#rss div.entry {
 div#rss div.entry h3.postTitle {
   font-size: 1em; font-weight: bold;
   margin: 1em 0em 0.2em 0em;
+}
+
+div#rss div.entry h3.postTitle a {
+  color: #333333;
 }
 
 div#rss div.entry em.date {
@@ -299,65 +328,78 @@ body#phpbb.gi #search-box a, body#phpbb.gi #search-box a:link, body#phpbb.gi #se
 
 /* Confluence styles */
 
+.wiki-content, .wiki-content p, .wiki-content table, .wiki-content tr, .wiki-content td, .wiki-content th, .wiki-content ol, .wiki-content ul, .wiki-content li {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+body, p, td, table, tr, .bodytext, .stepfield {
+  color: inherit;
+}
+
 body#com-atlassian-confluence.gi div.gi-body {
   margin-top: 3px;
   width: 940px;
   padding-left: 20px;
 }
 
+/*body#com-atlassian-confluence.gi h1#title-heading a {
+  color: #0079C1;
+}*/
+
 body#com-atlassian-confluence.gi div.gi-body #breadcrumbs li span {
   color: #666666;
 }
 
 body#com-atlassian-confluence.gi div.gi-body #main {
-  border: none; padding: 0px;	
+  border: none; padding: 0px;
 }
 
 body#com-atlassian-confluence.gi div.gi-body #header {
-  padding: 0px;	
+  padding: 0px;
 }
 
 body#com-atlassian-confluence.gi div.gi-body h1 {
-  margin-top: 8px;	
+  margin-top: 8px;
 }
 
-body#com-atlassian-confluence .pagetitle .global {
+body#com-atlassian-confluence.gi .pagetitle .global {
   display: none;
 }
 
-body#com-atlassian-confluence #header {
+body#com-atlassian-confluence.gi #header {
   background-color: transparent;
 }
 
-body#com-atlassian-confluence #breadcrumbs {
-  font-size: 0.9em;	
+body#com-atlassian-confluence.gi #breadcrumbs {
+  font-size: 0.9em;
 }
 
-body#com-atlassian-confluence #header a, 
-body#com-atlassian-confluence #breadcrumbs, 
-body#com-atlassian-confluence #header .ajs-menu-bar li.ajs-menu-item a.trigger {
+body#com-atlassian-confluence.gi #header a,
+body#com-atlassian-confluence.gi #breadcrumbs,
+body#com-atlassian-confluence.gi #header .ajs-menu-bar li.ajs-menu-item a.trigger {
   color: #0079C1;
 }
 
-#com-atlassian-confluence h1 {
+body#com-atlassian-confluence.gi h1 {
   margin: 15px 0 0 0;
   line-height: 1;
 }
 
-#com-atlassian-confluence .page-metadata {
+body#com-atlassian-confluence.gi .page-metadata {
   margin: 2px 0px 20px 0px;
   color: #999999;
 }
 
-#com-atlassian-confluence .page-metadata a {
+body#com-atlassian-confluence.gi .page-metadata a {
   color: #999999;
 }
 
-#com-atlassian-confluence #breadcrumbs li {
+body#com-atlassian-confluence.gi #breadcrumbs li {
   background: transparent url(/assets/confluence_breadcrumbs.jpg) no-repeat scroll 3px center;
 }
 
-#com-atlassian-confluence #breadcrumbs li.first {
+body#com-atlassian-confluence.gi #breadcrumbs li.first {
   background: none;
 }
 
@@ -365,115 +407,347 @@ body#com-atlassian-confluence.gi div.gi-body .spacetree {
   font-size: 0.85em;
 }
 
-#com-atlassian-confluence #footer {
+body#com-atlassian-confluence.gi #footer {
   background: transparent;
 }
 
-#com-atlassian-confluence #footer p.license, #com-atlassian-confluence #footer p.license a {
+body#com-atlassian-confluence.gi #footer p.license, body#com-atlassian-confluence.gi #footer p.license a {
   background: #235F9E none repeat scroll 0 0;
   padding-bottom: 3px;
 }
 
-#com-atlassian-confluence #footer #poweredby {
+body#com-atlassian-confluence.gi #footer #poweredby {
   background: transparent;
   padding: 0px;
   color: #999999;
 }
 
-#com-atlassian-confluence #footer #poweredby a {
+body#com-atlassian-confluence.gi #footer #poweredby a {
   color: #999999;
 }
 
 /* Confluence layouts */
 
-#com-atlassian-confluence table.layout1 {
+body#com-atlassian-confluence.gi table.layout1 {
+/*  margin-top: -20px; */
 }
 
-#com-atlassian-confluence table.layout1 td.col1 {
+body#com-atlassian-confluence.gi table.layout1 td.col1 {
   padding: 0px 10px 20px 0px;
   width: 670px;
   border: 0px;
   vertical-align: top;
 }
 
-#com-atlassian-confluence table.layout1 td.col1 div.col1 {
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.col1 {
   width: 670px;
   overflow: hidden;
 }
 
-#com-atlassian-confluence table.layout1 td.col2 {
-  padding: 17px;
-  width: 220px;
+body#com-atlassian-confluence.gi table.layout1 td.col2 {
+  width: 260px;
+  vertical-align: top;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col2 div.col2 {
   background-color: #e2ecf3;
   background-image: url(sideBar_backgroundTile.jpg);
   background-repeat: repeat-x;
   border: 3px double #C1CED6;
-  vertical-align: top;
+  padding: 17px;
 }
 
-#com-atlassian-confluence table.layout1 td.col2 h2 {
+/*
+body#com-atlassian-confluence.gi table.layout1 td.col2 ul,
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1c ul {
+  padding-left: 30px;
+}
+*/
+
+body#com-atlassian-confluence.gi table.layout1 td.col2 h2 {
   font-weight: normal;
   font-size: 1.4em;
-  color: #0079C1;
   margin: 0px 0px 2px 0px;
 }
 
-#com-atlassian-confluence .plugin_pagetree_children { 
-  margin-left: -10px; 
+body#com-atlassian-confluence.gi table.layout1 td.col2 h3,
+body#com-atlassian-confluence.gi table.layout1 td.col2 h3 a {
+  color: #333333;
+  font-weight: bold;
+  font-size: 1.0em;
+  margin: 8px 0px 2px 0px;
 }
 
-#com-atlassian-confluence .plugin_pagetree_children li {
+body#com-atlassian-confluence.gi .plugin_pagetree_children {
+  margin-left: -10px;
+}
+
+body#com-atlassian-confluence.gi .plugin_pagetree_children li {
   font-weight: bold;
 }
 
-#com-atlassian-confluence .plugin_pagetree_children li li {
+body#com-atlassian-confluence.gi .plugin_pagetree_children li li {
   font-weight: normal;
 }
 
-#com-atlassian-confluence .spacetree * li {
+body#com-atlassian-confluence.gi table.layout1 td.col2 div.plugin_pagetree ul {
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col2 div.plugin_pagetree li {
   margin-left: 15px;
+  padding-left: 5px;
   text-indent: -10px;
 }
 
-#com-atlassian-confluence table.layout1 td.col2 div.col2 {
-  width: 220px;
-  overflow: hidden;
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1 {
+  margin: 25px 0px 30px 0px;
 }
 
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1 {
-  margin: 25px 0px 50px 0px;
-}
-
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1 h2 {
+body#com-atlassian-confluence.gi table.layout1 td.col1 h3 {
   font-weight: normal;
-  font-size: 1.4em;
-  color: #0079C1;
-  margin: 0px 0px 2px 0px;
-}
-
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1 h3 {
-  font-weight: normal;
-  font-size: 1.1em;
-  color: #0079C1;
+  font-size: 1.3em;
   margin: 0px 0px 7px 0px;
 }
 
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c {
+body#com-atlassian-confluence.gi table.layout1 td.col1 h4 {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 20px 0px 0px 0px;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 h5 {
+  color: #333333;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1 h5 {
+  margin: 12px 0px -8px 0px;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1 h2 {
+  font-weight: normal;
+  font-size: 1.4em;
+  /* color: #0079C1; */
+  margin: 0px 0px 2px 0px;
+}
+/*
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1 h3 {
+  font-weight: normal;
+  font-size: 1.1em;
+  margin: 0px 0px 7px 0px;
+}
+*/
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1c {
   vertical-align: top;
   display: inline-block;
 }
 
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c1 {
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1c1 {
   width: 200px;
 }
 
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c2 {
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1c2 {
   margin-left: 20px;
   width: 200px;
 }
 
-#com-atlassian-confluence table.layout1 td.col1 div.gi-sl1c3 {
+body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1c3 {
   margin-left: 20px;
   width: 210px;
 }
 
+body#com-atlassian-confluence.gi #navigation .ajs-menu-bar { margin: 0px; }
+#navigation .ajs-menu-bar li.ajs-menu-item .ajs-menu-title, #navigation .ajs-menu-bar li.ajs-button a {
+  padding: .15em .25em;
+}
+
+body#com-atlassian-confluence.gi .gibooknav {
+  padding: 1px 4px;
+  background-color: #F4F4F4;
+  border-top: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
+  color: #888888;
+}
+
+body#com-atlassian-confluence.gi .gibooknavtop {
+  margin-top: -6px;
+  margin-bottom: 20px;
+}
+
+body#com-atlassian-confluence.gi .gibooknavbottom {
+  margin-top: 30px;
+}
+
+body#com-atlassian-confluence.gi .gibooknav table {
+  width: 100%;
+}
+
+body#com-atlassian-confluence.gi .gibooknav table td {
+  padding: 0px;
+  width: 33%;
+  font-size: 0.9em;
+}
+
+body#com-atlassian-confluence.gi .gibooknav td.back {
+  background-image: url(/docs/images/icons/back_16.gif);
+  background-repeat: no-repeat;
+  background-position: 0px center;
+  padding: 0px 20px;
+  vertical-align: middle;
+}
+
+body#com-atlassian-confluence.gi .gibooknav td.up {
+  text-align: center;
+  vertical-align: top;
+}
+
+body#com-atlassian-confluence.gi .gibooknav td.forward {
+  background-image: url(/docs/images/icons/forwd_16.gif);
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding: 0px 20px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader {
+  margin-bottom: 4px;
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader td {
+  padding-left: 6px;
+  vertical-align: middle;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.gi-lcheader td h3 { margin: 0px; padding: 0px; }
+
+body#com-atlassian-confluence.gi table.gi-lcheader td.icon {
+  width: 32px; height: 32px;
+  background-repeat: no-repeat;
+  background-position: 0px center;
+  padding: 0px;
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-doc td.icon {
+  background-image: url(/assets/icon_documentation.png);
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-links td.icon {
+  background-image: url(/assets/icon_links.png);
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-apps td.icon {
+  background-image: url(/assets/icon_sampleApps.png);
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-question td.icon {
+  background-image: url(/assets/icon_reference.png);
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-press td.icon {
+  background-image: url(/assets/icon_press.png);
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-question td.icon {
+  background-image: url(/assets/icon_reference.png);
+}
+
+body#com-atlassian-confluence.gi table.gi-lcheader-utils td.icon {
+  background-image: url(/assets/icon_utilities.png);
+}
+
+body#com-atlassian-confluence.gi .expander {
+  cursor: pointer;
+  color: #0079C1;
+}
+
+body#com-atlassian-confluence.gi div.table-wrap {
+}
+
+body#com-atlassian-confluence.gi table.confluenceTable {
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.grid {
+  margin: 2px;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.grid th {
+  white-space: nowrap;
+  text-align: left;
+  background-color: #a3a3a3;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.grid th,
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.grid td {
+  padding: 3px 5px;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.grid td:nth-child(2) {
+  white-space: nowrap;
+}
+
+body#com-atlassian-confluence.gi table.layout1 td.col1 table.grid td:last-child {
+  font-size: 0.8em;
+  white-space: nowrap;
+  color: #666666;
+}
+
+body#com-atlassian-confluence.gi .rssMacro table {
+  margin: 5px;
+  width: 95%;
+}
+
+body#com-atlassian-confluence.gi .rssMacro table th, body#com-atlassian-confluence.gi .rssMacro table th a {
+  background-color: #a3a3a3;
+  color: white;
+}
+
+body#com-atlassian-confluence.gi div.faq {
+  margin: 10px 0px 20px 0px;
+}
+
+body#com-atlassian-confluence.gi div.faq div.faqq {
+  padding-left: 40px;
+  background-image: url(/assets/faqQ.jpg);
+  background-repeat: no-repeat;
+}
+
+body#com-atlassian-confluence.gi div.faq div.faqa {
+  padding-left: 40px;
+  background-image: url(/assets/faqA.jpg);
+  background-repeat: no-repeat;
+}
+
+body#com-atlassian-confluence.gi div.bulletlist ul {
+  padding-left: 24px;
+}
+
+body#com-atlassian-confluence.gi div.bulletlist-arrow ul li {
+  list-style-image: url(/assets/bullet_arrow.png);
+}
+
+body#com-atlassian-confluence.gi div.bulletlist-video ul li {
+  list-style-image: url(/assets/bullet_video.png);
+}
+
+body#com-atlassian-confluence.gi div.bulletlist-app ul li {
+  list-style-image: url(/assets/bullet_app.png);
+}
+
+.confluenceTd div.code {
+  margin: 10px;
+}
+
+.confluenceTd div.code div.codeContent {
+  padding: 0px 6px;
+}
+
+.confluenceTd div.code div.codeContent pre {
+  margin: 5px 0px;
+}
