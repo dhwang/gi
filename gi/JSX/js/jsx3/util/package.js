@@ -29,8 +29,8 @@ jsx3.Package.definePackage("jsx3.util", function(util) {
   util.compareVersions = function(v1, v2) {
     var regex = /^(\d+)?([a-zA-Z_]\w*)?$/;
 
-    var v1t = v1.split(/\./);
-    var v2t = v2.split(/\./);
+    var v1t = v1.split(/[\._]/);
+    var v2t = v2.split(/[\._]/);
     var maxLength = Math.max(v1t.length, v2t.length);
 
     var ad, al, bd, bl;

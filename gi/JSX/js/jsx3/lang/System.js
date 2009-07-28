@@ -273,7 +273,7 @@ jsx3.Class.defineClass("jsx3.lang.System", null, null, function(System, System_p
    * @return {String} <code>"3.1.0"</code>, etc.
    */
   System.getVersion = function() {
-    var v = "@build.gi.version@.@build.gi.buildno@";
+    var v = "@build.gi.version@_@build.gi.buildno@";
     return v.match(/\d/) ? v : "3.8.0"; // fallback for uncompiled version
   };
 

@@ -5,7 +5,7 @@
 
 // @jsxobf-global-rename-pattern  _jsx(\w+) _jsx$1
 // @jsxobf-clobber  _addin _loaded _server
-// @jsxobf-reserved  IE FX ie6 ie7 ie fx SAF SVG VML IE6 IE7
+// @jsxobf-reserved  IE FX ie6 ie7 ie fx SAF SVG VML IE6 IE7 gi is
 
 if (window['jsx_main'] == null)
 /* Wrap the entire system initialization in this one function, which we will call once and then destroy */

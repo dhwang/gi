@@ -163,10 +163,10 @@
       <filter token="gi.productname.full.text" value="${gi.productname.full.text}"/>
       <filter token="gi.version.full" value="${gi.version.full}"/>
       <filter token="gi.apidocs.title" value="${gi.apidocs.title}"/>
+      <filter token="build.gi.buildno" value="${build.gi.buildno}"/>
     </filterset>
     <filterset id="gi-filters">
       <filtersfile file="${build.dir}/build.properties"/>
-      <filter token="build.gi.buildno" value="${build.gi.buildno}"/>
       <filtersfile file="${build.properties.strings}"/>
     </filterset>
   </target>

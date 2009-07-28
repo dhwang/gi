@@ -62,9 +62,7 @@ objJSX.initTool = function() {
       '" width="12" height="12" style="vertical-align:top;margin-right:4px;"/>' + closeBtn.getText(), true);
 
   // set version string
-  var v = jsx3.getVersion();//.split(/\./g);
-//  v = v.slice(0, v[2] == 0 ? 2 : 3).join(".");
-  version.setText("Version " + v, true);
+  version.setText("Version " + jsx3.getVersion(), true);
 
   // set recent projects
   var recentHTML = "";
