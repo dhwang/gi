@@ -23,61 +23,6 @@ Finally, the Selenium Server acts as a client-configured HTTP proxy, to stand in
 The Selenium Server is great for testing complex AJAX-based web user interfaces under a Continuous Integration system. It is also an ideal solution for users of Selenium Core or Selenium IDE who want to write tests in a more expressive programming language than the Selenese HTML table format customarily used with Selenium Core.
 
 ======================================================================
-
-Browser Platforms
-
----------------------------------
-General Interface Framework
-
-  General Interface Framework and applications created with
-  General Interface Builder execute in a web browser listed below.
-
-  A web server or HTTP server is required to host the deployed 
-  General Interface Framework and General Interface
-  applications.
-
-  General Interface Framework and General Interface
-  applications run on the following browsers.
-
-  Internet Explorer 7.0 and 6.0.x for:
-    Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1 and SP2
-      Windows Vista
-
-  Firefox 2.0 and 1.5.x for:
-    Linux (x86)
-      Red Hat Enterprise Linux 3
-      Red Hat Enterprise Linux 4
-      SUSE Linux Enterprise 9
-      SUSE Linux Enterprise 10
-    Apple Mac (x86 and PowerPC)
-      Mac OS X (x86) 10.3 and later
-      Mac OS X (PowerPC) 10.3 and later
-    Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1 and SP2
-      Windows Vista
-
--------------------------------
-General Interface Builder
-
-  General Interface Builder runs on the following
-  browsers.
-
-  Internet Explorer 7.0 and 6.0.x for:
-    Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1 and SP2
-      Windows Vista
-
-  Firefox 2.0 and 1.5.x for:
-    Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1 and SP2
-      Windows Vista
-      
-======================================================================
 Getting started
 
   Use Selenium-RC HTML Suite test feature to run existing GITAK HTML tests. The basic syntax for launching the server is:
@@ -147,4 +92,4 @@ Getting started
 ======================================================================
 Copyright
 
-Copyright (C) 2001-2008 TIBCO Software Inc. ALL RIGHTS RESERVED.
+Copyright (C) 2001-2009 TIBCO Software Inc. ALL RIGHTS RESERVED.
