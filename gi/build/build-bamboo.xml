@@ -86,7 +86,7 @@
     <!-- standard build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}"/>
+      <property name="build.gi.buildno" value="${rev}"/>
     </ant>
     <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}.zip"/>
     <symlink overwrite="true" link="${nightly.zip.prefix}.latest.zip" resource="${nightly.zip.prefix}.r${rev}.zip"/>
@@ -96,7 +96,7 @@
     <!-- Dojo build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}dj"/>
+      <property name="build.gi.buildno" value="${rev}dj"/>
       <property name="build.gi.docs" value="false"/>
       <property name="build.dojo.type" value="source"/>
       <property name="build.dojo.compile-docs" value="true"/>
@@ -109,7 +109,7 @@
     <!-- debug build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}db"/>
+      <property name="build.gi.buildno" value="${rev}db"/>
       <property name="build.gi.benchmark" value="true"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
@@ -121,7 +121,7 @@
     <!-- no deprecated code build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}nd"/>
+      <property name="build.gi.buildno" value="${rev}nd"/>
       <property name="build.gi.deprecated" value="false"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
@@ -172,7 +172,7 @@
 
     <!-- Clean and build -->
     <ant antfile="build.xml" target="dist" inheritall="false" inheritrefs="false">
-      <property name="build.gi.buildno" value="r${rev}"/>
+      <property name="build.gi.buildno" value="${rev}"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
 
@@ -269,7 +269,7 @@
     <!-- standard build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}"/>
+      <property name="build.gi.buildno" value="${rev}"/>
     </ant>
     <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}.zip"/>
 
@@ -278,7 +278,7 @@
     <!-- debug build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}db"/>
+      <property name="build.gi.buildno" value="${rev}db"/>
       <property name="build.gi.benchmark" value="true"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
@@ -289,7 +289,7 @@
     <!-- max build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}nd"/>
+      <property name="build.gi.buildno" value="${rev}mx"/>
       <property name="build.gi.includes.jsx" value="max"/>
       <property name="build.gi.docs" value="false"/>
     </ant>
@@ -298,8 +298,7 @@
     <!-- dojo build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
-      <property name="build.gi.buildno" value="r${rev}dj"/>
-      <property name="build.gi.includes.jsx" value="max"/>
+      <property name="build.gi.buildno" value="${rev}dj"/>
       <property name="build.gi.docs" value="false"/>
       <property name="build.dojo.type" value="source"/>
       <property name="build.dojo.compile-docs" value="true"/>
