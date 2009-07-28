@@ -58,6 +58,43 @@ tr:hover {
                 <td style="font-weight: bold">
                     Description&nbsp;</td>
             </tr>
+    <tr>
+      <td>jsxselector</td>
+      <td> <pre> | command | jsxselector=#jsxname | |</pre></td>
+      <td>    Select objects from the DOM using a CSS3-like selection syntax. This method considers the DOM tree whose root is this object. The following constructs are supported:
+<pre>
+    * jsx3_gui_ClassName - matches objects by their exact class. Replace "." with "_" in the selector.
+    * * - matches any object
+    * #jsxname - matches objects whose name equals jsxname
+    * .class-name - matches objects for which getClassName() is defined and returns a string that contains the token class-name
+    * :first and :last - matches objects that are their parents' first and last children
+    * :nth(n) and nth-child(n) - matches objects whose child index is equal to n
+    * :instanceof(ClassName) - matches objects that are instances of the class or interface ClassName
+    * [prop="value"] and [prop*="value"] - matches objects whose value for field prop equals value 
+      or, with "*", contains value. The quotes around value are optional.
+    * [getter()="value"] and [getter()*="value"] - matches objects whose return value for method getter equals value 
+       or, with "*", contains value. The quotes around value are optional. AB - matches objects that match both A and B
+    * A B - matches descendants of objects matching A that match B
+    * A > B - matches immediate children of objects matching A that match B
+</pre>
+</td>
+    </tr>
+    <tr>
+      <td>gi</td>
+      <td> <pre> | command | gi=xpath-like-dom-expression | |</pre></td>
+      <td>GI DOM locator <pre>
+          gi=jsxname/[@jsxtext="Menu"]/child[1]/jsx3.gui.Splitter/jsx3.gui.TextBox[1]
+          gi=.jsx3.gui.Splitter  - locate first object of type splitter 
+          gi=//message - locate control with jsxname "message" 
+          gi=//toolBar/[@jsxtext="List"] -locate control (toolbar button) with jsxtext="List" under control named "toolBar" </i>
+          gi=//[@jsxtext="List"] -locate control with jsxtext "List" (a toolbar button) 
+          gi=//toolBar/jsx3.gui.ToolbarButton - locate first ToolbarButton under "toolBar" 
+          gi=//toolBar/jsx3.gui.ToolbarButton[3] - locate the third ToolbarButton under toolBar
+          gi=paneMatrix/tblTable,rowbyindex,0
+          gi=tblTable,cellbyjsxid,1.2
+          </pre>
+      </td>
+    </tr>
 
     <tr>
       <td>JsxAlertCaption</td>
@@ -131,31 +168,31 @@ tr:hover {
       <td>Locator - next month element by date picker jsxname &nbsp;</td>
     </tr>
     <tr>
-      <td>JsxGridCell</td>
-      <td> <pre> | command | JsxGridCell=jsxname.record jsxid.cell index | |</pre></td>
-      <td>Locator - cell element by grid jsxname, row jsxid and cell index&nbsp;<br />
-          Example : gridResult.1.3 return cell in row with jsxid=1 and column=3</td>
+      <td><strike>JsxGridCell</strike></td>
+      <td> </pre></td>
+      <td><strike>Locator - cell element by grid jsxname, row jsxid and cell index&nbsp;<br />
+          Example : gridResult.1.3 return cell in row with jsxid=1 and column=3</strike></td>
     </tr>
     <tr>
-      <td>JsxListHeaderIndex</td>
-      <td> <pre> | command | JsxListHeaderIndex=jsxname,columnIndex | |</pre></td>
-      <td>Locator - element for list header cell by list jsxname and column index&nbsp</td>
+      <td><strike>JsxListHeaderIndex</strike></td>
+      <td> </pre></td>
+      <td><strike>Locator - element for list header cell by list jsxname and column index</strike></td>
     </tr>
      
     <tr>
-      <td>JsxListName</td>
-      <td> <pre> | command | JsxListName=jsxname | |</pre></td>
-      <td>Locator - element for list by list jsxname&nbsp</td>
+      <td><strike>JsxListName</td>
+      <td> </td>
+      <td><strike>Locator - element for list by list jsxname</td>
     </tr>
     <tr>
-      <td>JsxListRowId</td>
-      <td> <pre> | command | JsxListRowId=jsxname,record jsxid</td>
-      <td>Locator - element for list row by list jsxname and record row jsxid</td>
+      <td><strike>JsxListRowId</td>
+      <td> </td>
+      <td><strike>Locator - element for list row by list jsxname and record row jsxid</td>
     </tr>
     <tr>
-      <td>JsxListRowText</td>
-      <td> <pre> | command | JsxListRowText=jsxname,text pattern | |</pre></td>
-      <td>Locator - element list row by a text in the a list row (glob and regexp pattern allowed). 
+      <td><strike>JsxListRowText</td>
+      <td> </td>
+      <td><strike>Locator - element list row by a text in the a list row (glob and regexp pattern allowed). 
           <br />
           <strong>NOTE</strong> this locator is not exact, you should use ListRowId locator instead&nbsp;</td>
     </tr>

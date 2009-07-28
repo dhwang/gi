@@ -2335,7 +2335,7 @@ PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
  * GI DOM path locator.  gi=jsxname/[@jsxtext="Menu"]/child[1]/jsx3.gui.Splitter/jsx3.gui.TextBox[1]
    .jsx3.gui.Splitter
     #mytemplategui/jsx3.gui.Select
-   
+ *  
  * Template.Block subclass can use .com.tibco.ux.SlideOut or [@jsxtype="com.tibco.ux.SlideOut"] 
  * Custom type  "::customtype/
  * @param text {String} dom path
@@ -2495,6 +2495,20 @@ PageBot.prototype.findJsxObject = function(locator, inWindow) {
 }
 
 /** Locate element using JSX selector implementation.
+    Select objects from the DOM using a CSS3-like selection syntax. This method considers the DOM tree whose root is this object. The following constructs are supported:
+
+    * jsx3_gui_ClassName - matches objects by their exact class. Replace "." with "_" in the selector.
+    * * - matches any object
+    * #id - matches objects whose name equals id
+    * .class-name - matches objects for which getClassName() is defined and returns a string that contains the token class-name
+    * :first and :last - matches objects that are their parents' first and last children
+    * :nth(n) and nth-child(n) - matches objects whose child index is equal to n
+    * :instanceof(ClassName) - matches objects that are instances of the class or interface ClassName
+    * [prop="value"] and [prop*="value"] - matches objects whose value for field prop equals value
+    * or, with "*", contains value. The quotes around value are optional. [getter()="value"] and [getter()*="value"] - matches objects whose return value for method getter equals value
+    * or, with "*", contains value. The quotes around value are optional. AB - matches objects that match both A and B
+    * A B - matches descendants of objects matching A that match B
+    * A > B - matches immediate children of objects matching A that match B
  *  @param text {String} CSS3 like selector string. e.g. "#jsxname"
  *  @param inDocument {Object} current document object
  *  @param inWindow {Object} current document object

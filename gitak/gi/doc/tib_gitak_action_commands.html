@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <!--
-Copyright 2006-2007 TIBCO Software Inc.
+Copyright 2006-2009 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -78,10 +78,9 @@ tr:hover {
             </td>
         </tr>
             <tr>
+                <td>clickJsxCellMask</td>
                 <td>
-                    actionJsxMaskCell</td>
-                <td>
-                    <pre>| actionJsxMaskCell | JsxMatrixCell[Id/Index] | value |</pre></td>
+                    <pre>| clickJsxCellMask | JsxMatrixCell[Id/Index] | value |</pre></td>
                 <td>
                     Action - do the applicable action depending on the cell mask with given value. For
                     exmple, type value in textbox, pick date in datepicker, etc.
@@ -297,7 +296,7 @@ tr:hover {
                 <td>
                     clickJsxStack</td>
                 <td>
-                    <pre>| doClickJsxStack | JsxStackName=jsxname / JsxStackText=label text | |</pre></td>
+                    <pre>| clickJsxStack | JsxStackName=jsxname / JsxStackText=label text | |</pre></td>
                 <td>
                     Action - click on jsx3.gui.Stack with given label text or jsxname. &nbsp;</td>
             </tr>
@@ -374,7 +373,7 @@ tr:hover {
                 <td>
                     dragJsxToJsx</td>
                 <td>
-                    <pre>| dragJsxTo | JsxLocator | JsxLocator2</pre></td>
+                    <pre>| dragJsxToJsx | JsxLocator | JsxLocator2</pre></td>
                 <td>
                     Action - Drag a JSX Object to JSX Object 2 (using any locator). Try selenium "dragAndDrop" command if this does not work.
                    </td>
@@ -504,6 +503,15 @@ tr:hover {
             </tr>
             <tr>
                 <td>
+                    typeJsxKeys</td>
+                <td>
+                    <pre>| typeJsxKeys | JsxTextboxName=jsxname | value |</pre></td>
+                <td>
+                    Action - Simulate each keydown/keyup typing into textbox
+                </td>
+            </tr>
+            <tr>
+                <td>
                     typeJsxTextbox</td>
                 <td>
                     <pre>| typeJsxTextbox | JsxTextboxName=jsxname | value |</pre></td>
@@ -546,7 +554,23 @@ tr:hover {
                     Action - Display the elapse time of given timer key
                 </td>
             </tr>
-        <tr>
+            <tr>
+                <td>selectJsxRecords</td>
+                <td>
+                    <pre> selectJsxRecords | <jsxname | locator> | xpath |</pre></td>
+                <td> Action - Convenience function for selecting records in Matrix or Tree according to a XPath selector of the XML records.
+                </td>
+            </tr>
+
+            <record jsxid="" />
+            <tr>
+                <td>selectJsxWindow</td>
+                <td>
+                    <pre> selectJsxWindow | jsxname | |</pre></td>
+                <td> Action - switch window to new jsx3.gui.Window instance. Pass null to switch back to main window.
+                </td>
+            </tr>
+      <tr>
             <td>
                 include</td>
             <td>
