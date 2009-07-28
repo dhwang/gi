@@ -324,7 +324,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
     intLevel = Math.max(intLevel, Logger.MAX_LEVEL);
     if (this._level < intLevel) return;
     
-    var arrParams = strArgs instanceof Array ? strArgs : Method.argsAsArray(arguments, 2);
+    var arrParams = jsx3.$A.is(strArgs) ? strArgs : Method.argsAsArray(arguments, 2);
     var record = new Logger.Record(strMessage, arrParams, intLevel, this.getName(), jsx3.lang.getCaller(1), null);
     this._dispatch(record);
   };
@@ -377,7 +377,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
    *   argument message parameters, or an exception; optional argument
    */
   Logger_prototype.fatal = function(strMessage, strArgs) {
-    if (strArgs == null || strArgs instanceof Array)
+    if (strArgs == null || jsx3.$A.is(strArgs))
       this.log(Logger.FATAL, strMessage, strArgs);
     else if (strArgs instanceof Exception)
       this.logError(Logger.FATAL, strMessage, strArgs);
@@ -393,7 +393,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
    *   argument message parameters, or an exception; optional argument
    */
   Logger_prototype.error = function(strMessage, strArgs) {
-    if (strArgs == null || strArgs instanceof Array)
+    if (strArgs == null || jsx3.$A.is(strArgs))
       this.log(Logger.ERROR, strMessage, strArgs);
     else if (strArgs instanceof Exception)
       this.logError(Logger.ERROR, strMessage, strArgs);
@@ -409,7 +409,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
    *   argument message parameters, or an exception; optional argument
    */
   Logger_prototype.warn = function(strMessage, strArgs) {
-    if (strArgs == null || strArgs instanceof Array)
+    if (strArgs == null || jsx3.$A.is(strArgs))
       this.log(Logger.WARN, strMessage, strArgs);
     else if (strArgs instanceof Exception)
       this.logError(Logger.WARN, strMessage, strArgs);
@@ -425,7 +425,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
    *   argument message parameters, or an exception; optional argument
    */
   Logger_prototype.info = function(strMessage, strArgs) {
-    if (strArgs == null || strArgs instanceof Array)
+    if (strArgs == null || jsx3.$A.is(strArgs))
       this.log(Logger.INFO, strMessage, strArgs);
     else if (strArgs instanceof Exception)
       this.logError(Logger.INFO, strMessage, strArgs);
@@ -441,7 +441,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
    *   argument message parameters, or an exception; optional argument
    */
   Logger_prototype.debug = function(strMessage, strArgs) {
-    if (strArgs == null || strArgs instanceof Array)
+    if (strArgs == null || jsx3.$A.is(strArgs))
       this.log(Logger.DEBUG, strMessage, strArgs);
     else if (strArgs instanceof Exception)
       this.logError(Logger.DEBUG, strMessage, strArgs);
@@ -457,7 +457,7 @@ jsx3.Class.defineClass('jsx3.util.Logger', null, null, function(Logger, Logger_p
    *   argument message parameters, or an exception; optional argument
    */
   Logger_prototype.trace = function(strMessage, strArgs) {
-    if (strArgs == null || strArgs instanceof Array)
+    if (strArgs == null || jsx3.$A.is(strArgs))
       this.log(Logger.TRACE, strMessage, strArgs);
     else if (strArgs instanceof Exception)
       this.logError(Logger.TRACE, strMessage, strArgs);
@@ -989,7 +989,7 @@ jsx3.Class.defineClass('jsx3.util.Logger.Record', null, null, function(Record, R
    * @return {Array<Function>}
    */
   Record_prototype.getStack = function() {
-    return this._stack instanceof Array ? this._stack : null;
+    return jsx3.$A.is(this._stack) ? this._stack : null;
   };
   
   /**

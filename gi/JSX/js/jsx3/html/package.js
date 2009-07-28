@@ -947,7 +947,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
       }
     }
 
-    var a = varImages instanceof Array ? varImages : arguments;
+    var a = jsx3.$A.is(varImages) ? varImages : arguments;
     for (var i = 0; i < a.length; i++) {
       if (!a[i]) continue;
       var src = jsx3.resolveURI(a[i]);
@@ -1040,7 +1040,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
       if (typeof(args) == "string") {
         index = 0;
         arrArgs = args.split(/\//g);
-      } else if (args instanceof Array) {
+      } else if (jsx3.$A.is(args)) {
         index = 0;
         arrArgs = args;
       }

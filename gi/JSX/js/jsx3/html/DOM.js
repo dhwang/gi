@@ -104,7 +104,7 @@ jsx3.Class.defineClass("jsx3.html.DOM", null, null, function(DOM, DOM_prototype)
       if (typeof(args) == "string") {
         index = 0;
         arrArgs = args.split(/\//g);
-      } else if (args instanceof Array) {
+      } else if (jsx3.$A.is(args)) {
         index = 0;
         arrArgs = args;
       }

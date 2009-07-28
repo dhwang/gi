@@ -1364,7 +1364,7 @@ jsx3.Class.defineClass("jsx3.gui.Dialog", jsx3.gui.Block, [jsx3.gui.Alerts], fun
    */
   Dialog_prototype.onRemoveChild = function(objChild, intIndex) {
     this.jsxsuper(objChild, intIndex);
-    if (objChild instanceof Array) {
+    if (jsx3.$A.is(objChild)) {
       this.setBoxDirty();
       this.repaint();
     } else {

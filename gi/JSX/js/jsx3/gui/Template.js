@@ -3081,7 +3081,7 @@ jsx3.Class.defineClass("jsx3.gui.Template.Block", jsx3.gui.Block, null, function
 
   Block_prototype.setDimensions = function(left, top, width, height, bUpdateView) {
     var propsToSynch = [];
-    if (left instanceof Array) {
+    if (jsx3.$A.is(left)) {
       bUpdateView = top;
       height = left[3];
       width = left[2];
@@ -3736,7 +3736,7 @@ jsx3.Class.defineClass("jsx3.gui.Template.Block", jsx3.gui.Block, null, function
       var objBoxProfile = this.getBoxProfile(!(!VIEW));
       if(objGUI == null && VIEW)
         objGUI = this.getRendered();
-      if(!(strPropName instanceof Array)) strPropName = [strPropName];
+      if(!jsx3.$A.is(strPropName)) strPropName = [strPropName];
 
       for(var j=0;j<strPropName.length;j++) {
         //all triggers for the class are managed by the template under a hash ID equal to the name of the class

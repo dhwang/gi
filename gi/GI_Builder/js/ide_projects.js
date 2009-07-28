@@ -252,7 +252,7 @@ jsx3.ide.syncPreviouslyOpenFiles = function(objEvent, objFiles) {
   var project = jsx3.ide.PROJECT;
   var openFiles = [];
 
-  if (objFiles instanceof Array) {
+  if (jsx3.$A.is(objFiles)) {
     for (var i = 0; i < objFiles.length; i++) {
       openFiles.push(project.getDirectory().relativePathTo(objFiles[i]));
     }

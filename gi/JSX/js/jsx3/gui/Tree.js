@@ -221,7 +221,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     bEvent = this.isOldEventProtocol();
 /* @JSC :: end */
 
-    if (strRecordId instanceof Array) {
+    if (jsx3.$A.is(strRecordId)) {
       if (! bMulti)
         throw new jsx3.IllegalArgumentException("strRecordId", strRecordId);
     } else if (bMulti) {
@@ -1416,7 +1416,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     var strRecordIds = null;
     if (strRecordId == null)
       strRecordIds = this._getSelectedIds();
-    else if (!(strRecordId instanceof Array))
+    else if (!jsx3.$A.is(strRecordId))
       strRecordIds = [strRecordId];
     else
       strRecordIds = strRecordId;

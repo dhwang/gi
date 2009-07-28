@@ -319,7 +319,7 @@ jsx3.Class.defineClass("jsx3.ide.ServerView", jsx3.app.Server, null, function(Se
     this._stats.objcount = this.JSXBODY.findDescendants(function(x) { return true; }, false, true).length;
     this._stats.size = xml.toString().length;
 
-    if (children instanceof Array) {
+    if (jsx3.$A.is(children)) {
       for (var i = 0; i < children.length; i++)
         children[i].setPersistence(jsx3.app.Model.PERSISTEMBED);
     } else if (children) {

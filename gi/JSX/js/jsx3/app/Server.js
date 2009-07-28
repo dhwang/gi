@@ -591,7 +591,7 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
    */
   Server_prototype.setDimensions = function(left, top, width, height) {
     //convert array to ints
-    if (left instanceof Array) {
+    if (jsx3.$A.is(left)) {
       top = left[1];
       width = left[2];
       height = left[3];

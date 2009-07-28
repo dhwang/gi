@@ -76,7 +76,7 @@ jsx3.Class.defineInterface("jsx3.util.EventDispatcher", null, function(EventDisp
           "{" + typeof(objHandler) + "}, {" + typeof(objFunction) + "}");
     }
     
-    if (!(strEventId instanceof Array)) strEventId = [strEventId];
+    if (!jsx3.$A.is(strEventId)) strEventId = [strEventId];
     
     for (var i = 0; i < strEventId.length; i++) {
       var registry = this._getEventRegistry();
@@ -98,7 +98,7 @@ jsx3.Class.defineInterface("jsx3.util.EventDispatcher", null, function(EventDisp
    * @param objHandler {object|string|function} the value of objHandler passed to subscribe
    */
   EventDispatcher_prototype.unsubscribe = function(strEventId, objHandler) {
-    if (!(strEventId instanceof Array)) strEventId = [strEventId];
+    if (!jsx3.$A.is(strEventId)) strEventId = [strEventId];
     
     for (var i = 0; i < strEventId.length; i++) {
       var queue = this._getEventRegistry()[strEventId[i]];

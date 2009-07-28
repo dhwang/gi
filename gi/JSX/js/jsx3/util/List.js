@@ -193,7 +193,7 @@ jsx3.Class.defineClass('jsx3.util.List', null, null, function(List, List_prototy
     else
       a = List._convertArrayLikeToArray(a);
 
-    if (a instanceof Array) {
+    if (jsx3.$A.is(a)) {
       if (intAt == null)
         this._src.push.apply(this._src, a);
       else

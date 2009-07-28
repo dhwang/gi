@@ -372,13 +372,7 @@ Array.prototype.clone = function() {
  * @deprecated Use the <code>jsx3.util.List</code> class.
  */
 Array.prototype.pushAll = function(a) {
-  if (typeof(a) == "array" && a.length > 0) {
-    for (var i = 0; i < a.length; i++)
-      this.push(a[i]);
-  } else if (typeof(a) == "object" && typeof(a.length) == "number" && a.length > 0) {
-    for (var i = 0; i < a.length; i++)
-      this.push(a[i]);
-  }
+  this.push.apply(this, a);
 };
 
 /**

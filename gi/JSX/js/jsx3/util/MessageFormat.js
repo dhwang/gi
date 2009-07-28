@@ -97,7 +97,7 @@ jsx3.Class.defineClass('jsx3.util.MessageFormat', null, null, function(MessageFo
     
     for (var i = 0; i < tokens.length; i++) {
       var token = this._tokens[i];
-      if (token instanceof Array) {
+      if (jsx3.$A.is(token)) {
         var index = token[0];
         var format = token[1];
         

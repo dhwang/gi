@@ -59,7 +59,7 @@ jsx3.Class.defineClass("jsx3.app.UserSettings", null, null, function(UserSetting
     var obj = this.value;
     
     for (var i = 0; i < arguments.length; i++) {
-      if (typeof(obj) != 'object' || (obj instanceof Array))
+      if (typeof(obj) != 'object' || (jsx3.$A.is(obj)))
         return null;
       
       obj = obj[arguments[i]];
@@ -79,7 +79,7 @@ jsx3.Class.defineClass("jsx3.app.UserSettings", null, null, function(UserSetting
     for (var i = 0; i < arguments.length - 2; i++) {
       var child = obj[arguments[i]];
       
-      if (typeof(child) != 'object' || (child instanceof Array)) {
+      if (typeof(child) != 'object' || (jsx3.$A.is(child))) {
         child = obj[arguments[i]] = null;
       }
       
@@ -105,7 +105,7 @@ jsx3.Class.defineClass("jsx3.app.UserSettings", null, null, function(UserSetting
     for (var i = 0; i < arguments.length - 1; i++) {
       var child = obj[arguments[i]];
       
-      if (child == null || typeof(child) != 'object' || (child instanceof Array))
+      if (child == null || typeof(child) != 'object' || (jsx3.$A.is(child)))
         return;
         
       obj = child;
@@ -267,7 +267,7 @@ jsx3.Class.defineClass("jsx3.app.UserSettings", null, null, function(UserSetting
       node = objParent.createNode(Entity.TYPEELEMENT, "b");
       node.setValue(objValue ? "1" : "0");
     } else if (type == "object") {
-      if (objValue instanceof Array) {
+      if (jsx3.$A.is(objValue)) {
         node = objParent.createNode(Entity.TYPEELEMENT, "a");
         for (var i = 0; i < objValue.length; i++) {
           UserSettings.serializeValue(objValue[i], i.toString(), node);

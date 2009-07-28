@@ -1283,7 +1283,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     // serialize the children
     var children = this._jsxchildren;
     if (children) {
-      if (children instanceof Array) {
+      if (jsx3.$A.is(children)) {
         var numChildren = children.length;
         if (numChildren > 0) {
           for (var i = 0; i < numChildren; i++) {
@@ -1320,7 +1320,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       // only act upon properties/attributes of the object, not its functions
       if (type == "function" || p.indexOf("_jsx") == 0 || val == null) {
         ;
-      } else if (val instanceof Array) {
+      } else if (jsx3.$A.is(val)) {
         var asString = new Array(val.length);
         for (var i = 0; i < val.length; i++) {
           var aval = val[i];

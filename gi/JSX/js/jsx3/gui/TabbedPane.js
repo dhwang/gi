@@ -104,7 +104,7 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
   TabbedPane_prototype.onRemoveChild = function(objChild, intIndex) {
     this.jsxsuper(objChild, intIndex);
 
-    if (objChild instanceof Array) {
+    if (jsx3.$A.is(objChild)) {
       var oneTab = objChild[this.getSelectedIndex()];
       if (oneTab)
         oneTab.doEvent(Interactive.HIDE);

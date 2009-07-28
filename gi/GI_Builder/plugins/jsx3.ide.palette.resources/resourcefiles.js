@@ -124,7 +124,7 @@ doToggleAutoload: function(record) {
 },
 
 doReloadResource: function(strResourceIds) {
-  if (!(strResourceIds instanceof Array)) strResourceIds = [strResourceIds];
+  strResourceIds = jsx3.$A(strResourceIds);
   var objResources = [];
   for (var i = 0; i < strResourceIds.length; i++)
     objResources[i] = jsx3.ide.getResourceById(strResourceIds[i]);
@@ -157,7 +157,7 @@ doShowResourceProps: function(rsrcId) {
 
       var prefs = jsx3.ide.getIDESettings();
       var dims = prefs.get("resource-settings", "dims");
-      if (dims instanceof Array)
+      if (jsx3.$A.is(dims))
         dialog.setDimensions(dims);
 
       dialog.focus();

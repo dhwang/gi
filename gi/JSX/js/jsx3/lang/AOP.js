@@ -198,7 +198,7 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
   
   /** @private @jsxobf-clobber */
   AOP._cutPointNoAround = function(strKey, objThis, arrArgs, arrPC) {
-    if (!arrPC) 
+    if (!arrPC)
       arrPC = AOP._filterCP(objThis, AOP._methodToPC[strKey]._pc);
     
     var before = AOP._getAllOf(arrPC, "_before");
@@ -249,7 +249,7 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
   
   /** @private @jsxobf-clobber */
   AOP._getClasses = function(strClasses) {
-    if (!(strClasses instanceof Array)) 
+    if (!jsx3.$A.is(strClasses))
       strClasses = [strClasses];
     
     var a = [];
@@ -263,7 +263,7 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
     var m = [];
     var proto = objClass.getConstructor().prototype;
     
-    if (!(strMethods instanceof Array)) 
+    if (!jsx3.$A.is(strMethods))
       strMethods = [strMethods];
     
     for (var i = 0; i < strMethods.length; i++) {

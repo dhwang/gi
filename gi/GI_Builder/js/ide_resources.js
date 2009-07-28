@@ -117,7 +117,6 @@ getFileType: function(objFile) {
 
 doReloadResourceObj: jsx3.$Y(function(cb) {
   var objResources = cb.args()[0];
-  if (!(objResources instanceof Array)) objResources = [objResources];
   objResources = jsx3.$A(objResources);
 
   var needConfirm = objResources.find(function(e) {

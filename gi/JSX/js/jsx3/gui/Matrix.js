@@ -4783,7 +4783,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var t1 = new jsx3.util.Timer(Matrix.jsxclass, this);
 /* @JSC :: end */
 
-    if(!(this._jsx2pass instanceof Array))
+    if(!jsx3.$A.is(this._jsx2pass))
       /* @jsxobf-clobber */
       this._jsx2pass = [];
     var twoP = this._jsx2pass;
@@ -6599,7 +6599,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Matrix_prototype.setValue = function(strId) {
     this.deselectAllRecords();
     if(strId) {
-      if (jsx3.$A.is(strId) ) {
+      if (jsx3.$A().is(strId)) {
         if (this.getSelectionModel() != Matrix.SELECTION_MULTI_ROW && strId.length > 1)
           throw new jsx3.IllegalArgumentException("strId", strId);
       } else {

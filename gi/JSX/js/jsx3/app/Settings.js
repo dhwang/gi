@@ -223,7 +223,7 @@ jsx3.Class.defineClass("jsx3.app.Settings", null, null, function(Settings, Setti
       record.setAttribute("type", "boolean");
       record.setValue(value ? "true" : "false");
     } else if (type == "object") {
-      if (value instanceof Array) {
+      if (jsx3.$A.is(value)) {
         record.setAttribute("type", "array");
         for (var i = 0; i < value.length; i++) {
           Settings._setRecord(record, i.toString(), value[i]);

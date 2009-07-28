@@ -371,7 +371,7 @@ jsx3.Class.defineClass('jsx3.util.DateFormat', null, null, function(DateFormat, 
     var textNext = nextToken == null ||
     // ... if the next token is a string that does not start with a digit
         (typeof(nextToken) == "string" && !DateFormat._charIsDigit(nextToken, 0));
-    if (nextToken instanceof Array) {
+    if (jsx3.$A.is(nextToken)) {
       // ... if the next token is MMM
       textNext = textNext || (nextToken[0] == "M" && nextToken[1] > 2) ||
       // ... if the next token is E
@@ -598,7 +598,7 @@ jsx3.Class.defineClass('jsx3.util.DateFormat', null, null, function(DateFormat, 
 
     for (var i = 0; i < this._tokens.length; i++) {
       var token = this._tokens[i];
-      if (token instanceof Array) {
+      if (jsx3.$A.is(token)) {
         var letter = token[0];
         var length = token[1];
         formatted[i] = DateFormat._LETTER_FORMAT[letter](adjustedDate, length, this);
@@ -630,7 +630,7 @@ jsx3.Class.defineClass('jsx3.util.DateFormat', null, null, function(DateFormat, 
     for (var i = 0; i < this._tokens.length; i++) {
       var token = this._tokens[i];
       var incr = -1;
-      if (token instanceof Array) {
+      if (jsx3.$A.is(token)) {
         incr = DateFormat._LETTER_PARSE[token[0]](this, strDate, position, token[1], date, this._tokens[i+1], parseState);
       } else {
         incr = DateFormat._parseText(strDate, position, token);

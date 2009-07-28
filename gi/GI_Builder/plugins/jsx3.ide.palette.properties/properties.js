@@ -430,7 +430,7 @@ _updatePropertyNode: function(objTree, arrJSX, strPropName, objNode) {
   var strGetter = objNode.getAttribute("getter");
   strPropName = objNode.getAttribute("jsxid");
 
-  if (! (arrJSX instanceof Array)) arrJSX = [arrJSX];
+  arrJSX = jsx3.$A(arrJSX);
 
   var endVal = null, envDynVal = null, endMultiVal = null;
   for (var i = 0; i < arrJSX.length; i++) {

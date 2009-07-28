@@ -762,7 +762,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
     //extract the id from the element about to be dragged and persist (for use by drop zone objects); persist the name/id of the source object
     jsx3.EventHelp.DRAGTYPE = objContext.strDRAGTYPE;
     jsx3.EventHelp.DRAGID = objContext.strDRAGID;
-    if(objContext.strDRAGIDS instanceof Array) jsx3.EventHelp.DRAGIDS = objContext.strDRAGIDS;
+    if(jsx3.$A.is(objContext.strDRAGIDS)) jsx3.EventHelp.DRAGIDS = objContext.strDRAGIDS;
     jsx3.EventHelp.JSXID = this;
 
     //use system default if no drag icon function supplied
@@ -1400,7 +1400,7 @@ jsx3.Class.defineClass("jsx3.EventHelp", null, null, function(EventHelp, EventHe
    * @private
    */
   EventHelp.getDragIds = function() {
-    return (EventHelp.DRAGIDS instanceof Array) ? EventHelp.DRAGIDS : [EventHelp.DRAGID];
+    return (jsx3.$A.is(EventHelp.DRAGIDS)) ? EventHelp.DRAGIDS : [EventHelp.DRAGID];
   };
 
 });

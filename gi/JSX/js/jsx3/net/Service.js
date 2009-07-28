@@ -270,7 +270,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       var objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,"val",Service.json_namespace + "simpletype/literal");
       objXML.appendChild(objItem);
       objItem.setValue(objJ);
-    } else if(objJ instanceof Array) {
+    } else if(jsx3.$A.is(objJ)) {
       var objParent = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,"val",Service.json_namespace + "array/literal");
       objXML.appendChild(objParent);
       for(var i=0;i<objJ.length;i++) {
@@ -294,7 +294,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
           objXML.appendChild(objItem);
           if(safename) objItem.setAttribute("safename",p,Service._ns["xml"]);
           objItem.setValue(vnt);
-         } else if(vnt instanceof Array) {
+         } else if(jsx3.$A.is(vnt)) {
           var objParent = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace + "array");
           objXML.appendChild(objParent);
           if(safename) objParent.setAttribute("safename",p,Service._ns["xml"]);

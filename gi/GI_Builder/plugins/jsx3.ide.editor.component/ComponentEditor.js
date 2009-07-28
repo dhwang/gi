@@ -286,7 +286,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
         
         //deserialize the new content
         var children = parent.loadXML(doc, false);
-        if (children instanceof Array) {
+        if (jsx3.$A.is(children)) {
           for (var i = 0; i < children.length; i++)
             children[i].setPersistence(Model.PERSISTEMBED);
         } else {

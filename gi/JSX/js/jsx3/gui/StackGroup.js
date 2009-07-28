@@ -236,7 +236,7 @@ jsx3.Class.defineClass("jsx3.gui.StackGroup", jsx3.gui.LayoutGrid, null, functio
   StackGroup_prototype.onRemoveChild = function(objChild, intIndex) {
     this.jsxsuper(objChild, intIndex);
 
-    if (objChild instanceof Array) {
+    if (jsx3.$A.is(objChild)) {
       this.repaint();
     } else {
       var numChildren = this.getChildren().length;

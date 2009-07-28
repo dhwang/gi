@@ -242,7 +242,7 @@ jsx3.Class.defineClass("jsx3.html.BlockTag", jsx3.html.Tag, null, function(Block
    * @param height {int} the new height value
    */
   BlockTag_prototype.setDimensions = function(left, top, width, height) {
-    if (left instanceof Array) {
+    if (jsx3.$A.is(left)) {
       this.setLeft(left[0]);
       this.setTop(left[1]);
       this.setWidth(left[2]);

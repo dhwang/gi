@@ -273,7 +273,7 @@ jsx3.Class.defineClass("jsx3.gui.LayoutGrid", jsx3.gui.Block, null, function(Lay
     var intWild = 0;
 
     var divs = (bRow ? this.getRows() : this.getCols());
-    if(!(divs instanceof Array))
+    if (!jsx3.$A.is(divs))
       divs = divs != null  ? divs.split(/\s*,\s*/g) : [];
     var objNew = new Array(divs.length);
 

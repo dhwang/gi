@@ -162,7 +162,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
       for (var p in this.jsxcustom) {
         var bSkip =
             (objExclude != null &&
-              ((objExclude instanceof Array && jsx3.util.arrIndexOf(objExclude, p) >= 0) || (objExclude[p]))) ||
+              ((jsx3.$A.is(objExclude) && jsx3.util.arrIndexOf(objExclude, p) >= 0) || (objExclude[p]))) ||
             (bSkipEvents && bInter && Interactive.isBridgeEventHandler(p));
 
         var attrValue = this.jsxcustom[p];
@@ -917,7 +917,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Queue", jsx3.lang.Object, [jsx3.util.Ev
       while (q != null && t2 < tdone) {
         if (q._queue.length > 0) {
           var entry = q._queue.shift();
-          if (entry instanceof Array)
+          if (jsx3.$A.is(entry))
             entry[0]._updateBoxFromQueue(q, entry[1], entry[2]);
           else
             entry.repaint();
@@ -939,7 +939,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Queue", jsx3.lang.Object, [jsx3.util.Ev
         var q = Queue._ACTIVE.removeAt(0);
         while (q._queue.length > 0) {
           var entry = q._queue.shift();
-          if (entry instanceof Array)
+          if (jsx3.$A.is(entry))
             entry[0]._updateBoxFromQueue(q, entry[1], entry[2]);
           else
             entry.repaint();

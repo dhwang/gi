@@ -198,7 +198,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
    Table_prototype.setValue = function(strId) {
      this.deselectAllRecords();
      if(strId) {
-       if (strId instanceof Array) {
+       if (jsx3.$A.is(strId)) {
          if (this.getSelectionModel() != Table.SELECTION_MULTI_ROW && strId.length > 1)
            throw new jsx3.IllegalArgumentException("strId", strId);
        } else {
@@ -951,7 +951,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
     var strRecordIds = null;
     if (strRecordId == null)
       strRecordIds = this.getSelectedIds();
-    else if (!(strRecordId instanceof Array))
+    else if (!jsx3.$A.is(strRecordId))
       strRecordIds = [strRecordId];
     else
       strRecordIds = strRecordId;

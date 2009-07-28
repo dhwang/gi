@@ -432,7 +432,7 @@ jsx3.Class.defineClass("jsx3.chart.GridLines", jsx3.chart.ChartComponent, null, 
   GridLines_prototype._getFillFromArray = function( a, index ) {
     if (a == null) return null;
     
-    if (a instanceof Array) {
+    if (jsx3.$A.is(a)) {
       if (a.length > 0) {
         return vector.Fill.valueOf(a[index % a.length]);
       } else {
@@ -454,7 +454,7 @@ jsx3.Class.defineClass("jsx3.chart.GridLines", jsx3.chart.ChartComponent, null, 
   GridLines_prototype._getStrokeFromArray = function( a, index ) {
     if (a == null) return null;
     
-    if (a instanceof Array) {
+    if (jsx3.$A.is(a)) {
       if (a.length > 0) {
         return Stroke.valueOf(a[index % a.length]);
       } else {
@@ -474,7 +474,7 @@ jsx3.Class.defineClass("jsx3.chart.GridLines", jsx3.chart.ChartComponent, null, 
    */
   GridLines_prototype._getArrayLength = function( a ) {
     if (a == null) return 0;
-    return (a instanceof Array) ? a.length : 1;
+    return (jsx3.$A.is(a)) ? a.length : 1;
   };
   
   /**

@@ -1397,7 +1397,7 @@ jsx3.Class.defineClass("jsx3.gui.List", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
    * @return {jsx3.gui.List} this object
    */
   List_prototype.setValue = function(strRecordId) {
-    if (strRecordId instanceof Array) {
+    if (jsx3.$A.is(strRecordId)) {
       if (this.getMultiSelect() != List.MULTI)
         throw new jsx3.IllegalArgumentException("strRecordId", strRecordId);
     } else {

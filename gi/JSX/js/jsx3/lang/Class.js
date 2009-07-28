@@ -263,7 +263,7 @@ window._jsxtmp = function(Class, Class_prototype) {
         Class._throw(jsx3._msg("class.no_init", strName));
 
       // import mixin interface methods
-      if (arrImplements instanceof Array) {
+      if (jsx3.$A.is(arrImplements)) {
         // go backwards through interfaces because we clobber and first defined interface has precedence
         for (var i = arrImplements.length-1; i >= 0; i--)
           Class._defineImplements(objClass, fctConstructor, arrImplements[i]);

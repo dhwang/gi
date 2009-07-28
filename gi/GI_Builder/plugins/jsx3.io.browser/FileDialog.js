@@ -568,7 +568,7 @@ if (jsx3.app.Browser.macosx) {
   FileDialog_prototype._checkSecurity = function(files) {
     if (this._base == null) return true;
     var ok = true;
-    if (files instanceof Array) {
+    if (jsx3.$A.is(files)) {
       for (var i = 0; ok && i < files.length; i++) {
         ok = files[i].equals(this._base) || files[i].isDescendantOf(this._base);
       }
@@ -580,7 +580,7 @@ if (jsx3.app.Browser.macosx) {
 
   /** @private @jsxobf-clobber */
   FileDialog_prototype._checkIsChild = function(objFile) {
-    if (objFile instanceof Array) return true;
+    if (jsx3.$A.is(objFile)) return true;
 
     var parent = objFile.getParentFile();
     return parent.exists() && this._current.equals(parent);

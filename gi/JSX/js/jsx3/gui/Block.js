@@ -558,7 +558,7 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
    *    an <code>Array</code> then this parameter is the second parameter passed to this method.
    */
   Block_prototype.setDimensions = function(left, top, width, height, bUpdateView) {
-    if (left instanceof Array) {
+    if (jsx3.$A.is(left)) {
       bUpdateView = top;
       height = left[3];
       width = left[2];

@@ -11,7 +11,7 @@ getForIdOrSelected: function(strRecordId, bIncludeBody) {
   if (strRecordId == this.ROOT_DOM_NODE_ID) {
     if (bIncludeBody)
       return [this.getActiveServer().getBodyBlock()];
-  } else if (strRecordId instanceof Array) {
+  } else if (jsx3.$A.is(strRecordId)) {
     var obj = [];
     for (var i = 0; i < strRecordId.length; i++) {
       if (strRecordId[i] == this.ROOT_DOM_NODE_ID) {
