@@ -20,7 +20,7 @@ Getting Started
 
   To get started developing General Interface applications,
   open GI_Builder.html in a supported web browser (see Browser
-  Platforms below). Download the documentation and view the 
+  Platforms below). Download the documentation and view the
   API Reference and tips documents on http://www.generalinterface.org.
 
 ======================================================================
@@ -79,13 +79,13 @@ General Interface Framework
   General Interface Framework and General Interface applications run
   on the following browsers.
 
-  Internet Explorer 7.0 and 6.0.x for:
+  Internet Explorer 8.0, 7.0 and 6.0.x for:
     Microsoft Windows (x86)
       Windows 2003 Server
       Windows XP Professional SP1 and SP2
       Windows Vista
 
-  Firefox 2.0 and 1.5.x for:
+  Firefox 3.5, 3.0, 2.0 and 1.5.x for:
     Linux (x86)
       Red Hat Enterprise Linux 3
       Red Hat Enterprise Linux 4
@@ -99,23 +99,37 @@ General Interface Framework
       Windows XP Professional SP1 and SP2
       Windows Vista
 
+  Safari 3.2.2, 3.2, and 3.1.2
+    Apple Mac (x86 and PowerPC)
+      Mac OS X (x86) 10.3, 10.4 and 10.5
+      Mac OS X (PowerPC) 10.3, 10.4 and 10.5
+    Microsoft Windows (x86)
+      Windows 2003 Server
+      Windows XP Professional SP1, SP2 and SP3
+      Windows Vista
+
+  Google Chrome 1.0 for:
+    Microsoft Windows (x86)
+      Windows XP Professional SP1, SP2 and SP3
+      Windows Vista
+
 -------------------------------
 General Interface Builder
 
   General Interface Builder runs on the following browsers.
 
-  Internet Explorer 7.0 and 6.0.x for:
+  Internet Explorer 8.0, 7.0 and 6.0.x for:
     Microsoft Windows (x86)
       Windows 2003 Server
       Windows XP Professional SP1 and SP2
       Windows Vista
 
-  Firefox 2.0 and 1.5.x for:
+  Firefox 3.5, 3.0, 2.0 and 1.5.x for:
     Microsoft Windows (x86)
       Windows 2003 Server
       Windows XP Professional SP1 and SP2
       Windows Vista
-      
+
 ======================================================================
 Copyright
 
