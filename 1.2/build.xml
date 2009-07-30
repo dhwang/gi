@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<project name="General Interface Performance Profiler" default="dist" basedir=".">
+
+  <property name="project.dir" value="."/>
+
+  <!-- Selector for text files. Text files can be copied with filtering. -->
+  <selector id="files.text">
+    <or>
+      <filename name="**/*.html"/>
+      <filename name="**/*.htm"/>
+      <filename name="**/*.xhtml"/>
+      <filename name="**/*.hta"/>
+      <filename name="**/*.txt"/>
+      <filename name="**/*.xml"/>
+      <filename name="**/*.css"/>
+      <filename name="**/*.js"/>
+      <filename name="**/*.xsl"/>
+    </or>
+  </selector>
+
+  <!-- Selector for binary files. Binary files can not be copied with filtering. -->
+  <selector id="files.binary">
+    <not>
+      <selector refid="files.text"/>
+    </not>
+  </selector>
+
+  <target name="init">
+    <!-- Load the application specific settings -->
+    <property file="build.properties"/>
+
+    <filterset id="filters-dependent">
+      <filter token="gi.apidocs.title" value="${gi.apidocs.title}"/>
+      <filter token="gi.apidocs.title.esc" value="${gi.apidocs.title.esc}"/>
+    </filterset>
+    <filterset id="filters">
+      <filtersfile file="build.properties"/>
+    </filterset>
+
+    <!-- Convert prop={true,false} to set/unset properties for use with if/unless. -->
+    <condition property="build.set.samples" value="1">
+      <equals arg1="${gipp.dist.sampleprojects}" arg2="true"/>
+    </condition>
+    <condition property="build.set.obfuscate" value="1">
+      <equals arg1="${gipp.dist.obfuscate}" arg2="true"/>
+    </condition>
+    <condition property="build.set.doc" value="1">
+      <equals arg1="${gipp.dist.docs}" arg2="true"/>
+    </condition>
+
+    <path id="cp.tools">
+      <path path="${gi.tools.dir}/jsx-tools.jar"/>
+      <path path="${gi.tools.dir}/${lib.jaxen}"/>
+      <path path="${gi.tools.dir}/${lib.rhino}"/>
+      <path path="${gi.tools.dir}/${lib.xalan}"/>
+      <path path="${gi.tools.dir}/${lib.xerces}"/>
+      <path path="${gi.tools.dir}/${lib.jsparser}"/>
+      <path path="${gi.tools.dir}/${lib.saxon}"/>
+      <path path="${gi.tools.dir}/${lib.saxon-dom}"/>
+    </path>
+
+    <taskdef resource="com/tibco/gi/ant/antlib.xml" classpathref="cp.tools"/>
+
+  </target>
+
+  <target name="dist"
+      depends="init, copy-gipp, copy-samples, dist-doc, obfuscate"
+      description="Builds a distribution of General Interface Performance Profiler."/>
+
+  <target name="copy-gipp" depends="init">
+    <mkdir dir="${gipp.dist.dir}"/>
+
+    <copy todir="${gipp.dist.dir}">
+      <filterset refid="filters"/>
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel}">
+        <selector refid="files.text"/>
+      </fileset>
+    </copy>
+    <copy todir="${gipp.dist.dir}">
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel}">
+        <selector refid="files.binary"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="copy-samples" depends="init" if="build.set.samples">
+    <copy todir="${gipp.dist.dir}">
+      <filterset refid="filters"/>
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel.sampleprojects}">
+        <selector refid="files.text"/>
+      </fileset>
+    </copy>
+    <copy todir="${gipp.dist.dir}">
+      <fileset dir="${project.dir}" includes="${gipp.rsrc.toplevel.sampleprojects}">
+        <selector refid="files.binary"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="obfuscate" depends="init" if="build.set.obfuscate">
+    <gi-obfuscate optliterals="true">
+      <fileset dir="${gipp.dist.dir}">
+        <include name="gipp.js"/>
+      </fileset>
+    </gi-obfuscate>
+  </target>
+
+  <target name="dist-doc" depends="init" if="build.set.doc">
+    <antcall target="doc"/>
+  </target>
+
+  <target name="doc" depends="init" description="Compiles the API documentation.">
+    <mkdir dir="${gipp.dist.api}"/>
+
+    <gi-doc destdir="${gipp.dist.api}/xml" access="${gipp.docs.access}">
+      <fileset dir="${project.dir}" includes="gipp.js"/>
+    </gi-doc>
+
+    <gi-htmldoc
+        title="${gi.apidocs.title}"
+        copyright="${gi.apidocs.copyright}"
+        srcdir="${gipp.dist.api}/xml"
+        destdir="${gipp.dist.api}/html"/>
+  </target>
+
+  <target name="zip" depends="dist" description="Packages the distribution in a ZIP file.">
+    <zip
+        basedir="${gipp.dist.dir}"
+        includes="**/*"
+        destfile="${gipp.build.dir}/${gipp.dist.zip}"/>
+  </target>
+
+  <target name="clean" depends="init"
+      description="Removes all build artifacts.">
+    <delete dir="${gipp.build.dir}"/>
+  </target>
+
+</project>
