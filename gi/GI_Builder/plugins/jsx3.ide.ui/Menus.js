@@ -210,7 +210,7 @@ jsx3.Class.defineClass("jsx3.ide.ui.NewFileMenu", jsx3.ide.ui.IdeMenu, null, fun
     var i = 0;
 
     mainPlugIn.getFileTypes().each(jsx3.$F(function(e) {
-      var data = {"@id":e.getId(), "@label":e.getLabel(), "@img":e.getImage()};
+      var data = {"@id":e.getId(), "@label":e.getLabel(), "@img":e.getImage(), "@enabled":"project"};
       if (i++ == 0)
         data["@hotkey"] = "{hk.new}";
 
