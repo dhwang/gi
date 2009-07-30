@@ -113,6 +113,13 @@ objJSX._getMenuPath = function(objItem) {
     path = parent.getLabel() + " : " + path;
     parent = parent.getMenu();
   }
+
+  var props = this.getServer().getProperties();
+  path = path.replace(/\{([\w\.]+)\}/g, function(p0, p1) {
+    var p = props.get(p1);
+    return p || p0;
+  });
+
   return path;
 };
 
