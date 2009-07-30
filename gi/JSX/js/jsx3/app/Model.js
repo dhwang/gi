@@ -449,7 +449,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       this.onRemoveChild(objChild, intIndex);
 
       // 6) trigger the DOM change event now that the item has been removed
-      objServer.getDOM().onChange(jsx3.app.DOM.TYPEREMOVE, this.getId(), objChild.getId());
+      if (objServer)
+        objServer.getDOM().onChange(jsx3.app.DOM.TYPEREMOVE, this.getId(), objChild.getId());
     }
   };
 
@@ -470,7 +471,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
         objChild._removeChildRecurse(i, objServer, true);
 
       // 1) dereference the object by removing it from the global arrays that point to the object
-      objServer.getDOM().remove(objChild);
+      if (objServer)
+        objServer.getDOM().remove(objChild);
 
       // 2) remove circular reference from child (objChild) back to the parent (this)
       delete objChild._jsxparent;
@@ -604,7 +606,9 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 
     this.onChildAdded(objMove[0]);
     //fire the DOM onchange event since we affected the MODEL directly
-    this.getServer().getDOM().onChange(jsx3.app.DOM.TYPEREARRANGE,this.getId(),intPrecedeIndex);
+    var s = this.getServer();
+    if (s)
+      s.getDOM().onChange(jsx3.app.DOM.TYPEREARRANGE,this.getId(),intPrecedeIndex);
 
     return true;
   };
@@ -663,7 +667,9 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     delete objChild._jsxparent;
 
     //2b) remove box profile (allow it to be reconstructed in context of the new parent)
-    objChild.clearBoxProfile(true);
+    // HACK: superclass referencing subclass
+    if (objChild.clearBoxProfile)
+      objChild.clearBoxProfile(true);
 
     //3) restack the former parent's child array to remove a reference to the now-obsolete item
     if (objParent._jsxchildren != null) objParent._jsxchildren.splice(intIndex, 1);
@@ -686,7 +692,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
       this._adoptChildRecurse(objChild, objParent, curServer, newServer);
 
     //fire the onChange for the old server (we just removed a child)
-    curServer.getDOM().onChange(jsx3.app.DOM.TYPEREMOVE, objParent.getId(), objChild.getId());
+    if (curServer)
+      curServer.getDOM().onChange(jsx3.app.DOM.TYPEREMOVE, objParent.getId(), objChild.getId());
 
     //INSERT OBJCHILD INTO THE CHILD ARRAY FOR THE NEW PARENT
     var children = this._jsxchildren;
@@ -701,7 +708,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     if (bRepaint !== false) this.viewUpdateHook(objChild, bMulti && objParent._jsxchildren.length > 0);
 
     //fire the onChange for the new server (we just added a child)
-    newServer.getDOM().onChange(jsx3.app.DOM.TYPEADD, this.getId(), objChild.getId());
+    if (newServer)
+      newServer.getDOM().onChange(jsx3.app.DOM.TYPEADD, this.getId(), objChild.getId());
 
     //return a handle to this
     return this;
@@ -716,9 +724,12 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
    * @package
    */
   Model_prototype.destroyView = function(objParent) {
-    var objGUI = objParent.getServer().getRenderedOf(this);
-    if (objGUI)
-      jsx3.html.removeNode(objGUI);
+    var s = objParent.getServer();
+    if (s) {
+      var objGUI = objParent.getServer().getRenderedOf(this);
+      if (objGUI)
+        jsx3.html.removeNode(objGUI);
+    }
   };
 
   /**

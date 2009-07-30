@@ -419,6 +419,75 @@ gi.test.jsunit.defineTests("jsx3.app.Model", function(t, jsunit) {
     jsunit.assertEquals(1, o[0].f1);
   };
 
+  t.testDetachedSetChild = function() {
+    var parent = new jsx3.app.Model("m1");
+    var child = new jsx3.app.Model("m2");
+    parent.setChild(child);
+
+    jsunit.assertEquals(1, parent.getChildren().length);
+    jsunit.assertEquals(child, parent.getChildren()[0]);
+  };
+
+  t.testDetachedRemoveChild = function() {
+    var parent = new jsx3.app.Model("m1");
+    var child = new jsx3.app.Model("m2");
+    parent.setChild(child);
+
+    jsunit.assertEquals(1, parent.getChildren().length);
+
+    parent.removeChild(child)
+    jsunit.assertEquals(0, parent.getChildren().length);
+  };
+
+  t.testDetachedAdoptChild = function() {
+    var p1 = new jsx3.app.Model("p1");
+    var p2 = new jsx3.app.Model("p2");
+    var child = new jsx3.app.Model("c1");
+
+    p1.setChild(child);
+    p2.adoptChild(child);
+
+    jsunit.assertEquals(0, p1.getChildren().length);
+    jsunit.assertEquals(1, p2.getChildren().length);
+  };
+
+  t.testDetachedClone = function() {
+    var parent = new jsx3.app.Model("p1");
+    var child = new jsx3.app.Model("c1");
+
+    parent.setChild(child);
+    var clone = child.doClone();
+
+    jsunit.assertEquals(2, parent.getChildren().length);
+    jsunit.assertEquals(child, parent.getChildren()[0]);
+    jsunit.assertEquals(clone, parent.getChildren()[1]);
+  };
+
+  t.testDetachedInsertBefore = function() {
+    var parent = new jsx3.app.Model("p1");
+    var c1 = new jsx3.app.Model("c1");
+    var c2 = new jsx3.app.Model("c2");
+
+    parent.setChild(c1);
+    parent.insertBefore(c2, c1, false);
+
+    jsunit.assertEquals(2, parent.getChildren().length);
+    jsunit.assertEquals(c2, parent.getChildren()[0]);
+    jsunit.assertEquals(c1, parent.getChildren()[1]);
+  };
+
+  t.testDetachedRemoveChildren = function() {
+    var parent = new jsx3.app.Model("p1");
+    var c1 = new jsx3.app.Model("c1");
+    var c2 = new jsx3.app.Model("c2");
+
+    parent.setChild(c1);
+    parent.setChild(c2);
+    parent.removeChildren();
+
+    jsunit.assertEquals(0, parent.getChildren().length);
+  };
+
 //  t.testGetFirstChildOfType = function() {
 //    // TODO:
 //  };
