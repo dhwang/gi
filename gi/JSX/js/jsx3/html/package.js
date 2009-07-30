@@ -140,6 +140,73 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 /* @JSC */ }
   };
 
+  html._tn = function(elm) {
+    return (elm.nodeName || elm.tagName || "").toLowerCase();
+  };
+
+  /**
+   * Reveals a DOM element by scrolling the necessary parent DIVs and SPANs.
+   * @param objGUI {HTMLElement} the DOM element to reveal.
+   * @param objRoot {HTMLElement} optionally, the last parent to reveal <code>objGUI</code> relative to.
+   * @param intPaddingX {int} the desired horizontal pixel padding after revealing, if null then no horizontal
+   *     repositioning if at least part of the DOM element is showing.
+   * @param intPaddingY {int} the desired vertical pixel padding after revealing, if null then no vertical
+   *     repositioning if at least part of the DOM element is showing.
+   */
+  html.scrollIntoView = function(objGUI, objRoot, intPaddingX, intPaddingY) {
+    var objNode = objGUI.parentNode;
+
+    if (intPaddingX == null) intPaddingX = 0;
+    if (intPaddingY == null) intPaddingY = 0;
+
+    while (objNode != null) {
+      var tagName = html._tn(objNode);
+      if (tagName == "span" || tagName == "div") {
+        var relPos = html.getRelativePosition(objNode, objGUI);
+
+        // make horizontal dimension visible
+        // left edge of child off view to the right
+        if (objNode.clientWidth + objNode.scrollLeft <= relPos.L) {
+          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
+        }
+        // right edge of child off view to the right
+        else if (intPaddingX && objNode.clientWidth + objNode.scrollLeft < relPos.L + objGUI.offsetWidth) {
+          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
+        }
+        // right edge of child off view to the left
+        if (objNode.scrollLeft >= relPos.L + objGUI.offsetWidth) {
+          objNode.scrollLeft = relPos.L - intPaddingX;
+        }
+        // left edge of child off view to the left
+        else if (intPaddingX && objNode.scrollLeft > relPos.L) {
+          objNode.scrollLeft = relPos.L - intPaddingX;
+        }
+
+        // make vertical dimension visible
+        // top edge of child off view to the bottom
+        if (objNode.clientHeight + objNode.scrollTop <= relPos.T) {
+          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
+        }
+        // bottom edge of child off view to the bottom
+        else if (intPaddingY && objNode.clientHeight + objNode.scrollTop < relPos.T + objGUI.offsetHeight) {
+          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
+        }
+        // bottom edge of child off view to the top
+        if (objNode.scrollTop >= relPos.T + objGUI.offsetHeight) {
+          objNode.scrollTop = relPos.T - intPaddingY;
+        }
+        // top edge of child off view to the top
+        else if (intPaddingY && objNode.scrollTop > relPos.T) {
+          objNode.scrollTop = relPos.T - intPaddingY;
+        }
+      }
+
+      if (objNode == objRoot) break;
+
+      objNode = objNode.parentNode;
+    }
+  };
+
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
 
   /**
@@ -237,66 +304,6 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     return null;
   };
 
-
-  /**
-   * reveals a DOM element by scrolling the necessary parent DIVs and SPANs
-   * @param objGUI {dom} the DOM element to reveal
-   * @param objRoot {dom} the last parent to reveal relative to
-   * @param intPaddingX {int} the desired horizontal pixel padding after revealing, if null then no horizontal repositioning if at least part of the DOM element is showing
-   * @param intPaddingY {int} the desired vertical pixel padding after revealing, if null then no vertical repositioning if at least part of the DOM element is showing
-   * @package
-   */
-  html.scrollIntoView = function(objGUI, objRoot, intPaddingX, intPaddingY) {
-    var objNode = objGUI.parentNode;
-
-    while (objNode != null) {
-      var tagName = objNode.tagName.toLowerCase();
-      if (tagName == "span" || tagName == "div") {
-        var relPos = html.getRelativePosition(objNode, objGUI);
-
-        // make horizontal dimension visible
-        // left edge of child off view to the right
-        if (objNode.clientWidth + objNode.scrollLeft <= relPos.L) {
-          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
-        }
-        // right edge of child off view to the right
-        else if (objNode.clientWidth + objNode.scrollLeft < relPos.L + objGUI.offsetWidth && (intPaddingX != null)) {
-          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
-        }
-        // right edge of child off view to the left
-        if (objNode.scrollLeft >= relPos.L + objGUI.offsetWidth) {
-          objNode.scrollLeft = relPos.L - intPaddingX;
-        }
-        // left edge of child off view to the left
-        else if (objNode.scrollLeft > relPos.L && intPaddingX != null) {
-          objNode.scrollLeft = relPos.L - intPaddingX;
-        }
-
-        // make vertical dimension visible
-        // top edge of child off view to the bottom
-        if (objNode.clientHeight + objNode.scrollTop <= relPos.T) {
-          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
-        }
-        // bottom edge of child off view to the bottom
-        else if (objNode.clientHeight + objNode.scrollTop < relPos.T + objGUI.offsetHeight && (intPaddingY != null)) {
-          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
-        }
-        // bottom edge of child off view to the top
-        if (objNode.scrollTop >= relPos.T + objGUI.offsetHeight) {
-          objNode.scrollTop = relPos.T - intPaddingY;
-        }
-        // top edge of child off view to the top
-        else if (objNode.scrollTop > relPos.T && intPaddingY != null) {
-          objNode.scrollTop = relPos.T - intPaddingY;
-        }
-      }
-
-      if (objNode == objRoot) break;
-
-      objNode = objNode.parentNode;
-    }
-  };
-
   /**
    * Returns the serialized HTML representation of <code>objElement</code>.
    * @param objElement {HTMLElement}
@@ -355,7 +362,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
    */
   html.isFocusable = function(objGUI) {
     return objGUI.focus != null &&
-        (parseInt(objGUI.getAttribute("jsxtabindex")) >= 0 || html._FOCUSABLE[objGUI.tagName.toLowerCase()]);
+        (parseInt(objGUI.getAttribute("jsxtabindex")) >= 0 || html._FOCUSABLE[html._tn(objGUI)]);
   };
 
 /* @JSC */ } else {
@@ -384,7 +391,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
   html.isFocusable = function(objGUI) {
     return objGUI.focus != null &&
-        (parseInt(objGUI.tabIndex) >= 0 || html._FOCUSABLE[objGUI.tagName.toLowerCase()]);
+        (parseInt(objGUI.tabIndex) >= 0 || html._FOCUSABLE[html._tn(objGUI)]);
   };
 
   html.createRule = function(selector,declaration,objDocument) {
@@ -412,57 +419,6 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     return null;
   };
 
-  html.scrollIntoView = function(objGUI, objRoot, intPaddingX, intPaddingY) {
-    var objNode = objGUI.parentNode;
-
-    while (objNode != null) {
-      var tagName = objNode.tagName.toLowerCase();
-      if (tagName == "span" || tagName == "div") {
-        var relPos = html.getRelativePosition(objNode, objGUI);
-
-        // make horizontal dimension visible
-        // left edge of child off view to the right
-        if (objNode.clientWidth + objNode.scrollLeft <= relPos.L) {
-          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
-        }
-        // right edge of child off view to the right
-        else if (objNode.clientWidth + objNode.scrollLeft < relPos.L + objGUI.offsetWidth && (intPaddingX != null)) {
-          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
-        }
-        // right edge of child off view to the left
-        if (objNode.scrollLeft >= relPos.L + objGUI.offsetWidth) {
-          objNode.scrollLeft = relPos.L - intPaddingX;
-        }
-        // left edge of child off view to the left
-        else if (objNode.scrollLeft > relPos.L && intPaddingX != null) {
-          objNode.scrollLeft = relPos.L - intPaddingX;
-        }
-
-        // make vertical dimension visible
-        // top edge of child off view to the bottom
-        if (objNode.clientHeight + objNode.scrollTop <= relPos.T) {
-          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
-        }
-        // bottom edge of child off view to the bottom
-        else if (objNode.clientHeight + objNode.scrollTop < relPos.T + objGUI.offsetHeight && (intPaddingY != null)) {
-          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
-        }
-        // bottom edge of child off view to the top
-        if (objNode.scrollTop >= relPos.T + objGUI.offsetHeight) {
-          objNode.scrollTop = relPos.T - intPaddingY;
-        }
-        // top edge of child off view to the top
-        else if (objNode.scrollTop > relPos.T && intPaddingY != null) {
-          objNode.scrollTop = relPos.T - intPaddingY;
-        }
-      }
-
-      if (objNode == objRoot) break;
-
-      objNode = objNode.parentNode;
-    }
-  };
-
   html.getOuterHTML = function(objElement) {
     if (window.SVGElement && objElement instanceof SVGElement) {
       return (new XMLSerializer()).serializeToString(objElement);
@@ -471,7 +427,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
       switch (objElement.nodeType) {
         case 1: // ELEMENT_NODE
-          str[str.length] = "<" + objElement.nodeName.toLowerCase();
+          str[str.length] = "<" + html._tn(objElement);
 
           if (objElement.namespaceURI)
             str[str.length] = ' xmlns="' + objElement.namespaceURI + '"';
@@ -485,7 +441,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
           if (objElement.childNodes.length == 0)// && leafElems[node.nodeName])
             str[str.length] = "/>";
           else {
-            str[str.length] = ">" + objElement.innerHTML + "</" + objElement.nodeName.toLowerCase() + ">";
+            str[str.length] = ">" + objElement.innerHTML + "</" + html._tn(objElement) + ">";
           }
           break;
 
@@ -864,7 +820,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     var queue = objGUI ? [objGUI] : [];
     while (queue.length > 0) {
       var node = queue.shift();
-      if (node.nodeName && node.nodeName.toLowerCase() == "span" && node.className == "disable-output-escp") {
+      if (node.nodeName && html._tn(node) == "span" && node.className == "disable-output-escp") {
         node.innerHTML = node.innerHTML.replace(/&lt;/g, "<").replace(/&gt;/g, ">").
             replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&([a-zA-Z_]+);/g, html._entNameToCode);
         node.removeAttribute("class");
@@ -981,14 +937,14 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   /** @package */
   html.getElementByTagName = function(objRoot, strTagName, bDepthFirst) {
     strTagName = strTagName.toLowerCase();
-    return this.findElements(objRoot, function(x) { return x.tagName.toLowerCase() == strTagName; },
+    return this.findElements(objRoot, function(x) { return html._tn(x) == strTagName; },
         bDepthFirst, false, false, true);
   };
 
   /** @package */
   html.getElementsByTagName = function(objRoot, strTagName, bDepthFirst) {
     strTagName = strTagName.toLowerCase();
-    return this.findElements(objRoot, function(x) { return x.tagName.toLowerCase() == strTagName; },
+    return this.findElements(objRoot, function(x) { return html._tn(x) == strTagName; },
         bDepthFirst, true, false, true);
   };
 
@@ -1017,7 +973,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
   /** @package */
   html.getElmUpByTagName = function(objStart, strTagName, bIncludeSelf) {
-    return html.findElementUp(objStart, function(x) { return x.nodeName.toLowerCase() == strTagName; }, bIncludeSelf);
+    return html.findElementUp(objStart, function(x) { return html._tn(x) == strTagName; }, bIncludeSelf);
   };
 
   /** @package */
@@ -1185,7 +1141,7 @@ jsx3.Class.defineClass('jsx3.html.Selection', null, null, function(Selection, Se
   Selection_prototype.getStartIndex = function() {
     var range = this._input.ownerDocument.selection.createRange();
     var dupRange = null;
-    if (this._input.tagName.toLowerCase() == "textarea") {
+    if (html._tn(this._input) == "textarea") {
       dupRange = range.duplicate();
       dupRange.moveToElementText(this._input);
     } else { // tagName == "input"
@@ -1198,7 +1154,7 @@ jsx3.Class.defineClass('jsx3.html.Selection', null, null, function(Selection, Se
   Selection_prototype.getEndIndex = function() {
     var range = this._input.ownerDocument.selection.createRange();
     var dupRange = null;
-    if (this._input.tagName.toLowerCase() == "textarea") {
+    if (html._tn(this._input) == "textarea") {
       dupRange = range.duplicate();
       dupRange.moveToElementText(this._input);
     } else { // tagName == "input"
