@@ -282,6 +282,8 @@ return;
       objImplicit = {};
     }
 
+    var bHorText = this.getOrientation() == gui.StackGroup.ORIENTATIONV;
+
     //create the outer box (holds banner box and block content child)
     objImplicit.width = "100%";
     objImplicit.height = "100%";
@@ -294,7 +296,7 @@ return;
     var o = {};
     o.parentwidth = b1.getClientWidth();
     o.parentheight = b1.getClientHeight();
-    if(this.getOrientation() == gui.StackGroup.ORIENTATIONV) {
+    if(bHorText) {
       //( -- )
       o.width = "100%";
       o.height = intBarSize;
@@ -314,10 +316,14 @@ return;
 
     //create the text label box
     o = {};
-    o.tagname = "div";
-    o.boxtype = "box";
-    o.left = 0;
-    o.top = 0;
+    if (bHorText) {
+      o.tagname = "div";
+      o.boxtype = "box";
+      o.left = o.top = 0;
+    } else {
+      o.tagname = "span";
+      o.boxtype = "relativebox";
+    }
     o.padding = this.getPadding();
     var b1b = new gui.Painted.Box(o);
     b1a.addChildProfile(b1b);
@@ -398,10 +404,10 @@ return;
    */
   Stack_prototype.paintTextAlign = function() {
     var s;
-    if(this.getTextAlign()) {
+    if (this.getTextAlign()) {
       s = this.getTextAlign();
     } else {
-      if(this.getParent() && this.getOrientation() == gui.StackGroup.ORIENTATIONV) {
+      if (this.getParent() && this.getOrientation() == gui.StackGroup.ORIENTATIONV) {
         // ( -- ) top over bottom
         s = Block.ALIGNRIGHT;
       } else {
