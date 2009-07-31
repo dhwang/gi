@@ -39,11 +39,11 @@ jsx3.Class.defineClass("jsx3.ide.ui.PaletteManager", null, null, function(Palett
         menu.addItem(new ui.PaletteMenuItem(p), p._xml && p._xml.attr("idegroup"));
       }
     }
-
-    this._loading++;
   };
 
   PaletteManager_prototype.startup = function() {
+    this._loading = jsx3.$H(this._palettes).keys().length;
+
     jsx3.$H(this._palettes).each(jsx3.$F(function (k, v) {
       var settings = v.getSettings();
       var c = settings.closed;
