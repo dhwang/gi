@@ -101,7 +101,7 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
     }
 /* @JSC */ } else {
     // NOTE: see http://bugs.webkit.org/show_bug.cgi?id=14835
-    if (strNS == null) strNS = null;
+    if (strNS == null || strNS == "") strNS = null;
     if (intType == 2) {
       objNode = objDoc.createAttributeNS(strNS, strNodeName);
     } else if (intType == 3) {

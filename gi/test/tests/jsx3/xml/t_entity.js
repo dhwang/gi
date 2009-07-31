@@ -611,4 +611,31 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
     jsunit.assertNull(d2.selectSingleNode("//r1"));
   };
 
+  // SEE: http://www.generalinterface.org/bugs/browse/GI-536
+  t.testEmptyNamespace = function() {
+    var d, l;
+
+    d = (new jsx3.xml.Document()).loadXML("<data/>");
+    d.getRootNode().appendChild(d.createNode(jsx3.xml.Entity.TYPEELEMENT, 'record', ''));
+    l = d.selectNodes("//record");
+    jsunit.assertEquals("Empty string without root NS failed", 1, l.size());
+
+    d = (new jsx3.xml.Document()).loadXML('<data xmlns="http://www.tibco.com"/>');
+    d.getRootNode().appendChild(d.createNode(jsx3.xml.Entity.TYPEELEMENT, 'record', ''));
+    l = d.selectNodes("//record");
+    jsunit.assertEquals("Empty string with root NS failed", 1, l.size());
+
+    d = (new jsx3.xml.Document()).loadXML("<data/>");
+    d.getRootNode().appendChild(d.createNode(jsx3.xml.Entity.TYPEELEMENT, 'record'));
+    l = d.selectNodes("//record");
+    jsunit.assertEquals("Undefined without root NS failed", 1, l.size());
+
+    d = (new jsx3.xml.Document()).loadXML('<data xmlns="http://www.tibco.com"/>');
+    d.getRootNode().appendChild(d.createNode(jsx3.xml.Entity.TYPEELEMENT, 'record'));
+    l = d.selectNodes("//record");
+    jsunit.assertEquals("Undefined with root NS failed", 1, l.size());
+    l = d.selectNodes("//tb:record", {"http://www.tibco.com":"tb"});
+    jsunit.assertEquals("Undefined with root NS failed selection with namespace", 0, l.size());
+  };
+  
 });
