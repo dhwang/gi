@@ -144,7 +144,7 @@ jsx3.Class.defineClass("jsx3.vector.Shape", jsx3.vector.BaseShape, null, functio
    */
   Shape_prototype._appendPath = function( pathSegment ) {
     if (!this._pathtokens)
-      // @jsxobf-clobber
+      /* @jsxobf-clobber */
       this._pathtokens = [];
     this._pathtokens.push(pathSegment);
   };
