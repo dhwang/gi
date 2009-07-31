@@ -665,7 +665,7 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
         jsx3.app.PropsBundle.clearCache(strSrc, objCache);
       }
 
-      this.LJSS.addParent(jsx3.app.PropsBundle.getProps(strSrc, this.getLocale(), objCache));
+      this.LJSS.addParent(jsx3.app.PropsBundle.getPropsFT(strSrc, this.getLocale(), objCache));
     } else if (strType == "xml" || strType == "xsl") {
       return this.Cache.openDocument(strSrc, strId);
     } else if (strType == "script") {
@@ -1185,7 +1185,7 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
     this.LJSS.removeAllParents();
     
     for (var i = 0; i < p.length; i++) {
-      var props = jsx3.app.PropsBundle.getProps(p[i].getPath(), this.getLocale(), this.getCache());
+      var props = jsx3.app.PropsBundle.getPropsFT(p[i].getPath(), this.getLocale(), this.getCache());
       this.LJSS.addParent(props);
     }
   };

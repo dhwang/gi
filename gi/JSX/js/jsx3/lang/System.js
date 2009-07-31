@@ -8,6 +8,8 @@
  */
 jsx3.Class.defineClass("jsx3.lang.System", null, null, function(System, System_prototype) {
 
+  var PropsBundle = jsx3.app.PropsBundle;
+
   System.LJSS = new jsx3.app.Properties();
   
   /**
@@ -71,14 +73,12 @@ jsx3.Class.defineClass("jsx3.lang.System", null, null, function(System, System_p
    * @since 3.2
    */
   System.reloadLocalizedResources = function() {
-    var PropsBundle = jsx3.app.PropsBundle;
-    
     if (PropsBundle) {
       var p = System.LJSS.getParents();
       System.LJSS.removeAllParents();
     
       for (var i = 0; i < p.length; i++)
-        System.LJSS.addParent(jsx3.app.PropsBundle.getProps(p[i].getPath(), System.getLocale(), jsx3.getSystemCache()));
+        System.LJSS.addParent(PropsBundle.getPropsFT(p[i].getPath(), System.getLocale(), jsx3.getSystemCache()));
     }
   };
 
@@ -91,7 +91,7 @@ jsx3.Class.defineClass("jsx3.lang.System", null, null, function(System, System_p
    * @package
    */
   System.getLocaleProperties = function(objLocale) {
-    return jsx3.app.PropsBundle.getProps(System._locdocurl, objLocale, jsx3.getSystemCache());
+    return PropsBundle.getPropsFT(System._locdocurl, objLocale, jsx3.getSystemCache());
   };
 
   /**

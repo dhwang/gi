@@ -86,6 +86,8 @@ jsx3.Class.defineClass("jsx3.app.PropsBundle", jsx3.app.Properties, null, functi
    *    provided, the system locale is used.
    * @param objCache {jsx3.app.Cache} if provided, any loaded XML documents will be placed in this cache.
    * @return {jsx3.app.PropsBundle}
+   * @throws {jsx3.Exception} if there is an error loading loading the main bundle file or a subordinate file
+   *    promised by the main file.
    */
   PropsBundle.getProps = function(strBasePath, objLocale, objCache) {
     if (!objLocale) objLocale = jsx3.System.getLocale();
@@ -106,6 +108,29 @@ jsx3.Class.defineClass("jsx3.app.PropsBundle", jsx3.app.Properties, null, functi
       throw new jsx3.Exception(jsx3._msg("propbn.err_key", strBasePath, objLocale));
       
     return p;
+  };
+
+  /**
+   * The same as <code>getProps()</code> but if there is an error loading the bundle for <code>objLocale</code> then
+   * try to load the bundle for the root locale and if there is an error doing that, just return an empty properties
+   * object.
+   *
+   * @return {jsx3.app.PropsBundle}
+   * @see #getProps()
+   */
+  PropsBundle.getPropsFT = function(strBasePath, objLocale, objCache) {
+    try {
+      return PropsBundle.getProps(strBasePath, objLocale, objCache);
+    } catch (e) {}
+
+    var root = jsx3.util.Locale.ROOT;
+
+    if (!objLocale || !objLocale.equals(root))
+      try {
+        return PropsBundle.getProps(strBasePath, root, objCache);
+      } catch (e) {}
+
+    return new PropsBundle();
   };
   
   /**

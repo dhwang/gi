@@ -23,6 +23,8 @@ jsx3.Class.defineClass('jsx3.util.Locale', null, null, function(Locale, Locale_p
     this._country = strCountry ? strCountry.toUpperCase() : "";
   };
   
+  /** {jsx3.util.Locale} The root locale. */
+  Locale.ROOT = new Locale("");
   /** {jsx3.util.Locale} Locale for English (country unspecified). */
   Locale.ENGLISH = new Locale("en");
   /** {jsx3.util.Locale} Locale for United States of America. */

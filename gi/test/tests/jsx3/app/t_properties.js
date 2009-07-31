@@ -401,5 +401,21 @@ gi.test.jsunit.defineTests("jsx3.app.Properties", function(t, jsunit) {
     jsunit.assertEquals("value_es_ES", p.get("key1"));
   };
 
+  t.testLocaleError = function() {
+    jsx3.app.PropsBundle.clearCache();
+
+    jsunit.assertThrows(function() {
+      jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("de"));
+    });
+  };
+
+  t.testLocalegetPropsFT = function() {
+    jsx3.app.PropsBundle.clearCache();
+
+    var p = jsx3.app.PropsBundle.getPropsFT(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("de"));
+    jsunit.assertEquals("key1_default", p.get("key1"));
+    jsunit.assertEquals("key2_default", p.get("key2"));
+    jsunit.assertEquals("key3_default", p.get("key3"));
+  };
 
 });
