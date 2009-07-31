@@ -6,7 +6,7 @@
 /**
  * Paints a vector rectangle.
  */
-jsx3.Class.defineClass("jsx3.vector.Rectangle", jsx3.vector.Shape, null, function(Rectangle, Rectangle_prototype) {
+jsx3.Class.defineClass("jsx3.vector.Rectangle", jsx3.vector.BaseShape, null, function(Rectangle, Rectangle_prototype) {
 
   /**
    * The instance initializer.

@@ -6,7 +6,7 @@
 /**
  * Paints a vector polygon defined by a set of points.
  */
-jsx3.Class.defineClass("jsx3.vector.Polygon", jsx3.vector.Shape, null, function(Polygon, Polygon_prototype) {
+jsx3.Class.defineClass("jsx3.vector.Polygon", jsx3.vector.BaseShape, null, function(Polygon, Polygon_prototype) {
 
   /**
    * The instance initializer.
@@ -17,33 +17,23 @@ jsx3.Class.defineClass("jsx3.vector.Polygon", jsx3.vector.Shape, null, function(
   Polygon_prototype.init = function(left, top, points) {
     //call constructor for super class
     this.jsxsuper("polyline", left, top);
-    
-    /* @jsxobf-clobber */
-    this._points = null;
-    /* @jsxobf-clobber */
-    this._coordinateArray = points;
-    /* @jsxobf-clobber */
-    this._pointsString = points != null ? points.join(" ") : null;
+    this.setPoints(points);
   };
 
   /**
    * Sets the polygon points as an array of point objects or strings.
-   * @param points {array} an array of strings or objects to stringify as "x y"
+   * @param points {Array<String>} an array of strings or objects that stringify as <code>"x y"</code>.
    */
   Polygon_prototype.setPoints = function( points ) {
-    this._points = points;
-    this._coordinateArray = null;
-    this._pointsString = points != null ? points.join(" ") : null;
+    this.setProperty("points", points ? points.join(" ") : null);
   };
   
   /**
    * Sets the polygon points as an array of coordinates.
-   * @param points {array} an array of alternating x and y coordinates
+   * @param points {Array<int>} an array of alternating x and y coordinates.
    */
   Polygon_prototype.setPointsAsNumberArray = function( points ) {
-    this._points = null;
-    this._coordinateArray = points;
-    this._pointsString = points != null ? points.join(" ") : null;
+    this.setProperty("points", points ? points.join(" ") : null);
   };
   
   /**
@@ -51,18 +41,7 @@ jsx3.Class.defineClass("jsx3.vector.Polygon", jsx3.vector.Shape, null, function(
    * @param points {String} a string in the form "x1 y1 x2 y2 ..."
    */
   Polygon_prototype.setPointsAsString = function( points ) {
-    this._points = null;
-    this._coordinateArray = null;
-    this._pointsString = points;
-  };
-  
-  /**
-   * template method for Tag base class
-   * @package
-   */
-  Polygon_prototype.paintUpdate = function() {
-    this.jsxsuper();
-    this.setProperty("points", this._pointsString);
+    this.setProperty("points", points);
   };
   
 });

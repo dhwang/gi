@@ -6,7 +6,7 @@
 /**
  * Paints a vector line defined by two end points.
  */
-jsx3.Class.defineClass("jsx3.vector.Line", jsx3.vector.Shape, null, function(Line, Line_prototype) {
+jsx3.Class.defineClass("jsx3.vector.Line", jsx3.vector.BaseShape, null, function(Line, Line_prototype) {
 
 /* @JSC */ if (jsx3.CLASS_LOADER.VML) {
     

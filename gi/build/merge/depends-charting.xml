@@ -15,12 +15,13 @@
   <file path="classes/jsx3/vector/Stroke.js" provides="jsx3.vector.Stroke" requires="jsx3.html.Tag"/>
   <file path="classes/jsx3/vector/Fill.js" provides="jsx3.vector.Fill" requires="jsx3.html.Tag"/>
   <file path="classes/jsx3/vector/Group.js" provides="jsx3.vector.Group" requires="jsx3.vector.Tag"/>
-  <file path="classes/jsx3/vector/Shape.js" provides="jsx3.vector.Shape" requires="jsx3.vector.Tag"/>
-  <file path="classes/jsx3/vector/Line.js" provides="jsx3.vector.Line" requires="jsx3.vector.Shape"/>
-  <file path="classes/jsx3/vector/Rectangle.js" provides="jsx3.vector.Rectangle" requires="jsx3.vector.Shape"/>
-  <file path="classes/jsx3/vector/Oval.js" provides="jsx3.vector.Oval" requires="jsx3.vector.Shape"/>
-  <file path="classes/jsx3/vector/Polygon.js" provides="jsx3.vector.Polygon" requires="jsx3.vector.Shape"/>
-  <file path="classes/jsx3/vector/TextLine.js" provides="jsx3.vector.TextLine" requires="jsx3.vector.Shape jsx3.html.FontTag"/>
+  <file path="classes/jsx3/vector/BaseShape.js" provides="jsx3.vector.BaseShape" requires="jsx3.vector.Tag"/>
+  <file path="classes/jsx3/vector/Shape.js" provides="jsx3.vector.Shape" requires="jsx3.vector.BaseShape"/>
+  <file path="classes/jsx3/vector/Line.js" provides="jsx3.vector.Line" requires="jsx3.vector.BaseShape"/>
+  <file path="classes/jsx3/vector/Rectangle.js" provides="jsx3.vector.Rectangle" requires="jsx3.vector.BaseShape"/>
+  <file path="classes/jsx3/vector/Oval.js" provides="jsx3.vector.Oval" requires="jsx3.vector.BaseShape"/>
+  <file path="classes/jsx3/vector/Polygon.js" provides="jsx3.vector.Polygon" requires="jsx3.vector.BaseShape"/>
+  <file path="classes/jsx3/vector/TextLine.js" provides="jsx3.vector.TextLine" requires="jsx3.vector.Shape jsx3.html.BaseShape"/>
   <file path="classes/jsx3/vector/LineGroup.js" provides="jsx3.vector.LineGroup" requires="jsx3.vector.Shape"/>
   <file path="classes/jsx3/vector/RectangleGroup.js" provides="jsx3.vector.RectangleGroup" requires="jsx3.vector.Shape"/>
   <file path="classes/jsx3/vector/Block.js" provides="jsx3.vector.Block" requires="jsx3.vector.Canvas"/>

@@ -6,7 +6,7 @@
 /**
  * Paints a vector oval bounded by the box defined by its left, top, width, and height.
  */
-jsx3.Class.defineClass("jsx3.vector.Oval", jsx3.vector.Shape, null, function(Oval, Oval_prototype) {
+jsx3.Class.defineClass("jsx3.vector.Oval", jsx3.vector.BaseShape, null, function(Oval, Oval_prototype) {
 
   /**
    * The instance initializer.

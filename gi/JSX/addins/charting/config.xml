@@ -83,6 +83,11 @@
     <record jsxid="0" type="map">
       <record jsxid="load" type="number">1</record>
       <record jsxid="type" type="string">script</record>
+      <record jsxid="src" type="string">classes/jsx3/vector/BaseShape.js</record>
+    </record>
+    <record jsxid="0" type="map">
+      <record jsxid="load" type="number">1</record>
+      <record jsxid="type" type="string">script</record>
       <record jsxid="src" type="string">classes/jsx3/vector/Shape.js</record>
     </record>
     <record jsxid="0" type="map">

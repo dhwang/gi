@@ -44,7 +44,7 @@ jsx3.Class.defineClass("jsx3.vector.Group", jsx3.vector.Tag, null, function(Grou
    * @package
    */
   Group_prototype.onAppendChild = function( child ) {
-    return child instanceof Group || child instanceof jsx3.vector.Shape;
+    return child instanceof Group || child instanceof jsx3.vector.BaseShape;
   };
 
 });

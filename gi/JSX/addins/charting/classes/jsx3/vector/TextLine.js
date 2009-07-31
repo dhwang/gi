@@ -7,7 +7,7 @@
 /**
  * Renders text along an arbitrary line.
  */
-jsx3.Class.defineClass("jsx3.vector.TextLine", jsx3.vector.Shape, [jsx3.html.FontTag], function(TextLine, TextLine_prototype) {
+jsx3.Class.defineClass("jsx3.vector.TextLine", jsx3.vector.BaseShape, [jsx3.html.FontTag], function(TextLine, TextLine_prototype) {
 
   var Tag = jsx3.html.Tag;
   var Browser = jsx3.app.Browser;
