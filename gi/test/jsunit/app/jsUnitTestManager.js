@@ -411,8 +411,15 @@ jsUnitTestManager.prototype.executeTestFunction = function (functionName)
       this.asyncTimeout = window.setInterval(function() { me._pollAsync(); }, 50);
     }
   } else {
-    this._finishTestFunction(excep, timeBefore);
+    var asyncExc = this._getAndClearAsyncExc();
+    this._finishTestFunction(excep || asyncExc, timeBefore);
   }
+};
+
+jsUnitTestManager.prototype._getAndClearAsyncExc = function() {
+  var e = this.containerTestFrame.asyncTestException;
+  this.containerTestFrame.asyncTestException = null;
+  return e;
 };
 
 jsUnitTestManager.prototype._pollAsync = function() {
@@ -420,8 +427,7 @@ jsUnitTestManager.prototype._pollAsync = function() {
   var excep = null;
 
   if (! this.containerTestFrame.asyncTestWaiting) {
-    excep = this.containerTestFrame.asyncTestException;
-    this.containerTestFrame.asyncTestException = null;
+    excep = this._getAndClearAsyncExc();
   } else if (new Date() - timeBefore > jsUnitTestManager.ASYNC_TIMEOUT) {
     excep = new JsUnitException("Asynchronous test timed out before finishing.");
   } else {

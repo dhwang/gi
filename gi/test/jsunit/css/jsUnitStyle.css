@@ -46,6 +46,18 @@ a:hover
 { 
 }
 
+.jsUnitLog
+{
+  font-family: Monaco, sans-serif;
+  white-space: pre;
+  font-size: 10px;
+  margin: 2px 0px;
+}
+
+.jsUnitLog1 { color:#996600; }
+.jsUnitLog2 { color:#000000; }
+.jsUnitLog3 { color:#444444; }
+
 h1, th
 { 
   font-size: 1.3em; 

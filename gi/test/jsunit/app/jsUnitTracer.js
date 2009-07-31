@@ -18,10 +18,10 @@ jsUnitTracer.prototype.initialize = function ()
 
 jsUnitTracer.prototype.finalize = function () 
 {
-  if (this._traceWindow!=null) {
-    this._traceWindow.document.write('<\/body>\n<\/html>');
-    this._traceWindow.document.close();
-  }
+//  if (this._traceWindow!=null) {
+//    this._traceWindow.document.write('<\/body>\n<\/html>');
+//    this._traceWindow.document.close();
+//  }
 }
 
 jsUnitTracer.prototype.warn = function () 
@@ -56,7 +56,7 @@ jsUnitTracer.prototype._getChosenTraceLevel = function ()
 
 jsUnitTracer.prototype._writeToTraceWindow  = function (traceString, traceLevel) 
 {
-  var htmlToAppend = '<p class="jsUnitDefault">' + traceString + '<\/p>\n';
+  var htmlToAppend = '<p class="jsUnitLog jsUnitLog' + traceLevel + '">' + traceString + '<\/p>\n';
   this._getTraceWindow().document.write(htmlToAppend);
 }
 

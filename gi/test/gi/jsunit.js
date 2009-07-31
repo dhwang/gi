@@ -175,6 +175,10 @@ gi.test.jsunit._init = function(jsunit) {
       } catch (e) {
         eval("asyncTestException = e;");
       }
+
+      if (jsunit._lastTearDown)
+        jsunit._lastTearDown();
+
       eval("asyncTestWaiting = false;");
     };
   };
@@ -273,7 +277,7 @@ gi.test.jsunit._init = function(jsunit) {
     var async = jsunit._getMeta("_async", fctTest, objMeta);
 
     if (fctSetUp || fctTearDown)
-      fctTest = jsunit._makeSetupFunct(fctTest, fctSetUp, fctTearDown);
+      fctTest = jsunit._makeSetupFunct(fctTest, fctSetUp, fctTearDown, async);
 
     if (ifCond || unlessCond) {
       if (async)
@@ -295,8 +299,8 @@ gi.test.jsunit._init = function(jsunit) {
     };
   };
 
-  jsunit._makeSetupFunct = function(fctTest, fctSetUp, fctTearDown) {
-    if (fctTearDown) {
+  jsunit._makeSetupFunct = function(fctTest, fctSetUp, fctTearDown, bAsync) {
+    if (!bAsync && fctTearDown) {
       return function() {
         if (fctSetUp) fctSetUp();
         try {
@@ -307,8 +311,16 @@ gi.test.jsunit._init = function(jsunit) {
       };
     } else {
       return function() {
+        jsunit._lastTearDown = null;
+        
         fctSetUp();
         fctTest();
+
+        if (eval("asyncTestWaiting !== true")) {
+          fctTearDown();
+        } else {
+          jsunit._lastTearDown = fctTearDown;
+        }
       };
     }
   };
@@ -382,6 +394,8 @@ gi.test.jsunit._init = function(jsunit) {
         jsx3.setEnv(p, params[p]);
     }
 
+    jsunit._tryLoadLogger();
+
     for (var i = 0; jsunit._waiting && i < jsunit._waiting.length; i++) {
       try {
         if (eval(jsunit._waiting[i]) != null)
@@ -443,6 +457,23 @@ gi.test.jsunit._init = function(jsunit) {
     }
   };
 
+  jsunit._tryLoadLogger = function() {
+    if (!this._loggerinit && jsx3.util && jsx3.util.Logger) {
+      this._loggerinit = true;
+      var h = new jsx3.util.Logger.FormatHandler("jsunit");
+      var methods = [null, "fail", "warn", "warn", "inform", "debug", "debug"];
+      h.handle = function(objRecord) {
+        var m = window[methods[objRecord.getLevel()]];
+        if (m) {
+          try {
+            m.apply(window, [jsx3.util.strEscapeHTML(this.format(objRecord))]);
+          } catch (e) {;}
+        }
+      };
+      jsx3.util.Logger.GLOBAL.addHandler(h);
+    }
+  };
+
   jsunit._testLoaded = function() {
     // For some reason, on Safari 4 JS files loaded after the page loads do not generate page load events. This breaks
     // the way JsUnit works by default so we need to set isTestPageLoaded here explicitly. 
@@ -451,7 +482,7 @@ gi.test.jsunit._init = function(jsunit) {
 
   jsunit._loadJsxIncludes = function() {
     // NOTE: this depends on unpublished API of the GI class loader
-    if (jsx3.app && jsx3.app.PropsBundle) {
+    if (jsx3.app && jsx3.app.PropsBundle && jsx3.System) {
       jsx3.app.PropsBundle.getProps(jsunit.JSX_BASE + "JSX/locale/messages.xml", null, jsx3.getSystemCache());
       jsx3.app.PropsBundle.getProps(jsunit.JSX_BASE + "JSX/locale/locale.xml", null, jsx3.getSystemCache());
     }
