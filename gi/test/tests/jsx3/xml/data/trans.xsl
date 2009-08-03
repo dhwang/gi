@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:gicache="http://xsd.tns.tibco.com/gi/cache">
 
   <xsl:param name="xslparam1"></xsl:param>
 
@@ -16,6 +17,18 @@
     <record>
       <xsl:apply-templates select="*"/>
     </record>
+  </xsl:template>
+
+  <xsl:template match="/gicache:loading">
+    <loading xmlns="http://xsd.tns.tibco.com/gi/cache"/>
+  </xsl:template>
+
+  <xsl:template match="/gicache:timeout">
+    <timeout xmlns="http://xsd.tns.tibco.com/gi/cache"/>
+  </xsl:template>
+
+  <xsl:template match="/gicache:error">
+    <error xmlns="http://xsd.tns.tibco.com/gi/cache"/>
   </xsl:template>
 
 </xsl:stylesheet>

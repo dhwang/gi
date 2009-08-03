@@ -146,7 +146,7 @@ jsx3.Class.defineClass("jsx3.xml.Template", null, null, function(Template, Templ
     var objDoc = this._processor.transformToDocument(nativeNode);
 
     var retVal = null;
-    if (objDoc) {
+    if (objDoc && objDoc.documentElement) {
       retVal = bObject ? new jsx3.xml.Document(objDoc) : (new XMLSerializer()).serializeToString(objDoc);
     } else {
       this.setError(203, jsx3._msg("temp.empty"));

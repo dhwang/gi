@@ -246,15 +246,20 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
     objXML.unsubscribe("*", this);
 
     if (this._index) {
+      var d;
+
       if (strEvtType == Document.ON_RESPONSE) {
-        this.setDocument(strId, objXML);
+        d = objXML;
       } else if (strEvtType == Document.ON_TIMEOUT) {
-        this.setDocument(strId, Cache._TIMEOUT_DOC.cloneDocument());
+        d = Cache._TIMEOUT_DOC.cloneDocument();
       } else if (strEvtType == Document.ON_ERROR) {
-        var d = Cache._ERROR_DOC.cloneDocument();
+        d = Cache._ERROR_DOC.cloneDocument();
         d.setAttribute("error", objXML.getError().toString());
-        this.setDocument(strId, d);
       }
+
+      this.setDocument(strId, objXML);
+      // lets Cacheable determine whether change event is due to load or setDocument
+      this.publish({subject:strId, action:"load", response:strEvtType});
     }
   };
 

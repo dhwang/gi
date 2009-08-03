@@ -5,7 +5,7 @@
 
 gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
 
-  jsunit.require("jsx3.jsxpackage", "jsx3.app.Cache");
+  jsunit.require("jsx3.jsxpackage", "jsx3.app.Cache", "jsx3.lang.System");
 
   t.testSharedCache = function() {
     var c = jsx3.getSharedCache();

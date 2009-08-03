@@ -11,6 +11,10 @@ gi.test.jsunit.defineTests("jsx3.xml.Cacheable", function(t, jsunit) {
     jsx3.Class.defineClass("gi.test.CacheTest", jsx3.app.Model, [jsx3.xml.Cacheable], function(CacheTest, CacheTest_prototype) {
     });
 
+    jsx3.Class.defineClass("gi.test.CacheCDFTest", jsx3.app.Model, [jsx3.xml.Cacheable, jsx3.xml.CDF],
+        function(CacheCDFTest, CacheCDFTest_prototype) {
+    });
+
     t._server = t.newServer(null, "JSXAPPS/testCacheableServer", false, {namespace:"testCacheableServer"});
   };
 
@@ -195,6 +199,123 @@ gi.test.jsunit.defineTests("jsx3.xml.Cacheable", function(t, jsunit) {
     jsunit.assertEquals("data", x.getNodeName());
     jsunit.assertEquals("record", x.getChildNodes().get(0).getNodeName());
   };
+
+  t.testXmlBindEvent = function() {
+    var c = new gi.test.CacheTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXmlBind(1);
+
+    var event = 0;
+
+    c.subscribe("xmlbind", function() {
+      event++;
+    });
+
+    var doc = new jsx3.xml.Document();
+    t._server.getCache().setDocument(c.getXMLId(), doc);
+
+    jsunit.assertEquals(1, event);
+  };
+
+  t.testXmlBindNoTrans = function() {
+    var c = new gi.test.CacheTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXmlBind(1);
+    c.setXMLTransformers(t.resolveURI("data/trans.xsl"));
+
+    var doc = new jsx3.xml.Document().loadXML("<object><field/></object>");
+    t._server.getCache().setDocument(c.getXMLId(), doc);
+
+    var x = c.getXML();
+    jsunit.assertEquals("object", x.getNodeName());
+    jsunit.assertEquals("field", x.getChildNodes().get(0).getNodeName());
+  };
+
+  t.testXmlBindNoPropReplace = function() {
+    var c = new gi.test.CacheCDFTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXmlBind(1);
+
+    var props = c.getServer().JSS;
+    props.set("k1", "dv1");
+    props.set("k2", "dv2");
+
+    var doc = new jsx3.xml.Document().loadXML('<data><record jsxtext="{k1}" jsxtip="{k2}"/></data>');
+    t._server.getCache().setDocument(c.getXMLId(), doc);
+
+    var x = c.getXML();
+    var r = x.selectSingleNode("//record");
+
+    jsunit.assertNotNullOrUndef(r);
+    jsunit.assertEquals("{k1}", r.getAttribute("jsxtext"));
+    jsunit.assertEquals("{k2}", r.getAttribute("jsxtip"));
+  };
+
+  t.testTransformerAsync = function() {
+    var c = new gi.test.CacheTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXmlAsync(1);
+    c.setXMLURL(t.resolveURI("data/noncdf.xml"));
+    c.setXMLTransformers("trans1");
+
+    var trans = new jsx3.xml.Document().load(t.resolveURI("data/trans.xsl"));
+    t._server.getCache().setDocument("trans1", trans);
+
+    c.subscribe("xmlbind", t.asyncCallback(function() {
+      var x = c.getXML();
+      jsunit.assertEquals("data", x.getNodeName());
+      jsunit.assertEquals("record", x.getChildNodes().get(0).getNodeName());
+    }));
+
+    c.doTransform();
+  };
+  t.testTransformerAsync._async = true;
+
+  t.testPropReplace = function() {
+    var c = new gi.test.CacheCDFTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXMLURL(t.resolveURI("data/test3.xml"));
+
+    var props = c.getServer().JSS;
+    props.set("k1", "dv1");
+    props.set("k2", "dv2");
+    
+    var x = c.getXML();
+    var r = x.selectSingleNode("//record");
+
+    jsunit.assertNotNullOrUndef(r);
+    jsunit.assertEquals("dv1", r.getAttribute("jsxtext"));
+    jsunit.assertEquals("dv2", r.getAttribute("jsxtip"));
+  };
+
+  t.testPropReplaceAsync = function() {
+    var c = new gi.test.CacheCDFTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXmlAsync(1);
+    c.setXMLURL(t.resolveURI("data/test3.xml"));
+
+    var props = t._server.JSS;
+    props.set("k1", "dv1");
+    props.set("k2", "dv2");
+
+    c.subscribe("xmlbind", t.asyncCallback(function() {
+      var x = c.getXML();
+      var r = x.selectSingleNode("//record");
+
+      jsunit.assertNotNullOrUndef(r);
+      jsunit.assertEquals("dv1", r.getAttribute("jsxtext"));
+      jsunit.assertEquals("dv2", r.getAttribute("jsxtip"));
+    }));
+
+    c.doTransform();
+  };
+  t.testPropReplaceAsync._async = true;
 
   t.testSetParam = function() {
     var c = new gi.test.CacheTest();

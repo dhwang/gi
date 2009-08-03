@@ -360,13 +360,26 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
     if (objCache.getDocument(strId) != objDoc)
       this._setDocNoEvent(objCache, this.getXMLId(), objDoc);
 
-    if (this.instanceOf(CDF)) {
-      if (objDoc.getNodeName() == "data" && objDoc.getAttribute("jsxassignids") == "1")
-        this.assignIds();
-      this.convertProperties(this.getServer().getProperties());
-    }
+    this._convertProperties(objDoc);
 
     return objDoc;
+  };
+
+  /**
+   * @private
+   * @jsxobf-clobber
+   */
+  Cacheable_prototype._convertProperties = function(d) {
+    if (this.instanceOf(CDF)) {
+      if (!d._jsxconv) {
+        /* @jsxobf-clobber */
+        d._jsxconv = true;
+
+        if (d.getNodeName() == "data" && d.getAttribute("jsxassignids") == "1")
+          this.assignIds();
+        this.convertProperties(this.getServer().getProperties());
+      }
+    }
   };
 
   /**
@@ -508,9 +521,22 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
    */
   Cacheable_prototype.onXmlBinding = function(objEvent) {
     var doc = objEvent.target.getDocument(objEvent.subject);
-    this._registerForXML(0, doc);
     if (this.publish)
       this.publish({subject:"xmlbind", xml:doc});
+  };
+
+  /** @private @jsxobf-clobber */
+  Cacheable_prototype._onXmlBinding = function(objEvent) {
+    var bLoad = objEvent.action == "load";
+    if ((this.jsxxmlbind && !bLoad) || (!this.jsxxmlbind && bLoad)) {
+      var doc = objEvent.target.getDocument(objEvent.subject);
+      this._registerForXML(0, doc);
+
+      if (bLoad)
+        this.setSourceXML(doc);
+
+      this.onXmlBinding(objEvent);
+    }
   };
 
   /** @private @jsxobf-clobber */
@@ -586,7 +612,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
 
       if (bBind != null && Boolean(this._jsxxmlbound) != bBind) {
         if (bBind) {
-          objCache.subscribe(strId, this, "onXmlBinding");
+          objCache.subscribe(strId, this, "_onXmlBinding");
         } else {
           objCache.unsubscribe(strId, this);
         }
@@ -768,7 +794,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
    * @since 3.2
    */
   Cacheable_prototype.setXMLTransformers = function(arrTrans) {
-    this.jsxxmltrans = arrTrans != null ? (arrTrans instanceof Array ? arrTrans.join(",") : arrTrans) : null;
+    this.jsxxmltrans = arrTrans != null ? (jsx3.$A.is(arrTrans) ? arrTrans.join(",") : arrTrans) : null;
   };
 
   /**
