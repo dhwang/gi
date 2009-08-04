@@ -614,7 +614,7 @@
    */
   jsx3.$S = function(s) {
     if (s == null) return s;
-    return extend(s, jsx3.$String);
+    return extend(new String(s), jsx3.$String);
   };
 
   /**
