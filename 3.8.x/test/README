@@ -1,0 +1,9 @@
+To run all the General Interface tests, launch gi-jsunit.html
+in the browser to test. Then click the "Run" button.
+
+To add a new test suite, create a new JavaScript file in the tests/
+directory. Define the tests to run with the gi.test.jsunit.defineTests
+method. Finally, add a reference to the new JavaScript test file in the
+tests/suite.js file.
+
+This test suite can also be run from an HTTP server.

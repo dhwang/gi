@@ -1,0 +1,14 @@
+<!--
+  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<serialization xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Checkbox]]></name>
+  <icon><![CDATA[images/prototypes/checkbox.gif]]></icon>
+  <description><![CDATA[A jsx3.gui.CheckBox object.]]></description>
+  <object type="jsx3.gui.CheckBox">
+    <variants jsxheight="18"/>
+    <strings jsxname="checkbox" jsxtext="[checkbox label]" jsxmargin="0 4 0 0"/>
+    <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"/>
+  </object>
+</serialization>
