@@ -13,6 +13,12 @@
         docgetter="getSrc" docsetter="setSrc"
         eval="0"
         jsxmask="jsxpath"/>
+    <record jsxid="jsxtext" jsxtext="Alt Text"
+        eval="0"
+        jsxtip="Sets the alternative text for the image."
+        docgetter="getText" docsetter="setText"
+        docdefault="Empty"
+        jsxmask="jsxtext"/>
   </record>
 
   <record include="master.xml" group="box"/>

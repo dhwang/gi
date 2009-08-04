@@ -24,7 +24,8 @@ jsx3.Class.defineClass("jsx3.gui.Image", jsx3.gui.Block, [], function(Image, Ima
     var width = this.getWidth() != null ? ' width="' + b1.getClientWidth() + '"' : "";
     var height = this.getHeight() != null ? ' height="' + b1.getClientHeight() + '"' : "";
 
-    return this.jsxsuper('<img' + jsx3.html._UNSEL + ' class="jsx30image" src="' + src + '"' + width + height + '/>');
+    return this.jsxsuper('<img' + jsx3.html._UNSEL + ' class="jsx30image" src="' + src + '"' +
+        width + height + this.paintTip() + this.paintText() + '/>');
   };
 
   Image_prototype.onSetChild = function(objChild) {
@@ -64,5 +65,15 @@ jsx3.Class.defineClass("jsx3.gui.Image", jsx3.gui.Block, [], function(Image, Ima
    * @return {jsx3.gui.Image} this object
    */
   Image_prototype.setSrc = function(srcSrc) { this.jsxsrc = srcSrc; return this; };
+
+  /**
+   * generates DHTML property value for a 'title', including the keycode accelerator if applicable
+   * @return {String} DHTML in form of tabTip='n'
+   * @private
+   */
+  Image_prototype.paintText = function() {
+    var myTip = this.getText();
+    return myTip ? ' alt="' + myTip.replace(/"/g, "&quot;") + '" ' : "";
+  };
 
 });
