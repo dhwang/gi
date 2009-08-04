@@ -689,7 +689,6 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
 
     //load the given WSDL
     var objDoc = new jsx3.xml.Document();
-    objDoc.setSelectionLanguage("XPath");
     //strBaseURL = jsx3.resolveURI(strBaseURL);
     objDoc.load(strBaseURL);
     var objBaseURI = new jsx3.net.URI(strBaseURL);
@@ -786,7 +785,6 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
       //load the included file and append to the types
       var objAppend = new jsx3.xml.Document();
       //3.2 addition to support 3.0 msxml parser
-      objAppend.setSelectionLanguage("XPath");
       objAppend.load(strImportURL);
       var objError = objAppend.getError();
       if (objError.code == 0) {
@@ -834,7 +832,6 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
       Mapper._LOG.trace("Parsing    -Schema Import: '" + strImportURL + "'",{instance:this});
       //load the included file
       var objAppend = new jsx3.xml.Document();
-      objAppend.setSelectionLanguage("XPath");
       objAppend.load(strImportURL);
       var objError = objAppend.getError();
 
@@ -1240,9 +1237,6 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
   Mapper_prototype.onOpenDelay = function(strURL) {
     //open the Rules File and place in cache, using the ID of the rules tree
     var objXML = this.getRulesTree().getServer().getCache().openDocument(strURL);
-
-    //3.2 addition: must enforce xpath as the selection language. If browser is using msxml 3.0, the default is XSLPattern, which breaks the mapper.
-    objXML.setSelectionLanguage("XPath");
 
     //validate that this is a good document of the correct type
     Mapper._LOG.trace("Validating -Checking Rules File: '" + strURL + "'.",{instance:this});
@@ -3412,7 +3406,8 @@ jsx3.Class.defineClass("jsx3.ide.mapper.Mapper", jsx3.gui.Block, null, function(
    * @return {String} one of: schema, profile
    */
   Mapper_prototype.getProfileType = function() {
-    return jsx3.gui.RadioButton.getValue("jsx_schema_profile");
+    var btn = this.getDescendantOfName("jsx_schema_rdo_schema");
+    return btn && btn.getGroupValue();
   };
 
   /**

@@ -681,9 +681,6 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
    * @deprecated  This method is only implemented on Internet Explorer. <code>XPath</code> is the only supported value.
    */
   Document_prototype.setSelectionLanguage = function(strLanguage) {
-/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
-    this._document.setProperty("SelectionLanguage", strLanguage);
-/* @JSC */ }
     return this;
   };
 

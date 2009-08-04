@@ -196,6 +196,8 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     return this._request.readyState;
   };
 
+/* @JSC :: end */
+
   /**
    * Creates and opens a request object. This is a factory method that creates the proper subclass of
    * <code>Request</code> based on the scheme of <code>strURL</code>.
@@ -215,8 +217,6 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     var handler = Request._HANDLERS[scheme] || Request.jsxclass;
     return (handler.newInstance()).open(strMethod, url, bAsync, strUser, strPass);
   };
-
-/* @JSC :: end */
 
   Request._HANDLERS = {};
 

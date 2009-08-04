@@ -89,8 +89,8 @@ objJSX.getCacheList = function(strJSXId) {
 
 objJSX.doMerge = function() {
   jsx3.require("jsx3.xml.Template");
-  var objXML = this.getMergeDocument("jsx_merge_xml");
-  var objXSL = this.getMergeDocument("jsx_merge_xsl");
+  var objXML = this.getMergeDocument(this.getDescendantOfName("jsx_merge_xml_url_rdo"));
+  var objXSL = this.getMergeDocument(this.getDescendantOfName("jsx_merge_xsl_url_rdo"));
 
   if(objXML && objXSL) {
     this.getDescendantOfName('jsx_merge_xml_raw').setValue(objXML.toString());
@@ -105,12 +105,13 @@ objJSX.doMerge = function() {
 };
 
 
-objJSX.getMergeDocument = function(strJSXId) {
+objJSX.getMergeDocument = function(btn) {
+  var btnValue = btn.getGroupValue();
+
   //determine where the XML source document will come from (the radio button that's selected will have a value that represents the name of the formfield to use)
-  strJSXId = jsx3.gui.RadioButton.getValue(strJSXId);
-  var strValue = this.getDescendantOfName(strJSXId).getValue();
+  var strValue = this.getDescendantOfName(btnValue).getValue();
   var objXML;
-  if(strJSXId.indexOf("_url") > -1) {
+  if(btnValue.indexOf("_url") > -1) {
     objXML = new jsx3.xml.Document();
     objXML.setAsync(false);
     objXML.load(strValue);
@@ -118,9 +119,9 @@ objJSX.getMergeDocument = function(strJSXId) {
       jsx3.util.Logger.doLog("MERGE01","The XML document located at, <b>" + strValue + "</b>, could not be parsed due to the following reason(s):<br/>" + objXML.getError());
       return;
     }
-  } else if( strJSXId.indexOf("_cache") > -1) {
+  } else if( btnValue.indexOf("_cache") > -1) {
     objXML = jsx3.ide.SERVER.getCache().getDocument(strValue);
-  }  else if(strJSXId.indexOf("_script") > -1) {
+  }  else if(btnValue.indexOf("_script") > -1) {
     objXML = jsx3.eval(strValue);
     if(objXML == null) {
       jsx3.util.Logger.doLog("MERGE02","The script used to generate the source document for the 'Merge Tool' is returning null.");

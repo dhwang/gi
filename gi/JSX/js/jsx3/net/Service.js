@@ -1211,7 +1211,6 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
         //clone and query for given node in the envelope that will contain the message (the SOAP Body)
         objEnvelope = objEnvelope.cloneDocument();
-        objEnvelope.setSelectionLanguage("XPath");
         objEnvelopeBody = objEnvelope.selectSingleNode(strPath,objEnvelope.getDeclaredNamespaces(objXMap));
         if (!objEnvelopeBody) {
           Service._log(2,"The stub path (typically the path to the SOAP Envelope Body) does not return a valid node (" + strPath + ").");
@@ -2270,10 +2269,6 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
         if (objInputNode) {
           var objResponseRules = objInputNode.selectNodes("record");
-
-          //set that the default language be xpath
-          objResponse.setSelectionLanguage("XPath");
-          this.getRulesXML().setSelectionLanguage("XPath");
 
           //loop through the immediate rules of the output node and overlay them on top of the matching nodes in the response document
           for (var i=objResponseRules.iterator(); i.hasNext(); ) {
