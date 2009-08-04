@@ -621,23 +621,34 @@ jsx3.Class.defineClass('jsx3.util.Logger.Manager', null, null, function(Manager,
   Manager.INSTANCE = null;
   /** @private @jsxobf-clobber @jsxobf-final */
   Manager.LAZY_HANDLER = -1;
-  
+  /** @private @jsxobf-clobber */
+  Manager.DEFAULT_CONFIG = '<configuration><handler name="console" class="jsx3.util.Logger.ConsoleHandler"/><logger name="global" level="INFO"><handler-ref name="console"/></logger></configuration>';
+
   /**
-   * @param objXML {jsx3.xml.Document} the logger configuration document. If not provided, the documented is loaded
-   *    from the expected location.
+   * @param objXML {boolean|jsx3.xml.Document} the logger configuration document. If not provided, the document is loaded
+   *    from the expected location. If false, then the default logger configuration is loaded without requesting
+   *    the configuration file.
    * @package
    */
   Manager_prototype.initialize = function(objXML) {
-    if (!objXML) {
-      objXML = new jsx3.xml.Document();
-      objXML.load(jsx3.getEnv("jsx_logger_config") || Manager.DEFAULT_CONFIG_FILE);
+    if (objXML === false) {
+    } else if (!objXML) {
+      var env = jsx3.getEnv("jsx_logger_config");
+      if (env == null)
+        env = Manager.DEFAULT_CONFIG_FILE;
+
+      if (env)
+        objXML = new jsx3.xml.Document().load(env);
     }
 
     // check error, causes a window.alert() but lets the program continue
-    if (objXML.hasError()) {
+    if (objXML && objXML.hasError()) {
       window.alert(jsx3._msg("logr.err_conf", objXML.getError(), jsx3.resolveURI(objXML.getSourceURL())));
-      objXML.loadXML("<configuration/>");
+      objXML = null;
     }
+
+    if (!objXML)
+      objXML = new jsx3.xml.Document().loadXML(Manager.DEFAULT_CONFIG);
 
     this._config = objXML;
 

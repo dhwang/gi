@@ -35,4 +35,43 @@ public class Language {
       "unescape"
   )));
 
+  public static String escapeString(String s) {
+    return escapeString(s, false);
+  }
+
+  /**
+   * Escapes any string appropriate for JavaScript syntax.
+   *
+   * @param s
+   * @return
+   */
+  public static String escapeString(String s, boolean singleQuoted) {
+    s = s.replaceAll("\\\\", "\\\\\\\\");
+
+    // handle escaped unicode sequences
+    StringBuffer buffer = new StringBuffer(s.length());
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c == '\n') {
+        buffer.append("\\n");
+      } else if (c == '\r') {
+        buffer.append("\\r");
+      } else if (c == '\t') {
+        buffer.append("\\t");
+      } else if (c == '\b') {
+        buffer.append("\\b");
+      } else if (!singleQuoted && c == '"') {
+        buffer.append("\\\"");
+      } else if (singleQuoted && c == '\'') {
+        buffer.append("\\'");
+      } else if (c >= 0x20 && c < 0x80) {
+        buffer.append(c);
+      } else {
+        String hex = Integer.toString(0x10000 + c, 16).substring(1).toUpperCase();
+        buffer.append("\\u").append(hex);
+      }
+    }
+
+    return buffer.toString();
+  }
 }

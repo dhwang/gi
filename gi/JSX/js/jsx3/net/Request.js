@@ -213,6 +213,16 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    */
   Request.open = function(strMethod, strURL, bAsync, strUser, strPass) {
     var url = jsx3.net.URI.valueOf(strURL);
+
+/* @JSC :: begin XD */
+    if (Request.isXD(strURL)) {
+      if (strMethod.toUpperCase() != "GET" || !bAsync || strUser || strPass)
+        Request._log(2, jsx3._msg("req.xd_error", strMethod, strURL, bAsync, Boolean(strUser || strPass)));
+      else
+        return (new Request.XD()).open(strMethod, url);
+    }
+/* @JSC :: end */
+
     var scheme = url.getScheme();
     var handler = Request._HANDLERS[scheme] || Request.jsxclass;
     return (handler.newInstance()).open(strMethod, url, bAsync, strUser, strPass);
@@ -491,6 +501,59 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     Request._LOG.log(intLevel, strMessage);
   };
 
+/* @JSC :: begin XD */
+
+  /* @jsxobf-clobber */
+  Request._xdrpending = {};
+
+  /**
+   * The cross-domain response callback. This method compares all pending cross-domain requests against
+   * <code>strURI</code>. If the path of a pending request equals <code>strURI</code> resolved, then that request
+   * object will publish a response event.
+   * <p/>
+   * Note that this method is only available when running from source or from a build that included the XD symbol.
+   * This method is not meant to be called directly from application code. Rather it is designed as the callback
+   * for data files that are processed for cross-domain access with the <code>JsEncodeTask</code>.
+   * <p/>
+   * The static method <code>Request.open()</code>, when called for an asynchronous non-authenticating request,
+   * will return an instance of <code>Request</code> appropriate for cross-domain data access. This request object will
+   * attempt to load a JavaScript file whose path is <code>.js</code> appended to the path of the original resource.
+   * This JavaScript file must exist and must call this method in its body for the cross-domain request to succeed.
+   * <p/>
+   * <code>Request.open()</code> will only initiate a cross-domain request for resource URIs that match the
+   * <code>jsxxd</code> deployment parameter. This parameter is a space delimited list of URI prefixes. If the
+   * resolved URI of a resource matches any of these prefixes then it will be loaded cross-domain. 
+   *
+   * @param strURI {String} the URI of the resource that loaded.
+   * @param strData {String} the file data.
+   */
+  Request.xdr = function(strURI, strData) {
+    var u = jsx3.resolveURI(strURI);
+
+    var req = Request._xdrpending[u];
+
+    if (req) {
+      delete Request._xdrpending[u];
+      req._onJsLoaded(strData);
+    } else {
+//      Request._log(3, "No pending request: '" + u + "'");
+    }
+  };
+
+  Request.isXD = function(url) {
+    if (!this._xddomains) {
+      var env = jsx3.$S(jsx3.getEnv("jsxxd"));
+      /* @jsxobf-clobber */
+      this._xddomains = env ? env.split(/[ ,]+/g) : [];
+    }
+    url = jsx3.resolveURI(url);
+    for (var i = 0; i < this._xddomains.length; i++)
+      if (url.indexOf(this._xddomains[i]) == 0)
+        return true;
+    return false;
+  };
+
+/* @JSC :: end */
 /* @JSC :: begin DEP */
 
   /**
@@ -505,6 +568,107 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
 /* @JSC :: end */
 
 });
+
+/* @JSC :: begin XD */
+
+jsx3.Class.defineClass("jsx3.net.Request.XD", jsx3.net.Request, null, function(XD, XD_prototype) {
+
+  var Request = jsx3.net.Request;
+
+  jsx3.$O(XD_prototype).extend({
+    _status: 0,
+    /* @jsxobf-clobber */
+    _data: null,
+    /* @jsxobf-clobber */
+    _aborted: false,
+
+    init: function() {
+    },
+
+    abort: function() {
+      this._clearTimeout();
+      delete Request._xdrpending[this._url];
+      this._aborted = true;
+    },
+
+    getAllResponseHeaders: function() {
+      return [];
+    },
+
+    getResponseHeader: function() {
+      return null;
+    },
+
+    setRequestHeader: function() {
+    },
+    
+    open: function(strMethod, strUrl) {
+      this._async = true;
+      this._url = jsx3.net.URIResolver.DEFAULT.resolveURI(strUrl);
+      return this;
+    },
+
+    send: function(strContent, intTimeout) {
+      if (Request._xdrpending[this._url])
+        Request._xdrpending[this._url].abort();
+
+      Request._xdrpending[this._url] = this;
+
+      jsx3.CLASS_LOADER.loadJSFile(this._url.toString() + ".js");
+
+      if (!isNaN(intTimeout) && intTimeout > 0) {
+       //set timeout to fire if the response doesn't happen in time
+       this._timeoutto = window.setTimeout(jsx3.$F(this._onTimeout).bind(this), intTimeout);
+      }
+    },
+
+    /* @jsxobf-clobber */
+    _clearTimeout: function() {
+      if (this._timeoutto)
+        window.clearTimeout(this._timeoutto);
+      delete this._timeoutto;
+    },
+
+    /* @jsxobf-clobber */
+    _onJsLoaded: function(data) {
+      this._clearTimeout();
+      if (!this._aborted) {
+        this._status = 200;
+        this._data = data;
+        this.publish({subject:Request.EVENT_ON_RESPONSE});
+      }
+    },
+    
+    _onTimeout: function() {
+      this.abort();
+      this._status = 408;
+      this.publish({subject:Request.EVENT_ON_TIMEOUT});
+    },
+
+    getResponseText: function() {
+      return this._data;
+    },
+
+    getResponseXML: function() {
+      return this._data ? new jsx3.xml.Document().loadXML(this._data) : null;
+    },
+
+    getStatus: function() {
+      return "";
+    },
+
+    getStatusText: function() {
+      return this._status;
+    },
+
+    toString: function() {
+      return "GET " + this._url;
+    }
+  });
+
+});
+
+/* @JSC :: end */
 
 /* @JSC :: begin DEP */
 

@@ -1205,40 +1205,9 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   Engine._loadJS2 = jsx3.$Y(function(cb) {
     var path = cb.args()[0];
 
-/* @JSC :: begin BENCH */
-    var t1 = new jsx3.util.Timer("jsx3.amp.Engine", path);
-/* @JSC :: end */
-
-    var element = document.createElement("script");
-    element.setAttribute("src", path);
-    element.setAttribute("type", 'text/javascript');
-
-    // set up onload handler
-    if (element.addEventListener) {
-      var evtHandler = function(e) {
-        element.removeEventListener("load", evtHandler, false);
-/* @JSC :: begin BENCH */
-        t1.log("js.load");
-/* @JSC :: end */
-        cb.done();
-      };
-
-      element.addEventListener("load", evtHandler, false);
-    } else {
-      element.onreadystatechange = function() {
-        var state = this.readyState;
-        if (state == "loaded" || state == "interactive" || state == "complete") {
-          element.onreadystatechange = null;
-/* @JSC :: begin BENCH */
-          t1.log("js.load");
-/* @JSC :: end */
-          cb.done();
-        }
-      };
-    }
-
-    // bind the element to the browser DOM to begin loading the resource
-    document.getElementsByTagName("head")[0].appendChild(element);
+    jsx3.CLASS_LOADER.loadJSFile(path, function() {
+      cb.done();
+    });
   });
 
   /** @private @jsxobf-clobber */

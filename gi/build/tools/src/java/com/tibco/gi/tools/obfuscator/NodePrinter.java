@@ -85,46 +85,6 @@ public abstract class NodePrinter {
     }
   }
 
-  protected String escapeString(String s) {
-    return escapeString(s, false);
-  }
-
-  /**
-   * Escapes any string appropriate for JavaScript syntax.
-   *
-   * @param s
-   * @return
-   */
-  protected String escapeString(String s, boolean singleQuoted) {
-    s = s.replaceAll("\\\\", "\\\\\\\\");
-
-    // handle escaped unicode sequences
-    StringBuffer buffer = new StringBuffer(s.length());
-    for (int i = 0; i < s.length(); i++) {
-      char c = s.charAt(i);
-      if (c == '\n') {
-        buffer.append("\\n");
-      } else if (c == '\r') {
-        buffer.append("\\r");
-      } else if (c == '\t') {
-        buffer.append("\\t");
-      } else if (c == '\b') {
-        buffer.append("\\b");
-      } else if (!singleQuoted && c == '"') {
-        buffer.append("\\\"");
-      } else if (singleQuoted && c == '\'') {
-        buffer.append("\\'");
-      } else if (c >= 0x20 && c < 0x80) {
-        buffer.append(c);
-      } else {
-        String hex = Integer.toString(0x10000 + c, 16).substring(1).toUpperCase();
-        buffer.append("\\u").append(hex);
-      }
-    }
-
-    return buffer.toString();
-  }
-
   protected String escapeRegex(String s) {
     s = s.replaceAll("\"", "\\\\\"");
     return s;
@@ -437,7 +397,7 @@ public abstract class NodePrinter {
       String text = node.getText();
       boolean singleQuote = text.indexOf("\"") >= 0 && text.indexOf("'") < 0;
       String quote = singleQuote ? "'" : "\"";
-      buffer.append(quote).append(escapeString(text, singleQuote)).append(quote);
+      buffer.append(quote).append(Language.escapeString(text, singleQuote)).append(quote);
     }
   };
 
@@ -851,7 +811,7 @@ public abstract class NodePrinter {
           if ((NAME.matcher(s).find() || INTEGER.matcher(s).find()) && !Language.RESERVED_WORDS.contains(s))
             buffer.append(field);
           else
-            buffer.append('"').append(escapeString(s)).append('"');
+            buffer.append('"').append(Language.escapeString(s)).append('"');
         } else {
           buffer.append(((Number) field).intValue());
         }

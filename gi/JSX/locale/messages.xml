@@ -201,6 +201,7 @@
     <record jsxid="req.err_send" jsxtext="Error sending request to {0}: {1}"/>
     <record jsxid="req.open" jsxtext="Opening request to: {0}"/>
     <record jsxid="req.err_state" jsxtext="Cannot send request that is already in an error state."/>
+    <record jsxid="req.xd_error" jsxtext="URL {1} should be loaded cross-domain but other request parameters are not compatible with XD (method:{0}, async:{2}, user/pw:{3})."/>
 
     <!-- jsx3.net.Service -->
     <record jsxid="svc.json" jsxtext="The String ''{0}'' could not be evaluated as a JSON object. Description: ''{1}''"/>

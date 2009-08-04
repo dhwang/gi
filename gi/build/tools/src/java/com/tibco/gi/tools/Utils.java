@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,6 +44,10 @@ import org.xml.sax.SAXException;
 public class Utils {
 
   private Utils() {
+  }
+
+  public static void moveFile(File src, File dest) throws IOException {
+    src.renameTo(dest);
   }
 
   public static void copyFile(File src, File dest) throws IOException {
@@ -75,6 +80,14 @@ public class Utils {
         } catch (IOException e) {
         }
     }
+  }
+
+  public static String readFile(File file) throws IOException {
+    StringWriter writer = new StringWriter();
+    Reader reader = new FileReader(file);
+    appendFromReader(writer, new BufferedReader(reader));
+    reader.close();
+    return writer.toString();
   }
 
   public static void appendFromReader(Writer writer, File file) throws IOException {

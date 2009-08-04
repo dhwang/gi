@@ -994,7 +994,8 @@ window['jsx_main'] = function() {
      *  <li><code>jsx_no_locale</code> - if set the class loader does not load the
      *    <code>jsx:/locale/locale.xml</code> properties bundle.</li>
      *  <li><code>jsx_logger_config</code> - the relative path to the logging system configuration file. If not set,
-     *    <code>jsx:/../logger.xml</code> is used.</li>
+     *    <code>jsx:/../logger.xml</code> is used. If equal to an empty string then the default configuration is
+     *    used without loading an external file.</li>
      *  <li><code>jsx_browsers</code> - overrides the default set of supported browsers. The format of this parameter
      *    is <code><b>bt</b>={allow,warn}[,...]</code> where <code>bt</code> is the browser type returned by the
      *    <code>getType()</code> method.</li>
@@ -1204,13 +1205,16 @@ window['jsx_main'] = function() {
           jobManager.addJob(new ClassLoader.ClassJob(classes[i]));
 
         // 3A. load logger configuration
-        var loggerConfigJob = new ClassLoader.XmlJob("logger.config",
-            jsx3.getEnv("jsx_logger_config") || "jsx:/../logger.xml");
-        jobManager.addJob(loggerConfigJob, "jsx3.xml.Document");
+        var logConf = jsx3.getEnv("jsx_logger_config");
+        if (logConf == null) logConf = "jsx:/../logger.xml";
+        if (logConf) {
+          var loggerConfigJob = new ClassLoader.XmlJob("logger.config", logConf);
+          jobManager.addJob(loggerConfigJob, "jsx3.xml.Document");
+        }
 
         // 3B. configure logger once configuration file is loaded
         var configLoggerJob = new Job("logger.init", function() {
-          var doc = loggerConfigJob.getXML();
+          var doc = loggerConfigJob ? loggerConfigJob.getXML() : false;
           jsx3.util.Logger.Manager.getManager().initialize(doc);
 
           // Set these local variables for convenience
@@ -1526,6 +1530,54 @@ window['jsx_main'] = function() {
         }
 
         return false;
+      };
+
+      /**
+       * Loads a JavaScript file asynchronously.
+       *
+       * @param strURI {String}
+       * @param cb {Function} an optional callback function, which will be passed the script URI when the script loads.
+       * @since 3.9
+       */
+      ClassLoader_prototype.loadJSFile = function(strURI, cb) {
+/* @JSC :: begin BENCH */
+        if (jsx3.util.Timer)
+          var t1 = new jsx3.util.Timer("jsx3.lang.ClassLoader", strURI);
+/* @JSC :: end */
+
+        // instance a new DOM element
+        var element = document.createElement("script");
+        element.setAttribute("src", strURI);
+        element.setAttribute("type", 'text/javascript');
+
+        // set up onload handler
+        if (jsx3.CLASS_LOADER.IE) {
+          element.onreadystatechange = function() {
+            var state = this.readyState;
+            if (state == "loaded" || state == "interactive" || state == "complete") {
+/* @JSC :: begin BENCH */
+              if (t1) t1.log("js.load");
+/* @JSC :: end */
+
+              element.onreadystatechange = null;
+              if (cb) cb(strURI);
+            }
+          };
+        } else {
+          var evtHandler = function() {
+/* @JSC :: begin BENCH */
+            if (t1) t1.log("js.load");
+/* @JSC :: end */
+
+            element.removeEventListener("load", evtHandler, false);
+            if (cb) cb(strURI);
+          };
+
+          element.addEventListener("load", evtHandler, false);
+        }
+        
+        // bind the element to the browser DOM to begin loading the resource
+        document.getElementsByTagName("head")[0].appendChild(element);
       };
 
       /**
@@ -1943,50 +1995,16 @@ window['jsx_main'] = function() {
       };
 
       JsJob_prototype.run = function() {
-/* @JSC :: begin BENCH */
-        if (jsx3.util.Timer)
-          var t1 = new jsx3.util.Timer("jsx3.lang.ClassLoader", this._src);
-/* @JSC :: end */
-
         var dupStatus = this._checkDuplicate(JsJob._ALL[this._src]);
         if (dupStatus) return dupStatus;
         JsJob._ALL[this._src] = this;
 
-        // instance a new DOM element
-        var element = document.createElement("script");
-        element.setAttribute("src", this._src);
-        element.setAttribute("type", 'text/javascript');
-        element.setAttribute("id", this._id);
-
-        // set up onload handler
-        var me = this;
-        if (jsx3.CLASS_LOADER.IE) {
-          element.onreadystatechange = function() {
-            var state = this.readyState;
-            if (state == "loaded" || state == "interactive" || state == "complete") {
-/* @JSC :: begin BENCH */
-              if (t1) t1.log("js.load");
-/* @JSC :: end */
-
-              element.onreadystatechange = null;
-              me.finish();
-            }
-          };
-        } else {
-          element.onload = function() {
-/* @JSC :: begin BENCH */
-            if (t1) t1.log("js.load");
-/* @JSC :: end */
-
-            element.onload = null;
-            me.finish();
-          };
-        }
-
         jsx3.CLASS_LOADER._setStatus(this._src);
 
-        // bind the element to the browser DOM to begin loading the resource
-        document.getElementsByTagName("head")[0].appendChild(element);
+        var me = this;
+        jsx3.CLASS_LOADER.loadJSFile(this._src, function() {
+          me.finish();
+        });
 
         return Job.WAIT;
       };

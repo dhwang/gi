@@ -19,6 +19,7 @@
   <taskdef name="gi-inject" classname="com.tibco.gi.ant.ResourceInjectorTask"/>
   <taskdef name="gi-manifest" classname="com.tibco.gi.ant.DirectoryListerTask"/>
   <taskdef name="gi-embed" classname="com.tibco.gi.ant.FileEmbedderTask"/>
+  <taskdef name="gi-jsencode" classname="com.tibco.gi.ant.JsEncodeTask"/>
   <taskdef name="amp-pmerge" classname="com.tibco.gi.ant.AmpPluginMergeTask"/>
   <taskdef name="amp-rmerge" classname="com.tibco.gi.ant.AmpResourceMergeTask"/>
 </antlib>

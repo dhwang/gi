@@ -93,6 +93,24 @@
       <equals arg1="${build.gi.merge.amp}" arg2="true"/>
     </condition>
 
+    <condition property="build.gi.jsc.symbol.dep" value="+DEP" else="!DEP">
+      <equals arg1="${build.gi.deprecated}" arg2="true"/>
+    </condition>
+
+    <condition property="build.gi.jsc.symbol.bench" value="+BENCH" else="!BENCH">
+      <equals arg1="${build.gi.benchmark}" arg2="true"/>
+    </condition>
+
+    <condition property="build.gi.jsc.symbol.xd" value="+XD" else="!XD">
+      <equals arg1="${build.gi.xd}" arg2="true"/>
+    </condition>
+    <condition property="build.set.xd" value="1">
+      <equals arg1="${build.gi.xd}" arg2="true"/>
+    </condition>
+
+    <property name="build.gi.jsc.symbols"
+        value="${build.gi.jsc.symbol.dep},${build.gi.jsc.symbol.bench},${build.gi.jsc.symbol.xd}"/>
+
     <!-- Macro that copies a fileset, taking care to only copy text files with filtering. -->
     <macrodef name="copy-with-filter">
       <attribute name="todir"/>
@@ -267,7 +285,7 @@
   <target name="dist"
       depends="init, copy-runtime, copy-ide, compile-js,
           inject-boot-msg, obfuscate, merge-script, amp-ide, restore-copyright,
-          compile-locales, dir-manifest, build-dojo, dist-compile-doc, dist-compile-doc-html"
+          compile-locales, xd-resources, dir-manifest, build-dojo, dist-compile-doc, dist-compile-doc-html"
       description="Compiles and builds a General Interface distribution."/>
 
   <target name="copy-runtime" depends="init, init-filters">
@@ -424,18 +442,6 @@
     </path>
 
     <taskdef resource="com/tibco/gi/ant/antlib.xml" classpathref="cp.tools"/>
-
-    <condition property="build.gi.jsc.symbol.dep"
-        value="+DEP" else="!DEP">
-      <equals arg1="${build.gi.deprecated}" arg2="true"/>
-    </condition>
-
-    <condition property="build.gi.jsc.symbol.bench"
-        value="+BENCH" else="!BENCH">
-      <equals arg1="${build.gi.benchmark}" arg2="true"/>
-    </condition>
-
-    <property name="build.gi.jsc.symbols" value="${build.gi.jsc.symbol.dep},${build.gi.jsc.symbol.bench}"/>
   </target>
 
   <target name="compile-js" depends="compile-js-framework, compile-js-charting"/>
@@ -641,6 +647,12 @@
         dir="${dist.dir}/JSX/addins/amp" log="${tmp.dir}/merge-amp.txt"
         config="${dist.dir}/JSX/addins/amp/config.xml"/>
     <delete dir="${tmp.dir}"/>
+  </target>
+
+  <target name="xd-resources" depends="init, init-tools" if="build.set.xd">
+    <gi-jsencode baseDir="${dist.dir}/JSX/" basePath="jsx:/" function="jsx3.net.Request.xdr">
+      <fileset dir="${dist.dir}" includes="${build.source.xdr}"/>
+    </gi-jsencode>
   </target>
 
   <target name="dir-manifest" depends="init, init-tools">
