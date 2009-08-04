@@ -268,6 +268,7 @@
 
     <!-- standard build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="dist.gi" value="gi-${build.gi.version.name}"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}"/>
       <property name="build.obf.mapfileout" value="../dist/obfuscation-map.txt"/>
@@ -278,6 +279,7 @@
 
     <!-- debug build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="dist.gi" value="gi-${build.gi.version.name}-debug"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}db"/>
       <property name="build.gi.benchmark" value="true"/>
@@ -289,15 +291,19 @@
 
     <!-- max build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="dist.gi" value="gi-${build.gi.version.name}-max"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}mx"/>
-      <property name="build.gi.includes.jsx" value="max"/>
+      <property name="build.gi.includes.jsx" value="34max"/>
       <property name="build.obf.mapfileout" value="../dist/obfuscation-map-max.txt"/>
     </ant>
     <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-max.zip"/>
 
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
     <!-- dojo build -->
     <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="dist.gi" value="gi-${build.gi.version.name}-dojo"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}dj"/>
       <property name="build.dojo.type" value="source"/>
