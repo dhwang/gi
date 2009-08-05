@@ -294,7 +294,7 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
 
     //get the outer box
     var b1 = this.getBoxProfile(true);
-    b1.setAttributes(' id="' + this.getId() + '"' + this.paintLabel() + ' class="' + this.paintClassName() + '"' + this.paintTip() + this.paintEnabled() + strEvents + strProps);
+    b1.setAttributes(' id="' + this.getId() + '"' + this.paintLabel() + ' class="' + this.paintClassName() + '"' + this.paintTip() + strEvents + strProps);
     b1.setStyles(((b1.getPaintedWidth())?"overflow-x:hidden;":"")+ this.paintCursor(true) + this.paintFontName() + this.paintFontSize() + this.paintFontWeight() + this.paintColor() + this.paintBackgroundColor() + this.paintVisibility() + this.paintDisplay() + this.paintZIndex() + this.paintCSSOverride());
 
     //get the check and tri-state container
