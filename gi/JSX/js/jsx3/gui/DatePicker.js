@@ -644,14 +644,14 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
           this.renderHandler(Event.KEYPRESS, "_ebKeyDownCalendar") + '>' +
         '<table cellspacing="0" class="jsx3_dp_cal">' +
          '<tr class="year">' +
-          '<td class="prev"' + index + ' id="' + id + '_dy" onclick="' + getMe + '.'+incrementYear+'(-1);"><img src="' + DatePicker.IMAGE_PREVIOUS + '"/></td>' +
+          '<td class="prev"' + index + ' id="' + id + '_dy" onclick="' + getMe + '.'+incrementYear+'(-1);"><img src="' + DatePicker.IMAGE_PREVIOUS + '" alt="' + this._getLocaleProp("prevy", DatePicker) + '"/></td>' +
           '<td class="title">' + year + '</td>' +
-          '<td class="next"' + index + ' id="' + id + '_uy" onclick="' + getMe + '.'+incrementYear+'(1);"><img src="' + DatePicker.IMAGE_NEXT + '"/></td>' +
+          '<td class="next"' + index + ' id="' + id + '_uy" onclick="' + getMe + '.'+incrementYear+'(1);"><img src="' + DatePicker.IMAGE_NEXT + '" alt="' + this._getLocaleProp("nexty", DatePicker) + '"/></td>' +
          '</tr>' +
          '<tr class="month">' +
-          '<td class="prev"' + index + ' id="' + id + '_dm" onclick="' + getMe + '.'+incrementMonth+'(-1);"><img src="' + DatePicker.IMAGE_PREVIOUS + '"/></td>' +
+          '<td class="prev"' + index + ' id="' + id + '_dm" onclick="' + getMe + '.'+incrementMonth+'(-1);"><img src="' + DatePicker.IMAGE_PREVIOUS + '" alt="' + this._getLocaleProp("prevm", DatePicker) + '"/></td>' +
           '<td class="title">' + this._getMonthName(month) + '</td>' +
-          '<td class="next"' + index + ' id="' + id + '_um" onclick="' + getMe + '.'+incrementMonth+'(1);"><img src="' + DatePicker.IMAGE_NEXT + '"/></td>' +
+          '<td class="next"' + index + ' id="' + id + '_um" onclick="' + getMe + '.'+incrementMonth+'(1);"><img src="' + DatePicker.IMAGE_NEXT + '" alt="' + this._getLocaleProp("nextm", DatePicker) + '"/></td>' +
          '</tr>' +
          '<tr class="days"><td class="cal" colspan="3">' +
           this._paintMonth(year, month) +

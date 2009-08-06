@@ -11,6 +11,7 @@
   <xsl:param name="jsxtabindex">0</xsl:param>
   <xsl:param name="jsxleftbuffer">36</xsl:param>
   <xsl:param name="jsxselectedimage"></xsl:param>
+  <xsl:param name="jsxselectedimagealt"></xsl:param>
   <xsl:param name="jsxtransparentimage"></xsl:param>
   <xsl:param name="jsxsubmenuimage"></xsl:param>
   <xsl:param name="jsxdragtype">JSX_GENERIC</xsl:param>
@@ -104,12 +105,12 @@
                 <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
               </xsl:choose>
             </xsl:variable>
-            <img style="position:absolute;left:2px;top:2px;width:16px;height:16px;" src="{$src1}"/>
+            <img style="position:absolute;left:2px;top:2px;width:16px;height:16px;" src="{$src1}" alt="{@jsximgalt}"/>
           </xsl:when>
         </xsl:choose>
         <xsl:choose>
           <xsl:when test="@jsxselected = 1">
-            <img class="jsx30menu_{$jsxmode}_sel" src="{$jsxselectedimage}" style="{$jsxleftbuffer_sel}"/>
+            <img class="jsx30menu_{$jsxmode}_sel" src="{$jsxselectedimage}" alt="{$jsxselectedimagealt}" style="{$jsxleftbuffer_sel}"/>
           </xsl:when>
         </xsl:choose>
         <xsl:choose>

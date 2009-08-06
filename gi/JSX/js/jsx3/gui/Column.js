@@ -279,7 +279,6 @@ jsx3.Class.defineClass("jsx3.gui.Column", jsx3.gui.Block, null, function(Column,
       var intIndex = vChildren.indexOf(this);
       if (((intIndex != 0) && vChildren[intIndex-1].getResizable()) ||
           (bBufferColumn && vChildren[vChildren.length-1].getResizable()))
-//        strAnchor = '<img ' + objParent.renderHandler(jsx3.gui.Event.MOUSEDOWN, "doResizeBegin") + ' align="absbottom" style="position:relative;left:0px;top:0px;' + objParent.paintHeaderHeight() + '"' + jsx3.html._UNSEL + ' src="' + jsx3.gui.Block.SPACE  + '" class="jsx30column_anchor"/>';
         strAnchor = '<span ' + objParent.renderHandler(jsx3.gui.Event.MOUSEDOWN, "doResizeBegin") + ' style="" class="jsx30column_anchor">&#160;</span>';
     }
 

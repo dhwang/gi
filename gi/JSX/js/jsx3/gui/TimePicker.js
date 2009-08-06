@@ -556,10 +556,10 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     bSpin.setAttributes(jsx3.html._UNSEL + ' class="spinner"');
 
     //up/down spinner images
-    var imageHTML = '<img' + jsx3.html._UNSEL + ' style="top:0px;left:0px;position:absolute;'+strImageCursor+'" width="11" height="8" src="'+ TimePicker.SPINNER_UP + '"' +
+    var imageHTML = '<img' + jsx3.html._UNSEL + ' style="top:0px;left:0px;position:absolute;'+strImageCursor+'" width="11" height="8" src="'+ TimePicker.SPINNER_UP + '" alt="' + this._getLocaleProp("up", TimePicker) + '"' +
                     this.renderHandler(Event.CLICK, "doSpinUp", 3) +
                     this.renderHandler(Event.MOUSEDOWN, "doSpinMD", 3)+'/>' +
-                    '<img' + jsx3.html._UNSEL + ' style="top:8px;left:0px;position:absolute;'+strImageCursor+'" width="11" height="8" src="'+ TimePicker.SPINNER_DOWN + '"' +
+                    '<img' + jsx3.html._UNSEL + ' style="top:8px;left:0px;position:absolute;'+strImageCursor+'" width="11" height="8" src="'+ TimePicker.SPINNER_DOWN + '" alt="' + this._getLocaleProp("down", TimePicker) + '"' +
                     this.renderHandler(Event.CLICK, "doSpinDown", 3) +
                     this.renderHandler(Event.MOUSEDOWN, "doSpinMD", 3)+'/>';
 

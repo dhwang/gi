@@ -41,7 +41,7 @@ jsx3.Class.defineClass("jsx3.gui.BlockX", jsx3.gui.Block, [jsx3.xml.Cacheable], 
           jsx3.util.Logger.getLogger(BlockX.jsxclass.getName()).error(
               jsx3._msg("xml.err_load_xsl", this, objXSL.getAttribute("error")));
 
-        return this.jsxsuper(this._getLocaleProp("jsx3.gui.BlockX." + objXSL.getNodeName()));
+        return this.jsxsuper(this._getLocaleProp(objXSL.getNodeName(), BlockX));
       }
     }
 

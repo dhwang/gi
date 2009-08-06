@@ -241,7 +241,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    */
   Select_prototype.getDefaultText = function() {
     return (this.jsxdefaulttext != null && this.jsxdefaulttext != null) ?
-        this.jsxdefaulttext : this._getLocaleProp("jsx3.gui.Select.defaultText");
+        this.jsxdefaulttext : this._getLocaleProp("defaultText", Select);
   };
 
   /**
@@ -540,6 +540,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var objP = {};
       objP.jsxtabindex = (this.getIndex()) ? this.getIndex() : 0;
       objP.jsxselectedimage = Select.SELECTEDIMAGE;
+      objP.jsxselectedimagealt = this._getLocaleProp("sel", Select);
       objP.jsxtransparentimage = jsx3.gui.Block.SPACE;
       objP.jsxdragtype = "JSX_GENERIC";
       objP.jsxid = this.getId();
@@ -572,7 +573,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       if (! strContent.match(/\<div/i)) {
         strContent = Select._OPTION_FORMAT.format(
-            this._getLocaleProp("jsx3.gui.Select." + (TYPE == Select.TYPESELECT ? "dataUnavailable" : "noMatch")));
+            this._getLocaleProp(TYPE == Select.TYPESELECT ? "dataUnavailable" : "noMatch", Select));
       }
 
       var box1 = new jsx3.gui.Painted.Box({width: intTrueWidth, height:1, border:"0px;1px;0px;1px"});

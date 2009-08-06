@@ -1003,7 +1003,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var strDis = (this.getSuppressVScroller(0) == 1) ? "display:none;" : "";
     b1f.setStyles("z-index:10;overflow:scroll;" + strDis);
     var b1fa = b1f.getChildProfile(0);
-    b1fa.setAttributes('src="' + Block.SPACE + '"');
+    b1fa.setAttributes('src="' + Block.SPACE + '" alt=""');
 
     //configure hscroller
     var b1g = b1.getChildProfile(3);
@@ -1014,7 +1014,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
               b1g.getChildProfile(0).getClientWidth() <= b1g.getClientWidth()) ? "display:none;" : "";
     b1g.setStyles("z-index:10;overflow:auto;" + strDis);
     var b1ga = b1g.getChildProfile(0);
-    b1ga.setAttributes('src="' + Block.SPACE + '"');
+    b1ga.setAttributes('src="' + Block.SPACE + '" alt=""');
 
     //configure v/h-corner overlay (only used for looks)
     var b1h = b1.getChildProfile(4);
@@ -4490,7 +4490,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //only the 'paged' model fetches content based on scroll position. otherwise, content model is pretty simple for other models: do nothing
     if (this.getPagingModel(Matrix.PAGING_OFF) == Matrix.PAGING_PAGED) {
       //show the scroll info label if not empty string
-      var strLabel = this.getScrollInfoLabel(this._getLocaleProp("jsx3.gui.Matrix.seek"));
+      var strLabel = this.getScrollInfoLabel(this._getLocaleProp("seek", Matrix));
       if (strLabel != "") {
         this._getScrollInfoObject(objGUI.parentNode).style.display = "block";
 

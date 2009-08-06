@@ -59,7 +59,7 @@ objJSX.initTool = function() {
   // set close button icon (resolve URI)
   var closeBtn = btn_close;
   closeBtn.setText('<img src="' + this.getPlugIn().resolveURI("close-icon.gif") +
-      '" width="12" height="12" style="vertical-align:top;margin-right:4px;"/>' + closeBtn.getText(), true);
+      '" width="12" height="12" style="vertical-align:top;margin-right:4px;" alt="Close"/>' + closeBtn.getText(), true);
 
   // set version string
   version.setText("Version " + jsx3.getVersion(), true);
@@ -77,7 +77,7 @@ objJSX.initTool = function() {
       label = label.substring(jsx3.APP_DIR_NAME.length + 1);
     label = jsx3.util.strTruncate(label, 24, null, 0);
 
-    recentHTML += '<img src="' + iconURI + '"/>' + 
+    recentHTML += '<img src="' + iconURI + '" alt="Bullet"/>' + 
         '<a href="#" target="_blank" onclick="jsx3.ide.' + doOpenProject +
         '(\'' + path + '\'); return false;">' + label + '</a><br/>';
   }

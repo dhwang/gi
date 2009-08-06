@@ -167,7 +167,7 @@ jsx3.Class.defineClass("jsx3.ide.ui.EditorManager", jsx3.amp.PlugIn, null, funct
       var getTab = 'jsx3.IDE.getJSXById(\'' + /*this._tab.getId()*/"" + '\')';
       readonly = '<span style="width:12px;height:11px;padding:1px 0px 0px 4px;position:relative;overflow:hidden;"' +
           ' alt="double-click to unlock" ondblclick="jsx3.ide.' + setTabReadWrite + '(' + getTab + ');">' +
-          '<img src="' + this.resolveURI("jsxapp:/images/icon_91.gif") + '" width="8" height="10"/></span>';
+          '<img src="' + this.resolveURI("jsxapp:/images/icon_91.gif") + '" width="8" height="10" alt="Locked"/></span>';
     }
 
     return editor.getTitle() + readonly;

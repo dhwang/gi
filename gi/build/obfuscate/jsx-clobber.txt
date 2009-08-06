@@ -26,7 +26,7 @@ _LAST_THROWN
 
 # Model
 #_getLocale
-#_getLocaleProp
+_getLocaleProp
 _jsxserver
 destroyView
 _getShowState

@@ -552,7 +552,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
   };
 
   /** @package */
-  Model_prototype._getLocaleProp = function(strProp) {
+  Model_prototype._getLocaleProp = function(strProp, fctClass) {
+    if (fctClass) strProp = fctClass.jsxclass.getName() + "." + strProp;
     return jsx3.System.getLocaleProperties(this._getLocale()).get(strProp);
   };
 

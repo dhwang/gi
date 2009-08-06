@@ -145,7 +145,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
                                       '       <xsl:variable name="jsximg_resolved">\n' +
                                       '         <xsl:apply-templates select="attribute::*[name()=$attname]" mode="uri-resolver"/>\n' +
                                       '       </xsl:variable>\n' +
-                                      '       <img unselectable="on" src="{$jsximg_resolved}"/>\n' +
+                                      '       <img unselectable="on" src="{$jsximg_resolved}" alt="{@jsximgalt}"/>\n' +
                                       '     </xsl:when>\n' +
                                       '     <xsl:otherwise>\n' +
                                       '       <xsl:value-of select="attribute::*[name()=$attname]"/>\n' +
@@ -1424,7 +1424,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
    * @return {String} text/HTML
    */
   Table_prototype.getNoDataMessage = function() {
-    return (this.jsxnodata == null) ? this._getLocaleProp("jsx3.gui.Table.noData") : this.jsxnodata;
+    return (this.jsxnodata == null) ? this._getLocaleProp("noData", Table) : this.jsxnodata;
   };
 
   /**

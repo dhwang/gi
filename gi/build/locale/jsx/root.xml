@@ -26,9 +26,11 @@
   <record jsxid="jsx3.gui.Select.defaultText" jsxtext="- Select -"/>
   <record jsxid="jsx3.gui.Select.dataUnavailable" jsxtext="- Data Unavailable -"/>
   <record jsxid="jsx3.gui.Select.noMatch" jsxtext="- No Match Found -"/>
+  <record jsxid="jsx3.gui.Select.sel" jsxtext="Selected"/>
 
   <!-- jsx3.gui.Menu -->
   <record jsxid="jsx3.gui.Menu.noData" jsxtext="- No Data -"/>
+  <record jsxid="jsx3.gui.Menu.sel" jsxtext="Selected"/>
 
   <!-- jsx3.gui.Matrix -->
   <record jsxid="jsx3.gui.Matrix.seek" jsxtext="Viewing rows {0} to {1} of {2}"/>
@@ -56,5 +58,22 @@
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="Toggle Display"/>
   <record jsxid="jsx3.gui.Dialog.max" jsxtext="Toggle Maximized"/>
   <record jsxid="jsx3.gui.Dialog.restore" jsxtext="Restore Down"/>
+
+  <!-- jsx3.gui.DatePicker -->
+  <record jsxid="jsx3.gui.DatePicker.nextm" jsxtext="Next Month"/>
+  <record jsxid="jsx3.gui.DatePicker.prevm" jsxtext="Previous Month"/>
+  <record jsxid="jsx3.gui.DatePicker.nexty" jsxtext="Next Year"/>
+  <record jsxid="jsx3.gui.DatePicker.prevy" jsxtext="Previous Year"/>
+
+  <!-- jsx3.gui.TimePicker -->
+  <record jsxid="jsx3.gui.TimePicker.up" jsxtext="Increment"/>
+  <record jsxid="jsx3.gui.TimePicker.down" jsxtext="Decrement"/>
+
+  <!-- jsx3.gui.ColorPicker -->
+  <record jsxid="jsx3.gui.ColorPicker.handle" jsxtext="Slider"/>
+
+  <!-- jsx3.gui.Tree -->
+  <record jsxid="jsx3.gui.Tree.exp" jsxtext="Expand Branch"/>
+  <record jsxid="jsx3.gui.Tree.col" jsxtext="Collapse Branch"/>
 
 </data>

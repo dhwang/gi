@@ -250,7 +250,7 @@ jsx3.Class.defineClass("jsx3.gui.ColorPicker", jsx3.gui.Block, [jsx3.gui.Form],
     b1c.setAttributes(this.renderHandler(Event.MOUSEDOWN, "_eb1DMouseDownPt", 2) + html._UNSEL);
 
     return b1.paint().join(b1i.paint().join(b1a.paint().join(d2html) + b1b.paint().join(d1html) +
-        b1c.paint().join('<img src="' + ColorPicker._IMAGES["_drag"] + '" width="6" height="9"/>' +
+        b1c.paint().join('<img src="' + ColorPicker._IMAGES["_drag"] + '" width="6" height="9" alt="' + this._getLocaleProp("handle", ColorPicker) + '"/>' +
                 spanStart + '6px;height:9px;">&#160;</span>') + "&#160;"));
   };
 
@@ -361,7 +361,7 @@ jsx3.Class.defineClass("jsx3.gui.ColorPicker", jsx3.gui.Block, [jsx3.gui.Form],
       return '<span' + html._UNSEL + ' class="gradient" style="width:' + intW + 'px;height:' + intH + 'px;' +
           html.getCSSPNG(strURL) + '"></span>';
     } else {
-      return '<img src="' + strURL + '"' + html._UNSEL + ' class="gradient" style="width:' + intW + 'px;height:' + intH + 'px;"/>';
+      return '<img src="' + strURL + '"' + html._UNSEL + ' class="gradient" style="width:' + intW + 'px;height:' + intH + 'px;" alt=""/>';
     }
   };
 

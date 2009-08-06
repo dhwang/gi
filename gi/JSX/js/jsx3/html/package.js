@@ -910,6 +910,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
       var id = html._IMAGE_LOADER_ID + "_" + src;
       if (document.getElementById(id) == null) {
         var image = document.createElement("img");
+        image.setAttribute("alt", "");
         image.setAttribute("id", id);
         image.setAttribute("src", src);
         imageDiv.appendChild(image);

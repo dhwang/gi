@@ -1536,7 +1536,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     if (! strContent) strContent = this.getNoDataMessage();
 
     //append a 1x1 gif to the end of the rendered content; this will always have a tabindex, so it can capture focus events for the tree and route to the appropriate node in the tree whenever the tree recieves focus
-    strContent += '<img src="' + jsx3.gui.Block.SPACE + '"' + this.renderHandler(Event.FOCUS, "_ebFocus") +
+    strContent += '<img alt="" src="' + jsx3.gui.Block.SPACE + '"' + this.renderHandler(Event.FOCUS, "_ebFocus") +
         ' style="position:absolute;left:0px;top:0px;width:1px;height:1px;" ' + this.paintIndex() +
         '/>';
 
@@ -1583,6 +1583,8 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     objP.jsxicon = icon ? objResolver.resolveURI(icon) : "";
     objP.jsxiconminus = iconMinus ? objResolver.resolveURI(iconMinus) : "";
     objP.jsxiconplus = iconPlus ? objResolver.resolveURI(iconPlus) : "";
+    objP.jsxiconminusalt = this._getLocaleProp("col", Tree);
+    objP.jsxiconplusalt = this._getLocaleProp("exp", Tree);
     objP.jsxtransparentimage = jsx3.gui.Block.SPACE;
     objP.jsxdragtype = "JSX_GENERIC";
     objP.jsxid = this.getId();

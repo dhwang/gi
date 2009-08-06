@@ -885,6 +885,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
     var objP = {
       jsxtabindex: (this.getIndex()) ? this.getIndex() : 0,
       jsxselectedimage: Menu._IMAGESELECTED,
+      jsxselectedimagealt: this._getLocaleProp("sel", Menu),
       jsxtransparentimage: jsx3.gui.Block.SPACE,
       jsxdragtype: "JSX_GENERIC",
       jsxid: this.getId(),
@@ -912,7 +913,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
     //3.2 FF support. xslt engine causes issue by inserting own wrapper tag
     strContent = this._removeFxWrapper(strContent);
     if (jsx3.util.strTrim(strContent) == "")
-      strContent = Menu._NODATAFORMAT.format(Menu._getMode().toString(), this._getLocaleProp("jsx3.gui.Menu.noData"));
+      strContent = Menu._NODATAFORMAT.format(Menu._getMode().toString(), this._getLocaleProp("noData", Menu));
 
     return strContent;
   };

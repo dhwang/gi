@@ -423,7 +423,7 @@
                   <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
-              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$src1}"/>
+              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$src1}" alt="{@jsximgalt}"/>
             </xsl:when>
             <xsl:when test="$jsx_icon=''">
               <xsl:attribute name="style">width:1px;</xsl:attribute>
@@ -431,7 +431,7 @@
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="style">width:16px;vertical-align:top;</xsl:attribute>
-              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$jsx_icon}"/>
+              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$jsx_icon}" alt="{@jsximgalt}"/>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:text>&#160;</xsl:text>

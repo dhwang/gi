@@ -70,7 +70,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix.Column", jsx3.gui.Block, null, function(
                                         '  <xsl:if test="@jsxcellstyle">\n' +
                                         '    <xsl:attribute name="style"><xsl:value-of select="@jsxcellstyle"/></xsl:attribute>\n' +
                                         '  </xsl:if>\n' +
-                                        '  <xsl:if test="{0} and not ({0} = \'\')"><img style="position:relative;"' + jsx3.html._UNSEL + '>\n' +
+                                        '  <xsl:if test="{0} and not ({0} = \'\')"><img style="position:relative;"' + jsx3.html._UNSEL + ' alt="{{0}alt}">\n' +
                                         '    <xsl:attribute name="src"><xsl:apply-templates select="{0}" mode="uri-resolver"/></xsl:attribute>\n' +
                                         '  </img></xsl:if>\n' +
                                         '</xsl:template>';

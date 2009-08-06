@@ -12,6 +12,7 @@
   <xsl:variable name="lowerCase" select="'abcdefghijklmnopqrstuvwxyz'"/>
   <xsl:param name="jsxtabindex">0</xsl:param>
   <xsl:param name="jsxselectedimage"></xsl:param>
+  <xsl:param name="jsxselectedimagealt"></xsl:param>
   <xsl:param name="jsxtransparentimage"></xsl:param>
   <xsl:param name="jsxdragtype">JSX_GENERIC</xsl:param>
   <xsl:param name="jsxselectedid">null</xsl:param>
@@ -81,10 +82,10 @@
       <xsl:if test="$jsxnocheck != '1'">
         <xsl:choose>
           <xsl:when test="$jsxselectedid=@jsxid">
-            <img unselectable="on" class="jsx30select_check" src="{$jsxselectedimage}"/>
+            <img unselectable="on" class="jsx30select_check" src="{$jsxselectedimage}" alt="{$jsxselectedimagealt}"/>
           </xsl:when>
           <xsl:otherwise>
-            <img unselectable="on" class="jsx30select_check" src="{$jsxtransparentimage}"/>
+            <img unselectable="on" class="jsx30select_check" src="{$jsxtransparentimage}" alt=""/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:if>
@@ -95,7 +96,7 @@
             <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
-        <img unselectable="on" class="jsx30select_icon" src="{$src1}"/>
+        <img unselectable="on" class="jsx30select_icon" src="{$src1}" alt="{@jsximgalt}"/>
       </xsl:if>
       <span>
         <xsl:apply-templates select="." mode="jsxtext"/>
@@ -122,10 +123,10 @@
         <xsl:if test="$jsxnocheck != '1'">
           <xsl:choose>
             <xsl:when test="$jsxselectedid=@jsxid">
-              <img unselectable="on" class="jsx30select_check" src="{$jsxselectedimage}"/>
+              <img unselectable="on" class="jsx30select_check" src="{$jsxselectedimage}" alt="{$jsxselectedimagealt}"/>
             </xsl:when>
             <xsl:otherwise>
-              <img unselectable="on" class="jsx30select_check" src="{$jsxtransparentimage}"/>
+              <img unselectable="on" class="jsx30select_check" src="{$jsxtransparentimage}" alt=""/>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:if>
@@ -136,7 +137,7 @@
               <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
-          <img unselectable="on" class="jsx30select_icon" src="{$src1}"/>
+          <img unselectable="on" class="jsx30select_icon" src="{$src1}" alt="{@jsximgalt}"/>
         </xsl:if>
         <span>
           <xsl:apply-templates select="." mode="jsxtext">

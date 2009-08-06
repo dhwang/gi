@@ -11,6 +11,8 @@
   <xsl:param name="jsxicon"></xsl:param>
   <xsl:param name="jsxiconminus"></xsl:param>
   <xsl:param name="jsxiconplus"></xsl:param>
+  <xsl:param name="jsxiconminusalt"></xsl:param>
+  <xsl:param name="jsxiconplusalt"></xsl:param>
   <xsl:param name="jsxtransparentimage"></xsl:param>
   <xsl:param name="jsxdragtype">JSX_GENERIC</xsl:param>
   <xsl:param name="jsxrootid">jsxnull</xsl:param>
@@ -74,10 +76,10 @@
         <!-- plus/minus icon -->
         <xsl:choose>
           <xsl:when test="(record or (@jsxlazy > 0)) and @jsxopen=1">
-            <img jsxtype="plusminus" class="jsx30tree_pm" src="{$jsxiconminus}"/>
+            <img jsxtype="plusminus" class="jsx30tree_pm" src="{$jsxiconminus}" alt="{$jsxiconminusalt}"/>
           </xsl:when>
           <xsl:when test="(record or (@jsxlazy > 0))">
-            <img jsxtype="plusminus" class="jsx30tree_pm" src="{$jsxiconplus}"/>
+            <img jsxtype="plusminus" class="jsx30tree_pm" src="{$jsxiconplus}" alt="{$jsxiconplusalt}"/>
           </xsl:when>
           <xsl:when test="$jsx_no_empty_indent='1' and not(../record/record)">
             <span class="jsx30tree_empty">
@@ -85,7 +87,7 @@
             </span>
           </xsl:when>
           <xsl:otherwise>
-            <img jsxtype="space" class="jsx30tree_pm" src="{$jsxtransparentimage}"/>
+            <img jsxtype="space" class="jsx30tree_pm" src="{$jsxtransparentimage}" alt=""/>
           </xsl:otherwise>
         </xsl:choose>
         <!-- image icon -->
@@ -103,10 +105,10 @@
               </xsl:choose>
             </xsl:variable>
 
-            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsximg_resolved}"/>
+            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsximg_resolved}" alt="{@jsximgalt}"/>
           </xsl:when>
           <xsl:otherwise>
-            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsxicon}"/>
+            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsxicon}" alt="{@jsximgalt}"/>
           </xsl:otherwise>
         </xsl:choose>
         <!-- record text -->
