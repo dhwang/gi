@@ -66,14 +66,9 @@ jsx3.Class.defineClass("jsx3.gui.Image", jsx3.gui.Block, [], function(Image, Ima
    */
   Image_prototype.setSrc = function(srcSrc) { this.jsxsrc = srcSrc; return this; };
 
-  /**
-   * generates DHTML property value for a 'title', including the keycode accelerator if applicable
-   * @return {String} DHTML in form of tabTip='n'
-   * @private
-   */
   Image_prototype.paintText = function() {
     var myTip = this.getText();
-    return myTip ? ' alt="' + myTip.replace(/"/g, "&quot;") + '" ' : "";
+    return myTip ? ' alt="' + myTip.replace(/"/g, "&quot;") + '" ' :  ' alt=""';
   };
 
 });

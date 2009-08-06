@@ -43,6 +43,12 @@
         jsxmask="jsxpath"/>
     <record include="master.xml" group="form_novalue" children="1"/>
     <record include="master.xml" group="jsxrequired" children="1"/>
+    <record jsxid="jsxtext" jsxtext="Alt Text"
+        eval="0"
+        jsxtip="Sets the alternative text for the image."
+        docgetter="getText" docsetter="setText"
+        docdefault="Empty"
+        jsxmask="jsxtext"/>
   </record>
 
   <record include="master.xml" group="box_nobg">

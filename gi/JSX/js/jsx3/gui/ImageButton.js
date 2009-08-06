@@ -255,8 +255,7 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
 
     //paint the outer-most box
     var b1 = this.getBoxProfile(true);
-    b1.setAttributes('id="' + this.getId() + '"' + this.paintLabel() + this.paintIndex() +
-        this.paintTip() + ' class="' + (bEnabled ? "jsx30imagebutton" : "jsx30imagebutton_disabled") + '"' + strEvents + strAttributes);
+    b1.setAttributes('id="' + this.getId() + '"' + this.paintLabel() + this.paintIndex() + ' class="' + (bEnabled ? "jsx30imagebutton" : "jsx30imagebutton_disabled") + '"' + strEvents + strAttributes);
     b1.setStyles(this.paintCursor(true) + this.paintVisibility() + this.paintDisplay() + this.paintZIndex() +
         this.paintBackgroundColor() + this.paintCSSOverride());
 
@@ -264,7 +263,7 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
     w = w != null ? ' width="' + w + '"' : "";
     var h = b1.getClientHeight();
     h = h != null ? ' height="' + h + '"' : "";
-    var img = '<img src="' + this._getCurrentImageURL(false, false) + '"' + w + h + '/>';
+    var img = '<img src="' + this._getCurrentImageURL(false, false) + '"' + w + h + this.paintTip() + this.paintText() + '/>';
 
     if (! this._jsxpaintedonce && this.isPreFetch()) {
       var resolver = this.getUriResolver();
@@ -439,6 +438,11 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
     this.setEnabled(Form.STATEENABLED); // need to have it enabled afterwards
     var enabled = this.paint();
     return this.emGetTemplate(enabled, disabled);
+  };
+
+  ImageButton_prototype.paintText = function() {
+    var myTip = this.getText();
+    return myTip ? ' alt="' + myTip.replace(/"/g, "&quot;") + '" ' : ' alt=""';
   };
 
 });
