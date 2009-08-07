@@ -989,7 +989,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 /* @JSC */ }
 
     var b1d = b1.getChildProfile(1);
-    b1d.setAttributes('id="' + sId + '_body" class="jsx30matrix_body" ' + strEvents);
+    b1d.setAttributes('id="' + sId + '_body" class="jsx30matrix_body" ' + strEvents + this.paintIndex());
     var b1e = b1d.getChildProfile(0);
     b1e.setStyles(this.paintBackgroundColor() + this.paintBackground());
     b1e.setAttributes(this.renderHandler(Event.MOUSEWHEEL, "_ebMouseWheel", 2));
@@ -998,7 +998,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var b1f = b1.getChildProfile(2);
     b1f.setAttributes(this.renderHandler("scroll", "_ebScrollV") + this.renderHandler("mouseover", "_ebMouseOverVScroll") +
                       this.renderHandler("mouseout", "_ebMouseOutVScroll") + this.renderHandler("mousemove", "_ebMouseMoveVScroll") +
-                      this.renderHandler("mousedown", "_ebMouseDownV") + html._UNSEL + ' class="jsx30matrix_scrollv"');
+                      this.renderHandler("mousedown", "_ebMouseDownV") + html._UNSEL + ' class="jsx30matrix_scrollv" tabindex="-1"');
     //user can choose to not show the vscroller
     var strDis = (this.getSuppressVScroller(0) == 1) ? "display:none;" : "";
     b1f.setStyles("z-index:10;overflow:scroll;" + strDis);
@@ -3292,7 +3292,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         return;
       }
     }
+
     var objEventTarget = this._getFocusObject();
+    var src = objEvent.srcElement();
+    var bBodyFocused = src && src.id == this.getId() + "_body";
 
     var bAuto = this._getAutoRow() && objEventTarget && this._isAutoRow(objEventTarget.parentNode);
     var bCaptured = false;
@@ -3360,9 +3363,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           }
         }
 
-        if (!bCaptured) {
+        if (!bCaptured && !bBodyFocused) {
           var objToElement = this._getNavToCell("W",objEventTarget,true,intIndex);
-          bCaptured = this._focusOnDelay(objToElement);
+          if (objToElement != objEventTarget)
+            bCaptured = this._focusOnDelay(objToElement);
         }
       } else if (intKeyCode == Event.KEY_ARROW_RIGHT || (bTab && !objEvent.shiftKey())) {
         //on right arrow when in first cell of the tree, open (or nav down)
@@ -3384,30 +3388,35 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           }
         }
 
-        if (!bCaptured) {
+        if (!bCaptured && !bBodyFocused) {
           var objToElement = this._getNavToCell("E",objEventTarget,true,intIndex);
-          bCaptured = this._focusOnDelay(objToElement);
+          if (objToElement != objEventTarget)
+            bCaptured = this._focusOnDelay(objToElement);
         }
       } else if (intKeyCode == Event.KEY_ENTER) {
         //fire the execute event (the same as dblclicking)
         this._doExecute(objEvent);
         bCaptured = true;
-      } else if (bTab && objEvent.shiftKey()) {
-        //go to previous control (escape the LV)
-        this.focus();
-        bCaptured = true;
-      } else if (bTab) {
-        //go to previous control (escape the LV)
-        html.focus(this.getRendered(objEvent).lastChild);
-        bCaptured = true;
-      }/* else if (intKeyCode == Event.KEY_ESCAPE) {
+      } else if (intKeyCode == Event.KEY_ESCAPE) {
         jsx3.log("escape key " + this);
         this.collapseEditSession(objEvent, objGUI);
-      }*/
+        this.focus();
+        bCaptured = true;
+      }
+    }
+
+    if (!bCaptured && bTab) {
+      html[objEvent.shiftKey() ? "focusPrevious" : "focusNext"](this.getRendered(objEvent), objEvent);
     }
 
     //if the key event was handled, cancel here
     if (bCaptured) objEvent.cancelAll();
+  };
+
+  Matrix_prototype.focus = function() {
+    var r = this.getRendered();
+    if (r)
+      jsx3.html.focus(r.ownerDocument.getElementById(this.getId() + "_body"));
   };
 
   /**
@@ -5125,7 +5134,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       //the entire width of the summed columns (the actual css width property that would be applied to the table element)
       var intAllWidths = this._getViewPaneWidth();
 
-      var strFocusHandlers = this.paintIndex() +
+      var strFocusHandlers = ' tabindex="-1"' +
                              this.renderHandler(Event.FOCUS, "_ebonfocus") +
                              this.renderHandler(Event.BLUR, "_ebonblur");
 
