@@ -17,6 +17,7 @@
   <record jsxid="jsx3.gui.Grid" jsxtext="Grid.xml"/>
   <record jsxid="jsx3.gui.IFrame" jsxtext="IFrame.xml"/>
   <record jsxid="jsx3.gui.ImageButton" jsxtext="ImageButton.xml"/>
+  <record jsxid="jsx3.gui.Label" jsxtext="Label.xml"/>
   <record jsxid="jsx3.gui.LayoutGrid" jsxtext="Painted.xml"/>
   <record jsxid="jsx3.gui.List" jsxtext="List.xml"/>
   <record jsxid="jsx3.gui.Matrix" jsxtext="Matrix.xml"/>

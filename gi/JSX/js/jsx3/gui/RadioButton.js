@@ -381,7 +381,7 @@ jsx3.Class.defineClass("jsx3.gui.RadioButton", jsx3.gui.Block, [jsx3.gui.Form], 
 
     //label
     o = {};
-    o.tagname = "span";
+    o.tagname = "label";
     o.boxtype = "inline";
     o.top = 2;
     o.parentheight = b1.getClientHeight();
@@ -420,13 +420,14 @@ jsx3.Class.defineClass("jsx3.gui.RadioButton", jsx3.gui.Block, [jsx3.gui.Form], 
 
     //get the native radio element
     var b1a = b1x.getChildProfile(0);
-    b1a.setAttributes(' type="radio" ' + this.renderHandler(jsx3.gui.Event.FOCUS, "_ebFocus", 3) + this.renderHandler(jsx3.gui.Event.BLUR, "_ebBlur", 3) + ' name="' + this.getGroupName() + '" value="' + this.getValue() + '" ' + this.paintEnabled() + this.paintSelected() + this.paintIndex());
+    b1a.setAttributes(' id="' + this.getId() + '_input" type="radio" ' + this.renderHandler(jsx3.gui.Event.FOCUS, "_ebFocus", 3) + this.renderHandler(jsx3.gui.Event.BLUR, "_ebBlur", 3) + ' name="' + this.getGroupName() + '" value="' + this.getValue() + '" ' + this.paintEnabled() + this.paintSelected() + this.paintIndex());
 
     //get the label
+    var text = this.paintText();
     var b1c = b1.getChildProfile(1);
-    b1c.setAttributes(jsx3.html._UNSEL);
+    b1c.setAttributes((text ? ' for="' + this.getId() + '_input"' : '') + jsx3.html._UNSEL);
 
-    return b1.paint().join(b1Div.paint().join(b1x.paint().join(b1a.paint().join(""))+b1c.paint().join(this.paintText())));
+    return b1.paint().join(b1Div.paint().join(b1x.paint().join(b1a.paint().join(""))+b1c.paint().join(text)));
   };
 
   RadioButton_prototype.focus = function(objGUI) {
@@ -452,6 +453,10 @@ jsx3.Class.defineClass("jsx3.gui.RadioButton", jsx3.gui.Block, [jsx3.gui.Form], 
   RadioButton_prototype.paintClassName = function() {
     var cn = this.getClassName();
     return RadioButton.DEFAULTCLASSNAME + (cn ? " " + cn : "");
+  };
+
+  RadioButton_prototype.getInputId = function() {
+    return this.getId() + "_input";
   };
 
 /* @JSC :: begin DEP */

@@ -1041,7 +1041,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
       var strRecordId = objSource.parentNode.parentNode.getAttribute("jsxid");
 
       //user right-moused-up over a node in the tree; show the context menu if there is one...
-      var objMenu = this.getServer().getJSX(this.getMenu());
+      var objMenu = this._getNodeRefField(this.getMenu());
       if (objMenu != null && this.isRecordSelectable(strRecordId)) {
         var vntResult = this.doEvent(Interactive.MENU, {objEVENT:objEvent, objMENU:objMenu, strRECORDID:strRecordId});
         if (vntResult !== false) {

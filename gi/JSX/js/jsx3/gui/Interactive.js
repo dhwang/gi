@@ -242,7 +242,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
     this.doEvent(Interactive.JSXMOUSEUP, {objEVENT:objEvent});
 
     if (objEvent.rightButton() && (strMenu = this.getMenu()) != null) {
-      var objMenu = this.getServer().getJSX(strMenu);
+      var objMenu = this._getNodeRefField(strMenu);
       if (objMenu != null) {
         var vntResult = this.doEvent(Interactive.MENU, {objEVENT:objEvent, objMENU:objMenu, _gipp:1});
         if (vntResult !== false) {

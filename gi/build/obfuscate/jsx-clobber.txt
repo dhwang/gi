@@ -31,6 +31,7 @@ _jsxserver
 destroyView
 _getShowState
 _setShowState
+_getNodeRefField
 
 # Block paint
 paintBackgroundColor

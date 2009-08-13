@@ -135,6 +135,8 @@
       requires=""/>
   <file path="jsx3/gui/Block.js" provides="jsx3.gui.Block"
       requires="jsx3.gui.Painted jsx3.gui.Interactive"/>
+  <file path="jsx3/gui/Label.js" provides="jsx3.gui.Label"
+      requires="jsx3.gui.Block"/>
   <file path="jsx3/gui/BlockX.js" provides="jsx3.gui.BlockX"
       requires="jsx3.xml.Cacheable jsx3.gui.Block"/>
   <file path="jsx3/gui/ToolbarButton.js" provides="jsx3.gui.ToolbarButton"

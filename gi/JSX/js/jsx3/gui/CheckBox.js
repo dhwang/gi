@@ -172,6 +172,10 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
     }
   };
 
+  CheckBox_prototype._ebLabelClick = function(objEvent, objGUI) {
+    objEvent.preventDefault();
+  };
+
   CheckBox.BRIDGE_EVENTS = {};
   CheckBox.BRIDGE_EVENTS[jsx3.gui.Event.CLICK] = true;
   CheckBox.BRIDGE_EVENTS[jsx3.gui.Event.KEYDOWN] = true;
@@ -258,7 +262,7 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
 
     //label
     var o = {};
-    o.tagname = "span";
+    o.tagname = "label";
     o.boxtype = "inline";
     o.top = 2;
     o.parentheight = b1.getClientHeight();
@@ -306,7 +310,7 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
 
     //get the native checkbox element
     var b1a = b1x.getChildProfile(0);
-    b1a.setAttributes(' type="checkbox" name="' + this.getName() + '" ' + this.paintEnabled() + this.paintChecked() + this.paintIndex());
+    b1a.setAttributes(' id="' + this.getId() + '_input" type="checkbox" name="' + this.getName() + '" ' + this.paintEnabled() + this.paintChecked() + this.paintIndex());
 
     //get the tri-state overlay
     var b1b = b1x.getChildProfile(1);
@@ -314,10 +318,12 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
     b1b.setStyles('visibility:' + strPartialHidden + ';' + strPartialBG);
 
     //get the label
+    var text = this.paintText();
     var b1c = b1.getChildProfile(1);
-    b1c.setAttributes(jsx3.html._UNSEL);
+    b1c.setAttributes((text ? ' for="' + this.getId() + '_input"' : '') + jsx3.html._UNSEL +
+                      this.renderHandler(jsx3.gui.Event.CLICK, "_ebLabelClick"));
 
-    return b1.paint().join(b1Div.paint().join(b1x.paint().join(b1a.paint().join("")+b1b.paint().join("&#160;"))+b1c.paint().join(this.paintText())));
+    return b1.paint().join(b1Div.paint().join(b1x.paint().join(b1a.paint().join("")+b1b.paint().join("&#160;"))+b1c.paint().join(text)));
   };
 
   /**
@@ -348,6 +354,10 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
     this.setValidationState((this.getRequired() == jsx3.gui.Form.OPTIONAL || this.getChecked() == CheckBox.CHECKED) ?
         jsx3.gui.Form.STATEVALID : jsx3.gui.Form.STATEINVALID);
     return this.getValidationState();
+  };
+
+  CheckBox_prototype.getInputId = function() {
+    return this.getId() + "_input";
   };
 
 /* @JSC :: begin DEP */

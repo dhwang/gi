@@ -1934,6 +1934,14 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     }
   };
 
+  /** @package */
+  Model_prototype._getNodeRefField = function(strAddress) {
+    try {
+      var s = this.getServer();
+      return s.getJSX(strAddress) || s.getRootBlock().selectDescendants(strAddress, true);
+    } catch (e) { return null; }
+  };
+
   /**
    * Returns a string representation of this object.
    * @return {String}

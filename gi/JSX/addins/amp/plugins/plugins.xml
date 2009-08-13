@@ -21,6 +21,11 @@
       <plugin id="jsx3.gui.Painted"/>
     </requires>
   </plugin>
+  <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Label">
+    <requires>
+      <plugin id="jsx3.gui.Block"/>
+    </requires>
+  </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.app.UserSettings"/>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.net.Form"/>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.xml.Cacheable"/>

@@ -938,6 +938,19 @@ jsx3.Class.defineClass("jsx3.gui.Event", null, null, function(Event, Event_proto
    */
   Event_prototype.cancelReturn = function(){this._event().returnValue = false;};
 
+  Event_prototype.preventDefault = function(){
+    var e = this._event();
+/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+    try {
+      e.keyCode = 0;
+      e.returnValue = false;
+    } catch (e) {}
+/* @JSC */ } else {
+    if (! e._jsxclone)
+      e.preventDefault();
+/* @JSC */ }
+  };
+
   /**
    * Cancels the key from firing by setting the keyCode to 0 (zero) for the event.
    */

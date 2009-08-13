@@ -329,6 +329,14 @@ jsx3.Class.defineInterface("jsx3.gui.Form", null, function(Form, Form_prototype)
   };
 
   /**
+   * Returns the HTML ID of the native HTML input element contained in this control. Used for <label for="">.
+   * @package
+   */
+  Form_prototype.getInputId = function() {
+    return this.getId();
+  };
+
+  /**
    * Traverses the DOM branch starting at <code>objJSXContainer</code> and calls <code>doValidate()</code> on all nodes
    * of type <code>jsx3.gui.Form</code>. A custom function handler, <code>objHandler</code>, can be passed that will
    * be called once for each encountered form control.

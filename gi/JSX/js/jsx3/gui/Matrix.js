@@ -1292,7 +1292,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var strMenu = objColumnChild.getMenu();
       if (strMenu) {
         //resolve the menu (must be owned by same server)
-        var objMENU = objColumnChild.getServer().getJSX(strMenu);
+        var objMENU = objColumnChild._getNodeRefField(strMenu);
         if (objMENU != null) {
           //persist the cdf id and column instance and fire menu event
           var objContext = {objEVENT:objEvent, objMENU:objMENU};
@@ -1857,7 +1857,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //apply any custom styles to denote the event
     this._applyFocusStyle(objGUI,true);
 
-    //when a focus event happens, process its impact on selection state
+//    //when a focus event happens, process its impact on selection state
     this._handleSelectionEvent(objEvent,objGUI);
   };
 
@@ -3223,7 +3223,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var strMenu = this.getMenu();
       if (strMenu) {
         //resolve the menu (must be owned by same server)
-        var objMENU = this.getServer().getJSX(strMenu);
+        var objMENU = this._getNodeRefField(strMenu);
         if (objMENU != null) {
           //persist the cdf id and column instance if applicable
           var objColumn, strRecordId;

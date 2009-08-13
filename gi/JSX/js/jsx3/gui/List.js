@@ -843,7 +843,7 @@ jsx3.Class.defineClass("jsx3.gui.List", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
       //user right-moused-up over a node in the tree; show the context menu if there is one...
       var strMenu;
       if ((strMenu = this.getMenu()) != null) {
-        var objMENU = this.getServer().getJSX(strMenu);
+        var objMENU = this._getNodeRefField(strMenu);
         if (objMENU != null) {
           var objContext = {objEVENT:objEvent, objMENU:objMENU, strRECORDID:rowCol[0], intCOLUMNINDEX:rowCol[1]};
           var vntResult = this.doEvent(Interactive.MENU, objContext);

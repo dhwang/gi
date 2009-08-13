@@ -835,7 +835,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
       var strRecordId = objSource.parentNode.getAttribute("jsxid");
 
       //user right-moused-up over a node in the table; show the context menu if there is one...
-      var objMenu = this.getServer().getJSX(this.getMenu());
+      var objMenu = this._getNodeRefField(this.getMenu());
       if (objMenu != null && this.isRecordSelectable(strRecordId)) {
         var vntResult = this.doEvent(Interactive.MENU, {objEVENT:objEvent, objMENU:objMenu, strRECORDID:strRecordId,intCOLUMNINDEX:objSource.cellIndex});
         if (vntResult !== false) {
