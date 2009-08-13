@@ -27,6 +27,8 @@ input[type="checkbox"]:focus {
 /* jsx3.gui.Block */
 #JSX .jsx30block {
   font-family: Verdana, Arial, sans-serif;
+}
+#JSX span.jsx30block, #JSX div.jsx30block, #JSX label.jsx30block, #JSX fieldset.jsx30block, #JSX legend.jsx30block {
   font-size: 10px;
 }
 .jsx30block_drag {

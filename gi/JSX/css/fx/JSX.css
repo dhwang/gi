@@ -27,6 +27,8 @@ input[type="checkbox"]:focus {
 /* jsx3.gui.Block */
 #JSX .jsx30block {
   font-family: Verdana, Arial, sans-serif;
+}
+#JSX span.jsx30block, #JSX div.jsx30block, #JSX label.jsx30block, #JSX fieldset.jsx30block, #JSX legend.jsx30block {
   font-size: 10px;
 }
 .jsx30block_drag {
@@ -663,6 +665,9 @@ img.jsx30select_icon {
   vertical-align: top;
   overflow: hidden;
 }
+#JSX .jsx30checkbox div { 
+  min-width: 16px;
+}
 #JSX .jsx30checkbox_tristate {
   float: left;
 }
@@ -687,6 +692,9 @@ img.jsx30select_icon {
   -moz-user-focus: ignore;
   vertical-align: top;
   overflow: hidden;
+}
+#JSX .jsx30radio div { 
+  min-width: 16px;
 }
 #JSX .jsx30radio_tristate {
   float: left;
