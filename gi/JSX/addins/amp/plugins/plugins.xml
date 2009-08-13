@@ -117,6 +117,13 @@
       <plugin id="jsx3.gui.Form"/>
     </requires>
   </plugin>
+  <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.NativeSelect">
+    <requires>
+      <plugin id="jsx3.gui.Block"/>
+      <plugin id="jsx3.xml.Cacheable"/>
+      <plugin id="jsx3.gui.Form"/>
+    </requires>
+  </plugin>
   <plugin class="jsx3.amp.ClassPlugIn" id="jsx3.gui.Menu">
     <requires>
       <plugin id="jsx3.gui.Heavyweight"/>

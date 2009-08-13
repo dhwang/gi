@@ -195,6 +195,19 @@
       this.push.apply(this, a);
     },
 
+    /**
+     * Returns true if the contents of this array equal the contents of <code>a</code>.
+     * @param a {Array}
+     * @return {boolean}
+     * @since 3.9
+     */
+    eq: function(a) {
+      if (this.length != a.length) return false;
+      for (var i = 0; i < this.length; i++)
+        if (this[i] !== a[i]) return false;
+      return true;
+    },
+
     clone: function() {
       return jsx3.$A(this.concat());
     }

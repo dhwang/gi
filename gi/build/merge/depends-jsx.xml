@@ -167,6 +167,8 @@
       requires="jsx3.gui.Block jsx3.gui.Tab"/>
   <file path="jsx3/gui/Select.js" provides="jsx3.gui.Select"
       requires="jsx3.xml.Cacheable jsx3.gui.Form jsx3.gui.Heavyweight jsx3.gui.Block jsx3.util.MessageFormat"/>
+  <file path="jsx3/gui/NativeSelect.js" provides="jsx3.gui.NativeSelect"
+      requires="jsx3.xml.Cacheable jsx3.gui.Form jsx3.gui.Block"/>
   <file path="jsx3/gui/Menu.js" provides="jsx3.gui.Menu"
       requires="jsx3.xml.Cacheable jsx3.gui.Form jsx3.gui.Heavyweight jsx3.gui.Block jsx3.gui.ToolbarButton
         jsx3.util.MessageFormat"/>

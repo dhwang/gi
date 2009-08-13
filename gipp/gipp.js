@@ -2238,6 +2238,12 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
         this.doEvent(e.subject, e);
       }
     },
+    "jsx3.gui.NativeSelect": {
+      jsxselect: function(e) {
+        this.setValue(e.strRECORDID);
+        this.doEvent(e.subject, e);
+      }
+    },
     "jsx3.gui.RadioButton": {
       jsxselect: function(e) {
         if (this.doEvent(e.subject, e) !== false)
@@ -2246,8 +2252,8 @@ if (!gi.test.gipp) gi.test.gipp = new Object();
     },
     "jsx3.gui.Select": {
       jsxselect: function(e) {
-        if (this.doEvent(e.subject, e) !== false)
-          this.setValue(e.strRECORDID);
+        this.setValue(e.strRECORDID);
+        this.doEvent(e.subject, e);
       }
     },
     "jsx3.gui.Slider": {
