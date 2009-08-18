@@ -7,7 +7,11 @@
  <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
  <onBeforeDeserialize><![CDATA[]]></onBeforeDeserialize>
  <onAfterDeserialize><![CDATA[
- 
+
+objJSX.getFirstResponder = function() {
+  return homepath;
+};
+
 objJSX.doBrowse = function() {
   var fs = this._getFS(fsSelect.getValue());
   if (!fs) {

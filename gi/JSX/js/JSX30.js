@@ -1471,33 +1471,68 @@ window['jsx_main'] = function() {
        */
       ClassLoader_prototype.loadClass = function(strClass) {
         this._setStatus(strClass);
-        var path = strClass.replace(/\./g, "/") + ".js";
 
-        this._initClassPath();
-        for (var i = 0; i < this._cp.length; i++) {
-          var regex = this._cp[i][1];
+        var p = this._getPathsForClass(strClass);
+        for (var i = 0; i < p.length; i++) {
+          var success = false;
+          try {
+            success = this.loadJSFileSync(p[i]);
+          } catch (e) {
+            var ex = jsx3.NativeError.wrap(e);
+            throw new jsx3.Exception(jsx3._msg("boot.class_ex", strClass, ex), ex);
+          }
 
-          if (regex.test(strClass)) {
-            var filePath = this._cp[i][0] + path;
-            var success = false;
-            try {
-              success = this.loadJSFileSync(filePath);
-            } catch (e) {
-              var ex = jsx3.NativeError.wrap(e);
-              throw new jsx3.Exception(jsx3._msg("boot.class_ex", strClass, ex), ex);
-            }
+          if (success) {
+            var objClass = jsx3.Class.forName(strClass);
+            if (objClass == null)
+              throw new jsx3.Exception(jsx3._msg("boot.class_undef", p[i], strClass));
 
-            if (success) {
-              var objClass = jsx3.Class.forName(strClass);
-              if (objClass == null)
-                throw new jsx3.Exception(jsx3._msg("boot.class_undef", filePath, strClass));
-
-              return objClass;
-            }
+            return objClass;
           }
         }
 
         throw new jsx3.Exception(jsx3._msg("boot.class_err", strClass));
+      };
+
+
+      /**
+       * Loads a GI class asynchronously. The location of the JavaScript file is determined by the classpath.
+       *
+       * @param strClass {String} the fully-qualified name of the class to load.
+       * @param cb {Function} an optional callback function, which will be passed the class object when the class loads.
+       * @since 3.9
+       */
+      ClassLoader_prototype.loadClassAsync = function(strClass, cb) {
+        this._setStatus(strClass);
+
+        var p = this._getPathsForClass(strClass);
+        if (p.length > 0) {
+          this.loadJSFile(p[0], function() {
+            var objClass = jsx3.Class.forName(strClass);
+            if (objClass == null)
+              Logger.GLOBAL.error(jsx3._msg("boot.class_undef", p[i], strClass));
+            else if (cb)
+              cb(objClass);
+          });
+        } else {
+          throw new jsx3.Exception(jsx3._msg("boot.class_err", strClass));
+        }
+      };
+
+      /** @private @jsxobf-clobber */
+      ClassLoader_prototype._getPathsForClass = function(strClass) {
+        this._initClassPath();
+        var path = strClass.replace(/\./g, "/") + ".js";
+        var paths = [];
+
+        for (var i = 0; i < this._cp.length; i++) {
+          var regex = this._cp[i][1];
+
+          if (regex.test(strClass))
+            paths.push(this._cp[i][0] + path);
+        }
+
+        return paths;
       };
 
       /**

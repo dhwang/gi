@@ -235,7 +235,7 @@
       <plugin id="jsx3.gui.Alerts"/>
     </requires>
     <resources>
-      <xml id="xml" path="jsx:/xml/components/dialog_alert.xml" cache="shared" cachekey="JSX/xml/components/dialog_alert.xml"/>
+      <xml id="xml" path="jsx:/xml/components/dialog_alert.xml" cache="shared"/>
     </resources>
   </plugin>
   <plugin id="jsx3.gui.Alerts.confirm">
@@ -244,7 +244,7 @@
       <plugin id="jsx3.gui.Alerts"/>
     </requires>
     <resources>
-      <xml id="xml" path="jsx:/xml/components/dialog_confirm.xml" cache="shared" cachekey="JSX/xml/components/dialog_confirm.xml"/>
+      <xml id="xml" path="jsx:/xml/components/dialog_confirm.xml" cache="shared"/>
     </resources>
   </plugin>
   <plugin id="jsx3.gui.Alerts.prompt">
@@ -253,7 +253,7 @@
       <plugin id="jsx3.gui.Alerts"/>
     </requires>
     <resources>
-      <xml id="xml" path="jsx:/xml/components/dialog_prompt.xml" cache="shared" cachekey="JSX/xml/components/dialog_prompt.xml"/>
+      <xml id="xml" path="jsx:/xml/components/dialog_prompt.xml" cache="shared"/>
     </resources>
   </plugin>
 

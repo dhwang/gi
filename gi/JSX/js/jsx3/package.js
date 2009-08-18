@@ -259,6 +259,29 @@ jsx3.Package.definePackage("jsx3", function() {
     }
   };
 
+  /**
+   * Loads a class or classes asynchronously. If multiple classes are specified they are loaded serially rather
+   * than in parallel. This method does not resolve dependencies, i.e. if the class to load contains a call to
+   * <code>jsx3.require</code> that class will be loaded synchronously.
+   *
+   * @param strClass {String...} the fully-qualified names of the classes to load.
+   * @since 3.9
+   */
+  jsx3.requireAsync = jsx3.$Y(function(cb) {
+    var a = cb.args();
+    var className = a[0];
+
+    jsx3.CLASS_LOADER.loadClassAsync(className, function() {
+      if (a.length >= 2) {
+        jsx3.requireAsync.apply(jsx3, jsx3.Method.argsAsArray(a, 1)).when(
+            function() { cb.done(); }
+        );
+      } else {
+        cb.done();
+      }
+    });
+  });
+
   /** @private @jsxobf-clobber */
   jsx3._SLEEP_QUEUE = [];
   /** @private @jsxobf-clobber */

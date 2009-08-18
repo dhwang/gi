@@ -772,13 +772,12 @@ jsx3.Class.defineClass('jsx3.util.Logger.Manager', null, null, function(Manager,
   
   /** @private @jsxobf-clobber */
   Manager_prototype._onClassLoaderRest = function(objEvent) {
-    for (var i = 0; i < this._classesToLoad.length; i++)
-      jsx3.require(this._classesToLoad[i]);
-    
-    delete this._classesToLoad;
+    jsx3.requireAsync.apply(jsx3, this._classesToLoad).when(jsx3.$F(function() {
+      delete this._classesToLoad;
 
-    var loaded = this._initHandlers("[@require='true']");
-    this._wireNewHandlers(loaded);
+      var loaded = this._initHandlers("[@require='true']");
+      this._wireNewHandlers(loaded);
+    }).bind(this));    
   };
   
   /** @private @jsxobf-clobber */

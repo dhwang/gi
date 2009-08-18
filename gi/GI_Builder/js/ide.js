@@ -640,7 +640,7 @@ jsx3.ide.doTextEditorKeyDown = function(objEvent, objTextBox, objTab) {
       var f = jsx3.ide.getBuilderRelativeFile("language/eng/typeahead_script.xml");
       if (f.isFile()) {
         var objParent = jsx3.IDE.getJSXByName("jsxmenu_typeaheadcss").getParent();
-        objMenu = objParent.load("components/containers/menu-typeahead-script.xml");
+        objMenu = objParent.load("xml/menu-typeahead-script.xml");
       } else {
         jsx3.ide.LOG.warn("The JavaScript editor type-ahead menu is disabled because the data file does not exist.");
       }

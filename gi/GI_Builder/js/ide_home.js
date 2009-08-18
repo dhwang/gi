@@ -52,11 +52,10 @@ isValidUserHome: function(file) {
  *
  */
 showNewUserHomeDialog: function() {
-  var dialog = jsx3.IDE.getJSXByName("jsx_ide_newhome");
-  if (dialog == null) {
-    dialog = jsx3.IDE.getRootBlock().load("components/newhome.xml");
-  }
-  dialog.focus();
+  var plugin = jsx3.ide.getPlugIn("jsx3.ide.newhome");
+  plugin.load().when(function() {
+    plugin.openTool();
+  });
 },
 
 onSelectNewUserHome: function(objDir, objAlerter) {

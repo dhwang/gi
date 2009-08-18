@@ -998,6 +998,15 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         cb.done(rv);
       }).bind(this);
 
+      var cache = this._getRsrcCache(objServer, objResource.attr("cache"));
+      var cacheid = objResource.attr("cachekey");
+      if (!cacheid) {
+        if (strSrc && cache != objServer.getCache())
+          cacheid = jsx3.resolveURI(strSrc);
+        else
+          cacheid = objResource.getId();
+      }
+
       switch (strType) {
         case "script":
           if (objResource.attr("eval") == "true")
@@ -1028,10 +1037,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
           break;
         case "jss":
           Engine._loadXML(strSrc).when(jsx3.$F(function(rv) {
-            var c = this._getRsrcCache(objServer, objResource.attr("cache"));
-            var cacheid = objResource.attr("cachekey") || objResource.getId();
-            if (c)
-              c.setDocument(cacheid, rv);
+            if (cache) cache.setDocument(cacheid, rv);
             objServer.JSS.loadXML(rv, cacheid);
             onDone(rv);
           }).bind(this));
@@ -1046,16 +1052,13 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         case "xml":
           Engine._loadXML(strSrc, jsx3.xml.CDF.Document.jsxclass).when(jsx3.$F(function(rv) {
             rv.convertProperties(this.getServer().getProperties());
-            var c = this._getRsrcCache(objServer, objResource.attr("cache"));
-            c.setDocument(objResource.attr("cachekey") || objResource.getId(), rv);
+            if (cache) cache.setDocument(cacheid, rv);
             onDone(rv);
           }).bind(this));
           break;
         case "xsl":
           Engine._loadXML(strSrc, jsx3.xml.XslDocument.jsxclass).when(jsx3.$F(function(rv) {
-            var c = this._getRsrcCache(objServer, objResource.attr("cache"));
-            if (c)
-              c.setDocument(objResource.attr("cachekey") || objResource.getId(), rv);
+            if (cache) cache.setDocument(cacheid, rv);
             onDone(rv);
           }).bind(this));
           break;
@@ -1120,12 +1123,11 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
             objData = new jsx3.xml.CDF.Document(dataNode.getFirstChild());
             objData.convertProperties(this.getServer().getProperties());
 
-            var objCache = this._getRsrcCache(objServer, objResource.attr("cache"));
-            objCache.setDocument(objResource.attr("cachekey") || objResource.getId(), objData);
+            if (cache) cache.setDocument(cacheid, objData);
 
             if (strType == "propsbundle") {
               var basePath = objResource.getFullPath(dataNode.getAttribute("path"));
-              objCache.setDocument(basePath, objData); // So that PropsBundle can find the document in the cache
+              if (cache) cache.setDocument(basePath, objData); // So that PropsBundle can find the document in the cache
               var props = jsx3.app.PropsBundle.getProps(basePath, objServer.getLocale(), objCache);
               objServer.LJSS.addParent(props);
             }
@@ -1137,7 +1139,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         case "xsl":
           if (dataNode) {
             objData = new jsx3.xml.XslDocument(dataNode.getFirstChild());
-            this._getRsrcCache(objServer, objResource.attr("cache")).setDocument(objResource.attr("cachekey") || objResource.getId(), objData);
+            if (cache) cache.setDocument(cacheid, objData);
           } else {
             amp.LOG.error(jsx3._msg("amp.29", objResource));
           }

@@ -19,7 +19,7 @@
     <record jsxid="0" type="map">
       <record jsxid="load" type="number">1</record>
       <record jsxid="type" type="string">jss</record>
-      <record jsxid="src" type="string">properties/dynaprops.xml</record>
+      <record jsxid="src" type="string">dynaprops.xml</record>
     </record>
 
     <record jsxid="0" type="map">

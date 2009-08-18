@@ -6,6 +6,11 @@
 /**
  * A logging handler that can be instantiated per JSX application and displays logging messages in a separate
  * browser window while an application is running.
+ * <p/>
+ * This class uses the file <code>JSX/html/jsx3.app.Monitor.html</code> to display logging messages. If for
+ * some reason this file cannot be loaded from this path, e.g. JSX/ is located on a different server than the
+ * application launch page, you can copy the file elsewhere and use the <code>jsx_monitor_path</code> deployment
+ * parameter to set the expected path of this file. 
  *
  * @since 3.1
  */
@@ -16,7 +21,7 @@ jsx3.Class.defineClass('jsx3.app.Monitor', jsx3.util.Logger.FormatHandler, null,
   /** @private @jsxobf-clobber */
   Monitor._IDE_LOADED = false;
   /** @private @jsxobf-clobber */
-  Monitor._URL = jsx3.net.URIResolver.DEFAULT.resolveURI("jsx:///html/jsx3.app.Monitor.html");
+  Monitor._URL = jsx3.net.URIResolver.DEFAULT.resolveURI(jsx3.getEnv("jsx_monitor_path") || "jsx:///html/jsx3.app.Monitor.html");
   
   /**
    * @package

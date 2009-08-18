@@ -18,6 +18,7 @@
   <plugin id="jsx3.ide.ui"/>
   <plugin id="jsx3.ide.project"/>
   <plugin id="jsx3.ide.project.app"/>
+  <plugin id="jsx3.ide.newhome"/>
   <plugin id="jsx3.ide.settings.ide"/>
   <plugin id="jsx3.ide.settings.project"/>
   <plugin id="jsx3.ide.editor"/>

@@ -20,8 +20,7 @@
       <strings jsxname="mainTaskBar"/>
       <object type="jsx3.gui.Menu">
         <variants jsxshare="1"/>
-        <strings jsxname="jsxmenu_apppath" jsxxmlurl="menu-path.xml" jsxdisplay="none"
-             jsxxmlid="jsx3.ide.ui.menu-path"/>
+        <strings jsxname="jsxmenu_apppath" jsxdisplay="none" jsxxmlid="jsx3.ide.ui.menu-path"/>
       </object>
     </object>
   </object>
