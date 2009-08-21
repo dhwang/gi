@@ -641,7 +641,7 @@
       <xs:annotation>
         <xs:documentation xml:lang="en">
           The event subject. This value must be unique across all events that a plug-in declares. This value
-          must be a valid JavaScript name (matching<code>[_$a-zA-Z][_$a-zA-Z0-9]*</code>). The plug-in
+          must be a valid JavaScript name (matching <code>[_$a-zA-Z][_$a-zA-Z0-9]*</code>). The plug-in
           should at some point publish an event with the code:
           <code> this.publish({subject:id});</code>
         </xs:documentation>
