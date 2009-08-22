@@ -144,6 +144,7 @@
     <ant antfile="build.xml" target="compile-doc" inheritall="false" inheritrefs="false">
       <property name="gi.apidocs.title" value="General Interface ${build.gi.version.name} (Nightly r${rev} ${timestamp})"/>
     </ant>
+    <ant antfile="build.xml" target="compile-idedoc" inheritall="false" inheritrefs="false"/>
 
     <!-- deploy api documentation -->
     <delete dir="${staging-doc.nightly}/${build.gi.version.name}"/>
@@ -343,8 +344,8 @@
     <!-- clean -->
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
-    <ant antfile="build.xml" target="compile-doc" inheritall="false" inheritrefs="false">
-    </ant>
+    <ant antfile="build.xml" target="compile-doc" inheritall="false" inheritrefs="false"/>
+    <ant antfile="build.xml" target="compile-idedoc" inheritall="false" inheritrefs="false"/>
 
     <!-- deploy api documentation -->
     <delete dir="${staging-doc.release}/${build.gi.version}"/>
