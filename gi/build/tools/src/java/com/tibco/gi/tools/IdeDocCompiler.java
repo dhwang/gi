@@ -12,10 +12,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
@@ -155,7 +158,7 @@ public class IdeDocCompiler {
   }
 
   private void makeClassIndex() throws IOException {
-    URI destURI = destDir.toURI();
+    final URI destURI = destDir.toURI();
 
     Collection<File> files = Utils.findAllRecursive(destDir, new FileFilter() {
       public boolean accept(File file) {
@@ -166,11 +169,18 @@ public class IdeDocCompiler {
     Document doc = parser.newDocument();
     Element data = (Element) doc.appendChild(doc.createElement("data"));
 
-    for (File file : files) {
+    // Order of findAllRecursive can depend on the platform. Sort the files in case. 
+    List<File> sortedFiles = new ArrayList<File>(files);
+    Collections.sort(sortedFiles, new Comparator<File>() {
+      public int compare(File f1, File f2) {
+        return getClassNameForFile(destURI, f1).compareTo(getClassNameForFile(destURI, f2));
+      }
+    });
+
+    for (File file : sortedFiles) {
       Element record = (Element) data.appendChild(doc.createElement("record"));
 
-      String path = Utils.relativizeURI(destURI, file.toURI()).toString();
-      String className = path.substring(0, path.length() - 5).replaceAll("/", ".");
+      String className = getClassNameForFile(destURI, file);
       String packageName = getNamePrefix(className);
       String shortName = getShortName(className);
 
@@ -182,6 +192,11 @@ public class IdeDocCompiler {
 
     Transformer transformer = getTransformer(new File(docDir, CLASS_INDEX_XSL));
     transformFile(doc, new File(destDir, CLASS_INDEX), transformer);
+  }
+
+  private static String getClassNameForFile(URI destURI, File file) {
+    String path = Utils.relativizeURI(destURI, file.toURI()).toString();
+    return path.substring(0, path.length() - 5).replaceAll("/", ".");
   }
 
   private static String getShortName(String name) {

@@ -55,6 +55,9 @@
       <span><a href="{$relpath}overview-summary.html">Overview</a></span>
       <span><a href="{$relpath}single.html" target="_top">Single</a></span>
       <span><a href="{$relpath}deprecated.html">Deprecated</a></span>
+      <span><a href="{$relpath}properties/index.html" target="_top">Properties</a></span>
+      <span><a href="{$relpath}events/index.html" target="_top">Events</a></span>
+      <span><a href="{$relpath}xslparams/index.html" target="_top">XSL Parameters</a></span>
     </div>
   </xsl:template>
   
@@ -272,6 +275,7 @@
           <td>
             <xsl:for-each select="../field[@inherited='1' and @source=$source]">
               <xsl:sort select="@name" data-type="text" order="ascending"/>
+              <a name="field:{@name}"></a>
               <xsl:apply-templates select="." mode="link-member">
                 <xsl:with-param name="strikedep" select="1"/>
               </xsl:apply-templates>
@@ -329,6 +333,7 @@
           <td>
           <xsl:for-each select="../method[@inherited='1' and @source=$source]">
             <xsl:sort select="@name" data-type="text" order="ascending"/>
+            <a name="method:{@name}"></a>
             <xsl:apply-templates select="." mode="link-member">
               <xsl:with-param name="strikedep" select="1"/>
             </xsl:apply-templates>

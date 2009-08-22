@@ -13,6 +13,8 @@
   <property name="staging.release" value="."/>
   <property name="staging-doc.nightly" value="."/>
   <property name="staging-doc.release" value="."/>
+  <property name="staging-javadoc.nightly" value="javadoc"/>
+  <property name="staging-javadoc.release" value="javadoc"/>
 
   <property name="tests.staging-dir" value="."/>
   <property name="tests.staging-url" value="http://www.generalinterface.org/nightly-tests"/>
@@ -147,6 +149,16 @@
     <delete dir="${staging-doc.nightly}/${build.gi.version.name}"/>
     <copy todir="${staging-doc.nightly}/${build.gi.version.name}">
       <fileset dir="${project.dir}/${build.loc.dist}/gi/api/html" includes="**"/>
+    </copy>
+
+    <!-- deploy javadoc -->
+    <ant antfile="tools/build.xml" target="javadoc" inheritall="false" inheritrefs="false">
+      <property name="tools.title.api" value="General Interface Build Tools API ${build.gi.version.name} (Nightly r${rev} ${timestamp})"/>
+    </ant>
+
+    <delete dir="${staging-javadoc.nightly}/${build.gi.version.name}"/>
+    <copy todir="${staging-javadoc.nightly}/${build.gi.version.name}">
+      <fileset dir="tools/build/doc/api" includes="**"/>
     </copy>
   </target>
 
@@ -339,8 +351,15 @@
     <copy todir="${staging-doc.release}/${build.gi.version}">
       <fileset dir="${project.dir}/${build.loc.dist}/gi/api/html" includes="**"/>
     </copy>
-    <copy todir="${staging-doc.release}/${build.gi.version}">
-      <fileset dir="${project.dir}/${build.loc.dist}/gi/api" includes="events/** properties/** xslparams/**"/>
+
+    <!-- deploy javadoc -->
+    <ant antfile="tools/build.xml" target="javadoc" inheritall="false" inheritrefs="false">
+      <property name="tools.title.api" value="General Interface Build Tools API ${build.gi.version.name}"/>
+    </ant>
+
+    <delete dir="${staging-javadoc.release}/${build.gi.version.name}"/>
+    <copy todir="${staging-javadoc.release}/${build.gi.version.name}">
+      <fileset dir="tools/build/doc/api" includes="**"/>
     </copy>
   </target>
 

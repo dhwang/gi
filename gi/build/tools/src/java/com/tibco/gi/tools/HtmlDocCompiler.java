@@ -14,9 +14,13 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -173,7 +177,14 @@ public class HtmlDocCompiler {
         return file.getName().endsWith(".xml");
       }
     });
-    for (File file : allFiles) {
+    // Order of findAllRecursive can depend on the platform. Sort the files in case.
+    List<File> allFilesSorted = new ArrayList<File>(allFiles);
+    Collections.sort(allFilesSorted, new Comparator<File>() {
+      public int compare(File f1, File f2) {
+        return f1.getAbsolutePath().compareTo(f2.getAbsolutePath());
+      }
+    });
+    for (File file : allFilesSorted) {
       Document srcDoc = parser.parse(file);
       api.appendChild(doc.importNode(srcDoc.getDocumentElement(), true));
     }
