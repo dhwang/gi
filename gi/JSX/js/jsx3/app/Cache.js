@@ -106,6 +106,7 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
     var objRecord = this._index[strId];
     if (objRecord) {
       delete this._index[strId];
+      this._cleanUpRecord(objRecord);
       this.publish({subject:strId, action:Cache.REMOVE});
       this.publish({subject:Cache.CHANGE, id:strId, action:Cache.REMOVE});
       return objRecord.jsxdocument;
@@ -135,13 +136,13 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
   Cache_prototype.clearByTimestamp = function(intTimestamp) {
     if (intTimestamp instanceof Date) intTimestamp = intTimestamp.getTime();
 
-    var changed = false;
     var ids = [];
 
     for (var p in this._index) {
       var record = this._index[p];
       if (record.jsxtimestamp < intTimestamp) {
         delete this._index[p];
+        this._cleanUpRecord(record);
         this.publish({subject:p, action:Cache.REMOVE});
         ids.push(p);
       }
@@ -224,16 +225,28 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
     objXML.setAsync(bAsync);
 
     if (bAsync) {
-      objXML.subscribe("*", this, "_onAsyncDone");
-      objXML._jsxcacheid = strId;
-      objXML.load(strURL, Cache.ASYNC_TIMEOUT);
+      var loadingDoc = objXML;
+      loadingDoc.subscribe("*", this, "_onAsyncDone");
+      /* @jsxobf-clobber */
+      loadingDoc._jsxcacheid = strId;
+      loadingDoc.load(strURL, Cache.ASYNC_TIMEOUT);
+      
       objXML = Cache._LOADING_DOC.cloneDocument();
+      /* @jsxobf-clobber */
+      objXML._loadingDoc = loadingDoc; // Store a reference to the original loading document
     } else {
       objXML.load(strURL);
     }
 
     this.setDocument(strId, objXML);
     return objXML;
+  };
+
+  /** @private @jsxobf-clobber */
+  Cache_prototype._cleanUpRecord = function(r) {
+    // unsubscribe to asynchronous loading
+    if (r && r.jsxdocument._loadingDoc)
+      r.jsxdocument._loadingDoc.unsubscribe("*", this);
   };
 
   /** @private @jsxobf-clobber */
@@ -283,8 +296,14 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
     /* @jsxobf-clobber */
     record.jsxdocument = objDocument;
 
+    var evtAction = Cache.ADD;
+
     // check whether a document already exists in the cache
-    var evtAction = this._index[strId] ? Cache.CHANGE : Cache.ADD;
+    var oldRecord = this._index[strId];
+    if (oldRecord) {
+      evtAction = Cache.CHANGE;
+      this._cleanUpRecord(oldRecord);
+    }
 
     //persist to cache
     this._index[strId] = record;

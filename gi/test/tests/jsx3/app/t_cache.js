@@ -266,4 +266,47 @@ gi.test.jsunit.defineTests("jsx3.app.Cache", function(t, jsunit) {
     jsunit.assertNull(c.getDocument("docId"));
   };
 
+  t.testAsyncAbortClear = function() {
+    var c = new jsx3.app.Cache();
+    var url = t.resolveURI("data/props1.xml");
+
+    var evtCount = 0;
+
+    c.subscribe("docId", function(objEvent) {
+      if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
+        evtCount++;
+    });
+
+    c.getOrOpenAsync(url, "docId");
+    c.clearById("docId");
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertEquals("Cache should not have published an event.", 0, evtCount);
+    }, 2000));
+  };
+  t.testAsyncAbortClear._async = true;
+
+  t.testAsyncAbortClobber = function() {
+    var c = new jsx3.app.Cache();
+    var url1 = t.resolveURI("data/props1.xml");
+    var url2 = t.resolveURI("data/props2.xml");
+
+    var evtCount = 0;
+
+    c.subscribe("docId", function(objEvent) {
+      if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
+        evtCount++;
+    });
+
+    c.getOrOpenAsync(url1, "docId");
+    c.clearById("docId");
+    c.getOrOpenAsync(url2, "docId");
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertEquals("Cache should not have published one event.", 1, evtCount);
+      jsunit.assertEquals("valueA", c.getDocument("docId").selectSingleNode("//record").getAttribute("jsxtext"));      
+    }, 2000));
+  };
+  t.testAsyncAbortClobber._async = true;
+
 });
