@@ -382,6 +382,7 @@ jsUnitTestManager.prototype.executeTestFunction = function (functionName)
 {
   this._testFunctionName=functionName;
   this.setStatus('Running test "' + this._testFunctionName + '"');
+  window.debug("Running test " + this._testFunctionName);
   var excep=null;
   var timeBefore = new Date();  
   try {

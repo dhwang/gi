@@ -3,6 +3,8 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
+// @jsxobf-clobber-shared  _replaceDocument
+
 jsx3.require("jsx3.xml.Template", "jsx3.xml.CDF");
 
 /**
@@ -352,17 +354,21 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
    * @see #setXMLTransformers()
    */
   Cacheable_prototype.setSourceXML = function(objDoc, objCache) {
-    objDoc = this._runTransformers(objDoc);
+    var objDocTrans = this._runTransformers(objDoc);
+    var bTransformed = objDocTrans != objDoc;
 
     // persist the xml to the cache
     if (!objCache) objCache = this.getServer().getCache();
     var strId = this.getXMLId();
-    if (objCache.getDocument(strId) != objDoc)
-      this._setDocNoEvent(objCache, this.getXMLId(), objDoc);
 
-    this._convertProperties(objDoc);
+    if (!objCache.getDocument(strId))
+      objCache.setDocument(strId, objDocTrans);
+    else if (bTransformed)
+      objCache._replaceDocument(strId, objDocTrans);
 
-    return objDoc;
+    this._convertProperties(objDocTrans);
+
+    return objDocTrans;
   };
 
   /**
@@ -382,22 +388,6 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
     }
   };
 
-  /**
-   * It is useful to be able to set the XML cache value without triggering a change event back to this object.
-   * This method unregisters as necessary from the change events to that the document can be put in the cache without
-   * causing this object to be repainted.
-   * @private
-   * @jsxobf-clobber
-   */
-  Cacheable_prototype._setDocNoEvent = function(objCache, strId, objDoc) {
-    var bBound = this._jsxxmlbound;
-    if (bBound)
-      this._registerForXML(false);
-    objCache.setDocument(strId, objDoc);
-    if (bBound)
-      this._registerForXML(true);
-  };
-  
   /**
    * Returns the XML ID of this object.
    * @return {String} the XML ID.

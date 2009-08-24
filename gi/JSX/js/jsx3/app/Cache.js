@@ -242,11 +242,22 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
     return objXML;
   };
 
+  /** @package @jsxobf-clobber-shared */
+  Cache_prototype._replaceDocument = function(strId, objDoc) {
+    if (this._index[strId])
+      this._index[strId].jsxdocument = objDoc;
+    else
+      this._index[strId] = {jsxdocument:objDoc, jsxtimestamp:(new Date()).getTime()};
+  };
+
   /** @private @jsxobf-clobber */
   Cache_prototype._cleanUpRecord = function(r) {
     // unsubscribe to asynchronous loading
-    if (r && r.jsxdocument._loadingDoc)
-      r.jsxdocument._loadingDoc.unsubscribe("*", this);
+    var doc = r.jsxdocument._loadingDoc;
+    if (doc) {
+      doc.unsubscribe("*", this);
+      doc.abort();
+    }
   };
 
   /** @private @jsxobf-clobber */

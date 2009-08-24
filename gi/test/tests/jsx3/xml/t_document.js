@@ -135,6 +135,26 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
   };
   t.testLoadBadXmlAsync._async = true;
 
+  t.testAbort = function() {
+    var d = new jsx3.xml.Document();
+    d.setAsync(true);
+
+    var evtCount = 0;
+
+    d.subscribe(jsx3.xml.Document.ON_RESPONSE, function(objEvent) {
+      evtCount++;
+    });
+
+    d.load(t.resolveURI("data/test1.xml"));
+    d.abort();
+    
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertEquals("Document should not have published an event.", 0, evtCount);
+      jsunit.assertFalse(d.hasError());
+    }, 2000));
+  };
+  t.testAbort._async = true;
+
   t.testLoadRemote = function() {
     var d = new jsx3.xml.Document();
     d.load(jsunit.HTTP_BASE + "/data1.xml");

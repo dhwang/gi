@@ -136,7 +136,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
     this._url = strURL.toString();
 
     //reset error state (used by hasError)
-    this.setError(0);
+    this.abort();
 
     //set whether or not the doc should load synchronously; if an error is thrown and mode is firefox, probably due to document.domain issue
     var bAsync = Boolean(this.getAsync());
@@ -144,8 +144,11 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
     var req = Request.open("GET", strURL, bAsync);
 
     if (req.getStatus() != Request.STATUS_ERROR) {
-      if (bAsync)
+      if (bAsync) {
+        /* @jsxobf-clobber */
+        this._req = req;
         req.subscribe("*", this, "_onRequestEvent");
+      }
 
       req.send(null, intTimeout);
     } else if (bAsync) {
@@ -158,6 +161,21 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
       this._initFromReq(req);
 
     return this;
+  };
+
+  /**
+   * If this is a document that is currently loading asynchronously, this method will abort the request. This method
+   * also resets the error state of this document.
+   * 
+   * @since 3.9
+   */
+  Document_prototype.abort = function() {
+    this.setError(0);
+    if (this._req) {
+      this._req.unsubscribe("*", this);
+      this._req.abort();
+      delete this._req;
+    }
   };
   
   /** @private @jsxobf-clobber-shared */
@@ -205,7 +223,8 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
     var req = objEvent.target;
     var strSubject = objEvent.subject;
 
-    req.unsubscribe("*", this, "_onRequestEvent");
+    delete this._req;
+    req.unsubscribe("*", this);
     
     if (strSubject == Request.EVENT_ON_RESPONSE) {
       this._initFromReq(req);
@@ -309,7 +328,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
 
   Document_prototype.loadXML = function(strXML) {
     this._url = null;
-    this.setError(0);
+    this.abort();
 
     try {
 /* @JSC :: begin BENCH */
