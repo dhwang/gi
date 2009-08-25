@@ -295,6 +295,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
     var objCache = server.getCache();
     var strId = this.getXMLId();
     var objXML = objCache.getDocument(strId);
+    var bInCache = false;
 
     if (objXML == null) {
       var xmlString = this.getXMLString();
@@ -310,6 +311,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
           
           if (this.jsxxmlasync) {
             objXML = objCache.getOrOpenAsync(xmlUrl, strId);
+            bInCache = true;
           } else {
             //xml located at given url (convert to absolute URI for portal and similar implementations)
             objXML = new Document().load(xmlUrl);
@@ -326,7 +328,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
         return objXML;
       }
 
-      objXML = this.setSourceXML(objXML, objCache);
+      objXML = this.setSourceXML(objXML, objCache, bInCache);
     }
     
     return objXML;
@@ -347,23 +349,23 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
    *
    * @param objDoc {jsx3.xml.Document}
    * @param-private objCache {jsx3.app.Cache}
+   * @param-private bNoCache {boolean}
    * @return {jsx3.xml.Document} the document stored in the server cache as the data source of this object. If
    *   transformers were run, this value will not be equal to the <code>objDoc</code> parameter.
    * @see jsx3.xml.CDF
    * @see jsx3.xml.CDF#convertProperties()
    * @see #setXMLTransformers()
    */
-  Cacheable_prototype.setSourceXML = function(objDoc, objCache) {
-    var objDocTrans = this._runTransformers(objDoc);
-    var bTransformed = objDocTrans != objDoc;
-
-    // persist the xml to the cache
+  Cacheable_prototype.setSourceXML = function(objDoc, objCache, bNoCache) {
     if (!objCache) objCache = this.getServer().getCache();
+
+    var objDocTrans = this._runTransformers(objDoc);
     var strId = this.getXMLId();
 
-    if (!objCache.getDocument(strId))
+    // persist the xml to the cache
+    if (!bNoCache)
       objCache.setDocument(strId, objDocTrans);
-    else if (bTransformed)
+    else if (objDocTrans != objDoc)
       objCache._replaceDocument(strId, objDocTrans);
 
     this._convertProperties(objDocTrans);
@@ -523,7 +525,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
       this._registerForXML(0, doc);
 
       if (bLoad)
-        this.setSourceXML(doc);
+        this.setSourceXML(doc, null, true);
 
       this.onXmlBinding(objEvent);
     }
