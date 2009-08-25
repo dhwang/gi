@@ -491,9 +491,6 @@ function Dialog_getRenderedDialog(objJSX) {
      }
    } 
  };
- 
-
-
 /*
 Copyright 2006-2009 TIBCO Software, Inc
 
@@ -5143,4 +5140,6 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
     }
 };
     
-
+ 
+
+
