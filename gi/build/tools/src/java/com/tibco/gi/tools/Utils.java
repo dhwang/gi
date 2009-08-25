@@ -46,8 +46,19 @@ public class Utils {
   private Utils() {
   }
 
-  public static void moveFile(File src, File dest) throws IOException {
-    src.renameTo(dest);
+  public static boolean moveFile(File src, File dest) throws IOException {
+    if (!src.renameTo(dest)) {
+      if (dest.exists()) {
+        if (!dest.delete())
+          return false;
+      }
+
+      copyFile(src, dest);
+
+      src.delete();
+    }
+
+    return true;
   }
 
   public static void copyFile(File src, File dest) throws IOException {

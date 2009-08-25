@@ -449,7 +449,7 @@ public class ScriptCompiler {
     if (outFile.exists() && !outFile.delete())
       log(Level.SEVERE, "could not delete " + scriptFile);
     if (wroteAnything) {
-      if (!tmpFile.renameTo(outFile))
+      if (!Utils.moveFile(tmpFile, outFile))
         log(Level.SEVERE, "could not rename " + tmpFile + " to " + outFile);
     } else {
       LOG.fine("Deleting file " + outFile + " because it was empty.");

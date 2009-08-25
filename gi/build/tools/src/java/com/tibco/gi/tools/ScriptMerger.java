@@ -230,7 +230,7 @@ public class ScriptMerger {
         log(Level.SEVERE, "Could not delete " + outFile);
     if (!(outFile.getParentFile().isDirectory() || outFile.getParentFile().mkdirs()))
       log(Level.SEVERE, "Could not make directory for " + outFile);
-    if (!tempFile.renameTo(outFile))
+    if (!Utils.moveFile(tempFile, outFile))
       log(Level.SEVERE, "Could not overwrite " + outFile);
 
     LOG.info("Merged " + merged + " script files to " + outFile);

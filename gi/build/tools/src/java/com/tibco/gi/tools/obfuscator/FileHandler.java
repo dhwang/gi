@@ -44,6 +44,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import com.tibco.gi.tools.Utils;
 
 /**
  * A file handler knows how to parse a file containing JavaScript code to obfuscate, identify the script elements
@@ -306,7 +307,10 @@ public abstract class FileHandler {
 
       if (writeOver) {
         inputFile.delete();
-        outputFile.renameTo(inputFile);
+
+        if (!Utils.moveFile(outputFile, inputFile))
+          this.log(Level.SEVERE, "Could not rename " + outputFile + " to " + inputFile);
+
         outputFile = inputFile;
       }
 

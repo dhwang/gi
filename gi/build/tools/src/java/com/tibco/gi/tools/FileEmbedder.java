@@ -220,7 +220,7 @@ public class FileEmbedder {
     if (outFile.exists() && !outFile.delete())
       log(Level.SEVERE, "Could not delete file " + outFile);
 
-    if (!tmpFile.renameTo(outFile))
+    if (!Utils.moveFile(tmpFile, outFile))
       log(Level.SEVERE, "Could not write to file " + outFile);
   }
 

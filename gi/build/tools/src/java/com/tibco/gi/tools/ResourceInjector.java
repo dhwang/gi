@@ -78,7 +78,7 @@ public class ResourceInjector {
     if (!textFile.delete())
       log(Level.SEVERE, "Could not delete file " + textFile);
 
-    if (!tempFile.renameTo(textFile))
+    if (!Utils.moveFile(tempFile, textFile))
       log(Level.SEVERE, "Could not save file " + textFile);
   }
 

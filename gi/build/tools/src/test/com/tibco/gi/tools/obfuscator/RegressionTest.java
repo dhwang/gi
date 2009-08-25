@@ -14,6 +14,7 @@ import java.io.Reader;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import com.tibco.gi.tools.Utils;
 
 /**
  * @author Jesse Costello-Good
@@ -105,7 +106,7 @@ public class RegressionTest {
       compareFiles(tempFile, regressionFile);
       tempFile.delete();
     } else {
-      tempFile.renameTo(regressionFile);
+      Utils.moveFile(tempFile, regressionFile);
     }
   }
 
