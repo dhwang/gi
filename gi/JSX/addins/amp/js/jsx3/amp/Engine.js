@@ -987,6 +987,15 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     var progId = "r." + objResource.getId();
     this._prog._add(progId);
     
+    var cache = this._getRsrcCache(objServer, objResource.attr("cache"));
+    var cacheid = objResource.attr("cachekey");
+    if (!cacheid) {
+      if (strRsrcPath && cache != objServer.getCache())
+        cacheid = jsx3.resolveURI(objResource.getFullPath(strRsrcPath));
+      else
+        cacheid = objResource.getId();
+    }
+
     if (strRsrcPath) {
       var strSrc = objResource.getFullPath(strRsrcPath);
       amp.LOG.debug(jsx3._msg("amp.52", objResource, strSrc));
@@ -997,15 +1006,6 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
         this._prog._done(progId);
         cb.done(rv);
       }).bind(this);
-
-      var cache = this._getRsrcCache(objServer, objResource.attr("cache"));
-      var cacheid = objResource.attr("cachekey");
-      if (!cacheid) {
-        if (strSrc && cache != objServer.getCache())
-          cacheid = jsx3.resolveURI(strSrc);
-        else
-          cacheid = objResource.getId();
-      }
 
       switch (strType) {
         case "script":
