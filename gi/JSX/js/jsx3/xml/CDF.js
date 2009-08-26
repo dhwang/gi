@@ -133,7 +133,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
    * @since 3.9
    */
   CDF_prototype.setSchema = function(objSchema) {
-    // @jsxobf-clobber
+    /* @jsxobf-clobber */
     this.jsxschema = objSchema;
   };
 
@@ -166,7 +166,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
 
   CDF_prototype._onAfterAttach = function() {
     // cache the first child to speed the query up
-    // @jsxobf-clobber
+    /* @jsxobf-clobber */
     this._jsxschema = this.getDescendantsOfType(jsx3.xml.CDFSchema, true)[0];
   };
 
