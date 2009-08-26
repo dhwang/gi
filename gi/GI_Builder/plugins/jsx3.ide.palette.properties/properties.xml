@@ -37,7 +37,11 @@ objJSX._makeSpy = function(objGrid, strRecordId) {
 
   var desc = node.getAttribute("jsxtip");
   var getter = node.getAttribute("docgetter");
+  if (getter && getter.indexOf("(") < 0)
+    getter += "()";
   var setter = node.getAttribute("docsetter");
+  if (setter && setter.indexOf("(") < 0)
+    setter += "()";
   var deflt = node.getAttribute("docdefault");
 
   var dep = node.getAttribute("deprecated");
@@ -54,9 +58,9 @@ objJSX._makeSpy = function(objGrid, strRecordId) {
   if (deflt)
     strHTML += "<div class='deflt'><span class='title'>Default Value:</span> " + deflt + "</div>";
   if (getter)
-    strHTML += "<div class='method'><span class='title'>Getter:</span> " + getter + "()</div>";
+    strHTML += "<div class='method'><span class='title'>Getter:</span> " + getter + "</div>";
   if (setter)
-    strHTML += "<div class='method'><span class='title'>Setter:</span> " + setter + "()</div>";
+    strHTML += "<div class='method'><span class='title'>Setter:</span> " + setter + "</div>";
   if (! node.getAttribute("docnoprop"))
     strHTML += "<div class='prop'><span class='title'>Property:</span> " + node.getAttribute("jsxid") + "</div>";
 

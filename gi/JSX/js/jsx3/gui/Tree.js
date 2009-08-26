@@ -387,8 +387,8 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
   Tree_prototype._mvDeselectAll = function() {
     for (var i = this._getSelectedIterator(); i.hasNext(); ) {
       var node = i.next();
-      node.removeAttribute("jsxselected");
-      this._removeItemSelection(node.getAttribute('jsxid'));
+      this._cdfav(node, "selected", null);
+      this._removeItemSelection(this._cdfav(node, "id"));
     }
   };
 
@@ -413,7 +413,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
   /** @private @jsxobf-clobber */
   Tree_prototype._getSelectedIterator = function() {
     //return collection of selected nodes
-    return this.getXML().selectNodeIterator("//record[@jsxselected='1']");
+    return this.getXML().selectNodeIterator("//" + this._cdfan("children") + "[@" + this._cdfan("selected") + "='1']");
   };
 
   /** @private @jsxobf-clobber */
@@ -422,7 +422,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     var ids = [];
     while (i.hasNext()) {
       var node = i.next();
-      ids[ids.length] = node.getAttribute("jsxid");
+      ids[ids.length] = this._cdfav(node, "id");
     }
     return ids;
   };
@@ -437,7 +437,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
     var recordNode = this.getRecordNode(strRecordId);
     var parentRecord = recordNode ? recordNode.getParent() : null;
     while (parentRecord != null) {
-      this.toggleItem(parentRecord.getAttribute('jsxid'), true);
+      this.toggleItem(this._cdfav(parentRecord, "id"), true);
       parentRecord = parentRecord.getParent();
     }
 
@@ -487,7 +487,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
    */
   Tree_prototype.getText = function() {
     var myNode = this._getSelectedIterator().next();
-    return myNode != null ? myNode.getAttribute("jsxtext") : null;
+    return myNode != null ? this._cdfav(myNode, "text") : null;
   };
 
   /* @JSC :: end */
@@ -550,7 +550,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
         //query the MODEL to determine the parent for this item
         if (this.getParent() != null) {
           objNode = objNode.getParent();
-          var strParentId = objNode.getAttribute("jsxid");
+          var strParentId = this._cdfav(objNode, "id");
           var parentGUI = this._getFocusItem(strParentId);
           if (parentGUI != null) {
             // this is an insert, repainting the parent is the easiest thing to do
@@ -805,13 +805,12 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
    * @private
    */
   Tree_prototype.isRecordSelectable = function(strRecordId) {
-    var record = strRecordId instanceof jsx3.xml.Entity ? strRecordId : this.getRecord(strRecordId);
-    return record != null && record.jsxunselectable != "1";
+    return this._cdfav(this.getRecordNode(strRecordId), "unselectable") != "1";
   };
 
   /** @private @jsxobf-clobber */
   Tree_prototype._isRecordSelected = function(strRecordId) {
-    return this.getRecordNode(strRecordId).getAttribute("jsxselected") == "1";
+    return this._cdfav(this.getRecordNode(strRecordId), "selected") == "1";
   };
 
   /**
@@ -864,7 +863,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
     if (objGUI != null) {
       var newState = null;
-      if (objRecord.getAttribute("jsxlazy") == "1" && objRecord.getAttribute("jsxopen") != "1" &&
+      if (objRecord.getAttribute("jsxlazy") == "1" && this._cdfav(objRecord, "open") != "1" &&
           (bOpen == null || bOpen === true)) {
 
         html.updateCSSOpacity(objGUI.childNodes[0].childNodes[0], 0.50);
@@ -876,7 +875,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
           if (evtRet && typeof(evtRet) == "object") {
             if (evtRet.bCLEAR)
-              objRecord.removeAttribute("jsxlazy");
+              this._cdfav(objRecord, "lazy", null);
 
             if (evtRet.arrNODES != null) {
               objRecord.removeChildren();
@@ -884,7 +883,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
                 objRecord.appendChild(evtRet.arrNODES[i]);
             }
           } else {
-            objRecord.removeAttribute("jsxlazy");
+            this._cdfav(objRecord, "lazy", null);
           }
 
           this.redrawRecord(strRecordId, jsx3.xml.CDF.UPDATE);
@@ -893,7 +892,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
             fctOnDone();
         }, null, this);
 
-        objRecord.setAttribute("jsxopen", "1");
+        this._cdfav(objRecord, "open", "1");
         newState = true;
       } else {
         var doAll = jsx3.gui.isMouseEventModKey(objEvent);
@@ -907,25 +906,25 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
   /** @private @jsxobf-clobber */
   Tree_prototype._showHideBranch = function(objRecord, objGUI, bOpen, bDoAll) {
-    var bOpenNow = objRecord.getAttribute("jsxopen") == "1";
+    var bOpenNow = this._cdfav(objRecord, "open") == "1";
     if (bOpen == null) bOpen = !bOpenNow;
     if (bOpenNow == bOpen) return bOpen;
 
     if (bOpen) {
       objGUI.childNodes[0].childNodes[0].src = this.getUriResolver().resolveURI(this.getIconMinus());
       objGUI.childNodes[1].style.display = "block";
-      objRecord.setAttribute("jsxopen", "1");
+      this._cdfav(objRecord, "open", "1");
     } else {
       objGUI.childNodes[0].childNodes[0].src = this.getUriResolver().resolveURI(this.getIconPlus());
       objGUI.childNodes[1].style.display = "none";
-      objRecord.removeAttribute("jsxopen");
+      this._cdfav(objRecord, "open", null);
     }
 
     if (bDoAll) {
-      for (var i = objRecord.getChildIterator(); i.hasNext(); ) {
+      for (var i = objRecord.selectNodeIterator(this._cdfan("children")); i.hasNext(); ) {
         var n = i.next();
-        if (n.getBaseName() == "record" && n.getChildIterator().hasNext()) {
-          var g = this._getFocusItem(n.getAttribute("jsxid"));
+        if (n.getChildIterator().hasNext()) {
+          var g = this._getFocusItem(this._cdfav(n, "id"));
           if (g)
             this._showHideBranch(n, g, bOpen, true);
         }
@@ -1123,7 +1122,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
       var strRecordId = objGUI.getAttribute("jsxid");
 
       if (strType == "plusminus") {
-        var isOpen = this.getRecordNode(strRecordId).getAttribute("jsxopen") == "1";
+        var isOpen = this._cdfav(this.getRecordNode(strRecordId), "open") == "1";
         if (! isOpen && ! Tree.TOGGLETIMEOUT) {
           var me = this;
           objEvent.persistEvent(); // for timeout
@@ -1264,7 +1263,6 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
     //initialize variables
     var intKeyCode = objEvent.keyCode();
-    var objXML = this.getXML();
 
     //get handle to the on-scren element that received the keydown event (this is the text label for the tree item)
     //item/caption/text (three levels)
@@ -1280,9 +1278,9 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
         var bLazy = objNode.getAttribute("jsxlazy") == "1";
         //determine if a book and if the book is open
-        if (bLazy || objNode.selectSingleNode("record") != null) {
+        if (bLazy || objNode.selectSingleNode(this._cdfan("children")) != null) {
           var bBook = true;
-          var isOpen = objNode.getAttribute("jsxopen") == "1";
+          var isOpen = this._cdfav(objNode, "open") == "1";
         } else {
           var bBook = false;
         }
@@ -1339,14 +1337,14 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
   /** @private @jsxobf-clobber */
   Tree_prototype._doKeyDownPreviousRelative = function(objNode) {
-    var prevId = this._getPreviousVisibleRecordId(objNode.getAttribute("jsxid"));
+    var prevId = this._getPreviousVisibleRecordId(this._cdfav(objNode, "id"));
     if (prevId != null)
       this._focusRecord(prevId);
   };
 
   /** @private @jsxobf-clobber */
   Tree_prototype._doKeyDownNextRelative = function(objNode) {
-    var nextId = this._getNextVisibleRecordId(objNode.getAttribute("jsxid"));
+    var nextId = this._getNextVisibleRecordId(this._cdfav(objNode, "id"));
     if (nextId != null)
       this._focusRecord(nextId);
   };
@@ -1569,7 +1567,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
       var root = this.getXML();
       if (root) {
         var myKids = root.getChildIterator();
-        if (myKids.hasNext()) strFragmentId = myKids.next().getAttribute("jsxid");
+        if (myKids.hasNext()) strFragmentId = this._cdfav(myKids.next(), "id");
       }
     }
 
@@ -1621,7 +1619,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
    * @package
    */
   Tree_prototype.onSetChild = function(child) {
-    return false;
+    return !(child instanceof jsx3.gui.Painted);
   };
 
 /* @JSC :: begin DEP */

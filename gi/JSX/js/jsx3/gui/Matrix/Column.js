@@ -53,22 +53,22 @@ jsx3.Class.defineClass("jsx3.gui.Matrix.Column", jsx3.gui.Block, null, function(
    */
   Column.TEMPLATES["default"] =   '<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform">\n' +
                                         '  <xsl:param name="jsx_row_number"/>\n' +
-                                        '  <xsl:if test="@jsxcellstyle">\n' +
-                                        '    <xsl:attribute name="style"><xsl:value-of select="@jsxcellstyle"/></xsl:attribute>\n' +
+                                        '  <xsl:if test="@*[name() = $attrcellstyle]">\n' +
+                                        '    <xsl:attribute name="style"><xsl:value-of select="@*[name() = $attrcellstyle]"/></xsl:attribute>\n' +
                                         '  </xsl:if>\n' +
                                         '  <xsl:value-of select="{0}"/>&#160;\n' +
                                         '</xsl:template>';
   Column.TEMPLATES["empty"] =     '<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:template>';
   Column.TEMPLATES["unescape"] =  '<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform">\n' +
                                         '  <xsl:param name="jsx_row_number"/>\n' +
-                                        '  <xsl:if test="@jsxcellstyle">\n' +
-                                        '    <xsl:attribute name="style"><xsl:value-of select="@jsxcellstyle"/></xsl:attribute>\n' +
+                                        '  <xsl:if test="@*[name() = $attrcellstyle]">\n' +
+                                        '    <xsl:attribute name="style"><xsl:value-of select="@*[name() = $attrcellstyle]"/></xsl:attribute>\n' +
                                         '  </xsl:if>\n' +
                                         '  <xsl:value-of select="{0}" disable-output-escaping="yes"/>&#160;\n' +
                                         '</xsl:template>';
   Column.TEMPLATES["image"] =     '<xsl:template xmlns:xsl="http://www.w3.org/1999/XSL/Transform">\n' +
-                                        '  <xsl:if test="@jsxcellstyle">\n' +
-                                        '    <xsl:attribute name="style"><xsl:value-of select="@jsxcellstyle"/></xsl:attribute>\n' +
+                                        '  <xsl:if test="@*[name() = $attrcellstyle]">\n' +
+                                        '    <xsl:attribute name="style"><xsl:value-of select="@*[name() = $attrcellstyle]"/></xsl:attribute>\n' +
                                         '  </xsl:if>\n' +
                                         '  <xsl:if test="{0} and not ({0} = \'\')"><img style="position:relative;"' + jsx3.html._UNSEL + ' alt="{{0}alt}">\n' +
                                         '    <xsl:attribute name="src"><xsl:apply-templates select="{0}" mode="uri-resolver"/></xsl:attribute>\n' +
@@ -160,7 +160,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix.Column", jsx3.gui.Block, null, function(
    * @return {String} selection path
    */
   Column_prototype.getPath = function() {
-    return (this.jsxpath == null) ? "jsxid" : this.jsxpath;
+    return (this.jsxpath == null) ? this.getParent()._cdfan("id") : this.jsxpath;
   };
 
   /**

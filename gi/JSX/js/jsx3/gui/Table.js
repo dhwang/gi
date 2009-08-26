@@ -137,15 +137,15 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
    * <code>attname</code>, the name of the attribute to which the column is mapped.
    * @see #setValueTemplate
    */
-  Table.DEFAULT_CELL_VALUE_TEMPLATE = '<xsl:template match="record" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">\n' +
+  Table.DEFAULT_CELL_VALUE_TEMPLATE = '<xsl:template match="*" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">\n' +
                                       ' <xsl:param name="attname"/>\n' +
                                       ' <div unselectable="on" class="{@jsxclass}" style="{@jsxstyle};{$jsxcellwrap}">\n' +
                                       '   <xsl:choose>\n' +
-                                      '     <xsl:when test="$attname = \'jsximg\' and @jsximg">\n' +
+                                      '     <xsl:when test="$attname = $attrimg and @*[name() = $attrimg]">\n' +
                                       '       <xsl:variable name="jsximg_resolved">\n' +
                                       '         <xsl:apply-templates select="attribute::*[name()=$attname]" mode="uri-resolver"/>\n' +
                                       '       </xsl:variable>\n' +
-                                      '       <img unselectable="on" src="{$jsximg_resolved}" alt="{@jsximgalt}"/>\n' +
+                                      '       <img unselectable="on" src="{$jsximg_resolved}" alt="{@*[name() = $attrimgalt]}"/>\n' +
                                       '     </xsl:when>\n' +
                                       '     <xsl:otherwise>\n' +
                                       '       <xsl:value-of select="attribute::*[name()=$attname]"/>\n' +
@@ -416,7 +416,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
      */
     Table_prototype.getSelectedNodes = function() {
       //return collection of selected nodes
-      return this.getXML().selectNodes("//record[@" + CDF.ATTR_SELECTED + "='1']");
+      return this.getXML().selectNodes("//" + this._cdfan("children") + "[@" + this._cdfan("selected") + "='1']");
     };
 
     /**
@@ -425,10 +425,10 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
      */
     Table_prototype.getSelectedIds = function() {
       var ids = [];
-      var i = this.getXML().selectNodeIterator("//record[@" + CDF.ATTR_SELECTED + "='1']");
+      var i = this.getXML().selectNodeIterator("//" + this._cdfan("children") + "[@" + this._cdfan("selected") + "='1']");
       while (i.hasNext()) {
         var record = i.next();
-        ids[ids.length] = record.getAttribute("jsxid");
+        ids[ids.length] = this._cdfav(record, "id");
       }
       return ids;
     };
@@ -439,8 +439,8 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
      * @package
      */
     Table_prototype.isRecordSelectable = function(strRecordId) {
-      var record = this.getRecord(strRecordId);
-      return record && (record[CDF.ATTR_UNSELECTABLE] == null || record[CDF.ATTR_UNSELECTABLE] != "1");
+      var rec = this.getRecordNode(strRecordId);
+      return rec && this._cdfav(rec, "unselectable") != "1";
     };
 
     /**
@@ -449,8 +449,8 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
      * @package
      */
     Table_prototype.isRecordSelected = function(strRecordId) {
-      var record = this.getRecord(strRecordId);
-      return record != null && record[CDF.ATTR_SELECTED] == "1";
+      var rec = this.getRecordNode(strRecordId);
+      return rec && this._cdfav(rec, "selected") == "1";
     };
 
     /**
@@ -498,8 +498,8 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
       //if objEvent exists and the instance supports dragging and the record is already selected, exit early
       var bDragUnion = (bUnion || (objEvent && this.getCanDrag() == 1));
       if (intSelModel == Table.SELECTION_UNSELECTABLE || !recordNode ||
-           (recordNode.getAttribute(CDF.ATTR_SELECTED) == "1" && bDragUnion) ||
-           recordNode.getAttribute(CDF.ATTR_UNSELECTABLE) == "1")
+           (this._cdfav(recordNode, "selected") == "1" && bDragUnion) ||
+           this._cdfav(recordNode, "unselectable") == "1")
         return false;
 
       //check if any existing selections need to first be cleared
@@ -508,7 +508,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
         this.deselectAllRecords();
 
       //update the record in the MODEL
-      recordNode.setAttribute(CDF.ATTR_SELECTED, "1");
+      this._cdfav(recordNode, "selected", "1");
 
       // update VIEW
       objTR = objTR || this._getRowById(strRecordId);
@@ -530,11 +530,11 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
     Table_prototype._doDeselect = function(objEvent, strRecordId, objTR) {
       // check for already selected
       var recordNode = this.getRecordNode(strRecordId);
-      if (!recordNode || recordNode.getAttribute(CDF.ATTR_SELECTED) != "1")
+      if (!recordNode || this._cdfav(recordNode, "selected") != "1")
         return false;
 
       //update the record in the model
-      recordNode.removeAttribute(CDF.ATTR_SELECTED);
+      this._cdfav(recordNode, "selected", null);
 
       // update view
       objTR = objTR || this._getRowById(strRecordId);
@@ -637,7 +637,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
    */
   Table_prototype._getRecordByIndex = function(intColumnIndex) {
     //due to IE indexing issue (and the fact that the oldest IE browsers don't properly support XPath) use iterator
-    var iter = this.getColumnProfileDocument().selectNodeIterator("//record");
+    var iter = this.getColumnProfileDocument().selectNodeIterator("//" + this._cdfan("children"));
     var i = 0;
     while(iter.hasNext()) {
       var objNode = iter.next();
@@ -661,8 +661,8 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
 
       //get the sort path, sort type
       var objRecord = this._getRecordByIndex(intRealIndex);
-      var strSortPath = objRecord.getAttribute("jsxpath");
-      var strSortType = objRecord.getAttribute("jsxpathtype") || "text";
+      var strSortPath = this._cdfav(objRecord, "path");
+      var strSortType = this._cdfav(objRecord, "pathtype") || "text";
       this.setSortPath(strSortPath);
       this.setSortType(strSortType);
 
@@ -706,11 +706,11 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
     //toggle the sort designation icons for each column header
     if(this.getHeaderHeight() > 0) {
       var curSortPath = this.getSortPath();
-      var objColumns = this.getColumnProfileDocument().selectNodeIterator("//record");
+      var objColumns = this.getColumnProfileDocument().selectNodeIterator("//" + this._cdfan("children"));
       var i=0;
       var objHeader = this.getRendered().childNodes[1].childNodes[0];
       while (objColumns.hasNext())
-        this._applySortIcon(objHeader,(i++),objColumns.next().getAttribute("jsxpath") == curSortPath);
+        this._applySortIcon(objHeader,(i++), this._cdfav(objColumns.next(), "path") == curSortPath);
     }
 
     //repaint only data
@@ -962,7 +962,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
         continue;
 
       var objRecord = this.getRecordNode(id);
-      var strScript = objRecord.getAttribute("jsxexecute");
+      var strScript = this._cdfav(objRecord, "execute");
       if (strScript) {
         var context = {strRECORDID:id};
         if (objEvent instanceof Event)
@@ -1112,12 +1112,12 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
         //loop through the columns defined in the column profile document in order to generate the column labels
         var curSortPath = this.getSortPath();
         var curSortIcon = "background-image:url(" + ((this.getSortDirection() == Table.SORT_ASCENDING) ? Table.SORT_ASCENDING_IMG : Table.SORT_DESCENDING_IMG) + ");";
-        var i = this.getColumnProfileDocument().selectNodeIterator("//record");
+        var i = this.getColumnProfileDocument().selectNodeIterator("//" + this._cdfan("children"));
         var inc = 0;
         while (i.hasNext()) {
           var objColumn = i.next();
-          var strSortIcon = (curSortPath && objColumn.getAttribute("jsxpath") == curSortPath) ? curSortIcon : "";
-          var strText = objColumn.getAttribute("jsxtext") || "";
+          var strSortIcon = (curSortPath && this._cdfav(objColumn, "path") == curSortPath) ? curSortIcon : "";
+          var strText = this._cdfav(objColumn, "text") || "";
           arrHTML.push('<div jsxindex="' + inc++ + '" ' + this.renderHandler(Event.CLICK, "_doSort") + ' class="jsx30table_header_cell" style="width:100px;height:' + intHeaderHeight + 'px;' + strSortIcon + '">' + strText + '</div>');
         }
         arrHTML.push('</div></div>');
@@ -1433,7 +1433,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
    * @package
    */
   Table_prototype.onSetChild = function(child) {
-    return false;
+    return !(child instanceof jsx3.gui.Painted);
   };
 
 
@@ -1482,7 +1482,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
       var objXSLSnippet = new jsx3.xml.Document();
       objXSLSnippet.loadXML(strValueTemplate);
       if (!objXSLSnippet.hasError()) {
-        objXSLSnippet.setAttribute("match","record");
+        objXSLSnippet.setAttribute("match","*[$attrchildren='*' or name()=$attrchildren]");
         objXSL.appendChild(objXSLSnippet);
       } else {
         LOG.error("The column profile document has errors. A new, empty CDF Document will be used instead. (Description: " + objXSLSnippet.getError().description + ")");
@@ -1490,11 +1490,11 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
       }
 
       //loop through the columns defined in the column profile document and update the XSLT appropriately
-      var i = this.getColumnProfileDocument().selectNodeIterator("//record");
+      var i = this.getColumnProfileDocument().selectNodeIterator("//" + this._cdfan("children"));
       while (i.hasNext()) {
         //resolve profile information for the current column
         var objColumn = i.next();
-        var objColumnProfile = {jsxpath:objColumn.getAttribute("jsxpath"),jsxwidth:objColumn.getAttribute("jsxwidth")};
+        var objColumnProfile = {jsxpath:this._cdfav(objColumn, "path"),jsxwidth:this._cdfav(objColumn, "width")};
         //make sure 'jsxwidth' resolves to one of three valid values: empty string, \dpx, or \d%
         if(jsx3.util.strEmpty(objColumnProfile.jsxwidth)) {
           objColumnProfile.jsxwidth = "";

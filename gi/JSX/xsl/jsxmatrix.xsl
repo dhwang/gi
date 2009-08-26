@@ -7,6 +7,19 @@
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
 
+  <xsl:param name="attrchildren">record</xsl:param>
+  <xsl:param name="attrid">jsxid</xsl:param>
+  <xsl:param name="attrtext">jsxtext</xsl:param>
+  <xsl:param name="attrtip">jsxtip</xsl:param>
+  <xsl:param name="attrstyle">jsxstyle</xsl:param>
+  <xsl:param name="attrclass">jsxclass</xsl:param>
+  <xsl:param name="attrimg">jsximg</xsl:param>
+  <xsl:param name="attrimgalt">jsximgalt</xsl:param>
+  <xsl:param name="attropen">jsxopen</xsl:param>
+  <xsl:param name="attrgroupname">jsxgroupname</xsl:param>
+  <xsl:param name="attrselected">jsxselected</xsl:param>
+  <xsl:param name="attrcategory">jsxcategory</xsl:param>
+  <xsl:param name="attrcellstyle">jsxcellstyle</xsl:param>
 
   <!-- The ID for the Matrix instance to uniquely identify it among all GI GUI controls -->
   <xsl:param name="jsx_id"/>
@@ -75,7 +88,7 @@
 
 
   <!-- the sorting parameters -->
-  <xsl:param name="jsx_sort_path">jsxid</xsl:param>
+  <xsl:param name="jsx_sort_path" select="$attrid"/>
   <xsl:param name="jsx_sort_direction">ascending</xsl:param>
   <xsl:param name="jsx_sort_type">text</xsl:param>
 
@@ -111,7 +124,7 @@
   <!-- tracks the ordinal index of an structures heirarchical level. used when rendering indents -->
   <xsl:param name="jsx_context_index">1</xsl:param>
 
-  <!-- if 1, we don't use @jsxtip for the title attribute -->
+  <!-- if 1, we don't use jsxtip for the title attribute -->
   <xsl:param name="jsx_no_tip">0</xsl:param>
 
   <!-- if 1, then branches of all leaves will not be indented by the width of the plus/minus icon -->
@@ -153,7 +166,7 @@
           <!-- all records within a positioned range, immediate children of the node with jsxid equal to $jsx_rendering_context -->
           <xsl:choose>
             <xsl:when test="$jsx_mode = 'count'">
-              <xsl:value-of select="count(//*[@jsxid=$jsx_rendering_context]/record)"/>
+              <xsl:value-of select="count(//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren])"/>
             </xsl:when>
             <xsl:when test="$jsx_mode = 'autorow'">
               <table id="{$jsx_id}jsx_-1" jsxautorow="true" cellspacing="0" cellpadding="0" class="jsx30matrix_rowtable" style="{$jsx_panel_css}width:{$jsx_column_widths}px;">
@@ -163,9 +176,9 @@
               </table>
             </xsl:when>
             <xsl:when test="$jsx_mode = 'record'">
-              <xsl:for-each select="//*[@jsxid=$jsx_rendering_context]/record">
+              <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren]">
                 <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
-                <xsl:if test="@jsxid = $jsx_rendering_context_child">
+                <xsl:if test="@*[name() = $attrid] = $jsx_rendering_context_child">
                   <xsl:apply-templates select="." mode="entry">
                     <xsl:with-param name="jsx_row_number" select="position()"/>
                   </xsl:apply-templates>
@@ -174,14 +187,14 @@
             </xsl:when>
             <xsl:when test="$jsx_mode = 'sort'">
               <ids>
-                <xsl:apply-templates select="//*[@jsxid=$jsx_rendering_context]/record" mode="sort">
+                <xsl:apply-templates select="//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren]" mode="sort">
                   <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                 </xsl:apply-templates>
               </ids>
             </xsl:when>
             <xsl:otherwise>
               <table id="{$jsx_id}jsx_{$jsx_panel_index}" cellspacing="0" cellpadding="0" class="jsx30matrix_rowtable" style="{$jsx_panel_css}width:{$jsx_column_widths}px;">
-                <xsl:for-each select="//*[@jsxid=$jsx_rendering_context]/record">
+                <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren]">
                   <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                   <xsl:apply-templates select="." mode="entry">
                     <xsl:with-param name="jsx_row_number" select="position()"/>
@@ -195,7 +208,7 @@
           <!-- all records within a positioned range, descendants of the node with jsxid equal to $jsx_rendering_context -->
           <xsl:choose>
             <xsl:when test="$jsx_mode = 'count'">
-              <xsl:value-of select="count(//*[@jsxid=$jsx_rendering_context]//record)"/>
+              <xsl:value-of select="count(//*[@*[name() = $attrid]=$jsx_rendering_context]//*[$attrchildren='*' or name()=$attrchildren])"/>
             </xsl:when>
             <xsl:when test="$jsx_mode = 'autorow'">
               <table id="{$jsx_id}jsx_-1" jsxautorow="true" cellspacing="0" cellpadding="0" class="jsx30matrix_rowtable" style="{$jsx_panel_css}width:{$jsx_column_widths}px;">
@@ -205,9 +218,9 @@
               </table>
             </xsl:when>
             <xsl:when test="$jsx_mode = 'record'">
-              <xsl:for-each select="//*[@jsxid=$jsx_rendering_context]//record">
+              <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_rendering_context]//*[$attrchildren='*' or name()=$attrchildren]">
                 <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
-                <xsl:if test="@jsxid = $jsx_rendering_context_child">
+                <xsl:if test="@*[name() = $attrid] = $jsx_rendering_context_child">
                   <xsl:apply-templates select="." mode="entry">
                     <xsl:with-param name="jsx_row_number" select="position()"/>
                   </xsl:apply-templates>
@@ -216,14 +229,14 @@
             </xsl:when>
             <xsl:when test="$jsx_mode = 'sort'">
               <ids>
-                <xsl:apply-templates select="//*[@jsxid=$jsx_rendering_context]//record" mode="sort">
+                <xsl:apply-templates select="//*[@*[name() = $attrid]=$jsx_rendering_context]//*[$attrchildren='*' or name()=$attrchildren]" mode="sort">
                   <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                 </xsl:apply-templates>
               </ids>
             </xsl:when>
             <xsl:otherwise>
               <table id="{$jsx_id}jsx_{$jsx_panel_index}" cellspacing="0" cellpadding="0" class="jsx30matrix_rowtable" style="{$jsx_panel_css}width:{$jsx_column_widths}px;">
-                <xsl:for-each select="//*[@jsxid=$jsx_rendering_context]//record">
+                <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_rendering_context]//*[$attrchildren='*' or name()=$attrchildren]">
                   <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                   <xsl:apply-templates select="." mode="entry">
                     <xsl:with-param name="jsx_row_number" select="position()"/>
@@ -237,11 +250,11 @@
           <!-- all records within a positioned range, descendants of the node with jsxid equal to $jsx_rendering_context, diplayed hierarchically -->
           <xsl:choose>
             <xsl:when test="$jsx_mode = 'count'">
-              <xsl:value-of select="count(//*[@jsxid=$jsx_rendering_context]//record)"/>
+              <xsl:value-of select="count(//*[@*[name() = $attrid]=$jsx_rendering_context]//*[$attrchildren='*' or name()=$attrchildren])"/>
             </xsl:when>
             <xsl:when test="$jsx_mode = 'record'">
               <!-- return the structure for a SINGLE child record -->
-              <xsl:for-each select="//*[@jsxid=$jsx_rendering_context]/record[@jsxid=$jsx_rendering_context_child]">
+              <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren][@*[name() = $attrid]=$jsx_rendering_context_child]">
                 <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                 <xsl:apply-templates select="." mode="hierarchical_entry">
                   <xsl:with-param name="jsx_row_number" select="position()"/>
@@ -252,14 +265,14 @@
             </xsl:when>
             <xsl:when test="$jsx_mode = 'sort'">
               <ids>
-                <xsl:apply-templates select="//*[@jsxid=$jsx_rendering_context]/record" mode="hierarchical_sort">
+                <xsl:apply-templates select="//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren]" mode="hierarchical_sort">
                   <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                 </xsl:apply-templates>
               </ids>
             </xsl:when>
             <xsl:otherwise>
               <!-- return the structure for a ALL child records -->
-              <xsl:for-each select="//*[@jsxid=$jsx_rendering_context]/record">
+              <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_rendering_context]/*[$attrchildren='*' or name()=$attrchildren]">
                 <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                 <xsl:apply-templates select="." mode="hierarchical_entry">
                   <xsl:with-param name="jsx_row_number" select="position()"/>
@@ -298,13 +311,13 @@
   SORT TEMPLATEs:  Called by ROOT template. returns all record ids in the order they will appear on-screen
   -->
   <xsl:template match="node()" mode="sort">
-    "<xsl:value-of select="@jsxid" />",
+    "<xsl:value-of select="@*[name() = $attrid]" />",
   </xsl:template>
 
 
   <xsl:template match="node()" mode="hierarchical_sort">
-    "<xsl:value-of select="@jsxid" />",
-    <xsl:apply-templates select="record" mode="hierarchical_sort">
+    "<xsl:value-of select="@*[name() = $attrid]" />",
+    <xsl:apply-templates select="*[$attrchildren='*' or name()=$attrchildren]" mode="hierarchical_sort">
       <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
     </xsl:apply-templates>
   </xsl:template>
@@ -334,17 +347,17 @@
       <div style="display:none;" jsxcontextindex="{$jsx_descendant_index + 1}">
         <!-- recurse -->
         <xsl:choose>
-          <xsl:when test="record">
+          <xsl:when test="*[$attrchildren='*' or name()=$attrchildren]">
 
             <xsl:choose>
-              <xsl:when test="@jsxopen='1'">
+              <xsl:when test="@*[name() = $attropen]='1'">
                 <xsl:attribute name="style">position:relative;display:block;</xsl:attribute>
               </xsl:when>
             </xsl:choose>
 
             <xsl:choose>
-              <xsl:when test="@jsxopen='1' or $jsx_paging_model != 4 ">
-                <xsl:for-each select="record">
+              <xsl:when test="@*[name() = $attropen]='1' or $jsx_paging_model != 4 ">
+                <xsl:for-each select="*[$attrchildren='*' or name()=$attrchildren]">
                   <xsl:sort select="@*[name()=$jsx_sort_path]" data-type="{$jsx_sort_type}" order="{$jsx_sort_direction}"/>
                   <xsl:apply-templates select="." mode="hierarchical_entry">
                     <xsl:with-param name="jsx_row_number" select="position()"/>
@@ -374,32 +387,32 @@
     <xsl:param name="jsx_descendant_index"/>
     <xsl:param name="jsx_cell_width"/>
     <xsl:param name="jsx_row_number">0</xsl:param>
-    <xsl:param name="jsx_style" select="@jsxstyle"/>
+    <xsl:param name="jsx_style" select="@*[name() = $attrstyle]"/>
 
     <table cellpadding="0" cellspacing="0" class="jsx30matrix_rowtable" jsxindent="{($jsx_descendant_index -1) * $jsx_indent}">
       <xsl:attribute name="style">position:relative;float:right;width:<xsl:value-of select="$jsx_cell_width - (($jsx_descendant_index -1) * $jsx_indent)"/>px;height:16px;</xsl:attribute>
       <tr style="{$jsx_style}">
-        <xsl:if test="@jsxclass">
-          <xsl:attribute name="class"><xsl:value-of select="@jsxclass"/></xsl:attribute>
+        <xsl:if test="@*[name() = $attrclass]">
+          <xsl:attribute name="class"><xsl:value-of select="@*[name() = $attrclass]"/></xsl:attribute>
         </xsl:if>
         <!-- this is the toggle image (plus/minus) -->
         <td jsxtype="plusminus">
           <xsl:attribute name="jsxtype"><xsl:choose>
-              <xsl:when test="record and $jsx_paging_model = 4 and not(@jsxopen=1)">paged</xsl:when>
+              <xsl:when test="*[$attrchildren='*' or name()=$attrchildren] and $jsx_paging_model = 4 and not(@*[name() = $attropen]=1)">paged</xsl:when>
               <xsl:otherwise>plusminus</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
           <xsl:attribute name="style">vertical-align:top;width:<xsl:choose>
-              <xsl:when test="$jsx_no_empty_indent='1' and not(../record/record)">0</xsl:when>
+              <xsl:when test="$jsx_no_empty_indent='1' and not(../*[$attrchildren='*' or name()=$attrchildren]/*[$attrchildren='*' or name()=$attrchildren])">0</xsl:when>
               <xsl:otherwise>16</xsl:otherwise>
             </xsl:choose>px;background-image:url(<xsl:choose>
-              <xsl:when test="record and @jsxopen=1">
+              <xsl:when test="*[$attrchildren='*' or name()=$attrchildren] and @*[name() = $attropen]=1">
                 <xsl:value-of select="$jsx_icon_minus"/>
               </xsl:when>
-              <xsl:when test="record and $jsx_paging_model = 4">
+              <xsl:when test="*[$attrchildren='*' or name()=$attrchildren] and $jsx_paging_model = 4">
                 <xsl:value-of select="$jsx_icon_plus"/>
               </xsl:when>
-              <xsl:when test="record">
+              <xsl:when test="*[$attrchildren='*' or name()=$attrchildren]">
                 <xsl:value-of select="$jsx_icon_plus"/>
               </xsl:when>
               <xsl:otherwise>
@@ -411,19 +424,19 @@
         <!-- this is the icon for the row -->
         <td jsxtype="icon" unselectable="on">
           <xsl:choose>
-            <xsl:when test="@jsximg = ''">
+            <xsl:when test="@*[name() = $attrimg] = ''">
               <xsl:attribute name="style">width:1px;</xsl:attribute>
               <span style="display:none;width:1px;height:1px;"></span>
             </xsl:when>
-            <xsl:when test="@jsximg">
+            <xsl:when test="@*[name() = $attrimg]">
               <xsl:attribute name="style">width:16px;vertical-align:top;</xsl:attribute>
               <xsl:variable name="src1">
                 <xsl:choose>
-                  <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@jsximg" mode="uri-resolver"/></xsl:when>
-                  <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
+                  <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@*[name() = $attrimg]" mode="uri-resolver"/></xsl:when>
+                  <xsl:otherwise><xsl:value-of select="@*[name() = $attrimg]"/></xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
-              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$src1}" alt="{@jsximgalt}"/>
+              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$src1}" alt="{@*[name() = $attrimgalt]}"/>
             </xsl:when>
             <xsl:when test="$jsx_icon=''">
               <xsl:attribute name="style">width:1px;</xsl:attribute>
@@ -431,7 +444,7 @@
             </xsl:when>
             <xsl:otherwise>
               <xsl:attribute name="style">width:16px;vertical-align:top;</xsl:attribute>
-              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$jsx_icon}" alt="{@jsximgalt}"/>
+              <img jsxtype="icon" unselectable="on" class="jsx30matrix_plusminus" src="{$jsx_icon}" alt="{@*[name() = $attrimgalt]}"/>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:text>&#160;</xsl:text>
@@ -439,7 +452,7 @@
         <td jsxtype="text" style="vertical-align:top;">
           <xsl:attribute name="jsxtreenode">
             <xsl:choose>
-              <xsl:when test="record">branch</xsl:when>
+              <xsl:when test="*[$attrchildren='*' or name()=$attrchildren]">branch</xsl:when>
               <xsl:otherwise>leaf</xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
@@ -477,7 +490,7 @@
     <xsl:param name="jsx_style">
       <xsl:choose>
         <xsl:when test="$jsx_row_number = -1"><xsl:value-of select="$jsx_autorow_style"/></xsl:when>
-        <xsl:otherwise><xsl:value-of select="@jsxstyle"/></xsl:otherwise>
+        <xsl:otherwise><xsl:value-of select="@*[name() = $attrstyle]"/></xsl:otherwise>
       </xsl:choose>
     </xsl:param>
 
@@ -485,14 +498,14 @@
     <xsl:param name="jsx_cdfkey">
       <xsl:choose>
         <xsl:when test="$jsx_row_number = -1">jsxautorow</xsl:when>
-        <xsl:otherwise><xsl:value-of select="@jsxid"/></xsl:otherwise>
+        <xsl:otherwise><xsl:value-of select="@*[name() = $attrid]"/></xsl:otherwise>
       </xsl:choose>
     </xsl:param>
 
     <!-- support radio groups -->
     <xsl:param name="jsx_groupname">
       <xsl:choose>
-        <xsl:when test="@jsxgroupname"><xsl:value-of select="@jsxgroupname"/></xsl:when>
+        <xsl:when test="@*[name() = $attrgroupname]"><xsl:value-of select="@*[name() = $attrgroupname]"/></xsl:when>
         <xsl:otherwise><xsl:value-of select="$jsx_id"/></xsl:otherwise>
       </xsl:choose>
     </xsl:param>
@@ -507,7 +520,7 @@
             <xsl:otherwise><xsl:value-of select="$jsx_rowbg2"/></xsl:otherwise>
           </xsl:choose><xsl:text>;</xsl:text>
         </xsl:when>
-        <xsl:when test="record and ($jsx_rendering_model = 'hierarchical') and $jsx_treehead_bgcolor">
+        <xsl:when test="*[$attrchildren='*' or name()=$attrchildren] and ($jsx_rendering_model = 'hierarchical') and $jsx_treehead_bgcolor">
           <xsl:text>background-color:</xsl:text><xsl:value-of select="$jsx_treehead_bgcolor"/>
           <xsl:text>;font-weight:</xsl:text><xsl:value-of select="$jsx_treehead_fontweight"/>
           <xsl:text>;border-right-color:</xsl:text><xsl:value-of select="$jsx_treehead_bgcolor"/><xsl:text>;</xsl:text>
@@ -520,15 +533,15 @@
 
     <!-- the TR element -->
     <tr id="{$jsx_id}_jsx_{$jsx_cdfkey}" JSXDragId="{$jsx_cdfkey}" JSXDragType="{$jsx_drag_type}" jsxtype="record" jsxid="{$jsx_cdfkey}" jsxrownumber="{$jsx_row_number}" style="{$jsx_rowbg}{$jsx_style}">
-      <xsl:if test="@jsxclass">
-        <xsl:attribute name="class"><xsl:value-of select="@jsxclass"/></xsl:attribute>
+      <xsl:if test="@*[name() = $attrclass]">
+        <xsl:attribute name="class"><xsl:value-of select="@*[name() = $attrclass]"/></xsl:attribute>
       </xsl:if>
 
-      <xsl:if test="@jsxtip and $jsx_no_tip != '1'">
-        <xsl:attribute name="title"><xsl:value-of select="@jsxtip"/></xsl:attribute>
+      <xsl:if test="@*[name() = $attrtip] and $jsx_no_tip != '1'">
+        <xsl:attribute name="title"><xsl:value-of select="@*[name() = $attrtip]"/></xsl:attribute>
       </xsl:if>
       <xsl:choose>
-        <xsl:when test="$jsx_use_categories='0' or @jsxcategory='0' or (not(@jsxcategory='1') and not(record))">
+        <xsl:when test="$jsx_use_categories='0' or @*[name() = $attrcategory]='0' or (not(@*[name() = $attrcategory]='1') and not(*[$attrchildren='*' or name()=$attrchildren]))">
         </xsl:when>
       </xsl:choose>
     </tr>

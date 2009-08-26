@@ -68,14 +68,16 @@
       requires="jsx3.app.Properties"/>
   <file path="jsx3/lang/System.js" provides="jsx3.lang.System"
       requires=""/>
-  <file path="jsx3/xml/CDF.js" provides="jsx3.xml.CDF"
-      requires=""/>
   <file path="jsx3/app/DOM.js" provides="jsx3.app.DOM"
       requires=""/>
   <file path="jsx3/app/Server.js" provides="jsx3.app.Server"
       requires="jsx3.app.Settings"/>
   <file path="jsx3/app/Model.js" provides="jsx3.app.Model"
       requires="jsx3.xml.Template"/>
+  <file path="jsx3/xml/CDFSchema.js" provides="jsx3.xml.CDFSchema"
+      requires="jsx3.app.Model"/>
+  <file path="jsx3/xml/CDF.js" provides="jsx3.xml.CDF"
+      requires="jsx3.xml.CDFSchema jsx3.app.Model"/>
   <file path="jsx3/html/DOM.js" provides="jsx3.html.DOM"/>
   <file path="jsx3/html/Style.js" provides="jsx3.html.Style"/>
   <file path="jsx3/gui/Template.js" provides="jsx3.gui.Template jsx3.gui.Template.Box jsx3.gui.Template.Block"

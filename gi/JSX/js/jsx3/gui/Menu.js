@@ -219,7 +219,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
    */
   Menu_prototype.isItemEnabled = function(strRecordId) {
     var record = this.getRecordNode(strRecordId);
-    return record != null && record.getAttribute("jsxdisabled") != "1";
+    return record && this._cdfav(record, "disabled") != "1";
   };
 
   /**
@@ -234,12 +234,12 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
       var objNode = this.getRecordNode(strRecordId);
 
       if (objNode != null) {
-        var myGroupName = objNode.getAttribute("jsxgroupname");
+        var myGroupName = this._cdfav(objNode, "groupname");
         if (myGroupName) {
           for (var i = this.getXML().selectNodeIterator("//record[@jsxgroupname='" + myGroupName + "']"); i.hasNext(); ) {
             var node = i.next();
-            if (node.getAttribute('jsxid') != strRecordId)
-              node.removeAttribute("jsxselected");
+            if (this._cdfav(node, 'id') != strRecordId)
+              this._cdfav(node, "selected", null);
           }
         }
       }
@@ -269,7 +269,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
    */
   Menu_prototype.isItemSelected = function(strRecordId) {
     var record = this.getRecordNode(strRecordId);
-    return record != null && record.getAttribute("jsxselected") == "1";
+    return record != null && this._cdfav(record, "selected") == "1";
   };
 
   /** @private @jsxobf-clobber */
@@ -1002,8 +1002,8 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
       for (var i = objXML.selectNodeIterator("//record[@jsxkeycode]"); i.hasNext(); ) {
         var objNode = i.next();
         //get the key code (a '+'-delimited string like:  ctrl+alt+a
-        var strKeys = objNode.getAttribute("jsxkeycode").toLowerCase();
-        var jsxid = objNode.getAttribute("jsxid");
+        var strKeys = this._cdfav(objNode, "keycode").toLowerCase();
+        var jsxid = this._cdfav(objNode, "id");
 
         var callback = jsx3.makeCallback(function(strId, oEvt){
             this._executeRecordHotKey(oEvt, strId); }, this, jsxid);
@@ -1234,7 +1234,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
       /* can't because not private in Grid! jsxobf-clobber */
       this._jsxvalue = strRecordId;
       //get handle to the jsxexecute attribute
-      var myScript = objRecordNode.getAttribute("jsxexecute");
+      var myScript = this._cdfav(objRecordNode, "execute");
       var bContinue = true;
       var context = {strRECORDID:strRecordId, objRECORD:objRecordNode, _gipp:1};
       if (objEvent instanceof jsx3.gui.Event)

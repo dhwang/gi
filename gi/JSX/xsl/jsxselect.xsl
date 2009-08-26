@@ -8,6 +8,15 @@
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
 
+  <xsl:param name="attrchildren">record</xsl:param>
+  <xsl:param name="attrid">jsxid</xsl:param>
+  <xsl:param name="attrtext">jsxtext</xsl:param>
+  <xsl:param name="attrtip">jsxtip</xsl:param>
+  <xsl:param name="attrstyle">jsxstyle</xsl:param>
+  <xsl:param name="attrclass">jsxclass</xsl:param>
+  <xsl:param name="attrimg">jsximg</xsl:param>
+  <xsl:param name="attrimgalt">jsximgalt</xsl:param>
+
   <xsl:variable name="upperCase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
   <xsl:variable name="lowerCase" select="'abcdefghijklmnopqrstuvwxyz'"/>
   <xsl:param name="jsxtabindex">0</xsl:param>
@@ -41,7 +50,7 @@
       <xsl:value-of select="$jsxasyncmessage"/>
     </xsl:when>
     <xsl:when test="$jsxshallowfrom">
-      <xsl:for-each select="//*[@jsxid=$jsxshallowfrom]/record">
+      <xsl:for-each select="//*[@*[name() = $attrid]=$jsxshallowfrom]/*[$attrchildren='*' or name()=$attrchildren]">
         <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
         <xsl:choose>
           <xsl:when test="$jsx_type='select'">
@@ -54,7 +63,7 @@
       </xsl:for-each>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:for-each select="//record">
+      <xsl:for-each select="descendant::*[$attrchildren='*' or name()=$attrchildren]">
         <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
         <xsl:choose>
           <xsl:when test="$jsx_type='select'">
@@ -69,19 +78,19 @@
   </xsl:choose></JSX_FF_WELLFORMED_WRAPPER>
   </xsl:template>
 
-  <xsl:template match="record" mode="select">
-    <xsl:param name="myjsxid" select="@jsxid"/>
+  <xsl:template match="*" mode="select">
+    <xsl:param name="myjsxid" select="@*[name() = $attrid]"/>
 
     <div id="{$jsxid}_{$myjsxid}" jsxtype="Option" tabindex="{$jsxtabindex}"
-        jsxid="{@jsxid}" title="{@jsxtip}" class="jsx30select_{$jsxmode}_option">
-      <xsl:if test="@jsxstyle">
+        jsxid="{$myjsxid}" title="{@*[name() = $attrtip]}" class="jsx30select_{$jsxmode}_option {@*[name() = $attrclass]}">
+      <xsl:if test="@*[name() = $attrstyle]">
         <xsl:attribute name="style">
-          <xsl:value-of select="@jsxstyle"/>
+          <xsl:value-of select="@*[name() = $attrstyle]"/>
         </xsl:attribute>
       </xsl:if>
       <xsl:if test="$jsxnocheck != '1'">
         <xsl:choose>
-          <xsl:when test="$jsxselectedid=@jsxid">
+          <xsl:when test="$jsxselectedid=$myjsxid">
             <img unselectable="on" class="jsx30select_check" src="{$jsxselectedimage}" alt="{$jsxselectedimagealt}"/>
           </xsl:when>
           <xsl:otherwise>
@@ -89,14 +98,14 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:if>
-      <xsl:if test="@jsximg and @jsximg != ''">
+      <xsl:if test="@*[name() = $attrimg] and @*[name() = $attrimg] != ''">
         <xsl:variable name="src1">
           <xsl:choose>
-            <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@jsximg" mode="uri-resolver"/></xsl:when>
-            <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
+            <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@*[name() = $attrimg]" mode="uri-resolver"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="@*[name() = $attrimg]"/></xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
-        <img unselectable="on" class="jsx30select_icon" src="{$src1}" alt="{@jsximgalt}"/>
+        <img unselectable="on" class="jsx30select_icon" src="{$src1}" alt="{@*[name() = $attrimgalt]}"/>
       </xsl:if>
       <span>
         <xsl:apply-templates select="." mode="jsxtext"/>
@@ -104,25 +113,25 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="record" mode="combo">
+  <xsl:template match="*" mode="combo">
     <xsl:variable name="mytext">
       <xsl:choose>
-        <xsl:when test="@jsxtext"><xsl:value-of select="@jsxtext"/></xsl:when>
-        <xsl:otherwise><xsl:value-of select="@jsxid"/></xsl:otherwise>
+        <xsl:when test="@*[name() = $attrtext]"><xsl:value-of select="@*[name() = $attrtext]"/></xsl:when>
+        <xsl:otherwise><xsl:value-of select="@*[name() = $attrid]"/></xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:if test="(not($jsxcasesensitive = 1) and starts-with(translate($mytext, $lowerCase, $upperCase), translate($jsxtext, $lowerCase, $upperCase)))
         or (starts-with($mytext, $jsxtext))">
-      <div jsxtype="Option" tabindex="{$jsxtabindex}" id="{$jsxid}_{@jsxid}"
-        jsxid="{@jsxid}" title="{@jsxtip}" class="jsx30select_{$jsxmode}_option">
-        <xsl:if test="@jsxstyle">
+      <div jsxtype="Option" tabindex="{$jsxtabindex}" id="{$jsxid}_{@*[name() = $attrid]}"
+        jsxid="{@*[name() = $attrid]}" title="{@*[name() = $attrtip]}" class="jsx30select_{$jsxmode}_option {@*[name() = $attrclass]}">
+        <xsl:if test="@*[name() = $attrstyle]">
           <xsl:attribute name="style">
-            <xsl:value-of select="@jsxstyle"/>
+            <xsl:value-of select="@*[name() = $attrstyle]"/>
           </xsl:attribute>
         </xsl:if>
         <xsl:if test="$jsxnocheck != '1'">
           <xsl:choose>
-            <xsl:when test="$jsxselectedid=@jsxid">
+            <xsl:when test="$jsxselectedid=@*[name() = $attrid]">
               <img unselectable="on" class="jsx30select_check" src="{$jsxselectedimage}" alt="{$jsxselectedimagealt}"/>
             </xsl:when>
             <xsl:otherwise>
@@ -130,14 +139,14 @@
             </xsl:otherwise>
           </xsl:choose>
         </xsl:if>
-        <xsl:if test="@jsximg and @jsximg != ''">
+        <xsl:if test="@*[name() = $attrimg] and @*[name() = $attrimg] != ''">
           <xsl:variable name="src1">
             <xsl:choose>
-              <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@jsximg" mode="uri-resolver"/></xsl:when>
-              <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
+              <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@*[name() = $attrimg]" mode="uri-resolver"/></xsl:when>
+              <xsl:otherwise><xsl:value-of select="@*[name() = $attrimg]"/></xsl:otherwise>
             </xsl:choose>
           </xsl:variable>
-          <img unselectable="on" class="jsx30select_icon" src="{$src1}" alt="{@jsximgalt}"/>
+          <img unselectable="on" class="jsx30select_icon" src="{$src1}" alt="{@*[name() = $attrimgalt]}"/>
         </xsl:if>
         <span>
           <xsl:apply-templates select="." mode="jsxtext">
@@ -148,8 +157,8 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="record" mode="jsxtext">
-    <xsl:param name="value" select="@jsxtext"/>
+  <xsl:template match="*" mode="jsxtext">
+    <xsl:param name="value" select="@*[name() = $attrtext]"/>
 
     <xsl:choose>
       <xsl:when test="$jsxdisableescape='yes'">

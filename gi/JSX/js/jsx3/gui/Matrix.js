@@ -26,7 +26,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   var Interactive = jsx3.gui.Interactive;
   var CDF = jsx3.xml.CDF;
   var Block = jsx3.gui.Block;
-  var Box = jsx3.gui.Painted.Box;
+  var Painted = jsx3.gui.Painted;
+  var Box = Painted.Box;
   var html = jsx3.html;
 
  /** @private @jsxobf-clobber */
@@ -153,7 +154,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    */
   Matrix.DEFAULT_UPDATE_CELL_VALUE_TEMPLATE = new jsx3.xml.Document().loadXML(
                                               '<xsl:when xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="$jsx_cell_value_template_id=\'\'{0}\'\'">\n' +
-                                              '  <xsl:for-each select="//*[@jsxid=$jsx_record_context]">\n' +
+                                              '  <xsl:for-each select="//*[@*[name() = $attrid]=$jsx_record_context]">\n' +
                                               '    <xsl:call-template name="{0}">\n' +
                                               '    </xsl:call-template>\n' +
                                               '  </xsl:for-each>\n' +
@@ -177,7 +178,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
                                    '  <xsl:param name="jsx_cdfkey"/>\n' +
                                    '  <xsl:param name="jsx_descendant_index"/>\n' +
                                    '  <xsl:param name="jsx_selection_bg"><xsl:choose>\n' +
-                                   '     <xsl:when test="@jsxselected=1">background-image:url(<xsl:value-of select="$jsx_selection_bg_url"/>);</xsl:when>\n' +
+                                   '     <xsl:when test="@*[name() = $attrselected]=1">background-image:url(<xsl:value-of select="$jsx_selection_bg_url"/>);</xsl:when>\n' +
                                    '   </xsl:choose></xsl:param>\n' +
 
                                    // use a parameter as the formal place-holder for the width. in production, the select value would contain a number that reflects the box model
@@ -185,7 +186,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
                                    // use a parameter as the formal place-holder for the width. in production, the select value would contain a number that reflects the box model
                                    '  <xsl:param name="jsx_true_width">\n' +
-                                   '    <xsl:choose><xsl:when test="$jsx_use_categories!=\'\'0\'\' and not(@jsxcategory=\'\'0\'\') and (@jsxcategory or record)">{3}</xsl:when><xsl:otherwise><xsl:value-of select="$jsx_cell_width"/></xsl:otherwise></xsl:choose>\n' +
+                                   '    <xsl:choose><xsl:when test="$jsx_use_categories!=\'\'0\'\' and not(@*[name() = $attrcategory]=\'\'0\'\') and (@*[name() = $attrcategory] or *[$attrchildren=\'*\' or name()=$attrchildren])">{3}</xsl:when><xsl:otherwise><xsl:value-of select="$jsx_cell_width"/></xsl:otherwise></xsl:choose>\n' +
                                    '  </xsl:param>\n' +
 
                                    // only those TDs in the first row get a width style. Otherwise, the list would need to be repainted when the column widths changed
@@ -195,7 +196,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
                                    // only those TDs in the first column, with the appropriate 'category' profile will implement a colspan
                                    '  <xsl:param name="jsx_colspan">\n' +
-                                   '    <xsl:choose><xsl:when test="$jsx_use_categories!=\'\'0\'\' and not(@jsxcategory=\'\'0\'\') and (@jsxcategory or record)"><xsl:value-of select="$jsx_column_count"/></xsl:when><xsl:otherwise>1</xsl:otherwise></xsl:choose>\n' +
+                                   '    <xsl:choose><xsl:when test="$jsx_use_categories!=\'\'0\'\' and not(@*[name() = $attrcategory]=\'\'0\'\') and (@*[name() = $attrcategory] or *[$attrchildren=\'*\' or name()=$attrchildren])"><xsl:value-of select="$jsx_column_count"/></xsl:when><xsl:otherwise>1</xsl:otherwise></xsl:choose>\n' +
                                    '  </xsl:param>\n' +
 
                                    // the actual template.  This is created by the box profiler and is not available to be edited
@@ -1328,7 +1329,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     html.removeNode(objGhost);
 
     //get the index of the column being moved (resolve the display index (view) to the dom index (model))
-    var objChildren = this.getChildren();
+    var objChildren = this.getDescendantsOfType(Painted, true);
     var objDisplayedChildren = this._getDisplayedChildren();
     var objMovedChild = objDisplayedChildren[this._getActiveColumnIndex()];
     var objMoveIndex = jsx3.util.arrIndexOf(objChildren, objMovedChild);
@@ -1395,7 +1396,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this._resetPaintQueue();
 
       //get the proposed sort path, sort type, and sort direction
-      var intRealIndex = jsx3.util.arrIndexOf(this.getChildren(), objSortChild);
+      var intRealIndex = jsx3.util.arrIndexOf(this.getDescendantsOfType(Painted, true), objSortChild);
       var strSortPath = this._getSortPath(objSortChild);
       var strSortType = this._getSortType(objSortChild);
 
@@ -1882,8 +1883,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     for (var i=0; i < strRecordIds.length; i++) {
       var id = strRecordIds[i];
       var objNode = this.getRecordNode(id);
-      if (objNode.getAttribute(CDF.ATTR_UNSELECTABLE) == "1") continue;
-      this.eval(objNode.getAttribute("jsxexecute"), this._getEvtContext({strRECORDID:id}));
+      if (this._cdfav(objNode, "unselectable") == "1") continue;
+      this.eval(this._cdfav(objNode, "execute"), this._getEvtContext({strRECORDID:id}));
     }
 
     if (strRecordIds.length)
@@ -1897,7 +1898,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Matrix_prototype.executeRecord = function(strRecordId) {
     var objNode = this.getRecordNode(strRecordId);
     if (objNode)
-      this.eval(objNode.getAttribute("jsxexecute"), this._getEvtContext({strRECORDID:strRecordId}));
+      this.eval(this._cdfav(objNode, "execute"), this._getEvtContext({strRECORDID:strRecordId}));
   };
 
 // ***********************************************+
@@ -2044,7 +2045,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    */
   Matrix_prototype.getSelectedNodes = function() {
     //return collection of selected nodes
-    return this.getXML().selectNodes("//record[@" + CDF.ATTR_SELECTED + "='1']");
+    return this.getXML().selectNodes("//" + this._cdfan("children") + "[@" + this._cdfan("selected") + "='1']");
   };
 
   /**
@@ -2053,10 +2054,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    */
   Matrix_prototype.getSelectedIds = function() {
     var ids = [];
-    var i = this.getXML().selectNodeIterator("//record[@" + CDF.ATTR_SELECTED + "='1']");
+    var i = this.getXML().selectNodeIterator("//" + this._cdfan("children") + "[@" + this._cdfan("selected") + "='1']");
     while (i.hasNext()) {
       var record = i.next();
-      ids[ids.length] = record.getAttribute("jsxid");
+      ids[ids.length] = this._cdfav(record, "id");
     }
     return ids;
   };
@@ -2067,8 +2068,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @package
    */
   Matrix_prototype.isRecordSelectable = function(strRecordId) {
-    var record = this.getRecord(strRecordId);
-    return record && (record[CDF.ATTR_UNSELECTABLE] == null || record[CDF.ATTR_UNSELECTABLE] != "1");
+    var rec = this.getRecordNode(strRecordId);
+    return rec && this._cdfav(rec, "unselectable") != "1";
   };
 
   /**
@@ -2077,8 +2078,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @package
    */
   Matrix_prototype.isRecordSelected = function(strRecordId) {
-    var record = this.getRecord(strRecordId);
-    return record != null && record[CDF.ATTR_SELECTED] == "1";
+    var rec = this.getRecordNode(strRecordId);
+    return rec && this._cdfav(rec, "selected") == "1";
   };
 
   /**
@@ -2126,8 +2127,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //if objEvent exists and the instance supports dragging and the record is already selected, exit early
     var bDragUnion = (bUnion || (objEvent && this.getCanDrag() == 1));
     if (intSelModel == Matrix.SELECTION_UNSELECTABLE || !recordNode ||
-         (recordNode.getAttribute(CDF.ATTR_SELECTED) == "1" && bDragUnion) ||
-         recordNode.getAttribute(CDF.ATTR_UNSELECTABLE) == "1")
+         (this._cdfav(recordNode, "selected") == "1" && bDragUnion) ||
+         this._cdfav(recordNode, "unselectable") == "1")
       return false;
 
     //check if any existing selections need to first be cleared
@@ -2136,7 +2137,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this.deselectAllRecords();
 
     //update the record in the MODEL
-    recordNode.setAttribute(CDF.ATTR_SELECTED, "1");
+    this._cdfav(recordNode, "selected", "1");
 
     // update VIEW
     objTR = objTR || this._getRowById(strRecordId);
@@ -2158,11 +2159,11 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Matrix_prototype._doDeselect = function(objEvent, strRecordId, objTR) {
     // check for already selected
     var recordNode = this.getRecordNode(strRecordId);
-    if (!recordNode || recordNode.getAttribute(CDF.ATTR_SELECTED) != "1")
+    if (!recordNode || this._cdfav(recordNode, "selected") != "1")
       return false;
 
     //update the record in the model
-    recordNode.removeAttribute(CDF.ATTR_SELECTED);
+    this._cdfav(recordNode, "selected", null);
 
     // update view
     objTR = objTR || this._getRowById(strRecordId);
@@ -2605,7 +2606,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
     //if the item being toggled doesn't have child records, exit early. the toggle event only applies to records with child records
     //TO DO: should still be possible to fetch content dynamically and add to an empty record
-    if (! objNode.selectSingleNode("./record")) return;
+    if (! objNode.selectSingleNode("./" + this._cdfan("children"))) return;
 
     //toggle the state, updating model and view
     if (bOpen == null) bOpen = false;
@@ -2616,7 +2617,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
     if (objContent.style.display == "none" || bOpen) {
       bOpen = true;
-      objNode.setAttribute("jsxopen","1");
+      this._cdfav(objNode,"open","1");
       objContent.style.display = "";
 
       if (this.getRenderNavigators(1) != 0)
@@ -2644,7 +2645,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         this._applyFormatHandlers(myToken);
       }
     } else {
-      objNode.removeAttribute("jsxopen");
+      this._cdfav(objNode, "open", null);
       objContent.style.display = "none";
       if (this.getRenderNavigators(1) != 0)
         objGUI.style.backgroundImage = "url(" + this.getUriResolver().resolveURI(this.getIconPlus(Matrix.ICON_PLUS)) + ")";
@@ -2683,8 +2684,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         //3.4.1 had to remove xpath to be backwards compat with old msxml versions that defaulted to XSLquery
         var a = [];
         do {
-          a.push(recordNode.getAttribute("jsxid"))
-        } while((recordNode = recordNode.getParent()) != null && recordNode.getNodeName() == "record");
+          a.push(this._cdfav(recordNode, "id"))
+        } while((recordNode = recordNode.getParent()) != null && recordNode.getParent());
         for(var i=a.length-1;i>=0;i--)
           this.toggleItem(a[i], true);
       }
@@ -2874,7 +2875,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (jsx3.EventHelp.isDragging() && this.getCanDrop() == 1 && jsx3.EventHelp.getDragIds()[0] != null) {
 
       //handle drop-related event
-      if ((strType == "plusminus" && this.getRecordNode(strRECORDID).getAttribute("jsxopen") != "1")
+      if ((strType == "plusminus" && this._cdfav(this.getRecordNode(strRECORDID), "open") != "1")
           || strType == "paged") {
         var me = this;
         objEvent.persistEvent(); // for timeout
@@ -3186,7 +3187,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
               if(objTheTarget && this.getRecordNode(strIds[i]).equals(objTheTarget) && bInsertBefore && objTheTarget.getNextSibling()) {
                 //shift the target to the next sibling if the record being dropped is the same as the target
                 objTheTarget = objTheTarget.getNextSibling();
-                targetRecordId = objTheTarget.getAttribute("jsxid");
+                targetRecordId = this._cdfav(objTheTarget, "id");
               }
               if (!(this == objSource && objContext && this._isDescendantOrSelf(objTheTarget,objTheMoved))) {
                 //remove the selection flag from the involved record
@@ -3350,8 +3351,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         if (this.getRenderingModel() == Matrix.REND_HIER && intIndex == 0 && this.getSuppressVScroller() != 1) {
           var strCdfId = objEventTarget.parentNode.getAttribute("jsxid");
           var objRNode = this.getRecordNode(strCdfId);
-          var intOpen = objRNode.getAttribute("jsxopen");
-          if (intOpen == 1 && objRNode.selectSingleNode("record")) {
+          var intOpen = this._cdfav(objRNode, "open");
+          if (intOpen == 1 && objRNode.selectSingleNode(this._cdfan("children"))) {
             //close it and exit
             var objTIGUI = this._getToggler(objEventTarget);
             this._showHideContainer(objEvent, objTIGUI, false);
@@ -3373,10 +3374,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         if (this.getRenderingModel() == Matrix.REND_HIER && intIndex == 0 && this.getSuppressVScroller() != 1) {
           var strCdfId = objEventTarget.parentNode.getAttribute("jsxid");
           var objRNode = this.getRecordNode(strCdfId);
-          var intOpen = objRNode.getAttribute("jsxopen");
+          var intOpen = this._cdfav(objRNode, "open");
           //only assume this tree can be opened if it has a lazy attribute (yet to be implemented) or a child record
           //TO DO: implement 'lazy' interface as in jsx3.gui.Tree
-          if (intOpen != 1 && (objRNode.getAttribute("jsxlazy") == "1" || objRNode.selectSingleNode("record"))) {
+          if (intOpen != 1 && (this._cdfav(objRNode, "lazy") == "1" || objRNode.selectSingleNode(this._cdfan("children")))) {
             //open it and exit
             var objTIGUI = this._getToggler(objEventTarget);
             this._showHideContainer(objEvent, objTIGUI, true);
@@ -3797,7 +3798,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     this.collapseEditSession(objEvent, objAnchor);
 
     //resolve the index (pass the model index, not the display index)
-    var intIndex = jsx3.util.arrIndexOf(this.getChildren(),
+    var intIndex = jsx3.util.arrIndexOf(this.getDescendantsOfType(Painted, true),
         this._getDisplayedChildren()[Number(objAnchor.getAttribute("jsxindex"))]);
     this._setActiveColumnIndex(intIndex);
 
@@ -3853,10 +3854,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
     var maxLength = 0;
     var objXML = this.getXML();
-    var itrNodes = objXML.selectNodeIterator("//record");
+    var itrNodes = objXML.selectNodeIterator("//" + this._cdfan("children"));
     while (itrNodes.hasNext()) {
       var node = itrNodes.next();
-      maxLength = Math.max( node.getAttribute(att).length, maxLength) ;
+      maxLength = Math.max(node.getAttribute(att).length, maxLength) ;
     }
 
     var intNewWidth = charWidth * maxLength;
@@ -4677,9 +4678,9 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         var strRenderingContext = this.getRenderingContext("jsxroot");
         var objRenderingContext = this.getRecordNode(strRenderingContext);
         var objRootStructures = [];
-        for (var i = objRenderingContext.selectNodeIterator("./record"); i.hasNext(); ) {
+        for (var i = objRenderingContext.selectNodeIterator("./" + this._cdfan("children")); i.hasNext(); ) {
           var node = i.next();
-          var strJsxId = node.getAttribute("jsxid");
+          var strJsxId = this._cdfav(node, "id");
           objRootStructures.push(this._getStructureById(strJsxId));
         }
         objRows = this._getIterableRows({contextnodes:objRootStructures});
@@ -5244,7 +5245,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
   /** @private @jsxobf-clobber-shared */
   Matrix_prototype._getDisplayedChildren = function() {
-    return this.getChildren().filter(Matrix._displayedChildFilter);
+    return this.getDescendantsOfType(Painted, true).filter(Matrix._displayedChildFilter);
   };
 
   /**
@@ -5404,6 +5405,9 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       objParams.jsx_mode = "count";
       objParams.jsx_rendering_model = this.getRenderingModel(Matrix.REND_DEEP);
       objParams.jsx_rendering_context = this.getRenderingContext("jsxroot");
+      jsx3.$H(this.getSchema().getProps()).each(function(k, v) {
+        objParams["attr" + k] = v;
+      });
 
       var oProcessor = this._getXSL(true);
       oProcessor.reset();
@@ -5806,7 +5810,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @package
    */
   Matrix_prototype.onSetChild = function(child) {
-    if (child instanceof Matrix.Column) {
+    if (child instanceof Matrix.Column || !(child instanceof jsx3.gui.Painted)) {
       this._reset();
       return true;
     }
@@ -6129,10 +6133,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         //when rendering flat, rows may exist in the view that belong to the model record that was just deleted
         //this means the cleanup of the view will require manually removing on-screen TR elements
         if (this.getRenderingModel() != Matrix.REND_HIER) {
-          var objRecords = objNode.selectNodes(".//record");
+          var objRecords = objNode.selectNodes(".//" + this._cdfan("children"));
           for (var j = objRecords.size()-1;j>=0;j--) {
             var objRecord = objRecords.get(j);
-            this.redrawRecord(objRecord.getAttribute("jsxid"), CDF.DELETE);
+            this.redrawRecord(this._cdfav(objRecord, "id"), CDF.DELETE);
           }
         }
       }
@@ -6292,7 +6296,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     return this.doTransform({jsx_mode:"record",jsx_panel_css:"position:relative;",
                              jsx_column_widths:this._getViewPaneWidth(),
                              jsx_context_index:intContentIndex?intContentIndex:1,
-                             jsx_rendering_context:this.getRecordNode(strRecordId).getParent().getAttribute("jsxid"),
+                             jsx_rendering_context:this._cdfav(this.getRecordNode(strRecordId).getParent(), "id"),
                              jsx_rendering_context_child:strRecordId});
   };
 
@@ -6374,7 +6378,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         //resolve the ID of the sibling to 'insertbefore'
         var objNode = this.getRecordNode(strRecordId);
         var objRef = objNode.getNextSibling();
-        var strRefId = objRef.getAttribute("jsxid");
+        var strRefId = this._cdfav(objRef, "id");
 
         if (this.getRenderingModel() == Matrix.REND_HIER) {
           //get the onscreen structure that represents this node in it entirety (including its child structures)
@@ -6424,7 +6428,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       if (this.getPagingModel(Matrix.PAGING_OFF) != Matrix.PAGING_PAGED) {
         if (this.getRenderingModel() == Matrix.REND_HIER) {
           //does the object already have content?
-          var strCdfParentId = this.getRecordNode(strRecordId).getParent().getAttribute("jsxid");
+          var strCdfParentId = this._cdfav(this.getRecordNode(strRecordId).getParent(), "id");
           var objMyGUI = this._getStructureById(strCdfParentId);
           var objContent = objMyGUI.lastChild;
           if (this._hasNoEntityContent(objContent)) {
@@ -6479,10 +6483,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //descendants are painted on-screen as they would have been had the record been part of the data model
     //when the view was first painted
     if (this.getRenderingModel(Matrix.REND_DEEP) == Matrix.REND_DEEP) {
-      var i = objRecord.selectNodeIterator(".//record");
+      var i = objRecord.selectNodeIterator(".//" + this._cdfan("children"));
       while (i.hasNext()) {
         objRecord = i.next();
-        this.redrawRecord(objRecord.getAttribute("jsxid"), CDF.INSERT, false);
+        this.redrawRecord(this._cdfav(objRecord, "id"), CDF.INSERT, false);
       }
     }
   };
@@ -6531,7 +6535,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     //generate a TR XML Node using XSLT
     var objParams = {};
     objParams.jsx_column_widths = this._getViewPaneWidth();
-    objParams.jsx_rendering_context = this.getRecordNode(strRecordId).getParent().getAttribute("jsxid");
+    objParams.jsx_rendering_context = this._cdfav(this.getRecordNode(strRecordId).getParent(), "id");
     objParams.jsx_rendering_context_child = strRecordId;
     objParams.jsx_mode = "record";
     var strXHTML = this.doTransform(objParams);
@@ -6738,7 +6742,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix.ColumnFormat", null, null, function(Colu
         var strValue = objMatrixColumn.getValueForRecord(strCDFKey);
         var lookupNode = objMask.getRecordNode(strValue);
         objDiv.innerHTML = jsx3.util.strEscapeHTML(
-            lookupNode ? lookupNode.getAttribute("jsxtext") : (strValue != null ? strValue : ""));
+            lookupNode ? this._cdfav(lookupNode, "text") : (strValue != null ? strValue : ""));
       }
     }
   };

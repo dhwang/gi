@@ -568,7 +568,7 @@ _doSelectEvent uT
 _doSelectRange _6
 _doSelectRecord M0
 _doSelects gy
-_doSerialize Xm
+toXMLElm Xm
 _doShowStack XN
 _doSort hi
 _doSpyDelay KI

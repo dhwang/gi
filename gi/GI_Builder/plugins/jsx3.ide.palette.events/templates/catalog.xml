@@ -4,6 +4,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <data jsxid="jsxroot">
+  <record jsxid="jsx3.app.Model" jsxtext="Model.xml"/>
   <record jsxid="jsx3.gui.Block" jsxtext="Block.xml"/>
   <record jsxid="jsx3.gui.BlockX" jsxtext="BlockX.xml"/>
   <record jsxid="jsx3.gui.Button" jsxtext="Button.xml"/>
@@ -18,7 +19,7 @@
   <record jsxid="jsx3.gui.IFrame" jsxtext="IFrame.xml"/>
   <record jsxid="jsx3.gui.ImageButton" jsxtext="ImageButton.xml"/>
   <record jsxid="jsx3.gui.Label" jsxtext="Label.xml"/>
-  <record jsxid="jsx3.gui.LayoutGrid" jsxtext="Painted.xml"/>
+  <record jsxid="jsx3.gui.LayoutGrid" jsxtext="Model.xml"/>
   <record jsxid="jsx3.gui.List" jsxtext="List.xml"/>
   <record jsxid="jsx3.gui.Matrix" jsxtext="Matrix.xml"/>
   <record jsxid="jsx3.gui.Matrix.Column" jsxtext="MatrixColumn.xml"/>
@@ -27,10 +28,9 @@
   <record jsxid="jsx3.gui.RadioButton" jsxtext="RadioButton.xml"/>
   <record jsxid="jsx3.gui.Select" jsxtext="Select.xml"/>
   <record jsxid="jsx3.gui.Slider" jsxtext="Slider.xml"/>
-  <record jsxid="jsx3.gui.Sound" jsxtext="Painted.xml"/>
   <record jsxid="jsx3.gui.Splitter" jsxtext="Splitter.xml"/>
   <record jsxid="jsx3.gui.Stack" jsxtext="Stack.xml"/>
-  <record jsxid="jsx3.gui.StackGroup" jsxtext="Painted.xml"/>
+  <record jsxid="jsx3.gui.StackGroup" jsxtext="Model.xml"/>
   <record jsxid="jsx3.gui.Tab" jsxtext="Tab.xml"/>
   <record jsxid="jsx3.gui.TabbedPane" jsxtext="TabbedPane.xml"/>
   <record jsxid="jsx3.gui.Table" jsxtext="Table.xml"/>
@@ -38,5 +38,5 @@
   <record jsxid="jsx3.gui.TimePicker" jsxtext="TimePicker.xml"/>
   <record jsxid="jsx3.gui.ToolbarButton" jsxtext="ToolbarButton.xml"/>
   <record jsxid="jsx3.gui.Tree" jsxtext="Tree.xml"/>
-  <record jsxid="jsx3.gui.WindowBar" jsxtext="Painted.xml"/>
+  <record jsxid="jsx3.gui.WindowBar" jsxtext="Model.xml"/>
 </data>

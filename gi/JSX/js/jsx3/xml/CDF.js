@@ -38,77 +38,141 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
    */
   CDF.INSERTBEFORE = 3;
 
+/* @JSC :: begin DEP */
+
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ELEM_ROOT = "data";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ELEM_RECORD = "record";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_ID = "jsxid";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_TEXT = "jsxtext";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_EXECUTE = "jsxexecute";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_DISABLED = "jsxdisabled";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_SELECTED = "jsxselected";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_UNSELECTABLE = "jsxunselectable";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_IMG = "jsximg";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_TIP = "jsxtip";
 
   /**
    * {String}
    * @final @jsxobf-final
+   * @deprecated
    */
   CDF.ATTR_KEYCODE = "jsxkeycode";
 
+/* @JSC :: end */
+
   /** @private @jsxobf-clobber */
-  CDF.PROPERTY_ATTR = [CDF.ATTR_TEXT, CDF.ATTR_TIP, CDF.ATTR_IMG, CDF.ATTR_KEYCODE, "jsxstyle", "jsxclass"];
+  CDF.PROPERTY_ATTR = ["jsxtext", "jsxtip", "jsximg", "jsxkeycode", "jsxstyle", "jsxclass"];
 
   /** @private @jsxobf-clobber */
   CDF._SERIAL = 1;
+
+  CDF.DEFAULT_SCHEMA = new jsx3.xml.CDFSchema();
+
+  /**
+   * Sets the schema for this CDF control.
+   * @param objSchema {jsx3.xml.CDFSchema}
+   * @since 3.9
+   */
+  CDF_prototype.setSchema = function(objSchema) {
+    // @jsxobf-clobber
+    this.jsxschema = objSchema;
+  };
+
+  /**
+   * Returns the schema for this CDF control as set by <code>setSchema()</code>, the first child of this object
+   * of type <code>CDFSchema</code>, or the default CDF schema.
+   * @return {jsx3.xml.CDFSchema}
+   * @since 3.9
+   */
+  CDF_prototype.getSchema = function() {
+    return this.jsxschema || this._jsxschema || CDF.DEFAULT_SCHEMA;
+  };
+
+  // CDF attribute name
+  CDF_prototype._cdfan = function(name) {
+    return this.getSchema().getProp(name);
+  };
+
+  // CDF attribute value
+  CDF_prototype._cdfav = function(rec, name, val) {
+    var attr = this._cdfan(name);
+    if (arguments.length >= 3) {
+      if (rec.setAttribute)
+        rec.setAttribute(attr, val);
+      else
+        rec[attr] = val;
+    } else if (rec)
+      return rec.getAttribute ? rec.getAttribute(attr) : rec[attr];
+  };
+
+  CDF_prototype._onAfterAttach = function() {
+    // cache the first child to speed the query up
+    // @jsxobf-clobber
+    this._jsxschema = this.getDescendantsOfType(jsx3.xml.CDFSchema, true)[0];
+  };
+
+  jsx3.app.Model.jsxclass.addMethodMixin("onAfterAttach", CDF.jsxclass, "_onAfterAttach");
+  jsx3.app.Model.jsxclass.addMethodMixin("onChildAdded", CDF.jsxclass, "_onAfterAttach");
+  jsx3.app.Model.jsxclass.addMethodMixin("onRemoveChild", CDF.jsxclass, "_onAfterAttach");
 
   /**
    * Inserts a new record into the XML data source of this object. If no XML data source exists
@@ -142,13 +206,14 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
       var action = CDF.INSERT;
 
       //check if a record with the same ID already exists
-      var objRecordNode = objXML.selectSingleNode(this._getSelectionQuery(objRecord.jsxid));
+      var objRecordNode = objXML.selectSingleNode(this._getSelectionQuery(this._cdfav(objRecord, "id")));
       if (objRecordNode != null) {
         //update action
         action = CDF.UPDATE;
       } else {
         //create a new record object
-        objRecordNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, CDF.ELEM_RECORD);
+        var elmName = this._cdfan("children");
+        objRecordNode = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT, elmName == "*" ? "record" : elmName);
 
         //find out who should own the new record and append new record as a child
         var objParent = (strParentRecordId != null) ?
@@ -164,7 +229,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
 
       //if user chose to redraw, do so here (user must explicitly send false to stop a redraw)
       if (bRedraw !== false)
-        this.redrawRecord(objRecord["jsxid"], action);
+        this.redrawRecord(this._cdfav(objRecord, "id"), action);
 
       //return a handle to the new node
       return objRecordNode;
@@ -199,7 +264,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
       var action = CDF.INSERT;
 
       //check if a record with the same ID already exists
-      var objExistRecordNode = objXML.selectSingleNode(this._getSelectionQuery(objRecordNode.getAttribute("jsxid")));
+      var objExistRecordNode = objXML.selectSingleNode(this._getSelectionQuery(this._cdfav(objRecordNode, "id")));
       if (objExistRecordNode != null) {
         //update action
         action = CDF.UPDATE;
@@ -213,7 +278,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
 
       // if user chose to redraw, do so here (user must explicitly send false to stop a redraw)
       if (bRedraw !== false)
-        this.redrawRecord(objRecordNode.getAttribute("jsxid"), action);
+        this.redrawRecord(this._cdfav(objRecordNode, "id"), action);
     } else {
       throw new jsx3.IllegalArgumentException("objRecordNode", objRecordNode);
     }
@@ -385,15 +450,15 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
   CDF_prototype.insertRecordBefore = function(objRecord, strSiblingRecordId, bRedraw) {
     //exit early if no value hash supplied
     var objXML = this.getXML();
-    var objExistingNode = objXML.selectSingleNode(this._getSelectionQuery(objRecord.jsxid));
+    var objExistingNode = objXML.selectSingleNode(this._getSelectionQuery(this._cdfav(objRecord, "id")));
     if (objExistingNode) {
-      CDF._LOG.debug(jsx3._msg("cdf.before_col", objRecord.jsxid, this));
+      CDF._LOG.debug(jsx3._msg("cdf.before_col", this._cdfav(objRecord, "id"), this));
     } else {
       var objSiblingNode = objXML.selectSingleNode(this._getSelectionQuery(strSiblingRecordId));
       if(objSiblingNode != null && objSiblingNode.getParent() != null) {
-        var objNewNode = this.insertRecord(objRecord,objSiblingNode.getParent().getAttribute("jsxid"),false);
+        var objNewNode = this.insertRecord(objRecord,this._cdfav(objSiblingNode.getParent(), "id"),false);
         if(objNewNode) {
-          this.adoptRecordBefore(this,objRecord.jsxid,strSiblingRecordId,bRedraw);
+          this.adoptRecordBefore(this,this._cdfav(objRecord, "id"),strSiblingRecordId,bRedraw);
           return objNewNode;
         }
       } else {
@@ -434,7 +499,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
     } else {
       //first resolve the parent id (who should actually adopt)
       var objParent = this.getRecordNode(strSiblingRecordId).getParent();
-      var strTrueParentRecordId = objParent.getAttribute("jsxid");
+      var strTrueParentRecordId = this._cdfav(objParent, "jsx");
 
       //insert as child of actual parent and then do an insertBefore
       var objRecordNode = this.adoptRecord(strSourceId, strRecordId, strTrueParentRecordId,false);
@@ -444,9 +509,9 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
 
         //call redraw, passing insertbefore
         if (bRedraw !== false) {
-          this.redrawRecord(objRecordNode.getAttribute("jsxid"), CDF.INSERTBEFORE);
+          this.redrawRecord(this._cdfav(objRecordNode, "id"), CDF.INSERTBEFORE);
 //          for (var i = objRecordNode.getChildIterator(); i.hasNext(); )
-//            this.redrawRecord(i.next().getAttribute("jsxid"), CDF.INSERT);
+//            this.redrawRecord(this._cdfav(i.next(), "id"), CDF.INSERT);
         }
 
         return objRecordNode;
@@ -476,7 +541,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
       if (bRedraw !== false) {
         this.redrawRecord(strRecordId, CDF.DELETE);
 //        for (var i = objNode.getChildIterator(); i.hasNext(); )
-//          this.redrawRecord(i.next().getAttribute("jsxid"), CDF.DELETE);
+//          this.redrawRecord(this._cdfav(i.next(), "id"), CDF.DELETE);
       }
 
       //return the removed node
@@ -524,10 +589,10 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
    CDF_prototype.getRecordIds = function() {
     var arrayIds = [];
     var objXML = this.getXML();
-    var itrNodes = objXML.selectNodeIterator("//record");
+    var itrNodes = objXML.selectNodeIterator("//" + this._cdfan("children"));
     while (itrNodes.hasNext()) {
       var node = itrNodes.next();
-      arrayIds.push(node.getAttribute("jsxid"));
+      arrayIds.push(this._cdfav(node, "id"));
     }
     return arrayIds;
   };
@@ -555,8 +620,8 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
     //there appears to be a bug in how the W3C spec is implemented. Apostrophes cannot be escaped. TO DO: this has to be resolved...
     //see: http://www.w3.org/TR/2003/WD-xquery-20031112/#id-primary-expressions
     return ((strRecordId+"").indexOf("'") == -1) ?
-      "//*[@jsxid='" + strRecordId + "']" :
-      '//*[@jsxid="' + strRecordId + '"]';
+      "//*[@" + this._cdfan("id") + "='" + strRecordId + "']" :
+      '//*[@' + this._cdfan("id") + '="' + strRecordId + '"]';
   };
 
 /* @JSC :: begin DEP */
@@ -602,9 +667,9 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
    */
   CDF_prototype.assignIds = function() {
     var xml = this.getXML();
-    for (var i = xml.selectNodeIterator("//record[not(@jsxid)]"); i.hasNext(); ) {
+    for (var i = xml.selectNodeIterator("//" + this._cdfan("children") + "[not(@"+this._cdfan("id")+")]"); i.hasNext(); ) {
       var node = i.next();
-      node.setAttribute("jsxid", CDF.getKey());
+      node.setAttribute(this._cdfan("id"), CDF.getKey());
     }
   };
 
@@ -689,7 +754,7 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
    */
   CDF.newDocument = function() {
     var objXML = new jsx3.xml.Document();
-    objXML.loadXML('<' + CDF.ELEM_ROOT + ' jsxid="jsxroot"/>');
+    objXML.loadXML('<data jsxid="jsxroot"/>');
     return objXML;
   };
 
@@ -751,7 +816,7 @@ jsx3.Class.defineClass("jsx3.xml.CDF.Document", jsx3.xml.Document, [jsx3.xml.CDF
    */
   Document.newDocument = function() {
     var objXML = new Document();
-    objXML.loadXML('<' + jsx3.xml.CDF.ELEM_ROOT + ' jsxid="jsxroot"/>');
+    objXML.loadXML('<data jsxid="jsxroot"/>');
     return objXML;
   };
 

@@ -157,6 +157,10 @@ setCachedClientDimensions
 _UNSEL
 _CLPSE
 
+# CDF
+_cdfan
+_cdfav
+
 # jsx3.gui.Window
 # _jsxwindow (html files cannot be obfuscated)
 

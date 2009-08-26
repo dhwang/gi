@@ -444,15 +444,20 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var strText = objGUI.value;
     //In xpath selection expression string, Quote and Apostrophes cannot be escaped at same time.
     //TODO: this has to be resolved...
+
+    var record = this._cdfan("children");
+    var jsxtext = this._cdfan("text");
+    var jsxid = this._cdfan("id");
+
     var xpr = (strText.indexOf("'") == -1) ?
-    ["//record[@jsxtext='", strText,"' or (not(@jsxtext) and @jsxid='", strText, "')]"].join("") :
-    ['//record[@jsxtext="', strText,'" or (not(@jsxtext) and @jsxid="', strText, '")]'].join('');
+    ["//"+record+"[@"+jsxtext+"='", strText,"' or (not(@"+jsxtext+") and @"+jsxid+"='", strText, "')]"].join("") :
+    ["//"+record+"[@"+jsxtext+'="', strText,'" or (not(@'+jsxtext+') and @'+jsxid+'="', strText, '")]'].join('');
     
     //locate a match; if found, update the selected value for the instance
     var objNode = this.getXML().selectSingleNode(xpr);
     if (!this._isfocusing) { // is blur caused by mouseover to selection item?
       if (objNode != null) {
-        this._doSelectRecord(objEvent, objNode.getAttribute("jsxid"));
+        this._doSelectRecord(objEvent, this._cdfav(objNode, "id"));
       }
       else {
         //no match was found in the datamodel, so assume that the value will be made equal to the current value of the textbox
@@ -1011,8 +1016,8 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   Select_prototype.getText = function() {
     var myNode = this.getRecordNode(this.getValue());
     if (myNode != null) {
-      var attr = myNode.getAttribute("jsxtext");
-      return attr != null ? attr : myNode.getAttribute("jsxid");
+      var attr = this._cdfav(myNode, "text");
+      return attr != null ? attr : this._cdfav(myNode, "id");
     } else {
       return (this.getType() == Select.TYPECOMBO || this.getValue() != null) ? this.getValue() : this.getDefaultText();
     }
@@ -1030,8 +1035,8 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (this.getValue() == strRecordId) {
       var myNode = this.getRecordNode(strRecordId);
       if (myNode != null) {
-        var attr = myNode.getAttribute("jsxtext");
-        this._setText(attr != null ? attr : myNode.getAttribute("jsxid"));
+        var attr = this._cdfav(myNode, "text");
+        this._setText(attr != null ? attr : this._cdfav(myNode, "id"));
       } else {
         this._setText(this.getType() == Select.TYPESELECT ? this.getDefaultText() :
                       (strRecordId != null ? strRecordId : ""));

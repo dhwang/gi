@@ -378,12 +378,6 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
   Model_prototype.onChildAdded = function(objChild) {
   };
 
-  //TODO: need method in model independent of how items are painted--otherwise the DOM is worthless without a view
-  Model_prototype.hasPaintProfile = function() {
-    //no-op; used by the new model
-    return false;
-  };
-
   /**
    * called by setChild; recurses through the descenants and ensures that they share the common namespace and
    *             are assigned system IDs; if @objChild has descendants (if @bDeep == true), they are also added
@@ -725,12 +719,6 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
    * @package
    */
   Model_prototype.destroyView = function(objParent) {
-    var s = objParent.getServer();
-    if (s) {
-      var objGUI = objParent.getServer().getRenderedOf(this);
-      if (objGUI)
-        jsx3.html.removeNode(objGUI);
-    }
   };
 
   /**
@@ -1108,24 +1096,6 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     this.jsxloadtype = intLoadType;
   };
 
-  /** @package */
-  Model_prototype._getShowState = function() {
-    return this._jsxshowstate;
-  };
-
-  /** @package */
-  Model_prototype._setShowState = function(bShow) {
-    if (this._jsxshowstate != bShow) {
-      this._jsxshowstate = bShow;
-      if (bShow) {
-        var objGUI = this.getRendered();
-        //3.6: added the following to repaint the domholder object if it is in fact the domholder (don't just check content existence)
-        if (objGUI && (!objGUI.firstChild || objGUI.getAttribute("jsxdomholder") == "1"))
-          this.repaint();
-      }
-    }
-  };
-
   /**
    * Returns the parent DOM node of this object.
    * @return {jsx3.app.Model}
@@ -1234,10 +1204,10 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     if (objProperties.children) {
       var maxLen = this.getChildren().length;
       for (var i = 0; i < maxLen; i++) {
-        objRoot.appendChild(this.getChild(i)._doSerialize(objXML, objProperties));
+        objRoot.appendChild(this.getChild(i).toXMLElm(objXML, objProperties));
       }
     } else {
-      objRoot.appendChild(this._doSerialize(objXML, objProperties));
+      objRoot.appendChild(this.toXMLElm(objXML, objProperties));
     }
 
     return objXML;
@@ -1255,10 +1225,21 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
   /** @private @jsxobf-clobber */
   Model._boolnumber = {"boolean":1, "number":1};
 
-  /** @private @jsxobf-clobber-shared */
-  Model_prototype._doSerialize = function(objXML, objProperties) {
+  /**
+   * Serializes this object as an XML node in the XML document <code>objXML</code>. This method can be
+   * overridden by subclasses of <code>Model</code> that want to provide their own serialized form. However,
+   * this method should at least return the node &lt;object type="pkg.Class"/&gt; in order to be compatible with
+   * deserialization. 
+   *
+   * @param objXML {jsx3.xml.Document}
+   * @param objProperties {Object} the same object passed to <code>toXMLDoc()</code>.
+   * @return {jsx3.xml.Entity}
+   * @see #toXMLDoc()
+   * @since 3.9
+   */
+  Model_prototype.toXMLElm = function(objXML, objProperties) {
     // create <object>
-    var ns = Model.CURRENT_VERSION;
+    var ns = objXML.getNamespaceURI();
     var objNode = objXML.createNode(Entity.TYPEELEMENT, "object", ns);
 
     // set the object type
@@ -1314,7 +1295,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
               objInclude.setAttribute("async", intPersist == Model.PERSISTREFASYNC ? "true" : "false");
               objNode.appendChild(objInclude);
             } else if (intPersist == Model.PERSISTEMBED || objProperties.persistall) {
-              objNode.appendChild(child._doSerialize(objXML, objProperties));
+              objNode.appendChild(child.toXMLElm(objXML, objProperties));
             }
           }
         }
@@ -1738,23 +1719,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     objInstance._jsxns = strNS;
     objInstance.onBeforeAssemble(this, objServer);
 
-    //call functions that will extract variant, dynamic, and string data types and apply to the object instance
-    for (var i = objXML.selectNodeIterator("jsx1:strings | jsx1:variants | jsx1:dynamics | jsx1:properties | jsx1:events | jsx1:xslparameters"); i.hasNext(); ) {
-      var n = i.next();
-      var name = n.getBaseName();
-      if (name == "strings")
-        Model._applyStringAttributes(objInstance, n);
-      else if (name == "variants")
-        Model._applyVariantAttributes(objInstance, n);
-      else if (name == "dynamics")
-        Model._bindObjectProperty(objInstance, n, "_jsxdynamic");
-      else if (name == "properties")
-        Model._bindObjectProperty(objInstance, n, "jsxcustom");
-      else if (name == "events")
-        Model._bindObjectProperty(objInstance, n, "_jsxevents");
-      else if (name == "xslparameters")
-        Model._bindObjectProperty(objInstance, n, "jsxxslparams");
-    }
+    var bDoChildren = objInstance.assembleFromXML(objXML);
 
     var strName = objInstance.getName();
     if (strName) {
@@ -1764,50 +1729,101 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     }
 
     //recurse to bind children
-    var i = objXML.selectNodeIterator("jsx1:object | jsx1:include | jsx1:children/jsx1:object | jsx1:children/jsx1:include");
+    if (bDoChildren) {
+      var i = objXML.selectNodeIterator("jsx1:object | jsx1:include | jsx1:children/jsx1:object | jsx1:children/jsx1:include");
 
-    while (i.hasNext()) {
-      var objItem = i.next();
+      while (i.hasNext()) {
+        var objItem = i.next();
 
-      if (objItem.getBaseName() == "object") {
-        //during recursion all descendants are embedded, since this is how they exist in the serialization file
-        var objNewChild = objInstance._doLoad(objItem, strSourceURL, strNS, objServer, objCache, objResolver, loadContext);
-        if (objNewChild) objInstance.setChild(objNewChild, Model.PERSISTEMBED, null, strNS);
-      } else if (objItem.getBaseName() == "include") {
-        // resolver the referenced component file relative to this DOM node
-        var rawURL = objItem.getAttribute("src");
-        var strMyURL = objResolver.resolveURI(rawURL);
-        var refSync = true;
+        if (objItem.getBaseName() == "object") {
+          //during recursion all descendants are embedded, since this is how they exist in the serialization file
+          var objNewChild = objInstance._doLoad(objItem, strSourceURL, strNS, objServer, objCache, objResolver, loadContext);
+          if (objNewChild) objInstance.setChild(objNewChild, Model.PERSISTEMBED, null, strNS);
+        } else if (objItem.getBaseName() == "include") {
+          // resolver the referenced component file relative to this DOM node
+          var rawURL = objItem.getAttribute("src");
+          var strMyURL = objResolver.resolveURI(rawURL);
+          var refSync = true;
 
-        //branch based on async or not
-        if (objItem.getAttribute("async") == "true") {
-          refSync = false;
+          //branch based on async or not
+          if (objItem.getAttribute("async") == "true") {
+            refSync = false;
 
-          if (i.hasNext()) {
-            jsx3.util.Logger.GLOBAL.warn(jsx3._msg("model.async_convt", objInstance));
-            refSync = true;
+            if (i.hasNext()) {
+              jsx3.util.Logger.GLOBAL.warn(jsx3._msg("model.async_convt", objInstance));
+              refSync = true;
+            }
           }
-        }
 
-        if (refSync) {
-          //this is a synchronouns load; just request the resource
-          var objRefXML = objCache != null ? objCache.getOrOpenDocument(strMyURL) : (new Document()).load(strMyURL);
+          if (refSync) {
+            //this is a synchronouns load; just request the resource
+            var objRefXML = objCache != null ? objCache.getOrOpenDocument(strMyURL) : (new Document()).load(strMyURL);
 
-          if (objRefXML.hasError())
-            throw new jsx3.Exception(jsx3._msg("model.bad_comp", strMyURL, objXML.getError()));
+            if (objRefXML.hasError())
+              throw new jsx3.Exception(jsx3._msg("model.bad_comp", strMyURL, objXML.getError()));
 
-          objInstance._loadObject(objRefXML, false, Model.PERSISTREF, strMyURL, rawURL, strNS, objCache, null, objServer);
+            objInstance._loadObject(objRefXML, false, Model.PERSISTREF, strMyURL, rawURL, strNS, objCache, null, objServer);
+          } else {
+            objInstance._doLoadAsync(strMyURL, rawURL, strNS, objCache, objServer);
+          }
         } else {
-          objInstance._doLoadAsync(strMyURL, rawURL, strNS, objCache, objServer);
+          throw new jsx3.Exception();
         }
-      } else {
-        throw new jsx3.Exception();
       }
     }
 
     objInstance.onAfterAssemble(this, objServer);
     //return the object instance
     return objInstance;
+  };
+
+  /**
+   * Builds this object from its serialized XML representation. Subclasses of Model may override this method
+   * along with <code>toXMLElm()</code> to control their own serialized form.
+   * <p/>
+   * When this method is called this object has already been instantiated but none of its properties have been set.
+   * This method sets all of its properties. Any children of this object are automatically deserialized after this
+   * method returns. 
+   *
+   * @param objElm {jsx3.xml.Entity} the serialized representation of this object.
+   * @return {boolean} <code>true</code> to deserialize any child objects or <code>false</code> to ignore them
+   *    (for example if this method performs a custom child deserialization).
+   *
+   * @since 3.9
+   * @see #toXMLElm()
+   */
+  Model_prototype.assembleFromXML = function(objElm) {
+    var names = objElm.getAttributeNames();
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i];
+      if (name != "type") {
+        var val = objElm.getAttribute(name);
+        if (val.indexOf("@{") == 0 && val.lastIndexOf("}") == val.length - 1)
+          this.setDynamicProperty(name, val.substring(2, val.length - 1));
+        else
+          this[name] = isNaN(val) ? val : Number(val);
+      }
+    }
+
+    //call functions that will extract variant, dynamic, and string data types and apply to the object instance
+    for (var i = objElm.selectNodeIterator("jsx1:strings | jsx1:variants | jsx1:dynamics | jsx1:properties | jsx1:events | jsx1:xslparameters"); i.hasNext(); ) {
+      var n = i.next();
+      var name = n.getBaseName();
+      if (name == "strings")
+        Model._applyStringAttributes(this, n);
+      else if (name == "variants")
+        Model._applyVariantAttributes(this, n);
+      else if (name == "dynamics")
+        Model._bindObjectProperty(this, n, "_jsxdynamic");
+      else if (name == "properties")
+        Model._bindObjectProperty(this, n, "jsxcustom");
+      else if (name == "events")
+        Model._bindObjectProperty(this, n, "_jsxevents");
+      else if (name == "xslparameters")
+        Model._bindObjectProperty(this, n, "jsxxslparams");
+    }
+
+    return true;
   };
 
   /**
@@ -1856,10 +1872,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
         children[i].onAfterAttach();
     }
 
-    //3.6 Templating language udpate: this is a no-op for pre-migrated controls; ensures that all dynprops are run after attachment--
-    //(this ensures that they are not redundantly re-run each time paint is called)
-    if(this.hasPaintProfile())
-      this.applyDynamicProperties();
+    this.applyDynamicProperties();
 
     var onAfter = this.getMetaValue("onafter");
     if (onAfter) {
@@ -1872,6 +1885,60 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
         var strSourceUrl = this.getMetaValue("url");
         jsx3.util.Logger.GLOBAL.error(jsx3._msg("model.onafter", strSourceUrl), jsx3.NativeError.wrap(e));
       }
+    }
+  };
+
+  /**
+   * Assigns a dynamic property to one of this object's instance properties.
+   * @param strName {String} property on this GUI object that will now use a dynamic property (e.g., 'jsxleft','jsxtop','jsxheight',etc.);
+   * @param strValue {String} name of a dynamic style, whose value will be used
+   * @param bNoSave {Boolean} When <code>true</code>, this dynamic property will not be serialized with the object.
+   * @return {jsx3.gui.Painted} this object
+   */
+  Model_prototype.setDynamicProperty = function(strName, strValue, bNoSave) {
+    //declare object if it doesn't exists
+    if (this._jsxdynamic == null) this._jsxdynamic = {};
+    if (this._jsxtempdynamic == null) this._jsxtempdynamic = {};
+
+    //set the property  -- assume delete request if null value passed for existing item
+    if (strValue == null) {
+      delete this._jsxdynamic[strName];
+      delete this._jsxtempdynamic[strName];
+    } else {
+      this._jsxdynamic[strName] = strValue;
+      if(bNoSave)
+        this._jsxtempdynamic[strName] = strValue;
+      else
+        delete this._jsxtempdynamic[strName];
+    }
+
+    return this;
+  };
+
+  /**
+   * Returns the value of the dynamic property @strPropName; if not found, returns null
+   * @param strName {String} property on this GUI object that will now use a dynamic property (e.g., 'jsxleft','jsxtop','jsxheight',etc.);
+   * @return {String} value of the property
+   */
+  Model_prototype.getDynamicProperty = function(strName) {
+    if (this._jsxdynamic) return this._jsxdynamic[strName];
+  };
+
+  /**
+   * system call typically made by the paint routine for the object; updates all properties for the object with any dynamic properties it may reference
+   * @private
+   */
+  Model_prototype.applyDynamicProperties = function() {
+    //declare object if it doesn't exists
+    if (this._jsxdynamic != null) {
+      //get handle to the server that owns this object
+      var objMyServer = this.getServer();
+      if (objMyServer == null) return;
+
+      //loop to update the values in this object with their corresponding value managed by the given server instance
+      var jss = objMyServer.getProperties();
+      for (var p in this._jsxdynamic)
+        this[p] = jss.get(this._jsxdynamic[p]);
     }
   };
 

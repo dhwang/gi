@@ -54,60 +54,6 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
   };
 
   /**
-   * system call typically made by the paint routine for the object; updates all properties for the object with any dynamic properties it may reference
-   * @private
-   */
-  Painted_prototype.applyDynamicProperties = function() {
-    //declare object if it doesn't exists
-    if (this._jsxdynamic != null) {
-      //get handle to the server that owns this object
-      var objMyServer = this.getServer();
-      if (objMyServer == null) return;
-
-      //loop to update the values in this object with their corresponding value managed by the given server instance
-      var jss = objMyServer.getProperties();
-      for (var p in this._jsxdynamic)
-        this[p] = jss.get(this._jsxdynamic[p]);
-    }
-  };
-
-  /**
-   * Assigns a dynamic property to one of this object's instance properties.
-   * @param strName {String} property on this GUI object that will now use a dynamic property (e.g., 'jsxleft','jsxtop','jsxheight',etc.);
-   * @param strValue {String} name of a dynamic style, whose value will be used
-   * @param bNoSave {Boolean} When <code>true</code>, this dynamic property will not be serialized with the object.
-   * @return {jsx3.gui.Painted} this object
-   */
-  Painted_prototype.setDynamicProperty = function(strName, strValue, bNoSave) {
-    //declare object if it doesn't exists
-    if (this._jsxdynamic == null) this._jsxdynamic = {};
-    if (this._jsxtempdynamic == null) this._jsxtempdynamic = {};
-
-    //set the property  -- assume delete request if null value passed for existing item
-    if (strValue == null) {
-      delete this._jsxdynamic[strName];
-      delete this._jsxtempdynamic[strName];
-    } else {
-      this._jsxdynamic[strName] = strValue;
-      if(bNoSave)
-        this._jsxtempdynamic[strName] = strValue;
-      else
-        delete this._jsxtempdynamic[strName];
-    }
-
-    return this;
-  };
-
-  /**
-   * Returns the value of the dynamic property @strPropName; if not found, returns null
-   * @param strName {String} property on this GUI object that will now use a dynamic property (e.g., 'jsxleft','jsxtop','jsxheight',etc.);
-   * @return {String} value of the property
-   */
-  Painted_prototype.getDynamicProperty = function(strName) {
-    if (this._jsxdynamic) return this._jsxdynamic[strName];
-  };
-
-  /**
    * Sets a property on the object that when the object is rendered on-screen, the HTML tag will be assigned the given name/value pair as a tag attribute
    * @param strName {String} the name of the property/attribute
    * @param strValue {String} the value for the property; may not contain double-quotes; escape via jsx3.util.strEscapeHTML if necessary or use combinations of single-quotes and escaped single-quotes
@@ -390,7 +336,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
         var objElm = node.getRendered(objGUI);
         if (objElm) node.onAfterPaint(objElm);
       }
-      var arrChildren = node.getChildren();
+      var arrChildren = node.getDescendantsOfType(Painted, true);
       if (arrChildren.length > 0)
         queue.unshift.apply(queue, arrChildren);
     }
@@ -417,7 +363,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
         var objElm = node.getRendered(objGUI);
         if (objElm) node.onAfterRestoreView(objElm);
       }
-      var arrChildren = node.getChildren();
+      var arrChildren = node.getDescendantsOfType(Painted, true);
       if (arrChildren.length > 0)
         queue.unshift.apply(queue, arrChildren);
     }
@@ -497,7 +443,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
   Painted_prototype.paintChild = function(objChild, bGroup, objGUI, bCascadeOnly) {
     //allows runtime insert of html without requiring all other child objects to be repainted
     if (objGUI == null) objGUI = this.getRendered();
-    if (objGUI != null) {
+    if (objGUI != null && objChild instanceof Painted) {
       if (!bCascadeOnly) {
         if (objChild.isDomPaint()) {
           objGUI.appendChild(objChild.paintDom());
@@ -554,6 +500,8 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
     var a = new Array(c.length);
     for (var i = 0; i < c.length; i++) {
       var child = c[i];
+      if (!(child instanceof Painted)) continue;
+
       if (child.isDomPaint()) {
         a[i] = child.paintDomHolder();
         Painted.addToDomPaintQueue(child);
@@ -871,6 +819,33 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
 
     delete this._jsxcachedclientdims;
     this.updateBoxProfile(objImplicit, objGUI, objQueue);
+  };
+
+  /** @package */
+  Painted_prototype._getShowState = function() {
+    return this._jsxshowstate;
+  };
+
+  /** @package */
+  Painted_prototype._setShowState = function(bShow) {
+    if (this._jsxshowstate != bShow) {
+      this._jsxshowstate = bShow;
+      if (bShow) {
+        var objGUI = this.getRendered();
+        //3.6: added the following to repaint the domholder object if it is in fact the domholder (don't just check content existence)
+        if (objGUI && (!objGUI.firstChild || objGUI.getAttribute("jsxdomholder") == "1"))
+          this.repaint();
+      }
+    }
+  };
+
+  Painted_prototype.destroyView = function(objParent) {
+    var s = objParent.getServer();
+    if (s) {
+      var objGUI = objParent.getServer().getRenderedOf(this);
+      if (objGUI)
+        jsx3.html.removeNode(objGUI);
+    }
   };
 
 });
@@ -1967,7 +1942,7 @@ jsx3.Class.defineClass("jsx3.app.Model.Loading", jsx3.gui.Painted, null, functio
   };
   
   /** @private @jsxobf-clobber-shared */
-  Loading_prototype._doSerialize = function(objXML, objProperties) {
+  Loading_prototype.toXMLElm = function(objXML, objProperties) {
     return this._jsxxml.cloneNode(true);
   };
 

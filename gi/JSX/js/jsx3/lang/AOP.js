@@ -113,14 +113,20 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
       
     if (!AOP._methodToPC[key]) {
       var proto = c.getConstructor().prototype;
-      AOP._methodToPC[key] = {_method:proto[mName], _pc:[]};
 
-      var oldMethod = proto[mName].jsxmethod;
+      // make sure not to add a pointcut around another pointcut
+      if (!proto[mName]._aoppc) {
+        AOP._methodToPC[key] = {_method:proto[mName], _pc:[]};
 
-      proto[mName] = AOP._newCutPoint(key);
+        var oldMethod = proto[mName].jsxmethod;
 
-      // So that prototype[methodName].jsxmethod is still defined...
-      proto[mName].jsxmethod = oldMethod;
+        proto[mName] = AOP._newCutPoint(key);
+
+        // So that prototype[methodName].jsxmethod is still defined...
+        proto[mName].jsxmethod = oldMethod;
+      } else {
+        AOP._methodToPC[key] = {_method:AOP._methodToPC[proto[mName]._aopkey]._method, _pc:[]};
+      }
     }
 
     return key;
@@ -180,7 +186,8 @@ jsx3.Class.defineClass("jsx3.lang.AOP", null, null, function(AOP, AOP_prototype)
     var f = function() {
       return AOP._cutPoint(strKey, this, arguments);
     };
-    f.jsxmethod = AOP._cutPoint.jsxmethod;
+    f._aoppc = 1;
+    f._aopkey = strKey;
     return f;
   };
   

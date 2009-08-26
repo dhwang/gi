@@ -8,6 +8,13 @@
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
 
+  <xsl:param name="attrchildren">record</xsl:param>
+  <xsl:param name="attrid">jsxid</xsl:param>
+  <xsl:param name="attrtip">jsxtip</xsl:param>
+  <xsl:param name="attrimg">jsximg</xsl:param>
+  <xsl:param name="attrimgalt">jsximgalt</xsl:param>
+  <xsl:param name="attrselected">jsxselected</xsl:param>
+
   <!-- default parameters managed by the class; most can be updated by calling instance methods in the class, jsx3.gui.Table -->
   <xsl:param name="jsxtabindex">0</xsl:param>
   <xsl:param name="jsxselectionbgurl">JSX/images/matrix/select.gif</xsl:param>
@@ -56,7 +63,7 @@
         <xsl:when test="$jsxmaxinclusive">
           <table class="jsx30table" style="top:{$jsxheaderheight}px;{$jsxtablestyles}" cellpadding="0"
                  cellspacing="0">
-            <xsl:for-each select="//record">
+            <xsl:for-each select="//*[$attrchildren='*' or name()=$attrchildren]">
             <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
             <xsl:choose><xsl:when test="position() &gt;= $jsxmininclusive and position() &lt;= $jsxmaxinclusive">
               <xsl:apply-templates select="." mode="record">
@@ -69,7 +76,7 @@
         <xsl:otherwise>
           <table class="jsx30table" style="top:{$jsxheaderheight}px;{$jsxtablestyles}" cellpadding="0"
                  cellspacing="0">
-            <xsl:for-each select="//*[@jsxid=$jsxshallowfrom]/record">
+            <xsl:for-each select="//*[@*[name() = $attrid]=$jsxshallowfrom]/*[$attrchildren='*' or name()=$attrchildren]">
               <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
               <xsl:apply-templates select="." mode="record">
                 <xsl:with-param name="position" select="position()-1"/>
@@ -82,10 +89,10 @@
   </xsl:template>
 
   <!-- Called by the root template. Renders the TR/TD containers -->
-  <xsl:template match="record" mode="record">
+  <xsl:template match="*" mode="record">
     <xsl:param name="position"/>
     <xsl:param name="myselectionbg">
-      <xsl:if test="@jsxselected='1'">background-image:url(
+      <xsl:if test="@*[name() = $attrselected]='1'">background-image:url(
         <xsl:value-of select="$jsxselectionbgurl"/>
         );
       </xsl:if>
@@ -103,11 +110,11 @@
       </xsl:choose><xsl:text>;</xsl:text>
     </xsl:param>
 
-    <tr id="{$jsxid}_{@jsxid}" jsxid="{@jsxid}" jsxposition="{$position}" class="jsx30table {$jsxrowclass}"
+    <tr id="{$jsxid}_{@*[name() = $attrid]}" jsxid="{@*[name() = $attrid]}" jsxposition="{$position}" class="jsx30table {$jsxrowclass}"
         style="{$jsxrowstyle}" tabindex="{$jsxtabindex}">
-      <xsl:if test="@jsxtip">
+      <xsl:if test="@*[name() = $attrtip]">
         <xsl:attribute name="title">
-          <xsl:value-of select="@jsxtip"/>
+          <xsl:value-of select="@*[name() = $attrtip]"/>
         </xsl:attribute>
       </xsl:if>
     </tr>

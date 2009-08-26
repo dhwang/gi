@@ -8,6 +8,20 @@
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
 
+  <xsl:param name="attrchildren">record</xsl:param>
+  <xsl:param name="attrid">jsxid</xsl:param>
+  <xsl:param name="attrtext">jsxtext</xsl:param>
+  <xsl:param name="attrtip">jsxtip</xsl:param>
+  <xsl:param name="attrstyle">jsxstyle</xsl:param>
+  <xsl:param name="attrclass">jsxclass</xsl:param>
+  <xsl:param name="attrimg">jsximg</xsl:param>
+  <xsl:param name="attrimgalt">jsximgalt</xsl:param>
+  <xsl:param name="attrdisabled">jsxdisabled</xsl:param>
+
+  <xsl:param name="jsxsortpath"></xsl:param>
+  <xsl:param name="jsxsortdirection">ascending</xsl:param>
+  <xsl:param name="jsxsorttype">text</xsl:param>
+  <xsl:param name="jsxshallowfrom"></xsl:param>
   <xsl:param name="jsx_img_resolve">1</xsl:param>
   <xsl:param name="jsxasyncmessage"></xsl:param>
   <xsl:param name="_value"></xsl:param>
@@ -21,46 +35,55 @@
       <xsl:when test="$jsxasyncmessage and $jsxasyncmessage!=''">
         <option disabled="disabled"><xsl:value-of select="$jsxasyncmessage"/></option>
       </xsl:when>
+      <xsl:when test="$jsxshallowfrom">
+        <xsl:for-each select="//*[@*[name() = $attrid]=$jsxshallowfrom]/*[$attrchildren='*' or name()=$attrchildren]">
+          <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
+          <xsl:apply-templates select="."/>
+        </xsl:for-each>
+      </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="*"/>
+        <xsl:for-each select="descendant::*[$attrchildren='*' or name()=$attrchildren]">
+          <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
+          <xsl:apply-templates select="."/>
+        </xsl:for-each>
       </xsl:otherwise>
     </xsl:choose></JSX_FF_WELLFORMED_WRAPPER>
   </xsl:template>
 
-  <xsl:template match="record">
+  <xsl:template match="*">
     <xsl:variable name="mytext">
       <xsl:choose>
-        <xsl:when test="@jsxtext"><xsl:value-of select="@jsxtext"/></xsl:when>
-        <xsl:otherwise><xsl:value-of select="@jsxid"/></xsl:otherwise>
+        <xsl:when test="@*[name() = $attrtext]"><xsl:value-of select="@*[name() = $attrtext]"/></xsl:when>
+        <xsl:otherwise><xsl:value-of select="@*[name() = $attrid]"/></xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:variable name="bgimage">
-      <xsl:if test="@jsximg">
+      <xsl:if test="@*[name() = $attrimg]">
         <xsl:text>background-image:</xsl:text>
         <xsl:choose>
-          <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@jsximg" mode="uri-resolver"/></xsl:when>
-          <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
+          <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@*[name() = $attrimg]" mode="uri-resolver"/></xsl:when>
+          <xsl:otherwise><xsl:value-of select="@*[name() = $attrimg]"/></xsl:otherwise>
         </xsl:choose>
         <xsl:text>;</xsl:text>
       </xsl:if>
     </xsl:variable>
     <xsl:choose>
-      <xsl:when test="record">
+      <xsl:when test="*[$attrchildren='*' or name()=$attrchildren]">
         <optgroup label="{$mytext}">
-          <xsl:if test="@jsxstyle or $bgimage != ''"><xsl:attribute name="style"><xsl:value-of select="$bgimage"/><xsl:value-of select="@jsxstyle"/></xsl:attribute></xsl:if>
-          <xsl:if test="@jsxclass"><xsl:attribute name="class"><xsl:value-of select="@jsxclass"/></xsl:attribute></xsl:if>
-          <xsl:if test="@jsxtip"><xsl:attribute name="title"><xsl:value-of select="@jsxtip"/></xsl:attribute></xsl:if>
-          <xsl:if test="@jsxdisabled='1'"><xsl:attribute name="disabled">disabled</xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrstyle] or $bgimage != ''"><xsl:attribute name="style"><xsl:value-of select="$bgimage"/><xsl:value-of select="@*[name() = $attrstyle]"/></xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrclass]"><xsl:attribute name="class"><xsl:value-of select="@*[name() = $attrclass]"/></xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrtip]"><xsl:attribute name="title"><xsl:value-of select="@*[name() = $attrtip]"/></xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrdisabled]='1'"><xsl:attribute name="disabled">disabled</xsl:attribute></xsl:if>
           <xsl:apply-templates select="*"/>
         </optgroup>
       </xsl:when>
       <xsl:otherwise>
-        <option value="{@jsxid}">
-          <xsl:if test="@jsxstyle or $bgimage != ''"><xsl:attribute name="style"><xsl:value-of select="$bgimage"/><xsl:value-of select="@jsxstyle"/></xsl:attribute></xsl:if>
-          <xsl:if test="@jsxclass"><xsl:attribute name="class"><xsl:value-of select="@jsxclass"/></xsl:attribute></xsl:if>
-          <xsl:if test="@jsxtip"><xsl:attribute name="title"><xsl:value-of select="@jsxtip"/></xsl:attribute></xsl:if>
-          <xsl:if test="@jsxdisabled='1'"><xsl:attribute name="disabled">disabled</xsl:attribute></xsl:if>
-          <xsl:if test="$_value != '' and $_value = @jsxid">
+        <option value="{@*[name() = $attrid]}">
+          <xsl:if test="@*[name() = $attrstyle] or $bgimage != ''"><xsl:attribute name="style"><xsl:value-of select="$bgimage"/><xsl:value-of select="@*[name() = $attrstyle]"/></xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrclass]"><xsl:attribute name="class"><xsl:value-of select="@*[name() = $attrclass]"/></xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrtip]"><xsl:attribute name="title"><xsl:value-of select="@*[name() = $attrtip]"/></xsl:attribute></xsl:if>
+          <xsl:if test="@*[name() = $attrdisabled]='1'"><xsl:attribute name="disabled">disabled</xsl:attribute></xsl:if>
+          <xsl:if test="$_value != '' and $_value = @*[name() = $attrid]">
             <xsl:attribute name="selected">selected</xsl:attribute>
           </xsl:if>
           <xsl:value-of select="$mytext"/>

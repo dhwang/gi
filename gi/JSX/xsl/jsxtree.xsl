@@ -7,6 +7,18 @@
 
   <xsl:output method="xml" omit-xml-declaration="yes"/>
 
+  <xsl:param name="attrchildren">record</xsl:param>
+  <xsl:param name="attrid">jsxid</xsl:param>
+  <xsl:param name="attrtext">jsxtext</xsl:param>
+  <xsl:param name="attrtip">jsxtip</xsl:param>
+  <xsl:param name="attrstyle">jsxstyle</xsl:param>
+  <xsl:param name="attrclass">jsxclass</xsl:param>
+  <xsl:param name="attrimg">jsximg</xsl:param>
+  <xsl:param name="attrimgalt">jsximgalt</xsl:param>
+  <xsl:param name="attrselected">jsxselected</xsl:param>
+  <xsl:param name="attropen">jsxopen</xsl:param>
+  <xsl:param name="attrlazy">jsxlazy</xsl:param>
+
   <xsl:param name="jsxtabindex">0</xsl:param>
   <xsl:param name="jsxicon"></xsl:param>
   <xsl:param name="jsxiconminus"></xsl:param>
@@ -35,19 +47,19 @@
   <xsl:param name="jsxasyncmessage"></xsl:param>
 
   <xsl:template match="/">
-    <JSX_FF_WELLFORMED_WRAPPER>
+    <JSX_FF_WELLFORMED_WRAPPER xmlns=''>
       <xsl:choose>
         <xsl:when test="$jsxasyncmessage and $jsxasyncmessage!=''">
           <xsl:value-of select="$jsxasyncmessage"/>
         </xsl:when>
         <xsl:when test="$jsxdeepfrom != 'jsxnull' and $jsxfragment != '1'">
-          <xsl:apply-templates select="//*[@jsxid=$jsxdeepfrom]"/>
+          <xsl:apply-templates select="//*[@*[name() = $attrid]=$jsxdeepfrom]"/>
         </xsl:when>
         <xsl:when test="$jsxuseroot=1">
-          <xsl:apply-templates select="//*[@jsxid=$jsxrootid]"/>
+          <xsl:apply-templates select="//*[@*[name() = $attrid]=$jsxrootid]"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:for-each select="//*[@jsxid=$jsxrootid]/record">
+          <xsl:for-each select="//*[@*[name() = $attrid]=$jsxrootid]/*[$attrchildren='*' or name()=$attrchildren]">
             <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
             <xsl:apply-templates select="."/>
           </xsl:for-each>
@@ -57,31 +69,31 @@
   </xsl:template>
 
   <xsl:template match="*">
-    <xsl:param name="myjsxid" select="@jsxid"/>
-    <xsl:param name="mystyle" select="@jsxstyle"/>
-    <xsl:param name="myclass" select="@jsxclass"/>
+    <xsl:param name="myjsxid" select="@*[name() = $attrid]"/>
+    <xsl:param name="mystyle" select="@*[name() = $attrstyle]"/>
+    <xsl:param name="myclass" select="@*[name() = $attrclass]"/>
 
     <!-- TO DO: shouldn't affect performance to resolve all of the following, but look into how very large trees perform when rendered -->
     <xsl:variable name="_jsxstyle">
       <xsl:if test="$jsxselectedimage">background-image:url(<xsl:value-of select="$jsxselectedimage"/>);</xsl:if>
     </xsl:variable>
 
-    <div jsxtype='item' class='jsx30tree_item' id="{$jsxid}_{$myjsxid}" jsxid="{@jsxid}" unselectable="on">
+    <div jsxtype='item' class='jsx30tree_item' id="{$jsxid}_{$myjsxid}" jsxid="{$myjsxid}" unselectable="on" xmlns=''>
       <div jsxtype='caption' class='jsx30tree_caption' unselectable="on">
-        <xsl:if test="@jsxtip">
+        <xsl:if test="@*[name() = $attrtip]">
           <xsl:attribute name="title">
-            <xsl:value-of select="@jsxtip"/>
+            <xsl:value-of select="@*[name() = $attrtip]"/>
           </xsl:attribute>
         </xsl:if>
         <!-- plus/minus icon -->
         <xsl:choose>
-          <xsl:when test="(record or (@jsxlazy > 0)) and @jsxopen=1">
+          <xsl:when test="(*[$attrchildren='*' or name()=$attrchildren] or (@*[name() = $attrlazy] > 0)) and @*[name() = $attropen]=1">
             <img jsxtype="plusminus" class="jsx30tree_pm" src="{$jsxiconminus}" alt="{$jsxiconminusalt}"/>
           </xsl:when>
-          <xsl:when test="(record or (@jsxlazy > 0))">
+          <xsl:when test="(*[$attrchildren='*' or name()=$attrchildren] or (@*[name() = $attrlazy] > 0))">
             <img jsxtype="plusminus" class="jsx30tree_pm" src="{$jsxiconplus}" alt="{$jsxiconplusalt}"/>
           </xsl:when>
-          <xsl:when test="$jsx_no_empty_indent='1' and not(../record/record)">
+          <xsl:when test="$jsx_no_empty_indent='1' and not(../*[$attrchildren='*' or name()=$attrchildren]/*[$attrchildren='*' or name()=$attrchildren])">
             <span class="jsx30tree_empty">
               <xsl:text>&#160;</xsl:text>
             </span>
@@ -92,23 +104,23 @@
         </xsl:choose>
         <!-- image icon -->
         <xsl:choose>
-          <xsl:when test="@jsximg='' or (not(@jsximg) and $jsxicon='')">
+          <xsl:when test="@*[name() = $attrimg]='' or (not(@*[name() = $attrimg]) and $jsxicon='')">
             <span class="jsx30tree_empty">
               <xsl:text>&#160;</xsl:text>
             </span>
           </xsl:when>
-          <xsl:when test="@jsximg">
+          <xsl:when test="@*[name() = $attrimg]">
             <xsl:variable name="jsximg_resolved">
               <xsl:choose>
-                <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@jsximg" mode="uri-resolver"/></xsl:when>
-                <xsl:otherwise><xsl:value-of select="@jsximg"/></xsl:otherwise>
+                <xsl:when test="$jsx_img_resolve='1'"><xsl:apply-templates select="@*[name() = $attrimg]" mode="uri-resolver"/></xsl:when>
+                <xsl:otherwise><xsl:value-of select="@*[name() = $attrimg]"/></xsl:otherwise>
               </xsl:choose>
             </xsl:variable>
 
-            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsximg_resolved}" alt="{@jsximgalt}"/>
+            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsximg_resolved}" alt="{@*[name() = $attrimgalt]}"/>
           </xsl:when>
           <xsl:otherwise>
-            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsxicon}" alt="{@jsximgalt}"/>
+            <img jsxtype="icon" unselectable="on" class="jsx30tree_icon" src="{$jsxicon}" alt="{@*[name() = $attrimgalt]}"/>
           </xsl:otherwise>
         </xsl:choose>
         <!-- record text -->
@@ -116,39 +128,39 @@
             JSXDragType="{$jsxdragtype}">
           <xsl:attribute name="class">
             <xsl:text>jsx30tree_text </xsl:text>
-            <xsl:if test="@jsxselected='1'">
+            <xsl:if test="@*[name() = $attrselected]='1'">
               <xsl:text>jsx30tree_texton </xsl:text>
             </xsl:if>
             <xsl:value-of select="$myclass"/>
           </xsl:attribute>
           <xsl:attribute name="style">
-            <xsl:if test="@jsxselected='1'">
+            <xsl:if test="@*[name() = $attrselected]='1'">
               <xsl:value-of select="$_jsxstyle"/>
             </xsl:if>
-            <xsl:value-of select="@jsxstyle"/>
+            <xsl:value-of select="@*[name() = $attrstyle]"/>
             <xsl:value-of select="$mystyle"/>
           </xsl:attribute>
           <xsl:attribute name="JSXSpyglass">
-            <xsl:value-of select="@jsxid"/>
+            <xsl:value-of select="@*[name() = $attrid]"/>
           </xsl:attribute>
           <xsl:attribute name="JSXDragId">
-            <xsl:value-of select="@jsxid"/>
+            <xsl:value-of select="@*[name() = $attrid]"/>
           </xsl:attribute>
-          <xsl:value-of select="@jsxtext"/>
+          <xsl:value-of select="@*[name() = $attrtext]"/>
         </span>
       </div>
       <!-- child records -->
       <div jsxtype="content" unselectable="on" class='jsx30tree_content'>
         <xsl:choose>
-          <xsl:when test="record">
+          <xsl:when test="*[$attrchildren='*' or name()=$attrchildren]">
             <xsl:attribute name="style">
-              <xsl:if test="@jsxopen='1'">display:block;</xsl:if>
+              <xsl:if test="@*[name() = $attropen]='1'">display:block;</xsl:if>
               <xsl:text>padding-left:</xsl:text>
               <xsl:value-of select="$jsxindent"/>
               <xsl:text>px;</xsl:text>
             </xsl:attribute>
             <!-- recurse here -->
-            <xsl:for-each select="record">
+            <xsl:for-each select="*[$attrchildren='*' or name()=$attrchildren]">
               <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
               <xsl:apply-templates select="."/>
             </xsl:for-each>

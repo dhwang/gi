@@ -1050,10 +1050,11 @@ window['jsx_main'] = function() {
           "jsx3/app/Properties.js",
           "jsx3/app/PropsBundle.js",
           "jsx3/lang/System.js",
-          "jsx3/xml/CDF.js",             // -> could possibly be loaded as needed legacy
           "jsx3/app/DOM.js",
           "jsx3/app/Server.js",
-          "jsx3/app/Model.js"
+          "jsx3/app/Model.js",
+          "jsx3/xml/CDFSchema.js",
+          "jsx3/xml/CDF.js"             // -> could possibly be loaded as needed legacy
       ];
 
       /** @package */

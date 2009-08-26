@@ -83,7 +83,14 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
     if (objXML.hasError() || objXSL.hasError()) return "";
     
     //if a parameter object wasn't passed, query for it internally (assuming it exists)
-    if (objParams == null) objParams = this.jsxxslparams;
+    if (!objParams)
+      objParams = this.jsxxslparams || {};
+
+    if (this.getSchema) {
+      jsx3.$H(this.getSchema().getProps()).each(function(k, v) {
+        objParams["attr" + k] = v;
+      });
+    }
 
     var strHTML = "";
     var p = null;
@@ -96,14 +103,13 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
     }
 
     if (! p.hasError()) {
-      if (objParams)
-        p.setParams(objParams);
+      p.setParams(objParams);
 
       if (objXML.getNamespaceURI() == jsx3.app.Cache.XSDNS) {
         var objServer = this.getServer();
         p.setParam("jsxasyncmessage",
             objServer.getDynamicProperty("jsx3.xml.Cacheable." + objXML.getNodeName(),
-                (objParams && objParams.jsxtitle) || objServer.getDynamicProperty("jsx3.xml.Cacheable.data")));
+                objParams.jsxtitle || objServer.getDynamicProperty("jsx3.xml.Cacheable.data")));
       }
 
       strHTML = p.transform(objXML);
