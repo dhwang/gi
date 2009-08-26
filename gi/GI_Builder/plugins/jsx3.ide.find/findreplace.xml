@@ -193,7 +193,7 @@ objJSX.registerHotKey('replaceAndFind', "t", false, true, false);
                     </object>
                     <object type="jsx3.gui.Button">
                       <variants jsxindex="0" jsxheight="18"/>
-                      <strings jsxtext="Replace &amp; Find Again" jsxmargin="0 4 0 0" jsxkeycode="ctrl+t"/>
+                      <strings jsxtext="Replace &amp;#38; Find Again" jsxmargin="0 4 0 0" jsxkeycode="ctrl+t"/>
                       <events jsxexecute="jsxfindreplace.replaceAndFind();"/>
                     </object>
                     <object type="jsx3.gui.Button">
