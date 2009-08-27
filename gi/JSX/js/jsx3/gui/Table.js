@@ -1482,7 +1482,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
       var objXSLSnippet = new jsx3.xml.Document();
       objXSLSnippet.loadXML(strValueTemplate);
       if (!objXSLSnippet.hasError()) {
-        objXSLSnippet.setAttribute("match","*[$attrchildren='*' or name()=$attrchildren]");
+        objXSLSnippet.setAttribute("match",this._cdfan("children"));
         objXSL.appendChild(objXSLSnippet);
       } else {
         LOG.error("The column profile document has errors. A new, empty CDF Document will be used instead. (Description: " + objXSLSnippet.getError().description + ")");

@@ -6742,7 +6742,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix.ColumnFormat", null, null, function(Colu
         var strValue = objMatrixColumn.getValueForRecord(strCDFKey);
         var lookupNode = objMask.getRecordNode(strValue);
         objDiv.innerHTML = jsx3.util.strEscapeHTML(
-            lookupNode ? this._cdfav(lookupNode, "text") : (strValue != null ? strValue : ""));
+            lookupNode ? objMatrix._cdfav(lookupNode, "text") : (strValue != null ? strValue : ""));
       }
     }
   };
