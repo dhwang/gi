@@ -47,7 +47,7 @@
   <xsl:template match="/">
   <JSX_FF_WELLFORMED_WRAPPER><xsl:choose>
     <xsl:when test="$jsxasyncmessage and $jsxasyncmessage!=''">
-      <xsl:value-of select="$jsxasyncmessage"/>
+      <div class="jsx30select_{$jsxmode}_option"><span><xsl:value-of select="$jsxasyncmessage"/></span></div>
     </xsl:when>
     <xsl:when test="$jsxshallowfrom">
       <xsl:for-each select="//*[@*[name() = $attrid]=$jsxshallowfrom]/*[$attrchildren='*' or name()=$attrchildren]">
