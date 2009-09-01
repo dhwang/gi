@@ -24,9 +24,20 @@ this.doScriptletExecute = function(objDialog) {
   var scriptlet = scriptletInput.getValue();
   var resultArea = objDialog.getDescendantOfName('jsx_txt_scriptlet_output');
 
+  // Import all DOM nodes in the active component editor to the current scope
+  var context = {};
+  var activeServer = jsx3.ide.getActiveServer();
+  if (activeServer) {
+    activeServer.getBodyBlock().findDescendants(function(x) {
+      var n = x.getName();
+      if (!context[n] && jsx3.util.isName(n))
+        context[n] = x;
+    }, false, false, false, true);
+  }
+
   var result = "undefined";
   try {
-    result = jsx3.eval(scriptlet);
+    result = jsx3.eval(scriptlet, context);
   } catch (e) {
     e = jsx3.NativeError.wrap(e);
     result = e.printStackTrace();
