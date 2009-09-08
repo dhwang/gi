@@ -46,8 +46,6 @@ public class Language {
    * @return
    */
   public static String escapeString(String s, boolean singleQuoted) {
-    s = s.replaceAll("\\\\", "\\\\\\\\");
-
     // handle escaped unicode sequences
     StringBuffer buffer = new StringBuffer(s.length());
     for (int i = 0; i < s.length(); i++) {
@@ -64,6 +62,8 @@ public class Language {
         buffer.append("\\\"");
       } else if (singleQuoted && c == '\'') {
         buffer.append("\\'");
+      } else if (c == '\\') {
+        buffer.append("\\\\");
       } else if (c >= 0x20 && c < 0x80) {
         buffer.append(c);
       } else {

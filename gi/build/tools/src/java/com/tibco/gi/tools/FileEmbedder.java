@@ -89,6 +89,7 @@ public class FileEmbedder {
     Utils.serializeDocument(doc, contents, 0);
 
     String xml = contents.toString();
+    xml = xml.replaceAll("\\\\", "\\\\\\\\");
     xml = xml.replaceAll("\u00A0", "&#160;");
     xml = xml.replaceAll("'", "\\\\'");
 
