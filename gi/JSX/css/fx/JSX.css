@@ -3,23 +3,23 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
-
 *._bmcss3flagsyntax {-moz-box-sizing: border-box;}
 
 /* TODO: only affect JSX objects with these styles */
-*:focus {
+#JSX *:focus, .jsx30heavy *:focus {
   -moz-outline: dotted 1px #9898c5 !important;
   -moz-outline-offset: -1px !important;
   -moz-outline-radius: -1px !important;
 }
-textarea:focus, button:focus, select:focus, input:focus {
+#JSX textarea:focus, #JSX button:focus, #JSX select:focus, #JSX input:focus,
+.jsx30heavy textarea:focus, .jsx30heavy button:focus, .jsx30heavy select:focus, .jsx30heavy input:focus {
   -moz-outline-offset: -1px !important;
 }
-input[type="radio"]:focus {
+#JSX input[type="radio"]:focus, .jsx30heavy input[type="radio"]:focus {
   -moz-outline-offset: -6px !important;
   -moz-outline-width: 0px;
 }
-input[type="checkbox"]:focus {
+#JSX input[type="checkbox"]:focus, .jsx30heavy input[type="checkbox"]:focus {
   -moz-outline-radius: -1px !important;
   -moz-outline-offset: -1px !important;
 }
@@ -181,6 +181,11 @@ table.jsx30menu_1_kct td.keycode, table.jsx30menu_3_kct td.keycode {
 
 
 /* jsx3.gui.Heavyweight */
+.jsx30heavy {
+}
+.jsx30shadow {
+  -moz-box-shadow: 0px 3px 10px 4px rgba(0, 0, 0, 0.25);
+}
 .jsx30scroller {
   position:absolute;
   left:1px;
@@ -305,6 +310,7 @@ table.jsx30menu_1_kct td.keycode, table.jsx30menu_3_kct td.keycode {
   font-size: 10px;
   border: solid 1px #9898a5;
   opacity: 0.95;
+  -moz-box-shadow: 0px 3px 10px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* jsx3.gui.Select (and combo) */
@@ -712,6 +718,7 @@ img.jsx30select_icon {
   border-style: solid;
   border-width: 1px;
   border-color: #c6c6c6 #a6a6a6 #a6a6a6 #c6c6c6;
+  -moz-box-shadow: 0px 3px 10px 4px rgba(0, 0, 0, 0.25);
 }
 #JSX .jsx30dialog_content {
   border-style: solid;

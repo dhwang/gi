@@ -799,6 +799,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
     var objHW = Menu._ACTIVE_HWS[intIndex-1] = new jsx3.gui.Heavyweight(myMenuId, this);
     objHW.setHTML(strHTML);
     objHW.setScrolling(true);
+    objHW.setClassName("jsx30shadow");
 
     //set positioning rules based on one of three menu types
     if (objAnchor && strParentId != null) {

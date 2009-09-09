@@ -1084,7 +1084,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
 
-  html._CANTAB = " A AREA BUTTON INPUT OBJECT SELECT TEXTAREA ";
+  html._CANTAB = " A AREA BUTTON INPUT OBJECT SELECT TEXTAREA SPAN DIV ";
 
   html.focus = function(elm) {
     if (elm.focus && html._CANTAB.indexOf((" " + elm.tagName + " ").toUpperCase()) >= 0) {

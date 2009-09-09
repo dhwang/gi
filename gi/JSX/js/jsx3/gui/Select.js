@@ -603,7 +603,8 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var objHW = new jsx3.gui.Heavyweight(Select._HW_ID, this);
       objHW.setHTML(strHTML);
       objHW.setScrolling(true);
-      
+      objHW.setClassName("jsx30shadow");
+
       objHW.addXRule(objGUI,"W","W",0);
       objHW.addXRule(objGUI,"E","E",0);
       objHW.addYRule(objGUI,"S","N",0);

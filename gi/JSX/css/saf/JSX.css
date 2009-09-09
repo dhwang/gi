@@ -3,26 +3,22 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
-
-*._bmcss3flagsyntax {-moz-box-sizing: border-box;}
-
 /* TODO: only affect JSX objects with these styles */
-*:focus {
-  -moz-outline: dotted 1px #9898c5 !important;
-  -moz-outline-offset: -1px !important;
-  -moz-outline-radius: -1px !important;
+#JSX *:focus, .jsx30heavy *:focus {
+  outline: dotted 1px #9898c5;
 }
-textarea:focus, button:focus, select:focus, input:focus {
-  -moz-outline-offset: -1px !important;
+/*
+#JSX textarea:focus, #JSX button:focus, #JSX select:focus, #JSX input:focus,
+.jsx30heavy textarea:focus, .jsx30heavy button:focus, .jsx30heavy select:focus, .jsx30heavy input:focus {
+  outline: -1px;
 }
-input[type="radio"]:focus {
-  -moz-outline-offset: -6px !important;
-  -moz-outline-width: 0px;
+#JSX input[type="radio"]:focus, .jsx30heavy input[type="radio"]:focus {
+  outline: -6px;
 }
-input[type="checkbox"]:focus {
-  -moz-outline-radius: -1px !important;
-  -moz-outline-offset: -1px !important;
+#JSX input[type="checkbox"]:focus, .jsx30heavy input[type="checkbox"]:focus {
+  outline: -1px;
 }
+*/
 
 /* jsx3.gui.Block */
 #JSX .jsx30block {
@@ -171,6 +167,11 @@ table.jsx30menu_1_kct td.keycode, table.jsx30menu_3_kct td.keycode {
 }
 
 /* jsx3.gui.Heavyweight */
+.jsx30heavy {
+}
+.jsx30shadow {
+  -webkit-box-shadow: 0px 2px 6px rgba(0,0,0,.5);
+}
 .jsx30scroller {
   position:absolute;
   left:1px;
@@ -294,6 +295,7 @@ table.jsx30menu_1_kct td.keycode, table.jsx30menu_3_kct td.keycode {
   font-size: 10px;
   border: solid 1px #9898a5;
   opacity: 0.95;
+  -webkit-box-shadow: 0px 2px 6px rgba(0,0,0,.5);
 }
 
 /* jsx3.gui.Select (and combo) */
@@ -311,7 +313,7 @@ table.jsx30menu_1_kct td.keycode, table.jsx30menu_3_kct td.keycode {
   border-left-color: #b8b8c5;
   border-top-color: #b8b8c5;
   background-color: #ffffff;
-  opacity: 0.95
+  opacity: 0.95;
 }
 .jsx30select_option, .jsx30select_1_option, .jsx30select_3_option {
   position:relative;
@@ -696,6 +698,7 @@ img.jsx30select_icon {
   border-style: solid;
   border-width: 1px;
   border-color: #c6c6c6 #a6a6a6 #a6a6a6 #c6c6c6;
+  -webkit-box-shadow: 0px 3px 8px rgba(0,0,0,.3);
 }
 #JSX .jsx30dialog_content {
   border-style: solid;

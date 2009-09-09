@@ -151,7 +151,7 @@ jsx3.Class.defineClass("jsx3.gui.Heavyweight", null, null, function(Heavyweight,
     }
     
     //wrap the HTML that the user wants to display in the spy container
-    var strHTML = '<span id="' + strId + '" class="jsx30block" style="position:absolute;overflow:;' +
+    var strHTML = '<span id="' + strId + '"' + this.paintClassName() + ' style="position:absolute;overflow:;' +
         strWidth + strHeight + 'left:0px;top:0px;z-index:' + this.getZIndex() + ';visibility:hidden;"' + scrollEvent + '>' + strText + '</span>';
 
     //insert HTML directly into the Browser DOM
@@ -879,6 +879,29 @@ jsx3.Class.defineClass("jsx3.gui.Heavyweight", null, null, function(Heavyweight,
       case "O":
         return {X:objAbs.L+Math.floor(objAbs.W/2),Y:objAbs.T+Math.floor(objAbs.H/2)};
     }
+  };
+
+  /**
+   * Returns the named CSS rule(s) to apply to the painted object.
+   * @return {String}
+   */
+  Heavyweight_prototype.getClassName = function() {
+    return this.jsxclassname;
+  };
+
+  /**
+   * Sets the named CSS rule(s) to apply to the painted object.
+   * @param strClassName {String} CSS class name without the leading "."
+   * @return {jsx3.gui.Heavyweight} this object.
+   */
+  Heavyweight_prototype.setClassName = function(strClassName) {
+    this.jsxclassname = strClassName;
+    return this;
+  };
+
+  Heavyweight_prototype.paintClassName = function() {
+    var cn = this.getClassName();
+    return ' class="jsx30block jsx30heavy ' + (cn ? " " + cn : "") + '"';
   };
 
   /**
