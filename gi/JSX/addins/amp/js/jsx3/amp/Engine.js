@@ -825,7 +825,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     /* @jsxobf-clobber */
     this._extmap[pointId]._needssort = true;
 
-    amp.LOG.debug(jsx3._msg("amp.12", ex, pointId));
+    amp.LOG.debug(jsx3._msg("amp.12", x, pointId));
 
     if (bPub) {
       var point = this._extptmap[pointId];
