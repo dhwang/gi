@@ -113,12 +113,21 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
     this.Cache = new jsx3.app.Cache();
     this.Cache.addParent(jsx3.getSharedCache());
 
-    if (objEnv != null && objEnv.jsxsettings != null) {
-      this._jsxsettings = objEnv.jsxsettings;
-      delete objEnv.jsxsettings;
+    if (objEnv) {
+      if (objEnv.jsxsettings) {
+        this._jsxsettings = objEnv.jsxsettings;
+        delete objEnv.jsxsettings;
+      }
+
+      var temp = {};
+      for (var f in objEnv)
+        temp[f.toLowerCase()] = objEnv[f];
+      objEnv = temp;
+    } else {
+      objEnv = {};
     }
 
-    this.ENVIRONMENT = objEnv = objEnv != null ? jsx3.clone(objEnv) : {};
+    this.ENVIRONMENT = objEnv;
     objEnv.apppath = strAppPath.replace(/\/*$/, "");
 
     //load the application config file, so we know which resource files (JS, CSS, XML, etc) to load
@@ -295,8 +304,8 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
   };
 
   /**
-   * Returns the value of an environment setting of this server. Valid keys correspond to deployment options and are
-   * (case-insensitive):
+   * Returns the value of an environment variable of this server. Valid keys correspond to deployment options and
+   * include:
    * <ul>
    * <li>VERSION</li>
    * <li>APPPATH</li>
@@ -317,12 +326,17 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
    * <li>UNICODE</li>
    * <li>EVENTSVERS</li>
    * </ul>
+   * Other environment variables may be set either by query parameters in the launch page URL, by attributes
+   * on the GI <b>script</b> tag, or by entries in the server's <code>config.xml</code> file. Server environment
+   * variable keys must either begin with <code>"jsxapp"</code> or must not begin with <code>"jsx"</code>.
    *
-   * @param strEnvKey {String}  the key of the environment value to return
+   * @param strEnvKey {String} the case-insensitive key of the environment variable to return.
    * @return {String}
+   * @see jsx3#getEnv()
    */
   Server_prototype.getEnv = function(strEnvKey) {
-    return this.ENVIRONMENT[strEnvKey.toLowerCase()];
+    var e = this.ENVIRONMENT;
+    return e[strEnvKey] || e[strEnvKey.toLowerCase()];
   };
 
   /**

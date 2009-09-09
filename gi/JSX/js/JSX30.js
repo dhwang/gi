@@ -150,17 +150,23 @@ window['jsx_main'] = function() {
     jsx3.ENVIRONMENT = {};
 
     /**
-     * @param strKey {String}
-     * @return {String}
+     * Returns the value of a system-wide environment variable. System-wide environment parameters are set either
+     * by query parameters in the launch page URL or by attributes on the GI <b>script</b> tag. System-wide
+     * environment variable keys always begin with <code>"jsx"</code> and do not begin with <code>"jsxapp"</code>.
+     *
+     * @param strKey {String} the case-insensitive environment variable key.
+     * @return {String} the environment variable value.
+     * @see jsx3.app.Server#getEnv()
      */
     jsx3.getEnv = function(strKey) {
-      return jsx3.ENVIRONMENT[strKey];
+      return jsx3.ENVIRONMENT[strKey.toLowerCase()];
     };
 
     /**
      * @private
      */
     jsx3.setEnv = function(strKey, strValue) {
+      strKey = strKey.toLowerCase();
       if (jsx3.ENVIRONMENT[strKey] != null && jsx3.ENVIRONMENT[strKey] != strValue)
         window.alert(jsx3._msg("boot.env_reset", strKey, jsx3.ENVIRONMENT[strKey], strValue));
       jsx3.ENVIRONMENT[strKey] = strValue;
