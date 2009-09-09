@@ -849,9 +849,17 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
   Select_prototype.onXmlBinding = function(objEvent) {
     this.jsxsupermix(objEvent);
-    this.setText(this.paintText());
-  };
 
+    // call redraw to reflect an update to the selected text
+    this.redrawRecord(this.getValue(), jsx3.xml.CDF.UPDATE);
+
+    // refresh the drop down window if it is open
+    if (Select._ACTIVE == this) {
+      this.hide();
+      this._show(this.getValue());
+    }
+  };
+  
   Select_prototype._ebMouseDown = function(objEvent, objGUI) {
     if (! objEvent.leftButton()) return;
 
