@@ -4,7 +4,7 @@
  */
 
 // @jsxobf-clobber-shared  _plugin _loadPlugIn _extendInstance
-// @jsxobf-clobber-shared  _getConstructor _setPlugInOnInit
+// @jsxobf-clobber-shared  _getConstructor _setPlugInOnInit _addExtPoint _addExt _removeExtPoint _removeExt
 
 /**
  * An AMP plug-in. A plug-in is a logical collection of application logic and resources. Plug-ins are loaded
@@ -338,6 +338,63 @@ jsx3.lang.Class.defineClass("jsx3.amp.PlugIn", null, [jsx3.util.EventDispatcher,
    */
   PlugIn_prototype.getExtPoint = function(strId) {
     return this._extptmap[strId];
+  };
+
+  /**
+   * Adds an extension point to this plug-in programmatically. <code>xp.getPlugIn()</code> must return this plug-in.
+   * @param xp {jsx3.amp.ExtPoint} the extension point to add.
+   * @since 3.9
+   */
+  PlugIn_prototype.addExtPoint = function(xp) {
+    var id = xp.getLocalId();
+    this._extptmap[id] = xp;
+    this._extpt.push(xp);
+    this._engine._addExtPoint(xp);
+  };
+
+  /**
+   * Removes an extension point from this plug-in programmatically. <code>xp</code> must be an extension point of
+   * this plug-in.
+   * @param xp {jsx3.amp.ExtPoint} the extension point of this plug-in to remove.
+   * @since 3.9
+   */
+  PlugIn_prototype.removeExtPoint = function(xp) {
+    var id = xp.getLocalId();
+    if (xp === this._extptmap[id])
+      delete this._extptmap[id];
+    this._extpt.remove(xp);
+    this._engine._removeExtPoint(xp);
+  };
+
+  /**
+   * Adds an extension to this plug-in programmatically. <code>x.getPlugIn()</code> must return this plug-in.
+   * @param x {jsx3.amp.Ext} the extension to add.
+   * @since 3.9
+   */
+  PlugIn_prototype.addExt = function(x) {
+    var id = x.getLocalId();
+    if (id != null) {
+      if (this._extmap[id]) {
+        amp.LOG.error(jsx3._msg("amp.41", this, id));
+      } else {
+        this._extmap[id] = x;
+      }
+    }
+    this._ext.push(x);
+    this._engine._addExt(x, true);
+  };
+
+  /**
+   * Removes an extension from this plug-in programmatically. <code>x</code> must be an extension of this plug-in.
+   * @param x {jsx3.amp.Ext} the extension of this plug-in to remove.
+   * @since 3.9
+   */
+  PlugIn_prototype.removeExt = function(x) {
+    var id = x.getLocalId();
+    if (x === this._extmap[id])
+      delete this._extmap[id];
+    this._ext.remove(x);
+    this._engine._removeExt(x);
   };
 
   /**

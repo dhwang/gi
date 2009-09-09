@@ -529,10 +529,8 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     
     // register all extension points with this engine
     var pts = p.getExtPoints();
-    for (var i = 0; i < pts.length; i++) {
-      amp.LOG.debug(jsx3._msg("amp.11", pts[i]));
-      this._extptmap[pts[i].getId()] = pts[i];
-    }
+    for (var i = 0; i < pts.length; i++)
+      this._addExtPoint(pts[i]);
     
     var ptsExtended = {};
 
@@ -542,18 +540,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       var ex = exs[i];
       var pointId = ex.getPointId();
 
-      if (!this._extmap[pointId])
-        this._extmap[pointId] = jsx3.$A();
-
-      this._extmap[pointId].push(ex);
-      // TODO: performance tune so as not to sort too much
-      this._extmap[pointId].sort(jsx3.$F(function(a, b) {
-        var i1 = this._pluginregorder[a.getPlugIn().getId()] || 0;
-        var i2 = this._pluginregorder[b.getPlugIn().getId()] || 0;
-        return i1 > i2 ? 1 : (i1 == i2 ? 0 : -1);
-      }).bind(this));
-
-      amp.LOG.debug(jsx3._msg("amp.12", ex, pointId));
+      this._addExt(ex);
 
       if (!ptsExtended[pointId]) ptsExtended[pointId] = jsx3.$A();
       ptsExtended[pointId].push(ex);
@@ -741,7 +728,18 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
    * @return {jsx3.$Array<jsx3.amp.Ext>}
    */
   Engine_prototype.getExts = function(strId) {
-    return this._extmap[strId] || jsx3.$A();
+    var a = this._extmap[strId];
+
+    if (a && a._needssort) {
+      a.sort(jsx3.$F(function(a, b) {
+        var i1 = this._pluginregorder[a.getPlugIn().getId()] || 0;
+        var i2 = this._pluginregorder[b.getPlugIn().getId()] || 0;
+        return i1 > i2 ? 1 : (i1 == i2 ? 0 : -1);
+      }).bind(this));
+      a._needssort = false;
+    }
+
+    return a || jsx3.$A();
   };
 
   /**
@@ -780,25 +778,72 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       this._plugins.remove(p);
 
       var xp = p.getExtPoints();
-      for (var i = 0; i < xp.length; i++) {
-        var xpid = xp[i].getId();
-        delete this._extptmap[xpid];
-        delete this._extmap[xpid];
-      }
+      for (var i = 0; i < xp.length; i++)
+        this._removeExtPoint(xp[i]);
 
       var exts = p.getExts();
-      for (var i = 0; i < exts.length; i++) {
-        var ext = exts[i];
-        var extList = this._extmap[ext.getPointId()];
-        if (extList)
-          extList.remove(ext);
-      }
+      for (var i = 0; i < exts.length; i++)
+        this._removeExt(exts[i]);
 
       delete this._pluginmap[strId];
       delete this._pluginregorder[strId];
       delete this._pgdata[strId];
       delete this._pgrsrc[strId];
     }
+  };
+
+  /**
+   * @param xp {jsx3.amp.ExtPoint}
+   * @package @jsxobf-clobber-shared
+   */
+  Engine_prototype._addExtPoint = function(xp) {
+    amp.LOG.debug(jsx3._msg("amp.11", xp));
+    this._extptmap[xp.getId()] = xp;
+  };
+
+  /**
+   * @param xp {jsx3.amp.ExtPoint}
+   * @package @jsxobf-clobber-shared
+   */
+  Engine_prototype._removeExtPoint = function(xp) {
+    var xpid = xp.getId();
+    delete this._extptmap[xpid];
+    delete this._extmap[xpid];
+  };
+
+  /**
+   * @param x {jsx3.amp.Ext}
+   * @package @jsxobf-clobber-shared
+   */
+  Engine_prototype._addExt = function(x, bPub) {
+    var pointId = x.getPointId();
+
+    if (!this._extmap[pointId])
+      this._extmap[pointId] = jsx3.$A();
+
+    this._extmap[pointId].push(x);
+    /* @jsxobf-clobber */
+    this._extmap[pointId]._needssort = true;
+
+    amp.LOG.debug(jsx3._msg("amp.12", ex, pointId));
+
+    if (bPub) {
+      var point = this._extptmap[pointId];
+      if (point) {
+        point.getPlugIn().onExtension(point, [x]);
+        point.onExtension([x]);
+      }
+    }
+  };
+
+  /**
+   * @param x {jsx3.amp.Ext}
+   * @package @jsxobf-clobber-shared
+   */
+  Engine_prototype._removeExt = function(x) {
+    var extList = this._extmap[x.getPointId()];
+    if (extList)
+      extList.remove(x);
   };
 
   /** @private @jsxobf-clobber-shared */
