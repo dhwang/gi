@@ -894,6 +894,8 @@ jsx3.Class.defineInterface("jsx3.net.URIResolver", null, function(URIResolver, U
       resolved = resolver.resolveURI(uri);
     } else if (resolver) {
       resolved = URIResolver._getAbsPathUri().resolve(uri);
+    } else if (uri.toString().indexOf(jsx3.APP_DIR_NAME + "/") == 0) {
+      resolved = URIResolver.USER.resolveURI(uri);
     } else if (!scheme && path.indexOf("..") >= 0) {
       var loc = jsx3.app.Browser.getLocation();
       resolved = loc.relativize(loc.resolve(uri));
