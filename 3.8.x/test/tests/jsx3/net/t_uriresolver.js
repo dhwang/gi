@@ -24,4 +24,14 @@ gi.test.jsunit.defineTests("jsx3.net.URIResolver", function(t, jsunit) {
     jsunit.assertEquals(jsunit.JSX_BASE + "JSX/file.html?q=val#frag", jsx3.resolveURI("jsx:///file.html?q=val#frag"));
   };
 
+  t.testResolveUser = function() {
+    var base = jsx3.getEnv("jsxhomepath");
+    jsunit.assertEquals(base + "JSXAPPS/app1/config.xml", jsx3.resolveURI("jsxuser:///JSXAPPS/app1/config.xml"));
+    jsunit.assertEquals(base + "JSXAPPS/app1/config.xml", jsx3.resolveURI("jsxuser:/JSXAPPS/app1/config.xml"));
+    jsunit.assertEquals(base + "JSXAPPS/app1/config.xml", jsx3.resolveURI("JSXAPPS/app1/config.xml"));
+  };
+  t.testResolveUser._setUp = function() {
+    jsx3.setEnv("jsxhomepath", "../");
+  };
+
 });

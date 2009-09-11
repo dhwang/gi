@@ -106,11 +106,13 @@
         </xsl:if>
 
         <xsl:if test="@docgetter">
-         <div class="propdoc"><strong>Getter: </strong> <code><xsl:value-of select="@docgetter"/>()</code></div>
+         <div class="propdoc"><strong>Getter: </strong> <code><xsl:apply-templates mode="methodlink" select="."><xsl:with-param
+             name="method" select="@docgetter"/></xsl:apply-templates></code></div>
         </xsl:if>
 
         <xsl:if test="@docsetter">
-         <div class="propdoc"><strong>Setter: </strong> <code><xsl:value-of select="@docsetter"/>()</code></div>
+         <div class="propdoc"><strong>Setter: </strong> <code><xsl:apply-templates mode="methodlink" select="."><xsl:with-param
+             name="method" select="@docsetter"/></xsl:apply-templates></code></div>
         </xsl:if>
 
         <xsl:if test="not(@docnoprop)">
@@ -124,7 +126,8 @@
               <xsl:for-each select="enum">
                 <li>
                 <xsl:value-of select="@jsxtext"/>
-                <xsl:text> (</xsl:text><code><xsl:value-of select="@jsxid"/></code><xsl:text>)</xsl:text>
+                <xsl:text> (</xsl:text><code><xsl:apply-templates mode="fieldlink" select="."><xsl:with-param
+             name="name" select="@jsxid"/></xsl:apply-templates></code><xsl:text>)</xsl:text>
                 </li>
               </xsl:for-each>
             </ul>

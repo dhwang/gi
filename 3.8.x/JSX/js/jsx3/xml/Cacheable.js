@@ -520,7 +520,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
    * @protected
    */
   Cacheable_prototype.onXmlBinding = function(objEvent) {
-    var doc = objEvent.target.getDocument(objEvent.subject);
+    var doc = objEvent.target.getDocument(objEvent.id);
     if (this.publish)
       this.publish({subject:"xmlbind", xml:doc});
   };
@@ -529,7 +529,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
   Cacheable_prototype._onXmlBinding = function(objEvent) {
     var bLoad = objEvent.action == "load";
     if ((this.jsxxmlbind && !bLoad) || (!this.jsxxmlbind && bLoad)) {
-      var doc = objEvent.target.getDocument(objEvent.subject);
+      var doc = objEvent.target.getDocument(objEvent.id);
       this._registerForXML(0, doc);
 
       if (bLoad)
@@ -613,8 +613,10 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
       if (bBind != null && Boolean(this._jsxxmlbound) != bBind) {
         if (bBind) {
           objCache.subscribe(strId, this, "_onXmlBinding");
+          objCache.subscribe("load." + strId, this, "_onXmlBinding");
         } else {
           objCache.unsubscribe(strId, this);
+          objCache.unsubscribe("load." + strId, this);
         }
 
         /* @jsxobf-clobber */

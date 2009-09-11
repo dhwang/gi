@@ -114,9 +114,14 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
     // Some events only matter if they are listened to. But some events matter because they change the state of
     // controls that may be used for further tests.
     if (hasListener || (objContext && objContext._gipp)) {
-      this.onInsertRecord({label:"", target:this._getTargetString(objJSX),
-          action:this._getActionString(strType, objContext), value:this._getActionArgsString(strType, objContext)});
-      this.setDirty(true);
+      if (objJSX.getServer()) {
+        this.onInsertRecord({label:"", target:this._getTargetString(objJSX),
+            action:this._getActionString(strType, objContext), value:this._getActionArgsString(strType, objContext)});
+        this.setDirty(true);
+      } else {
+        plugIn().getLog().info("Could not record event " + strType +
+            " because the event was published after the target DOM node '" + objJSX.getName() + "' was destroyed.");
+      }
     }
   };
 

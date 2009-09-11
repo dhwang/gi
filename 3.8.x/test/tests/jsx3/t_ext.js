@@ -155,9 +155,9 @@ gi.test.jsunit.defineTests("ext", function(t, jsunit) {
   };
 
   t.testSTrim = function() {
-    jsunit.assertEquals("", jsx3.$S("   ").trim());
-    jsunit.assertEquals("", jsx3.$S(" \n \t ").trim());
-    jsunit.assertEquals("a z", jsx3.$S(" a z  ").trim());
+    jsunit.assertEquals("", jsx3.$S("   ").trim().toString());
+    jsunit.assertEquals("", jsx3.$S(" \n \t ").trim().toString());
+    jsunit.assertEquals("a z", jsx3.$S(" a z  ").trim().toString());
   };
 
   t.testYFctSync = function() {

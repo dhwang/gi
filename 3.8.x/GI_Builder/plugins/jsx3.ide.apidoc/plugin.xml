@@ -134,20 +134,20 @@
         id="jsx3.ide.help5"
         label="{jsx3.ide.apidoc.mi6}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/ide" hkconfig="true"
-        execute="jsx3.ide.openConsoleWindow('api/properties/index.html', 'jsxide_props',null,null,'yes','yes','yes','yes','yes')"
-        enabled="file" enabled-file="../api/properties/index.html"/>
+        execute="jsx3.ide.openConsoleWindow('api/html/properties/index.html', 'jsxide_props',null,null,'yes','yes','yes','yes','yes')"
+        enabled="file" enabled-file="../api/html/properties/index.html"/>
     <action
         id="jsx3.ide.help6"
         label="{jsx3.ide.apidoc.mi7}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/ide" hkconfig="true"
-        execute="jsx3.ide.openConsoleWindow('api/events/index.html', 'jsxide_events',null,null,'yes','yes','yes','yes','yes')"
-        enabled="file" enabled-file="../api/events/index.html"/>
+        execute="jsx3.ide.openConsoleWindow('api/html/events/index.html', 'jsxide_events',null,null,'yes','yes','yes','yes','yes')"
+        enabled="file" enabled-file="../api/html/events/index.html"/>
     <action
         id="jsx3.ide.help7"
         label="{jsx3.ide.apidoc.mi8}"
         menupath="/jsx3.ide.help/jsx3.ide.apidoc/ide" hkconfig="true"
-        execute="jsx3.ide.openConsoleWindow('api/xslparams/index.html', 'jsxide_xslparams',null,null,'yes','yes','yes','yes','yes')"
-        enabled="file" enabled-file="../api/xslparams/index.html"/>
+        execute="jsx3.ide.openConsoleWindow('api/html/xslparams/index.html', 'jsxide_xslparams',null,null,'yes','yes','yes','yes','yes')"
+        enabled="file" enabled-file="../api/html/xslparams/index.html"/>
   </extension>
 
 </plugin>

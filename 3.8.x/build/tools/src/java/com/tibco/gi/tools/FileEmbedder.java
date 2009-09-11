@@ -21,6 +21,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import com.tibco.gi.tools.javascript.Language;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -90,14 +91,13 @@ public class FileEmbedder {
 
     String xml = contents.toString();
     xml = xml.replaceAll("\u00A0", "&#160;");
-    xml = xml.replaceAll("'", "\\\\'");
 
     if (condense)
       xml = xml.replaceAll("\\s*(\n|\r\n|\r)\\s*", "");
     else
-      xml = xml.replaceAll("(\n|\r\n|\r)", "\\\\n");
+      xml = xml.replaceAll("(\n|\r\n|\r)", "\n");
 
-    return "'" + xml + "'";
+    return "'" + Language.escapeString(xml, true) + "'";
   }
 
   private static String txtToJsString(File f) throws IOException {

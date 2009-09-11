@@ -35,7 +35,7 @@ jsx3.Class.defineClass("jsx3.lang.NativeError", jsx3.lang.Exception, null, funct
   /**
    * Wraps a native browser exception in an instance of <code>NativeError</code>. This method also accepts 
    * an argument of type <code>jsx3.Exception</code>, in which case it will just return the argument. This method wraps 
-   * any other type of argument by converting it to a string and and creating a new j<code>sx3.Exception</code> with that message.
+   * any other type of argument by converting it to a string and and creating a new <code>jsx3.Exception</code> with that message.
    *
    * @param objError {jsx3.Exception|Object} 
    * @return {jsx3.Exception}

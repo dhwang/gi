@@ -161,7 +161,7 @@ gi.test.jsunit._init = function(jsunit) {
 
   jsunit.TestSuite.prototype.asyncCallback = function(fctTest) {
     return function() {
-      if (eval("asyncTestWaiting !== true")) {
+      if (eval("typeof(asyncTestWaiting) == 'undefined' || asyncTestWaiting !== true")) {
         var msg = "Executing async callback before async waiting: " + fctTest;
         if (jsunit.INTERACTIVE) {
           window.alert(msg);
@@ -316,10 +316,12 @@ gi.test.jsunit._init = function(jsunit) {
         fctSetUp();
         fctTest();
 
-        if (eval("asyncTestWaiting !== true")) {
-          fctTearDown();
-        } else {
-          jsunit._lastTearDown = fctTearDown;
+        if (fctTearDown) {
+          if (eval("typeof(asyncTestWaiting) == 'undefined' || asyncTestWaiting !== true")) {
+            fctTearDown();
+          } else {
+            jsunit._lastTearDown = fctTearDown;
+          }
         }
       };
     }

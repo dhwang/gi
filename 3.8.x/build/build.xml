@@ -532,6 +532,14 @@
   </target>
 
   <target name="obfuscate-amp" depends="init, init-tools" if="build.set.obfuscate.amp">
+    <gi-obfuscate strict="${build.gi.strict}"
+        optliterals="true"
+        blessfile="obfuscate/jsx-blessed.txt"
+        inmap="${build.obf.tmpmapfile}"
+        outmap="${build.obf.tmpmapfile}">
+      <fileset dir="${dist.dir}/JSX/addins/amp" includes="plugins/**/*.js"/>
+    </gi-obfuscate>
+
     <amp-rmerge ids="${build.gi.amp.rsrc}">
       <fileset dir="${dist.dir}/JSX/addins/amp/plugins">
         <include name="**/plugins.xml"/>

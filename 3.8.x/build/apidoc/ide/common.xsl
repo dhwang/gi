@@ -70,6 +70,58 @@
     <hr/>
   </xsl:template>
 
+  <xsl:template match="*" mode="methodlink">
+    <xsl:param name="method" select="@name"/>
+    <xsl:variable name="methodtext">
+      <xsl:choose>
+        <xsl:when test="fn:matches($method, '\(')">
+          <xsl:value-of select="$method"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$method"/><xsl:text>()</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="methodname">
+      <xsl:choose>
+        <xsl:when test="fn:matches($method, '\(')">
+          <xsl:value-of select="fn:replace($method, '\(.*$', '')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$method"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:choose>
+      <xsl:when test="$apidocpath">
+        <a href="{$apidocpath}index.html?{fn:replace($classname, '\.', '/')}.html!method:{$methodname}" target="_top">
+          <xsl:value-of select="$methodtext"/>
+        </a>
+      </xsl:when>
+      <xsl:otherwise><xsl:value-of select="$methodtext"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="*" mode="fieldlink">
+    <xsl:param name="name" select="@name"/>
+    <xsl:variable name="fieldname">
+      <xsl:value-of select="fn:replace($name, '^.*\.', '')"/>
+    </xsl:variable>
+    <xsl:variable name="fieldclass">
+      <xsl:value-of select="fn:replace($name, '\.[^\.]+$', '')"/>
+    </xsl:variable>
+
+    <xsl:choose>
+      <xsl:when test="$apidocpath and $fieldclass">
+        <a href="{$apidocpath}index.html?{fn:replace($fieldclass, '\.', '/')}.html!field:{$fieldname}" target="_top">
+          <xsl:value-of select="$name"/>
+        </a>
+      </xsl:when>
+      <xsl:otherwise><xsl:value-of select="$name"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template match="*" mode="footer">
     <!--<hr/>-->
     <div class="copyright">

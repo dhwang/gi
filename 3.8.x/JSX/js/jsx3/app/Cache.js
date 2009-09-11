@@ -255,11 +255,13 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
       } else if (strEvtType == Document.ON_ERROR) {
         d = Cache._ERROR_DOC.cloneDocument();
         d.setAttribute("error", objXML.getError().toString());
+      } else {
+        return;
       }
 
-      this.setDocument(strId, objXML);
+      this.setDocument(strId, d);
       // lets Cacheable determine whether change event is due to load or setDocument
-      this.publish({subject:strId, action:"load", response:strEvtType});
+      this.publish({subject:"load." + strId, action:"load", response:strEvtType, id:strId});
     }
   };
 
@@ -287,7 +289,7 @@ jsx3.Class.defineClass("jsx3.app.Cache", null, [jsx3.util.EventDispatcher], func
     //persist to cache
     this._index[strId] = record;
 
-    this.publish({subject:strId, action:evtAction});
+    this.publish({subject:strId, action:evtAction, id:strId});
     this.publish({subject:Cache.CHANGE, action:evtAction, id:strId});
   };
 

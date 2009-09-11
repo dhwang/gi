@@ -22,7 +22,7 @@
       <script type="text/javascript">
         var targetPage = "" + window.location.search;
         if (targetPage != "" &amp;&amp; targetPage != "undefined")
-          targetPage = targetPage.substring(1);
+          targetPage = targetPage.substring(1).replace('!', "#");
 
         function loadFrames() {
           if (targetPage != "" &amp;&amp; targetPage != "undefined")

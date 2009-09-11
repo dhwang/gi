@@ -6192,6 +6192,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var intCellIndex = objColumn.getDisplayIndex();
     var objCell = this._getCellByIndex(strRecordId,intCellIndex);
     if (objCell) {
+      var objDiv;
       if(this.getRenderingModel() == Matrix.REND_HIER) {
         var objMyGUI = this._getStructureById(strRecordId);
         var objContent = objMyGUI.parentNode;
@@ -6208,10 +6209,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           var objtrxml = objTRXML.getFirstChild();
           while(objtrxml && objtrxml.getBaseName() != "tr")
             objtrxml = objtrxml.getFirstChild();
-          var objTR = objDiv;
+          var objTR=objCell.childNodes[0]; // cell content
           while (objTR && objTR.tagName.toLowerCase() != "tr")
             objTR = objTR.childNodes[0];
-          if(!objtrxml || !objDiv)
+          if(!objtrxml || !objTR)
             return;
           objDiv = this._updateTD(objtrxml,objTR,2);
         } else {
@@ -6323,7 +6324,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           var objPGUI = objGUI.parentNode;
           html.removeNode(objGUI);
 
-          //if the parent of the deleted structure n longer has kids, clos it...
+          //if the parent of the deleted structure n longer has kids, close it...
           if (objPGUI.childNodes.length == 0) {
             var objTable = objPGUI.previousSibling;
             var objFirstRow = this._getFirstRow(objTable);
