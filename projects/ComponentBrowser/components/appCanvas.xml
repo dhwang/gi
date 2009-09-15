@@ -1,0 +1,108 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name/>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"/>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+      <strings jsxname="lytHeader" jsxrows="79,*" jsxwidth="100%" jsxheight="100%"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"/>
+        <strings jsxname="paneHeader" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.Image">
+          <variants jsxoverflow="2" jsxrelativeposition="1"/>
+          <strings jsxname="imgHeader" jsxsrc="jsx:///images/header.jpg"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+        <strings jsxname="lytWorkspace" jsxcols="250,*" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+          <strings jsxname="lytLeft" jsxrows="40,*" jsxwidth="100%" jsxheight="100%"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"/>
+            <strings jsxname="paneExplorerTitle" jsxwidth="100%" jsxheight="100%" jsxtext="Component Explorer"/>
+            <dynamics jsxborder="@Outset"/>
+          </object>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+            <strings jsxname="lytPickers" jsxrows="40,*" jsxwidth="100%" jsxheight="100%"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="paneSearch" jsxwidth="100%" jsxheight="100%"/>
+              <dynamics jsxborder="@Outset"/>
+              <object type="jsx3.gui.TextBox">
+                <variants jsxheight="18"/>
+                <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Search"/>
+              </object>
+              <object type="jsx3.gui.ImageButton">
+                <variants jsxwidth="16" jsxheight="16" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+                <strings jsxname="btnSearch" jsxtext="[button text]" jsximage="jsx:///images/btnSearch/off.gif" jsxoverimage="jsx:///images/btnSearch/over.gif" jsxdownimage="jsx:///images/btnSearch/down.gif" jsxonimage="jsx:///images/btnSearch/on.gif" jsxdisabledimage="jsx:///images/btnSearch/disabled.gif"/>
+                <events jsxexecute="alert('Execute');"/>
+              </object>
+            </object>
+            <object type="jsx3.gui.Matrix">
+              <variants jsxheaderheight="0" jsxjsxxmlasync="1"/>
+              <strings jsxname="treeExplorer" jsxrenderingmodel="hierarchical" jsxpagingmodel="4" jsxdrag="1" jsxdrop="1" jsxselectionmodel="2" jsxxml="       &lt;data jsxid=&quot;jsxroot&quot;&gt;         &lt;record jsxid=&quot;1&quot; jsxtext=&quot;rootnode&quot; jsxopen=&quot;1&quot; jsximg=&quot;jsx:/images/tree/folder.gif&quot;&gt;           &lt;record jsxid=&quot;2&quot; jsxtext=&quot;node a&quot; jsxopen=&quot;1&quot; jsximg=&quot;jsx:/images/tree/folder.gif&quot;&gt;             &lt;record jsxid=&quot;3&quot; jsxtext=&quot;node b&quot; jsximg=&quot;jsx:/images/tree/folder.gif&quot;&gt;               &lt;record jsxid=&quot;4&quot; jsxtext=&quot;node c&quot;  jsximg=&quot;jsx:/images/tree/folder.gif&quot;&gt;                 &lt;record jsxid=&quot;5&quot; jsxtext=&quot;node d&quot; jsximg=&quot;jsx:/images/tree/file.gif&quot;/&gt;               &lt;/record&gt;             &lt;/record&gt;             &lt;record jsxid=&quot;6&quot; jsxtext=&quot;node e&quot; jsximg=&quot;jsx:/images/tree/folder.gif&quot;&gt;               &lt;record jsxid=&quot;7&quot; jsxtext=&quot;node f with a lot of text to see what the impact&quot; jsximg=&quot;jsx:/images/tree/folder.gif&quot;&gt;                 &lt;record jsxid=&quot;8&quot; jsxtext=&quot;node g&quot; jsximg=&quot;jsx:/images/tree/file.gif&quot;/&gt;               &lt;/record&gt;             &lt;/record&gt;           &lt;/record&gt;         &lt;/record&gt;       &lt;/data&gt;     "/>
+              <dynamics jsxbgcolor="@Solid Light"/>
+              <events jsxtoggle="jsx3.log('EVENT: (jsxtoggle). ' + strRECORDID + '. Open: ' + bOPEN);"/>
+              <object type="jsx3.gui.Matrix.Column">
+                <variants/>
+                <strings jsxname="mc1" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext"/>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+              </object>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+          <strings jsxname="lytContent" jsxrows="40,*" jsxwidth="100%" jsxheight="100%"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"/>
+            <strings jsxname="paneContentHeader" jsxwidth="100%" jsxheight="100%" jsxtext="Matrix &amp;raquo; Grid"/>
+            <dynamics jsxborder="@Outset"/>
+          </object>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+            <strings jsxname="paneDetails" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="paneComponent" jsxwidth="100%" jsxheight="100%" jsxtext="component"/>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"/>
+              <strings jsxname="paneProperties" jsxwidth="100%" jsxheight="100%" jsxborder="0px #000; 0px #000; 0px #000; 1px solid #cdcfce" jsxbgcolor="#f2f6f9"/>
+              <object type="jsx3.gui.StackGroup">
+                <variants jsxoverflow="2" jsxselectedindex="0"/>
+                <strings jsxname="stackgroupH" jsxrows="*,27" jsxbgcolor="#f2f6f9"/>
+                <object type="jsx3.gui.Stack">
+                  <variants/>
+                  <strings jsxname="stack1" jsxtext="" jsxactivecolor="transparent" jsxinactivecolor="transparent"/>
+                  <dynamics jsxbg="@No BG Image"/>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="1" jsxloadtype="4"/>
+                    <strings jsxname="pane" jsxdisplay=""/>
+                    <dynamics jsxbgcolor="@Transparent BG"/>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Stack">
+                  <variants/>
+                  <strings jsxname="stack2" jsxtext="View Source"/>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="1"/>
+                    <strings jsxname="paneViewSource" jsxwidth="100%" jsxheight="100%" jsxtext="view source" jsxdisplay="none"/>
+                  </object>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>
