@@ -380,11 +380,13 @@ objJSX._getFullPathForRec = function(n) {
     n = n.getParent();
   }
 
-  if (syspath) {
-    return "jsx:///../" + (new jsx3.net.URI(syspath)).resolve(path);
-  } else {
-    return path;
-  }
+  // syspath is a resolved URI already and path is relative to syspath
+  if (syspath)
+    path = (new jsx3.net.URI(syspath)).resolve(path);
+
+  // Because the DOM URI resolver of jsx_api_memberlist is jsx3.IDE, any path used as XML URL will be resolved.
+  // Therefore we need to relativize it first.
+  return jsx_api_memberlist.getUriResolver().relativizeURI(path);
 };
 
 objJSX.onBeforeDestroy = function() {
