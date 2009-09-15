@@ -288,10 +288,6 @@ jsx3.Class.defineClass("jsx3.gui.Painted", jsx3.app.Model, null, function(Painte
         // replace its outer HTML
         html.setOuterHTML(objGUI, strHTML);
         Painted._onAfterPaintCascade(this, objGUI);
-        //recalculate dynamic expressions specific to the browser (the VIEW delegate)
-        var doc = objGUI.ownerDocument;
-        if (doc.recalc != null)
-          jsx3.sleep(function(){ doc.recalc(true); }, "jsx3.gui.Painted.recalc");
 
 /* @JSC :: begin BENCH */
         t1.log("repaint");
