@@ -151,7 +151,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
     window.setTimeout(t.asyncCallback(function() {
       jsunit.assertEquals("Document should not have published an event.", 0, evtCount);
       jsunit.assertFalse(d.hasError());
-    }, 2000));
+    }), 2000);
   };
   t.testAbort._async = true;
 

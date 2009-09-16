@@ -282,7 +282,7 @@ gi.test.jsunit.defineTests("jsx3.app.Cache", function(t, jsunit) {
 
     window.setTimeout(t.asyncCallback(function() {
       jsunit.assertEquals("Cache should not have published an event.", 0, evtCount);
-    }, 2000));
+    }), 2000);
   };
   t.testAsyncAbortClear._async = true;
 
@@ -303,9 +303,9 @@ gi.test.jsunit.defineTests("jsx3.app.Cache", function(t, jsunit) {
     c.getOrOpenAsync(url2, "docId");
 
     window.setTimeout(t.asyncCallback(function() {
-      jsunit.assertEquals("Cache should not have published one event.", 1, evtCount);
+      jsunit.assertEquals("Cache should have published one event.", 1, evtCount);
       jsunit.assertEquals("valueA", c.getDocument("docId").selectSingleNode("//record").getAttribute("jsxtext"));      
-    }, 2000));
+    }), 2000);
   };
   t.testAsyncAbortClobber._async = true;
 
