@@ -588,7 +588,6 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   };
 
   html.getRelativePosition = function(objRoot, objGUI) {
-    //3.6: updated to the following
     if(objRoot == null) objRoot = objGUI.ownerDocument.getElementsByTagName("body")[0];
     var doc = objGUI.ownerDocument;
     var box, vpBox, myLeft, myTop;
@@ -601,10 +600,10 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     } else {
       box = objGUI.getBoundingClientRect();
       vpBox = objRoot.getBoundingClientRect();
-      myLeft = box.left-vpBox.left + Math.max(doc.documentElement.scrollLeft,  doc.body.scrollLeft);
-      myTop = box.top-vpBox.top + Math.max(doc.documentElement.scrollTop,  doc.body.scrollTop);
+      myLeft = box.left - vpBox.left + Math.max(doc.documentElement.scrollLeft, doc.body.scrollLeft) - window.scrollX;
+      myTop = box.top - vpBox.top + Math.max(doc.documentElement.scrollTop, doc.body.scrollTop) - window.scrollY;
     }
-    return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight}
+    return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight};
   };
 
 /* @JSC */ } else {
