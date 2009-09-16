@@ -129,6 +129,19 @@
     </ant>
     <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
     <symlink overwrite="true" link="${nightly.zip.prefix}.latest-nodep.zip" resource="${nightly.zip.prefix}.r${rev}-nodep.zip"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- cross-domain code build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
+      <property name="build.gi.buildno" value="${rev}xd"/>
+      <property name="build.gi.docs" value="false"/>
+      <property name="build.gi.ide" value="false"/>
+      <property name="build.gi.xd" value="true"/>
+    </ant>
+    <copy file="${temp.distzip}" tofile="${nightly.zip.prefix}.r${rev}-xd.zip"/>
+    <symlink overwrite="true" link="${nightly.zip.prefix}.latest-xd.zip" resource="${nightly.zip.prefix}.r${rev}-xd.zip"/>
   </target>
 
   <target name="nightly-docs" depends="init"
@@ -324,6 +337,20 @@
       <property name="build.obf.mapfileout" value="../dist/obfuscation-map-dojo.txt"/>
     </ant>
     <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-dojo.zip"/>
+
+    <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
+
+    <!-- cross-domain code build -->
+    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+      <property name="dist.gi" value="gi-${build.gi.version.name}-xd"/>
+      <property name="build.dist.zip" value="build/${temp.distzip}"/>
+      <property name="build.gi.buildno" value="${rev}xd"/>
+      <property name="build.gi.docs" value="false"/>
+      <property name="build.gi.ide" value="false"/>
+      <property name="build.gi.xd" value="true"/>
+      <property name="build.obf.mapfileout" value="../dist/obfuscation-map-xd.txt"/>
+    </ant>
+    <copy file="${temp.distzip}" tofile="${staging.release}/gi-${build.gi.version.name}-xd.zip"/>
 
     <!-- source build -->
     <delete dir="${buildDir}"/>
