@@ -555,25 +555,27 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
    * @package
    */
   html.getRelativePosition = function(objRoot, objGUI) {
-    //LUKE:  updated in 3.6 to use the following
-    if(objGUI) {
-      if(objRoot == null) objRoot = objGUI.ownerDocument.getElementsByTagName("body")[0];
+    if (objGUI) {
+      var objBody = objGUI.ownerDocument.getElementsByTagName("body")[0];
+      if (!objRoot) objRoot = objBody;
+
       var myLeft = 0;
       var myTop = 0;
-      if(objRoot != objGUI) {
+      if (objRoot != objGUI) {
         var box = objGUI.getBoundingClientRect();
-        var scrollTop = objRoot.scrollTop;
-        var scrollLeft = objRoot.scrollLeft;
-        myLeft = box.left + scrollLeft;
-        myTop = box.top + scrollTop;
+        myLeft = box.left + objRoot.scrollLeft;
+        myTop = box.top + objRoot.scrollTop;
 
-        if(objRoot != objRoot.ownerDocument.getElementsByTagName("body")[0]) {
-          var tmpPos = html.getRelativePosition(null,objRoot);
+        if (objRoot != objBody) {
+          var tmpPos = html.getRelativePosition(null, objRoot);
           myLeft = myLeft - tmpPos.L;
           myTop = myTop - tmpPos.T;
+        } else {
+          myTop -= objGUI.ownerDocument.body.scrollTop;
+          myLeft -= objGUI.ownerDocument.body.scrollLeft;
         }
       }
-      return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight}
+      return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight};
     }
   };
 
