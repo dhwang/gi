@@ -34,24 +34,69 @@ gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
   t.testSleep2._async = true;
 
   t.testSleep3 = function() {
-    jsx3.sleep(t.asyncCallback(function() {
-      jsunit.assert(true);
-    }), "dupId");
-    jsx3.sleep(t.asyncCallback(function() {
-      jsunit.assert(false);
-    }), "dupId");
+    var firstExecuted = false, secondExecuted = false;
+
+    jsx3.sleep(function() {
+      firstExecuted = true;
+    }, "dupId");
+    jsx3.sleep(function() {
+      secondExecuted = true;
+    }, "dupId");
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertTrue(firstExecuted);
+      jsunit.assertFalse(secondExecuted);
+    }), 1000);
   };
   t.testSleep3._async = true;
 
   t.testSleep4 = function() {
-    jsx3.sleep(t.asyncCallback(function() {
-      jsunit.assert(false);
-    }), "dupId");
-    jsx3.sleep(t.asyncCallback(function() {
-      jsunit.assert(true);
-    }), "dupId", null, true);
+    var firstExecuted = false, secondExecuted = false;
+
+    jsx3.sleep(function() {
+      firstExecuted = true;
+    }, "dupId");
+    jsx3.sleep(function() {
+      secondExecuted = true;
+    }, "dupId", null, true);
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertFalse(firstExecuted);
+      jsunit.assertTrue(secondExecuted);
+    }), 1000);
   };
   t.testSleep4._async = true;
+
+  t.testSleepThrows1 = function() {
+    var secondExecuted = false;
+    jsx3.sleep(function() {
+      jsx3.sleep(function() {
+        secondExecuted = true;
+      });
+
+      throw new Error();
+    });
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertTrue(secondExecuted);      
+    }), 1000);
+  };
+  t.testSleepThrows1._async = true;
+
+  t.testSleepThrows2 = function() {
+    var secondExecuted = false;
+    jsx3.sleep(function() {
+      throw new Error();
+    });
+    jsx3.sleep(function() {
+      secondExecuted = true;
+    });
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertTrue(secondExecuted);
+    }), 1000);
+  };
+  t.testSleepThrows2._async = true;
 
   t.testRequire1 = function() {
     if (jsx3.app && jsx3.app.UserSettings) delete jsx3.app.UserSettings;
