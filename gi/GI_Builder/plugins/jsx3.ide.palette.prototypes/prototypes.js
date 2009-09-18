@@ -190,6 +190,69 @@ reloadPrototypeLibraries: function(objTree) {
   var doc = this._getPrototypeLibraries();
   objTree.setSourceXML(doc);
   this.publish({subject: "reloaded"});
+},
+
+/* Prototype Library */
+
+setPrototypeView: function(viewStr, backBarText) {
+  var p = this.getPalette();
+  if (!p)
+    return;
+
+  var ui = p.getUIObject();
+  if (!ui)
+    return;
+
+  var views = ui.getDescendantOfName('jsx_ide_proto_views');
+  if (!views)
+    return;
+
+  var view = views.getDescendantOfName('jsx_ide_proto_' + viewStr + '_view');
+  if (!view)
+    return;
+
+  if (this._current_view)
+    this._current_view.setDisplay(jsx3.gui.Block.DISPLAYNONE);
+
+  view.setDisplay(jsx3.gui.Block.DISPLAYBLOCK);
+
+  var back_bar = ui.getDescendantOfName('jsx_ide_proto_action_back_bar'),
+    summary_bar = ui.getDescendantOfName('jsx_ide_proto_action_summary_bar'),
+    bars = ui.getDescendantOfName('jsx_ide_proto_action_bar');
+  back_bar.setDisplay(viewStr == 'summary' ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK);
+  summary_bar.setDisplay(viewStr == 'summary' ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE);
+  if (viewStr == 'login')
+    back_bar.setText('Login');
+  else if (backBarText)
+    back_bar.setText(backBarText);
+
+  bars.repaint();
+  views.repaint();
+  this._current_view = view;
+},
+
+backButtonClicked: function() {
+  var current_view = this._current_view.jsxname;
+  var view;
+  switch (current_view) {
+    default:
+    case 'jsx_ide_proto_login_view':
+    case 'jsx_ide_proto_detail_view':
+      view = 'summary';
+      break;
+  }
+  this.setPrototypeView(view);
+},
+
+prototypeDetailRequested: function(recordId) {
+  var tree = this.getPrototypesTree();
+  if (!tree)
+    return;
+  var record = tree.getRecord(recordId);
+  if (!record)
+    return;
+
+  this.setPrototypeView('detail', record.jsxtext);
 }
 
 });

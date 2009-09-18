@@ -14,12 +14,23 @@
     return this.getEngine().getPlugIn("jsx3.ide.ui").getPalette(this, "complibs.palette");
   ]]></method>
 
+  <method id="getComponentsTree"><![CDATA[
+    var p = this.getPalette();
+    if (p) {
+      var ui = p.getUIObject();
+      if (ui) {
+        return ui.getComponentsTree();
+      }
+    }
+    return null;
+  ]]></method>
+
   <method id="getPrototypesTree"><![CDATA[
     var p = this.getPalette();
     if (p) {
       var ui = p.getUIObject();
       if (ui) {
-        return ui.getTree();
+        return ui.getPrototypesTree();
       }
     }
     return null;
@@ -44,6 +55,7 @@
     <plugin id="jsx3.gui.Tree"/>
     <plugin id="jsx3.gui.TabbedPane"/>
     <plugin id="jsx3.gui.ToolbarButton"/>
+    <plugin id="jsx3.gui.CheckBox"/>
   </requires>
 
   <resources>
@@ -52,6 +64,7 @@
       <prereq id="js"/>
     </xml>
     <xml id="menu-filters" path="menu-filters.xml"/>
+    <xml id="tree-fake-data" path="tree-fake-data.xml"/>
   </resources>
 
   <event id="reloaded"/>
@@ -117,7 +130,7 @@
 
   <extension point="jsx3.ide.palette.prototypes.toolbar">
     <button id="refresh" img="jsxapp:/images/icon_15.gif" tip="Refresh the list of prototypes" section="utils"
-            execute="this.getPlugIn().reloadPrototypeLibraries(this.getPlugIn().getPrototypesTree());" enabled="true"/>
+            execute="this.getPlugIn().reloadPrototypeLibraries(this.getPlugIn().getComponentsTree());" enabled="true"/>
   </extension>
 
   <extension-point id="prototypes_toolbar">
