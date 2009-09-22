@@ -1,5 +1,5 @@
 <serialization jsxversion="3.2" xmlns="urn:tibco.com/v3.0">
-  <name><![CDATA[Multiselect]]></name>
+  <name><![CDATA[MultiSelect]]></name>
   <icon></icon>
   <description></description>
   <onBeforeDeserialize></onBeforeDeserialize>
