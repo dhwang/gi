@@ -3,7 +3,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
-  <name><![CDATA[MultiSelect]]></name>
+  <name><![CDATA[Multiselect]]></name>
   <description><![CDATA[Multi-select object, allows one or more items in a list to be selected.  Customize size by changing block H and W properties.  Define contents by associating the list with an XML string, cache document or file.]]></description>
   <object type="jsx3.gui.Block">
     <dynamics jsxborder="@Inset"/>

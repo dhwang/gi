@@ -75,7 +75,7 @@ _getPrototypeLibraries: function() {
       if (dir.isDirectory()) {
         var otherNode = doc.insertRecord({
           jsxid: 'other/' + (++i),
-          jsxtext: label || dir.getName(), jsxunselectable: '1',
+          jsxtext: label || dir.getName().replace(/_/g, " "), jsxunselectable: '1',
           syspath: jsx3.ide.getSystemDirFile().relativePathTo(dir),
           jsximg: nodeImg, jsxlazy: '1'
         }, 'other');
@@ -104,7 +104,7 @@ _doPLDirectoryRead: function(doc, parent, file, objResolver) {
       if (item.isDirectory()) {
         doc.insertRecord({
           jsxid: parent.getAttribute('jsxid') + '/' + name,
-          jsxtext: name, type: 'folder', jsxlazy: '1', jsxunselectable: '1',
+          jsxtext: name.replace(/_/g, " "), type: 'folder', jsxlazy: '1', jsxunselectable: '1',
           jsximg: parent.getAttribute("jsximg"), sorton: 'a_' + (name.charAt(0) == "~" ? ("z" + name) : name),
           syspath: jsx3.ide.getSystemDirFile().relativePathTo(item)
         }, parent.getAttribute('jsxid'));

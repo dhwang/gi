@@ -1,5 +1,5 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.2">
-  <name>MultiSelect</name>
+  <name>Multiselect</name>
   <icon/>
   <description/>
   <onBeforeDeserialize/>

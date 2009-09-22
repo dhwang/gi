@@ -4,7 +4,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <component classpath="jsx3.gui" xmlns:id="http://xsd.tns.tibco.com/gi/cif/2006/inlinedata" xmlns:e="http://xsd.tns.tibco.com/gi/cif/2006/events" xmlns:d="http://xsd.tns.tibco.com/gi/cif/2006/dynamics" xmlns:p="http://xsd.tns.tibco.com/gi/cif/2006/property" xmlns:pe="http://xsd.tns.tibco.com/gi/cif/2006/property.eval" xmlns:x="http://xsd.tns.tibco.com/gi/cif/2006/xslparameters" xmlns:v="http://xsd.tns.tibco.com/gi/cif/2006/view" xmlns:u="http://xsd.tns.tibco.com/gi/cif/2006/userdefined" xmlns:ue="http://xsd.tns.tibco.com/gi/cif/2006/userdefined.eval" xmlns="http://xsd.tns.tibco.com/gi/cif/2006">
-  <meta name="name"><![CDATA[MultiSelect]]></meta>
+  <meta name="name"><![CDATA[Multiselect]]></meta>
   <meta name="description"><![CDATA[Matrix instance configured to allow for multiselect-type functionality.]]></meta>
   <meta name="icon"><![CDATA[images/prototypes/matrix.gif]]></meta>
   <Matrix
