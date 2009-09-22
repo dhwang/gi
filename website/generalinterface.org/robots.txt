@@ -1,2 +1,12 @@
 User-Agent: *
+Disallow: /bugs/sr/
+Disallow: /bugs/si/
+Disallow: /bugs/secure/IssueNavigator.jspa
+Disallow: /fisheye/qsearch/
+Disallow: /fisheye/admin/
+Disallow: /fisheye/reports/
+Disallow: /fisheye/chart/
+Disallow: /fisheye/rdiff/
+Disallow: /fisheye/browse/~raw
+Disallow: /forums/faq.php
 Allow: /

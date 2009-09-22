@@ -465,8 +465,10 @@ body#com-atlassian-confluence.gi table.layout1 td.col1 div.gi-sl1c ul {
 */
 
 body#com-atlassian-confluence.gi table.layout1 td.col2 h2 {
-  font-weight: normal;
+  font-weight: bold;
+  color: #555555;
   font-size: 1.4em;
+  line-height: 1em;
   margin: 0px 0px 2px 0px;
 }
 
@@ -724,20 +726,37 @@ body#com-atlassian-confluence.gi div.faq div.faqa {
   background-repeat: no-repeat;
 }
 
-body#com-atlassian-confluence.gi div.bulletlist ul {
+body#com-atlassian-confluence.gi .bulletlist ul {
   padding-left: 24px;
 }
 
-body#com-atlassian-confluence.gi div.bulletlist-arrow ul li {
+body#com-atlassian-confluence.gi .bulletlist-arrow ul li {
   list-style-image: url(/assets/bullet_arrow.png);
 }
 
-body#com-atlassian-confluence.gi div.bulletlist-video ul li {
+body#com-atlassian-confluence.gi .bulletlist-video ul li {
   list-style-image: url(/assets/bullet_video.png);
 }
 
-body#com-atlassian-confluence.gi div.bulletlist-app ul li {
+body#com-atlassian-confluence.gi .bulletlist-app ul li {
   list-style-image: url(/assets/bullet_app.png);
+}
+
+body#com-atlassian-confluence.gi .bulletlist-square ul li {
+  list-style-image: url(/assets/bullet_square.jpg);
+}
+
+body#com-atlassian-confluence.gi span.image-wrap img {
+  vertical-align: top;
+}
+
+body#com-atlassian-confluence.gi tt {
+  font-family: Andale Mono, monospace;
+}
+
+body#com-atlassian-confluence.gi .code pre, body#com-atlassian-confluence.gi .preformatted pre {
+  font-family: Andale Mono, Lucida Console, monospace;
+  font-size: 0.95em;
 }
 
 .confluenceTd div.code {

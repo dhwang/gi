@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>General Interface: Downloading </title>
+
+<meta name="ROBOTS" contents="NOINDEX, NOFOLLOW">
+
+<link rel="stylesheet" type="text/css" href="http://www.generalinterface.org/assets/main.css"/>
+<!--[if IE]>
+ <link rel="stylesheet" type="text/css" href="http://www.generalinterface.org/assets/main_ie.css"/>
+<![endif]-->
+
+<script type="text/javascript" src="http://www.generalinterface.org/assets/jquery-1.3.2.min.js"></script>
+<script type="text/javascript">
+
+var downloadURL = document.location.search.substring(1);
+document.title += downloadURL;
+
+$(document).ready(function() {
+  if (downloadURL)
+    document.getElementById("downloadIframe").src = downloadURL;
+  else
+    document.location.href = "http://www.generalinterface.org";
+});
+
+</script>
+
+</head>
+
+<body class="gi">
+
+<div class="gi-page">
+<div class="gi-header">
+  <div class="dojofound gi-pagewidth">
+    <span>General Interface is an <a href="http://www.generalinterface.org/docs/display/OS">open source project</a> hosted by
+      the <a href="http://www.dojofoundation.org">Dojo Foundation</a></span>
+  </div>
+  <div class="gi-banner">
+    <div class="gi-pagewidth">
+      <a href="http://www.generalinterface.org/"><div class="gi-logo"></div></a>
+    </div>
+  </div>
+  <div class="gi-globalnav">
+    <div class="gi-pagewidth">
+      <ul>
+        <li><a href="http://www.generalinterface.org/">Home</a></li>
+        <li class="navon"><a href="http://www.generalinterface.org/docs/display/GETGI">Downloads</a></li>
+        <li><a href="http://www.generalinterface.org/docs/display/DOC">Learning Center</a></li>
+        <li><a href="http://www.generalinterface.org/forums/">Forum</a></li>
+        <li><a href="http://www.generalinterface.org/docs/display/OS">Project</a></li>
+      </ul>
+
+      <div class="gi-search">
+        <form action="http://www.generalinterface.org/search.html" id="cse-search-box">
+          <div>
+            <input type="hidden" name="cx" value="014400610683534545227:c5t7wmhpmoi" />
+            <input type="hidden" name="cof" value="FORID:9" />
+            <input type="hidden" name="ie" value="UTF-8" />
+            <input class="searchinput" type="text" name="q" />
+            <input class="searchbtn" type="image" name="sa" src="http://www.generalinterface.org/assets/searchButton.jpg" />
+          </div>
+        </form>
+
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">google.load("elements", "1", {packages: "transliteration"});</script>
+        <script type="text/javascript" src="http://www.google.com/coop/cse/t13n?form=cse-search-box&t13n_langs=en"></script>
+
+        <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gi-body gi-pagewidth">
+
+  <div class="gi-l1c1">
+
+    <h1>Downloading...</h1>
+
+    Thank you for downloading <b><script type="text/javascript">document.write(downloadURL)</script></b>.
+    Your download will begin automatically in a few moments.
+    <p/>
+    If the download does not begin automatically <script type="text/javascript">document.write(
+    '<a href="' + downloadURL + '">click here to complete the download</a>')</script>.
+
+  </div>
+
+  <iframe id="downloadIframe" src="about:blank" style="width:1px;height:1px;"></iframe>
+
+</div>
+
+  </div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8828555-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+</body>
+</html>
