@@ -416,6 +416,10 @@ jsx3.Class.defineInterface("jsx3.gui.Form", null, function(Form, Form_prototype)
 
   /** @package */
   Form_prototype.emGetTemplate = function(strEnabled, strDisabled) {
+    // escape curly braces so that they are not evaluated as xpath
+    strEnabled = strEnabled.replace(/\{/g, "{{").replace(/\}/g, "}}");
+    strDisabled = strDisabled.replace(/\{/g, "{{").replace(/\}/g, "}}");
+
     return '<xsl:choose xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +
         '<xsl:when test="@jsxnomask=\'1\'"></xsl:when>' +
         '<xsl:when test="@jsxdisabled=\'1\'">' + strDisabled + '</xsl:when>' +
