@@ -25,8 +25,8 @@ jsx3.Class.defineClass("jsx3.gui.Label", jsx3.gui.Block, null, function(Label, L
   };
 
   /**
-   * Sets the <code>for</code> target. The <code>for</code> target is the form elemtnt that this label applied to.
-   * The <code>strFor</code> should be either the unique name of the target in this application or a selection
+   * Sets the <code>for</code> target. The <code>for</code> target is the form element that this label applied to.
+   * <code>strFor</code> should be either the unique name of the target in this application or a selection
    * expression that will uniquely select the target in this application. 
    *
    * @param strFor {String} the new format.
@@ -64,7 +64,7 @@ jsx3.Class.defineClass("jsx3.gui.Label", jsx3.gui.Block, null, function(Label, L
     //render the outer-most box
     var b1 = this.getBoxProfile(true);
 
-    b1.setAttributes(this.paintIndex() + this.paintTip() + strEvents + ' id="' + strId + '"' + this.paintLabel() +
+    b1.setAttributes(this.paintIndex() + this.paintTip() + strEvents + ' id="' + strId + '"' +
                      ' class="' + this.paintClassName() + '" ' + this._paintFor() + strAttributes);
     b1.setStyles(this.paintFontSize() + this.paintBackgroundColor() + this.paintBackground() + this.paintColor() +
                  this.paintOverflow() + this.paintFontName() + this.paintZIndex() + this.paintFontWeight() +

@@ -488,13 +488,13 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
     //generate and return final HTML
     var b1 = this.getBoxProfile(true);
     if (strType == TextBox.TYPETEXT || strType == TextBox.TYPEPASSWORD) {
-      b1.setAttributes(this.paintType() + ' id="' + strId + '"' + this.paintLabel() + this.paintEnabled() + this._paintReadonly() +
+      b1.setAttributes(this.paintType() + ' id="' + strId + '"' + this.paintName() + this.paintEnabled() + this._paintReadonly() +
                        this.paintMaxLength() + this.paintIndex() + this.paintTip() + strImplementedEvents +
                        ' value="' + this._getScreenValue() + '" class="' + this.paintClassName() + '" ' + strProps);
       b1.setStyles(styles);
       var strContent = "";
     } else {
-      b1.setAttributes(' id="' + strId + '"' + this.paintLabel() + this.paintEnabled() + this._paintReadonly() + this.paintIndex() +
+      b1.setAttributes(' id="' + strId + '"' + this.paintName() + this.paintEnabled() + this._paintReadonly() + this.paintIndex() +
                        this.paintTip() + strImplementedEvents + ' class="' + this.paintClassName() + '" ' +
                        this.renderAttributes() + this.paintWrap());
       b1.setStyles(styles + this.paintOverflow());

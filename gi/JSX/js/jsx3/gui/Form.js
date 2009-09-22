@@ -270,6 +270,11 @@ jsx3.Class.defineInterface("jsx3.gui.Form", null, function(Form, Form_prototype)
     return c ? "cursor:" + c + ";" : "";
   };
 
+  Form_prototype.paintName = function() {
+    var n = this.getName();
+    return n ? ' name="' + n + '"' : '';
+  };
+
   /**
    * Returns whether or not this control is required. If the required property has never been set, this method returns
    * <code>OPTIONAL</code>.

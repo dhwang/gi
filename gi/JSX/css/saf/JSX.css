@@ -1114,5 +1114,8 @@ body.jsx30form textarea {
   margin: 0px;
 }
 
+#JSX form.jsx3nativeform { padding: 0px; margin: 0px; border: none; }
+#JSX form.jsx3nativeform iframe { width: 0px; height: 0px; display: none; }
+
 .jsx30env {}
 .jsx30env div { padding: 0px 0px 10px 10px; }

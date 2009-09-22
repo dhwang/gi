@@ -149,6 +149,14 @@
       requires="jsx3.gui.Alerts jsx3.gui.Block jsx3.gui.ToolbarButton"/>
   <file path="jsx3/gui/Button.js" provides="jsx3.gui.Button"
       requires="jsx3.gui.Form jsx3.gui.Block"/>
+  <file path="jsx3/gui/NativeButton.js" provides="jsx3.gui.NativeButton"
+      requires="jsx3.gui.Form jsx3.gui.Block"/>
+  <file path="jsx3/gui/NativeFileUpload.js" provides="jsx3.gui.NativeFileUpload"
+      requires="jsx3.gui.Form jsx3.gui.Block"/>
+  <file path="jsx3/gui/NativeHidden.js" provides="jsx3.gui.NativeHidden"
+      requires="jsx3.gui.Form jsx3.gui.Painted"/>
+  <file path="jsx3/gui/NativeForm.js" provides="jsx3.gui.NativeForm"
+      requires="jsx3.gui.Block"/>
   <file path="jsx3/gui/TextBox.js" provides="jsx3.gui.TextBox"
       requires="jsx3.gui.Form jsx3.gui.Block"/>
   <file path="jsx3/gui/NumberInput.js" provides="jsx3.gui.NumberInput"

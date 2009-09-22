@@ -41,14 +41,25 @@ jsx3.Class.defineClass("jsx3.gui.IFrame", jsx3.gui.Block, null, function(IFrame,
     this.applyDynamicProperties();
 
     var src = this.getSrc();
+    var id = this.getId();
+    var name = this.getIFrameId();
     src = (src) ? ' src="' + this.getUriResolver().resolveURI(src) + '"' : '';
 
-    return '<span id="' + this.getId() + '" class="jsx30iframe" style="' +
+    return '<span id="' + id + '" class="jsx30iframe" style="' +
            this.paintVisibility() + this.paintDisplay() + this.paintCSSOverride() + '"' +
            this.renderAttributes() + '>' +
-          '<iframe id="' + this.getId() + '_iframe" class="jsx30iframe" frameborder="0"' + src +
+          '<iframe id="' + name + '" name="' + name + '" class="jsx30iframe" frameborder="0"' + src +
              this._paintScrolling() + this.renderHandler(jsx3.gui.Event.LOAD, '_ebLoad', 1) + '></iframe>' +
         '</span>';
+  };
+
+  /**
+   * Returns the name attribute of the rendered IFRAME element.
+   * @return {String}
+   * @since 3.9
+   */
+  IFrame_prototype.getIFrameId = function() {
+    return this.getId() + "_iframe";
   };
 
   /**
@@ -58,7 +69,7 @@ jsx3.Class.defineClass("jsx3.gui.IFrame", jsx3.gui.Block, null, function(IFrame,
    */
   IFrame_prototype.getIFrame = function() {
     try {
-      return this.eval(this.getId() + "_iframe");
+      return this.eval(this.getIFrameId());
     } catch (e) {
       return null;
     }

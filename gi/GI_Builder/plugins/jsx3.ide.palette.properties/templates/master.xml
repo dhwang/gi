@@ -726,6 +726,12 @@
         jsxmask="jsxtext"/>
   </record>
 
+  <record jsxid="metadata-nocdf" group="1" jsxtext="Metadata">
+    <record include="master.xml" path="/data/record[@jsxid='metadata']/record[@jsxid='jsxloadtype']"/>
+    <record include="master.xml" path="/data/record[@jsxid='metadata']/record[@jsxid='jsxannotation']"/>
+    <record include="master.xml" path="/data/record[@jsxid='metadata']/record[@jsxid='jsxhelpid']"/>
+  </record>
+
   <record jsxid="container_active" group="1">
     <record jsxid="jsxactivecolor" jsxtext="Active BG Color"
         eval="0"

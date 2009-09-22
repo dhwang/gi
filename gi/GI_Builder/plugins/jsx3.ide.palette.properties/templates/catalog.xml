@@ -24,6 +24,10 @@
   <record jsxid="jsx3.gui.Matrix" jsxtext="Matrix.xml"/>
   <record jsxid="jsx3.gui.Matrix.Column" jsxtext="MatrixColumn.xml"/>
   <record jsxid="jsx3.gui.Menu" jsxtext="Menu.xml"/>
+  <record jsxid="jsx3.gui.NativeButton" jsxtext="NativeButton.xml"/>
+  <record jsxid="jsx3.gui.NativeFileUpload" jsxtext="NativeFileUpload.xml"/>
+  <record jsxid="jsx3.gui.NativeForm" jsxtext="NativeForm.xml"/>
+  <record jsxid="jsx3.gui.NativeHidden" jsxtext="NativeHidden.xml"/>
   <record jsxid="jsx3.gui.NativeSelect" jsxtext="NativeSelect.xml"/>
   <record jsxid="jsx3.gui.NumberInput" jsxtext="NumberInput.xml"/>
   <record jsxid="jsx3.gui.RadioButton" jsxtext="RadioButton.xml"/>

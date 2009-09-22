@@ -18,6 +18,8 @@ jsx3.require("jsx3.xml.Cacheable", "jsx3.gui.Form", "jsx3.gui.Block");
  * <li>jsxclass &#8211; the CSS class to apply to the option.</li>
  * <li>jsxstyle &#8211; the CSS style to apply to the option.</li>
  * <li>jsximg &#8211; a relative path to an image (16x16) to display on the option.</li>
+ * <li>jsximgalt &#8211; the image alt text.</li>
+ * <li>jsxdisabled &#8211; whether the option is disabled or enabled.</li>
  * </ul>
  *
  * @since 3.9
@@ -241,7 +243,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeSelect", jsx3.gui.Block, [jsx3.gui.Form, 
 
     //generate and return final HTML
     var b1 = this.getBoxProfile(true);
-    b1.setAttributes(' id="' + strId + '"' + this.paintLabel() + this.paintEnabled() + this.paintIndex() +
+    b1.setAttributes(' id="' + strId + '"' + this.paintName() + this.paintEnabled() + this.paintIndex() +
                      this._paintMultiple() + this._paintSize() + 
                      this.paintTip() + strImplementedEvents + ' class="' + this.paintClassName() + '" ' + strProps);
     b1.setStyles(styles);
