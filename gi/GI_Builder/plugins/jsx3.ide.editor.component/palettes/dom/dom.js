@@ -1,3 +1,6 @@
+var systemIconPath = "jsxapp:/images/prototypes/",
+    chartingIconPath = "jsx:/addins/charting/icons/";
+
 jsx3.$O(this).extend({
   
 domCopyNameToCB: function(strJSXId) {
@@ -281,9 +284,81 @@ _buildTree: function(objTree, objJSX, strParentId) {
   }
 },
 
+_typeIcons: {
+  "jsx3.gui.Block": systemIconPath + "block-abs.gif",
+  "jsx3.gui.BlockX": systemIconPath + "blockX.gif",
+  "jsx3.gui.Button": systemIconPath + "button.gif",
+  "jsx3.gui.CheckBox": systemIconPath + "checkbox.gif",
+  "jsx3.gui.ColorPicker": systemIconPath + "colorpicker.gif",
+  "jsx3.gui.DatePicker": systemIconPath + "datepicker.gif",
+  "jsx3.gui.Dialog": systemIconPath + "dialog.gif",
+  "jsx3.gui.IFrame": systemIconPath + "iframe.gif",
+  "jsx3.gui.Image": systemIconPath + "block-image.gif",
+  "jsx3.gui.ImageButton": systemIconPath + "image-button.gif",
+  "jsx3.gui.Label": systemIconPath + "block-text.gif",
+  "jsx3.gui.LayoutGrid": systemIconPath + "layout-side.gif",
+  "jsx3.gui.Matrix": systemIconPath + "matrix.gif",
+  "jsx3.gui.Menu": systemIconPath + "menu.gif",
+  "jsx3.gui.NativeButton": systemIconPath + "button.gif",
+  "jsx3.gui.NativeFileUpload": systemIconPath + "textbox.gif",
+  "jsx3.gui.NativeForm": systemIconPath + "block.gif",
+  "jsx3.gui.NativeHidden": systemIconPath + "hidden.gif",
+  "jsx3.gui.NativeSelect": systemIconPath + "select.gif",
+  "jsx3.gui.NumberInput": systemIconPath + "textbox.gif",
+  "jsx3.gui.RadioButton": systemIconPath + "radio.gif",
+  "jsx3.gui.Select": systemIconPath + "select.gif",
+  "jsx3.gui.Slider": systemIconPath + "slider.gif",
+  "jsx3.gui.Sound": systemIconPath + "sound.gif",
+  "jsx3.gui.Splitter": systemIconPath + "splitter-side.gif",
+  "jsx3.gui.Stack": systemIconPath + "stack.gif",
+  "jsx3.gui.StackGroup": systemIconPath + "stack-over.gif",
+  "jsx3.gui.Tab": systemIconPath + "tab.gif",
+  "jsx3.gui.TabbedPane": systemIconPath + "tabbedpane.gif",
+  "jsx3.gui.Table": systemIconPath + "matrix.gif",
+  "jsx3.gui.TextBox": systemIconPath + "textbox.gif",
+  "jsx3.gui.TimePicker": systemIconPath + "timepicker.gif",
+  "jsx3.gui.ToolbarButton": systemIconPath + "toolbar-button.gif",
+  "jsx3.gui.Tree": systemIconPath + "tree.gif",
+  "jsx3.gui.Window": systemIconPath + "dialog.gif",
+  "jsx3.gui.WindowBar": systemIconPath + "menubar.gif",
+  "jsx3.chart.AreaChart": chartingIconPath + "stackedArea.gif",
+  "jsx3.chart.AreaSeries": chartingIconPath + "areaSeries.gif",
+  "jsx3.chart.Axis": chartingIconPath + "linearAxis.gif",
+  "jsx3.chart.BarChart": chartingIconPath + "stackedBar.gif",
+  "jsx3.chart.BarSeries": chartingIconPath + "barSeries.gif",
+  "jsx3.chart.BubbleSeries": chartingIconPath + "bubbleSeries.gif",
+  "jsx3.chart.CategoryAxis": chartingIconPath + "categoryAxis.gif",
+  "jsx3.chart.ChartLabel": chartingIconPath + "chartLabel.gif",
+  "jsx3.chart.ColumnChart": chartingIconPath + "stackedColumn.gif",
+  "jsx3.chart.ColumnSeries": chartingIconPath + "columnSeries.gif",
+  "jsx3.chart.GridLines": chartingIconPath + "gridLines.gif",
+  "jsx3.chart.Legend": chartingIconPath + "legend.gif",
+  "jsx3.chart.LineChart": chartingIconPath + "stackedLine.gif",
+  "jsx3.chart.LineSeries": chartingIconPath + "lineSeries.gif",
+  "jsx3.chart.LogarithmicAxis": chartingIconPath + "logarithmicAxis.gif",
+  "jsx3.chart.PieChart": chartingIconPath + "pie.gif",
+  "jsx3.chart.PieSeries": chartingIconPath + "pieSeries.gif",
+  "jsx3.chart.PlotChart": chartingIconPath + "plotPoint.gif",
+  "jsx3.chart.PointSeries": chartingIconPath + "scatterSeries.gif",
+  "jsx3.app.Model": "jsxapp:/images/icon_89.gif"
+},
+
+_getIconPath: function(o) {
+  if (o.getIconPath)
+    return o.getIconPath();
+
+  var c = o.getClass(), path = null;
+  while (c && !path) {
+    path = this._typeIcons[c.getName()];
+    c = c.getSuperClass();
+  }
+
+  return path;
+},
+
 _getDomRecordValues: function(objJSX) {
   var Model = jsx3.app.Model;
-  var c = "", img = "jsxapp:/images/icon_89.gif", text = objJSX.getName();
+  var c = "", img, text = objJSX.getName();
 
   if (text == null || text == "") {
     text = objJSX.getClass().getName();
@@ -305,12 +380,11 @@ _getDomRecordValues: function(objJSX) {
       text += " : " + path.substring(path.lastIndexOf("/") + 1);
 
     c = persistence == Model.PERSISTREF ? "jsx3ide_dom_ref" : "jsx3ide_dom_refa";
-  } else if (persistence == Model.PERSISTNONE) {
-    c = "jsx3ide_dom_pnone";
-  }
+  } else {
+    img = this._getIconPath(objJSX);
 
-  if (objJSX.jsxannotation) {
-    img = "jsxapp:/images/icon_89a.gif";
+    if (persistence == Model.PERSISTNONE)
+      c = "jsx3ide_dom_pnone";
   }
 
   return [c, img, text];
