@@ -24,6 +24,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
   var LOG = jsx3.util.Logger.getLogger(Select.jsxclass.getName());
 
+  var Interactive = jsx3.gui.Interactive;
   var Event = jsx3.gui.Event;
   var html = jsx3.html;
 
@@ -351,8 +352,6 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
         var val2 = inputElm.value;
         if (val1 != val2) {
-          this.jsxvalue = val2;
-
           if (Select._OPTION_TO)
             window.clearTimeout(Select._OPTION_TO);
 
@@ -460,8 +459,13 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         this._doSelectRecord(objEvent, this._cdfav(objNode, "id"));
       }
       else {
-        //no match was found in the datamodel, so assume that the value will be made equal to the current value of the textbox
-        this.jsxvalue = strText;
+        var cont = this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strVALUE:strText});
+        if (cont !== false) {
+          //no match was found in the datamodel, so assume that the value will be made equal to the current value of the textbox
+          this.jsxvalue = strText;
+        } else {
+          this.redrawRecord(this.jsxvalue);
+        }
       }
 
       delete this._isfocusing;
@@ -794,7 +798,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (bEnabled) {
       eventMap[Event.MOUSEDOWN] = true;
 
-      if (this.hasEvent(jsx3.gui.Interactive.JSXKEYUP))
+      if (this.hasEvent(Interactive.JSXKEYUP))
         eventMap[Event.KEYUP] = true;
 
       //selects and combos listen to different keyboard events; combos listen for user entries, so they map to keyup; selects listen for navigation keys (right arrow), so they listen for keydown
@@ -973,7 +977,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       // fire the before select event
       if (objEvent instanceof Event)
-        cont = this.doEvent(jsx3.gui.Interactive.BEFORE_SELECT, {objEVENT:objEvent, strRECORDID:strRecordId});
+        cont = this.doEvent(Interactive.BEFORE_SELECT, {objEVENT:objEvent, strRECORDID:strRecordId});
 
       if (cont === false) return;
       
@@ -985,7 +989,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       // fire the onselect event
       if (objEvent)
-        this.doEvent(jsx3.gui.Interactive.SELECT,
+        this.doEvent(Interactive.SELECT,
             {objEVENT:(objEvent instanceof Event ? objEvent : null), strRECORDID:strRecordId, _gipp:1});
     }
   };
@@ -1121,7 +1125,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
   Select_prototype.emInit = function(objColumn) {
     this.jsxsupermix(objColumn);
-    this.subscribe(jsx3.gui.Interactive.SELECT, this, "_emOnSelect");
+    this.subscribe(Interactive.SELECT, this, "_emOnSelect");
   };
 
   Select_prototype.emCollapseEdit = function(objEvent) {

@@ -20,6 +20,14 @@
     <record jsxid="strRECORDID" type="String" jsxtext="the CDF jsxid of the selected record."/>
   </record>
 
+  <record jsxid="jsxchange" jsxtext="Change"
+      jsxtip="Fires after the user edits the value of this combo box and the control loses focus. This event is only fired if the entered text does not match a pre-existing record. In that case only the Select event is fired."
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="objEVENT" type="jsx3.gui.Event" jsxtext="the browser event that triggers this event."/>
+    <record jsxid="strVALUE" type="String" jsxtext="the new value."/>
+  </record>
+
   <record jsxid="jsxkeydown" jsxtext="Key Down"
       jsxtip="Fires after a browser &lt;code&gt;keydown&lt;/code&gt; event when this select control has focus.">
     <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
