@@ -308,23 +308,31 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   };
 
   /** @private @jsxobf-clobber */
+  Select_prototype._isOpen = function(objEvent) {
+    var hw = jsx3.gui.Heavyweight.GO(Select._HW_ID);
+    var content = hw ? hw.getRendered(objEvent).childNodes[0].childNodes[0] : null;
+    // The drop down list is there only if there is a match
+    var bOpen = content && content.getAttribute("jsxselid") == this.getId();
+    return bOpen ? [bOpen, content.childNodes[1].getAttribute("jsxid"), content] : false;
+  };
+  
+  /** @private @jsxobf-clobber */
   Select_prototype._ebKeyDownCombo = function(objEvent, objGUI) {
     // check for hot keys
     if (this._ebKeyDown(objEvent, objGUI)) return;
-    this._isfocusing = false; // isfocusing on an item?
     var bMod = objEvent.hasModifier();
 
     if (!bMod && (objEvent.downArrow() || objEvent.enterKey())) {
-      var hw = jsx3.gui.Heavyweight.GO(Select._HW_ID);
-      var content = hw ? hw.getRendered(objEvent).childNodes[0].childNodes[0] : null;
+      var bOpen = this._isOpen(objEvent);
       // The drop down list is there only if there is a match
-      if (content != null && content.getAttribute("jsxselid") == this.getId()) {
-        if (!objEvent.enterKey()) { // arrow down focus on first match item
-          this._isfocusing = true;
-          this._focusItem(content.childNodes[1]);
+      if (bOpen) {
+        if (objEvent.downArrow()) { // arrow down focus on first match item
+          // only do the focus if we have an actual item
+          if (bOpen[1])
+            this._focusItem(bOpen[2].childNodes[1]);
         } else { // enter key must be, select the first/top match
-          this._doSelectRecord(objEvent, content.childNodes[1].getAttribute("jsxid"));
           this.hide(false);
+          this._doBlurCombo(objEvent, this._getInputElement(objGUI)); // commit the typed edit on enter key
         }
       } else { // no drop down list yet, show it on enter or arrow key down
         var filter = objEvent.enterKey() ? "" : this.getText();
@@ -454,11 +462,12 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     
     //locate a match; if found, update the selected value for the instance
     var objNode = this.getXML().selectSingleNode(xpr);
-    if (!this._isfocusing) { // is blur caused by mouseover to selection item?
+    var bOpen = this._isOpen(objEvent);
+    
+    if (!bOpen) {
       if (objNode != null) {
-        this._doSelectRecord(objEvent, this._cdfav(objNode, "id"));
-      }
-      else {
+          this._doSelectRecord(objEvent, this._cdfav(objNode, "id"));
+      } else if (strText != this.jsxvalue) {
         var cont = this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, strVALUE:strText});
         if (cont !== false) {
           //no match was found in the datamodel, so assume that the value will be made equal to the current value of the textbox
@@ -467,8 +476,6 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           this.redrawRecord(this.jsxvalue);
         }
       }
-
-      delete this._isfocusing;
     }
   };
 
@@ -658,9 +665,16 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   /** @private @jsxobf-clobber */
   Select_prototype._checkLoseFocus = function(objEvent) {
     var focusedElm = objEvent.event.srcElement();
-//    jsx3.log("_checkLoseFocus " + objEvent.event.getType() + " " + html.getOuterHTML(focusedElm));
-    if (! this.containsHtmlElement(focusedElm))
+    if (! this.containsHtmlElement(focusedElm)) {
       this.hide(false);
+
+      // force the doBlur event handler if the combo box was NOT focused
+      if (this._jsxfocusedgui && this.getType() == Select.TYPECOMBO) {
+        var objGUI = this._getInputElement();
+        if (objGUI)
+          this._doBlurCombo(objEvent, objGUI);
+      }
+    }
   };
 
   /**
@@ -893,8 +907,6 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var itemGUI = Select._getItemGUI(objEvent, objGUI);
     if (itemGUI) {
       if (objEvent.isFakeOver(itemGUI)) return;
-      //3.6: the followng flag is used by _doBlurCombo to know whether to select a record or not
-      this._isfocusing = true;
       this._focusItem(itemGUI);
     }
   };
@@ -1027,12 +1039,18 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @return {String}
    */
   Select_prototype.getText = function() {
+    var bCombo = this.getType() == Select.TYPECOMBO;
+    if (bCombo) {
+      var input = this._getInputElement();
+      if (input) return input.value;
+    }
+    
     var myNode = this.getRecordNode(this.getValue());
     if (myNode != null) {
       var attr = this._cdfav(myNode, "text");
       return attr != null ? attr : this._cdfav(myNode, "id");
     } else {
-      return (this.getType() == Select.TYPECOMBO || this.getValue() != null) ? this.getValue() : this.getDefaultText();
+      return (bCombo || this.getValue() != null) ? this.getValue() : this.getDefaultText();
     }
   };
 
