@@ -1,5 +1,5 @@
 var systemIconPath = "jsxapp:/images/prototypes/",
-    chartingIconPath = "jsx:/addins/charting/icons/";
+    chartingIconPath = "addins/charting/icons/";
 
 jsx3.$O(this).extend({
   
@@ -285,9 +285,22 @@ _buildTree: function(objTree, objJSX, strParentId) {
 },
 
 _typeIcons: {
-  "jsx3.gui.Block": systemIconPath + "block-abs.gif",
+  "jsx3.gui.Block": function(o) {
+    var icn = "block-abs.gif";
+    switch (o.getTagName()) {
+      case "fieldset": icn = "block.gif"; break;
+      case "legend": icn = "block-text.gif"; break;
+      case "h1": case "h2": case "h3": case "h4": case "h5": case "h6": icn = "block-text.gif"; break;
+      case "img": icn = "block-image"; break;
+      default: 
+        if (o.getChildren().length == 0 && (o.getText() || "").length > 0)
+          icn = "block-text.gif";
+    }
+    return systemIconPath + icn;
+  },
   "jsx3.gui.BlockX": systemIconPath + "blockX.gif",
   "jsx3.gui.Button": systemIconPath + "button.gif",
+  "jsx3.gui.CDF": systemIconPath + "block.gif",
   "jsx3.gui.CheckBox": systemIconPath + "checkbox.gif",
   "jsx3.gui.ColorPicker": systemIconPath + "colorpicker.gif",
   "jsx3.gui.DatePicker": systemIconPath + "datepicker.gif",
@@ -296,8 +309,13 @@ _typeIcons: {
   "jsx3.gui.Image": systemIconPath + "block-image.gif",
   "jsx3.gui.ImageButton": systemIconPath + "image-button.gif",
   "jsx3.gui.Label": systemIconPath + "block-text.gif",
-  "jsx3.gui.LayoutGrid": systemIconPath + "layout-side.gif",
+  "jsx3.gui.LayoutGrid": function (o) { 
+    var numRows = o.getRows().split(/\s*,\s*/g).length;
+    var numCols = o.getCols().split(/\s*,\s*/g).length;
+    return systemIconPath + (numRows > 1 && numCols > 1 ? "layout-side.gif" : (numRows > 1 ? "layout-over.gif" : "layout-side.gif"));
+  },
   "jsx3.gui.Matrix": systemIconPath + "matrix.gif",
+  "jsx3.gui.Matrix.Column": systemIconPath + "matrix-column.gif",
   "jsx3.gui.Menu": systemIconPath + "menu.gif",
   "jsx3.gui.NativeButton": systemIconPath + "button.gif",
   "jsx3.gui.NativeFileUpload": systemIconPath + "textbox.gif",
@@ -306,21 +324,42 @@ _typeIcons: {
   "jsx3.gui.NativeSelect": systemIconPath + "select.gif",
   "jsx3.gui.NumberInput": systemIconPath + "textbox.gif",
   "jsx3.gui.RadioButton": systemIconPath + "radio.gif",
-  "jsx3.gui.Select": systemIconPath + "select.gif",
-  "jsx3.gui.Slider": systemIconPath + "slider.gif",
+  "jsx3.gui.Select": function(o) {
+    return systemIconPath + (o.getType() == 1 ? "combo.gif" : "select.gif");
+  },
+  "jsx3.gui.Slider": function(o) {
+    return systemIconPath + (o.getOrientation() == 1 ? "vertical-slider.gif" : "slider.gif");
+  },
   "jsx3.gui.Sound": systemIconPath + "sound.gif",
-  "jsx3.gui.Splitter": systemIconPath + "splitter-side.gif",
-  "jsx3.gui.Stack": systemIconPath + "stack.gif",
-  "jsx3.gui.StackGroup": systemIconPath + "stack-over.gif",
+  "jsx3.gui.Splitter": function (o) {
+    return systemIconPath + (o.getOrientation() == 1 ? "splitter-over.gif" : "splitter-side.gif");
+  },
+  "jsx3.gui.Stack": function (o) {
+    return systemIconPath + (o.getParent() && o.getParent().getOrientation() == 1 ? "stack-side.gif" : "stack-over.gif");
+  },
+  "jsx3.gui.StackGroup": function (o) {
+    return systemIconPath + (o.getOrientation() == 1 ? "stackgroup-side.gif" : "stackgroup-over.gif");
+  },
   "jsx3.gui.Tab": systemIconPath + "tab.gif",
   "jsx3.gui.TabbedPane": systemIconPath + "tabbedpane.gif",
   "jsx3.gui.Table": systemIconPath + "matrix.gif",
-  "jsx3.gui.TextBox": systemIconPath + "textbox.gif",
+  "jsx3.gui.TextBox": function (o) {
+    var t = o.getType();
+    return systemIconPath + (t == 2 ? "textbox-password.gif" : (t == 1 ? "textbox-area.gif" : "textbox.gif"));
+  },
   "jsx3.gui.TimePicker": systemIconPath + "timepicker.gif",
   "jsx3.gui.ToolbarButton": systemIconPath + "toolbar-button.gif",
   "jsx3.gui.Tree": systemIconPath + "tree.gif",
   "jsx3.gui.Window": systemIconPath + "dialog.gif",
-  "jsx3.gui.WindowBar": systemIconPath + "menubar.gif",
+  "jsx3.gui.WindowBar": function (o) {
+    var icn = "stack-over.gif";
+    switch (o.getType()) {
+      case 3: icn = "taskbar.gif"; break;
+      case 2: icn = "menubar.gif"; break;
+      case 1: icn = "toolbar.gif"; break;
+    }
+    return systemIconPath + icn;
+  },
   "jsx3.chart.AreaChart": chartingIconPath + "stackedArea.gif",
   "jsx3.chart.AreaSeries": chartingIconPath + "areaSeries.gif",
   "jsx3.chart.Axis": chartingIconPath + "linearAxis.gif",
@@ -340,16 +379,20 @@ _typeIcons: {
   "jsx3.chart.PieSeries": chartingIconPath + "pieSeries.gif",
   "jsx3.chart.PlotChart": chartingIconPath + "plotPoint.gif",
   "jsx3.chart.PointSeries": chartingIconPath + "scatterSeries.gif",
-  "jsx3.app.Model": "jsxapp:/images/icon_89.gif"
+  "jsx3.app.Model": "jsxapp:/images/icon_89.gif",
+  "jsx3.xml.CDFSchema": systemIconPath + "block.gif"
 },
 
 _getIconPath: function(o) {
+  var path = null;
   if (o.getIconPath)
-    return o.getIconPath();
+    path = o.getIconPath();
 
-  var c = o.getClass(), path = null;
+  var c = o.getClass();
   while (c && !path) {
     path = this._typeIcons[c.getName()];
+    if (typeof(path) == "function")
+      path = path(o);
     c = c.getSuperClass();
   }
 
@@ -381,7 +424,7 @@ _getDomRecordValues: function(objJSX) {
 
     c = persistence == Model.PERSISTREF ? "jsx3ide_dom_ref" : "jsx3ide_dom_refa";
   } else {
-    img = this._getIconPath(objJSX);
+    img = this.relativizeURI(jsx3.net.URIResolver.JSX.resolveURI(this._getIconPath(objJSX)), true);
 
     if (persistence == Model.PERSISTNONE)
       c = "jsx3ide_dom_pnone";

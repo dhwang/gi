@@ -390,5 +390,25 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
     }
     return metadata;
   };
+  
+  DojoWidget._icons = {
+    "dijit.form.Button": "button.gif",
+    "dijit.form.CheckBox": "checkbox.gif",
+    "dijit.ColorPalette": "colorpicker.gif",
+    "dijit.form.HorizontalSlider": "slider.gif",
+    "dijit.form.VerticalSlider": "vertical-slider.gif",
+    "dijit.form.TimeTextBox": "timepicker.gif",
+    "dijit.form.CurrencyTextBox": "textbox.gif",
+    "dijit.form.DateTextBox": "datepicker.gif",
+    "dijit.form.NumberSpinner": null,
+    "dijit.ProgressBar": null,
+    "dijit.Editor": "textbox-area.gif",
+    "dijit.form.Rating": null
+  };
+  
+  DojoWidget_prototype.getIconPath = function() {
+    var icn = DojoWidget._icons[this.dijitClassName];
+    return icn ? "GI_Builder/images/prototypes/" + icn : null;
+  };
 
 });
