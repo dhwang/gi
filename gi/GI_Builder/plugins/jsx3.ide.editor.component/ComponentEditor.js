@@ -211,6 +211,10 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
   };
 
   ComponentEditor_prototype.revert = function() {
+    //profile tab need re-initialization  
+    var profileTab = this.getContent().getModePane().getChild("mode_profile");
+    if (profileTab)
+      profileTab._inited = false;
     this.getServer().destroy();
     this._server = null;
     this.jsxsuper();
