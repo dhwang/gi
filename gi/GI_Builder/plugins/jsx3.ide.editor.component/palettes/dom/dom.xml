@@ -131,7 +131,7 @@ objJSX.onPaletteLoaded = function() {
                       jsxdrop="dompal.getPlugIn().onDomTreeDrop(objSOURCE.getId(),strRECORDID,strDRAGIDS,this,false,bINSERTBEFORE);"
                       jsxctrldrop="dompal.getPlugIn().onDomTreeDrop(objSOURCE.getId(),strRECORDID,strDRAGIDS,this,true,bINSERTBEFORE);"
                       jsxspy="dompal.getPlugIn().domSpyGlass(this, strRECORDID);"/>
-                  <xslparameters jsxindent="16"/>
+                  <xslparameters jsxindent="10"/>
                 </object>
             </object>
         </object>
