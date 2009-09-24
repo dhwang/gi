@@ -312,7 +312,8 @@ jsx3.Package.definePackage("jsx3", function() {
     var queue = jsx3._SLEEP_QUEUE;
 
     queue[queue.length] = record;
-    jsx3._SLEEP_MAP[strId] = record;
+    if (strId != null)
+      jsx3._SLEEP_MAP[strId] = record;
 
     if (!jsx3._SLEEP_TO)
       jsx3._SLEEP_TO = window.setTimeout(jsx3._sleepChunk, 0);
@@ -325,13 +326,6 @@ jsx3.Package.definePackage("jsx3", function() {
 /* @JSC :: begin BENCH */
     jsx3.util.WeakMap.expire();
 /* @JSC :: end */
-
-// Sync XHR may cause timeouts to fire in Firefox 3.0, fixed in 3.1
-// https://bugzilla.mozilla.org/show_bug.cgi?id=340345
-/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
-    if (jsx3.lang.getVar("jsx3.net.Request.INSYNC"))
-      return;
-/* @JSC */ }
 
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
 
@@ -353,30 +347,39 @@ jsx3.Package.definePackage("jsx3", function() {
 
 /* @JSC */ } else {
 
-    var q = jsx3._SLEEP_QUEUE;
-    jsx3._SLEEP_QUEUE = [];
 
-    for (var i = 0; i < q.length; i++) {
-      var item = q[i];
-      if (item && item[0]) { // necessary because of clobber option in sleep()
-        try {
-          delete jsx3._SLEEP_MAP[item[1]];
-          item[0].apply(item[2]);
-        } catch (e) {
-          var l = jsx3.util.Logger;
-          if (l) {
-            var ex = jsx3.NativeError.wrap(e);
-            l.GLOBAL.error(ex, ex);
+    try {
+      // Sync XHR may cause timeouts to fire in Firefox 3.0, fixed in 3.1
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=340345
+      if (jsx3.lang.getVar("jsx3.net.Request.INSYNC"))
+        return;
+
+      var q = jsx3._SLEEP_QUEUE;
+      jsx3._SLEEP_QUEUE = [];
+
+      for (var i = 0; i < q.length; i++) {
+        var item = q[i];
+        if (item && item[0]) { // necessary because of clobber option in sleep()
+          try {
+            if (item[1] != null)
+              delete jsx3._SLEEP_MAP[item[1]];
+            item[0].apply(item[2]);
+          } catch (e) {
+            var l = jsx3.util.Logger;
+            if (l) {
+              var ex = jsx3.NativeError.wrap(e);
+              l.GLOBAL.error(ex, ex);
+            }
           }
         }
       }
-    }
-
-    if (jsx3._SLEEP_QUEUE.length > 0) // more items could have been put in the queue while processing the last queue
-      jsx3._SLEEP_TO = window.setTimeout(jsx3._sleepChunk, 0);
-    else {
-      jsx3._SLEEP_TO = null;
-      jsx3.publish({subject:jsx3.QUEUE_DONE});
+    } finally {
+      if (jsx3._SLEEP_QUEUE.length > 0) // more items could have been put in the queue while processing the last queue
+        jsx3._SLEEP_TO = window.setTimeout(jsx3._sleepChunk, 0);
+      else {
+        jsx3._SLEEP_TO = null;
+        jsx3.publish({subject:jsx3.QUEUE_DONE});
+      }
     }
 
 /* @JSC */ }
