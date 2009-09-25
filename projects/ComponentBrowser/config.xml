@@ -21,9 +21,10 @@
     <record jsxid="0" type="map">
       <record jsxid="id" type="string">appCanvas_component</record>
       <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/appCanvas.xml</record>
     </record>
-    <record jsxid="0" type="map">
+    <record jsxid="1" type="map">
       <record jsxid="id" type="string">logic_js</record>
       <record jsxid="type" type="string">script</record>
       <record jsxid="load" type="number">1</record>
