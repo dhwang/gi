@@ -212,7 +212,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Cacheable", function(t, jsunit) {
       event++;
     });
 
-    var doc = new jsx3.xml.Document();
+    var doc = new jsx3.xml.Document().loadXML("<object><field/></object>");
     t._server.getCache().setDocument(c.getXMLId(), doc);
 
     jsunit.assertEquals(1, event);
@@ -274,6 +274,24 @@ gi.test.jsunit.defineTests("jsx3.xml.Cacheable", function(t, jsunit) {
     c.doTransform();
   };
   t.testTransformerAsync._async = true;
+
+  t.testTransformerAsyncURL = function() {
+    var c = new gi.test.CacheTest();
+    t._server.getBodyBlock().setChild(c);
+
+    c.setXmlAsync(1);
+    c.setXMLURL(t.resolveURI("data/noncdf.xml"));
+    c.setXMLTransformers(t.resolveURI("data/trans.xsl"));
+
+    c.subscribe("xmlbind", t.asyncCallback(function() {
+      var x = c.getXML();
+      jsunit.assertEquals("data", x.getNodeName());
+      jsunit.assertEquals("record", x.getChildNodes().get(0).getNodeName());
+    }));
+
+    c.doTransform();
+  };
+  t.testTransformerAsyncURL._async = true;
 
   t.testPropReplace = function() {
     var c = new gi.test.CacheCDFTest();

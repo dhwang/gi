@@ -4,7 +4,6 @@
  */
 jsx3.require("jsx3.gui.Block","jsx3.xml.Cacheable");
 
-// @jsxobf-clobber-shared  _registerForXML
 /**
  * Provides a container that maps to a CDF Document in the cache.  This
  * provides a simplified mechanism for mapping forms and blocks to CDF Documents in the XML Cache.  Instances of this class
@@ -77,7 +76,7 @@ jsx3.Class.defineClass("jsx3.gui.CDF", jsx3.gui.Block, [jsx3.xml.CDF,jsx3.xml.Ca
 
 
   CDF_prototype.paint = function() {
-    this._registerForXML(0,this.getXML());
+    this.getXML(); // for async XML
     return this.jsxsuper();
   };
 

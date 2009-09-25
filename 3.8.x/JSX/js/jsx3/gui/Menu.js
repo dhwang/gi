@@ -6,7 +6,7 @@
 jsx3.require("jsx3.xml.Cacheable", "jsx3.gui.Form", "jsx3.gui.Heavyweight", "jsx3.gui.Block",
     "jsx3.gui.ToolbarButton", "jsx3.util.MessageFormat");
 
-// @jsxobf-clobber-shared  _registerForXML _getDisplayedChildren
+// @jsxobf-clobber-shared  _getDisplayedChildren
 
 /**
  * Create GUI menus, similar in functionality to system menus (File, Edit, etc) created by the host OS.
@@ -1122,10 +1122,8 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
     //apply any dynamic properties that this instance has registered
     this.applyDynamicProperties();
 
-    if (this.getXmlAsync()) {
+    if (this.getXmlAsync())
       var objXML = this.getXML();
-      this._registerForXML(0, objXML);
-    }
 
     this._doKeyBindings();
 

@@ -404,7 +404,21 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
 /* @JSC :: begin BENCH */
             t1.log("load.async");
 /* @JSC :: end */
-            me._onReadyStateChange();
+            
+/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
+            // In Firefox a synchronous request causes all queued asynchronous requests to return synchronously
+            // This causes all sorts of problems. So here we check and make sure that the async requests still 
+            // return asynchronously even if forced to return by a sync request.
+            if (Request.INSYNC) {
+              jsx3.sleep(function() {
+                me._onReadyStateChange();                
+              });
+            } else {
+              me._onReadyStateChange();              
+            }
+/* @JSC */ } else {
+            me._onReadyStateChange();              
+/* @JSC */ }
           }
         };
 
