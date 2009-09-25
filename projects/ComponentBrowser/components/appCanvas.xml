@@ -68,10 +68,10 @@
           </object>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="1"/>
-            <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+            <strings jsxname="paneContentContainer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
             <object type="jsx3.gui.Block">
-              <variants jsxoverflow="1"/>
-              <strings jsxname="loadingView" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxdisplay="none"/>
+              <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+              <strings jsxname="loadingView" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
               <object type="jsx3.gui.Block">
                 <variants jsxwidth="200" jsxheight="30" jsxoverflow="1" jsxrelativeposition="0"/>
                 <strings jsxleft="40%" jsxtop="40%" jsxname="block" jsxtext="" jsxtextalign="center" jsxpadding="5" jsxbgcolor="#dfdfdf"/>
@@ -86,8 +86,8 @@
               </object>
             </object>
             <object type="jsx3.gui.Block">
-              <variants jsxoverflow="1"/>
-              <strings jsxname="welcomeView" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxdisplay=""/>
+              <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+              <strings jsxname="welcomeView" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
               <object type="jsx3.gui.Block">
                 <variants jsxrelativeposition="1" jsxoverflow="3"/>
                 <strings jsxname="h1" jsxtagname="h1" jsxtext="Welcome to the General Interface Component Explorer."/>
@@ -117,96 +117,117 @@
                 <strings jsxname="text" jsxwidth="100%" jsxtext="&lt;ul&gt;&lt;li&gt;Download GI&lt;/li&gt;&lt;li&gt;Read the Getting Started Guide&lt;/li&gt;&lt;li&gt;Visit the discussion forums&lt;/li&gt;&lt;/ul&gt;"/>
               </object>
             </object>
-            <object type="jsx3.gui.LayoutGrid">
-              <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-              <strings jsxname="componentViewLayout" jsxrows="*,0" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
-              <object type="jsx3.gui.Block">
-                <variants jsxoverflow="3" jsxrelativeposition="1"/>
-                <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-                <object type="jsx3.gui.LayoutGrid">
-                  <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                  <strings jsxname="layoutCols" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-                  <dynamics jsxbgcolor="@Solid Light"/>
-                  <object type="jsx3.gui.Block">
-                    <variants jsxoverflow="2"/>
-                    <strings jsxname="paneComponent" jsxwidth="100%" jsxheight="100%" jsxtext="component"/>
-                  </object>
-                  <object type="jsx3.gui.Block">
-                    <variants jsxoverflow="3"/>
-                    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                    <dynamics jsxborder="@Outset"/>
-                    <object type="jsx3.gui.LayoutGrid">
-                      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                      <strings jsxname="layoutRows" jsxrows="*,25" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f2f6f9"/>
-                      <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="1"/>
-                        <strings jsxname="paneProperties" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f2f6f9"/>
-                      </object>
-                      <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="2"/>
-                        <strings jsxname="viewSourceShowButton" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay=""/>
-                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
-                        <events jsxclick="tibco.ce.viewSource(this);"/>
-                      </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+              <strings jsxname="componentView" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+              <object type="jsx3.gui.LayoutGrid">
+                <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                <strings jsxname="componentViewLayout" jsxrows="*,0" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="3" jsxrelativeposition="1"/>
+                  <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+                  <object type="jsx3.gui.LayoutGrid">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                    <strings jsxname="layoutCols" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+                    <dynamics jsxbgcolor="@Solid Light"/>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"/>
+                      <strings jsxname="paneComponent" jsxwidth="100%" jsxheight="100%" jsxtext="component"/>
                     </object>
-                  </object>
-                  <object type="jsx3.gui.Block">
-                    <variants jsxoverflow="1"/>
-                    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                  </object>
-                </object>
-              </object>
-              <object type="jsx3.gui.Block">
-                <variants jsxoverflow="1"/>
-                <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%"/>
-                <dynamics jsxbgcolor="@Solid Light"/>
-                <object type="jsx3.gui.LayoutGrid">
-                  <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                  <strings jsxname="layoutRows" jsxrows="25,*" jsxwidth="100%" jsxheight="100%"/>
-                  <object type="jsx3.gui.Block">
-                    <variants jsxoverflow="2"/>
-                    <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
-                    <dynamics jsxborder="@Outset"/>
-                    <object type="jsx3.gui.LayoutGrid">
-                      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                      <strings jsxname="layoutCols" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-                      <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="2"/>
-                        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
-                        <dynamics jsxbgcolor="@Solid Shadow" jsxbg="@Bevel TopDown"/>
-                        <object type="jsx3.gui.WindowBar">
-                          <variants jsxbartype="1"/>
-                          <strings jsxname="toolBar"/>
-                          <dynamics jsxbg="@No BG Image" jsxbgcolor="@Transparent BG"/>
-                          <object type="jsx3.gui.ToolbarButton">
-                            <variants/>
-                            <strings jsxname="toolBarBtn" jsximage="images/icon_1.gif" jsxtext="Copy Code"/>
-                            <events jsxexecute="window.alert('button clicked');"/>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="3"/>
+                      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+                      <dynamics jsxborder="@Outset"/>
+                      <object type="jsx3.gui.LayoutGrid">
+                        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                        <strings jsxname="layoutRows" jsxrows="*,25" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f2f6f9"/>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="1"/>
+                          <strings jsxname="paneProperties" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f2f6f9"/>
+                          <dynamics jsxpadding="@8Pixel"/>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
+                            <strings jsxname="panePropertiesName" jsxtext="Component Name" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
                           </object>
-                          <object type="jsx3.gui.ToolbarButton">
+                          <object type="jsx3.gui.Block">
                             <variants/>
-                            <strings jsxname="toolBarBtn" jsximage="images/icon_13.gif" jsxtext="Download File"/>
-                            <events jsxexecute="window.alert('button clicked');"/>
+                            <strings jsxname="panePropertiesDesc" jsxwidth="100%" jsxtext="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo."/>
+                          </object>
+                          <object type="jsx3.gui.Block">
+                            <variants/>
+                            <strings jsxname="panePropertiesHR" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+                          </object>
+                          <object type="jsx3.gui.Block">
+                            <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
+                            <strings jsxname="label" jsxtext="Properties" jsxpadding="0 0 4 0" jsxfontweight="bold"/>
                           </object>
                         </object>
-                      </object>
-                      <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="1"/>
-                        <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25bc; View Source" jsxfontweight="bold" jsxpadding="4 0 0 0" jsxtextalign="center"/>
-                        <dynamics jsxcursor="@Hand" jsxbgcolor="@Solid Highlight" jsxbg="@Fade TopDown"/>
-                        <properties jsxmouseover="tibco.ce.onMouseOverSource();"/>
-                        <events jsxclick="tibco.ce.unViewSource();"/>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2"/>
+                          <strings jsxname="viewSourceShowButton" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay=""/>
+                          <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
+                          <events jsxclick="tibco.ce.viewSource(this);"/>
+                        </object>
                       </object>
                     </object>
-                  </object>
-                  <object type="jsx3.gui.Block">
-                    <variants jsxoverflow="3"/>
-                    <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 2 2 2"/>
-                    <dynamics jsxborder="@Outset"/>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="1"/>
                       <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                      <dynamics jsxborder="@Inset"/>
+                    </object>
+                  </object>
+                </object>
+                <object type="jsx3.gui.Block">
+                  <variants jsxoverflow="1"/>
+                  <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%"/>
+                  <dynamics jsxbgcolor="@Solid Light"/>
+                  <object type="jsx3.gui.LayoutGrid">
+                    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                    <strings jsxname="layoutRows" jsxrows="25,*" jsxwidth="100%" jsxheight="100%"/>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="2"/>
+                      <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+                      <dynamics jsxborder="@Outset"/>
+                      <object type="jsx3.gui.LayoutGrid">
+                        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                        <strings jsxname="layoutCols" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="2"/>
+                          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+                          <dynamics jsxbgcolor="@Solid Shadow" jsxbg="@Bevel TopDown"/>
+                          <object type="jsx3.gui.WindowBar">
+                            <variants jsxbartype="1"/>
+                            <strings jsxname="toolBar"/>
+                            <dynamics jsxbg="@No BG Image" jsxbgcolor="@Transparent BG"/>
+                            <object type="jsx3.gui.ToolbarButton">
+                              <variants/>
+                              <strings jsxname="toolBarBtn" jsximage="images/icon_1.gif" jsxtext="Copy Code"/>
+                              <events jsxexecute="window.alert('button clicked');"/>
+                            </object>
+                            <object type="jsx3.gui.ToolbarButton">
+                              <variants/>
+                              <strings jsxname="toolBarBtn" jsximage="images/icon_13.gif" jsxtext="Download File"/>
+                              <events jsxexecute="window.alert('button clicked');"/>
+                            </object>
+                          </object>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="1"/>
+                          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25bc; View Source" jsxfontweight="bold" jsxpadding="4 0 0 0" jsxtextalign="center"/>
+                          <dynamics jsxcursor="@Hand" jsxbgcolor="@Solid Highlight" jsxbg="@Fade TopDown"/>
+                          <properties jsxmouseover="tibco.ce.onMouseOverSource();"/>
+                          <events jsxclick="tibco.ce.unViewSource();"/>
+                        </object>
+                      </object>
+                    </object>
+                    <object type="jsx3.gui.Block">
+                      <variants jsxoverflow="3"/>
+                      <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 2 2 2"/>
+                      <dynamics jsxborder="@Outset"/>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="1"/>
+                        <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+                        <dynamics jsxborder="@Inset"/>
+                      </object>
                     </object>
                   </object>
                 </object>

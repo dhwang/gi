@@ -4,36 +4,36 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     this.setView(ce.WELCOME);
   };
 
-  ce.WELCOME = 0;
-  ce.LOADING = 1;
-  ce.COMPONENT = 2;
+  ce.WELCOME = 'welcome';
+  ce.LOADING = 'loading';
+  ce.COMPONENT = 'component';
 
-  var current_view = null;
   ce.setView = function(viewType, title) {
     var titleStr, view;
     var header = ce.getJSXByName('paneContentHeader');
+    var container = ce.getJSXByName('paneContentContainer');
+
     var lytContent = ce.getJSXByName('lytContent');
 
+    var children = container.getChildren();
+    for (var i=0, child; child=children[i]; i++) {
+      child.setDisplay(
+        child.jsxname.indexOf(viewType) == 0 ?
+          jsx3.gui.Block.DISPLAYBLOCK :
+          jsx3.gui.Block.DISPLAYNONE
+      );
+    }
     switch (viewType) {
       case ce.WELCOME:
         titleStr = 'Welcome';
-        view = ce.getJSXByName('welcomeView');
         break;
       case ce.LOADING:
         titleStr = 'Loading Component';
-        view = ce.getJSXByName('loadingView');
         break;
       case ce.COMPONENT:
         titleStr = title;
-        view = ce.getJSXByName('componentViewLayout');
         break;
     }
-
-    if (current_view) {
-      current_view.setDisplay(jsx3.gui.Block.DISPLAYNONE);
-    }
-    view.setDisplay(jsx3.gui.Block.DISPLAYBLOCK);
-    current_view = view;
 
     header.setText(titleStr);
     lytContent.repaint();
@@ -44,14 +44,22 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
     var self = this;
     setTimeout(function(){
+      self.componentLoaded(componentId);
+    }, 1000);
+  };
+
+  ce.componentLoaded = function(componentId) {
       var tree = ce.getJSXByName('treeExplorer');
+      var compName = ce.getJSXByName('panePropertiesName');
 
       var record = tree.getRecord(componentId);
       var rNode = tree.getRecordNode(componentId);
       var pNode = rNode.getParent();
 
-      self.setView(ce.COMPONENT, pNode.getAttribute("jsxtext") + " &raquo; " + record.jsxtext);
-    }, 1000);
+      var name = pNode.getAttribute("jsxtext");
+
+      this.setView(ce.COMPONENT, name + " &raquo; " + record.jsxtext);
+      compName.setText(name, true);
   };
 
   ce.viewSource = function(button) {
