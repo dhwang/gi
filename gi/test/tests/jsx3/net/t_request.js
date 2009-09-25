@@ -101,6 +101,26 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   };
   t.testAsync2._async = true;
 
+  /**
+   * Test that a synchronous request doesn't cause async requests to return synchronously. Some application code
+   * depends on this behavior. 
+   */
+  t.testSyncAsync = function() {
+    var r1 = new jsx3.net.Request();
+    var asyncReturned = false;
+    r1.open("GET", t.resolveURI("data/rule1.xml"), true);
+
+    r1.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, function(objEvent) {
+      asyncReturned = true;
+    });
+    r1.send();
+
+    var r2 = new jsx3.net.Request();
+    r2.open("GET", t.resolveURI("data/rule2.xml"), false);
+    r2.send();
+    jsunit.assertFalse(asyncReturned);
+  };
+
   t.testAsyncFail1 = function() {
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/req__.xml"), true);

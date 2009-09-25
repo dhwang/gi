@@ -5,8 +5,6 @@
 
 jsx3.require("jsx3.xml.Cacheable", "jsx3.gui.Form", "jsx3.gui.Block");
 
-// @jsxobf-clobber-shared  _registerForXML
-  
 /**
  * The JSX version of a standard GUI select box. XML drives the available options of the select box.
  * <p/>
@@ -216,10 +214,8 @@ jsx3.Class.defineClass("jsx3.gui.NativeSelect", jsx3.gui.Block, [jsx3.gui.Form, 
     //apply any dynamic properties that this instance has registered
     this.applyDynamicProperties();
 
-    if (this.getXmlAsync()) {
+    if (this.getXmlAsync())
       var objXML = this.getXML();
-      this._registerForXML(0, objXML);
-    }
 
     //initialize variables
     var strId = this.getId();

@@ -74,8 +74,6 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
     if (this.getNodeSet()) objXML = this.getNodeSet();
 /* @JSC :: end */
 
-    this._registerForXML(0, objXML);
-
     var objXSL = this.getXSL();
 
     // If either XSL or XML is in error state, just return an empty string. Message should already have been
@@ -318,6 +316,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
           if (this.jsxxmlasync) {
             objXML = objCache.getOrOpenAsync(xmlUrl, strId);
             bInCache = true;
+            this._registerForXML(0, objXML);
           } else {
             //xml located at given url (convert to absolute URI for portal and similar implementations)
             objXML = new Document().load(xmlUrl);
@@ -589,7 +588,7 @@ jsx3.Class.defineInterface("jsx3.xml.Cacheable", null, function(Cacheable, Cache
   };
   jsx3.app.Model.jsxclass.addMethodMixin("onDestroy", Cacheable.jsxclass, "_onDestroyCached");
 
-  /** @private @jsxobf-clobber-shared */
+  /** @private @jsxobf-clobber */
   Cacheable_prototype._registerForXML = function(bReg, objXML, objServer) {
     if (!objServer) objServer = this.getServer();
 

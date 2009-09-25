@@ -6,8 +6,6 @@
 jsx3.require("jsx3.xml.Cacheable", "jsx3.gui.Form", "jsx3.gui.Heavyweight", "jsx3.gui.Block",
     "jsx3.util.MessageFormat");
 
-// @jsxobf-clobber-shared  _registerForXML
-  
 /**
  * The JSX version of a standard GUI select box. XML drives the contents of the select box.
  * <p/>
@@ -797,10 +795,8 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     this.applyDynamicProperties();
 
     // If requesting the XML data source asyncronously, request it now so it's ready by the time the user opens this menu.
-    if (this.getXmlAsync()) {
+    if (this.getXmlAsync())
       var objXML = this.getXML();
-      this._registerForXML(0, objXML);
-    }
     
     //set vars
     var strId = this.getId();
