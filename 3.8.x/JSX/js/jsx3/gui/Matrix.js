@@ -3182,8 +3182,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
             var objTheTarget = objContext ? this.getRecordNode(objContext.row.getAttribute("jsxid")) : null;
             for (var i=0;i<strIds.length;i++) {
               //only allow drop not dropping in front of self or on top of self or on a descendant of self
-              var objTheMoved = this.getRecordNode(strIds[i]);
-              if(objTheTarget && this.getRecordNode(strIds[i]).equals(objTheTarget) && bInsertBefore && objTheTarget.getNextSibling()) {
+              var objTheMoved = objSource.getRecordNode(strIds[i]);
+              if (objTheTarget && objTheTarget.equals(objTheMoved) && bInsertBefore && objTheTarget.getNextSibling()) {
                 //shift the target to the next sibling if the record being dropped is the same as the target
                 objTheTarget = objTheTarget.getNextSibling();
                 targetRecordId = objTheTarget.getAttribute("jsxid");
