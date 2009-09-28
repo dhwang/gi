@@ -371,6 +371,5 @@ gi.test.jsunit.defineTests("jsx3.xml.Document", function(t, jsunit) {
     if (order.length == 2) callback();
   };
   t.testAsyncOrdering._async = true;
-  t.testAsyncOrdering._skip = "FX"; // last tested Fx 3.5 and still failing
 
 });
