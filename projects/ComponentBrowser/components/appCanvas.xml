@@ -181,8 +181,9 @@
                             </object>
                             <object type="jsx3.gui.Block">
                               <variants jsxoverflow="2"/>
-                              <strings jsxname="viewSourceShowButton" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay=""/>
+                              <strings jsxname="viewSourceShowButton" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay="" jsxclassname="sourceButton"/>
                               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
+                              <properties onmouseover="tibco.ce.onMouseOverSource(this);" onmouseout="tibco.ce.onMouseOutSource(this);"/>
                               <events jsxclick="tibco.ce.viewSource(this);"/>
                             </object>
                           </object>
@@ -229,9 +230,9 @@
                             </object>
                             <object type="jsx3.gui.Block">
                               <variants jsxoverflow="1"/>
-                              <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25bc; View Source" jsxfontweight="bold" jsxpadding="4 0 0 0" jsxtextalign="center"/>
-                              <dynamics jsxcursor="@Hand" jsxbgcolor="@Solid Highlight" jsxbg="@Fade TopDown"/>
-                              <properties jsxmouseover="tibco.ce.onMouseOverSource();"/>
+                              <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25bc; View Source" jsxfontweight="bold" jsxpadding="4 0 0 0" jsxtextalign="center" jsxclassname="sourceButton"/>
+                              <dynamics jsxcursor="@Hand" jsxbgcolor="@Solid Shadow" jsxbg="@Bevel TopDown"/>
+                              <properties onmouseover="tibco.ce.onMouseOverSource(this);" onmouseout="tibco.ce.onMouseOutSource(this);"/>
                               <events jsxclick="tibco.ce.unViewSource();"/>
                             </object>
                           </object>

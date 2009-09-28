@@ -75,10 +75,12 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     button.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
   };
 
-  ce.onMouseOverSource = function(button) {
-    console.log('blah');
+  ce.onMouseOverSource = function(buttonNode) {
+    // This is hooked up in the properties of the view source components
+    buttonNode.style.backgroundColor = '#aaaafe';
   };
-  ce.onMouseOutSource = function(button) {
-    console.log('blah');
+  ce.onMouseOutSource = function(buttonNode) {
+    // This is hooked up in the properties of the view source components
+    buttonNode.style.backgroundColor = '#9898a5';
   };
 });

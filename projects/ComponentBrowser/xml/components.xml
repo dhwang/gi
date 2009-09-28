@@ -6,15 +6,31 @@
 <data jsxid="jsxroot">
   <record jsxid="jsxrootnode" jsxtext="rootnode" jsxunselectable="1" jsxopen="1">
     <record jsxid="jsxblock" jsxtext="Block" jsxunselectable="1">
-      <record jsxid="jsxblockrelative" jsxtext="Relative" jsximg="jsx:/images/tree/file.gif"/>
-      <record jsxid="jsxblockabsolute" jsxtext="Absolute" jsximg="jsx:/images/tree/file.gif"/>
-      <record jsxid="jsxblocklabel" jsxtext="Label" jsximg="jsx:/images/tree/file.gif"/>
-      <record jsxid="jsxblockhtml" jsxtext="Html Content" jsximg="jsx:/images/tree/file.gif"/>
-      <record jsxid="jsxblockflow" jsxtext="Flow Layout" jsximg="jsx:/images/tree/file.gif"/>
-      <record jsxid="jsxblockmovable" jsxtext="Movable" jsximg="jsx:/images/tree/file.gif"/>
-      <record jsxid="jsxblockspy" jsxtext="Spy Glass" jsximg="jsx:/images/tree/file.gif"/>
+      <record jsxid="jsxblockrelative" jsxtext="Relative" jsximg="jsxapp:/images/prototypes/block.gif"
+        editable="overflow,textalign,padding,margin" description="" />
+      <record jsxid="jsxblockabsolute" jsxtext="Absolute" jsximg="jsxapp:/images/prototypes/block-abs.gif"
+        editable="width,height,left,top" description="" />
+      <record jsxid="jsxblocklabel" jsxtext="Label" jsximg="jsxapp:/images/prototypes/block-text.gif"
+        editable="font,bgcolor,width,height,text" description="" />
+      <record jsxid="jsxblockhtml" jsxtext="Html Content" jsximg="jsxapp:/images/prototypes/block-text.gif"
+        editable="" description="" />
+      <record jsxid="jsxblockflow" jsxtext="Flow Layout" jsximg="jsxapp:/images/prototypes/block.gif"
+        editable="" description="" />
+      <record jsxid="jsxblockmovable" jsxtext="Movable" jsximg="jsxapp:/images/prototypes/block.gif"
+        editable="" description="" />
+      <record jsxid="jsxblockspy" jsxtext="Spy Glass" jsximg="jsxapp:/images/prototypes/block.gif"
+        editable="" description="" />
     </record>
-    <record jsxid="jsxblockx" jsxtext="BlockX" jsxunselectable="1"/>
+    <record jsxid="jsxblockx" jsxtext="BlockX" jsxunselectable="1">
+      <record jsxid="jsxblockxhtml" jsxtext="Html Output" jsximg="jsxapp:/images/prototypes/blockX.gif"
+        editable="" description="" />
+      <record jsxid="jsxblockxpp" jsxtext="Pretty-print XML" jsximg="jsxapp:/images/prototypes/blockX.gif"
+        editable="" description="" />
+      <record jsxid="jsxblockxtext" jsxtext="Text Output" jsximg="jsxapp:/images/prototypes/blockX.gif"
+        editable="" description="" />
+      <record jsxid="jsxblockxrss" jsxtext="RSS" jsximg="jsxapp:/images/prototypes/blockX.gif"
+        editable="" description="" />
+    </record>
     <record jsxid="jsximage" jsxtext="Image" jsxunselectable="1"/>
     <record jsxid="jsxiframe" jsxtext="IFrame" jsxunselectable="1"/>
   </record>
