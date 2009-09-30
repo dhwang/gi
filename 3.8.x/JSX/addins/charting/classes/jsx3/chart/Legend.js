@@ -283,6 +283,7 @@ jsx3.Class.defineClass("jsx3.chart.Legend", jsx3.chart.ChartComponent, null, fun
       var series = myChart.getDisplayedSeries();
       
       for (var i = 0; i < series.length; i++) {
+        series[i].applyDynamicProperties();
         var renderer = series[i].getLegendRenderer();
             
         var x1 = l + padding[3];
