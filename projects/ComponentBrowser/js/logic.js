@@ -63,16 +63,17 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   };
 
   ce.viewSource = function(button) {
-    button.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
-    var layout = ce.getJSXByName('componentViewLayout');
+    var layout = ce.getJSXByName('lytProperties');
+    layout.setRows("*,0", true);
+    layout = ce.getJSXByName('componentViewLayout');
     layout.setRows("*,50%", true);
   };
 
   ce.unViewSource = function() {
     var layout = ce.getJSXByName('componentViewLayout');
-    var button = ce.getJSXByName('viewSourceShowButton');
     layout.setRows("*,0", true);
-    button.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+    layout = ce.getJSXByName('lytProperties');
+    layout.setRows("*,25", true);
   };
 
   ce.onMouseOverSource = function(buttonNode) {
