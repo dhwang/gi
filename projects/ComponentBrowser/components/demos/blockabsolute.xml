@@ -1,0 +1,10 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name>Block - Absolute</name>
+  <icon>images/prototypes/block-abs.gif</icon>
+  <description>Simple block, absolutely positioned with overflow=scroll.</description>
+  <object type="jsx3.gui.Block">
+    <variants jsxleft="8" jsxtop="8" jsxoverflow="1" jsxrelativeposition="0"/>
+    <strings jsxwidth="100%" jsxheight="100%" jsxname="demo_blockabsolute"/>
+    <dynamics jsxbgcolor="@Solid Medium"/>
+  </object>
+</serialization>

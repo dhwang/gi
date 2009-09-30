@@ -1,0 +1,10 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name>Block - 100%</name>
+  <icon>images/prototypes/block.gif</icon>
+  <description>Simple block, relatively positioned with overflow=scroll.</description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
+    <strings jsxname="demo_blockrelative" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <dynamics jsxbgcolor="@Solid DarkShadow"/>
+  </object>
+</serialization>

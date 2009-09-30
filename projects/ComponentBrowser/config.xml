@@ -30,6 +30,18 @@
       <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">js/logic.js</record>
     </record>
+    <record jsxid="2" type="map">
+      <record jsxid="id" type="string">blockrelative_xml</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">components/demos/blockrelative.xml</record>
+    </record>
+    <record jsxid="3" type="map">
+      <record jsxid="id" type="string">blockabsolute_xml</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">components/demos/blockabsolute.xml</record>
+    </record>
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>
   <record jsxid="onunload" type="string"/>
