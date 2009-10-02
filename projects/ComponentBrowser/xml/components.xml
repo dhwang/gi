@@ -7,29 +7,29 @@
   <record jsxid="jsxrootnode" jsxtext="rootnode" jsxunselectable="1" jsxopen="1">
     <record jsxid="block" jsxtext="Block" jsxunselectable="1">
       <record jsxid="blockrelative" jsxtext="Relative" jsximg="jsxapp:/images/prototypes/block.gif"
-        editable="overflow,textalign,padding,margin" description="" />
+        description="" />
       <record jsxid="blockabsolute" jsxtext="Absolute" jsximg="jsxapp:/images/prototypes/block-abs.gif"
-        editable="width,height,left,top" description="" />
+        description="" />
       <record jsxid="blocklabel" jsxtext="Label" jsximg="jsxapp:/images/prototypes/block-text.gif"
         editable="font,bgcolor,width,height,text" description="" />
       <record jsxid="blockhtml" jsxtext="Html Content" jsximg="jsxapp:/images/prototypes/block-text.gif"
-        editable="" description="" />
+        description="" />
       <record jsxid="blockflow" jsxtext="Flow Layout" jsximg="jsxapp:/images/prototypes/block.gif"
-        editable="" description="" />
+        description="" />
       <record jsxid="blockmovable" jsxtext="Movable" jsximg="jsxapp:/images/prototypes/block.gif"
-        editable="" description="" />
+        description="" />
       <record jsxid="blockspy" jsxtext="Spy Glass" jsximg="jsxapp:/images/prototypes/block.gif"
-        editable="" description="" />
+        description="" />
     </record>
     <record jsxid="blockx" jsxtext="BlockX" jsxunselectable="1">
       <record jsxid="blockxhtml" jsxtext="Html Output" jsximg="jsxapp:/images/prototypes/blockX.gif"
-        editable="" description="" />
+        description="" />
       <record jsxid="blockxpp" jsxtext="Pretty-print XML" jsximg="jsxapp:/images/prototypes/blockX.gif"
-        editable="" description="" />
+        description="" />
       <record jsxid="blockxtext" jsxtext="Text Output" jsximg="jsxapp:/images/prototypes/blockX.gif"
-        editable="" description="" />
+        description="" />
       <record jsxid="blockxrss" jsxtext="RSS" jsximg="jsxapp:/images/prototypes/blockX.gif"
-        editable="" description="" />
+        description="" />
     </record>
     <record jsxid="image" jsxtext="Image" jsxunselectable="1"/>
     <record jsxid="iframe" jsxtext="IFrame" jsxunselectable="1"/>

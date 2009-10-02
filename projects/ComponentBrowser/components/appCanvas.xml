@@ -53,7 +53,7 @@
             <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0"/>
             <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/components.xml" jsxicon="jsx:/images/tree/folder.gif" jsxpadding="5 5 5 5"/>
             <dynamics jsxborder="@Outset"/>
-            <events jsxselect="tibco.ce.componentSelect(strRECORDID);"/>
+            <events jsxselect="tibco.ce.componentSelect(this, strRECORDID);"/>
           </object>
         </object>
       </object>
@@ -144,20 +144,62 @@
                       <strings jsxname="paneProperties" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#f2f6f9"/>
                       <dynamics jsxpadding="@8Pixel"/>
                       <object type="jsx3.gui.Block">
-                        <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
-                        <strings jsxname="panePropertiesName" jsxtext="Component Name" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+                        <variants jsxoverflow="1" jsxrelativeposition="1" jsxleft="0" jsxtop="0"/>
+                        <strings jsxwidth="100%" jsxname="block" jsxdisplay=""/>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
+                          <strings jsxname="panePropertiesName" jsxtext="Component Name" jsxfontweight="bold" jsxpadding="0 0 4 0" jsxwidth="100%"/>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants/>
+                          <strings jsxname="panePropertiesDesc" jsxwidth="100%" jsxtext="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo."/>
+                        </object>
                       </object>
                       <object type="jsx3.gui.Block">
-                        <variants/>
-                        <strings jsxname="panePropertiesDesc" jsxwidth="100%" jsxtext="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo."/>
-                      </object>
-                      <object type="jsx3.gui.Block">
-                        <variants/>
-                        <strings jsxname="panePropertiesHR" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
-                      </object>
-                      <object type="jsx3.gui.Block">
-                        <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
-                        <strings jsxname="label" jsxtext="Properties" jsxpadding="0 0 4 0" jsxfontweight="bold"/>
+                        <variants jsxoverflow="3"/>
+                        <strings jsxname="propertiesMatrixPane" jsxwidth="100%" jsxrelativeposition="1"/>
+                        <object type="jsx3.gui.Block">
+                          <variants/>
+                          <strings jsxname="panePropertiesHR" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
+                          <strings jsxname="label" jsxtext="Properties" jsxpadding="0 0 4 0" jsxfontweight="bold" jsxwidth="100%"/>
+                        </object>
+                        <object type="jsx3.gui.Block">
+                          <variants jsxoverflow="1"/>
+                          <strings jsxname="propertiesMatrixContainer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+                          <object type="jsx3.gui.Matrix">
+                            <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxjsxxmlasync="1" jsxheaderheight="0" jsxreorder="0" jsxresize="0" jsxsort="0" jsxsuppresshscroll="1" jsxscalewidth="0" jsxsuppressvscroll="1" jsxrowheight="20"/>
+                            <strings xmlns="urn:tibco.com/v3.0" jsxname="propertiesMatrix" jsxrenderingmodel="deep" jsxfocusstyle=";"/>
+                            <dynamics jsxbgcolor="@Solid Light"/>
+                            <events jsxbeforeedit="tibco.ce.onBeforePropertyEdit(this,objCOLUMN,strRECORDID);" jsxafteredit="tibco.ce.onAfterPropertyEdit(this,strRECORDID,strNEWVALUE);"/>
+                            <object type="jsx3.gui.Matrix.Column">
+                              <variants jsxwidth="75"/>
+                              <strings xmlns="urn:tibco.com/v3.0" jsxname="mc2" jsxresize="0" jsxtext="&amp;#160;" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtext" jsxcellbgcolor="#c8c8d5" jsxcellborder="0px;1px solid #a8a8b5;1px solid #a8a8b5;0px"/>
+                              <dynamics jsxborder="@Outset"/>
+                            </object>
+                            <object type="jsx3.gui.Matrix.Column">
+                              <variants jsxwrap="1"/>
+                              <strings xmlns="urn:tibco.com/v3.0" jsxname="propertiesValueColumn" jsxwidth="*" jsxtext="Name" jsxcellpadding="0" jsxpath="value" jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt; &lt;xsl:variable name=&quot;myvalue&quot; select=&quot;@value&quot;/&gt; &lt;xsl:variable name=&quot;enummatch&quot; select=&quot;./enum[@jsxvalue=$myvalue]&quot;/&gt; &lt;div class=&quot;jsx3ide_props_normal&quot;&gt; &lt;xsl:choose&gt;   &lt;xsl:when test=&quot;@jsxdynamic&quot;&gt;     &lt;xsl:attribute name=&quot;class&quot;&gt;jsx3ide_props_dynproperty&lt;/xsl:attribute&gt;     &lt;xsl:value-of select=&quot;@jsxdynamic&quot; /&gt;&amp;#160;&lt;span class=&quot;jsx3ide_props_dynval&quot;&gt;[&lt;xsl:value-of select=&quot;@value&quot; /&gt;]&lt;/span&gt;   &lt;/xsl:when&gt;   &lt;xsl:otherwise&gt;     &lt;xsl:choose&gt;       &lt;xsl:when test=&quot;@jsxmask='select'&quot;&gt;         &lt;xsl:attribute name=&quot;class&quot;&gt;&lt;/xsl:attribute&gt;         &lt;div class=&quot;jsx3ide_props_selectmask&quot;&gt;&amp;#160;&lt;/div&gt;         &lt;div class=&quot;jsx3ide_props_normal&quot;&gt;         &lt;xsl:choose&gt;           &lt;xsl:when test=&quot;$enummatch&quot;&gt;             &lt;xsl:value-of select=&quot;$enummatch/@jsxtext&quot;/&gt;           &lt;/xsl:when&gt;           &lt;xsl:otherwise&gt;&amp;#160;&lt;/xsl:otherwise&gt;         &lt;/xsl:choose&gt;         &lt;/div&gt;       &lt;/xsl:when&gt;       &lt;xsl:when test=&quot;@value=''&quot;&gt;&lt;span class=&quot;jsx3ide_props_emptystring&quot;&gt;[empty]&lt;/span&gt;&lt;/xsl:when&gt;       &lt;xsl:when test=&quot;@value&quot;&gt;&lt;xsl:attribute name=&quot;class&quot;&gt;jsx3ide_props_textmask&lt;/xsl:attribute&gt;&lt;xsl:value-of select=&quot;@value&quot;/&gt;&lt;/xsl:when&gt;       &lt;xsl:otherwise&gt;&lt;xsl:attribute name=&quot;class&quot;&gt;jsx3ide_props_textmask&lt;/xsl:attribute&gt;&amp;#160;&lt;/xsl:otherwise&gt;     &lt;/xsl:choose&gt;   &lt;/xsl:otherwise&gt; &lt;/xsl:choose&gt; &lt;/div&gt; &lt;/xsl:template&gt;" jsxcellborder="0px;1px solid #a8a8b5;1px solid #a8a8b5;0px"/>
+                              <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+                              <object type="jsx3.gui.TextBox">
+                                <variants jsxrelativeposition="0" jsxleft="75" jsxtop="0" jsxwidth="105" jsxheight="20" jsxzindex="10"/>
+                                <strings xmlns="urn:tibco.com/v3.0" jsxname="textbox" jsxdisplay="none" jsxvalue="United States"/>
+                                <events jsxkeydown="1;"/>
+                              </object>
+                              <object type="jsx3.gui.TextBox">
+                                <variants jsxwidth="200" jsxheight="72" jsxtype="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                                <strings jsxname="textarea" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+                                <events jsxkeydown="1;"/>
+                              </object>
+                              <object type="jsx3.gui.Select">
+                                <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                                <strings jsxname="select" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+                              </object>
+                            </object>
+                          </object>
+                        </object>
                       </object>
                     </object>
                     <object type="jsx3.gui.Block">

@@ -1,10 +1,47 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <name>Block - Absolute</name>
-  <icon>images/prototypes/block-abs.gif</icon>
-  <description>Simple block, absolutely positioned with overflow=scroll.</description>
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxwidth" jsxtext="Width"
+          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getWidth" docsetter="setWidth"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxheight" jsxtext="Height"
+          jsxtip="Sets the height of the control in pixels or percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getHeight" docsetter="setHeight"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setHeight((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxmask="jsxtext"/>
+    <record jsxid="jsxleft" jsxtext="Left"
+        jsxtip="Sets the position of this object from left edge of container. If this object is absolutely positioned, this value is applied as an implied pixel or a percentage. For example, &lt;code&gt;10&lt;/code&gt; or &lt;code&gt;15%&lt;/code&gt;."
+        docgetter="getLeft" docsetter="setLeft"
+        docdefault="If absolutely positioned, the default is 0. If relatively positioned, the default is empty."
+        eval="0"
+        jsxexecute="objJSX.setLeft((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+        disallow="[^cm^pt^\\.^%^0-9^-]"
+        jsxmask="jsxtext"/>
+    <record jsxid="jsxtop" jsxtext="Top"
+        jsxtip="Sets the position of this object from top edge of container. If this object is absolutely positioned, this value is applied as an implied pixel or a percentage. For example, &lt;code&gt;10&lt;/code&gt; or &lt;code&gt;15%&lt;/code&gt;."
+        docgetter="getTop" docsetter="setTop"
+        docdefault="If absolutely positioned, the default is 0. If relatively positioned, the default is empty."
+        eval="0"
+        jsxexecute="objJSX.setTop((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+        disallow="[^cm^pt^\\.^%^0-9^-]"
+        jsxmask="jsxtext"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxleft="8" jsxtop="8" jsxoverflow="1" jsxrelativeposition="0"/>
     <strings jsxwidth="100%" jsxheight="100%" jsxname="demo_blockabsolute"/>
-    <dynamics jsxbgcolor="@Solid Medium"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxleft="0" jsxtop="0" jsxwidth="100" jsxheight="100" jsxoverflow="1" jsxrelativeposition="0"/>
+      <strings jsxname="target"/>
+      <dynamics jsxbgcolor="@Solid Medium"/>
+    </object>
   </object>
 </serialization>
