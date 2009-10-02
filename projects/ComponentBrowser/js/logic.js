@@ -72,7 +72,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
         } else if (strEvtType == Document.ON_TIMEOUT) {
           ce.componentTimeout(componentId, doc);
         } else if (strEvtType == Document.ON_ERROR) {
-          ce.componentError(componentId, doc);
+          ce.componentError(componentId, doc.getAttribute('error'));
         }
       };
 
@@ -109,7 +109,6 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
         }
         propDoc.appendChild(record);
       }
-      console.log(propDoc);
       objXML.removeChild(properties);
       objCache.setDocument(componentId + '_properties', propDoc);
     }
@@ -117,12 +116,12 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     ce.viewComponent(componentId);
   };
 
-  ce.componentTimeout = function(componentId, objXML) {
-    console.log("TIMEOUT");
+  ce.componentTimeout = function(componentId) {
+    ce.showError("Request timed out", "Timeout");
   };
 
-  ce.componentError = function(componentId, objXML) {
-    console.log("ERROR");
+  ce.componentError = function(componentId, error) {
+    ce.showError(error, "Error");
   };
 
   var _selectedComponent = null, _targetComponent = null;
@@ -254,7 +253,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       var regex = propRecord.disallow.indexOf('/') == 0 ?
           jsx3.eval(propRecord.disallow) : new RegExp(propRecord.disallow);
       if (strCheck.match(regex)) {
-        this.getLog().error("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + strRecordId + " is invalid, must not match " + regex);
+        ce.showError("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + strRecordId + " is invalid, must not match " + regex, "Input Error");
         return false;
       }
     }
@@ -263,7 +262,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       var regex = propRecord.validate.indexOf('/') == 0 ?
           jsx3.eval(propRecord.validate) : new RegExp(propRecord.validate);
       if (! strCheck.match(regex)) {
-        this.getLog().error("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + strRecordId + " is invalid, must match " + regex);
+        ce.showError("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + strRecordId + " is invalid, must match " + regex, "Validation Error");
         return false;
       }
     }
@@ -273,7 +272,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       try {
         strValue = this.eval(strValue);
       } catch (e) {
-        this.getLog().error("error evaluating expression '" +
+        ce.showError("error evaluating expression '" +
             (strValue != null ? jsx3.util.strEscapeHTML(strValue) : null) + "': " + jsx3.NativeError.wrap(e));
         return false;
       }
@@ -282,23 +281,12 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     // check for special on edit script
     var changeScript = propRecord["jsxexecute"];
 
-    if (propRecord.validatehtml) {
-      if (jsx3.util.strEndsWith(jsx3.app.Browser.getLocation().getPath(), ".xhtml")) {
-        var doc = new jsx3.xml.Document().loadXML("<jsxtext>" + strValue + "</jsxtext>");
-        if (doc.hasError()) {
-          this.getLog().error("When working in XHTML mode, the " + propRecord.jsxid + " property must be well-formed XML. (" +
-              doc.getError() + ")");
-          return false;
-        }
-      }
-    }
-
     if (changeScript != null) {
       // script context
       try {
         this.eval(changeScript, {vntValue:strValue, objJSX:_targetComponent});
       } catch (e) {
-        this.getLog().error("error evaluating expression '" + changeScript + "': " + jsx3.NativeError.wrap(e));
+        ce.showError("error evaluating expression '" + changeScript + "': " + jsx3.NativeError.wrap(e));
         return false;
       }
     } else {
@@ -307,5 +295,73 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     }
 
     return true;
+  };
+
+  ce.makeSpy = function(objGrid, strRecordId) {
+    var node = objGrid.getRecordNode(strRecordId);
+    if (node == null) return null;
+
+    var desc = node.getAttribute("jsxtip");
+    var getter = node.getAttribute("docgetter");
+    if (getter && getter.indexOf("(") < 0)
+      getter += "()";
+    var setter = node.getAttribute("docsetter");
+    if (setter && setter.indexOf("(") < 0)
+      setter += "()";
+    var deflt = node.getAttribute("docdefault");
+
+    var dep = node.getAttribute("deprecated");
+
+    var strHTML = "";
+    strHTML += "<span class='jsx3ide_propsspy'>";
+
+    strHTML += "<div class='name" + (dep ? " deprecated" : "") + "'>" + node.getAttribute("jsxtext") + "</div>";
+
+    if (dep)
+      strHTML += "<div class='desc dep'><span class='title'>Deprecated.</span> " + (dep != "1" ? dep : "") + "</div>";
+
+    strHTML += "<div class='desc'>" + (desc || "<i>No description provided.</i>") + "</div>";
+    if (deflt)
+      strHTML += "<div class='deflt'><span class='title'>Default Value:</span> " + deflt + "</div>";
+    if (getter)
+      strHTML += "<div class='method'><span class='title'>Getter:</span> " + getter + "</div>";
+    if (setter)
+      strHTML += "<div class='method'><span class='title'>Setter:</span> " + setter + "</div>";
+    if (! node.getAttribute("docnoprop"))
+      strHTML += "<div class='prop'><span class='title'>Property:</span> " + node.getAttribute("jsxid") + "</div>";
+
+    strHTML += "</span>";
+    return strHTML;
+  };
+
+  ce.getErrorDialog = function() {
+    var name = "dlgErrors",
+        body = this.getServer().getBodyBlock(),
+        dialog = body.getChild(name);
+    if (!dialog) {
+      dialog =  body.load("components/" + name + ".xml");
+      dialog.setName(name);
+    }
+    return dialog;
+  };
+  ce.showError = function(message, type) {
+    var dialog = ce.getErrorDialog();
+    dialog.focus();
+    if (type) {
+      var et = ce.getJSXByName("errorType");
+      if (et) {
+        et.setText(type, true);
+      }
+    }
+    if (message) {
+      var msg = ce.getJSXByName("paneErrorText");
+      if (msg) {
+        msg.setText(message);
+      }
+    }
+  };
+  ce.closeError = function(button) {
+    var dialog = ce.getErrorDialog();
+    dialog.doClose();
   };
 });

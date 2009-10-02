@@ -1,0 +1,50 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name>Dialog</name>
+  <icon>images/prototypes/dialog.gif</icon>
+  <description>Dialog box.  (Set Modal property for a modal dialog).</description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Dialog">
+    <variants jsxwidth="520" jsxheight="218" jsxzindex="5000" jsxwindowstate="1" jsxresize="0" jsxmodal="1" jsxbuffer="0"/>
+    <strings jsxname="dlgErrors" jsxcontentborder="0px solid none;" jsxborder="1px solid #9898a5" jsxdisplay=""/>
+    <object type="jsx3.gui.WindowBar">
+      <variants jsxbartype="0" jsxfontsize="12" jsxheight="26"/>
+      <strings jsxname="errorType" jsxtext="Error Type" jsxbgcolor="#dfdfdf" jsxborder="1px solid #ffffff; 0; 1px solid #9898a5; 0;" jsxpadding="5 0 8 0" jsxcolor="#555" jsxfontweight="bold"/>
+      <dynamics jsxbg="@Bevel TopDown"/>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1" jsxloadtype="1"/>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxborder="0 0 0 0" jsxmargin="0 0 0 0" jsxpadding="0 0 0 0" jsxbg="#ffffff" jsxbgcolor="#ffffff"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+        <strings jsxname="layoutRows" jsxrows="*,40" jsxwidth="100%" jsxheight="100%" jsxborder="0 0 0 0"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxfontsize="12"/>
+          <strings jsxname="paneErrorText" jsxwidth="100%" jsxheight="100%" jsxtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae tristique urna. Curabitur a arcu leo, non aliquet nulla. Quisque interdum neque ligula. In lacus neque, viverra at vehicula nec, rhoncus sed nulla." jsxpadding="20 20 0 20" jsxcolor="#666"/>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="paneErrorBtns" jsxwidth="100%" jsxheight="100%"/>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+            <strings jsxname="lytErrorBtns" jsxcols="*,102" jsxwidth="100%" jsxheight="100%" jsxborder="0 0 0 0"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="2"/>
+              <strings jsxname="paneNothing" jsxwidth="100%" jsxheight="100%"/>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"/>
+              <strings jsxname="paneErrorClose" jsxwidth="100%" jsxheight="100%"/>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxwidth="90" jsxfontsize="12"/>
+                <strings jsxname="btnErrorClose" jsxheight="" jsxtext="Close" jsxtextalign="center" jsxpadding="4" jsxfontweight="normal" jsxdisplay="" jsxclassname="sourceButton" jsxcolor="#222"/>
+                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
+                <events jsxclick="tibco.ce.closeError();"/>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>

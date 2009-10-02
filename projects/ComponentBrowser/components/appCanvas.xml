@@ -170,13 +170,14 @@
                           <variants jsxoverflow="1"/>
                           <strings jsxname="propertiesMatrixContainer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
                           <object type="jsx3.gui.Matrix">
-                            <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxjsxxmlasync="1" jsxheaderheight="0" jsxreorder="0" jsxresize="0" jsxsort="0" jsxsuppresshscroll="1" jsxscalewidth="0" jsxsuppressvscroll="1" jsxrowheight="20"/>
-                            <strings xmlns="urn:tibco.com/v3.0" jsxname="propertiesMatrix" jsxrenderingmodel="deep" jsxfocusstyle=";"/>
+                            <variants jsxspy="1" jsxpagingmodel="1" jsxselectionmodel="0" jsxjsxxmlasync="1" jsxheaderheight="0" jsxreorder="0" jsxresize="0" jsxsort="0" jsxsuppresshscroll="1" jsxscalewidth="0" jsxsuppressvscroll="1" jsxrowheight="20"/>
+                            <strings xmlns="urn:tibco.com/v3.0" jsxname="propertiesMatrix" jsxrenderingmodel="deep" jsxfocusstyle=";" jsxspystylekeys="" jsxspystylevalues=""/>
                             <dynamics jsxbgcolor="@Solid Light"/>
-                            <events jsxbeforeedit="tibco.ce.onBeforePropertyEdit(this,objCOLUMN,strRECORDID);" jsxafteredit="tibco.ce.onAfterPropertyEdit(this,strRECORDID,strNEWVALUE);"/>
+                            <events jsxbeforeedit="tibco.ce.onBeforePropertyEdit(this,objCOLUMN,strRECORDID);" jsxafteredit="tibco.ce.onAfterPropertyEdit(this,strRECORDID,strNEWVALUE);" jsxspy="(objCOLUMN == propertiesNameColumn) ? tibco.ce.makeSpy(this, strRECORDID) : null;"/>
+                            <xslparameters jsx_no_tip="1"/>
                             <object type="jsx3.gui.Matrix.Column">
                               <variants jsxwidth="75"/>
-                              <strings xmlns="urn:tibco.com/v3.0" jsxname="mc2" jsxresize="0" jsxtext="&amp;#160;" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtext" jsxcellbgcolor="#c8c8d5" jsxcellborder="0px;1px solid #a8a8b5;1px solid #a8a8b5;0px"/>
+                              <strings xmlns="urn:tibco.com/v3.0" jsxname="propertiesNameColumn" jsxresize="0" jsxtext="&amp;#160;" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxtext" jsxcellbgcolor="#c8c8d5" jsxcellborder="0px;1px solid #a8a8b5;1px solid #a8a8b5;0px"/>
                               <dynamics jsxborder="@Outset"/>
                             </object>
                             <object type="jsx3.gui.Matrix.Column">

@@ -1,3 +1,15 @@
+/* styles for the Properties Editor Spyglass */
+span.jsx3ide_propsspy { width: 250px; }
+span.jsx3ide_propsspy code, span.jsx3ide_propsspy tt { font-size: 11px; font-family: monospace; }
+span.jsx3ide_propsspy span.title { color: #000000; font-weight: bold; font-size: 10px; font-family: Verdana, sans-serif;}
+span.jsx3ide_propsspy div.name { font-weight: bold; min-width:220px;}
+span.jsx3ide_propsspy .deprecated { text-decoration: line-through; }
+span.jsx3ide_propsspy div.desc { padding: 0px 0px 8px 0px; }
+span.jsx3ide_propsspy .dep { font-style:italic; }
+span.jsx3ide_propsspy .dep span.title { font-style:normal; font-weight: bold; }
+span.jsx3ide_propsspy div.deflt { color: #666666; padding: 2px 0px 2px 8px; text-indent: -8px; }
+span.jsx3ide_propsspy div.method { color: #000066; padding: 2px 0px 2px 8px; text-indent: -8px; font-size: 11px; font-family: monospace; }
+span.jsx3ide_propsspy div.prop { color: #666666; padding: 2px 0px 2px 8px; text-indent: -8px; }
 /* styles for the Properties Editor */
 .jsx3ide_props_normal { padding:3px; height:100%; background:transparent; }
 .jsx3ide_props_uneditable { padding:3px; height:100%; color:#66666A; background-color:#e8e8f5;}
