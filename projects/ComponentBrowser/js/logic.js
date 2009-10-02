@@ -364,19 +364,121 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     var dialog = ce.getErrorDialog();
     dialog.doClose();
   };
+
   ce.openColorPickerMask = function(objMask) {
     objMask.suspendEditSession();
 
-    this.getResource("colorpicker").load().when(jsx3.$F(function() {
-      var picker = this.loadRsrcComponent("colorpicker", this.getServer().getRootBlock(), false);
-      picker.getDescendantOfName("colorPicker").setValue(objMask.getMaskValue());
-      picker.onColorPick(picker.getDescendantOfName("colorPicker").getRGB());
-      picker.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
-      picker._jsxmask = objMask;
+    var dlg = ce.getJSXByName('dlgColorPicker');
+    dlg.getDescendantOfName("colorPicker").setValue(objMask.getMaskValue());
+    dlg.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+    dlg._jsxmask = objMask;
 
-      picker.getParent().paintChild(picker);
-
-      picker.focus();
-    }).bind(this));
+    dlg.focus();
   };
+  ce._colorPickerMaskChoose = function(objEvent, picker) {
+    var objMask = picker._jsxmask;
+
+    var intRGB = picker.getDescendantOfName("colorPicker").getRGB();
+    var hex = "#" + (0x1000000 + intRGB).toString(16).substring(1).toUpperCase();
+    objMask.setMaskValue(hex);
+    picker.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    objMask.getDescendantOfName("btnCP").focus();
+
+    objMask.resumeEditSession();
+    objMask.commitEditMask(objEvent, true);
+  };
+
+  ce._colorPickerMaskCancel = function(objEvent, picker) {
+    var objMask = picker._jsxmask;
+    picker.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    objMask.getDescendantOfName("btnCP").focus();
+    objMask.resumeEditSession();
+  };
+
+  ce.onColorPick = function(intRGB, strSkip) {
+    var hsb = jsx3.gui.ColorPicker.RGBtoHSB(intRGB),
+        picker = ce.getJSXByName('dlgColorPicker');
+    var getDesc = function(n){
+      return picker.getDescendantOfName(n);
+    };
+    if (strSkip != "hsbH") getDesc('hsbH').setValue(Math.round(hsb[0] * 100));
+    if (strSkip != "hsbS") getDesc('hsbS').setValue(Math.round(hsb[1] * 100));
+    if (strSkip != "hsbB") getDesc('hsbB').setValue(Math.round(hsb[2] * 100));
+    if (strSkip != "rgbR") getDesc('rgbR').setValue((intRGB & 0xFF0000) >> 16);
+    if (strSkip != "rgbG") getDesc('rgbG').setValue((intRGB & 0x00FF00) >> 8);
+    if (strSkip != "rgbB") getDesc('rgbB').setValue((intRGB & 0x0000FF) >> 0);
+    var hex = "#" + (0x1000000 + intRGB).toString(16).substring(1).toUpperCase();
+    if (strSkip != "rgbHex") getDesc('rgbHex').setValue(hex);
+    getDesc('preview').setBackgroundColor(hex, true);
+  };
+
+  ce._onAxisPicker = function(strMode) {
+    var intAxis = null;
+    switch (strMode) {
+      case "h": intAxis = jsx3.gui.ColorPicker.HUE; break;
+      case "s": intAxis = jsx3.gui.ColorPicker.SATURATION; break;
+      case "b": intAxis = jsx3.gui.ColorPicker.BRIGHTNESS; break;
+    }
+
+    var colorPicker = ce.getJSXByName('colorPicker');
+    if (intAxis != null) {
+      colorPicker.setAxis(intAxis);
+      colorPicker.repaint();
+    }
+  };
+
+  ce._onPreviewClick = function() {
+    var colorPicker = ce.getJSXByName('colorPicker');
+    var intRGB = colorPicker.getRGB();
+    var hex = "#" + (0x1000000 + intRGB).toString(16).substring(1).toUpperCase();
+    jsx3.html.copy(hex);
+  };
+
+  ce._onTextChange = function(objText, strValue) {
+    if (objText.getName() == "rgbHex") {
+      strValue = strValue.replace(/[^a-fA-F0-9]/g, "");
+      strValue = parseInt("0x" + strValue);
+      var colorPicker = ce.getJSXByName('colorPicker');
+      colorPicker.setRGB(strValue);
+      this.onColorPick(colorPicker.getRGB(), objText.getName());
+    } else {
+      var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(strValue)));
+      if (isNaN(val)) val = 0;
+      this._updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+    }
+  };
+
+  ce._onTextWheel = function(objText, objEvent) {
+    var val = Math.round(Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(objText.getValue()) + objEvent.getWheelDelta())));
+    if (isNaN(val)) val = 0;
+    objText.setValue(val);
+    this._updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+    objEvent.cancelBubble();
+  };
+
+  ce._onTextKeyDown = function(objText, objEvent) {
+    if (objEvent.downArrow() || objEvent.upArrow()) {
+      var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(objText.getValue()) + (objEvent.upArrow() ? 1 : -1)));
+      if (isNaN(val)) val = 0;
+      objText.setValue(val);
+      this._updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+      objEvent.cancelAll();
+    }
+  };
+
+  ce._updateOneAxis = function(intIndex, bHSB, intValue, strSkip) {
+    var colorPicker = ce.getJSXByName('colorPicker');
+    if (bHSB) {
+      var hsb = jsx3.gui.ColorPicker.RGBtoHSB(colorPicker.getRGB());
+      hsb[intIndex] = intValue/100;
+      colorPicker.setHSB(hsb[0], hsb[1], hsb[2]);
+      this.onColorPick(colorPicker.getRGB(), strSkip);
+    } else {
+      var rgb = colorPicker.getRGB();
+      rgb = [(rgb & 0xFF0000) >> 16, (rgb & 0xFF00) >> 8, (rgb & 0xFF) >> 0];
+      rgb[intIndex] = intValue;
+      colorPicker.setRGB((rgb[0] << 16) + (rgb[1] << 8) + rgb[2]);
+      this.onColorPick(colorPicker.getRGB(), strSkip);
+    }
+  }
 });
