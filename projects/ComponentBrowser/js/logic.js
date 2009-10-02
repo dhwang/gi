@@ -223,7 +223,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     var maskId = objRecord.getAttribute("jsxmask");
     if (!maskId) return false;
 
-    var objMask = objColumn.getChild(maskId) || objColumn.getChild("textbox");
+    var objMask = objColumn.getChild(maskId) || objColumn.getChild("jsxtextbox");
 
     if (objMask instanceof jsx3.gui.Select) {
       objMask.clearXmlData();
@@ -363,5 +363,20 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.closeError = function(button) {
     var dialog = ce.getErrorDialog();
     dialog.doClose();
+  };
+  ce.openColorPickerMask = function(objMask) {
+    objMask.suspendEditSession();
+
+    this.getResource("colorpicker").load().when(jsx3.$F(function() {
+      var picker = this.loadRsrcComponent("colorpicker", this.getServer().getRootBlock(), false);
+      picker.getDescendantOfName("colorPicker").setValue(objMask.getMaskValue());
+      picker.onColorPick(picker.getDescendantOfName("colorPicker").getRGB());
+      picker.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+      picker._jsxmask = objMask;
+
+      picker.getParent().paintChild(picker);
+
+      picker.focus();
+    }).bind(this));
   };
 });

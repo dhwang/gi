@@ -7,7 +7,7 @@
             docgetter="getOverflow" docsetter="setOverflow"
             jsxexecute="objJSX.setOverflow(vntValue);objJSX.repaint();"
             docdefault="Expand (&lt;code&gt;jsx3.gui.Block.OVERFLOWEXPAND&lt;/code&gt;)"
-            jsxmask="select">
+            jsxmask="jsxselect">
           <enum jsxid="jsx3.gui.Block.OVERFLOWSCROLL" jsxtext="Scroll"/>
           <enum jsxid="jsx3.gui.Block.OVERFLOWHIDDEN" jsxtext="Hidden"/>
           <enum jsxid="jsx3.gui.Block.OVERFLOWEXPAND" jsxtext="Expand"/>
@@ -18,7 +18,7 @@
             docgetter="&lt;code&gt;getTextAlign&lt;/code&gt;" docsetter="setTextAlign"
             docdefault="Left (&lt;code&gt;jsx3.gui.Block.ALIGNLEFT&lt;/code&gt;)"
             jsxexecute="objJSX.setTextAlign(vntValue);objJSX.repaint();"
-            jsxmask="select">
+            jsxmask="jsxselect">
           <enum jsxid="jsx3.gui.Block.ALIGNLEFT" jsxtext="Left"/>
           <enum jsxid="jsx3.gui.Block.ALIGNCENTER" jsxtext="Center"/>
           <enum jsxid="jsx3.gui.Block.ALIGNRIGHT" jsxtext="Right"/>
@@ -29,7 +29,7 @@
             docgetter="getPadding" docsetter="setPadding"
             docdefault="Empty"
             disallow="'"
-            jsxmask="textbox"
+            jsxmask="jsxtextbox"
             jsxexecute="objJSX.setPadding(vntValue,true);"/>
         <record jsxid="jsxmargin" jsxtext="Margin"
             eval="0"
@@ -37,7 +37,7 @@
             docgetter="getMargin" docsetter="setMargin"
             docdefault="Empty"
             disallow="'"
-            jsxmask="textbox"
+            jsxmask="jsxtextbox"
             jsxexecute="objJSX.setMargin(vntValue,true);"/>
     </data>
   </properties>

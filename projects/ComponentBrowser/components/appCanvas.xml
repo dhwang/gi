@@ -187,17 +187,44 @@
                               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
                               <object type="jsx3.gui.TextBox">
                                 <variants jsxrelativeposition="0" jsxleft="75" jsxtop="0" jsxwidth="105" jsxheight="20" jsxzindex="10"/>
-                                <strings xmlns="urn:tibco.com/v3.0" jsxname="textbox" jsxdisplay="none" jsxvalue="United States"/>
+                                <strings xmlns="urn:tibco.com/v3.0" jsxname="jsxtextbox" jsxdisplay="none" jsxvalue="United States"/>
                                 <events jsxkeydown="1;"/>
                               </object>
                               <object type="jsx3.gui.TextBox">
                                 <variants jsxwidth="200" jsxheight="72" jsxtype="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                                <strings jsxname="textarea" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+                                <strings jsxname="jsxtextarea" jsxmargin="0 4 0 0" jsxdisplay="none"/>
                                 <events jsxkeydown="1;"/>
                               </object>
                               <object type="jsx3.gui.Select">
                                 <variants jsxwidth="150" jsxheight="18" jsxxmlasync="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                                <strings jsxname="select" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+                                <strings jsxname="jsxselect" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+                              </object>
+                              <object type="jsx3.gui.Block">
+                                <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                                <strings jsxname="jsxcolor" jsxdisplay="none"/>
+                                <object type="jsx3.gui.LayoutGrid">
+                                  <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                                  <strings jsxwidth="100%" jsxheight="100%" jsxcols="*,20"/>
+                                  <object type="jsx3.gui.Block">
+                                    <variants jsxoverflow="2"/>
+                                    <strings jsxwidth="100%" jsxheight="100%"/>
+                                    <object type="jsx3.gui.TextBox">
+                                      <variants jsxleft="0" jsxtop="0"/>
+                                      <strings jsxname="pathtextbox" jsxheight="100%" jsxwidth="100%"/>
+                                      <dynamics jsxcolor="@Matrix Edit Color"/>
+                                      <events jsxkeydown="1;"/>
+                                    </object>
+                                  </object>
+                                  <object type="jsx3.gui.Block">
+                                    <variants jsxoverflow="2"/>
+                                    <strings jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxpadding="2"/>
+                                    <object type="jsx3.gui.ImageButton">
+                                      <variants jsxwidth="16" jsxheight="16" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+                                      <strings jsxname="btnCP" jsximage="jsxapp:/images/prototypes/colorpicker.gif"/>
+                                      <events jsxexecute="tibco.ce.openColorPickerMask(jsxcolor);"/>
+                                    </object>
+                                  </object>
+                                </object>
                               </object>
                             </object>
                           </object>
