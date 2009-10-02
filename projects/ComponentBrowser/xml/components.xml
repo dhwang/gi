@@ -164,6 +164,7 @@
       </record>
     </record>
     <record jsxid="misc" jsxtext="Miscellaneous" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="cdfmapping" jsxtext="CDF Mapping" description="" jsximg="jsxapp:/images/prototypes/block.gif"/>
       <record jsxid="sound" jsxtext="Sound" description="" jsximg="jsxapp:/images/prototypes/sound.gif"/>
       <record jsxid="table" jsxtext="Table" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/matrix.gif">
         <record jsxid="tablenormal" jsxtext="Normal" description="" />
