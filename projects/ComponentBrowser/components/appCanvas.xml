@@ -51,9 +51,10 @@
           </object>
           <object type="jsx3.gui.Tree">
             <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0"/>
-            <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/components.xml" jsxicon="jsx:/images/tree/folder.gif" jsxpadding="5 5 5 5"/>
+            <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/components.xml" jsxicon="" jsxpadding="5 5 5 5"/>
             <dynamics jsxborder="@Outset"/>
             <events jsxselect="tibco.ce.componentSelect(this, strRECORDID);"/>
+            <xslparameters jsx_no_empty_indent="1"/>
           </object>
         </object>
       </object>

@@ -63,4 +63,7 @@
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>
   <record jsxid="onunload" type="string"/>
+  <record jsxid="addins" type="array">
+    <record jsxid="0" type="string">charting</record>
+  </record>
 </data>
