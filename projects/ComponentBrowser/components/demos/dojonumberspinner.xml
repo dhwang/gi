@@ -1,6 +1,16 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="smallDelta" jsxtext="SmallDelta" jsxtip="Adjust the value by this much when spinning using the arrow keys/buttons" eval="1" docgetter="getSmallDelta" docsetter="setSmallDelta" getter="getSmallDelta" jsxmask="jsxtext" jsxexecute="objJSX.setSmallDelta(vntValue);"/>
+      <record jsxid="largeDelta" jsxtext="LargeDelta" jsxtip="Adjust the value by this much when spinning using the PgUp/Dn keys" eval="1" docgetter="getLargeDelta" docsetter="setLargeDelta" getter="getLargeDelta" jsxmask="jsxtext" jsxexecute="objJSX.setLargeDelta(vntValue);"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dojonumberspinner" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DojoWidget">
+      <variants/>
+      <strings jsxname="target" dijitClassName="dijit.form.NumberSpinner" dijit_value="0"/>
+    </object>
   </object>
 </serialization>

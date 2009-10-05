@@ -1,6 +1,22 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="checked" jsxtext="Checked" jsxtip="Corresponds to the native HTML &amp;lt;input&amp;gt; element's attribute.  In markup, specified as &amp;quot;checked='checked'&amp;quot; or just &amp;quot;checked&amp;quot;.  True if the button is depressed, or the checkbox is checked, or the radio button is selected, etc." eval="1" docgetter="getChecked" docsetter="setChecked" getter="getChecked" jsxmask="jsxselect" jsxexecute="objJSX.setChecked(vntValue);">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
+      </record>
+      <record jsxid="disabled" jsxtext="Disabled" jsxtip="Should this widget respond to user input?  In markup, this is specified as &amp;quot;disabled='disabled'&amp;quot;, or just &amp;quot;disabled&amp;quot;." eval="1" docgetter="getDisabled" docsetter="setDisabled" getter="getDisabled" jsxmask="jsxselect" jsxexecute="objJSX.setDisabled(vntValue);">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dojocheckbox" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DojoWidget">
+      <variants dijit_checked="0" dijit_value="false" dijit_disabled="0"/>
+      <strings jsxname="target" dijitClassName="dijit.form.CheckBox"/>
+    </object>
   </object>
 </serialization>

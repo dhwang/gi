@@ -1,6 +1,23 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="clickSelect" jsxtext="ClickSelect" jsxtip="If clicking the slider bar changes the value or not" eval="1" docgetter="getClickSelect" docsetter="setClickSelect" getter="getClickSelect" jsxmask="jsxselect" jsxexecute="objJSX.setClickSelect(vntValue);" disallow="'">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
+      </record>
+      <record jsxid="value" jsxtext="Value" eval="0" docgetter="getValue" docsetter="setValue" getter="getValue" jsxmask="jsxtext" jsxexecute="objJSX.setValue(vntValue);" jsxtip="Corresponds to the native HTML &amp;lt;input&amp;gt; element's attribute."/>
+      <record jsxid="disabled" jsxtext="Disabled" jsxtip="Should this widget respond to user input?  In markup, this is specified as &amp;quot;disabled='disabled'&amp;quot;, or just &amp;quot;disabled&amp;quot;." eval="1" docgetter="getDisabled" docsetter="setDisabled" getter="getDisabled" jsxmask="jsxselect" jsxexecute="objJSX.setDisabled(vntValue);" disallow="'">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dojoslidervertical" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DojoWidget">
+      <variants jsxheight="200"/>
+      <strings jsxname="target" dijitClassName="dijit.form.VerticalSlider"/>
+    </object>
   </object>
 </serialization>

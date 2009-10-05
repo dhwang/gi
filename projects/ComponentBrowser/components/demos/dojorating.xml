@@ -1,6 +1,15 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="numStars" jsxtext="NumStars" jsxtip="The number of stars to show, default is 3." eval="1" docgetter="getNumStars" docsetter="setNumStars" getter="getNumStars" jsxmask="jsxtext" jsxexecute="objJSX.setNumStars(vntValue);"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dojorating" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DojoWidget">
+      <variants dijitStyleSheets="['dojox/form/resources/Rating.css']" dijit_numStars="3"/>
+      <strings dijitClassName="dojox.form.Rating" jsxname="target"/>
+    </object>
   </object>
 </serialization>

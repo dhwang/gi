@@ -92,9 +92,6 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
     var properties = objXML.selectSingleNode('//t:serialization/properties', 'xmlns:t="urn:tibco.com/v3.0"');
 
-    var component = ce.getJSXByName('demo_' + componentId);
-    var target = component.getDescendantOfName('target');
-
     if (properties && !propDoc) {
       propDoc = new jsx3.xml.CDF.Document.newDocument();
       var iter = properties.selectNodeIterator('//properties/data/record');
@@ -124,6 +121,28 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     ce.showError(error, "Error");
   };
 
+  ce._updatePropertyNode = function(objNode) {
+    var getter = objNode.getAttribute("getter");
+    var propName = objNode.getAttribute("jsxid");
+    var target = objNode.getAttribute("jsxtarget");
+    target = target ? _selectedComponent.getDescendantOfName(target) : _targetComponent;
+    var dynVal = target.getDynamicProperty(propName);
+
+    var stepVal = null;
+    if (getter) {
+      if (/^[_a-zA-Z]\w*$/.test(getter)) {
+        stepVal = target[getter]();
+      } else {
+        stepVal = target.eval(getter);
+      }
+    } else if (target[propName] != null) {
+      stepVal = target[propName];
+    }
+
+    objNode.setAttribute('value', stepVal);
+    objNode.setAttribute('jsxdynamic', dynVal);
+  };
+
   var _selectedComponent = null, _targetComponent = null;
   ce.viewComponent = function(componentId, component) {
     if (_selectedComponent) {
@@ -142,24 +161,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       var count = 0;
       for (var i=propDoc.selectNodeIterator('//record'); i.hasNext(); ) {
         count++;
-        var recordNode = i.next();
-        var propName = recordNode.getAttribute('jsxid');
-        var getter = recordNode.getAttribute("getter");
-        var stepDynVal = _targetComponent.getDynamicProperty(propName);
-
-        var stepVal = null;
-        if (getter) {
-          if (/^[_a-zA-Z]\w*$/.test(getter)) {
-            stepVal = _targetComponent[getter]();
-          } else {
-            stepVal = _targetComponent.eval(getter);
-          }
-        } else if (_targetComponent[propName] != null) {
-          stepVal = _targetComponent[propName];
-        }
-
-        recordNode.setAttribute('value', stepVal);
-        recordNode.setAttribute('jsxdynamic', stepDynVal);
+        ce._updatePropertyNode(i.next());
       }
       propEditor.setSourceXML(propDoc);
       // set the container block to the same height as the number of rows
@@ -247,6 +249,29 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     if (typeof(strValue) == "string")
       strValue = jsx3.util.strTrim(strValue);
 
+    return ce._editObjectProperty(propRecord, strRecordId, strValue);
+  };
+
+  ce.onPropertyMenuExecute = function(objMenu, strRecordId) {
+    //called when a menu item is selected; get its id; two are standard; all others are lookups
+    var oPE = ce.getJSXByName('propertiesMatrix');
+    var strPropName = objMenu.getContextRecordId();
+    var objRecord = oPE.getRecordNode(strPropName);
+    var target = objRecord.getAttribute('jsxtarget');
+    target = target ? _selectedComponent.getDescendantOfName(target) : _targetComponent;
+    var strLookupId;
+
+    if (strRecordId == "jsxdpclear") {
+      target.setDynamicProperty(strPropName);
+      this._editObjectProperty(oPE.getRecord(strPropName), strPropName, null);
+    }
+
+    this._updatePropertyNode(objRecord);
+
+    oPE.redrawRecord(strPropName, jsx3.xml.CDF.UPDATE, oPE.getChild("propertiesValueColumn"));
+  };
+
+  ce._editObjectProperty = function(propRecord, strRecordId, strValue) {
     var strCheck = strValue != null ? strValue.toString() : "";
 
     if (propRecord.disallow) {
@@ -280,18 +305,20 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
     // check for special on edit script
     var changeScript = propRecord["jsxexecute"];
+    var target = propRecord["jsxtarget"];
+    target = target ? _selectedComponent.getDescendantOfName(target) : _targetComponent;
 
     if (changeScript != null) {
       // script context
       try {
-        this.eval(changeScript, {vntValue:strValue, objJSX:_targetComponent});
+        this.eval(changeScript, {vntValue:strValue, objJSX:target});
       } catch (e) {
         ce.showError("error evaluating expression '" + changeScript + "': " + jsx3.NativeError.wrap(e));
         return false;
       }
     } else {
-      _targetComponent[strRecordId] = strValue;
-      _targetComponent.repaint();
+      target[strRecordId] = strValue;
+      target.repaint();
     }
 
     return true;
@@ -480,5 +507,5 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       colorPicker.setRGB((rgb[0] << 16) + (rgb[1] << 8) + rgb[2]);
       this.onColorPick(colorPicker.getRGB(), strSkip);
     }
-  }
+  };
 });

@@ -1,6 +1,72 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="titlePlacement" jsxtext="Title Placement"
+          jsxtip="Sets the direction in which to render the title."
+          docgetter="getTitlePlacement" docsetter="setTitlePlacement"
+          docdefault="top (&lt;code&gt;jsx3.chart.QTOP&lt;/code&gt;)"
+          eval="0" nullable="0"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.chart.QTOP" jsxtext="top"/>
+        <enum jsxid="jsx3.chart.QRIGHT" jsxtext="right"/>
+        <enum jsxid="jsx3.chart.QBOTTOM" jsxtext="bottom"/>
+        <enum jsxid="jsx3.chart.QLEFT" jsxtext="left"/>
+      </record>
+      <record jsxid="jsxtext" jsxtext="Text"
+          jsxtip="Sets the text to display in this component."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          eval="0"
+          jsxmask="jsxtext"
+          jsxtarget="chartLabel" />
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_chartlabel" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.chart.AreaChart">
+      <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
+      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record cat=&quot;03Q1&quot; y1=&quot;100000&quot;/&gt; &lt;record cat=&quot;03Q2&quot; y1=&quot;175000&quot;/&gt; &lt;record cat=&quot;03Q3&quot; y1=&quot;400000&quot;/&gt; &lt;record cat=&quot;03Q4&quot; y1=&quot;750000&quot;/&gt; &lt;record cat=&quot;04Q1&quot; y1=&quot;800000&quot; y2=&quot;250000&quot;/&gt; &lt;record cat=&quot;04Q2&quot; y1=&quot;900000&quot; y2=&quot;300000&quot;/&gt; &lt;record cat=&quot;04Q3&quot; y1=&quot;1050000&quot; y2=&quot;850000&quot;/&gt; &lt;record cat=&quot;04Q4&quot; y1=&quot;1300000&quot; y2=&quot;1700000&quot;/&gt; &lt;/data&gt;"/>
+      <object type="jsx3.chart.ChartLabel">
+        <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
+        <strings jsxname="chartLabel" jsxtext="Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+      </object>
+      <object type="jsx3.chart.CategoryAxis">
+        <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" numCategories="8" numSeries="2" length="242" jsxleft="40" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+        <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#666666 1" labelStyle="font-family: Verdana; font-size: 8px;" tickAlignment="aligned" categoryField="cat"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants preferredHeight="14" labelRotation="0" jsxfontsize="12" jsxleft="0" jsxtop="239" jsxwidth="242" jsxheight="14"/>
+          <strings jsxname="xTitle" jsxtext="Quarter" jsxfontname="Arial" jsxtextalign="center" jsxfontweight="bold"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="3" displayWidth="20" autoAdjust="1" baseAtZero="1" length="223" jsxleft="40" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+        <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="none" minorTickStroke="#000000 1 1" labelFunction="function (x) { return x / 1000000; }" labelStyle="font-family: Verdana; font-size: 8px; text-align: right;"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants preferredWidth="14" labelRotation="270" jsxfontsize="12" jsxleft="-40" jsxtop="0" jsxwidth="14" jsxheight="223"/>
+          <strings jsxname="ytitle" jsxtext="Units (millions)" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.GridLines">
+        <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" inForeground="0" strokeMajorH="['#DDDDDD 1 1']" strokeMinorH="['#EEEEEE 1 1']" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223" jsxzindex="11"/>
+        <strings jsxname="grid" borderStroke="#CCCCCC 1"/>
+      </object>
+      <object type="jsx3.chart.AreaSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="0" jsxzindex="20" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223"/>
+        <strings jsxname="series1" seriesName="iPod" stroke="#AAAAAA 2" fill="#DDDDDD .5" yField="y1" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip"/>
+      </object>
+      <object type="jsx3.chart.AreaSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="1" jsxzindex="21" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223"/>
+        <strings jsxname="series2" seriesName="iPod mini" stroke="#FF3399 2" fill="#FF3399 .5" yField="y2" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip"/>
+      </object>
+      <object type="jsx3.chart.Legend">
+        <variants boxHeight="10" lineHeight="22" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
+        <strings jsxname="legend" labelStyle="font-size: 10px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="104" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
+          <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>

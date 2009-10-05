@@ -1,6 +1,10 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dojocolorpalette" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DojoWidget">
+      <variants/>
+      <strings dijitClassName="dijit.ColorPalette" jsxname="target" dijit_palette="7x10"/>
+    </object>
   </object>
 </serialization>

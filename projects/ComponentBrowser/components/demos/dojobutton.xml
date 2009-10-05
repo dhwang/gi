@@ -1,6 +1,19 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="label" jsxtext="Label" jsxtip="String Text to display in button.  If the label is hidden (showLabel=false) then and no title has been specified, then label is also set as title attribute of icon." eval="0" docgetter="getLabel" docsetter="setLabel" getter="getLabel" jsxmask="jsxtext" jsxexecute="objJSX.setLabel(vntValue);"/>
+      <record jsxid="disabled" jsxtext="Disabled" jsxtip="Should this widget respond to user input?  In markup, this is specified as &amp;quot;disabled='disabled'&amp;quot;, or just &amp;quot;disabled&amp;quot;." eval="1" docgetter="getDisabled" docsetter="setDisabled" getter="getDisabled" jsxmask="jsxselect" jsxexecute="objJSX.setDisabled(vntValue);">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dojobutton" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DojoWidget">
+      <variants/>
+      <strings jsxname="target" dijitClassName="dijit.form.Button" dijit_label="Button" dijit_name="Button"/>
+    </object>
   </object>
 </serialization>
