@@ -567,7 +567,7 @@ objJSX.updateNavButtons = function() {
                       <strings jsxwidth="100%" jsxheight="100%"/>
                         <object type="jsx3.gui.BlockX">
                           <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"/>
-                          <variants jsxoverflow="3" jsxrelativeposition="0" jsxshare="1" jsxxmlasync="1"/>
+                          <variants jsxoverflow="3" jsxrelativeposition="0" jsxshare="1" jsxxmlasync="0"/>
                           <strings jsxname="jsx_api_content" jsxxslid="jsx3.ide.apidoc.content" jsxwidth="100%" jsxheight="100%"/>
                           <xslparameters jsxdisableescape="1"/>
                         </object>
