@@ -121,11 +121,11 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     ce.showError(error, "Error");
   };
 
-  ce._updatePropertyNode = function(objNode) {
+  ce._updatePropertyNode = function(objNode, component) {
     var getter = objNode.getAttribute("getter");
     var propName = objNode.getAttribute("jsxid");
     var target = objNode.getAttribute("jsxtarget");
-    target = target ? _selectedComponent.getDescendantOfName(target) : _targetComponent;
+    target = target ? component.getDescendantOfName(target) : _targetComponent;
     var dynVal = target.getDynamicProperty(propName);
 
     var stepVal = null;
@@ -161,7 +161,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       var count = 0;
       for (var i=propDoc.selectNodeIterator('//record'); i.hasNext(); ) {
         count++;
-        ce._updatePropertyNode(i.next());
+        ce._updatePropertyNode(i.next(), component);
       }
       propEditor.setSourceXML(propDoc);
       // set the container block to the same height as the number of rows
@@ -266,7 +266,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       this._editObjectProperty(oPE.getRecord(strPropName), strPropName, null);
     }
 
-    this._updatePropertyNode(objRecord);
+    this._updatePropertyNode(objRecord, _selectedComponent);
 
     oPE.redrawRecord(strPropName, jsx3.xml.CDF.UPDATE, oPE.getChild("propertiesValueColumn"));
   };
