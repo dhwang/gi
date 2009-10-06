@@ -1,6 +1,8 @@
 /* place JavaScript code here */
 jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.init = function(){
+    var doc = new jsx3.xml.Document().loadXML('<data/>');
+    this.getCache().setDocument('source_xml', doc);
     this.setView(ce.WELCOME);
   };
 
@@ -187,19 +189,18 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     component.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
 
     _selectedComponent = component;
+
+    this._updateSource();
   };
 
+  var _sourceOpen = false;
   ce.viewSource = function(button) {
-    var componentId = _selectedComponent.jsxname.slice(5);
-    var doc = ce.getCache().getDocument(componentId);
-
-    var sourceBlock = ce.getJSXByName('sourceBlock');
-    sourceBlock.setText('<pre>' + doc.getXML().replace(/</g, '&lt;') + '</pre>', true);
-
+    this._updateSource(true);
     var layout = ce.getJSXByName('lytProperties');
     layout.setRows("*,0", true);
     layout = ce.getJSXByName('componentViewLayout');
     layout.setRows("*,50%", true);
+    _sourceOpen = true;
   };
 
   ce.unViewSource = function() {
@@ -207,7 +208,14 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     layout.setRows("*,0", true);
     layout = ce.getJSXByName('lytProperties');
     layout.setRows("*,25", true);
+    _sourceOpen = false;
   };
+
+  ce._updateSource = function(force) {
+    if (!_sourceOpen && !force) return;
+    this.getCache().setDocument('source_xml', _targetComponent.toXMLDoc());
+  };
+
 
   ce.onMouseOverSource = function(buttonNode) {
     // This is hooked up in the properties of the view source components
@@ -320,6 +328,8 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       target[strRecordId] = strValue;
       target.repaint();
     }
+
+    this._updateSource();
 
     return true;
   };

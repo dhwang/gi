@@ -1,6 +1,90 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="strokeMajorV" jsxtext="Ver. Major Stroke"
+          jsxtip="Sets the vector stroke for the vertical major ticks. Specified as &lt;i&gt;color width alpha[, color2 width2 alpha2, ...]&lt;/i&gt;. For example, &lt;code&gt;black 1 1&lt;/code&gt;."
+          docgetter="getStrokeMajorV" docsetter="setStrokeMajorV"
+          docdefault="Empty"
+          eval="0"
+          jsxmask="jsxtext"
+          jsxexecute="objJSX.strokeMajorV = jsx3.chart.splitInputArray(vntValue); objJSX.repaint();"
+          jsxtarget="grid"/>
+      <record jsxid="strokeMinorV" jsxtext="Ver. Minor Stroke"
+          jsxtip="Sets the vector stroke for the vertical minor ticks. Specified as &lt;i&gt;color width alpha[, color2 width2 alpha2, ...]&lt;/i&gt;. For example, &lt;code&gt;black 1 1&lt;/code&gt;."
+          docgetter="getStrokeMinorV" docsetter="setStrokeMinorV"
+          docdefault="Empty"
+          eval="0"
+          jsxmask="jsxtext"
+          jsxexecute="objJSX.strokeMinorV = jsx3.chart.splitInputArray(vntValue); objJSX.repaint();"
+          jsxtarget="grid"/>
+      <record jsxid="strokeMajorH" jsxtext="Hor. Major Stroke"
+          jsxtip="Sets the vector stroke for the horizontal major ticks. Specified as &lt;i&gt;color width alpha[, color2 width2 alpha2, ...]&lt;/i&gt;. For example, &lt;code&gt;black 1 1&lt;/code&gt;."
+          docgetter="getStrokeMajorH" docsetter="setStrokeMajorH"
+          docdefault="Empty"
+          eval="0"
+          jsxmask="jsxtext"
+          jsxexecute="objJSX.strokeMajorH = jsx3.chart.splitInputArray(vntValue); objJSX.repaint();"
+          jsxtarget="grid"/>
+      <record jsxid="strokeMinorH" jsxtext="Hor. Minor Stroke"
+          jsxtip="Sets the vector stroke for the horizontal minor ticks. Specified as &lt;i&gt;color width alpha[, color2 width2 alpha2, ...]&lt;/i&gt;. For example, &lt;code&gt;black 1 1&lt;/code&gt;."
+          docgetter="getStrokeMinorrH" docsetter="setStrokeMinorH"
+          docdefault="Empty"
+          eval="0"
+          jsxmask="jsxtext"
+          jsxexecute="objJSX.strokeMinorH = jsx3.chart.splitInputArray(vntValue); objJSX.repaint();"
+          jsxtarget="grid"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_gridlines" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.chart.LineChart">
+      <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
+      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record x=&quot;0&quot; y1=&quot;5&quot; y2=&quot;1&quot; y3=&quot;25&quot;/&gt; &lt;record x=&quot;1&quot; y1=&quot;8&quot; y2=&quot;6&quot; y3=&quot;20&quot;/&gt; &lt;record x=&quot;2&quot; y1=&quot;10&quot; y2=&quot;-2&quot;/&gt; &lt;record x=&quot;5&quot; y1=&quot;4&quot; y2=&quot;7&quot; y3=&quot;3&quot;/&gt; &lt;record x=&quot;10&quot; y2=&quot;7&quot; y3=&quot;18&quot;/&gt; &lt;record x=&quot;11&quot; y1=&quot;16&quot; y3=&quot;27&quot;/&gt; &lt;record x=&quot;13&quot; y1=&quot;13&quot; y2=&quot;8&quot; y3=&quot;22&quot;/&gt; &lt;record x=&quot;16&quot; y1=&quot;10&quot; y2=&quot;9&quot; y3=&quot;5&quot;/&gt; &lt;/data&gt;"/>
+      <object type="jsx3.chart.ChartLabel">
+        <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
+        <strings jsxname="title" jsxtext="Linear-X Line Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" displayWidth="25" autoAdjust="1" baseAtZero="0" length="222" jsxleft="49" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+        <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1 1" labelStyle="font-size: 8px; font-family: Verdana; text-align: right;" labelFunction="function (x) { return x + &quot; C&quot;; }"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants labelRotation="270" jsxfontsize="12" jsxleft="-49" jsxtop="0" jsxwidth="18" jsxheight="222"/>
+          <strings jsxname="ytitle" jsxtext="Temperature" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.GridLines">
+        <variants useXPrimary="1" useYPrimary="1" horizontalAbove="0" inForeground="0" strokeMajorH="['#0000FF 1 .1']" strokeMinorH="['#0000FF 1 .05']" strokeMajorV="['#0000FF 1 .05']" jsxleft="49" jsxtop="0" jsxwidth="233" jsxheight="222" jsxzindex="11"/>
+        <strings jsxname="grid" borderStroke="#AAAAAA 1"/>
+      </object>
+      <object type="jsx3.chart.LineSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="0" interpolateValues="1" jsxzindex="20" jsxleft="49" jsxtop="0" jsxwidth="233" jsxheight="222"/>
+        <strings jsxname="series1" seriesName="Concrete" stroke="#66FFFF" yField="y1" form="segment" pointRenderer="jsx3.chart.PointRenderer.CIRCLE" tooltipFunction="jsx3.chart.LineSeries.tooltip" xField="x"/>
+      </object>
+      <object type="jsx3.chart.LineSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="1" interpolateValues="1" jsxzindex="21" jsxleft="49" jsxtop="0" jsxwidth="233" jsxheight="222"/>
+        <strings jsxname="series2" seriesName="Water" stroke="#333366" yField="y2" form="segment" pointRenderer="jsx3.chart.PointRenderer.CIRCLE" tooltipFunction="jsx3.chart.LineSeries.tooltip" xField="x"/>
+      </object>
+      <object type="jsx3.chart.Legend">
+        <variants boxHeight="13" lineHeight="20" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
+        <strings jsxname="legend" labelStyle="font-size: 9px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="96" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
+          <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.LineSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" interpolateValues="1" index="2" jsxzindex="22" jsxleft="49" jsxtop="0" jsxwidth="233" jsxheight="222"/>
+        <strings jsxname="series3" seriesName="Propane" tooltipFunction="jsx3.chart.LineSeries.tooltip" form="segment" xField="x" yField="y3" stroke="#3399CC" pointRenderer="jsx3.chart.PointRenderer.CIRCLE"/>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" autoAdjust="1" baseAtZero="1" max="16" length="233" jsxleft="49" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+        <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="low" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1" labelStyle="font-size: 8px;"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants alpha="1" labelRotation="0" jsxfontsize="12" jsxleft="0" jsxtop="235" jsxwidth="233" jsxheight="18"/>
+          <strings jsxname="linAxisTitle" jsxtext="Hour" jsxtextalign="center" jsxfontweight="bold" jsxfontname="Arial"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>
