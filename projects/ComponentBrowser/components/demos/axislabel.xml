@@ -1,10 +1,24 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="labelFunction" jsxtext="Label Function"
+          jsxtip="A function that formats the labels to be displayed next to major ticks with signature function(value) : String. Static methods in &lt;code&gt;jsx3.chart.Axis&lt;/code&gt; can be used here."
+          docgetter="getLabelFunction" docsetter="setLabelFunction"
+          eval="0"
+          jsxmask="jsxselect"
+          jsxexecute="objJSX.setLabelFunction(vntValue); objJSX.repaint();"
+          jsxtarget="yAxis">
+        <enum jsxid="jsx3.chart.Axis.percent" eval="0" jsxtext="Percentage"/>
+        <enum jsxid="jsx3.chart.Axis.scientific" eval="0" jsxtext="Scientific"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
     <strings jsxname="demo_axislabel" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
     <object type="jsx3.chart.AreaChart">
       <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
-      <strings jsxname="stackedAreaChart" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="stacked" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record year=&quot;1998&quot; pub=&quot;5.1&quot; pvt=&quot;7.2&quot;/&gt; &lt;record year=&quot;1999&quot; pub=&quot;5.2&quot; pvt=&quot;7.4&quot;/&gt; &lt;record year=&quot;2000&quot; pub=&quot;5.3&quot; pvt=&quot;7.5&quot;/&gt; &lt;record year=&quot;2001&quot; pub=&quot;5.3&quot; pvt=&quot;7.8&quot;/&gt; &lt;record year=&quot;2002&quot; pub=&quot;5.4&quot; pvt=&quot;8.4&quot;/&gt; &lt;record year=&quot;2003&quot; pub=&quot;5.6&quot; pvt=&quot;8.8&quot;/&gt; &lt;record year=&quot;2004&quot; pub=&quot;5.8&quot; pvt=&quot;9.2&quot;/&gt; &lt;record year=&quot;2005*&quot; pub=&quot;6.2&quot; pvt=&quot;9.0&quot;/&gt; &lt;record year=&quot;2006*&quot; pub=&quot;6.5&quot; pvt=&quot;8.9&quot;/&gt; &lt;record year=&quot;2007*&quot; pub=&quot;6.6&quot; pvt=&quot;9.0&quot;/&gt; &lt;/data&gt;"/>
+      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="stacked" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record year=&quot;1998&quot; pub=&quot;5.1&quot; pvt=&quot;7.2&quot;/&gt; &lt;record year=&quot;1999&quot; pub=&quot;5.2&quot; pvt=&quot;7.4&quot;/&gt; &lt;record year=&quot;2000&quot; pub=&quot;5.3&quot; pvt=&quot;7.5&quot;/&gt; &lt;record year=&quot;2001&quot; pub=&quot;5.3&quot; pvt=&quot;7.8&quot;/&gt; &lt;record year=&quot;2002&quot; pub=&quot;5.4&quot; pvt=&quot;8.4&quot;/&gt; &lt;record year=&quot;2003&quot; pub=&quot;5.6&quot; pvt=&quot;8.8&quot;/&gt; &lt;record year=&quot;2004&quot; pub=&quot;5.8&quot; pvt=&quot;9.2&quot;/&gt; &lt;record year=&quot;2005*&quot; pub=&quot;6.2&quot; pvt=&quot;9.0&quot;/&gt; &lt;record year=&quot;2006*&quot; pub=&quot;6.5&quot; pvt=&quot;8.9&quot;/&gt; &lt;record year=&quot;2007*&quot; pub=&quot;6.6&quot; pvt=&quot;9.0&quot;/&gt; &lt;/data&gt;"/>
       <object type="jsx3.chart.ChartLabel">
         <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
         <strings jsxname="title" jsxtext="Stacked Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
@@ -41,6 +55,10 @@
           <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
         </object>
       </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants/>
+      <strings jsxname="axislabel_text" jsxwidth="100%"/>
     </object>
   </object>
 </serialization>

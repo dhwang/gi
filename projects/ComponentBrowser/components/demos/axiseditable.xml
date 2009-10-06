@@ -6,11 +6,86 @@
           docgetter="getTickPlacement" docsetter="setTickPlacement"
           docdefault="none (&lt;code&gt;jsx3.chart.Axis.TICK_NONE&lt;/code&gt;)"
           eval="0" nullable="0"
-          jsxmask="jsxselect">
+          jsxmask="jsxselect"
+          jsxtarget="xAxis">
         <enum jsxid="jsx3.chart.Axis.TICK_INSIDE" jsxtext="inside"/>
         <enum jsxid="jsx3.chart.Axis.TICK_OUTSIDE" jsxtext="outside"/>
         <enum jsxid="jsx3.chart.Axis.TICK_CROSS" jsxtext="cross"/>
         <enum jsxid="jsx3.chart.Axis.TICK_NONE" jsxtext="none"/>
+      </record>
+      <record jsxid="minorTickPlacement" jsxtext="Minor Tick Placement"
+          jsxtip="Sets the placement of minor ticks."
+          docgetter="getMinorTickPlacement" docsetter="setMinorTickPlacement"
+          docdefault="none (&lt;code&gt;jsx3.chart.Axis.TICK_NONE&lt;/code&gt;)"
+          eval="0" nullable="0"
+          jsxmask="jsxselect"
+          jsxtarget="xAxis">
+        <enum jsxid="jsx3.chart.Axis.TICK_INSIDE" jsxtext="inside"/>
+        <enum jsxid="jsx3.chart.Axis.TICK_OUTSIDE" jsxtext="outside"/>
+        <enum jsxid="jsx3.chart.Axis.TICK_CROSS" jsxtext="cross"/>
+        <enum jsxid="jsx3.chart.Axis.TICK_NONE" jsxtext="none"/>
+      </record>
+      <record jsxid="tickLength" jsxtext="Major Tick Length"
+          jsxtip="Sets the length of major ticks."
+          docgetter="getTickLength" docsetter="setTickLength"
+          docdefault="&lt;code&gt;0&lt;/code&gt;"
+          eval="1"
+          jsxmask="jsxtext"
+          jsxtarget="xAxis"/>
+      <record jsxid="minorTickLength" jsxtext="Minor Tick Length"
+          jsxtip="Sets the length of minor ticks."
+          docgetter="getMinorTickLength" docsetter="setMinorTickLength"
+          docdefault="&lt;code&gt;0&lt;/code&gt;"
+          eval="1"
+          jsxmask="jsxtext"
+          jsxtarget="xAxis"/>
+      <record jsxid="showAxis" jsxtext="Show Axis"
+          jsxtip="Sets whether to show a line along the axis."
+          docgetter="getShowAxis" docsetter="setShowAxis"
+          docdefault="&lt;code&gt;FALSE (jsx3.Boolean.FALSE)&lt;/code&gt;"
+          eval="1"
+          jsxmask="jsxselect"
+          jsxtarget="xAxis">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="TRUE"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="FALSE"/>
+      </record>
+      <record jsxid="minorTickDivisions" jsxtext="Minor Tick Divisions"
+          jsxtip="Sets the number of minor tick divisions between major ticks. The number of minor ticks shown are less than this value."
+          docgetter="getMinorTickDivisions" docsetter="setMinorTickDivisions"
+          docdefault="&lt;code&gt;0&lt;/code&gt;"
+          eval="1"
+          jsxexecute="objJSX.minorTickDivisions = vntValue; objJSX.getChart().repaint();"
+          jsxmask="jsxtext"
+          jsxtarget="xAxis"/>
+      <record jsxid="showLabels" jsxtext="Show Labels"
+          jsxtip="Sets whether to show data labels along the axis."
+          docgetter="getShowLabels" docsetter="setShowLabels"
+          docdefault="&lt;code&gt;FALSE (jsx3.Boolean.FALSE)&lt;/code&gt;"
+          eval="1"
+          jsxmask="jsxselect"
+          jsxexecute="objJSX.showLabels = vntValue; objJSX.getChart().repaint();"
+          jsxtarget="xAxis">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="TRUE"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="FALSE"/>
+      </record>
+      <record jsxid="labelGap" jsxtext="Label Gap"
+          jsxtip="Sets the gap between tick marks and labels in pixels."
+          docgetter="getLabelGap" docsetter="setLabelGap"
+          docdefault="&lt;code&gt;0&lt;/code&gt;"
+          eval="1"
+          jsxmask="jsxtext"
+          jsxtarget="xAxis"/>
+      <record jsxid="labelPlacement" jsxtext="Label Placement"
+          jsxtip="Sets the placement of axis labels with respect to the axis."
+          docgetter="getLabelPlacement" docsetter="setLabelPlacement"
+          docdefault="axis (&lt;code&gt;jsx3.chart.Axis.LABEL_AXIS&lt;/code&gt;)"
+          eval="0" nullable="0"
+          jsxmask="jsxselect"
+          jsxexecute="objJSX.labelPlacement = vntValue; objJSX.getChart().repaint();"
+          jsxtarget="xAxis">
+        <enum jsxid="jsx3.chart.Axis.LABEL_AXIS" jsxtext="axis"/>
+        <enum jsxid="jsx3.chart.Axis.LABEL_HIGH" jsxtext="high"/>
+        <enum jsxid="jsx3.chart.Axis.LABEL_LOW" jsxtext="low"/>
       </record>
     </data>
   </properties>
@@ -19,7 +94,7 @@
     <strings jsxname="demo_axiseditable" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
     <object type="jsx3.chart.AreaChart">
       <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
-      <strings jsxname="linearAreaChart" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record day=&quot;0&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;20&quot; hi1=&quot;11&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;50&quot; hi1=&quot;15&quot; lo1=&quot;8&quot;/&gt; &lt;record day=&quot;105&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;162&quot; hi1=&quot;25&quot; lo1=&quot;12&quot;/&gt; &lt;record day=&quot;225&quot; hi1=&quot;30&quot; lo1=&quot;13&quot;/&gt; &lt;record day=&quot;275&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;340&quot; hi1=&quot;12&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;10&quot; hi2=&quot;28&quot; lo2=&quot;20&quot;/&gt; &lt;record day=&quot;45&quot; hi2=&quot;35&quot; lo2=&quot;26&quot;/&gt; &lt;record day=&quot;80&quot; hi2=&quot;30&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;117&quot; hi2=&quot;23&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;154&quot; hi2=&quot;17&quot; lo2=&quot;12&quot;/&gt; &lt;record day=&quot;194&quot; hi2=&quot;12&quot; lo2=&quot;8&quot;/&gt; &lt;record day=&quot;243&quot; hi2=&quot;15&quot; lo2=&quot;9&quot;/&gt; &lt;record day=&quot;278&quot; hi2=&quot;21&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;310&quot; hi2=&quot;24&quot; lo2=&quot;17&quot;/&gt; &lt;record day=&quot;345&quot; hi2=&quot;26&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;365&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;/data&gt;"/>
+      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record day=&quot;0&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;20&quot; hi1=&quot;11&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;50&quot; hi1=&quot;15&quot; lo1=&quot;8&quot;/&gt; &lt;record day=&quot;105&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;162&quot; hi1=&quot;25&quot; lo1=&quot;12&quot;/&gt; &lt;record day=&quot;225&quot; hi1=&quot;30&quot; lo1=&quot;13&quot;/&gt; &lt;record day=&quot;275&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;340&quot; hi1=&quot;12&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;10&quot; hi2=&quot;28&quot; lo2=&quot;20&quot;/&gt; &lt;record day=&quot;45&quot; hi2=&quot;35&quot; lo2=&quot;26&quot;/&gt; &lt;record day=&quot;80&quot; hi2=&quot;30&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;117&quot; hi2=&quot;23&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;154&quot; hi2=&quot;17&quot; lo2=&quot;12&quot;/&gt; &lt;record day=&quot;194&quot; hi2=&quot;12&quot; lo2=&quot;8&quot;/&gt; &lt;record day=&quot;243&quot; hi2=&quot;15&quot; lo2=&quot;9&quot;/&gt; &lt;record day=&quot;278&quot; hi2=&quot;21&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;310&quot; hi2=&quot;24&quot; lo2=&quot;17&quot;/&gt; &lt;record day=&quot;345&quot; hi2=&quot;26&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;365&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;/data&gt;"/>
       <object type="jsx3.chart.ChartLabel">
         <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
         <strings jsxname="title" jsxtext="Linear-X Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
