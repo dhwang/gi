@@ -1,6 +1,30 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxresize" jsxtext="Resizable"
+          eval="1"
+          jsxtip="Determines if the dialog can be resized by the user at runtime."
+          docgetter="getResizable" docsetter="setResizable"
+          docdefault="Resizable (&lt;code&gt;jsx3.Boolean.TRUE&lt;/code&gt;)"
+          jsxexecute="objJSX.setResize(vntValue);objJSX.repaint();"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="Resizable"/>
+        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="Fixed"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_dialognotitle" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.Dialog">
+      <variants jsxwidth="431" jsxheight="318" jsxzindex="5000" jsxwindowstate="1"/>
+      <strings jsxname="target"/>
+      <dynamics jsxbgcolor="@Solid Medium"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1" jsxloadtype="1"/>
+        <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtext="This is a dialog without a title bar."/>
+      </object>
+    </object>
   </object>
 </serialization>
+

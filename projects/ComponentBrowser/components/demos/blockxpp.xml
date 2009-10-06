@@ -1,6 +1,11 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_blockxpp" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.BlockX">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxxmlasync="1" jsxxslasync="1"/>
+      <strings jsxwidth="100%" jsxheight="100%" jsxname="target" jsxxml="&lt;rootNode&gt;&lt;constants&gt;&lt;item&gt;3.14159&lt;/item&gt;&lt;item&gt;2.71828&lt;/item&gt;&lt;item&gt;1.61803&lt;/item&gt; &lt;/constants&gt;&lt;helloworld&gt;Hello, World!&lt;/helloworld&gt;&lt;/rootNode&gt;"/>
+      <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"/>
+    </object>
   </object>
 </serialization>

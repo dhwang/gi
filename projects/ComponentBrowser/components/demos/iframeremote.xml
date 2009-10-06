@@ -1,6 +1,11 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_iframeremote" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.IFrame">
+      <variants/>
+      <strings jsxname="target" jsxsrc="http://www.generalinterface.org/" jsxstyleoverride="display:block; width:500px; height:400px; border:1px solid #000;"/>
+    </object>
   </object>
 </serialization>
+

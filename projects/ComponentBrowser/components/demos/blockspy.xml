@@ -6,8 +6,10 @@
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
     <strings jsxname="demo_blockspy" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="1"/>
-      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+      <variants jsxoverflow="1" jsxspy="1"/>
+      <strings jsxname="block" jsxwidth="25%" jsxheight="25%" jsxrelativeposition="1"/>
+      <dynamics jsxbgcolor="@Solid Medium"/>
+      <events jsxspy="(function(){ return &quot;&lt;em&gt;Spyglass&lt;/em&gt; Content!&quot;; })();"/>
     </object>
   </object>
 </serialization>
