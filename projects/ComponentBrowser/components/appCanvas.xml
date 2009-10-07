@@ -60,12 +60,16 @@
                 <events jsxdrag="false;" jsxclick="tibco.ce.onSearchClear(search_textbox);"/>
               </object>
             </object>
-            <object type="jsx3.gui.Tree">
-              <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0"/>
-              <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxicon="" jsxpadding="5 5 5 5" jsxxmlid="components_xml"/>
-              <dynamics jsxborder="@Outset"/>
-              <events jsxselect="tibco.ce.componentSelect(this, strRECORDID);"/>
-              <xslparameters jsx_no_empty_indent="1"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1"/>
+              <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="5 5 5 5"/>
+              <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
+              <object type="jsx3.gui.Tree">
+                <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0"/>
+                <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxicon="" jsxpadding="5 5 5 5" jsxxmlid="components_xml"/>
+                <events jsxselect="tibco.ce.componentSelect(this, strRECORDID);"/>
+                <xslparameters jsx_no_empty_indent="1"/>
+              </object>
             </object>
           </object>
         </object>

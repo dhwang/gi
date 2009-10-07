@@ -531,12 +531,8 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     }
 
     var xmlDoc = this.getCache().getDocument('components_xml');
-    var query = '//record[not(@jsximg and @jsximg="jsx:/images/tree/folder.gif") and @jsxid!="jsxrootnode"' +
-      ' and contains(translate(@jsxtext, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "' +
-      text + '") and position()=1]';
-    var results = xmlDoc.selectNodeIterator(query);
-
     var searchDoc = this.getCache().getDocument('search_results_xml');
+
     if (!searchDoc) {
       searchDoc = (new jsx3.xml.Document()).loadXML('<data jsxid="jsxroot"><record jsxid="jsxrootnode" jsxtext="rootnode" jsxunselectable="1" jsxopen="1"/></data>');
       this.getCache().setDocument('search_results_xml', searchDoc);
@@ -545,10 +541,28 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     var searchRoot = searchDoc.selectSingleNode('//record[@jsxid="jsxrootnode"]');
     searchRoot.removeChildren();
 
-    while (results.hasNext()) {
-      var result = results.next();
-      searchRoot.appendChild(result.cloneNode(true));
+    var components = xmlDoc.selectNodeIterator('/data/record/record/record');
+    var searchString = text.toLowerCase();
+
+    while (components.hasNext()) {
+      var component = components.next();
+      if (component.getAttribute('jsxtext').toLowerCase().indexOf(searchString) > -1) {
+        var searchComp = component.cloneNode(true);
+        searchComp.setAttribute('jsxopen', '1');
+        searchRoot.appendChild(searchComp);
+      } else {
+        var demos = component.selectNodeIterator('record[contains(translate(@jsxtext, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "' + searchString + '")]');
+        if (demos.hasNext()) {
+          var searchComp = component.cloneNode(false);
+          searchComp.setAttribute('jsxopen', '1');
+          searchRoot.appendChild(searchComp);
+          while (demos.hasNext()) {
+            searchComp.appendChild(demos.next().cloneNode(true));
+          }
+        }
+      }
     }
+
     tree.setXMLId('search_results_xml');
     tree.repaint();
   };
@@ -572,6 +586,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
   ce.onSearchClear = function(searchbox) {
     searchbox.setValue("").focus();
+    this.onSearch(searchbox);
     this.onSearchIncChange(searchbox, "");
   };
 
