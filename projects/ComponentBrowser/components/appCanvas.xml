@@ -45,6 +45,7 @@
               <object type="jsx3.gui.TextBox">
                 <variants jsxheight="20" jsxwidth="188"/>
                 <strings jsxname="search_textbox" jsxmargin="0 0 0 0" jsxvalue="Search" jsxpadding="2 20 2 2"/>
+                <dynamics jsxcolor="@Disabled"/>
                 <events jsxexecute="tibco.ce.onSearch(this);" jsxfocus="tibco.ce.onSearchFocus(this);" jsxblur="tibco.ce.onSearchBlur(this);" jsxincchange="tibco.ce.onSearchIncChange(this, strVALUE);"/>
               </object>
               <object type="jsx3.gui.ImageButton">
