@@ -565,7 +565,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.onSearchBlur = function (searchbox) {
     var text = jsx3.util.strTrim(searchbox.getValue());
     if (text == "") {
-      searchbox.setValue("Search").setColor('#b8b8c5', true);
+      searchbox.setColor('#b8b8c5', true).setValue("Search");
     }
     this.onSearchIncChange(searchbox, text);
   };

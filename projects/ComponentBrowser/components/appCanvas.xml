@@ -40,10 +40,10 @@
             </object>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="2"/>
-              <strings jsxname="paneSearch" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf" jsxpadding="4 5 4 5"/>
+              <strings jsxname="paneSearch" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf" jsxpadding="4 10 4 10"/>
               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown"/>
               <object type="jsx3.gui.TextBox">
-                <variants jsxheight="20" jsxwidth="188"/>
+                <variants jsxheight="20" jsxwidth="178"/>
                 <strings jsxname="search_textbox" jsxmargin="0 0 0 0" jsxvalue="Search" jsxpadding="2 20 2 2"/>
                 <dynamics jsxcolor="@Disabled"/>
                 <events jsxexecute="tibco.ce.onSearch(this);" jsxfocus="tibco.ce.onSearchFocus(this);" jsxblur="tibco.ce.onSearchBlur(this);" jsxincchange="tibco.ce.onSearchIncChange(this, strVALUE);"/>
@@ -54,7 +54,7 @@
                 <events jsxexecute="tibco.ce.onSearch(search_textbox);"/>
               </object>
               <object type="jsx3.gui.Image">
-                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="175" jsxtop="7" jsxdrag="0" jsxdrop="0" jsxmove="0"/>
+                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="170" jsxtop="7" jsxdrag="0" jsxdrop="0" jsxmove="0"/>
                 <strings jsxname="search_clear" jsxsrc="images/clearSearch.gif" jsxdisplay="none"/>
                 <dynamics jsxcursor="@Hand"/>
                 <events jsxdrag="false;" jsxclick="tibco.ce.onSearchClear(search_textbox);"/>
