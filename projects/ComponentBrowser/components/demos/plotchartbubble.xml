@@ -1,6 +1,75 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="magnitudeMethod" jsxtext="Magnitude Method"
+          jsxtip="Sets the method for converting magnitude values to point size."
+          docgetter="getMagnitudeMethod" docsetter="setMagnitudeMethod"
+          docdefault="radius (&lt;code&gt;jsx3.chart.PlotChart.MAG_RADIUS&lt;/code&gt;)"
+          eval="0" nullable="0"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.chart.PlotChart.MAG_RADIUS" jsxtext="Radius"/>
+        <enum jsxid="jsx3.chart.PlotChart.MAG_DIAMETER" jsxtext="Diameter"/>
+        <enum jsxid="jsx3.chart.PlotChart.MAG_AREA" jsxtext="Area"/>
+      </record>
+      <record jsxid="tooltipFunction" jsxtext="Oil Tooltip Function"
+          eval="0"
+          jsxtip="A static function determines what is displayed in the tooltip when the user moves the mouse over a data point, with signature &lt;code&gt;function(series, datum) : String&lt;/code&gt;. If &lt;code&gt;null&lt;/code&gt;, toolitp isn't rendered."
+          docgetter="getTooltipFunction" docsetter="setTooltipFunction"
+          jsxmask="jsxselect"
+          jsxexecute="objJSX.setTooltipFunction(vntValue); objJSX.repaint();"
+          jsxtarget="series1">
+        <enum jsxid="jsx3.chart.BubbleSeries.tooltip" eval="0" jsxtext="Default"/>
+        <enum jsxid="tibco.ce.detailedPlotChartTooltip" eval="0" jsxtext="Detailed"/>
+      </record>
+    </data>
+  </properties>
+  <onAfterDeserialize>
+    tibco.ce.detailedPlotChartTooltip = function(series, record) {
+      var x = series.getXValue(record);
+      var y = series.getYValue(record);
+      var m = series.getMagnitudeValue(record);
+      return 'X: ' + x + '; Y: ' + y + '; Mag: ' + m;
+    };
+  </onAfterDeserialize>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_plotchartbubble" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.chart.PlotChart">
+      <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1" maxPointRadius="30"/>
+      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 25 14 25" borderColor="#999999" magnitudeMethod="area" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record x1=&quot;-10&quot; y1=&quot;40&quot; m1=&quot;20&quot;/&gt; &lt;record x1=&quot;80&quot; y1=&quot;0&quot; m1=&quot;5&quot;/&gt; &lt;record x1=&quot;20&quot; y1=&quot;-60&quot; m1=&quot;15&quot;/&gt; &lt;record x1=&quot;60&quot; y1=&quot;90&quot; m1=&quot;30&quot;/&gt; &lt;record x2=&quot;-40&quot; y2=&quot;-40&quot; m2=&quot;5&quot;/&gt; &lt;record x2=&quot;10&quot; y2=&quot;-65&quot; m2=&quot;10&quot;/&gt; &lt;record x2=&quot;-70&quot; y2=&quot;15&quot; m2=&quot;8&quot;/&gt; &lt;record x2=&quot;10&quot; y2=&quot;10&quot; m2=&quot;5&quot;/&gt; &lt;/data&gt;"/>
+      <object type="jsx3.chart.ChartLabel">
+        <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
+        <strings jsxname="title" jsxtext="Bubble Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" autoAdjust="1" baseAtZero="0" min="-100" max="100" interval="25" length="248" jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="245" jsxzindex="110"/>
+        <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#666666 1" labelStyle="font-size: 8px; font-family: Verdana;" labelFunction="function (x) { if (x == 0) return &quot;&quot;; return Math.abs(x) + &quot; &quot; + (x &gt; 0 ? &quot;E&quot; : &quot;W&quot;); }"/>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="3" displayWidth="25" autoAdjust="1" baseAtZero="0" min="-100" max="100" interval="25" length="245" jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="245" jsxzindex="110"/>
+        <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="none" minorTickStroke="#000000 1 1" labelStyle="font-size: 8px; font-family: Verdana; text-align: right;" labelFunction="function (x) { if (x == 0) return &quot;&quot;; return Math.abs(x) + &quot; &quot; + (x &gt; 0 ? &quot;N&quot; : &quot;S&quot;); }"/>
+      </object>
+      <object type="jsx3.chart.GridLines">
+        <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" inForeground="0" strokeMajorV="['#FFFFFF 1 1']" strokeMinorV="['#DDDDFF 1 1']" strokeMajorH="['#FFFFFF 1 1']" strokeMinorH="['#DDDDFF 1 1']" fillV="['#E8EEFF 1']" jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="245" jsxzindex="11"/>
+        <strings jsxname="grid" borderStroke="#CCCCCC 1"/>
+      </object>
+      <object type="jsx3.chart.Legend">
+        <variants boxHeight="10" lineHeight="22" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
+        <strings jsxname="legend" labelStyle="font-size: 10px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="104" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
+          <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.BubbleSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="0" jsxzindex="20" jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="245"/>
+        <strings jsxname="series1" seriesName="Oil" tooltipFunction="jsx3.chart.BubbleSeries.tooltip" xField="x1" yField="y1" magnitudeField="m1" fill="#666666" fillGradient="#AAAAAA 45" stroke="#666666"/>
+        <dynamics renderer="@Circle Renderer"/>
+      </object>
+      <object type="jsx3.chart.BubbleSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="1" jsxzindex="21" jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="245"/>
+        <strings jsxname="series2" seriesName="Gas" renderer="jsx3.chart.PointRenderer.CIRCLE" tooltipFunction="jsx3.chart.BubbleSeries.tooltip" xField="x2" yField="y2" magnitudeField="m2" fill="#FFCCBB" stroke="#999999" fillGradient="#FFEEDD 45"/>
+      </object>
+    </object>
   </object>
 </serialization>

@@ -125,7 +125,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
   ce._updatePropertyNode = function(objNode, component) {
     var getter = objNode.getAttribute("getter");
-    var propName = objNode.getAttribute("jsxid");
+    var propName = objNode.getAttribute("jsxprop") || objNode.getAttribute("jsxid");
     var target = objNode.getAttribute("jsxtarget");
     target = target ? component.getDescendantOfName(target) : _targetComponent;
     var dynVal = target.getDynamicProperty(propName);
@@ -257,36 +257,37 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     if (typeof(strValue) == "string")
       strValue = jsx3.util.strTrim(strValue);
 
-    return ce._editObjectProperty(propRecord, strRecordId, strValue);
+    return ce._editObjectProperty(propRecord, propRecord.jsxprop||strRecordId, strValue);
   };
 
   ce.onPropertyMenuExecute = function(objMenu, strRecordId) {
     //called when a menu item is selected; get its id; two are standard; all others are lookups
     var oPE = ce.getJSXByName('propertiesMatrix');
-    var strPropName = objMenu.getContextRecordId();
-    var objRecord = oPE.getRecordNode(strPropName);
+    var recordId = objMenu.getContextRecordId();
+    var objRecord = oPE.getRecordNode(recordId);
+    var strPropName = objRecord.getAttribute('jsxprop')||recordId;
     var target = objRecord.getAttribute('jsxtarget');
     target = target ? _selectedComponent.getDescendantOfName(target) : _targetComponent;
     var strLookupId;
 
     if (strRecordId == "jsxdpclear") {
       target.setDynamicProperty(strPropName);
-      this._editObjectProperty(oPE.getRecord(strPropName), strPropName, null);
+      this._editObjectProperty(oPE.getRecord(recordId), strPropName, null);
     }
 
     this._updatePropertyNode(objRecord, _selectedComponent);
 
-    oPE.redrawRecord(strPropName, jsx3.xml.CDF.UPDATE, oPE.getChild("propertiesValueColumn"));
+    oPE.redrawRecord(recordId, jsx3.xml.CDF.UPDATE, oPE.getChild("propertiesValueColumn"));
   };
 
-  ce._editObjectProperty = function(propRecord, strRecordId, strValue) {
+  ce._editObjectProperty = function(propRecord, propName, strValue) {
     var strCheck = strValue != null ? strValue.toString() : "";
 
     if (propRecord.disallow) {
       var regex = propRecord.disallow.indexOf('/') == 0 ?
           jsx3.eval(propRecord.disallow) : new RegExp(propRecord.disallow);
       if (strCheck.match(regex)) {
-        ce.showError("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + strRecordId + " is invalid, must not match " + regex, "Input Error");
+        ce.showError("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + propName + " is invalid, must not match " + regex, "Input Error");
         return false;
       }
     }
@@ -295,7 +296,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       var regex = propRecord.validate.indexOf('/') == 0 ?
           jsx3.eval(propRecord.validate) : new RegExp(propRecord.validate);
       if (! strCheck.match(regex)) {
-        ce.showError("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + strRecordId + " is invalid, must match " + regex, "Validation Error");
+        ce.showError("input '" + jsx3.util.strEscapeHTML(strCheck) + "' for property " + propName + " is invalid, must match " + regex, "Validation Error");
         return false;
       }
     }
@@ -325,7 +326,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
         return false;
       }
     } else {
-      target[strRecordId] = strValue;
+      target[propName] = strValue;
       target.repaint();
     }
 
