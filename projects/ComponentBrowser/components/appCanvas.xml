@@ -40,21 +40,28 @@
             </object>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="2"/>
-              <strings jsxname="paneSearch" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf" jsxpadding="5 0 0 5"/>
+              <strings jsxname="paneSearch" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#dfdfdf" jsxpadding="4 5 4 5"/>
               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown"/>
               <object type="jsx3.gui.TextBox">
-                <variants jsxheight="18"/>
-                <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Search"/>
+                <variants jsxheight="20" jsxwidth="188"/>
+                <strings jsxname="search_textbox" jsxmargin="0 0 0 0" jsxvalue="Search" jsxpadding="2 20 2 2"/>
+                <events jsxexecute="tibco.ce.onSearch(this);" jsxfocus="tibco.ce.onSearchFocus(this);" jsxblur="tibco.ce.onSearchBlur(this);" jsxincchange="tibco.ce.onSearchIncChange(this, strVALUE);"/>
               </object>
               <object type="jsx3.gui.ImageButton">
-                <variants jsxwidth="16" jsxheight="16" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
-                <strings jsxname="btnSearch" jsxtext="[button text]" jsximage="jsx:///images/btnSearch/off.gif" jsxoverimage="jsx:///images/btnSearch/over.gif" jsxdownimage="jsx:///images/btnSearch/down.gif" jsxonimage="jsx:///images/btnSearch/on.gif" jsxdisabledimage="jsx:///images/btnSearch/disabled.gif"/>
-                <events jsxexecute="alert('Execute');"/>
+                <variants jsxwidth="24" jsxheight="19" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+                <strings jsxname="imagebutton" jsxtext="Clear Search" jsximage="images/btnSearch-default.gif" jsxoverimage="images/btnSearch-over.gif" jsxdownimage="images/btnSearch-clicked.gif" jsxonimage="jsx:///images/imagebutton/on.gif" jsxdisabledimage="jsx:///images/imagebutton/disabled.gif"/>
+                <events jsxexecute="tibco.ce.onSearch(search_textbox);"/>
+              </object>
+              <object type="jsx3.gui.Image">
+                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="175" jsxtop="7" jsxdrag="0" jsxdrop="0" jsxmove="0"/>
+                <strings jsxname="search_clear" jsxsrc="images/clearSearch.gif" jsxdisplay="none"/>
+                <dynamics jsxcursor="@Hand"/>
+                <events jsxdrag="false;" jsxclick="tibco.ce.onSearchClear(search_textbox);"/>
               </object>
             </object>
             <object type="jsx3.gui.Tree">
               <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0"/>
-              <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/components.xml" jsxicon="" jsxpadding="5 5 5 5"/>
+              <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxicon="" jsxpadding="5 5 5 5" jsxxmlid="components_xml"/>
               <dynamics jsxborder="@Outset"/>
               <events jsxselect="tibco.ce.componentSelect(this, strRECORDID);"/>
               <xslparameters jsx_no_empty_indent="1"/>

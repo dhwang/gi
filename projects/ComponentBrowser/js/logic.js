@@ -518,4 +518,72 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       this.onColorPick(colorPicker.getRGB(), strSkip);
     }
   };
+
+  var _searchBlank = true;
+  ce.onSearch = function(searchbox) {
+    var text = jsx3.util.strTrim(searchbox.getValue());
+    var tree = this.getJSXByName('treeExplorer');
+
+    if (_searchBlank) {
+      tree.setXMLId('components_xml');
+      tree.repaint();
+      return;
+    }
+
+    var xmlDoc = this.getCache().getDocument('components_xml');
+    var query = '//record[not(@jsximg and @jsximg="jsx:/images/tree/folder.gif") and @jsxid!="jsxrootnode"' +
+      ' and contains(translate(@jsxtext, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "' +
+      text + '") and position()=1]';
+    var results = xmlDoc.selectNodeIterator(query);
+
+    var searchDoc = this.getCache().getDocument('search_results_xml');
+    if (!searchDoc) {
+      searchDoc = (new jsx3.xml.Document()).loadXML('<data jsxid="jsxroot"><record jsxid="jsxrootnode" jsxtext="rootnode" jsxunselectable="1" jsxopen="1"/></data>');
+      this.getCache().setDocument('search_results_xml', searchDoc);
+    }
+
+    var searchRoot = searchDoc.selectSingleNode('//record[@jsxid="jsxrootnode"]');
+    searchRoot.removeChildren();
+
+    while (results.hasNext()) {
+      var result = results.next();
+      searchRoot.appendChild(result.cloneNode(true));
+    }
+    tree.setXMLId('search_results_xml');
+    tree.repaint();
+  };
+
+  ce.onSearchFocus = function (searchbox) {
+    var text = jsx3.util.strTrim(searchbox.getValue());
+    if (text == "Search") {
+      searchbox.setValue("");
+    }
+    this.onSearchIncChange(searchbox, searchbox.getValue());
+  };
+
+  ce.onSearchBlur = function (searchbox) {
+    var text = jsx3.util.strTrim(searchbox.getValue());
+    if (text == "") {
+      searchbox.setValue("Search");
+    }
+    this.onSearchIncChange(searchbox, text);
+  };
+
+  ce.onSearchClear = function(searchbox) {
+    searchbox.setValue("").focus();
+    this.onSearchIncChange(searchbox, "");
+  };
+
+  ce.onSearchIncChange = function(searchbox, value) {
+    var clear = this.getJSXByName('search_clear');
+    if (value.length) {
+      _searchBlank = false;
+      if (clear.getDisplay() != jsx3.gui.Block.DISPLAYBLOCK) {
+        clear.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+      }
+    } else {
+      _searchBlank = true;
+      clear.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    }
+  };
 });
