@@ -739,10 +739,10 @@
       <record jsxid="src" type="string">components/demos/barchartplain.xml</record>
     </record>
     <record jsxid="120" type="map">
-      <record jsxid="id" type="string">barchartlinearx_xml</record>
+      <record jsxid="id" type="string">barchartlineary_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/demos/barchartlinearx.xml</record>
+      <record jsxid="src" type="string">components/demos/barchartlineary.xml</record>
     </record>
     <record jsxid="121" type="map">
       <record jsxid="id" type="string">columnchartplain_xml</record>
@@ -763,144 +763,132 @@
       <record jsxid="src" type="string">components/demos/linechartplain.xml</record>
     </record>
     <record jsxid="124" type="map">
-      <record jsxid="id" type="string">linechartseries_xml</record>
-      <record jsxid="type" type="string">component</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/demos/linechartseries.xml</record>
-    </record>
-    <record jsxid="125" type="map">
-      <record jsxid="id" type="string">linechartseriespoint_xml</record>
-      <record jsxid="type" type="string">component</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/demos/linechartseriespoint.xml</record>
-    </record>
-    <record jsxid="126" type="map">
       <record jsxid="id" type="string">linechartlinearx_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/linechartlinearx.xml</record>
     </record>
-    <record jsxid="127" type="map">
+    <record jsxid="125" type="map">
       <record jsxid="id" type="string">piechartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/piechartplain.xml</record>
     </record>
-    <record jsxid="128" type="map">
+    <record jsxid="126" type="map">
       <record jsxid="id" type="string">piechartdoughnut_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/piechartdoughnut.xml</record>
     </record>
-    <record jsxid="129" type="map">
+    <record jsxid="127" type="map">
       <record jsxid="id" type="string">plotchartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/plotchartplain.xml</record>
     </record>
-    <record jsxid="130" type="map">
+    <record jsxid="128" type="map">
       <record jsxid="id" type="string">axislabel_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/axislabel.xml</record>
     </record>
-    <record jsxid="131" type="map">
+    <record jsxid="129" type="map">
       <record jsxid="id" type="string">seriesplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/seriesplain.xml</record>
     </record>
-    <record jsxid="132" type="map">
+    <record jsxid="130" type="map">
       <record jsxid="id" type="string">seriesevents_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/seriesevents.xml</record>
     </record>
-    <record jsxid="133" type="map">
+    <record jsxid="131" type="map">
       <record jsxid="id" type="string">axiseditable_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/axiseditable.xml</record>
     </record>
-    <record jsxid="134" type="map">
+    <record jsxid="132" type="map">
       <record jsxid="id" type="string">chartlabel_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/chartlabel.xml</record>
     </record>
-    <record jsxid="135" type="map">
+    <record jsxid="133" type="map">
       <record jsxid="id" type="string">dojobutton_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojobutton.xml</record>
     </record>
-    <record jsxid="136" type="map">
+    <record jsxid="134" type="map">
       <record jsxid="id" type="string">dojocheckbox_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojocheckbox.xml</record>
     </record>
-    <record jsxid="137" type="map">
+    <record jsxid="135" type="map">
       <record jsxid="id" type="string">dojocolorpalette_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojocolorpalette.xml</record>
     </record>
-    <record jsxid="138" type="map">
+    <record jsxid="136" type="map">
       <record jsxid="id" type="string">dojocurrency_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojocurrency.xml</record>
     </record>
-    <record jsxid="139" type="map">
+    <record jsxid="137" type="map">
       <record jsxid="id" type="string">dojodatetextbox_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojodatetextbox.xml</record>
     </record>
-    <record jsxid="140" type="map">
+    <record jsxid="138" type="map">
       <record jsxid="id" type="string">dojosliderhorizontal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojosliderhorizontal.xml</record>
     </record>
-    <record jsxid="141" type="map">
+    <record jsxid="139" type="map">
       <record jsxid="id" type="string">dojoslidervertical_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojoslidervertical.xml</record>
     </record>
-    <record jsxid="142" type="map">
+    <record jsxid="140" type="map">
       <record jsxid="id" type="string">dojonumberspinner_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojonumberspinner.xml</record>
     </record>
-    <record jsxid="143" type="map">
+    <record jsxid="141" type="map">
       <record jsxid="id" type="string">dojoprogress_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojoprogress.xml</record>
     </record>
-    <record jsxid="144" type="map">
+    <record jsxid="142" type="map">
       <record jsxid="id" type="string">dojorating_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojorating.xml</record>
     </record>
-    <record jsxid="145" type="map">
+    <record jsxid="143" type="map">
       <record jsxid="id" type="string">dojoeditor_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojoeditor.xml</record>
     </record>
-    <record jsxid="146" type="map">
+    <record jsxid="144" type="map">
       <record jsxid="id" type="string">dojotimebox_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojotimebox.xml</record>
     </record>
-    <record jsxid="147" type="map">
+    <record jsxid="145" type="map">
       <record jsxid="id" type="string">components_xml</record>
       <record jsxid="type" type="string">xml</record>
       <record jsxid="load" type="number">1</record>

@@ -188,7 +188,7 @@
       </record>
       <record jsxid="barchart" jsxtext="BarChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/clusteredBar.gif">
         <record jsxid="barchartplain" jsxtext="Plain" description="" />
-        <record jsxid="barchartlinearx" jsxtext="LinearX" description="" />
+        <record jsxid="barchartlineary" jsxtext="LinearY" description="" />
       </record>
       <record jsxid="columnchart" jsxtext="ColumnChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/clusteredColumn.gif">
         <record jsxid="columnchartplain" jsxtext="Plain" description="" />
@@ -196,8 +196,6 @@
       </record>
       <record jsxid="linechart" jsxtext="LineChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/overlayLine.gif">
         <record jsxid="linechartplain" jsxtext="Plain" description="" />
-        <record jsxid="linechartseries" jsxtext="Series" description="" />
-        <record jsxid="linechartseriespoint" jsxtext="Series Point" description="" />
         <record jsxid="linechartlinearx" jsxtext="LinearX" description="" />
       </record>
       <record jsxid="piechart" jsxtext="PieChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/pie.gif">

@@ -1,0 +1,50 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
+    <strings jsxname="demo_barchartlineary" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.chart.BarChart">
+      <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" loadState="1" seriesOverlap="0.3" categoryCoverage="0.65" jsxrelativeposition="1"/>
+      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="clustered" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt; &lt;record gm='50' gx='100' gy='200'/&gt;&lt;record gm='60' gx='130' gy='210'/&gt;&lt;record gm='70' gx='145' gy='220'/&gt;&lt;record gm='85' gx='160' gy='230'/&gt;&lt;record gm='100' gx='225' gy='240'/&gt;&lt;record gm='130' gx='260' gy='250'/&gt; &lt;record cm='180' cx='380' cy='220'/&gt;&lt;record cm='220' cx='390' cy='210'/&gt;&lt;record cm='200' cx='400' cy='200'/&gt;&lt;record cm='275' cx='500' cy='190'/&gt;&lt;record cm='325' cx='525' cy='180'/&gt;&lt;record cm='425' cx='535' cy='170'/&gt;&lt;/data&gt;"/>
+      <object type="jsx3.chart.Legend">
+        <variants boxHeight="10" lineHeight="16" titleSpace="8" boxSpace="6" preferredWidth="65" jsxleft="333" jsxtop="25" jsxwidth="65" jsxheight="273" jsxzindex="990"/>
+        <strings jsxname="legend" labelStyle="font-family: Verdana; font-weight: bold; font-size: 10px;" backgroundStroke="#AAAAAA" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants labelRotation="0" jsxfontsize="12" preferredHeight="14" jsxleft="8" jsxtop="112" jsxwidth="43" jsxheight="14" jsxzindex="3"/>
+          <strings jsxname="legendTitle" jsxtext="Key" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.ChartLabel">
+        <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
+        <strings jsxname="title" jsxtext="Linear-Linear Bar Chart" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxcolor="#FFFFFF" jsxtextalign="center"/>
+      </object>
+      <object type="jsx3.chart.GridLines">
+        <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" strokeMajorV="['#CCCCCC']" strokeMinorV="['#EEEEEE']" strokeMajorH="['#EEEEEE']" jsxleft="50" jsxtop="0" jsxwidth="267" jsxheight="219" jsxzindex="11"/>
+        <strings jsxname="bgGrid" borderStroke="#CCCCCC 1"/>
+      </object>
+      <object type="jsx3.chart.BarSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="0" barHeight="8" jsxzindex="20" jsxleft="50" jsxtop="0" jsxwidth="267" jsxheight="219"/>
+        <strings jsxname="series1" seriesName="Au" xField="gx" yField="gy" minField="gm" tooltipFunction="jsx3.chart.BarSeries.tooltip" fill="#DDBB00"/>
+      </object>
+      <object type="jsx3.chart.BarSeries">
+        <variants usePrimaryX="1" usePrimaryY="1" index="1" barHeight="8" jsxzindex="21" jsxleft="50" jsxtop="0" jsxwidth="267" jsxheight="219"/>
+        <strings jsxname="series2" seriesName="Cu" xField="cx" tooltipFunction="jsx3.chart.BarSeries.tooltip" fill="#FFBB00" yField="cy" minField="cm"/>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" autoAdjust="1" baseAtZero="0" displayWidth="30" min="140" max="280" length="219" jsxleft="50" jsxtop="0" jsxwidth="317" jsxheight="253" jsxzindex="110"/>
+        <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1" labelStyle="font-size: 8px;" labelFunction="function(x) { return x + &quot; C&quot;; }"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants alpha="1" labelRotation="270" jsxfontsize="12" preferredWidth="14" jsxleft="-50" jsxtop="0" jsxwidth="14" jsxheight="219"/>
+          <strings jsxname="yTitle" jsxtext="Temperature" jsxtextalign="center" jsxfontweight="bold" jsxfontname="Arial"/>
+        </object>
+      </object>
+      <object type="jsx3.chart.LinearAxis">
+        <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" autoAdjust="1" baseAtZero="0" length="267" jsxleft="50" jsxtop="0" jsxwidth="317" jsxheight="253" jsxzindex="110"/>
+        <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1" labelStyle="font-size: 8px;" labelFunction="jsx3.chart.Axis.scientific"/>
+        <object type="jsx3.chart.ChartLabel">
+          <variants alpha="1" labelRotation="0" jsxfontsize="12" jsxleft="0" jsxtop="235" jsxwidth="267" jsxheight="18"/>
+          <strings jsxname="xTitle" jsxtext="Measurement Range" jsxtextalign="center" jsxfontweight="bold" jsxfontname="Arial"/>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>
