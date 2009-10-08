@@ -1,6 +1,34 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxenabled" jsxtext="Enabled"
+          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
+          docgetter="getEnabled" docsetter="setEnabled"
+          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
+          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
+        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_splittervertical" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.Splitter">
+      <variants jsxorientation="0" jsxleft="0" jsxtop="0"/>
+      <strings jsxname="target" jsxsubcontainer1pct="50%"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%"/>
+        <dynamics jsxborder="@Inset"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%"/>
+        <dynamics jsxborder="@Inset"/>
+      </object>
+    </object>
   </object>
 </serialization>
+
