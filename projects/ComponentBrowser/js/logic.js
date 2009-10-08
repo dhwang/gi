@@ -145,6 +145,18 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     objNode.setAttribute('jsxdynamic', dynVal);
   };
 
+  ce._getComponentTitle = function(compNode, strName) {
+    var compParent = compNode.getParent();
+
+    var strName = compParent.getAttribute('jsxtext') + " &raquo; " + strName;
+
+    if (compParent.getAttribute('jsximg') != "jsx:/images/tree/folder.gif") {
+      strName = ce._getComponentTitle(compParent, strName);
+    }
+
+    return strName;
+  };
+
   var _selectedComponent = null, _targetComponent = null;
   ce.viewComponent = function(componentId, component) {
     if (_selectedComponent) {
@@ -180,11 +192,13 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
     var record = tree.getRecord(componentId);
     var rNode = tree.getRecordNode(record.jsxid);
-    var pNode = rNode.getParent();
 
-    var name = pNode.getAttribute("jsxtext");
+    var name = record.jsxtext;
+    if (!record.jsximg) {
+      name = rNode.getParent().getAttribute('jsxtext');
+    }
 
-    this.setView(ce.COMPONENT, name + " &raquo; " + record.jsxtext);
+    this.setView(ce.COMPONENT, ce._getComponentTitle(rNode, record.jsxtext));
     compName.setText(name, true);
     component.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
 
