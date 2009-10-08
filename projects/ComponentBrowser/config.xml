@@ -2,7 +2,7 @@
 <data>
   <record jsxid="version" type="string">1.0</record>
   <record jsxid="jsxversion" type="string">3.2</record>
-  <record jsxid="caption" type="string">tibco</record>
+  <record jsxid="caption" type="string">General Interface Component Explorer</record>
   <record jsxid="mode" type="boolean">true</record>
   <record jsxid="namespace" type="string">tibco.ce</record>
   <record jsxid="cancelerror" type="boolean">true</record>

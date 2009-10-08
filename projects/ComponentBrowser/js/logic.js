@@ -520,18 +520,68 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     }
   };
 
+  ce._findMatches = function(children, strSearch) {
+    var results = new jsx3.util.List([]);
+
+    while (children.hasNext()) {
+      var child = children.next();
+      if (child.getAttribute('jsxtext').toLowerCase().indexOf(strSearch) > -1) {
+        var childClone = child.cloneNode(true);
+        childClone.setAttribute('jsxopen', '1');
+        results.add(childClone);
+      } else {
+        var childIter = child.getChildIterator();
+        if (childIter.hasNext()) {
+          var childResults = ce._findMatches(childIter, strSearch);
+          var iter = childResults.iterator();
+          if (iter.hasNext()) {
+            var childClone = child.cloneNode(false);
+            childClone.setAttribute('jsxopen', '1');
+            do {
+              var c = iter.next();
+              childClone.appendChild(c.cloneNode(true));
+            } while (iter.hasNext());
+            results.add(childClone);
+          }
+        }
+      }
+    }
+
+    return results;
+  };
+
   var _searchBlank = true;
   ce.onSearch = function(searchbox) {
     var text = jsx3.util.strTrim(searchbox.getValue());
     var tree = this.getJSXByName('treeExplorer');
 
-    if (_searchBlank) {
+    var xmlDoc = this.getCache().getDocument('components_xml');
+
+    if (_searchBlank && _selectedComponent) {
+      var selectedId = _selectedComponent.jsxname.slice(5);
+
+      // deselect the old selected component if there is one
+      var oldSelected = xmlDoc.selectSingleNode('//record[@jsxselected="1"]');
+      if (oldSelected) {
+        oldSelected.setAttribute('jsxselected', '0');
+      }
+
+      // select the currently selected component
+      var toSelect = xmlDoc.selectSingleNode('//record[@jsxid="' + selectedId + '"]');
+      toSelect.setAttribute('jsxselected', '1');
+
+      // open the currently selected demo's parent nodes
+      var toOpen = toSelect.getParent();
+      while (toOpen.getAttribute('jsxid') != 'jsxrootnode') {
+        toOpen.setAttribute('jsxopen', '1');
+        toOpen = toOpen.getParent();
+      }
+
       tree.setXMLId('components_xml');
       tree.repaint();
       return;
     }
 
-    var xmlDoc = this.getCache().getDocument('components_xml');
     var searchDoc = this.getCache().getDocument('search_results_xml');
 
     if (!searchDoc) {
@@ -542,25 +592,21 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     var searchRoot = searchDoc.selectSingleNode('//record[@jsxid="jsxrootnode"]');
     searchRoot.removeChildren();
 
-    var components = xmlDoc.selectNodeIterator('/data/record/record/record');
+    var categories = xmlDoc.selectNodeIterator('/data/record/record');
     var searchString = text.toLowerCase();
 
-    while (components.hasNext()) {
-      var component = components.next();
-      if (component.getAttribute('jsxtext').toLowerCase().indexOf(searchString) > -1) {
-        var searchComp = component.cloneNode(true);
-        searchComp.setAttribute('jsxopen', '1');
-        searchRoot.appendChild(searchComp);
-      } else {
-        var demos = component.selectNodeIterator('record[contains(translate(@jsxtext, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"), "' + searchString + '")]');
-        if (demos.hasNext()) {
-          var searchComp = component.cloneNode(false);
-          searchComp.setAttribute('jsxopen', '1');
-          searchRoot.appendChild(searchComp);
-          while (demos.hasNext()) {
-            searchComp.appendChild(demos.next().cloneNode(true));
-          }
-        }
+    while (categories.hasNext()) {
+      var category = categories.next();
+      var results = ce._findMatches(category.getChildIterator(), searchString);
+
+      if (results.size()) {
+        var categoryIter = results.iterator();
+        var categoryClone = category.cloneNode(false);
+        categoryClone.setAttribute('jsxopen', '1');
+        do {
+          categoryClone.appendChild(categoryIter.next().cloneNode(true));
+        } while (categoryIter.hasNext());
+        searchRoot.appendChild(categoryClone);
       }
     }
 
