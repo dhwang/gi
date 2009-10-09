@@ -1,6 +1,37 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxdateformat" jsxtext="Date Format"
+          jsxtip="Sets the date format used to format and parse the value of this DatePicker in its text field. Supported tokens include y, M, d, and E. See the API documentation for &lt;code&gt;jsx3.util.DateFormat&lt;/code&gt;."
+          docgetter="getFormat" docsetter="setFormat"
+          docdefault="Determined by the locale of the server containing this DatePicker."
+          eval="0"
+          disallow="&quot;"
+          jsxtype="jsxdateformat"
+          jsxmask="jsxtext"
+          jsxexecute="objJSX.setFormat(vntValue);objJSX.repaint();"/>
+      <record jsxid="jsxfirstweekday" jsxtext="Week Start"
+          jsxtip="Sets the first day of the week."
+          docgetter="getFirstDayOfWeek" docsetter="setFirstDayOfWeek"
+          docdefault="Determined by the locale of the server containing this DatePicker."
+          eval="1"
+          jsxmask="jsxselect">
+        <enum jsxid="0" jsxtext="{date.day[0]}"/>
+        <enum jsxid="1" jsxtext="{date.day[1]}"/>
+        <enum jsxid="2" jsxtext="{date.day[2]}"/>
+        <enum jsxid="3" jsxtext="{date.day[3]}"/>
+        <enum jsxid="4" jsxtext="{date.day[4]}"/>
+        <enum jsxid="5" jsxtext="{date.day[5]}"/>
+        <enum jsxid="6" jsxtext="{date.day[6]}"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_datepickerformat" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.DatePicker">
+      <variants jsxwidth="100" jsxrelativeposition="1" jsxheight="18"/>
+      <strings jsxname="target" jsxmargin="0 4 0 0"/>
+    </object>
   </object>
 </serialization>

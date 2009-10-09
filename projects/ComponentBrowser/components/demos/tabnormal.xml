@@ -1,6 +1,194 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxtabheight" jsxtext="Tab Height"
+          eval="1"
+          jsxtip="Sets the height of the tabs in pixels."
+          docgetter="getTabHeight" docsetter="setTabHeight"
+          docdefault="&lt;code&gt;jsx3.gui.TabbedPane.DEFAULTTABHEIGHT&lt;/code&gt;. See the API documentation for this component."
+          disallow="[^0-9]"
+          jsxexecute="objJSX.setTabHeight(vntValue).repaint();"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxselectedindex" jsxtext="Active Tab Index"
+          eval="1"
+          jsxtip="Sets the zero-based index of the active tab."
+          docgetter="getSelectedIndex" docsetter="setSelectedIndex"
+          docdefault="&lt;code&gt;0&lt;/code&gt;"
+          disallow="[^0-9]"
+          jsxexecute="objJSX.setSelectedIndex(vntValue, true);"
+          jsxmask="jsxtext"/>
+
+
+      <record jsxid="jsxwidth1" jsxtext="Tab 1 Width"
+          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getWidth" docsetter="setWidth"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxtarget="tab1"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtext1" jsxtext="Tab 1 Text"
+          eval="0"
+          jsxtip="Sets the text/HTML content of this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="tab1"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxenabled1" jsxtext="Tab 1 Enabled"
+          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
+          docgetter="getEnabled" docsetter="setEnabled"
+          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
+          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
+          jsxtarget="tab1"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
+        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
+      </record>
+      <record jsxid="jsxindex1" jsxtext="Tab 1 Tab Index"
+          eval="1"
+          jsxtip="Sets the tab index. When tabbing between controls, the index group this component belongs to."
+          docgetter="getIndex" docsetter="setIndex"
+          docdefault="Empty"
+          jsxexecute="objJSX.setIndex(vntValue,true);"
+          disallow="[^0-9^-]"
+          jsxtarget="tab1"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtip1" jsxtext="Tab 1 Tooltip"
+          eval="0"
+          jsxtip="Sets the text displayed when hovered over this object (text only)."
+          docgetter="getTip" docsetter="setTip"
+          docdefault="Empty"
+          jsxexecute="objJSX.setTip(vntValue,true);"
+          jsxtarget="tab1"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxwidth2" jsxtext="Tab 2 Width"
+          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getWidth" docsetter="setWidth"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxtarget="tab2"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtext2" jsxtext="Tab 2 Text"
+          eval="0"
+          jsxtip="Sets the text/HTML content of this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="tab2"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxenabled2" jsxtext="Tab 2 Enabled"
+          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
+          docgetter="getEnabled" docsetter="setEnabled"
+          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
+          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
+          jsxtarget="tab2"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
+        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
+      </record>
+      <record jsxid="jsxindex2" jsxtext="Tab 2 Tab Index"
+          eval="1"
+          jsxtip="Sets the tab index. When tabbing between controls, the index group this component belongs to."
+          docgetter="getIndex" docsetter="setIndex"
+          docdefault="Empty"
+          jsxexecute="objJSX.setIndex(vntValue,true);"
+          disallow="[^0-9^-]"
+          jsxtarget="tab2"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtip2" jsxtext="Tab 2 Tooltip"
+          eval="0"
+          jsxtip="Sets the text displayed when hovered over this object (text only)."
+          docgetter="getTip" docsetter="setTip"
+          docdefault="Empty"
+          jsxexecute="objJSX.setTip(vntValue,true);"
+          jsxtarget="tab2"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxwidth3" jsxtext="Tab 3 Width"
+          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getWidth" docsetter="setWidth"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxtarget="tab3"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtext3" jsxtext="Tab 3 Text"
+          eval="0"
+          jsxtip="Sets the text/HTML content of this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="tab3"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxenabled3" jsxtext="Tab 3 Enabled"
+          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
+          docgetter="getEnabled" docsetter="setEnabled"
+          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
+          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
+          jsxtarget="tab3"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
+        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
+      </record>
+      <record jsxid="jsxindex3" jsxtext="Tab 3 Tab Index"
+          eval="1"
+          jsxtip="Sets the tab index. When tabbing between controls, the index group this component belongs to."
+          docgetter="getIndex" docsetter="setIndex"
+          docdefault="Empty"
+          jsxexecute="objJSX.setIndex(vntValue,true);"
+          disallow="[^0-9^-]"
+          jsxtarget="tab3"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtip3" jsxtext="Tab 3 Tooltip"
+          eval="0"
+          jsxtip="Sets the text displayed when hovered over this object (text only)."
+          docgetter="getTip" docsetter="setTip"
+          docdefault="Empty"
+          jsxexecute="objJSX.setTip(vntValue,true);"
+          jsxtarget="tab3"
+          jsxmask="jsxtextarea"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_tabnormal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.TabbedPane">
+      <variants selectedIndex="2" jsxselectedindex="0"/>
+      <strings jsxname="target" jsxtextalign="0"/>
+      <object type="jsx3.gui.Tab">
+        <variants jsxzindex="3" jsxheight="20"/>
+        <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxtext="Tab 1 Content"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Tab">
+        <variants jsxzindex="3" jsxheight="18"/>
+        <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 2 Content"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Tab">
+        <variants jsxzindex="3" jsxheight="18"/>
+        <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 3 Content"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>

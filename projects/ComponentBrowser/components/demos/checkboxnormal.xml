@@ -1,6 +1,41 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxtext" jsxtext="Text"
+          eval="0"
+          jsxtip="Sets the text/HTML content of this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxenabled" jsxtext="Enabled"
+          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
+          docgetter="getEnabled" docsetter="setEnabled"
+          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
+          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
+        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
+      </record>
+      <record jsxid="jsxchecked" jsxtext="Checked"
+          eval="1"
+          jsxtip="Sets whether or not this check box is checked."
+          docgetter="getChecked" docsetter="setChecked"
+          docdefault="Unchecked (&lt;code&gt;jsx3.gui.CheckBox.UNCHECKED&lt;/code&gt;)"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.CheckBox.CHECKED" jsxtext="Checked"/>
+        <enum jsxid="jsx3.gui.CheckBox.UNCHECKED" jsxtext="Unchecked"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_checkboxnormal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.CheckBox">
+      <variants jsxheight="18" jsxdefaultchecked="0"/>
+      <strings jsxname="target" jsxtext="Check me!" jsxmargin="0 4 0 0"/>
+      <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"/>
+    </object>
   </object>
 </serialization>

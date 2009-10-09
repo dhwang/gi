@@ -1,6 +1,70 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxbarsize" jsxtext="Bar Size"
+          eval="1"
+          jsxtip="Sets the height/width of the caption bar for each child stack, depending upon orientation"
+          docgetter="getBarSize" docsetter="setBarSize"
+          docdefault="&lt;code&gt;jsx3.gui.StackGroup.DEFAULTBARSIZE&lt;/code&gt;. See the API documentation for this component."
+          disallow="[^0-9]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxbgcolor" jsxtext="BG Color"
+          eval="0"
+          jsxtip="Sets the background color. Accepts CSS values, such as predefined color names, RGB, or hexadecimal values. For example, &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;rgb(255,0,0)&lt;/code&gt;, or &lt;code&gt;#ff0000&lt;/code&gt;."
+          docgetter="getBackgroundColor" docsetter="setBackgroundColor"
+          docdefault="The default background color specified in the static field, &lt;code&gt;DEFAULTBACKGROUNDCOLOR&lt;/code&gt;, of the component class.  For example, the default background color for a list is #f3f2f4 and is specified in &lt;code&gt;jsx3.gui.List.DEFAULTBACKGROUNDCOLOR&lt;/code&gt;. See the API documentation for the component. For some components, this property is empty."
+          disallow="[^-0-9a-zA-Z#\(\);:\/\.,]"
+          jsxexecute="objJSX.setBackgroundColor(vntValue,true);"
+          jsxmask="jsxcolor"/>
+      <record jsxid="jsxselectedindex" jsxtext="Active Stack Index"
+          eval="1"
+          jsxtip="Sets the zero-based index of the active tab."
+          docgetter="getSelectedIndex"
+          docdefault="&lt;code&gt;0&lt;/code&gt;"
+          disallow="[^0-9]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxtext1" jsxtext="Stack 1 Text"
+          eval="0"
+          jsxtip="Sets the text label for this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="stack1"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxtext2" jsxtext="Stack 2 Text"
+          eval="0"
+          jsxtip="Sets the text label for this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="stack2"
+          jsxmask="jsxtextarea"/>
+      </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_stackhorizontal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.StackGroup">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="target" jsxrows="*,27"/>
+      <object type="jsx3.gui.Stack">
+        <variants/>
+        <strings jsxname="stack1" jsxtext="Stack 1"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay=""/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Stack">
+        <variants/>
+        <strings jsxname="stack2" jsxtext="Stack 2"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>

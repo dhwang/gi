@@ -1,6 +1,40 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxwidth" jsxtext="Width"
+          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getWidth" docsetter="setWidth"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxheight" jsxtext="Height"
+          jsxtip="Sets the height of the control in pixels or percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getHeight" docsetter="setHeight"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setHeight((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxenabled" jsxtext="Enabled"
+          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
+          docgetter="getEnabled" docsetter="setEnabled"
+          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
+          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
+        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_imagebuttonnormal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.ImageButton">
+      <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0"/>
+      <strings jsxname="target" jsxtext="[button text]" jsximage="jsx:///images/imagebutton/off.gif" jsxoverimage="jsx:///images/imagebutton/over.gif" jsxdownimage="jsx:///images/imagebutton/down.gif" jsxonimage="jsx:///images/imagebutton/on.gif" jsxdisabledimage="jsx:///images/imagebutton/disabled.gif"/>
+      <events jsxexecute="alert('Execute');"/>
+    </object>
   </object>
 </serialization>

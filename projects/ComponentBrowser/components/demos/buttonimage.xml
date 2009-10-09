@@ -1,6 +1,24 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxsrc" jsxtext="Image URL"
+          jsxtip="Sets the path of the image file. The path is relative to the project root."
+          docgetter="getSrc" docsetter="setSrc"
+          eval="0"
+          jsxmask="jsxpath"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_buttonimage" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.Button">
+      <variants jsxindex="0"/>
+      <strings jsxheight="" jsxname="button" jsxtext="" jsxmargin="0 4 0 0" jsxwidth=""/>
+      <events jsxexecute="alert('hello');"/>
+      <object type="jsx3.gui.Image">
+        <variants jsxoverflow="2" jsxrelativeposition="1"/>
+        <strings jsxname="target" jsxsrc="images/GI_Logo.png"/>
+      </object>
+    </object>
   </object>
 </serialization>

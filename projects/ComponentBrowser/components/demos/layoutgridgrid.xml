@@ -1,6 +1,39 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxcols" jsxtext="Columns Array"
+          eval="0"
+          jsxtip="Sets a comma-separated group of values to describe how large each column is. For example, &lt;code&gt;10%,25,*&lt;/code&gt; or &lt;code&gt;200,*,32,8.&lt;/code&gt;"
+          docgetter="getCols" docsetter="setCols"
+          docdefault="&lt;code&gt;*&lt;/code&gt;"
+          jsxexecute="objJSX.setCols(vntValue, true);"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxrows" jsxtext="Rows Array"
+          eval="0"
+          jsxtip="Sets a comma-separated group of values to describe how large each row is. For example, &lt;code&gt;10%,25,*&lt;/code&gt; or &lt;code&gt;200,*,32,8.&lt;/code&gt;"
+          docgetter="getRows" docsetter="setRows"
+          docdefault="&lt;code&gt;*&lt;/code&gt;"
+          jsxexecute="objJSX.setRows(vntValue, true);"
+          jsxmask="jsxtext"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_layoutgridgrid" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+      <strings jsxname="target" jsxcols="100,*" jsxwidth="100%" jsxheight="100%" jsxrows="*,250"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+        <dynamics jsxborder="@Outset"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+        <dynamics jsxborder="@Outset"/>
+      </object>
+    </object>
   </object>
 </serialization>
+

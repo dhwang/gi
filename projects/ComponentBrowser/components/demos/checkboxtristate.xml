@@ -1,6 +1,26 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxchecked" jsxtext="Checked"
+          eval="1"
+          jsxtip="Sets whether or not this check box is checked."
+          docgetter="getChecked" docsetter="setChecked"
+          docdefault="Unchecked (&lt;code&gt;jsx3.gui.CheckBox.UNCHECKED&lt;/code&gt;)"
+          jsxmask="jsxselect">
+        <enum jsxid="jsx3.gui.CheckBox.CHECKED" jsxtext="Checked"/>
+        <enum jsxid="jsx3.gui.CheckBox.UNCHECKED" jsxtext="Unchecked"/>
+        <enum jsxid="jsx3.gui.CheckBox.PARTIAL" jsxtext="Partial"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_checkboxtristate" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.CheckBox">
+      <variants jsxheight="18" jsxchecked="2" jsxdefaultchecked="0"/>
+      <strings jsxname="target" jsxtext="Check me!" jsxmargin="0 4 0 0"/>
+      <events jsxexecute="jsx3.log('The jsxexecute method was fired for checkbox ' + this);"/>
+    </object>
   </object>
 </serialization>
+

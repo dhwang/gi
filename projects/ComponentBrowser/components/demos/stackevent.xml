@@ -1,6 +1,28 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_stackevent" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.StackGroup">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="target" jsxrows="*,27"/>
+      <object type="jsx3.gui.Stack">
+        <variants/>
+        <strings jsxname="stack1" jsxtext="Stack 1"/>
+        <events jsxshow="alert(&quot;show&quot;)" jsxdestroy="alert(&quot;destroy&quot;)" jsxexecute="alert(&quot;execute&quot;)"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay=""/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Stack">
+        <variants/>
+        <strings jsxname="stack2" jsxtext="Stack 2"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>
+

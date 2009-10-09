@@ -1,6 +1,41 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_tabmenu" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.TabbedPane">
+      <variants selectedIndex="2" jsxselectedindex="0"/>
+      <strings jsxname="target" jsxtextalign="0"/>
+      <object type="jsx3.gui.Tab">
+        <variants jsxzindex="3" jsxheight="20"/>
+        <strings jsxname="tab1" jsxtext="Tab with Context Menu" jsxbgcolor="#e8e8f5" jsxmenu="menu1"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxtext="Tab 1 Content"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
+        </object>
+        <object type="jsx3.gui.Menu">
+          <variants jsxxmlasync="1"/>
+          <strings jsxname="menu1" jsxtip="menu" jsxtext="menu" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;  &lt;record jsxid=&quot;1&quot; jsxtext=&quot;New&quot;/&gt;  &lt;record jsxid=&quot;2&quot; jsxtext=&quot;Open&quot;/&gt;  &lt;record jsxid=&quot;3&quot; jsxtext=&quot;Save&quot;/&gt;  &lt;/data&gt;"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Tab">
+        <variants jsxzindex="3" jsxheight="18"/>
+        <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 2 Content"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
+        </object>
+      </object>
+      <object type="jsx3.gui.Tab">
+        <variants jsxzindex="3" jsxheight="18"/>
+        <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 3 Content"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>

@@ -1,6 +1,27 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxrgb" jsxtext="Color"
+          jsxtip="Sets the RGB of the selected color."
+          docgetter="getRGB" docsetter="setRGB"
+          eval="1" getter="getRgbAsHex" jsxexecute="objJSX.setRGB(vntValue);"
+          disallow="[^x0-9a-fA-F]" jsxmask="jsxtext"/>
+      <record jsxid="jsxaxis" jsxtext="Axis" eval="1" jsxmask="jsxselect"
+          jsxtip="Sets the color axis displayed on the right side of the color picker."
+          docgetter="getAxis" docsetter="setAxis">
+        <enum jsxid="jsx3.gui.ColorPicker.HUE" jsxtext="Hue (H)"/>
+        <enum jsxid="jsx3.gui.ColorPicker.SATURATION" jsxtext="Saturation (S)"/>
+        <enum jsxid="jsx3.gui.ColorPicker.BRIGHTNESS" jsxtext="Brightness (B)"/>
+      </record>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_colorpickerplain" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.ColorPicker">
+      <variants jsxrgb="16711680"/>
+      <strings jsxname="target"/>
+      <dynamics jsxborder="@Outset"/>
+    </object>
   </object>
 </serialization>

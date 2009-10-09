@@ -1,6 +1,79 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxwidth" jsxtext="Width"
+          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getWidth" docsetter="setWidth"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxheight" jsxtext="Height"
+          jsxtip="Sets the height of the control in pixels or percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
+          docgetter="getHeight" docsetter="setHeight"
+          docdefault="Empty"
+          eval="0"
+          jsxexecute="objJSX.setHeight((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
+          disallow="[^cm^pt^\\.^%^0-9^-]"
+          jsxmask="jsxtext"/>
+      <record jsxid="jsxbgcolor" jsxtext="BG Color"
+          eval="0"
+          jsxtip="Sets the background color. Accepts CSS values, such as predefined color names, RGB, or hexadecimal values. For example, &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;rgb(255,0,0)&lt;/code&gt;, or &lt;code&gt;#ff0000&lt;/code&gt;."
+          docgetter="getBackgroundColor" docsetter="setBackgroundColor"
+          docdefault="The default background color specified in the static field, &lt;code&gt;DEFAULTBACKGROUNDCOLOR&lt;/code&gt;, of the component class.  For example, the default background color for a list is #f3f2f4 and is specified in &lt;code&gt;jsx3.gui.List.DEFAULTBACKGROUNDCOLOR&lt;/code&gt;. See the API documentation for the component. For some components, this property is empty."
+          disallow="[^-0-9a-zA-Z#\(\);:\/\.,]"
+          jsxexecute="objJSX.setBackgroundColor(vntValue,true);"
+          jsxmask="jsxcolor"/>
+      <record jsxid="font" group="1" jsxtext="Font">
+          <record jsxid="jsxfontname" jsxtext="Font Name"
+              eval="0"
+              jsxtip="Sets the name of the font family."
+              docgetter="getFontName" docsetter="setFontName"
+              docdefault="&lt;code&gt;jsx3.gui.Block.DEFAULTFONTNAME&lt;/code&gt;"
+              disallow="'"
+              jsxmask="jsxtext"/>
+          <record jsxid="jsxfontsize" jsxtext="Font Size"
+              eval="1"
+              jsxtip="Sets the point size of the font."
+              docgetter="getFontSize" docsetter="setFontSize"
+              docdefault="&lt;code&gt;jsx3.gui.Block.DEFAULTFONTSIZE&lt;/code&gt;"
+              disallow="[^0-9]"
+              jsxmask="jsxtext"/>
+          <record jsxid="jsxfontweight" jsxtext="Font Weight"
+              eval="0"
+              jsxtip="Sets the weight of the font, such as bold or normal."
+              docgetter="getFontWeight" docsetter="setFontWeight"
+              docdefault="Normal (&lt;code&gt;jsx3.gui.Block.FONTNORMAL&lt;/code&gt;)"
+              jsxmask="jsxselect">
+                  <enum jsxid="jsx3.gui.Block.FONTBOLD" jsxtext="Bold"/>
+                  <enum jsxid="jsx3.gui.Block.FONTNORMAL" jsxtext="Normal"/>
+          </record>
+          <record jsxid="jsxcolor" jsxtext="Color"
+              jsxtip="Sets the color of the font. Accepts CSS values, such as predefined color names, RGB, or hexadecimal values. For example, &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;rgb(255,0,0)&lt;/code&gt;, or &lt;code&gt;#ff0000&lt;/code&gt;."
+              docgetter="getColor" docsetter="setColor"
+              docdefault="&lt;code&gt;jsx3.gui.Block.DEFAULTCOLOR&lt;/code&gt;"
+              eval="0"
+              disallow="[^-0-9a-zA-Z#\(\);:\/\.,]"
+              jsxexecute="objJSX.setColor(vntValue,true);"
+              jsxmask="jsxcolor"/>
+      </record>
+      <record jsxid="jsxdisabledcolor" jsxtext="Disabled Color"
+          eval="0"
+          jsxtip="Sets the font color to use when this object is in a disabled state. Accepts CSS values, such as predefined color names, RGB, or hexadecimal values. For example, &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;rgb(255,0,0)&lt;/code&gt;, or &lt;code&gt;#ff0000&lt;/code&gt;."
+          docgetter="getDisabledColor" docsetter="setDisabledColor"
+          docdefault="The default disabled color specified in the static field, &lt;code&gt;DEFAULTDISABLEDCOLOR&lt;/code&gt;, of the component class. For example, &lt;code&gt;jsx3.gui.Form.DEFAULTDISABLEDCOLOR&lt;/code&gt;. See the API documentation for the component."
+          disallow="[^-0-9a-zA-Z#\(\);:\/\.,]"
+          jsxmask="jsxcolor"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_buttonnormal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.Button">
+      <variants jsxindex="0" jsxheight="18"/>
+      <strings jsxname="target" jsxtext="Button text" jsxmargin="0 4 0 0"/>
+      <events jsxexecute="alert('hello');"/>
+    </object>
   </object>
 </serialization>

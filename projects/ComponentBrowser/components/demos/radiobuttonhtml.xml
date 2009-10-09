@@ -1,6 +1,39 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <properties xmlns="">
+    <data jsxid="jsxroot">
+      <record jsxid="jsxtext1" jsxtext="Text 1"
+          eval="0"
+          jsxtip="Sets the text/HTML content of this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="radio1"
+          jsxmask="jsxtextarea"/>
+      <record jsxid="jsxtext2" jsxtext="Text 2"
+          eval="0"
+          jsxtip="Sets the text/HTML content of this object."
+          docgetter="getText" docsetter="setText"
+          docdefault="Empty"
+          validatehtml="true"
+          jsxexecute="objJSX.setText(vntValue, true);"
+          jsxtarget="radio2"
+          jsxmask="jsxtextarea"/>
+    </data>
+  </properties>
   <object type="jsx3.gui.Block">
     <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <strings jsxname="demo_radiobuttonhtml" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+    <object type="jsx3.gui.RadioButton">
+      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
+      <strings jsxname="radio1" jsxtext="Radio button 1, with &lt;b&gt;HTML&lt;/b&gt; &lt;i&gt;content&lt;/i&gt;" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxstyleoverride="display:block" jsxbgcolor=""/>
+      <events jsxselect=""/>
+    </object>
+    <object type="jsx3.gui.RadioButton">
+      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"/>
+      <strings jsxname="radio2" jsxtext="Radio button 2, also &lt;u&gt;HTML&lt;/u&gt;" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
+      <events jsxselect=""/>
+    </object>
   </object>
 </serialization>
+
