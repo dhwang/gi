@@ -11,25 +11,16 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     return _LOG;
   };
 
-  ce.WELCOME = 'welcome';
-  ce.LOADING = 'loading';
-  ce.COMPONENT = 'component';
+  ce.WELCOME = 0;
+  ce.LOADING = 1;
+  ce.COMPONENT = 2;
 
   ce.setView = function(viewType, title) {
     var titleStr, view;
     var header = ce.getJSXByName('paneContentHeader');
     var container = ce.getJSXByName('paneContentContainer');
-
     var lytContent = ce.getJSXByName('lytContent');
 
-    var children = container.getChildren();
-    for (var i=0, child; child=children[i]; i++) {
-      child.setDisplay(
-        child.jsxname.indexOf(viewType) == 0 ?
-          jsx3.gui.Block.DISPLAYBLOCK :
-          jsx3.gui.Block.DISPLAYNONE
-      );
-    }
     switch (viewType) {
       case ce.WELCOME:
         titleStr = 'Welcome';
@@ -43,6 +34,11 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     }
 
     header.setText(titleStr);
+    var selectedIdx = container.getSelectedIndex();
+
+    if (viewType != selectedIdx) {
+      container.setSelectedIndex(viewType);
+    }
     lytContent.repaint();
   };
 
@@ -87,7 +83,16 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
   ce.componentLoaded = function(componentId, objXML) {
     var demoView = ce.getJSXByName('componentDemoView');
-    demoView.loadXML(objXML, true);
+
+    var demoTab = new jsx3.gui.Tab(componentId + '_tab', componentId, null, null, null);
+    demoTab.getFirstChild()
+      .setBackgroundColor("#fffeff")
+      .setRelativePosition(1)
+      .setOverflow(3)
+      .setPadding('8 8 8 8', true);
+    demoView.setChild(demoTab, jsx3.app.Model.PERSISTNONE);
+    demoTab.getFirstChild().loadXML(objXML, true);
+    demoView.repaint();
 
     var objCache = this.getCache();
     var propDoc = objCache.getDocument(componentId + '_properties');
@@ -159,12 +164,22 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
   var _selectedComponent = null, _targetComponent = null;
   ce.viewComponent = function(componentId, component) {
-    if (_selectedComponent) {
-      _selectedComponent.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    try {
+      var component = component || ce.getJSXByName('demo_' + componentId);
+      _targetComponent = component.getDescendantOfName('target');
+    } catch (e) {
+      ce.showError("Error with demo: " + componentId);
+      return;
     }
 
-    var component = component || ce.getJSXByName('demo_' + componentId);
-    _targetComponent = component.getDescendantOfName('target');
+    var tabPane = ce.getJSXByName('componentDemoView');
+
+    var selIdx = tabPane.getSelectedIndex();
+    var tab = ce.getJSXByName(componentId + '_tab');
+
+    if (selIdx != tab.getChildIndex()) {
+      tabPane.setSelectedIndex(tab);
+    }
 
     var propDoc = this.getCache().getDocument(componentId + '_properties');
 
@@ -184,7 +199,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       propEditorPane.setDisplay(jsx3.gui.Block.DISPLAYBLOCK);
       propEditorPane.repaint();
     } else {
-      propEditorPane.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+      propEditorPane.setDisplay(jsx3.gui.Block.DISPLAYNONE);
     }
 
     var tree = ce.getJSXByName('treeExplorer');
@@ -199,8 +214,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     }
 
     this.setView(ce.COMPONENT, ce._getComponentTitle(rNode, record.jsxtext));
-    compName.setText(name, true);
-    component.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+    compName.setText(name);
 
     _selectedComponent = component;
 
@@ -230,6 +244,11 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     this.getCache().setDocument('source_xml', _targetComponent.toXMLDoc());
   };
 
+  ce.onCopySource = function (viewSource) {
+  };
+
+  ce.onDownloadFile = function (viewSource) {
+  };
 
   ce.onMouseOverSource = function(buttonNode) {
     // This is hooked up in the properties of the view source components
