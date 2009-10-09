@@ -1130,6 +1130,8 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
  */
 jsx3.Class.defineClass('jsx3.html.Selection', null, null, function(Selection, Selection_prototype) {
 
+  var html = jsx3.html;
+  
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
 
   Selection_prototype.init = function(objTextElm) {
