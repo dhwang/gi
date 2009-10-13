@@ -8,16 +8,15 @@ _resolvers: {},
 
 /** GET PROTOTYPE LIBRARIES **************************************/
 /**
- * ? getPrototypeLibraries() -- returns a record set containing all the prototypes available to the IDE. This includes system prototypes, addin prototypes, and user prototypes.
+ * ? getSystemLibraries() -- returns a record set containing all the prototypes available to the IDE. This includes system prototypes, addin prototypes, and user prototypes.
  * ! returns --(XML) nested record set
  */
-_getPrototypeLibraries: function() {
+_getSystemLibraries: function() {
   var nodeImg = this.resolveURI('jsxapp:/images/icon_7.gif');
   var doc = jsx3.xml.CDF.Document.newDocument();
   var root = doc.insertRecord({jsxid:'components', jsxtext: "Components", jsxopen: "1"});
 
   var currentNode = null;
-  this._resolvers = {};
 
   // do system prototypes
   currentNode = doc.insertRecord({
@@ -46,17 +45,6 @@ _getPrototypeLibraries: function() {
       this._resolvers[addinNode.getAttribute("jsxid")] = addin;
     }
   }).bind(this));
-  if (currentNode.getChildNodes().size() == 0)
-    currentNode.getParent().removeChild(currentNode);
-
-  // do user prototypes
-  currentNode = doc.insertRecord({
-    jsxid: 'user', jsxtext: 'User', jsxopen: '1', jsxunselectable: '1',
-    jsximg: nodeImg, sorton: 'c'
-  }, 'components');
-  this._doPLDirectoryRead(doc, currentNode, jsx3.ide.getHomeRelativeFile('prototypes'), jsx3.net.URIResolver.USER);
-  this._resolvers['user'] = jsx3.net.URIResolver.USER;
-
   if (currentNode.getChildNodes().size() == 0)
     currentNode.getParent().removeChild(currentNode);
 
@@ -186,73 +174,10 @@ _doPLRefineRecord: function(objNode, objFile, objResolver) {
     objNode.setAttribute('jsxtip', description);
 },
 
-reloadPrototypeLibraries: function(objTree) {
-  var doc = this._getPrototypeLibraries();
+reloadSystemLibraries: function(objTree) {
+  var doc = this._getSystemLibraries();
   objTree.setSourceXML(doc);
   this.publish({subject: "reloaded"});
-},
-
-/* Prototype Library */
-
-setPrototypeView: function(viewStr, backBarText) {
-  var p = this.getPalette();
-  if (!p)
-    return;
-
-  var ui = p.getUIObject();
-  if (!ui)
-    return;
-
-  var views = ui.getDescendantOfName('jsx_ide_proto_views');
-  if (!views)
-    return;
-
-  var view = views.getDescendantOfName('jsx_ide_proto_' + viewStr + '_view');
-  if (!view)
-    return;
-
-  if (this._current_view)
-    this._current_view.setDisplay(jsx3.gui.Block.DISPLAYNONE);
-
-  view.setDisplay(jsx3.gui.Block.DISPLAYBLOCK);
-
-  var back_bar = ui.getDescendantOfName('jsx_ide_proto_action_back_bar'),
-    summary_bar = ui.getDescendantOfName('jsx_ide_proto_action_summary_bar'),
-    bars = ui.getDescendantOfName('jsx_ide_proto_action_bar');
-  back_bar.setDisplay(viewStr == 'summary' ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK);
-  summary_bar.setDisplay(viewStr == 'summary' ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE);
-  if (viewStr == 'login')
-    back_bar.setText('Login');
-  else if (backBarText)
-    back_bar.setText(backBarText);
-
-  bars.repaint();
-  views.repaint();
-  this._current_view = view;
-},
-
-backButtonClicked: function() {
-  var current_view = this._current_view.jsxname;
-  var view;
-  switch (current_view) {
-    default:
-    case 'jsx_ide_proto_login_view':
-    case 'jsx_ide_proto_detail_view':
-      view = 'summary';
-      break;
-  }
-  this.setPrototypeView(view);
-},
-
-prototypeDetailRequested: function(recordId) {
-  var tree = this.getPrototypesTree();
-  if (!tree)
-    return;
-  var record = tree.getRecord(recordId);
-  if (!record)
-    return;
-
-  this.setPrototypeView('detail', record.jsxtext);
 }
 
 });

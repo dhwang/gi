@@ -14,23 +14,34 @@
     return this.getEngine().getPlugIn("jsx3.ide.ui").getPalette(this, "complibs.palette");
   ]]></method>
 
-  <method id="getComponentsTree"><![CDATA[
+  <method id="getSystemTree"><![CDATA[
     var p = this.getPalette();
     if (p) {
       var ui = p.getUIObject();
       if (ui) {
-        return ui.getComponentsTree();
+        return ui.getSystemTree();
       }
     }
     return null;
   ]]></method>
 
-  <method id="getPrototypesTree"><![CDATA[
+  <method id="getUserTree"><![CDATA[
     var p = this.getPalette();
     if (p) {
       var ui = p.getUIObject();
       if (ui) {
-        return ui.getPrototypesTree();
+        return ui.getUserTree();
+      }
+    }
+    return null;
+  ]]></method>
+
+  <method id="getOnlineList"><![CDATA[
+    var p = this.getPalette();
+    if (p) {
+      var ui = p.getUIObject();
+      if (ui) {
+        return ui.getOnlineList();
       }
     }
     return null;
@@ -52,22 +63,28 @@
     <plugin id="jsx3.ide.ui"/>
     <plugin id="jsx3.amp.util.menumgr"/>
     <plugin id="jsx3.amp.util.toolbarmgr"/>
-    <plugin id="jsx3.gui.Tree"/>
+    <plugin id="jsx3.gui.Matrix"/>
     <plugin id="jsx3.gui.TabbedPane"/>
     <plugin id="jsx3.gui.ToolbarButton"/>
     <plugin id="jsx3.gui.CheckBox"/>
   </requires>
 
   <resources>
-    <script id="js" path="prototypes.js" eval="true"/>
+    <script id="system" path="prototypes.js" eval="true"/>
+    <script id="user" path="user.js" eval="true"/>
+    <script id="online" path="online.js" eval="true"/>
     <xml id="ui" path="prototypes.xml">
-      <prereq id="js"/>
+      <prereq id="system"/>
+      <prereq id="user"/>
+      <prereq id="online"/>
     </xml>
     <xml id="menu-filters" path="menu-filters.xml"/>
-    <xml id="tree-fake-data" path="tree-fake-data.xml"/>
+    <xml id="menu-feeds" path="menu-feeds.xml"/>
   </resources>
 
   <event id="reloaded"/>
+  <event id="user_reloaded"/>
+  <event id="online_reloaded"/>
   <event id="selection">
     <param id="value"/>
   </event>
@@ -82,7 +99,13 @@
   <subscribe event="jsx3.ide.palette.prototypes.reloaded"><![CDATA[
     var content = this.getPalette().getUIObject();
     if (content)
-      content.onPrototypesReloaded();
+      content.onSystemReloaded();
+  ]]></subscribe>
+
+  <subscribe event="jsx3.ide.palette.prototypes.user_reloaded"><![CDATA[
+    var content = this.getPalette().getUIObject();
+    if (content)
+      content.onUserReloaded();
   ]]></subscribe>
 
   <!-- The palette context menu -->
@@ -93,12 +116,12 @@
          the name of this folder in the tree. -->
   </extension-point>
 
-  <!-- The palette context menu -->
+  <!-- The system palette context menu -->
   <extension-point id="ctxmenu">
     <processor type="instantiator" instance-class="jsx3.ide.ui.IdeMenu"/>
   </extension-point>
 
-  <!-- The palette context menu items -->
+  <!-- The system palette context menu items -->
   <extension-point id="ctxmenu-item">
     <processor type="instantiator" instance-class="jsx3.ide.ui.IdeMenuItem"/>
   </extension-point>
@@ -124,23 +147,12 @@
   </extension>
 
   <!-- Toolbar buttons, etc -->
-  <extension-point id="toolbar">
+  <extension-point id="system_toolbar">
     <processor type="instantiator" instance-class="jsx3.amp.util.ToolbarItem"/>
   </extension-point>
 
-  <extension point="jsx3.ide.palette.prototypes.toolbar">
-    <button id="refresh" img="jsxapp:/images/icon_15.gif" tip="Refresh the list of prototypes" section="utils"
-            execute="this.getPlugIn().reloadPrototypeLibraries(this.getPlugIn().getComponentsTree());" enabled="true"/>
-  </extension>
-
-  <extension-point id="prototypes_toolbar">
-    <processor type="instantiator" instance-class="jsx3.amp.util.ToolbarItem"/>
-  </extension-point>
-
-  <extension point="jsx3.ide.palette.prototypes.prototypes_toolbar">
-    <button id="rss" img="jsxapp:/images/icon_2.gif" tip="RSS" section="rss"
-            execute="alert('RSS');" enabled="true"/>
-    <button id="refresh_proto" img="jsxapp:/images/icon_15.gif" tip="Refresh the list of prototypes" section="refresh"
-            execute="alert('Refresh');" enabled="true"/>
+  <extension point="jsx3.ide.palette.prototypes.system_toolbar">
+    <button id="system_refresh" img="jsxapp:/images/icon_15.gif" tip="Refresh the list of prototypes" section="utils"
+            execute="this.getPlugIn().reloadSystemLibraries(this.getPlugIn().getSystemTree());" enabled="true"/>
   </extension>
 </plugin>
