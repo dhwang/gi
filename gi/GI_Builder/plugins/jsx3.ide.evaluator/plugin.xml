@@ -30,7 +30,7 @@ this.doScriptletExecute = function(objDialog) {
   if (activeServer) {
     activeServer.getBodyBlock().findDescendants(function(x) {
       var n = x.getName();
-      if (!context[n] && jsx3.util.isName(n))
+      if (n && !context[n] && jsx3.util.isName(n))
         context[n] = x;
     }, false, false, false, true);
   }
