@@ -5,15 +5,14 @@
     _halfStar: plugIn.resolveURI('images/halfStar.png'),
     _fullStar: plugIn.resolveURI('images/fullStar.png'),
 
-    formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
-      var record = matrix.getRecord(cdfkey);
-      var rating = Number(record.rating);
-
-      var wholes = 0,
+    _getStars: function(rating) {
+      var rating = Number(rating),
+          wholes = 0,
           fraction = 0;
+
       if (isNaN(rating)) {
         rating = 0;
-      } else {
+      } else if (rating > 0) {
         wholes = Math.floor(rating);
         fraction = (rating - wholes);
       }
@@ -25,19 +24,23 @@
         hasHalf = true;
       }
 
-      var self = this;
-      var getStar = function (num) {
-        if (num < wholes) {
-          return plugIn._fullStar._path;
-        } else if (num == wholes && hasHalf) {
-          return plugIn._halfStar._path;
+      var result = [];
+      for(var i=0; i<5; i++){
+        if (i < wholes) {
+          result.push(this._fullStar._path);
+        } else if (i == wholes && hasHalf) {
+          result.push(this._halfStar._path);
         } else {
-          return plugIn._emptyStar._path;
+          result.push(this._emptyStar._path);
         }
-      };
+      }
+      return result;
+    },
 
-      element.innerHTML = "<img src='" + getStar(0) + "'/><img src='" + getStar(1) + "'/>" +
-        "<img src='" + getStar(2) + "'/><img src='" + getStar(3) + "'/><img src='" + getStar(4) + "'/>";
+    formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
+      var record = matrix.getRecord(cdfkey);
+
+      element.innerHTML = "<img src='" + plugIn._getStars(record.rating).join("'/><img src='") + "'/>";
     },
 
     _onOnlineFilterMenuExecute: function(objMenu, objMatrix, strRecordId) {
@@ -81,6 +84,18 @@
 
     _onOnlineFeedMenuExecute: function(strRecordId) {
       console.log(strRecordId);
+    },
+
+    reloadOnlineLibraries: function(objMatrix) {
+      objMatrix.resetCacheData();
+      objMatrix.repaint();
+    },
+
+    _onOnlineListExecute: function(objMatrix, strRecordId) {
+      var ui = this.getPalette().getUIObject();
+      var record = objMatrix.getRecord(strRecordId);
+
+      ui.setOnlineDetail(record);
     }
   });
 

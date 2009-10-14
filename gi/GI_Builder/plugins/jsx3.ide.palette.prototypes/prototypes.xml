@@ -108,6 +108,21 @@ objJSX.setOnlineView = function(viewStr) {
   this._current_user_view = view;
 };
 
+objJSX.setOnlineDetail = function(objRecord) {
+  var plugIn = this.getPlugIn();
+
+  jsx_ide_proto_detail_title.setText(objRecord.name);
+  jsx_ide_proto_detail_downloads.setText(objRecord.downloads||0);
+  jsx_ide_proto_detail_created_by.setText(objRecord.user);
+  var avgStars = jsx3.util.List.wrap(jsx_ide_proto_detail_avg_rating.getChildren());
+  var starUrls = plugIn._getStars(objRecord.rating);
+  for (var i=0, star; star=starUrls[i]; i++) {
+    avgStars.get(i).setSrc(star);
+  }
+
+  this.setOnlineView('detail');
+};
+
   </onAfterDeserialize>
   <object type="jsx3.gui.Block">
     <variants jsxleft="0" jsxtop="0" jsxoverflow="2" _firsttime="false"/>
@@ -328,7 +343,7 @@ objJSX.setOnlineView = function(viewStr) {
                   <object type="jsx3.gui.ToolbarButton">
                     <variants jsxdivider="1"/>
                     <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
-                    <events jsxexecute="window.alert('button clicked');"/>
+                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().reloadOnlineLibraries(ide_component_libs_online_list);"/>
                   </object>
                 </object>
               </object>
@@ -348,7 +363,7 @@ objJSX.setOnlineView = function(viewStr) {
                     <variants jsxheaderheight="26" jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="0" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1"/>
                     <strings xmlns="urn:tibco.com/v3.0" jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxxmlurl="http://localhost:8080/Prototype" jsxsorttype="number" jsxsortdirection="descending"/>
                     <dynamics jsxbgcolor="@Solid Light"/>
-                    <events jsxtoggle="jsx3.log('EVENT: (jsxtoggle). ' + strRECORDID + '. Open: ' + bOPEN);"/>
+                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn()._onOnlineListExecute(this, strRECORDID);"/>
                     <object type="jsx3.gui.Matrix.Column">
                       <variants jsxsort="0"/>
                       <strings xmlns="urn:tibco.com/v3.0" jsxname="nameColumn" jsxwidth="*" jsxcellpadding="2 2 2 8" jsxpath="name" jsxpadding="5 0 0 8" jsxtext="Name"/>
@@ -515,12 +530,13 @@ objJSX.setOnlineView = function(viewStr) {
                   <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
                   <object type="jsx3.gui.Block">
                     <variants jsxoverflow="2" jsxfontsize="14"/>
-                    <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="License" jsxfontweight="bold" jsxpadding="2 0 0 0"/>
+                    <strings jsxname="jsx_ide_proto_detail_title" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="License" jsxfontweight="bold" jsxpadding="2 0 0 0"/>
                     <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                     <object type="jsx3.gui.Image">
                       <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="2" jsxtop="2"/>
                       <strings jsxname="image" jsxsrc="images/backButton.png" jsxdisplay=""/>
                       <dynamics jsxcursor="@Hand"/>
+                      <events jsxclick="jsx_ide_palette_complibs.setOnlineView('summary');"/>
                     </object>
                   </object>
                   <object type="jsx3.gui.Block">
@@ -598,7 +614,27 @@ objJSX.setOnlineView = function(viewStr) {
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="1"/>
-                          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="Rating widget here" jsxpadding="0 0 0 8"/>
+                          <strings jsxname="jsx_ide_proto_detail_avg_rating" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="0 0 0 8"/>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="2"/>
@@ -606,7 +642,27 @@ objJSX.setOnlineView = function(viewStr) {
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="1"/>
-                          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="Rating widget here" jsxpadding="0 0 0 8"/>
+                          <strings jsxname="jsx_ide_proto_detail_your_rating" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="0 0 0 8"/>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
                         </object>
                       </object>
                     </object>
