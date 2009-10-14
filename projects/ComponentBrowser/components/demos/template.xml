@@ -1,6 +1,36 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name>foo</name>
+  <icon/>
+  <description>blah</description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize>desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));</onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="Component Name" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext="Component description"/>
+      </object>
+    </object>
   </object>
 </serialization>

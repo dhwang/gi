@@ -1,52 +1,97 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-        <record jsxid="jsxoverflow" jsxtext="Overflow"
-            eval="1"
-            jsxtip="Sets the CSS overflow for this object, which defines how its on-screen view behaves when the contents are larger than the specified width and/or height."
-            docgetter="getOverflow" docsetter="setOverflow"
-            jsxexecute="objJSX.setOverflow(vntValue);objJSX.repaint();"
-            docdefault="Expand (&lt;code&gt;jsx3.gui.Block.OVERFLOWEXPAND&lt;/code&gt;)"
-            jsxmask="jsxselect">
-          <enum jsxid="jsx3.gui.Block.OVERFLOWSCROLL" jsxtext="Scroll"/>
-          <enum jsxid="jsx3.gui.Block.OVERFLOWHIDDEN" jsxtext="Hidden"/>
-          <enum jsxid="jsx3.gui.Block.OVERFLOWEXPAND" jsxtext="Expand"/>
-        </record>
-        <record jsxid="jsxtextalign" jsxtext="Text Align"
-            eval="0"
-            jsxtip="Sets the alignment of any contained object or text."
-            docgetter="&lt;code&gt;getTextAlign&lt;/code&gt;" docsetter="setTextAlign"
-            docdefault="Left (&lt;code&gt;jsx3.gui.Block.ALIGNLEFT&lt;/code&gt;)"
-            jsxexecute="objJSX.setTextAlign(vntValue);objJSX.repaint();"
-            jsxmask="jsxselect">
-          <enum jsxid="jsx3.gui.Block.ALIGNLEFT" jsxtext="Left"/>
-          <enum jsxid="jsx3.gui.Block.ALIGNCENTER" jsxtext="Center"/>
-          <enum jsxid="jsx3.gui.Block.ALIGNRIGHT" jsxtext="Right"/>
-        </record>
-        <record jsxid="jsxpadding" jsxtext="Padding"
-            eval="0"
-            jsxtip="Sets the white-space gap between the outer edge/border of this object to its inner content. Specified as one or four pixel values (top, right, bottom, and left). For example, &lt;code&gt;5&lt;/code&gt; or &lt;code&gt;8 4 8 4&lt;/code&gt;."
-            docgetter="getPadding" docsetter="setPadding"
-            docdefault="Empty"
-            disallow="'"
-            jsxmask="jsxtextbox"
-            jsxexecute="objJSX.setPadding(vntValue,true);"/>
-        <record jsxid="jsxmargin" jsxtext="Margin"
-            eval="0"
-            jsxtip="Sets the gap between this object's border and its bounding box. Specified as one or four pixel values (top, right, bottom, and left). For example, &lt;code&gt;2&lt;/code&gt; or &lt;code&gt;4 2 4 2&lt;/code&gt;. CSS syntax is also supported but reduces performance."
-            docgetter="getMargin" docsetter="setMargin"
-            docdefault="Empty"
-            disallow="'"
-            jsxmask="jsxtextbox"
-            jsxexecute="objJSX.setMargin(vntValue,true);"/>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_blockrelative" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name>Block Relative</name>
+  <icon/>
+  <description>This shows the properties you can set on a relative block.</description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize>
+this.onOverflowSelect = function(strRecordId) {
+  block.setOverflow(strRecordId);
+};
+
+this.onAlignmentSelect = function(strRecordId) {
+  block.setTextAlign(strRecordId).repaint();
+};
+
+this.onPaddingChange = function(strValue) {
+  block.setPadding(strValue, true);
+};
+
+this.onMarginChange = function(strValue) {
+  block.setMargin(strValue, true);
+};
+
+desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));
+overflow.setValue(block.getOverflow());
+alignment.setValue(block.getTextAlign());
+padding.setValue(block.getPadding());
+margin.setValue(block.getMargin());
+  </onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxoverflow="1" jsxname="block" jsxwidth="100%" jsxheight="100%" jsxtext="Lorem  ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. N ulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non , ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliqu am erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor.  Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat." jsxtextalign="left" jsxmargin="0 0 0 0" jsxpadding="8 8 8 8"/>
+      </object>
+    </object>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="1"/>
-      <strings jsxname="target" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtext="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat."/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="Component name" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxtext="This shows the properties you can set on a relative block."/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Overflow" jsxfor="overflow" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1"/>
+        <strings jsxvalue="1" jsxname="overflow" jsxxmlurl="" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Scroll&quot;/&gt;&lt;record jsxid=&quot;2&quot; jsxtext=&quot;Hidden&quot;/&gt;&lt;record jsxid=&quot;3&quot; jsxtext=&quot;Expand&quot; /&gt;&lt;/data&gt;"/>
+        <events jsxselect="root.onOverflowSelect(strRECORDID);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Alignment" jsxfor="alignment" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1"/>
+        <strings jsxname="alignment" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;left&quot; jsxtext=&quot;Left&quot;/&gt;&lt;record jsxid=&quot;center&quot; jsxtext=&quot;Center&quot;/&gt;&lt;record jsxid=&quot;right&quot; jsxtext=&quot;Right&quot;/&gt;&lt;/data&gt;" jsxvalue="left"/>
+        <events jsxselect="root.onAlignmentSelect(strRECORDID);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Padding" jsxfor="padding" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="padding" jsxmargin="0 4 4 0" jsxvalue="8 8 8 8"/>
+        <events jsxchange="root.onPaddingChange(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Margin" jsxfor="margin" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="margin" jsxmargin="0 4 0 0" jsxvalue="0 0 0 0"/>
+        <events jsxchange="root.onMarginChange(strVALUE);"/>
+      </object>
     </object>
   </object>
 </serialization>
