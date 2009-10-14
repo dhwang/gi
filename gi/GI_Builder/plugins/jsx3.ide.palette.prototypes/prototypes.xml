@@ -132,7 +132,7 @@ objJSX.setOnlineDetail = function(objRecord) {
       <strings jsxname="menuBar" jsxdisplay="none"/>
     </object>
     <object type="jsx3.gui.TabbedPane">
-      <variants selectedIndex="2" jsxselectedindex="2"/>
+      <variants selectedIndex="2" jsxselectedindex="1"/>
       <strings jsxname="tabbedpane" jsxtextalign="0"/>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
@@ -166,10 +166,10 @@ objJSX.setOnlineDetail = function(objRecord) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxheight="18"/>
-        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#d8d8e5"/>
+        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#e8e8f5"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -178,44 +178,19 @@ objJSX.setOnlineDetail = function(objRecord) {
               <variants jsxbartype="2" jsxfontsize="10" jsxrelativeposition="1" jsxoverflow="3"/>
               <strings jsxname="jsx_ide_complibs_user_bar" jsxdisplay=""/>
               <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
-              <object type="jsx3.gui.LayoutGrid">
-                <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                <strings jsxname="layoutCols" jsxcols="*,31,31" jsxwidth="100%" jsxheight="100%"/>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="2"/>
-                  <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="3 3 0 0"/>
-                  <object type="jsx3.gui.TextBox">
-                    <variants jsxheight="18"/>
-                    <strings jsxname="jsx_ide_user_search" jsxvalue="" jsxwidth="100%" jsxpadding="1 19 0 2"/>
-                  </object>
-                </object>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="3"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                  <object type="jsx3.gui.Image">
-                    <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="-20" jsxtop="5"/>
-                    <strings jsxname="image" jsxsrc="images/clearSearch.gif" jsxdisplay=""/>
-                    <dynamics jsxcursor="@Hand"/>
-                  </object>
-                  <object type="jsx3.gui.ToolbarButton">
-                    <variants jsxdivider="1" jsxenabled="0"/>
-                    <strings jsxname="jsx_ide_complibs_user_upload_btn" jsximage="images/application_get.png" jsxtip="Upload"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().uploadUserPrototype(ide_component_libs_user_tree);"/>
-                  </object>
-                </object>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="3"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                  <object type="jsx3.gui.ToolbarButton">
-                    <variants jsxdivider="1"/>
-                    <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().reloadUserLibraries(ide_component_libs_user_tree);"/>
-                  </object>
-                </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants jsxdivider="0" jsxenabled="0"/>
+                <strings jsxname="jsx_ide_complibs_user_upload_btn" jsximage="images/application_get.png" jsxtip="Upload"/>
+                <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().uploadUserPrototype(ide_component_libs_user_tree);"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants jsxdivider="1"/>
+                <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
+                <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().reloadUserLibraries(ide_component_libs_user_tree);"/>
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="-1" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_user_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -291,10 +266,10 @@ objJSX.setOnlineDetail = function(objRecord) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#e8e8f5"/>
+        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#d8d8e5"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
