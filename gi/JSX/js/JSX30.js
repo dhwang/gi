@@ -1589,7 +1589,7 @@ window['jsx_main'] = function() {
 
         // instance a new DOM element
         var element = document.createElement("script");
-        element.setAttribute("src", strURI);
+        element.setAttribute("src", "" + strURI);
         element.setAttribute("type", 'text/javascript');
 
         // set up onload handler
@@ -2078,7 +2078,7 @@ window['jsx_main'] = function() {
         // instance a new DOM element
         var element = document.createElement("link");
         element.id = this._id;
-        element.href = this._src;
+        element.href = "" + this._src;
         element.rel = "stylesheet";
         element.type = "text/css";
 

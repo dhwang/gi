@@ -179,7 +179,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Resource", null, [jsx3.util.EventDispatche
    */
   Resource_prototype.getFullPath = function(p) {
     var path = p || this.getPath();
-    return this._plugin ? this._plugin.resolveURI(path) : this._pluginpath + path;
+    return this._plugin ? "" + this._plugin.resolveURI(path) : this._pluginpath + path;
   };
 
   /**

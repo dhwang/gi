@@ -333,7 +333,8 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
       html.findElements(objElement, function(n) {
         if (n.style) n.style.backgroundImage = "";
       }, false, false, false, true);
-      objElement.parentNode.removeChild(objElement);
+      var n = objElement.parentNode.removeChild(objElement);
+      n.outerHTML = "";
     }
   };
 
@@ -913,7 +914,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
         var image = document.createElement("img");
         image.setAttribute("alt", "");
         image.setAttribute("id", id);
-        image.setAttribute("src", src);
+        image.setAttribute("src", "" + src);
         imageDiv.appendChild(image);
       }
     }
