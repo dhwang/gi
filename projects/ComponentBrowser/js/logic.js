@@ -33,13 +33,12 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
         break;
     }
 
-    header.setText(titleStr);
+    header.setText(titleStr, true);
     var selectedIdx = container.getSelectedIndex();
 
     if (viewType != selectedIdx) {
-      container.setSelectedIndex(viewType);
+      container.setSelectedIndex(viewType, true);
     }
-    lytContent.repaint();
   };
 
   var Document = jsx3.xml.Document;
@@ -93,8 +92,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       name = rNode.getParent().getAttribute('jsxtext');
     }
 
-    var source = ce.getJSXByName('sourceView');
-    source.setSourceXML(objXML);
+    this.getCache().setDocument('source_xml', objXML);
 
     _selectedComponentId = componentId;
     this.setView(ce.COMPONENT, ce._getComponentTitle(rNode, record.jsxtext));
@@ -121,17 +119,15 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   };
 
   ce.viewSource = function(button) {
-    var layout = ce.getJSXByName('lytProperties');
-    layout.setRows("*,0", true);
-    layout = ce.getJSXByName('componentViewLayout');
+    button.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+    var layout = ce.getJSXByName('componentViewLayout');
     layout.setRows("*,50%", true);
   };
 
-  ce.unViewSource = function() {
+  ce.unViewSource = function(button) {
     var layout = ce.getJSXByName('componentViewLayout');
     layout.setRows("*,0", true);
-    layout = ce.getJSXByName('lytProperties');
-    layout.setRows("*,25", true);
+    button.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
   };
 
   ce.onCopySource = function (viewSource) {
@@ -423,5 +419,17 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       _searchBlank = true;
       clear.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
     }
+  };
+
+  ce.onComponentViewChanged = function(container, button){
+    var contDim = container.getParent().getClientDimensions();
+    var btnDim = button.getDimensions();
+    button.setDimensions(
+      contDim.parentwidth - btnDim[2],
+      contDim.parentheight - btnDim[3],
+      null,
+      null,
+      true
+    );
   };
 });

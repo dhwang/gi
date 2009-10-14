@@ -1,9 +1,10 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <name/>
-  <icon/>
-  <description/>
-  <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize>
+jsx3.require("jsx3.gui.DojoWidget");
+componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_VIEW, function() {
+  tibco.ce.onComponentViewChanged(componentViewContainer, viewSourceShowButton);
+});
+  </onAfterDeserialize>
   <object type="jsx3.gui.Block">
     <variants jsxrelativeposition="1"/>
     <strings jsxinstanceof="jsx3.app.Model" jsxname="root" jsxwidth="100%" jsxheight="100%"/>
@@ -82,7 +83,7 @@
             <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
             <object type="jsx3.gui.Block">
               <variants jsxoverflow="2" jsxfontsize="12"/>
-              <strings jsxname="paneContentHeader" jsxwidth="100%" jsxheight="100%" jsxtext="Block &amp;raquo; Absolute" jsxbgcolor="#dfdfdf" jsxpadding="5 0 0 5"/>
+              <strings jsxname="paneContentHeader" jsxwidth="100%" jsxheight="100%" jsxtext="Block &amp;raquo; Block &amp;raquo; Relative" jsxbgcolor="#dfdfdf" jsxpadding="5 0 0 5"/>
               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown"/>
             </object>
             <object type="jsx3.gui.TabbedPane">
@@ -90,7 +91,7 @@
               <strings jsxname="paneContentContainer" jsxtextalign="0"/>
               <object type="jsx3.gui.Tab">
                 <variants jsxzindex="3" jsxheight="20"/>
-                <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#d8d8e5"/>
+                <strings jsxname="welcome_tab" jsxtext="Tab 1" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="1" jsxrelativeposition="1"/>
                   <strings jsxname="welcomeView" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxpadding="5 5 5 5"/>
@@ -126,7 +127,7 @@
               </object>
               <object type="jsx3.gui.Tab">
                 <variants jsxzindex="3" jsxheight="18"/>
-                <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
+                <strings jsxname="loading_tab" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="1" jsxrelativeposition="1"/>
                   <strings jsxname="loadingView" jsxdisplay="none" jsxpadding="5 5 5 5" jsxvisibility=""/>
@@ -146,7 +147,8 @@
               </object>
               <object type="jsx3.gui.Tab">
                 <variants jsxzindex="3" jsxheight="18"/>
-                <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#e8e8f5"/>
+                <strings jsxname="component_tab" jsxtext="Tab 3" jsxbgcolor="#e8e8f5"/>
+                <events jsxshow="tibco.ce.onComponentViewChanged(componentViewContainer, viewSourceShowButton);"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="1" jsxrelativeposition="1"/>
                   <strings jsxname="componentView" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
@@ -155,7 +157,19 @@
                     <strings jsxname="componentViewLayout" jsxrows="*,0" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="1"/>
-                      <strings jsxname="componentViewContainer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+                      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="1"/>
+                        <strings jsxname="componentViewContainer" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+                        <properties jsxafterresizeview="tibco.ce.afterResizeView(this);"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="3" jsxwidth="200" jsxheight="25" jsxrelativeposition="0" jsxleft="404" jsxtop="359"/>
+                        <strings jsxname="viewSourceShowButton" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay="" jsxclassname="sourceButton" jsxstyleoverride="z-index: 1000;"/>
+                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
+                        <properties onmouseover="tibco.ce.onMouseOverSource(this);" onmouseout="tibco.ce.onMouseOutSource(this);"/>
+                        <events jsxclick="tibco.ce.viewSource(this);"/>
+                      </object>
                     </object>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="3"/>
@@ -196,14 +210,7 @@
                               <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="&amp;#x25bc; View Source" jsxfontweight="bold" jsxpadding="4 0 0 0" jsxtextalign="center" jsxclassname="sourceButton"/>
                               <dynamics jsxcursor="@Hand" jsxbgcolor="@Solid Shadow" jsxbg="@Bevel TopDown"/>
                               <properties onmouseover="tibco.ce.onMouseOverSource(this);" onmouseout="tibco.ce.onMouseOutSource(this);"/>
-                              <events jsxclick="tibco.ce.unViewSource();"/>
-                              <object type="jsx3.gui.Block">
-                                <variants jsxoverflow="3" jsxwidth="200" jsxheight="25" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                                <strings jsxname="viewSourceShowButton" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay="" jsxclassname="sourceButton" jsxstyleoverride="z-index: 1000;"/>
-                                <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
-                                <properties onmouseover="tibco.ce.onMouseOverSource(this);" onmouseout="tibco.ce.onMouseOutSource(this);"/>
-                                <events jsxclick="tibco.ce.viewSource(this);"/>
-                              </object>
+                              <events jsxclick="tibco.ce.unViewSource(viewSourceShowButton);"/>
                             </object>
                           </object>
                         </object>
@@ -212,8 +219,8 @@
                           <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 2 2 2"/>
                           <dynamics jsxborder="@Outset"/>
                           <object type="jsx3.gui.BlockX">
-                            <variants jsxrelativeposition="1" jsxxmlasync="1" jsxxslasync="1" jsxxmlbind="0" jsxshare="1" jsxoverflow="1"/>
-                            <strings jsxwidth="100%" jsxheight="100%" jsxname="sourceView" jsxdisplay=""/>
+                            <variants jsxrelativeposition="1" jsxxmlasync="1" jsxxslasync="1" jsxxmlbind="1" jsxshare="1" jsxoverflow="1"/>
+                            <strings jsxwidth="100%" jsxheight="100%" jsxname="sourceView" jsxdisplay="" jsxxmlid="source_xml"/>
                             <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel" jsxborder="@Inset"/>
                           </object>
                         </object>
