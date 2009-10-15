@@ -151,7 +151,7 @@ objJSX.onInit();
            <strings jsxwidth="100%" jsxheight="100%" jsxpadding="5"/>
             <object type="jsx3.gui.ToolbarButton">
              <variants/>
-             <strings jsxname="btnBrowse" jsximage="images/icon_60.gif"/>
+             <strings jsxname="btnBrowse" jsximage="jsxapp:/images/icon_60.gif"/>
              <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doBrowse();"/>
             </object>
           </object>
