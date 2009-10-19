@@ -18,6 +18,7 @@
   <record jsxid="jsx3tabbox" group="1" jsxtext="Box">
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxbgcolor']"/>
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxpadding']"/>
+    <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxmargin']"/>
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxborder']"/>
     <record include="master.xml" path="/data/record[@jsxid='box']/record[@jsxid='jsxtextalign']"/>
   </record>

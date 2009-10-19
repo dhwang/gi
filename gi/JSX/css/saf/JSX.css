@@ -247,6 +247,7 @@ table.jsx30menu_1_kct td.keycode, table.jsx30menu_3_kct td.keycode {
   border-right: solid 2px #9898a5;
   border-bottom: solid 0px;
   border-left: solid 1px #f6f6ff;
+  vertical-align: top;
 }
 #JSX .jsx30tab_text {
   -khtml-user-select: none;

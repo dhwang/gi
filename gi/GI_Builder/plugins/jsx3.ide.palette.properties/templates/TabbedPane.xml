@@ -41,7 +41,17 @@
         jsxmask="jsxtext"/>
   </record>
 
-  <record include="master.xml" group="box_list"/>
+  <record include="master.xml" group="box_list">
+    <record jsxid="jsxborder" jsxtext="Border"
+        eval="0"
+        jsxtip="The border around each child tab. Specified as one or four value sets (top, right, bottom, and left). Specified as: style width color. For example, &lt;code&gt;solid 1px red;dashed 2px red;double 3px black; solid 1px red;&lt;/code&gt;."
+        docgetter="getBorder" docsetter="setBorder"
+        docdefault="&lt;code&gt;jsx3.gui.TabbedPane.CONTENTBORDER&lt;/code&gt;"
+        disallow="'"
+        jsxmask="jsxtext"
+        jsxexecute="objJSX.setBorder(vntValue);objJSX.recalcBox();objJSX.repaint();"/>    
+  </record>
+  
   <record include="master.xml" group="css_noclass"/>
   <record include="master.xml" group="interaction"/>
   <record include="master.xml" group="access"/>

@@ -1190,7 +1190,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Box", jsx3.lang.Object, null, function(
       // recalculate (convert implicit to explicit)
       this.calculate(Box._RECALC_FIELDS);
 
-      if (objGUI) {
+      if (objGUI && objGUI.style) {
         var objStyle = objGUI.style;
 
         // left and top can be negative, but not null

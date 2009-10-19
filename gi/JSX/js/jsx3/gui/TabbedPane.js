@@ -40,6 +40,12 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
   TabbedPane.DEFAULTTABHEIGHT = 20;
 
   /**
+   * {String} The default border to put around the content area of child tabs if no borde is specified for
+   * a tabbed pane.
+   */
+  TabbedPane.CONTENTBORDER = "solid 1px #f6f6ff;solid 1px #a6a6af;solid 1px #a6a6af;solid 1px #f6f6ff";
+  
+  /**
    * instance initializer
    * @param strName {String} unique name distinguishing this object from all other JSX GUI objects in the JSX application
    */
@@ -186,8 +192,10 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
       var myWidth = (myDimensions.width != null && !isNaN(myDimensions.width)) ? myDimensions.width : myDimensions.parentwidth;
       var intTabSize = (this.getShowTabs()) ? this.paintTabSize() : 0;
       var myHeight = ((myDimensions.height != null && !isNaN(myDimensions.height)) ? myDimensions.height : myDimensions.parentheight) - intTabSize;
-      var o = {left:0,top:intTabSize,width:myWidth,height:myHeight,parentwidth:myWidth,parentheight:myHeight,boxtype:"box",tagname:"div"};
-      if(this.getShowTabs()) o.border = "solid 1px #f6f6ff;solid 1px #a6a6af;solid 1px #a6a6af;solid 1px #f6f6ff";
+      var o = {left:0,top:intTabSize,width:myWidth,height:myHeight,parentwidth:myWidth,parentheight:myHeight,
+        boxtype:"box",tagname:"div",border:this.getBorder()};
+      if (this.getShowTabs() && o.border == null && o.border != "")
+        o.border = TabbedPane.CONTENTBORDER;
       return o;
     }
     return {};
@@ -262,8 +270,6 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
     if(objImplicit.height == null) objImplicit.height = "100%";
     if(objImplicit.tagname == null) objImplicit.tagname = "div";
     if (!objImplicit.boxtype)objImplicit.boxtype = "box";
-    var bor = this.getBorder();
-    if(bor != null && bor != "") objImplicit.border = bor;
     var b1 = new jsx3.gui.Painted.Box(objImplicit);
 
     //add box (holds tab handles)

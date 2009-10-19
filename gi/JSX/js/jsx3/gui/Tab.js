@@ -362,7 +362,8 @@ jsx3.Class.defineClass("jsx3.gui.Tab", jsx3.gui.Block, null, function(Tab, Tab_p
     objImplicit.tagname = "span";
     objImplicit.boxtype = "relativebox";
     objImplicit.padding = (pad != null && pad != "") ? pad : "3 4 1 4";
-    objImplicit.border = "0px pseudo;2px pseudo;0px pseudo;1px pseudo";
+    objImplicit.border = this.getBorder() || "0px pseudo;2px pseudo;0px pseudo;1px pseudo";
+    objImplicit.margin = this.getMargin();
     var b1 = new jsx3.gui.Painted.Box(objImplicit);
 
     //create the label box
