@@ -1,23 +1,32 @@
 <?xml version="1.0"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-  
-  <servlet>
-    <servlet-name>jack</servlet-name>
-    <servlet-class>org.jackjs.JackServlet</servlet-class>
+
+  <filter>
+    <filter-name>jack</filter-name>
+    <filter-class>org.jackjs.JackFilter</filter-class>
+
+<!--    <init-param>
+    	<param-name>reload</param-name>
+    	<param-value>true</param-value>
+    </init-param>
+    <init-param>
+    	<param-name>environment</param-name>
+    	<param-value>development</param-value>
+    </init-param>
     <init-param>
     	<param-name>narwhalFilePath</param-name>
-    	<param-value>C:/dev/narwhal</param-value>
+    	<param-value>/path/to/narwhal</param-value>
     </init-param>
     <init-param>
     	<param-name>modulesFilePath</param-name>
-    	<param-value>C:/customers/tibco/prototype-library/WEB-INF/jslib</param-value>
-    </init-param>
+    	<param-value>/path/to/additional/module/directories</param-value>
+    </init-param>-->
     
-  </servlet>
+  </filter>
   
-  <servlet-mapping>
-    <servlet-name>jack</servlet-name>
-    <url-pattern>/data/*</url-pattern>
-  </servlet-mapping>
+  <filter-mapping>
+    <filter-name>jack</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   
 </web-app>

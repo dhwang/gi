@@ -44,8 +44,8 @@
 		dojo.require("dojox.highlight");
 		dojo.require("dojox.highlight.languages.xml");
 		
-		var prototypeStore = new dojox.data.PersevereStore({target:"/data/Prototype/", idAsRef: true}); // persevere stores are auto-generated
-		var logStore = new dojox.data.PersevereStore({target:"/data/Log/", idAsRef: true}); // persevere stores are auto-generated
+		var prototypeStore = new dojox.data.PersevereStore({target:"/Prototype/", idAsRef: true}); // persevere stores are auto-generated
+		var logStore = new dojox.data.PersevereStore({target:"/Log/", idAsRef: true}); // persevere stores are auto-generated
 		function requery(status){
 			componentGrid.setQuery({status:status});
 		}
@@ -83,22 +83,28 @@
 			
 			dojo.connect(dojo.byId("download"), "onclick", function(){
 				var id = prototypeStore.getIdentity(selectedItem);
-				window.location.href = "/data/Prototype/" + id + ".component";
+				window.location.href = "/Prototype/" + id + ".component";
 			});
 			dojo.connect(dojo.byId("accept-button"), "onclick", function(){
 				prototypeStore.setValue(selectedItem, "enabled", true);
 				prototypeStore.setValue(selectedItem, "status", "Accepted");
 				prototypeStore.save();
+				logStore.newItem({
+					prototype_id:selectedItem.id,
+					action: "Accepted",
+					notes: null 
+				});
+				logStore.save();
 			});
-			dojo.connect(dojo.byId("reject-button"), "onclick", function(){
-				var reason = prompt("Enter the reason for rejection");
+			dojo.connect(dojo.byId("prohibit-button"), "onclick", function(){
+				var reason = prompt("Enter the reason for prohibiting");
 				if(typeof reason === "string"){
 					prototypeStore.setValue(selectedItem, "enabled", false);
 					prototypeStore.setValue(selectedItem, "status", "Prohibited");
 					prototypeStore.save();
 					logStore.newItem({
 						prototype_id:selectedItem.id,
-						action: "Administrative prohibition",
+						action: "Prohibited",
 						notes: reason 
 					});
 					logStore.save();
@@ -108,6 +114,13 @@
 				prototypeStore.setValue(selectedItem, "featured", true);
 				prototypeStore.setValue(selectedItem, "enabled", true);
 				prototypeStore.setValue(selectedItem, "status", "Featured");
+				logStore.newItem({
+					prototype_id:selectedItem.id,
+					action: "Featured",
+					notes: null 
+				});
+				logStore.save();
+
 				prototypeStore.save();
 			});
 			dojo.connect(dojo.byId("filter-box-form"), "onsubmit", function(event){
@@ -180,7 +193,7 @@
 		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" style="height:250px">
 		        	<div id="component-actions">
 		        		<button id="accept-button">Accept</button>
-						<button id="reject-button">Reject</button>
+						<button id="prohibit-button">Prohibit</button>
 						<button id="feature-button">Feature</button>
 					</div>
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="Information" iconClass="plusIcon" tooltip="Information about component">

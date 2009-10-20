@@ -18,7 +18,7 @@ Media({
 							if(item.hasOwnProperty(i)){
 								var value = item[i];
 								if(typeof value == 'string'){
-									write(' ' + i + '="' + value.replace(/"/,"&quot") + '"');
+									write(' ' + i + '="' + value.replace(/"/g,"&quot") + '"');
 								}
 								else{
 									write(' ' + i + '="' + value + '"');

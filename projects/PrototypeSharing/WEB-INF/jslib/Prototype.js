@@ -40,7 +40,7 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 							action: "Rejected",
 							notes: errors.join(", \n"),
 							date: new Date(),
-							prototype_id: this.id
+							prototype_id: this.id || 0
 						});
 						source.enabled = false;
 						this.enabled = false;
@@ -57,6 +57,12 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 		prototype: {
 			initialize: function(){
 				this.status = "New";
+				this.downloads = 0;
+				this.enabled = true;
+				this.featured = false;
+				this.uploaded = new Date();
+				this.ratingsCount = 0;
+				this.rating = 0;
 			},
 			save: function(){
 				print("save");
@@ -106,6 +112,7 @@ SchemaFacet({
 });
 
 function verifyComponent(component){
+	print("verify");
 	var errors = [];
 	try{
 		var parser = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -149,7 +156,7 @@ function verifyComponent(component){
 			for(var i = 0; i < childNodes.getLength();i++){
 				var child = childNodes.item(i);
 				var tagName = child.getTagName();
-			
+				print("child tag " + tagName);
 				if(tagName == "variants"){
 					var attrs = child.getAttributes();
 					for(var j = 0; j < attrs.getLength();j++){
