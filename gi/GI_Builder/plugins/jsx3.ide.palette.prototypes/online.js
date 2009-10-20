@@ -5,14 +5,17 @@
     _halfStar: plugIn.resolveURI('images/halfStar.png'),
     _fullStar: plugIn.resolveURI('images/fullStar.png'),
 
-    _getStars: function(rating) {
-      var rating = Number(rating),
-          wholes = 0,
-          fraction = 0;
+    _currentFilter: "all",
 
+    formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
+      var record = matrix.getRecord(cdfkey);
+      var rating = Number(record.rating);
+
+      var wholes = 0,
+          fraction = 0;
       if (isNaN(rating)) {
         rating = 0;
-      } else if (rating > 0) {
+      } else {
         wholes = Math.floor(rating);
         fraction = (rating - wholes);
       }
@@ -24,23 +27,19 @@
         hasHalf = true;
       }
 
-      var result = [];
-      for(var i=0; i<5; i++){
-        if (i < wholes) {
-          result.push(this._fullStar._path);
-        } else if (i == wholes && hasHalf) {
-          result.push(this._halfStar._path);
+      var self = this;
+      var getStar = function (num) {
+        if (num < wholes) {
+          return plugIn._fullStar._path;
+        } else if (num == wholes && hasHalf) {
+          return plugIn._halfStar._path;
         } else {
-          result.push(this._emptyStar._path);
+          return plugIn._emptyStar._path;
         }
-      }
-      return result;
-    },
+      };
 
-    formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
-      var record = matrix.getRecord(cdfkey);
-
-      element.innerHTML = "<img src='" + plugIn._getStars(record.rating).join("'/><img src='") + "'/>";
+      element.innerHTML = "<img src='" + getStar(0) + "'/><img src='" + getStar(1) + "'/>" +
+        "<img src='" + getStar(2) + "'/><img src='" + getStar(3) + "'/><img src='" + getStar(4) + "'/>";
     },
 
     _onOnlineFilterMenuExecute: function(objMenu, objMatrix, strRecordId) {
@@ -51,8 +50,12 @@
       switch (strRecordId) {
         default:
         case "all":
+          this._currentFilter = "all";
+          objMatrix.setXMLURL(this._buildXMLURL());
           break;
         case "featured":
+          this._currentFilter = "featured";
+          objMatrix.setXMLURL(this._buildXMLURL());
           break;
         case "rating":
         case "downloads":
@@ -86,16 +89,39 @@
       console.log(strRecordId);
     },
 
-    reloadOnlineLibraries: function(objMatrix) {
-      objMatrix.resetCacheData();
-      objMatrix.repaint();
+    _buildXMLURL: function() {
+      var objSearchBox = jsx3.IDE.getJSXByName("jsx_ide_online_search"),
+          objFilterMenu = jsx3.IDE.getJSXByName("jsx_ide_online_filter_menu"),
+          strSearch = objSearchBox && objSearchBox.getValue(),
+          hasFilter = (this._currentFilter != "all"),
+          baseUri = "http://localhost:8080/Prototype/",
+          uri = baseUri;
+      if (hasFilter) {
+        if (strSearch && strSearch.length) {
+          uri = baseUri + "?fulltext('" + strSearch + "')&featured=true";
+        } else {
+          uri = baseUri + "?featured=true";
+        }
+      } else if (strSearch && strSearch.length) {
+        uri = baseUri + "?fulltext('" + strSearch + "')";
+      }
+      jsx3.log("Matrix XML URL: " + uri);
+      return uri;
     },
 
-    _onOnlineListExecute: function(objMatrix, strRecordId) {
-      var ui = this.getPalette().getUIObject();
-      var record = objMatrix.getRecord(strRecordId);
+    _onSearch: function(objSearchBox, objMatrix, strValue) {
+      this._reloadList(objMatrix);
+    },
 
-      ui.setOnlineDetail(record);
+    _clearSearch: function(objSearchBox, objMatrix) {
+      objSearchBox.setValue("");
+      this._reloadList(objMatrix);
+    },
+
+    _reloadList: function(objMatrix) {
+      jsx3.log("Reloading matrix");
+      objMatrix.setXMLURL(this._buildXMLURL());
+      objMatrix.repaint();
     }
   });
 
