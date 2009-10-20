@@ -152,7 +152,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
     return false;
   };
 
-  ComponentEditor_prototype.save = function() {
+  ComponentEditor_prototype.save = function(objFile) {
     var didSave = false;
     var isExpert = false;
 
@@ -166,7 +166,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
     }
 
     //is there an active file to save?
-    var objFile = this.getOpenFile();
+    objFile = objFile || this.getOpenFile();
     if (objFile) {
       var objBody = this.getServer().getBodyBlock();
       var firstChild = objBody.getChild(0);

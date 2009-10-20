@@ -46,13 +46,13 @@ jsx3.Class.defineClass("jsx3.ide.gipp.Editor", jsx3.ide.recorder.Editor, null, f
     }
   };
 
-  Editor_prototype.save = function() {
+  Editor_prototype.save = function(objFile) {
     if (this._error) {
       return false;
     } else {
       var data = this._prefix + Editor.START + "\n\n" + this._toJSON() + "\n\n" + Editor.END + this._suffix;
 
-      if (jsx3.ide.writeUserFile(this.getOpenFile(), data)) {
+      if (jsx3.ide.writeUserFile(objFile || this.getOpenFile(), data)) {
         this.setDirty(false);
         this.publish({subject:"saved"});
         return true;

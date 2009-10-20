@@ -5,8 +5,8 @@
 
 jsx3.Class.defineClass("jsx3.ide.TextEditor", jsx3.ide.Editor, null, function(TextEditor, TextEditor_prototype) {
 
-  TextEditor_prototype.save = function() {
-    var objFile = this.getOpenFile();
+  TextEditor_prototype.save = function(objFile) {
+    objFile = objFile || this.getOpenFile();
     if (objFile) {
       var strContent = this.getEditorText();
 

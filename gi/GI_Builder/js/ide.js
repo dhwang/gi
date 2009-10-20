@@ -530,6 +530,24 @@ jsx3.ide._saveAsChoose = jsx3.$Y(function(cb) {
   });
 });
 
+jsx3.ide.saveCopyToLib = jsx3.$Y(function(cb) {
+  var editor = cb.args()[0] || jsx3.ide.getActiveEditor();
+
+  if (!editor == null) {
+    cb.done(false);
+  } else {
+    var protoDir = jsx3.ide.getHomeRelativeFile('prototypes');
+    jsx3.ide.getPlugIn("jsx3.io.browser").saveFile(jsx3.IDE.getRootBlock(), {
+        name:"jsx_ide_file_dialog", modal:true,
+        folder: protoDir, baseFolder: protoDir,
+        onChoose: jsx3.$F(function(objFile) {
+          editor.save(objFile);
+          cb.done();
+        }).bind(this)
+    });
+  }
+});
+
 jsx3.ide.close = jsx3.$Y(function(cb) {
   var editor = cb.args()[0] || jsx3.ide.getActiveEditor();
 

@@ -240,6 +240,12 @@
         execute="jsx3.ide.saveAs()"
         enabled="editor"/>
     <action
+        id="jsx3.ide.savecopy"
+        label="Save a Copy to Library..."
+        menupath="/jsx3.ide.file/save" hkconfig="true"
+        execute="jsx3.ide.saveCopyToLib()"
+        enabled="eval" enabled-eval="var ce = jsx3.ide.ComponentEditor; ce &amp;&amp; jsx3.ide.getActiveEditor() instanceof ce"/>
+    <action
         id="jsx3.ide.saveall"
         label="Save All" img="jsxapp:/images/icon_75.gif"
         menupath="/jsx3.ide.file/save" hotkey="{hk.saveAll}" hkconfig="true"

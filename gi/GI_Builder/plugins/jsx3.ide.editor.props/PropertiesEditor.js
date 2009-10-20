@@ -41,8 +41,8 @@ jsx3.Class.defineClass("jsx3.ide.PropertiesEditor", jsx3.ide.Editor, null, funct
     }
   };
 
-  PropertiesEditor_prototype.save = function() {
-    var objFile = this.getOpenFile();
+  PropertiesEditor_prototype.save = function(objFile) {
+    objFile = objFile || this.getOpenFile();
     if (objFile) {
       var objXML = jsx3.ide.makeXmlPretty(this.getMatrixData(), true);
       if (jsx3.ide.writeUserXmlFile(objFile, objXML)) {

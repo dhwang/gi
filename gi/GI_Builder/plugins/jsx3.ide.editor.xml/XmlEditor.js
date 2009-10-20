@@ -9,8 +9,8 @@ jsx3.Class.defineClass("jsx3.ide.XmlEditor", jsx3.ide.TextEditor, null, function
   
   XmlEditor_prototype._mode = 'readwrite';
 
-  XmlEditor_prototype.save = function() {
-    var objFile = this.getOpenFile();
+  XmlEditor_prototype.save = function(objFile) {
+    objFile = objFile || this.getOpenFile();
     if (objFile) {
       var strContent = this.getEditorText();
 

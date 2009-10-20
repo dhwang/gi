@@ -112,12 +112,12 @@ jsx3.Class.defineClass("jsx3.ide.gitak.Editor", jsx3.ide.recorder.Editor, null, 
     return x;
   };
 
-  Editor_prototype.save = function() {
+  Editor_prototype.save = function(objFile) {
     if (this._error) {
       return false;
     } else {
       var xml = this._toXML();
-      if (jsx3.ide.writeUserXmlFile(this.getOpenFile(), jsx3.ide.makeXmlPretty(xml, true))) {
+      if (jsx3.ide.writeUserXmlFile(objFile || this.getOpenFile(), jsx3.ide.makeXmlPretty(xml, true))) {
         this.setDirty(false);
         this.publish({subject:"saved"});
         return true;

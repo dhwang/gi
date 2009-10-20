@@ -62,7 +62,7 @@ jsx3.Class.defineClass("jsx3.ide.CacheEditor", jsx3.ide.TextEditor, null, functi
     this.publish({subject:"reverted"});
   };
 
-  CacheEditor_prototype.save = function() {
+  CacheEditor_prototype.save = function(objFile) {
     var objXML = new jsx3.xml.Document();
     objXML.loadXML(this.getEditorText());
 
