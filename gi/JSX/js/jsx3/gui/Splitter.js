@@ -232,7 +232,7 @@ jsx3.Class.defineClass("jsx3.gui.Splitter", jsx3.gui.Block, null, function(Split
     if(objImplicit.width == null) objImplicit.width = "100%";
     if(objImplicit.height == null) objImplicit.height = "100%";
     objImplicit.tagname = "div";
-    if (!objImplicit.boxtype)objImplicit.boxtype = "box";
+    if (!objImplicit.boxtype)objImplicit.boxtype = "relativebox";
     var b1 = new jsx3.gui.Painted.Box(objImplicit);
 
     //create the draggable splitter handle box

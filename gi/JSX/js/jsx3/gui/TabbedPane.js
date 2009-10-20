@@ -269,7 +269,7 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
     if(objImplicit.width == null) objImplicit.width = "100%";
     if(objImplicit.height == null) objImplicit.height = "100%";
     if(objImplicit.tagname == null) objImplicit.tagname = "div";
-    if (!objImplicit.boxtype)objImplicit.boxtype = "box";
+    if (!objImplicit.boxtype)objImplicit.boxtype = "relativebox";
     var b1 = new jsx3.gui.Painted.Box(objImplicit);
 
     //add box (holds tab handles)

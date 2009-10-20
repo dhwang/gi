@@ -1137,22 +1137,27 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
         var objDragSource = jsx3.EventHelp.getDragSource();      //source jsx gui object; (i.e., another jsx3.gui.Tree instance)
         var strDragType = jsx3.EventHelp.getDragType();      //drag type (equivalent to MIME) for the element being dragged
 
+        var objPRow = this.getAbsolutePosition(objTreeGUI, objGUI.childNodes[0]);
+        var bInsert = objPRow.H/3 > objEvent.getOffsetY();
+        
         //this is the before drop event; fire for the user and cancel if the user explicitly said to
         var bContinue = this.doEvent(Interactive.BEFORE_DROP,
             {objEVENT:objEvent, strRECORDID:strRecordId, objSOURCE:objDragSource, strDRAGID:jsx3.EventHelp.getDragId(),
-             strDRAGIDS: jsx3.EventHelp.getDragIds(), strDRAGTYPE:strDragType, objGUI:objGUI});
+             strDRAGIDS: jsx3.EventHelp.getDragIds(), strDRAGTYPE:strDragType, objGUI:objGUI, bINSERTBEFORE:bInsert});
 
-        if (bContinue === false) return;
+        if (bContinue === false) {
+          this._resetDropIcon(objGUI);
+          return;
+        }
 
         var objP = this.getAbsolutePosition(objTreeGUI, objGUI);
-        var objPRow = this.getAbsolutePosition(objTreeGUI, objGUI.childNodes[0]);
         var objArrow = this._getDropIcon(objTreeGUI);
         var objStyle = objArrow.style;
 
         //get how far the drop designator should indent
         var intIndent = objP.L;
 
-        if (objPRow.H/3 > objEvent.getOffsetY()) {
+        if (bInsert) {
           var objThisP = this.getAbsolutePosition(objTreeGUI, objTreeGUI);
           //this is an insertBefore
           objStyle.top = (objPRow.T - 4) + "px";
@@ -1502,7 +1507,7 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
 
     //update/set layout properties
-    objImplicit.boxtype = "box";
+    objImplicit.boxtype = "relativebox";
     objImplicit.tagname = "div";
     if(objImplicit.left == null) objImplicit.left = 0;
     if(objImplicit.top == null) objImplicit.top = 0;

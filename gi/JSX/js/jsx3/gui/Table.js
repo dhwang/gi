@@ -1031,7 +1031,7 @@ jsx3.Class.defineClass("jsx3.gui.Table", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xm
 
 
     //update/set layout properties
-    objImplicit.boxtype = "box";
+    objImplicit.boxtype = "relativebox";
     objImplicit.tagname = "div";
     if(objImplicit.left == null) objImplicit.left = 0;
     if(objImplicit.top == null) objImplicit.top = 0;

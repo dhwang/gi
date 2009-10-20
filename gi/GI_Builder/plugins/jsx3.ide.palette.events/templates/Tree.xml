@@ -66,6 +66,8 @@
         jsxtext="an array containing the CDF jsxids of the dragged records."/>
     <record jsxid="strRECORDID" type="String"
         jsxtext="the CDF jsxid corresponding to the node hovered over in the view."/>
+    <record jsxid="bINSERTBEFORE" type="boolean"
+        jsxtext="whether the dropped record would be inserted before &lt;code&gt;strRECORDID&lt;/code&gt;. Otherwise, it would be appended as a child of &lt;code&gt;strRECORDID&lt;/code&gt;."/>
     <record jsxid="objGUI" type="HTMLElement" jsxtext="the HTML element acted upon."/>
   </record>
 

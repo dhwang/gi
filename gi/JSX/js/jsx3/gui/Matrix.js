@@ -816,7 +816,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     objImplicit.top = 0;
     objImplicit.width = "100%";
     objImplicit.height = "100%";
-    objImplicit.boxtype = "box";
+    objImplicit.boxtype = "relativebox";
     objImplicit.tagname = "div";
     var b1 = new Box(objImplicit);
 
