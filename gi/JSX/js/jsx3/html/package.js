@@ -163,42 +163,51 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
       var tagName = html._tn(objNode);
       if (tagName == "span" || tagName == "div") {
         var relPos = html.getRelativePosition(objNode, objGUI);
+        var oldLeft = objNode.scrollLeft, oldTop = objNode.scrollTop;
+        var newLeft = oldLeft, newTop = oldTop;
+/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
+          relPos.L += oldLeft;
+          relPos.T += oldTop;
+/* @JSC */ }
 
         // make horizontal dimension visible
         // left edge of child off view to the right
-        if (objNode.clientWidth + objNode.scrollLeft <= relPos.L) {
-          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
+        if (objNode.clientWidth + newLeft <= relPos.L) {
+          newLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
         }
         // right edge of child off view to the right
-        else if (intPaddingX && objNode.clientWidth + objNode.scrollLeft < relPos.L + objGUI.offsetWidth) {
-          objNode.scrollLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
+        else if (intPaddingX && objNode.clientWidth + newLeft < relPos.L + objGUI.offsetWidth) {
+          newLeft = (relPos.L + objGUI.offsetWidth) - objNode.clientWidth + intPaddingX;
         }
         // right edge of child off view to the left
-        if (objNode.scrollLeft >= relPos.L + objGUI.offsetWidth) {
-          objNode.scrollLeft = relPos.L - intPaddingX;
+        if (newLeft >= relPos.L + objGUI.offsetWidth) {
+          newLeft = relPos.L - intPaddingX;
         }
         // left edge of child off view to the left
-        else if (intPaddingX && objNode.scrollLeft > relPos.L) {
-          objNode.scrollLeft = relPos.L - intPaddingX;
+        else if (intPaddingX && newLeft > relPos.L) {
+          newLeft = relPos.L - intPaddingX;
         }
 
         // make vertical dimension visible
         // top edge of child off view to the bottom
-        if (objNode.clientHeight + objNode.scrollTop <= relPos.T) {
-          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
+        if (objNode.clientHeight + newTop <= relPos.T) {
+          newTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
         }
         // bottom edge of child off view to the bottom
-        else if (intPaddingY && objNode.clientHeight + objNode.scrollTop < relPos.T + objGUI.offsetHeight) {
-          objNode.scrollTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
+        else if (intPaddingY && objNode.clientHeight + newTop < relPos.T + objGUI.offsetHeight) {
+          newTop = (relPos.T + objGUI.offsetHeight) - objNode.clientHeight + intPaddingY;
         }
         // bottom edge of child off view to the top
-        if (objNode.scrollTop >= relPos.T + objGUI.offsetHeight) {
-          objNode.scrollTop = relPos.T - intPaddingY;
+        if (newTop >= relPos.T + objGUI.offsetHeight) {
+          newTop = relPos.T - intPaddingY;
         }
         // top edge of child off view to the top
-        else if (intPaddingY && objNode.scrollTop > relPos.T) {
-          objNode.scrollTop = relPos.T - intPaddingY;
+        else if (intPaddingY && newTop > relPos.T) {
+          newTop = relPos.T - intPaddingY;
         }
+        
+        if (newLeft != oldLeft) objNode.scrollLeft = newLeft;
+        if (newTop != oldTop) objNode.scrollTop = newTop;
       }
 
       if (objNode == objRoot) break;
