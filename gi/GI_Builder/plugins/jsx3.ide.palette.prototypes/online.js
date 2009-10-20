@@ -82,6 +82,7 @@
           break;
       }
 
+      objMatrix.resetCacheData();
       objMatrix.repaint();
     },
 
@@ -121,6 +122,7 @@
     _reloadList: function(objMatrix) {
       jsx3.log("Reloading matrix");
       objMatrix.setXMLURL(this._buildXMLURL());
+      objMatrix.resetCacheData();
       objMatrix.repaint();
     }
   });
