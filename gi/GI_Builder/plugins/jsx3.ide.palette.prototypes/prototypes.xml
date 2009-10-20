@@ -1,5 +1,5 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <onAfterDeserialize>
+  <onAfterDeserialize><![CDATA[
 
 objJSX._firsttime = false;
 
@@ -30,8 +30,8 @@ objJSX.onUserReloaded = function() {
 };
 
 objJSX.onEditorChanged = function(newEditor, oldEditor) {
-  var onBefore = oldEditor &amp;&amp; oldEditor.getMode() == "component";
-  var onNow = newEditor &amp;&amp; newEditor.getMode() == "component";
+  var onBefore = oldEditor && oldEditor.getMode() == "component";
+  var onNow = newEditor && newEditor.getMode() == "component";
 
   if (onBefore != onNow) {
     jsx3.sleep(jsx3.$F(this._onEditorChangedSleep).bind(this, [onNow]), "jsx3.ide.palette.componentlibs", this, true);
@@ -59,7 +59,7 @@ objJSX._onEditorChangedSleep = function(onNow) {
 
 objJSX._setButtonsEnabled = function(enabled) {
   var buttons = jsx_ide_complibs_bar.getDescendantsOfType(jsx3.gui.ToolbarButton);
-  for (var i = 0; i &lt; buttons.length; i++) {
+  for (var i = 0; i < buttons.length; i++) {
     buttons[i].setEnabled(enabled, true);
   }
 };
@@ -68,8 +68,10 @@ objJSX._onChange = function(v) {
   this.getPlugIn().publish({subject:"selection", value:v});
 };
 
-objJSX._onUserChange = function(v) {
-  jsx_ide_complibs_user_upload_btn.setEnabled(!!v, true);
+objJSX._onUserChange = function(cdf, v) {
+  btnup.setEnabled(v != null && cdf.getRecord(v).type != "folder", true);
+  btnnf.setEnabled(v != null && cdf.getRecord(v).type == "folder", true);
+  btndl.setEnabled(!!v, true);
 };
 
 objJSX.getSystemTree = function() {
@@ -108,20 +110,89 @@ objJSX.setOnlineView = function(viewStr) {
   this._current_user_view = view;
 };
 
-  </onAfterDeserialize>
+objJSX.doNewFolder = function() {
+  var parentId = ide_component_libs_user_tree.getValue();
+  var rec = ide_component_libs_user_tree.getRecord(parentId);
+  var basePath = rec.syspath;
+  
+  this.getServer().prompt("Create Folder", "Enter the name of the folder to create.",
+      jsx3.$F(function(d, val) {
+        d.doClose();
+        val = jsx3.util.strTrim(val);
+        var success = this.getPlugIn().createUserFolder(basePath, val);
+        if (success) {
+          ide_component_libs_user_tree.insertRecord({
+            jsxid:parentId + "/" + val, jsxtext:val, syspath:basePath + "/" + val, type:"folder", 
+            jsximg:rec.jsximg, jsxlazy:"1"
+          }, parentId, true);
+        }
+      }).bind(this));
+};
+
+objJSX.doUserDelete = function() {
+  var val = ide_component_libs_user_tree.getValue();
+  var syspath = ide_component_libs_user_tree.getRecord(val).syspath;
+  
+  this.getServer().confirm("Delete Component?", "The selected component or folder will be deleted permanently. Proceed?",
+      function(d) { 
+        d.doClose(); 
+        if (objJSX.getPlugIn().deleteUserComponent(syspath)) 
+          ide_component_libs_user_tree.deleteRecord(val);
+      }, null, 
+      "Delete", "Cancel");
+};
+
+objJSX.onUserBeforeDrop = function(objSource, sourceId, objTarget, targetId, bInsert) {
+  if (objSource != objTarget || targetId == sourceId)
+    return false;
+    
+  var rec = objTarget.getRecordNode(targetId);
+  return rec.getAttribute("type") == "folder" && !bInsert;
+};
+
+objJSX.onUserDrop = function(objSource, sourceId, objTarget, targetId, bInsert) {
+  if (objSource == objTarget && sourceId != targetId && !bInsert) {
+    var bLazy = objSource.getRecord(targetId).jsxlazy == "1";
+    var objNewFile = this.getPlugIn().moveUserComponent(
+        objSource.getRecord(sourceId).syspath, objSource.getRecord(targetId).syspath);
+    
+    if (objNewFile) {
+      if (bLazy) {
+        objTarget.deleteRecord(sourceId);
+      } else {
+        objSource.getRecordNode(sourceId).setAttribute("syspath", 
+            jsx3.ide.getSystemDirFile().relativePathTo(objNewFile));
+      }
+    }
+    
+    if (!bLazy) return !!objNewFile;
+  }
+
+  return false;
+};
+
+objJSX.onSystemDrag = function(objSource, sourceId) {
+  var rec = objSource.getRecordNode(sourceId);
+  if (rec.getAttribute("type") == "folder") return false;
+  
+  if (objHW = jsx3.gui.Heavyweight.GO("jsxfocusrectangle")) 
+    objHW.destroy();
+}
+
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.Block">
     <variants jsxleft="0" jsxtop="0" jsxoverflow="2" _firsttime="false"/>
-    <strings jsxname="jsx_ide_palette_complibs" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.palette.complibs"/>
+    <strings jsxname="palette" jsxwidth="100%" jsxheight="100%" jsxhelpid="ide.palette.complibs" jsxpadding="2 0 0 0"/>
     <object type="jsx3.gui.Block">
       <variants/>
       <strings jsxname="menuBar" jsxdisplay="none"/>
     </object>
     <object type="jsx3.gui.TabbedPane">
-      <variants selectedIndex="2" jsxselectedindex="2"/>
-      <strings jsxname="tabbedpane" jsxtextalign="0"/>
+      <variants jsxtabheight="18"/>
+      <strings jsxname="tabbedpane" jsxtextalign="0" jsxborder="solid 1px #f6f6ff;0px;0px;0px"/>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="components_tab" jsxtext="System" jsxbgcolor="#d8d8e5"/>
+        <strings jsxname="components_tab" jsxtext="System" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
           <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
@@ -131,8 +202,8 @@ objJSX.setOnlineView = function(viewStr) {
             <strings jsxname="jsx_ide_cache_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
             <object type="jsx3.gui.WindowBar">
               <variants jsxfontsize="10" jsxbartype="2" jsxoverflow="3" jsxrelativeposition="1"/>
-              <strings jsxname="jsx_ide_complibs_bar"/>
-              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+              <strings jsxname="jsx_ide_complibs_bar" jsxborder="0px;0px;solid 1px #a8a8b5;0px"/>
+              <dynamics jsxbgcolor="@Solid Medium"/>
             </object>
             <object type="jsx3.gui.Block">
               <variants jsxleft="0" jsxtop="0" jsxoverflow="1"/>
@@ -142,7 +213,10 @@ objJSX.setOnlineView = function(viewStr) {
                 <variants jsxuseroot="0" jsxdrag="1"/>
                 <strings jsxname="ide_component_libs_tree" jsxmenu="jsx3.ide.prototypesctx" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
                 <dynamics jsxpadding="@Tree Padding" jsxbgcolor="@Solid Light"/>
-                <events jsxdrag="if(objHW = jsx3.gui.Heavyweight.GO(&quot;jsxfocusrectangle&quot;)) objHW.destroy();" jsxadopt="false" jsxdata="jsx_ide_palette_complibs.getPlugIn().doPLDirData(this,objNODE);" jsxchange="jsx_ide_palette_complibs._onChange(this.getValue());"/>
+                <events jsxdrag="palette.onSystemDrag(this, strDRAGID)" 
+                    jsxadopt="false" 
+                    jsxdata="palette.getPlugIn().doPLDirData(this,objNODE);" 
+                    jsxchange="palette._onChange(this.getValue());"/>
                 <xslparameters jsxsortpath="sorton" jsxindent="16" jsx_img_resolve="0"/>
               </object>
             </object>
@@ -151,56 +225,41 @@ objJSX.setOnlineView = function(viewStr) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxheight="18"/>
-        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#d8d8e5"/>
+        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
             <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
             <object type="jsx3.gui.WindowBar">
               <variants jsxbartype="2" jsxfontsize="10" jsxrelativeposition="1" jsxoverflow="3"/>
-              <strings jsxname="jsx_ide_complibs_user_bar" jsxdisplay=""/>
-              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
-              <object type="jsx3.gui.LayoutGrid">
-                <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                <strings jsxname="layoutCols" jsxcols="*,31,31" jsxwidth="100%" jsxheight="100%"/>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="2"/>
-                  <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="3 3 0 0"/>
-                  <object type="jsx3.gui.TextBox">
-                    <variants jsxheight="18"/>
-                    <strings jsxname="jsx_ide_user_search" jsxvalue="" jsxwidth="100%" jsxpadding="1 19 0 2"/>
-                  </object>
-                </object>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="3"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                  <object type="jsx3.gui.Image">
-                    <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="-20" jsxtop="5"/>
-                    <strings jsxname="image" jsxsrc="images/clearSearch.gif" jsxdisplay=""/>
-                    <dynamics jsxcursor="@Hand"/>
-                  </object>
-                  <object type="jsx3.gui.ToolbarButton">
-                    <variants jsxdivider="1" jsxenabled="0"/>
-                    <strings jsxname="jsx_ide_complibs_user_upload_btn" jsximage="images/application_get.png" jsxtip="Upload"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().uploadUserPrototype(ide_component_libs_user_tree);"/>
-                  </object>
-                </object>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="3"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
-                  <object type="jsx3.gui.ToolbarButton">
-                    <variants jsxdivider="1"/>
-                    <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn().reloadUserLibraries(ide_component_libs_user_tree);"/>
-                  </object>
-                </object>
+              <strings jsxname="jsx_ide_complibs_user_bar" jsxdisplay="" jsxborder="0px;0px;solid 1px #a8a8b5;0px"/>
+              <dynamics jsxbgcolor="@Solid Medium"/>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants jsxdivider="0" jsxenabled="0"/>
+                <strings jsxname="btnnf" jsximage="jsxapp:/images/icon_57.gif" jsxtip="Create new folder"/>
+                <events jsxexecute="palette.doNewFolder();"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants jsxdivider="0" jsxenabled="0"/>
+                <strings jsxname="btndl" jsximage="jsxapp:/images/icon_24.gif" jsxtip="Delete selected component"/>
+                <events jsxexecute="palette.doUserDelete();"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants jsxdivider="0" jsxenabled="0"/>
+                <strings jsxname="btnup" jsximage="images/application_get.png" jsxtip="Upload component"/>
+                <events jsxexecute="palette.getPlugIn().uploadUserPrototype(ide_component_libs_user_tree);"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants jsxdivider="1"/>
+                <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
+                <events jsxexecute="palette.getPlugIn().reloadUserLibraries(ide_component_libs_user_tree);"/>
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="-1" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_user_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -211,10 +270,15 @@ objJSX.setOnlineView = function(viewStr) {
                   <strings jsxname="jsx_ide_comps_user_treeblock" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay=""/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Tree">
-                    <variants jsxuseroot="0" jsxdrag="1"/>
+                    <variants jsxuseroot="1" jsxdrag="1" jsxdrop="1"/>
                     <strings jsxname="ide_component_libs_user_tree" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
                     <dynamics jsxpadding="@Tree Padding" jsxbgcolor="@Solid Light"/>
-                    <events jsxdrag="if(objHW = jsx3.gui.Heavyweight.GO(&quot;jsxfocusrectangle&quot;)) objHW.destroy();" jsxadopt="false" jsxdata="jsx_ide_palette_complibs.getPlugIn().doPLDirData(this,objNODE);" jsxchange="jsx_ide_palette_complibs._onUserChange(this.getValue());"/>
+                    <events jsxdrag="if(objHW = jsx3.gui.Heavyweight.GO(&quot;jsxfocusrectangle&quot;)) objHW.destroy();" 
+                        jsxbeforedrop="palette.onUserBeforeDrop(objSOURCE, strDRAGID, this, strRECORDID, bINSERTBEFORE)" 
+                        jsxdrop="palette.onUserDrop(objSOURCE, strDRAGID, this, strRECORDID, bINSERTBEFORE)" 
+                        jsxadopt="this == objTARGET" 
+                        jsxdata="palette.getPlugIn().doPLDirData(this,objNODE);" 
+                        jsxchange="palette._onUserChange(this, this.getValue());"/>
                     <xslparameters jsxsortpath="sorton" jsxindent="16" jsx_img_resolve="0"/>
                   </object>
                 </object>
@@ -276,18 +340,18 @@ objJSX.setOnlineView = function(viewStr) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#e8e8f5"/>
+        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
             <strings jsxname="jsx_ide_prototypes_layout" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
             <object type="jsx3.gui.WindowBar">
               <variants jsxbartype="2" jsxfontsize="10" jsxrelativeposition="1" jsxoverflow="3"/>
-              <strings jsxname="jsx_ide_complibs_online_bar" jsxdisplay=""/>
-              <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Outset"/>
+              <strings jsxname="jsx_ide_complibs_online_bar" jsxdisplay="" jsxborder="0px;0px;solid 1px #a8a8b5;0px"/>
+              <dynamics jsxbgcolor="@Solid Medium"/>
               <object type="jsx3.gui.LayoutGrid">
                 <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                 <strings jsxname="layoutCols" jsxcols="*,41,41,31" jsxwidth="100%" jsxheight="100%"/>
@@ -297,7 +361,6 @@ objJSX.setOnlineView = function(viewStr) {
                   <object type="jsx3.gui.TextBox">
                     <variants jsxheight="18"/>
                     <strings jsxname="jsx_ide_online_search" jsxvalue="" jsxwidth="100%" jsxpadding="1 19 0 2"/>
-                    <events jsxincchange="jsx_ide_palette_complibs.getPlugIn()._onSearch(this, ide_component_libs_online_list, strVALUE);"/>
                   </object>
                 </object>
                 <object type="jsx3.gui.Block">
@@ -307,12 +370,11 @@ objJSX.setOnlineView = function(viewStr) {
                     <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="-20" jsxtop="5"/>
                     <strings jsxname="image" jsxsrc="images/clearSearch.gif" jsxdisplay=""/>
                     <dynamics jsxcursor="@Hand"/>
-                    <events jsxclick="jsx_ide_palette_complibs.getPlugIn()._clearSearch(jsx_ide_online_search, ide_component_libs_online_list);"/>
                   </object>
                   <object type="jsx3.gui.Menu">
                     <variants jsxxmlasync="1" jsxdivider="1" jsxxmlbind="1"/>
                     <strings jsxname="jsx_ide_online_filter_menu" jsxtip="Filters" jsximage="images/table_gear.png" jsxxmlid="jsx3.ide.palette.prototypes.menu-filters"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn()._onOnlineFilterMenuExecute(this, ide_component_libs_online_list, strRECORDID, jsx_ide_online_search);"/>
+                    <events jsxexecute="palette.getPlugIn()._onOnlineFilterMenuExecute(this, ide_component_libs_online_list, strRECORDID, jsx_ide_online_search);"/>
                   </object>
                 </object>
                 <object type="jsx3.gui.Block">
@@ -321,7 +383,7 @@ objJSX.setOnlineView = function(viewStr) {
                   <object type="jsx3.gui.Menu">
                     <variants jsxxmlasync="1" jsxdivider="1" jsxxmlbind="1"/>
                     <strings jsxname="menu" jsxtip="Feeds" jsximage="images/feed.png" jsxxmlid="jsx3.ide.palette.prototypes.menu-feeds"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn()._onOnlineFeedMenuExecute(strRECORDID);"/>
+                    <events jsxexecute="palette.getPlugIn()._onOnlineFeedMenuExecute(strRECORDID);"/>
                   </object>
                 </object>
                 <object type="jsx3.gui.Block">
@@ -330,7 +392,7 @@ objJSX.setOnlineView = function(viewStr) {
                   <object type="jsx3.gui.ToolbarButton">
                     <variants jsxdivider="1"/>
                     <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
-                    <events jsxexecute="jsx_ide_palette_complibs.getPlugIn()._reloadList(ide_component_libs_online_list);"/>
+                    <events jsxexecute="palette.getPlugIn()._reloadList(ide_component_libs_online_list);"/>
                   </object>
                 </object>
               </object>
@@ -350,7 +412,7 @@ objJSX.setOnlineView = function(viewStr) {
                     <variants jsxheaderheight="26" jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="0" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1"/>
                     <strings xmlns="urn:tibco.com/v3.0" jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxxmlurl="http://localhost:8080/Prototype" jsxsorttype="number" jsxsortdirection="descending"/>
                     <dynamics jsxbgcolor="@Solid Light"/>
-                    <events jsxtoggle="jsx3.log('EVENT: (jsxtoggle). ' + strRECORDID + '. Open: ' + bOPEN);" jsxexecute="jsx3.log('EVENT: (jsxexecute). ' + strRECORDID);"/>
+                    <events jsxexecute="palette.getPlugIn()._onOnlineListExecute(this, strRECORDID);"/>
                     <object type="jsx3.gui.Matrix.Column">
                       <variants jsxsort="0"/>
                       <strings xmlns="urn:tibco.com/v3.0" jsxname="nameColumn" jsxwidth="*" jsxcellpadding="2 2 2 8" jsxpath="name" jsxpadding="5 0 0 8" jsxtext="Name"/>
@@ -358,7 +420,7 @@ objJSX.setOnlineView = function(viewStr) {
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <variants jsxwidth="100" jsxsort="1"/>
-                      <strings jsxname="filterColumn" jsxtext="Rating" jsxcellpadding="5 0 0 8" jsxpath="rating" jsxtextalign="left" jsxformathandler="jsx3.IDE.getJSXByName('jsx_ide_palette_complibs').getPlugIn().formatRating" jsxpadding="5 5 5 8" jsxsortdatatype="number" jsxdatatype="number"/>
+                      <strings jsxname="filterColumn" jsxtext="Rating" jsxcellpadding="5 0 0 8" jsxpath="rating" jsxtextalign="left" jsxformathandler="jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes').formatRating" jsxpadding="5 5 5 8" jsxsortdatatype="number" jsxdatatype="number"/>
                       <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                     </object>
                   </object>
@@ -600,7 +662,27 @@ objJSX.setOnlineView = function(viewStr) {
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="1"/>
-                          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="Rating widget here" jsxpadding="0 0 0 8"/>
+                          <strings jsxname="jsx_ide_proto_detail_avg_rating" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="0 0 0 8"/>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="2"/>
@@ -608,7 +690,27 @@ objJSX.setOnlineView = function(viewStr) {
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="1"/>
-                          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxtext="Rating widget here" jsxpadding="0 0 0 8"/>
+                          <strings jsxname="jsx_ide_proto_detail_your_rating" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="0 0 0 8"/>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
+                          <object type="jsx3.gui.Image">
+                            <variants jsxoverflow="2" jsxrelativeposition="1"/>
+                            <strings jsxname="image" jsxsrc="images/emptyStar.png"/>
+                          </object>
                         </object>
                       </object>
                     </object>

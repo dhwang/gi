@@ -92,7 +92,7 @@ _doPLDirectoryRead: function(doc, parent, file, objResolver) {
       if (item.isDirectory()) {
         doc.insertRecord({
           jsxid: parent.getAttribute('jsxid') + '/' + name,
-          jsxtext: name.replace(/_/g, " "), type: 'folder', jsxlazy: '1', jsxunselectable: '1',
+          jsxtext: name.replace(/_/g, " "), type: 'folder', jsxlazy: '1',
           jsximg: parent.getAttribute("jsximg"), sorton: 'a_' + (name.charAt(0) == "~" ? ("z" + name) : name),
           syspath: jsx3.ide.getSystemDirFile().relativePathTo(item)
         }, parent.getAttribute('jsxid'));
@@ -178,6 +178,53 @@ reloadSystemLibraries: function(objTree) {
   var doc = this._getSystemLibraries();
   objTree.setSourceXML(doc);
   this.publish({subject: "reloaded"});
-}
+},
 
+moveUserComponent: function(pathToMove, pathOfParent) {
+  var file = jsx3.ide.getSystemRelativeFile(pathToMove);
+  if (file.exists()) {
+    var dir = jsx3.ide.getSystemRelativeFile(pathOfParent);
+        
+    if (dir.isDirectory()) {
+      var destFile = jsx3.ide.getSystemRelativeFile(dir + "/" + file.getName())
+
+      if (file.getParentFile().equals(dir)) {
+        ; // ignore illegal move
+      } else if (destFile.exists()) {
+        this.getLog().error("File already exists: " + destFile);
+      } else if (!dir.isDescendantOf(file)) {
+        file.renameTo(destFile);
+        return destFile;
+      } else {
+        ; // ignore illegal move
+      }
+    } else {
+      this.getLog().error("Not a directory: " + dir);
+    }
+  } else {
+    this.getLog().error("Not a file: " + file);
+  }
+  
+  return false;
+},
+
+deleteUserComponent: function(path) {
+  var file = jsx3.ide.getSystemRelativeFile(path);
+  if (file.exists()) {
+    file.deleteFile();
+    return true;
+  } else {
+    this.getLog().error("Not a file: " + file);
+  }
+},
+  
+createUserFolder: function(basePath, name) {
+  var dir = jsx3.ide.getSystemRelativeFile(basePath + "/" + name);
+  if (!dir.exists()) {
+    dir.mkdir();
+    return dir.isDirectory();
+  }
+}
+  
+  
 });
