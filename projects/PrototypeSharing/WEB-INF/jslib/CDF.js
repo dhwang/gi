@@ -12,21 +12,25 @@ Media({
 		return {forEach:function(write){
 				write('<data jsxid="jsxroot">\n');
 				if(object instanceof Array){
-					object.forEach(function(item){
-						write(' <record jsxid="' +item.id + '"');
-						for(var i in item){
-							if(item.hasOwnProperty(i)){
-								var value = item[i];
-								if(typeof value == 'string'){
-									write(' ' + i + '="' + value.replace(/"/g,"&quot") + '"');
-								}
-								else{
-									write(' ' + i + '="' + value + '"');
-								}
+					object.forEach(writeRecord);
+				}
+				else{
+					writeRecord(object);
+				}
+				function writeRecord(item){
+					write(' <record jsxid="' +item.id + '"');
+					for(var i in item){
+						if(item.hasOwnProperty(i)){
+							var value = item[i];
+							if(typeof value == 'string'){
+								write(' ' + i + '="' + value.replace(/"/g,"&quot") + '"');
+							}
+							else{
+								write(' ' + i + '="' + value + '"');
 							}
 						}
-						write('/>\n');
-					});
+					}
+					write('/>\n');
 				}
 				write('</data>');
 				
