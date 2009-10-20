@@ -7,7 +7,7 @@
   <object type="jsx3.gui.Tab">
     <dynamics jsxbgcolor="@Solid Medium"/>
     <variants jsxindex="0"/>
-    <strings jsxtext="unknown" jsxmenu="jsxmenu_component"/>
+    <strings jsxtext="unknown" jsxmenu="jsxmenu_component" jsxmargin="0 4 0 0"/>
     <properties onmouseover="if (jsx3.EventHelp.isDragging()) jsx3.html.getJSXParent(this).doShow();"/>
     <events jsxshow="this.getManager().onShowEditor(this.getEditor())"
             jsxhide="this.getManager().onHideEditor(this.getEditor())"/>

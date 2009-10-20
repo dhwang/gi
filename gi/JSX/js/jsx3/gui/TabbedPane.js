@@ -432,12 +432,19 @@ jsx3.Class.defineClass("jsx3.gui.TabbedPane", jsx3.gui.Block, null, function(Tab
   /** @private @jsxobf-clobber */
   TabbedPane_prototype._getTabOffsetWidths = function() {
     var objGUI = this._getTabContainerElement();
-    if(objGUI) {
+    if (objGUI) {
       var objKids = objGUI.childNodes;
-      var intTotal = 0;
-      for(var i=0;i<objKids.length;i++)
-        intTotal+= parseInt(objKids[i].offsetWidth);
-      return intTotal;
+      var i = objKids.length - 1, lastKid = null;
+      while (i >= 0 && !lastKid) {
+        if (objKids[i].nodeType == 1)
+          lastKid = objKids[i];
+        i--;
+      }
+      
+      if (lastKid) {
+        var pos = jsx3.html.getRelativePosition(objGUI, lastKid);
+        return pos.L + pos.W;
+      }
     }
   };
 
