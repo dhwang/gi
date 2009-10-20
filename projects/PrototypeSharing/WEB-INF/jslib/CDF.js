@@ -6,13 +6,13 @@ Media({
 		return 1;
 	},
 	serialize: function(object, env){
-		
+		if(typeof object == "string"){
+			return [object];
+		}
 		return {forEach:function(write){
 				write('<data jsxid="jsxroot">\n');
-				print("CDF " + (object instanceof Array) + " " + object.forEach);
 				if(object instanceof Array){
 					object.forEach(function(item){
-						print("in foreach");
 						write(' <record jsxid="' +item.id + '"');
 						for(var i in item){
 							if(item.hasOwnProperty(i)){

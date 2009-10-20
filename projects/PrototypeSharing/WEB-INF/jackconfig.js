@@ -5,7 +5,9 @@ var pintura = require("pintura");
 require.paths.push("jslib");
 require("persvr");
 require("CDF");
+require("tibco-application");
 require("Prototype");
+require("Log");
 require("LDAPUser");
 
 exports.app = require("jack/cascade").Cascade([ 
@@ -14,3 +16,5 @@ exports.app = require("jack/cascade").Cascade([
 	pintura.app
 ]);
 
+
+new (require("worker").SharedWorker)("console");

@@ -7,6 +7,7 @@
 		@import "../jsclient/dojox/grid/resources/Grid.css";
 		@import "../jsclient/dojox/grid/resources/tundraGrid.css";
 		@import "../jsclient/dijit/themes/tundra/tundra.css";
+		@import "../jsclient/dojox/highlight/resources/highlight.css";
       body {
         margin: 0 0 25px 0;
         margin-bottom: 25px;
@@ -26,6 +27,9 @@
         border: 1px solid #aaa;
         border-top: none;
       }
+	  .tag {
+	  	display: block;
+	  }
     </style>
   	<script djConfig="isDebug:true, parseOnLoad: true" src="../jsclient/dojo/dojo.js" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -37,30 +41,44 @@
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dojox.highlight");
+		dojo.require("dojox.highlight.languages.xml");
 		
-		var prototypeStore = new dojox.data.PersevereStore({target:"/data/Prototype/",schema:{prototype:{a:3}}}); // persevere stores are auto-generated
+		var prototypeStore = new dojox.data.PersevereStore({target:"/data/Prototype/", idAsRef: true}); // persevere stores are auto-generated
+		var logStore = new dojox.data.PersevereStore({target:"/data/Log/", idAsRef: true}); // persevere stores are auto-generated
 		function requery(status){
 			componentGrid.setQuery({status:status});
 		}
 		function setText(element, text){
-			element.innerHTML = text.replace(/</,"&lt;");
+			element.innerHTML = text && text.toString().replace(/</g,"&lt;");
 		}
 		dojo.addOnLoad(function(){
 			dojo.connect(componentGrid,"onRowClick", function(event){
 				selectedItem = event.grid.getItem(event.rowIndex);
-				infoTab.attr("content", "description: " + prototypeStore.getValue(selectedItem, "description"));
-				sourceTab.attr("content", prototypeStore.getValue(selectedItem, "component").replace(/</,"&lt;"));
-				setText(dojo.byId("author-detail"), prototypeStore.getValue(selectedItem, "author"));
+				var sourceCode = prototypeStore.getValue(selectedItem, "component");
+				sourceCode = sourceCode && sourceCode.toString().replace(/</g,"&lt;");
+				sourceTab.attr("content", sourceCode);
+				dojox.highlight.init(sourceTab.containerNode);
+				setText(dojo.byId("author-detail"), prototypeStore.getValue(selectedItem, "user"));
 				setText(dojo.byId("status-detail"), prototypeStore.getValue(selectedItem, "status"));
 				setText(dojo.byId("version-detail"), prototypeStore.getValue(selectedItem, "version"));
 				setText(dojo.byId("downloads-detail"), prototypeStore.getValue(selectedItem, "downloads"));
 				setText(dojo.byId("uploaded-detail"), prototypeStore.getValue(selectedItem, "uploaded"));
 				setText(dojo.byId("rating-detail"), prototypeStore.getValue(selectedItem, "rating"));
 				setText(dojo.byId("category-detail"), prototypeStore.getValue(selectedItem, "category"));
+				setText(dojo.byId("description-detail"), prototypeStore.getValue(selectedItem, "description"));
 			});
-			var tabElement = infoPane.tablistWrapper.firstChild;
+			dojo.connect(activityGrid,"onRowClick", function(event){
+				selectedItem = event.grid.getItem(event.rowIndex);
+				setText(dojo.byId("log-user-detail"), logStore.getValue(selectedItem, "user"));
+				setText(dojo.byId("log-action-detail"), logStore.getValue(selectedItem, "action"));
+				setText(dojo.byId("log-notes-detail"), logStore.getValue(selectedItem, "notes"));
+			});
+			var tabElement = infoPane.tablist.tablistWrapper.children[0];
 			tabElement.style.width = "100%";
-			tabElement.appendChild(dojo.byId("component-actions"));
+			var componentActions = dojo.byId("component-actions");
+			componentActions.style.display = "inline-block";
+			tabElement.appendChild(componentActions);
 			setText(dojo.byId("username"), "John Adams");
 			
 			dojo.connect(dojo.byId("download"), "onclick", function(){
@@ -68,31 +86,65 @@
 				window.location.href = "/data/Prototype/" + id + ".component";
 			});
 			dojo.connect(dojo.byId("accept-button"), "onclick", function(){
-				var id = prototypeStore.getIdentity(selectedItem);
-				dojo.xhrPost({
-					url: "/data/Prototype/" + id,
-					postData: dojo.toJson({status:"accepted"})
-				});
+				prototypeStore.setValue(selectedItem, "enabled", true);
+				prototypeStore.setValue(selectedItem, "status", "Accepted");
+				prototypeStore.save();
 			});
 			dojo.connect(dojo.byId("reject-button"), "onclick", function(){
-				var id = prototypeStore.getIdentity(selectedItem);
-				dojo.xhrPost({
-					url: "/data/Prototype/" + id,
-					postData: dojo.toJson({status:"rejected"})
-				});
+				var reason = prompt("Enter the reason for rejection");
+				if(typeof reason === "string"){
+					prototypeStore.setValue(selectedItem, "enabled", false);
+					prototypeStore.setValue(selectedItem, "status", "Prohibited");
+					prototypeStore.save();
+					logStore.newItem({
+						prototype_id:selectedItem.id,
+						action: "Administrative prohibition",
+						notes: reason 
+					});
+					logStore.save();
+				}
+			});
+			dojo.connect(dojo.byId("feature-button"), "onclick", function(){
+				prototypeStore.setValue(selectedItem, "featured", true);
+				prototypeStore.setValue(selectedItem, "enabled", true);
+				prototypeStore.setValue(selectedItem, "status", "Featured");
+				prototypeStore.save();
+			});
+			dojo.connect(dojo.byId("filter-box-form"), "onsubmit", function(event){
+				componentGrid.setQuery("?fulltext('" + dojo.byId("filter-box").value.replace(/'/g,"\\'") + "')");
+				prototypeStore.save();
+				dojo.stopEvent(event);
 			});
 		});
+		function dateFormatter(date){
+			return date && (date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear());
+		}
+		function getStatus(rowIndex, item){
+	        if(!item){
+	                return this.defaultValue;
+	        }
+	        if(prototypeStore.getValue(item, "featured")){
+				return "Featured";
+			}
+	        if(prototypeStore.getValue(item, "enabled")){
+				return "Accepted";
+			}
+			return "Flagged";
+	 	}
+		function getDelete(){
+			return "delete";
+		}
 	</script>
 </head>
   
   <body class="tundra">
   		<div id="app-border" dojoType="dijit.layout.BorderContainer"
 		style="width: 90%; height: 100%; border: 2px solid blue; ">
-        <div id="header-pane" dojoType="dijit.layout.ContentPane" splitter="true" region="top" style="height:100px">
+        <div id="header-pane" dojoType="dijit.layout.ContentPane" splitter="true" region="top" style="height:60px">
 	      <h1>General Interface</h1>
 		  <h2>Prototype Library Administration</h2>
 		</div>
-		<div dojoType="dijit.layout.TabContainer" region="center" style="background-color: #f5ffbf; padding: 30px;">
+		<div dojoType="dijit.layout.TabContainer" region="center" style="background-color: #dfdfef; padding: 30px;">
 			<div id="user">
 				<span id="username"></span>
 				<span class="horizontal-rule"></span>
@@ -101,34 +153,35 @@
 	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Components"
 			style="width: 90%; border: 2px solid blue; ">
 		
-				<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #f5ffbf; padding: 30px;" role="main">
+				<div dojoType="dijit.layout.ContentPane" region="center" style="background-color: #dfdfef; padding: 30px;" role="main">
 					<button onclick="componentGrid.setQuery('')">All</button>
-					<button onclick="componentGrid.setQuery({enabled: true})">Accepted</button>
-					<button onclick="componentGrid.setQuery({featured: true})">Featured</button>
+					<button onclick="requery('Accepted')">Accepted</button>
+					<button onclick="requery('Featured')">Featured</button>
 					<span class="horizontal-rule"></span>
-					<button onclick="componentGrid.setQuery({uploaded: new Date().getTime() - 864000})">New</button>
-					<button onclick="requery('flagged')">Flagged</button>
-					<!--<button onclick="requery('rejected')">Rejected</button>-->
-					<input id="filter-box" type="text"></input>
+					<button onclick="requery('New')">New</button>
+					<button onclick="requery('Flagged')">Flagged</button>
+					<button onclick="requery('Rejected')">Rejected</button>
+					<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
 					<table rowSelector="20px" rowsPerPage="20" query="''" store="prototypeStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
 						<thead>
 							<tr>
 								<th width="80px" field="status">Status</th>
 								<th editable="true" width="auto" field="name">Name</th>
-								<th width="80px" field="author">Author</th>
+								<th width="80px" field="user">Author</th>
 								<th width="80px" field="rating">Rating</th>
 								<th width="80px" field="downloads">Downloads</th>
 								<th width="80px" field="category">Category</th>
-								<th width="80px" field="uploaded">Upload Date</th>
-								<th width="80px">Delete</th>
+								<th width="80px" field="uploaded" formatter="dateFormatter">Upload Date</th>
+								<th width="80px" get="getDelete">Delete</th>
 							</tr>
 						</thead>
 					</table>    
 				</div>
-		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" style="height:100px">
+		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" style="height:250px">
 		        	<div id="component-actions">
 		        		<button id="accept-button">Accept</button>
 						<button id="reject-button">Reject</button>
+						<button id="feature-button">Feature</button>
 					</div>
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="Information" iconClass="plusIcon" tooltip="Information about component">
 						<div id="info-description"></div>
@@ -148,6 +201,8 @@
 							<hr />
 							<span>Category:</span><span id="category-detail"></span>
 							<hr />
+							<span>Description:</span><span id="description-detail"></span>
+							<hr />
 							<button id="download">Download</button>
 						</div>
 					</div>
@@ -155,19 +210,31 @@
 					</div>
 		        </div>
 			</div>
-			<div id="activity-tab" dojoType="dijit.layout.ContentPane" title="Activity Log" iconClass="plusIcon" tooltip="Activity Log">
-				<h2>Activity Log</h2>
-					<table rowSelector="20px" rowsPerPage="20" query="''" store="prototypeStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
+			<div id="activity-tab" dojoType="dijit.layout.BorderContainer" title="Activity Log" iconClass="plusIcon" tooltip="Activity Log">
+		        <div id="log-pane" jsid="logPane" dojoType="dijit.layout.ContentPane" splitter="true" region="center">
+					<h2>Activity Log</h2>
+					<table rowSelector="20px" rowsPerPage="20" query="''" store="logStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
 						<thead>
 							<tr>
-								<th editable="true" width="80px" field="author">Author</th>
-								<th editable="true" width="80px" field="status">Status</th>
-								<th editable="true" width="auto" field="name">Name</th>
-								<th editable="true" width="80px" field="uploaded">Upload Date</th>
+								<th editable="true" width="80px" field="user">User</th>
+								<th editable="true" width="auto" field="action">Action</th>
+								<th editable="true" width="80px" field="date" formatter="dateFormatter">Date</th>
 							</tr>
 						</thead>
 					</table>    
-				
+				</div>
+				<div id="log-description-pane" jsid="logDescriptionPane" dojoType="dijit.layout.ContentPane" splitter="true" region="bottom" style="height:250px">
+					<div id="log-details">
+						<hr />
+						<span>User:</span><span id="log-user-detail"></span>
+						<hr />
+						<span>Action:</span><span id="log-action-detail"></span>
+						<hr />
+						<span>Notes:</span><span id="log-notes-detail"></span>
+						<hr />
+					</div>
+					
+				</div>
 			</div>
 
 		</div>
