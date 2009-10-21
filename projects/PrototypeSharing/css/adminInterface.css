@@ -39,6 +39,10 @@ button:active {
 	background: #F00;
 }
 
+#interfaceWrapper {
+	top: 78px !important;
+}
+
 /* ---------- header ---------- */
 
 #header-pane {
@@ -145,10 +149,6 @@ button:active {
 	border-top: 1px solid #FFF;
 }
 
-#adminInterface .dijitTabContainer {
-	top: 78px !important;
-}
-
 #adminInterface .dijitTabContainerTop-tabs {
 	padding-bottom: 2px;
 	border-bottom: 1px solid #B1B1B1;	
@@ -168,4 +168,23 @@ button:active {
 
 #adminInterface .tabLabel {
 	font-weight: bold;
+}
+
+/* ---------- info pane ---------- */
+
+#info-pane .dijitTabContainerTopStrip {
+	background: url("../images/tabStripTallBg.png") repeat-x;
+	border: none;
+	border-top: 1px solid #AFAFAF;
+	border-bottom: 1px solid #AEAEAE;
+}
+ 
+#component-actions button {
+	padding: 3px;
+	font-size: 13px;
+	font-weight: bold;
+	font-family: Helvetica;
+	color: #333;
+	background: #E9EDF0 url("../images/grayButtonBg.png") repeat-x left top;
+	border: 1px solid #AEBAC3;
 }

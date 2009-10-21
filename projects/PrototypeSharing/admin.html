@@ -140,10 +140,10 @@
 			<span class="verticalRule"></span>
 			<span id="logout"><a href="">Logout</a></span>
 		</div>
-		<div dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
+		<div id="interfaceWrapper" dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
 	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Components">
 		
-				<div dojoType="dijit.layout.ContentPane" region="center" role="main">
+				<div dojoType="dijit.layout.ContentPane" region="center" role="main" style="overflow:hidden">
 					<div id="component-controls">
 						<button onclick="componentGrid.setQuery('')">All</button>
 						<button onclick="requery('Accepted')">Accepted</button>
@@ -154,25 +154,25 @@
 						<button onclick="requery('Rejected')">Rejected</button>
 						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
 					</div>
-					<table rowSelector="20px" rowsPerPage="20" query="''" store="prototypeStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
+					<table rowSelector="0px" rowsPerPage="20" query="''" store="prototypeStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:87%">
 						<thead>
 							<tr>
-								<th width="80px" field="status">Status</th>
-								<th editable="true" width="auto" field="name">Name</th>
-								<th width="80px" field="user">Author</th>
-								<th width="80px" field="rating">Rating</th>
-								<th width="80px" field="downloads">Downloads</th>
-								<th width="80px" field="category">Category</th>
-								<th width="80px" field="uploaded" formatter="dateFormatter">Upload Date</th>
-								<th width="80px" get="getDelete">Delete</th>
+								<th width="10%" field="status">Status</th>
+								<th editable="true" width="30%" field="name">Name</th>
+								<th width="10%" field="user">Author</th>
+								<th width="10%" field="rating">Rating</th>
+								<th width="10%" field="downloads">Downloads</th>
+								<th width="10%" field="category">Category</th>
+								<th width="10%" field="uploaded" formatter="dateFormatter">Upload Date</th>
+								<th width="10%" get="getDelete">Delete</th>
 							</tr>
 						</thead>
 					</table>    
 				</div>
-		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" style="height:250px">
+		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" tabStrip="true" style="height:50%">
 		        	<div id="component-actions">
 		        		<button id="accept-button">Accept</button>
-						<button id="prohibit-button">Prohibit</button>
+						<button id="prohibit-button">Reject</button>
 						<button id="feature-button">Feature</button>
 					</div>
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="Information" iconClass="plusIcon" tooltip="Information about component">
@@ -205,7 +205,7 @@
 			<div id="activity-tab" dojoType="dijit.layout.BorderContainer" title="Activity Log" iconClass="plusIcon" tooltip="Activity Log">
 		        <div id="log-pane" jsid="logPane" dojoType="dijit.layout.ContentPane" splitter="true" region="center">
 					<h2>Activity Log</h2>
-					<table rowSelector="20px" rowsPerPage="20" query="''" store="logStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
+					<table rowSelector="0px" rowsPerPage="20" query="''" store="logStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
 						<thead>
 							<tr>
 								<th editable="true" width="80px" field="user">User</th>
