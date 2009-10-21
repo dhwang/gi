@@ -1,0 +1,80 @@
+#adminInterface {
+	margin: 0 0 25px 0;
+	margin-bottom: 25px;
+	padding: 0;
+	font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+	font-size: 13px;
+	color: #333;
+	background-color: #f0f0f0;
+}
+
+#app-border {
+	height: 100%;
+}
+
+#content {
+	background-color: white;
+  	width: 750px;
+  	margin: 0;
+  	padding: 25px 0 25px 10px;
+  	margin-left: auto;
+  	margin-right: auto;
+  	border: 1px solid #aaa;
+  	border-top: none;
+}
+
+.tag {
+	display: block;
+}
+
+/* ---------- header ---------- */
+
+#header-pane {
+	overflow: hidden;
+	padding: 0;
+	background: url("../images/headerBg.jpg") repeat-x;
+	border: none;
+}
+
+#header-pane h1 {
+	font-size: 0;
+	width: 186px;
+	height: 78px;
+	background: url("../images/GILogo.jpg") no-repeat;
+}
+
+#header-pane h2 {
+	display: none;
+}
+
+#user {
+	float: right;
+}
+
+.verticalRule {
+	width: 1px;
+	height: 9px;
+	background: #5F5F5F;
+	border-left: 1px solid #B8B8B8;
+}
+
+/* --------- tundra theme overrides --------- */
+
+#adminInterface .dijitBorderContainer {
+	padding: 0;
+}
+
+#adminInterface .dijitTabContainerTopStrip {
+	padding-top: 0;
+	background: url("../images/tabStripBg.png") repeat-x;
+	border: none;
+	border-top: 1px solid #FFF;
+}
+
+#adminInterface .dijitTabContainer {
+	top: 78px !important;
+}
+
+#adminInterface .dijitTabContainerTop-tabs {
+	border-bottom: 1px solid #B1B1B1;	
+}
