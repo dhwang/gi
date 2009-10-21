@@ -135,24 +135,25 @@
 	      <h1>General Interface</h1>
 		  <h2>Prototype Library Administration</h2>
 		</div>
+		<div id="user">
+			<span id="username"></span>
+			<span class="verticalRule"></span>
+			<span id="logout"><a href="">Logout</a></span>
+		</div>
 		<div dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
-			<div id="user">
-				<span id="username"></span>
-				<span class="verticalRule"></span>
-				<span id="logout">Logout</span>
-			</div>
-	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Components"
-			style="width: 90%; border: 2px solid blue; ">
+	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Components">
 		
 				<div dojoType="dijit.layout.ContentPane" region="center" role="main">
-					<button onclick="componentGrid.setQuery('')">All</button>
-					<button onclick="requery('Accepted')">Accepted</button>
-					<button onclick="requery('Featured')">Featured</button>
-					<span class="horizontal-rule"></span>
-					<button onclick="requery('New')">New</button>
-					<button onclick="requery('Flagged')">Flagged</button>
-					<button onclick="requery('Rejected')">Rejected</button>
-					<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
+					<div id="component-controls">
+						<button onclick="componentGrid.setQuery('')">All</button>
+						<button onclick="requery('Accepted')">Accepted</button>
+						<button onclick="requery('Featured')">Featured</button>
+						<span class="verticalRuleButton"></span>
+						<button onclick="requery('New')">New</button>
+						<button onclick="requery('Flagged')">Flagged</button>
+						<button onclick="requery('Rejected')">Rejected</button>
+						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
+					</div>
 					<table rowSelector="20px" rowsPerPage="20" query="''" store="prototypeStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
 						<thead>
 							<tr>
