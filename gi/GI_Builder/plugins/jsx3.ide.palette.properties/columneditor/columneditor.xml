@@ -54,7 +54,7 @@ objMatrix.getChild(2).setFormatHandler(myAutoRowFormatter);
           <xslparameters jsx_autorow_style="background-color:#f0f0f8;color:#0000ff;"/>
           <object type="jsx3.gui.Matrix.Column">
             <variants jsxwidth="20" jsxresize="0"/>
-            <strings jsxname="colDelete" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"/>
+            <strings jsxname="colDelete" jsxpadding="2 3 0 3" jsxcellpadding="1" jsxvaluetemplate="@empty"/>
             <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
             <object type="jsx3.gui.ImageButton">
               <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0" jsxwidth="16" jsxheight="16"/>
@@ -64,7 +64,7 @@ objMatrix.getChild(2).setFormatHandler(myAutoRowFormatter);
           </object>
           <object type="jsx3.gui.Matrix.Column">
             <variants jsxwidth="20"/>
-            <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxtip="prioritize row"/>
+            <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxtip="prioritize row"/>
             <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
             <object type="jsx3.gui.ImageButton">
               <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
@@ -73,7 +73,7 @@ objMatrix.getChild(2).setFormatHandler(myAutoRowFormatter);
           </object>
           <object type="jsx3.gui.Matrix.Column">
             <variants jsxwidth="20"/>
-            <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxtip="deprioritize row"/>
+            <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxtip="deprioritize row"/>
             <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
             <object type="jsx3.gui.ImageButton">
               <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>

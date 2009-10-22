@@ -176,20 +176,20 @@ objJSX._makeDirty = function() {
               <variants jsxoverflow="2"/>
               <strings jsxwidth="100%" jsxheight="100%"/>
                 <object type="jsx3.gui.Matrix">
-                  <dynamics jsxbgcolor="@Solid Light" jsxheaderborder="@Outset NoBottom"/>
-                  <variants jsxselectionmodel="1" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21"/>
+                  <dynamics jsxbgcolor="@Solid Light"/>
+                  <variants jsxselectionmodel="1" jsxscalewidth="1" jsxresize="1" jsxreorder="0"/>
                   <strings jsxname="hotkeylist" jsxbodyborder="1px solid #d8d8e5" jsxfocusstyle=";"/>
                   <events jsxexecute="prefspane._doChoose(this, strRECORDID);"/>
                   <xslparameters jsx_rowbg1="#ffffff"/>
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                jsxcellbgcolor="@Matrix AllCol BG" jsxcellborder="@Matrix AllCol Border"/>
-                      <strings jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="path" jsxtext="Menu" />
+                      <strings jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="*" jsxpath="path" jsxtext="Menu" />
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"
                jsxcellbgcolor="@Matrix AllCol BG" jsxcellborder="@Matrix AllCol Border"/>
-                      <strings jsxcellpadding="3" jsxpadding="3" jsxwidth="135" jsxpath="keycodeformatted"
+                      <strings jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="135" jsxpath="keycodeformatted"
                           jsxtext="Key" jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;  &lt;xsl:choose&gt;    &lt;xsl:when test=&quot;{0} and not({0}='')&quot;&gt;      &lt;xsl:if test=&quot;@unchanged&quot;&gt;&lt;xsl:attribute name=&quot;style&quot;&gt;color:#9898a5;&lt;/xsl:attribute&gt;&lt;/xsl:if&gt;      &lt;xsl:value-of select=&quot;{0}&quot;/&gt;&lt;/xsl:when&gt;    &lt;xsl:otherwise&gt;&lt;xsl:text&gt;&amp;#160;&lt;/xsl:text&gt;&lt;/xsl:otherwise&gt;  &lt;/xsl:choose&gt;&lt;/xsl:template&gt;"
                           jsxcellfontname="Lucida Grande, Verdana, sans-serif"/>
                     </object>

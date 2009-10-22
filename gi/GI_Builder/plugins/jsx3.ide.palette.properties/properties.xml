@@ -131,8 +131,8 @@ jsxpath._onFileCancel = function() {
           <variants jsxoverflow="2"/>
           <strings jsxwidth="100%" jsxheight="100%" />
             <object type="jsx3.gui.Matrix">
-              <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
-              <variants jsxspy="1" jsxpagingmodel="4" jsxselectionmodel="0" jsxresize="1" jsxreorder="0" jsxscalewidth="1" jsxheaderheight="21"/>
+              <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset"/>
+              <variants jsxspy="1" jsxpagingmodel="4" jsxselectionmodel="0" jsxresize="1" jsxreorder="0" jsxscalewidth="1"/>
               <strings jsxname="jsxproperties" jsxspystylekeys="" jsxspystylevalues="" jsxfocusstyle=";"
                   jsxxmlid="properties" jsxdisplay="none" jsxmenu="jsxmenu_properties" jsxrenderingmodel="hierarchical"/>
               <events jsxafteredit="propspal.getPlugIn().onPropertyEdit(this,strRECORDID,strNEWVALUE);"
@@ -145,14 +145,14 @@ jsxpath._onFileCancel = function() {
                   <variants/>
                   <dynamics jsxtext="_gen_name" jsxbg="@Fade TopDown" jsxborder="@Outset"
                     jsxcellbgcolor="@Matrix HeaderCol BG" jsxcellborder="@Matrix HeaderCol Border"/>
-                  <strings jsxwidth="120" jsxname="jsxproperties_name" jsxcellpadding="3" jsxpadding="3"
+                  <strings jsxwidth="120" jsxname="jsxproperties_name" jsxcellpadding="3" jsxpadding="2 3 0 3"
                       jsxpath="jsxtext" jsxtext="Name" />
                 </object>
                 <object type="jsx3.gui.Matrix.Column">
-                  <variants jsxresize="0" jsxcellpadding="0" jsxpadding="3" />
+                  <variants jsxresize="0" jsxcellpadding="0" />
                   <dynamics jsxtext="_gen_value" jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"
                     jsxcellbgcolor="@Matrix ValueCol BG" jsxcellborder="@Matrix ValueCol Border"/>
-                  <strings jsxname="jsxproperties_value" jsxwidth="*"
+                  <strings jsxname="jsxproperties_value" jsxwidth="*" jsxpadding="2 3 0 3"
                       jsxpath="value" jsxsortpath="" jsxtext="Value"
                       jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
 &lt;xsl:variable name=&quot;myvalue&quot; select=&quot;@value&quot;/&gt;

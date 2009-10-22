@@ -69,14 +69,14 @@ objJSX.makeDirty = function() {
           <variants jsxoverflow="1"/>
           <strings jsxwidth="100%" jsxheight="100%"/>
             <object type="jsx3.gui.Matrix">
-              <dynamics jsxbgcolor="@Solid Medium" jsxheaderborder="@Outset NoBottom"/>
+              <dynamics jsxbgcolor="@Solid Medium"/>
               <variants jsxselectionmodel="0" jsxresize="1" jsxreorder="0" jsxscalewidth="1"/>
               <strings jsxname="addinlist" jsxbodyborder="1px solid #d8d8e5" jsxfocusstyle=";"/>
               <!--<xslparameters jsx_rowbg1="#ffffff"/>-->
                 <object type="jsx3.gui.Matrix.Column">
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                         jsxcellbgcolor="@Matrix AllCol Light BG" jsxcellborder="@Matrix AllCol Light Border"/>
-                  <strings jsxname="abclist_col1" jsxpadding="3" jsxwidth="30" jsxpath="enabled" jsxtext="On"
+                  <strings jsxname="abclist_col1" jsxpadding="2 3 0 3" jsxwidth="30" jsxpath="enabled" jsxtext="On"
                       jsxvaluetemplate="@empty" jsxcelltextalign="center"/>
                     <object type="jsx3.gui.CheckBox">
                       <strings jsxname="checkbox"/>
@@ -86,17 +86,17 @@ objJSX.makeDirty = function() {
                 <object type="jsx3.gui.Matrix.Column">
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                         jsxcellbgcolor="@Matrix AllCol Light BG" jsxcellborder="@Matrix AllCol Light Border"/>
-                  <strings jsxname="abclist_col2" jsxcellpadding="3" jsxpadding="3" jsxwidth="110" jsxpath="name" jsxtext="Name"/>
+                  <strings jsxname="abclist_col2" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="110" jsxpath="name" jsxtext="Name"/>
                 </object>
                 <object type="jsx3.gui.Matrix.Column">
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                         jsxcellbgcolor="@Matrix AllCol Light BG" jsxcellborder="@Matrix AllCol Light Border"/>
-                  <strings jsxname="abclist_col2" jsxcellpadding="3" jsxpadding="3" jsxwidth="57" jsxpath="version" jsxtext="Version"/>
+                  <strings jsxname="abclist_col2" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="57" jsxpath="version" jsxtext="Version"/>
                 </object>
                 <object type="jsx3.gui.Matrix.Column">
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                         jsxcellbgcolor="@Matrix AllCol Light BG" jsxcellborder="@Matrix AllCol Light Border"/>
-                  <strings jsxname="abclist_col3" jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="description" jsxtext="Description"/>
+                  <strings jsxname="abclist_col3" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="*" jsxpath="description" jsxtext="Description"/>
                 </object>
             </object>
         </object>

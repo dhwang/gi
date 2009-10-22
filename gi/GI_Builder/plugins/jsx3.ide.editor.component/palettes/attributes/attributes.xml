@@ -114,21 +114,21 @@ objJSX.onPaletteLoaded = function() {
        <variants jsxoverflow="2" />
        <strings jsxwidth="100%" jsxheight="100%" />
         <object type="jsx3.gui.Matrix">
-         <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
-         <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21"/>
+         <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset"/>
+         <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxscalewidth="1" jsxresize="1" jsxreorder="0"/>
          <strings jsxname="jsxattributes" jsxsortpath="" jsxsortdirection="ascending" jsxmenu="jsxmenu_attributes" jsxfocusstyle=";"/>
          <events jsxafteredit="attrpal.getPlugIn().onAttributeEdit(strRECORDID, strNEWVALUE, this);"
              jsxmenu="strRECORDID != null &amp;&amp; strRECORDID != '';" />
           <object type="jsx3.gui.Matrix.Column">
            <dynamics jsxtext="_gen_name" jsxbg="@Fade TopDown" jsxborder="@Outset"
                jsxcellbgcolor="@Matrix HeaderCol BG" jsxcellborder="@Matrix HeaderCol Border"/>
-           <strings jsxname="jsxattributes_name" jsxcellpadding="3" jsxpadding="3" jsxwidth="120" jsxpath="jsxtext"
+           <strings jsxname="jsxattributes_name" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="120" jsxpath="jsxtext"
                jsxcellbgcolor="#c8c8d5" jsxcellborder="0px;1px solid #9898a5;1px solid #9898a5;0px" />
           </object>
           <object type="jsx3.gui.Matrix.Column">
            <dynamics jsxtext="_gen_value" jsxbg="@Fade TopDown" jsxborder="@Outset"
                jsxcellbgcolor="@Matrix ValueCol BG" jsxcellborder="@Matrix ValueCol Border"/>
-           <strings jsxname="jsxattributes_value" jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="value"
+           <strings jsxname="jsxattributes_value" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="*" jsxpath="value"
                jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
 &lt;xsl:choose&gt;
   &lt;xsl:when test=&quot;@value=''&quot;&gt;&lt;span class=&quot;jsx3ide_props_emptystring&quot;&gt;[empty]&lt;/span&gt;&lt;/xsl:when&gt;

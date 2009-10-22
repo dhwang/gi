@@ -354,10 +354,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               <dynamics jsxbgcolor="@Solid Medium"/>
               <object type="jsx3.gui.LayoutGrid">
                 <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                <strings jsxname="layoutCols" jsxcols="*,41,41,31" jsxwidth="100%" jsxheight="100%"/>
+                <strings jsxname="layoutCols" jsxcols="*,110" jsxwidth="100%" jsxheight="100%"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="2"/>
-                  <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="3 3 0 0"/>
+                  <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxpadding="3 6 0 0"/>
                   <object type="jsx3.gui.TextBox">
                     <variants jsxheight="18"/>
                     <strings jsxname="jsx_ide_online_search" jsxvalue="" jsxwidth="100%" jsxpadding="1 19 0 2"/>
@@ -367,7 +367,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                   <variants jsxoverflow="3"/>
                   <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
                   <object type="jsx3.gui.Image">
-                    <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="-20" jsxtop="5"/>
+                    <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="-22" jsxtop="5"/>
                     <strings jsxname="image" jsxsrc="images/clearSearch.gif" jsxdisplay=""/>
                     <dynamics jsxcursor="@Hand"/>
                   </object>
@@ -376,21 +376,13 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                     <strings jsxname="jsx_ide_online_filter_menu" jsxtip="Filters" jsximage="images/table_gear.png" jsxxmlid="jsx3.ide.palette.prototypes.menu-filters"/>
                     <events jsxexecute="palette.getPlugIn()._onOnlineFilterMenuExecute(this, ide_component_libs_online_list, strRECORDID, jsx_ide_online_search);"/>
                   </object>
-                </object>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="3"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
                   <object type="jsx3.gui.Menu">
-                    <variants jsxxmlasync="1" jsxdivider="1" jsxxmlbind="1"/>
+                    <variants jsxxmlasync="1" jsxdivider="0" jsxxmlbind="1"/>
                     <strings jsxname="menu" jsxtip="Feeds" jsximage="images/feed.png" jsxxmlid="jsx3.ide.palette.prototypes.menu-feeds"/>
                     <events jsxexecute="palette.getPlugIn()._onOnlineFeedMenuExecute(strRECORDID);"/>
                   </object>
-                </object>
-                <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="3"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
                   <object type="jsx3.gui.ToolbarButton">
-                    <variants jsxdivider="1"/>
+                    <variants jsxdivider="0"/>
                     <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
                     <events jsxexecute="palette.getPlugIn()._reloadList(ide_component_libs_online_list);"/>
                   </object>
@@ -409,18 +401,18 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                   <strings jsxname="jsx_ide_proto_summary_view" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Matrix">
-                    <variants jsxheaderheight="26" jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="0" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1"/>
-                    <strings xmlns="urn:tibco.com/v3.0" jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxxmlurl="http://localhost:8080/Prototype" jsxsorttype="number" jsxsortdirection="descending"/>
+                    <variants jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="0" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1"/>
+                    <strings jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxxmlurl="http://localhost:8080/Prototype" jsxsorttype="number" jsxsortdirection="descending"/>
                     <dynamics jsxbgcolor="@Solid Light"/>
                     <events jsxexecute="palette.getPlugIn()._onOnlineListExecute(this, strRECORDID);"/>
                     <object type="jsx3.gui.Matrix.Column">
                       <variants jsxsort="0"/>
-                      <strings xmlns="urn:tibco.com/v3.0" jsxname="nameColumn" jsxwidth="*" jsxcellpadding="2 2 2 8" jsxpath="name" jsxpadding="5 0 0 8" jsxtext="Name"/>
+                      <strings jsxname="nameColumn" jsxwidth="*" jsxcellpadding="2 2 2 8" jsxpath="name" jsxpadding="2 3 0 3" jsxtext="Name"/>
                       <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <variants jsxwidth="100" jsxsort="1"/>
-                      <strings jsxname="filterColumn" jsxtext="Rating" jsxcellpadding="5 0 0 8" jsxpath="rating" jsxtextalign="left" jsxformathandler="jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes').formatRating" jsxpadding="5 5 5 8" jsxsortdatatype="number" jsxdatatype="number"/>
+                      <strings jsxname="filterColumn" jsxtext="Rating" jsxcellpadding="5 0 0 8" jsxpath="rating" jsxtextalign="left" jsxformathandler="jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes').formatRating" jsxpadding="2 3 0 3" jsxsortdatatype="number" jsxdatatype="number"/>
                       <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                     </object>
                   </object>

@@ -86,8 +86,8 @@ objMatrix.getChild(0).setFormatHandler(
               <variants jsxoverflow="1"/>
               <strings jsxwidth="100%" jsxheight="100%"/>
                 <object type="jsx3.gui.Matrix">
-                  <dynamics jsxbgcolor="@Solid Light" jsxheaderborder="@Outset NoBottom"/>
-                  <variants jsxpagingmodel="0" jsxscalewidth="1" jsxselectionmodel="0" jsxreorder="0" jsxheaderheight="21"
+                  <dynamics jsxbgcolor="@Solid Light"/>
+                  <variants jsxpagingmodel="0" jsxscalewidth="1" jsxselectionmodel="0" jsxreorder="0"
                        jsxautorow="2"/>
                   <strings jsxname="classpathlist" jsxbodyborder="1px solid #d8d8e5" jsxfocusstyle=";"/>
                   <events jsxaftercommit="prefspane.makeDirty();"/>
@@ -95,7 +95,7 @@ objMatrix.getChild(0).setFormatHandler(
                     <object type="jsx3.gui.Matrix.Column">
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
                     <variants jsxwidth="20" jsxresize="0"/>
-                    <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3"/>
+                    <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3"/>
                       <object type="jsx3.gui.ImageButton">
                        <variants jsxwidth="16" jsxheight="16"/>
                        <strings jsxname="imagebutton" jsximage="jsxapp:/images/icon_55.gif" jsxtip="remove row" />
@@ -105,7 +105,7 @@ objMatrix.getChild(0).setFormatHandler(
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
                       <variants/>
-                      <strings jsxname="abclist_col1" jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="path"
+                      <strings jsxname="abclist_col1" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="*" jsxpath="path"
                           jsxtext="Path"/>
                         <object type="jsx3.gui.TextBox">
                           <dynamics jsxcolor="@Matrix Edit Color"/>
@@ -115,7 +115,7 @@ objMatrix.getChild(0).setFormatHandler(
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset" jsxcellborder="@Matrix AllCol Border"/>
                       <variants/>
-                      <strings jsxname="abclist_col2" jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="pkg"
+                      <strings jsxname="abclist_col2" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="*" jsxpath="pkg"
                           jsxtext="Packages"/>
                         <object type="jsx3.gui.TextBox">
                           <dynamics jsxcolor="@Matrix Edit Color"/>

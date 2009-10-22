@@ -71,9 +71,9 @@ objMatrix.removeMapperBinding = myDeleteHandler;
           <strings jsxwidth="100%" jsxheight="100%"/>
 
           <object type="jsx3.gui.Matrix">
-            <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium" jsxheaderborder="@Outset NoBottom"/>
+            <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium"/>
             <variants jsxshare="0" jsxsort="0" jsxautorow="2" jsxresize="0" jsxscalewidth="1" jsxpagingmodel="0"
-                jsxselectionmodel="0" jsxreorder="0" jsxheaderheight="21"/>
+                jsxselectionmodel="0" jsxreorder="0"/>
             <strings jsxbodyborder="1px solid #d8d8e5" jsxname="jsx_schema_mapnode_mappings" jsxxmlid="jsx_schema_mapnode_mappings_XML" jsxxslid="jsx_schema_mapnode_mappings_XSL" jsxrenderingmodel="shallow"/>
             <events jsxafteredit="this.getAncestorOfType(jsx3.ide.mapper.Mapper).getEditor().setDirty(true);" jsxbeforeappend="this.getAncestorOfType(jsx3.ide.mapper.Mapper).insertRow(&quot;mappings&quot;,objRECORD);" jsxafterappend="this.getAncestorOfType(jsx3.ide.mapper.Mapper).onInsertRow();"/>
             <xslparameters jsx_autorow_style="background-color:#f0f0f8;color:#0000ff;"/>
@@ -81,7 +81,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="20"/>
-              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3"/>
+              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3"/>
               <object type="jsx3.gui.ImageButton">
                 <variants jsxwidth="16" jsxheight="16"/>
                 <strings jsxname="imagebutton" jsximage="images/rem.gif" jsxtip="delete row"/>
@@ -92,7 +92,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="20"/>
-              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxtip="prioritize row"/>
+              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxtip="prioritize row"/>
               <object type="jsx3.gui.ImageButton">
                 <variants jsxwidth="16" jsxheight="16"/>
                 <strings jsxname="imagebutton" jsximage="images/up.gif" jsxtip="prioritize row"/>
@@ -103,7 +103,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="20"/>
-              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxtip="deprioritize row"/>
+              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxtip="deprioritize row"/>
               <object type="jsx3.gui.ImageButton">
                 <variants jsxwidth="16" jsxheight="16"/>
                 <strings jsxname="imagebutton" jsximage="images/down.gif" jsxtip="deprioritize row"/>
@@ -114,7 +114,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="110"/>
-              <strings jsxpadding="2" jsxcellpadding="3 3 3 4" jsxname="jsxcol" jsxpath="name" jsxtext="Type*" jsxtip="The type of the mapping. For example, a DOM mapping to a GUI object" jsxvaluetemplate="&#xA;              &lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;&#xA;                &lt;div style=&quot;position:relative;background-image:url(JSX/images/select/arrowmask.gif);background-repeat:no-repeat;background-position:right top;&quot;&gt;&lt;xsl:value-of select=&quot;{0}&quot;/&gt;&amp;#160;&lt;/div&gt;&#xA;              &lt;/xsl:template&gt;&#xA;             "/>
+              <strings jsxpadding="2 3 0 3" jsxcellpadding="3 3 3 4" jsxname="jsxcol" jsxpath="name" jsxtext="Type*" jsxtip="The type of the mapping. For example, a DOM mapping to a GUI object" jsxvaluetemplate="&#xA;              &lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;&#xA;                &lt;div style=&quot;position:relative;background-image:url(JSX/images/select/arrowmask.gif);background-repeat:no-repeat;background-position:right top;&quot;&gt;&lt;xsl:value-of select=&quot;{0}&quot;/&gt;&amp;#160;&lt;/div&gt;&#xA;              &lt;/xsl:template&gt;&#xA;             "/>
               <object type="jsx3.gui.Select">
                 <dynamics jsxcolor="@Matrix Edit Color"/>
                 <strings jsxname="jsxSelectMask" jsxdisplay="none" jsxxmlurl="xml/maptypes.xml"/>
@@ -123,7 +123,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
 
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"/>
-              <strings jsxpadding="2" jsxcellpadding="3" jsxname="jsxcol" jsxpath="value" jsxtext="Path / Value" jsxwidth="*" jsxtip="an identifier appropriate to the map type. For example, if a DOM mapping, the name of the GUI object; if a CDF Document mapping, the document name"/>
+              <strings jsxpadding="2 3 0 3" jsxcellpadding="3" jsxname="jsxcol" jsxpath="value" jsxtext="Path / Value" jsxwidth="*" jsxtip="an identifier appropriate to the map type. For example, if a DOM mapping, the name of the GUI object; if a CDF Document mapping, the document name"/>
               <object type="jsx3.gui.TextBox">
                 <dynamics jsxcolor="@Matrix Edit Color"/>
                 <variants jsxtype="1" jsxheight="40"/>
@@ -152,9 +152,9 @@ objMatrix.removeMapperBinding = myDeleteHandler;
           <strings jsxwidth="100%" jsxheight="100%"/>
 
           <object type="jsx3.gui.Matrix">
-            <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium" jsxheaderborder="@Outset NoBottom"/>
+            <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium"/>
             <variants jsxgrowby="0" jsxshare="0" jsxautorow="2" jsxsort="0" jsxreorder="0" jsxresize="0" jsxscalewidth="1"
-                jsxpagingmodel="0" jsxheaderheight="21" jsxselectionmodel="0"/>
+                jsxpagingmodel="0" jsxselectionmodel="0"/>
             <strings jsxbodyborder="1px solid #d8d8e5" jsxname="jsx_schema_mapnode_restrictions" jsxxmlid="jsx_schema_mapnode_restrictions_XML" jsxxslid="jsx_schema_mapnode_restrictions_XSL" jsxrenderingmodel="shallow"/>
             <events jsxafteredit="this.getAncestorOfType(jsx3.ide.mapper.Mapper).getEditor().setDirty(true);" jsxbeforeappend="this.getAncestorOfType(jsx3.ide.mapper.Mapper).insertRow(&quot;restrictions&quot;,objRECORD);" jsxafterappend="this.getAncestorOfType(jsx3.ide.mapper.Mapper).onInsertRow();"/>
             <xslparameters jsx_autorow_style="background-color:#f0f0f8;color:#0000ff;"/>
@@ -162,7 +162,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="20"/>
-              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3"/>
+              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3"/>
               <object type="jsx3.gui.ImageButton">
                 <variants jsxwidth="16" jsxheight="16"/>
                 <strings jsxname="imagebutton" jsximage="images/rem.gif" jsxtip="delete row"/>
@@ -173,7 +173,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="120"/>
-              <strings jsxpadding="2" jsxcellpadding="3 3 3 4" jsxname="jsxcol" jsxpath="name" jsxtext="Type" jsxtip="The type of the restriction. For example: pattern, enumeration" jsxvaluetemplate="&#xA;              &lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;&#xA;                &lt;div style=&quot;position:relative;background-image:url(JSX/images/select/arrowmask.gif);background-repeat:no-repeat;background-position:right top;&quot;&gt;&lt;xsl:value-of select=&quot;{0}&quot;/&gt;&amp;#160;&lt;/div&gt;&#xA;              &lt;/xsl:template&gt;&#xA;             "/>
+              <strings jsxpadding="2 3 0 3" jsxcellpadding="3 3 3 4" jsxname="jsxcol" jsxpath="name" jsxtext="Type" jsxtip="The type of the restriction. For example: pattern, enumeration" jsxvaluetemplate="&#xA;              &lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;&#xA;                &lt;div style=&quot;position:relative;background-image:url(JSX/images/select/arrowmask.gif);background-repeat:no-repeat;background-position:right top;&quot;&gt;&lt;xsl:value-of select=&quot;{0}&quot;/&gt;&amp;#160;&lt;/div&gt;&#xA;              &lt;/xsl:template&gt;&#xA;             "/>
               <object type="jsx3.gui.Select">
                 <dynamics jsxcolor="@Matrix Edit Color"/>
                 <strings jsxname="jsxComboMask" jsxxmlurl="xml/restrictiontypes.xml"/>
@@ -182,7 +182,7 @@ objMatrix.removeMapperBinding = myDeleteHandler;
 
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"/>
-              <strings jsxpadding="2" jsxcellpadding="3" jsxname="jsxcol" jsxpath="value" jsxtext="Value" jsxwidth="*" jsxtip="The restriction value. For example, if pattern, a regular expression such as [A-Z]*-123"/>
+              <strings jsxpadding="2 3 0 3" jsxcellpadding="3" jsxname="jsxcol" jsxpath="value" jsxtext="Value" jsxwidth="*" jsxtip="The restriction value. For example, if pattern, a regular expression such as [A-Z]*-123"/>
               <object type="jsx3.gui.TextBox">
                 <dynamics jsxcolor="@Matrix Edit Color"/>
                 <variants jsxtype="1" jsxheight="40"/>

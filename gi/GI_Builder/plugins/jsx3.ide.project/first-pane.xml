@@ -80,7 +80,7 @@ objJSX._doSelect = function(id) {
         <variants jsxoverflow="1"/>
         <strings jsxwidth="100%" jsxheight="100%"/>
         <object type="jsx3.gui.Matrix">
-          <dynamics jsxbgcolor="@Solid Medium" jsxheaderborder="@Outset NoBottom"/>
+          <dynamics jsxbgcolor="@Solid Medium"/>
           <variants jsxselectionmodel="1" jsxresize="0" jsxheaderheight="0" jsxreorder="0" jsxscalewidth="1"/>
           <strings jsxname="typelist" jsxbodyborder="1px solid #d8d8e5" jsxfocusstyle=";"/>
           <events jsxchange="pane._doSelect(this.getValue());"/>

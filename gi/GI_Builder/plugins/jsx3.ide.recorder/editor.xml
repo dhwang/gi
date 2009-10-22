@@ -68,17 +68,17 @@ this.setGIPP = function(b) {
                 <variants/>
                 <strings/>
                 <object type="jsx3.gui.Matrix">
-                  <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxsort="0"
+                  <variants jsxpagingmodel="0" jsxselectionmodel="2" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxsort="0"
                       jsxdrag="1" jsxdrop="1"/>
                   <strings jsxname="gippmatrix" jsxclassname="recordermatrix" jsxfocusstyle=";" jsxbgcolor="#ffffff"/>
-                  <dynamics jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
+                  <dynamics jsxbodyborder="@Outset"/>
                   <events
                       jsxaftercommit="content.getEditor().onEditRecord(strRECORDID, objCOLUMN);"
                       jsxdrag="String(objEVENT.srcElement().src).indexOf('icon_56.gif') >= 0"
                       jsxdrop="objSOURCE == this &amp;&amp; content.getEditor().onReorder()" jsxadopt="objTARGET == this"/>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants jsxresize="0"/>
-                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"
+                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxwidth="20"
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="Reorder rows by dragging them from this column"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.ImageButton">
@@ -88,7 +88,7 @@ this.setGIPP = function(b) {
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants/>
-                    <strings jsxname="colLabel" jsxwidth="80" jsxcellpadding="3" jsxpadding="3" jsxpath="label" jsxtext="ID / Label"
+                    <strings jsxname="colLabel" jsxwidth="80" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="label" jsxtext="ID / Label"
                         jsxcellfontweight="bold" jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The GIPP test case ID"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.TextBox">
@@ -99,7 +99,7 @@ this.setGIPP = function(b) {
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants/>
-                    <strings jsxname="colAction" jsxwidth="120" jsxtext="Action" jsxcellpadding="3" jsxpadding="3" jsxpath="action"
+                    <strings jsxname="colAction" jsxwidth="120" jsxtext="Action" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="action"
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The action key"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.Select">
@@ -110,7 +110,7 @@ this.setGIPP = function(b) {
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants/>
-                    <strings jsxname="colTarget" jsxwidth="130" jsxcellpadding="3" jsxpadding="3" jsxpath="target" jsxtext="Target"
+                    <strings jsxname="colTarget" jsxwidth="130" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="target" jsxtext="Target"
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="A valid JSX object selector, e.g. #objName"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.TextBox">
@@ -121,7 +121,7 @@ this.setGIPP = function(b) {
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants/>
-                    <strings jsxname="colValue" jsxwidth="*" jsxcellpadding="3" jsxpadding="3" jsxpath="value" jsxtext="Value"
+                    <strings jsxname="colValue" jsxwidth="*" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="value" jsxtext="Value"
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="The action value/parameter"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.TextBox">
@@ -132,7 +132,7 @@ this.setGIPP = function(b) {
                   </object>
                   <object type="jsx3.gui.Matrix.Column">
                     <variants jsxresize="0"/>
-                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"
+                    <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxwidth="20"
                         jsxcellborder="0;1px solid #d8d8e5;1px pseudo;0" jsxtip="Delete a row by clicking in this column"/>
                     <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                     <object type="jsx3.gui.ImageButton">

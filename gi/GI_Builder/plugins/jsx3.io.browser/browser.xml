@@ -69,8 +69,8 @@ objJSX.registerHotKey('doCancel', '.', false, true, false);
               <dynamics jsxbgcolor="@Solid Medium" jsxbodyborder="@Outset"/>
               <strings />
                 <object type="jsx3.gui.Matrix">
-                  <dynamics jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
-                  <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxresize="1" jsxreorder="0" jsxindex="0" jsxheaderheight="21"/>
+                  <dynamics jsxbodyborder="@Outset"/>
+                  <variants jsxpagingmodel="1" jsxselectionmodel="1" jsxresize="1" jsxreorder="0" jsxindex="0"/>
                   <strings jsxname="file_list" jsxfocusstyle=";"/>
                   <events jsxchange="file_dialog.doFileSelect(this.getValue());"
                       jsxexecute="file_dialog.doFileExecute();" />
@@ -78,28 +78,28 @@ objJSX.registerHotKey('doCancel', '.', false, true, false);
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                       <variants jsxresize="0" jsxwidth="20"/>
-                      <strings jsxname="col_icon" jsxcellpadding="1" jsxpadding="3" jsxpath="jsximg" jsxvaluetemplate="@image"/>
+                      <strings jsxname="col_icon" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxpath="jsximg" jsxvaluetemplate="@image"/>
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                       <variants jsxwidth="150" />
-                      <strings jsxname="col_name" jsxcellpadding="3" jsxpadding="3" jsxpath="name" jsxtext="File" />
+                      <strings jsxname="col_name" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="name" jsxtext="File" />
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                       <variants jsxwidth="40" />
-                      <strings jsxname="col_size" jsxcellpadding="3" jsxpadding="3" jsxpath="size" jsxsortpath="bytes" jsxtext="Size" jsxdatatype="number" />
+                      <strings jsxname="col_size" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="size" jsxsortpath="bytes" jsxtext="Size" jsxdatatype="number" />
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
                       <variants jsxwidth="250" />
-                      <strings jsxname="col_mtime" jsxcellpadding="3" jsxpadding="3" jsxpath="mtime" jsxformathandler="@datetime" jsxvaluetemplate="@empty"
+                      <strings jsxname="col_mtime" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="mtime" jsxformathandler="@datetime" jsxvaluetemplate="@empty"
                           jsxtext="Modified" jsxdatatype="number" />
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
                       <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"/>
                       <variants jsxwidth="100" />
-                      <strings jsxname="col_type" jsxcellpadding="3" jsxpadding="3" jsxpath="type" jsxtext="Type"/>
+                      <strings jsxname="col_type" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="type" jsxtext="Type"/>
                     </object>
                 </object>
             </object>

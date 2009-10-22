@@ -64,8 +64,8 @@ coldefault.setFormatHandler(jsx3.ide.PropsBundleEditor.FORMATTER);
               <variants jsxoverflow="2"/>
               <strings jsxheight="100%" jsxwidth="100%"/>
               <object type="jsx3.gui.Matrix">
-                <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
-                <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxautorow="2"/>
+                <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset"/>
+                <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxresize="1" jsxreorder="0" jsxautorow="2"/>
                 <strings jsxname="jsxpropsbundleeditor" jsxfocusstyle=";"/>
                 <events jsxafteredit="if(objCOLUMN.getPath() == 'jsxid') this.redrawRecord(strRECORDID);"
                     jsxaftercommit="content.getEditor().setDirty(true);"/>
@@ -74,7 +74,7 @@ coldefault.setFormatHandler(jsx3.ide.PropsBundleEditor.FORMATTER);
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                       jsxcellborder="@Matrix AllCol Border"/>
                   <variants jsxresize="0"/>
-                  <strings jsxname="coldel" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"/>
+                  <strings jsxname="coldel" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxwidth="20"/>
                   <object type="jsx3.gui.ImageButton">
                     <variants jsxwidth="16" jsxheight="16"/>
                     <strings jsxname="imagebutton" jsximage="jsxapp:/images/icon_55.gif"/>
@@ -85,7 +85,7 @@ coldefault.setFormatHandler(jsx3.ide.PropsBundleEditor.FORMATTER);
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                       jsxcellborder="@Matrix AllCol Border"/>
                   <variants jsxresize="1"/>
-                  <strings jsxname="colid" jsxtext="ID" jsxpath="jsxid" jsxcellpadding="3" jsxpadding="3" jsxwidth="125"/>
+                  <strings jsxname="colid" jsxtext="ID" jsxpath="jsxid" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="125"/>
                   <object type="jsx3.gui.TextBox">
                     <dynamics jsxcolor="@Matrix Edit Color"/>
                     <strings jsxname="myText"/>
@@ -95,7 +95,7 @@ coldefault.setFormatHandler(jsx3.ide.PropsBundleEditor.FORMATTER);
                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                       jsxcellborder="@Matrix AllCol Border"/>
                   <variants jsxsort="0" jsxwidth="100"/>
-                  <strings jsxname="coldefault" jsxtext="Default" jsxpath="_default" jsxcellpadding="3" jsxpadding="3" jsxmenu="jsxmenu_propsbundle"/>
+                  <strings jsxname="coldefault" jsxtext="Default" jsxpath="_default" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxmenu="jsxmenu_propsbundle"/>
                   <object type="jsx3.gui.TextBox">
                     <dynamics jsxcolor="@Matrix Edit Color"/>
                     <strings jsxname="myText"/>

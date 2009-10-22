@@ -56,8 +56,8 @@ objMatrix.getChild(0).setFormatHandler(
                           <variants jsxoverflow="2"/>
                           <strings jsxheight="100%" jsxwidth="100%"/>
                             <object type="jsx3.gui.Matrix">
-                              <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset" jsxheaderborder="@Outset NoBottom"/>
-                              <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxheaderheight="21" jsxautorow="2"/>
+                              <dynamics jsxbgcolor="@Solid Light" jsxbodyborder="@Outset"/>
+                              <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxscalewidth="1" jsxresize="1" jsxreorder="0" jsxautorow="2"/>
                               <strings jsxname="jsxdynpropeditor" jsxmenu="jsxmenu_dynprop" jsxfocusstyle=";"/>
                               <events jsxafteredit="if(objCOLUMN.getPath() == 'jsxid') this.redrawRecord(strRECORDID);"
                                   jsxaftercommit="content.getEditor().setDirty(true);"/>
@@ -66,7 +66,7 @@ objMatrix.getChild(0).setFormatHandler(
                                   <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"
                                     jsxcellborder="@Matrix AllCol Border"/>
                                   <variants jsxresize="0"/>
-                                  <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxwidth="20"/>
+                                  <strings jsxname="jsxdyn1" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxwidth="20"/>
                                     <object type="jsx3.gui.ImageButton">
                                      <variants jsxwidth="16" jsxheight="16"/>
                                      <strings jsxname="imagebutton" jsximage="jsxapp:/images/icon_55.gif" />
@@ -76,7 +76,7 @@ objMatrix.getChild(0).setFormatHandler(
                                 <object type="jsx3.gui.Matrix.Column">
                                   <dynamics jsxtext="_gen_id" jsxbg="@Fade TopDown" jsxborder="@Outset"
                                     jsxcellborder="@Matrix AllCol Border"/>
-                                  <strings jsxname="jsxdyn2" jsxcellpadding="3" jsxpadding="3" jsxpath="jsxid" jsxmask="myText" />
+                                  <strings jsxname="jsxdyn2" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="jsxid" jsxmask="myText" />
                                     <object type="jsx3.gui.TextBox">
                                       <dynamics jsxcolor="@Matrix Edit Color"/>
                                       <strings jsxname="myText"/>
@@ -85,7 +85,7 @@ objMatrix.getChild(0).setFormatHandler(
                                 <object type="jsx3.gui.Matrix.Column">
                                   <dynamics jsxtext="_gen_type" jsxbg="@Fade TopDown" jsxborder="@Outset"
                                     jsxcellborder="@Matrix AllCol Border"/>
-                                  <strings jsxname="jsxdyn3" jsxcellpadding="3" jsxpadding="3" jsxpath="type" jsxmask="myComboMask" jsxxsl="&lt;xsl:attribute name=&quot;style&quot;&gt;position:relative;padding-left:7px;&lt;/xsl:attribute&gt;&lt;xsl:value-of select=&quot;@path@&quot;/&gt;&amp;#160;"/>
+                                  <strings jsxname="jsxdyn3" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxpath="type" jsxmask="myComboMask" jsxxsl="&lt;xsl:attribute name=&quot;style&quot;&gt;position:relative;padding-left:7px;&lt;/xsl:attribute&gt;&lt;xsl:value-of select=&quot;@path@&quot;/&gt;&amp;#160;"/>
                                   <variants jsxwidth="160" />
                                     <object type="jsx3.gui.Select">
                                       <dynamics jsxcolor="@Matrix Edit Color"/>
@@ -99,7 +99,7 @@ objMatrix.getChild(0).setFormatHandler(
                                   <dynamics jsxtext="_gen_eval" jsxbg="@Fade TopDown" jsxborder="@Outset"
                                     jsxcellborder="@Matrix AllCol Border"/>
                                   <variants jsxwidth="36" />
-                                  <strings jsxname="jsxdyn4" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3" jsxpath="eval" jsxtextalign="center" jsxcelltextalign="center"/>
+                                  <strings jsxname="jsxdyn4" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3" jsxpath="eval" jsxtextalign="center" jsxcelltextalign="center"/>
                                     <object type="jsx3.gui.CheckBox">
                                       <strings jsxname="checkbox"/>
                                     </object>
@@ -107,7 +107,7 @@ objMatrix.getChild(0).setFormatHandler(
                                 <object type="jsx3.gui.Matrix.Column">
                                   <dynamics jsxtext="_gen_value" jsxbg="@Fade TopDown" jsxborder="@Outset"
                                     jsxcellborder="@Matrix AllCol Border"/>
-                                  <strings jsxname="jsxdyn5" jsxcellpadding="3" jsxpadding="3" jsxwidth="*" jsxpath="jsxtext"/>
+                                  <strings jsxname="jsxdyn5" jsxcellpadding="3" jsxpadding="2 3 0 3" jsxwidth="*" jsxpath="jsxtext"/>
                                     <object type="jsx3.gui.TextBox">
                                       <dynamics jsxcolor="@Matrix Edit Color"/>
                                       <strings jsxname="textbox"/>

@@ -78,8 +78,8 @@ objMatrix.removeMapperBinding = function(strRecordId) {
           <strings jsxwidth="100%" jsxheight="100%"/>
 
           <object type="jsx3.gui.Matrix">
-            <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium" jsxheaderborder="@Outset NoBottom"/>
-            <variants jsxgrowby="0" jsxshare="0" jsxautorow="2" jsxsort="0" jsxreorder="0" jsxresize="0" jsxscalewidth="1" jsxpagingmodel="0" jsxselectionmodel="0" jsxheaderheight="21"/>
+            <dynamics jsxbg="@Alternating Rows" jsxbgcolor="@Solid Medium"/>
+            <variants jsxgrowby="0" jsxshare="0" jsxautorow="2" jsxsort="0" jsxreorder="0" jsxresize="0" jsxscalewidth="1" jsxpagingmodel="0" jsxselectionmodel="0"/>
             <strings jsxbodyborder="1px solid #d8d8e5" jsxname="jsx_schema_mapnode_headers" jsxxmlid="jsx_schema_mapnode_headers_XML" jsxxslid="jsx_schema_mapnode_headers_XSL" jsxrenderingmodel="shallow"/>
             <events jsxafteredit="this.getAncestorOfType(jsx3.ide.mapper.Mapper).getEditor().setDirty(true);" jsxbeforeappend="this.getAncestorOfType(jsx3.ide.mapper.Mapper).insertRow(&quot;headers&quot;,objRECORD);" jsxafterappend="this.getAncestorOfType(jsx3.ide.mapper.Mapper).onInsertRow();"/>
             <xslparameters jsx_autorow_style="background-color:#f0f0f8;color:#0000ff;"/>
@@ -87,7 +87,7 @@ objMatrix.removeMapperBinding = function(strRecordId) {
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="20"/>
-              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="3"/>
+              <strings jsxname="jsxcol" jsxtext="&amp;#160;" jsxvaluetemplate="@empty" jsxcellpadding="1" jsxpadding="2 3 0 3"/>
               <object type="jsx3.gui.ImageButton">
                 <variants jsxwidth="16" jsxheight="16"/>
                 <strings jsxname="imagebutton" jsximage="images/rem.gif"/>
@@ -98,7 +98,7 @@ objMatrix.removeMapperBinding = function(strRecordId) {
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset"/>
               <variants jsxwidth="140"/>
-              <strings jsxpadding="2" jsxcellpadding="3" jsxtip="http header name. For example, Content-Type" jsxname="jsxcol" jsxpath="name" jsxtext="Name*"/>
+              <strings jsxpadding="2 3 0 3" jsxcellpadding="3" jsxtip="http header name. For example, Content-Type" jsxname="jsxcol" jsxpath="name" jsxtext="Name*"/>
               <object type="jsx3.gui.TextBox">
                 <dynamics jsxcolor="@Matrix Edit Color"/>
                 <variants jsxtype="1" jsxheight="40"/>
@@ -109,7 +109,7 @@ objMatrix.removeMapperBinding = function(strRecordId) {
 
             <object type="jsx3.gui.Matrix.Column">
               <dynamics jsxbg="@Fade TopDown" jsxborder="@Outset NoRight"/>
-              <strings jsxpadding="2" jsxcellpadding="3" jsxtip="http header value. For example, text/xml" jsxname="jsxcol" jsxpath="value" jsxtext="Value*" jsxwidth="*"/>
+              <strings jsxpadding="2 3 0 3" jsxcellpadding="3" jsxtip="http header value. For example, text/xml" jsxname="jsxcol" jsxpath="value" jsxtext="Value*" jsxwidth="*"/>
               <object type="jsx3.gui.TextBox">
                 <dynamics jsxcolor="@Matrix Edit Color"/>
                 <variants jsxtype="1" jsxheight="40"/>
