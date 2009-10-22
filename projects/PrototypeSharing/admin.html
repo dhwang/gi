@@ -182,21 +182,21 @@
 						</div>
 						<div id="info-details">
 							<hr />
-							<span>Author:</span><span id="author-detail"></span>
+							<span>Author: </span><span id="author-detail"></span>
 							<hr />
-							<span>Status:</span><span id="status-detail"></span>
+							<span>Status: </span><span id="status-detail"></span>
 							<hr />
-							<span>Version:</span><span id="version-detail"></span>
+							<span>Version: </span><span id="version-detail"></span>
 							<hr />
-							<span>Downloads:</span><span id="downloads-detail"></span>
+							<span>Downloads: </span><span id="downloads-detail"></span>
 							<hr />
-							<span>Uploaded:</span><span id="uploaded-detail"></span>
+							<span>Uploaded: </span><span id="uploaded-detail"></span>
 							<hr />
-							<span>Rating:</span><span id="rating-detail"></span>
+							<span>Rating: </span><span id="rating-detail"></span>
 							<hr />
-							<span>Category:</span><span id="category-detail"></span>
+							<span>Category: </span><span id="category-detail"></span>
 							<hr />
-							<span>Description:</span><span id="description-detail"></span>
+							<span>Description: </span><span id="description-detail"></span>
 							<hr />
 							<button id="download">Download</button>
 						</div>
@@ -206,26 +206,26 @@
 		        </div>
 			</div>
 			<div id="activity-tab" dojoType="dijit.layout.BorderContainer" title="Activity Log" iconClass="plusIcon" tooltip="Activity Log">
-		        <div id="log-pane" jsid="logPane" dojoType="dijit.layout.ContentPane" splitter="true" region="center">
+		        <div id="log-pane" jsid="logPane" dojoType="dijit.layout.ContentPane" splitter="true" region="center" style="overflow:hidden">
 					<h2>Activity Log</h2>
-					<table rowSelector="0px" rowsPerPage="20" query="''" store="logStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:300px">
+					<table rowSelector="0px" rowsPerPage="20" query="''" store="logStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:88%">
 						<thead>
 							<tr>
-								<th editable="true" width="80px" field="user">User</th>
-								<th editable="true" width="auto" field="action">Action</th>
-								<th editable="true" width="80px" field="date" formatter="dateFormatter">Date</th>
+								<th editable="true" width="10%" field="user">User</th>
+								<th editable="true" width="80%" field="action">Action</th>
+								<th editable="true" width="10%" field="date" formatter="dateFormatter">Date</th>
 							</tr>
 						</thead>
 					</table>    
 				</div>
-				<div id="log-description-pane" jsid="logDescriptionPane" dojoType="dijit.layout.ContentPane" splitter="true" region="bottom" style="height:250px">
+				<div id="log-description-pane" jsid="logDescriptionPane" dojoType="dijit.layout.ContentPane" splitter="true" region="bottom" style="height:15%">
 					<div id="log-details">
 						<hr />
-						<span>User:</span><span id="log-user-detail"></span>
+						<span>User: </span><span id="log-user-detail"></span>
 						<hr />
-						<span>Action:</span><span id="log-action-detail"></span>
+						<span>Action: </span><span id="log-action-detail"></span>
 						<hr />
-						<span>Notes:</span><span id="log-notes-detail"></span>
+						<span>Notes: </span><span id="log-notes-detail"></span>
 						<hr />
 					</div>
 					

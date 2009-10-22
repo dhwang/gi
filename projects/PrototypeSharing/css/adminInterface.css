@@ -12,6 +12,10 @@
 	height: 100%;
 }
 
+h2 {
+	font-size: 18px;
+}
+
 hr {
 	background: #E3E3E3;
 	height: 1px;
@@ -39,7 +43,7 @@ button:active {
 #header-pane {
 	overflow: hidden;
 	padding: 0;
-	background: url("../images/headerBg.jpg") repeat-x;
+	background: url("../images/headerBg.jpg") repeat-x left top;
 	border: none;
 }
 
@@ -142,6 +146,10 @@ button:active {
 }
 
 /* --------- grid --------- */
+
+#adminInterface .dojoxGridHeader .dojoxGridCell {
+	background-color: #FFF;
+}
 
 #adminInterface .dojoxGridRowOdd {
 	background-color: #F0F7FA;
@@ -299,11 +307,27 @@ button:active {
 
 #info-details {
 	float: left;
-	width: 220px;
+	width: 340px;
 	margin-top: 1.5em;
 }
 
+#author-detail,
+#status-detail,
+#version-detail,
+#downloads-detail,
+#rating-detail,
+#uploaded-detail,
+#category-detail,
+#description-detail {
+	font-weight: bold;
+}
+
+#author-detail {
+	color: #0033CC;
+}
+
 #info-details button {
+	margin-top: 6px;
 	padding: 6px 20px;
 	background: #E8E8E8 url("../images/infoTabBg.png") repeat-x left top;
 	border: 1px solid #BFBEBF;
@@ -312,4 +336,25 @@ button:active {
 
 .dj_ie #info-details button {
 	padding: 2px 6px;
+}
+
+/* ---------- activity log ---------- */
+
+#activity-tab {
+	background: #F5F5F5;
+	padding: 6px 5px 5px 5px !important;
+}
+
+#log-pane {
+	background: #F5F5F5;
+	padding: 0;
+	border: none;
+}
+
+#log-pane h2 {
+	margin-left: 5px;
+}
+
+#log-pane .dojoxGrid {
+	border: 1px solid #CCC;
 }
