@@ -237,9 +237,16 @@ button {
 
 #adminInterface #info-pane .dijitTab {
 	top: 3px;
-	padding: 3px 0;
+	padding-top: 2px;
+	height: 24px;
 	background: #E8E8E8 url("../images/infoTabBg.png") repeat-x left top;
 	border: 1px solid #BFBEBF;
+	border-bottom: 1px solid #AFAFAF;
+}
+
+.dj_ie #adminInterface #info-pane .dijitTab {
+	padding-top: 3px;
+	height: 28px;
 }
 
 #adminInterface #info-pane .tabLabel {
@@ -247,16 +254,11 @@ button {
 }
 
 #adminInterface #info-pane  .dijitTabChecked {
-	padding-bottom: 4px;
 	background: #FFF;
 	border-color: #CDCDCD;
 	border-bottom-color: #FFF;
 }
 
-.dj_ie #adminInterface #info-pane  .dijitTabChecked {
-	padding-bottom: 3px;
-}
- 
 #adminInterface #info-pane .tabLabel {
 	text-shadow: 0 1px 0 #FFF;	
 }
