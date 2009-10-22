@@ -1,3 +1,7 @@
+:focus {
+	outline: 0;
+}
+
 #adminInterface {
 	margin: 0;
 	padding: 0;
@@ -249,14 +253,14 @@ button {
 	border-bottom-color: #FFF;
 }
 
+.dj_ie #adminInterface #info-pane  .dijitTabChecked {
+	padding-bottom: 3px;
+}
+ 
 #adminInterface #info-pane .tabLabel {
 	text-shadow: 0 1px 0 #FFF;	
 }
 
-.dj_ie #adminInterface #info-pane  .dijitTabChecked {
-
-}
- 
 #component-actions {
 	position: absolute;
 	top: 0;
@@ -344,7 +348,6 @@ button {
 	background: #E8E8E8 url("../images/infoTabBg.png") repeat-x left top;
 	border: 1px solid #BFBEBF;
 }
-
 
 .dj_ie #info-details button {
 	padding: 2px 6px;
