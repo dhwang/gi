@@ -14,6 +14,7 @@
 
 h2 {
 	font-size: 18px;
+	text-shadow: 0 1px 0 #FFF;	
 }
 
 hr {
@@ -28,6 +29,7 @@ button {
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;	
 	border: none;
 	background: none;
+	text-shadow: 0 1px 0 #FFF;
 }
 
 #interfaceWrapper {
@@ -70,6 +72,7 @@ button {
 	margin-right: 8px;
 	font-size: 10px;
 	font-weight: bold;
+	text-shadow: 0 1px 0 #FFF;	
 }
 
 #user span a {
@@ -145,6 +148,7 @@ button {
 
 #adminInterface .dojoxGridHeader .dojoxGridCell {
 	background-color: #FFF;
+	text-shadow: 0 1px 0 #FFF;	
 }
 
 #adminInterface .dojoxGridRowOdd {
@@ -190,6 +194,7 @@ button {
 
 #adminInterface .tabLabel {
 	font-weight: bold;
+	text-shadow: 0 1px 0 #FCFCFC;	
 }
 
 #adminInterface .dijitTabInnerDiv {
@@ -214,11 +219,16 @@ button {
 	border-bottom: 1px solid #AEAEAE;	
 }
 
+.dj_ie #adminInterface #info-pane .dijitTabContainerTop-tabs {
+	height: 32px;
+}
+
 #info-pane .dijitTabContainerTopStrip {
-	height: 30px !important;	
+	height: 31px !important;	
 	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: none;
 	border: 1px solid #AFAFAF;
+	border-bottom: none;
 }
 
 #adminInterface #info-pane .dijitTab {
@@ -233,10 +243,18 @@ button {
 }
 
 #adminInterface #info-pane  .dijitTabChecked {
-	padding-bottom: 3px;
+	padding-bottom: 4px;
 	background: #FFF;
 	border-color: #CDCDCD;
-	z-index: 999;
+	border-bottom-color: #FFF;
+}
+
+#adminInterface #info-pane .tabLabel {
+	text-shadow: 0 1px 0 #FFF;	
+}
+
+.dj_ie #adminInterface #info-pane  .dijitTabChecked {
+
 }
  
 #component-actions {
@@ -285,9 +303,8 @@ button {
 #component-actions .featureIcon { background-position: -28px 0; width: 0; }
 
 #info-pane .dijitTabPaneWrapper {
-	position: relative;
-	z-index: -1;	
-	top: 32px !important;
+	top: 31px !important;
+	border-top: 1px solid #AFAFAF;
 }
 
 #info-pane .dijitContentPane {
