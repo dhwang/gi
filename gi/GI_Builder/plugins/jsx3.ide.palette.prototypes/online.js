@@ -7,15 +7,13 @@
 
     _currentFilter: "all",
 
-    formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
-      var record = matrix.getRecord(cdfkey);
-      var rating = Number(record.rating);
-
-      var wholes = 0,
+    _getStars: function(rating) {
+      var rating = Number(rating),
+          wholes = 0,
           fraction = 0;
       if (isNaN(rating)) {
         rating = 0;
-      } else {
+      } else if (rating > 0) {
         wholes = Math.floor(rating);
         fraction = (rating - wholes);
       }
@@ -27,19 +25,23 @@
         hasHalf = true;
       }
 
-      var self = this;
-      var getStar = function (num) {
-        if (num < wholes) {
-          return plugIn._fullStar._path;
-        } else if (num == wholes && hasHalf) {
-          return plugIn._halfStar._path;
+      var result = [];
+      for (var i=0; i<5; i++) {
+        if (i < wholes) {
+          result.push(this._fullStar._path);
+        } else if (i == wholes && hasHalf) {
+          result.push(this._halfStar._path);
         } else {
-          return plugIn._emptyStar._path;
+          result.push(this._emptyStar._path);
         }
-      };
+      }
+      return result;
+    },
 
-      element.innerHTML = "<img src='" + getStar(0) + "'/><img src='" + getStar(1) + "'/>" +
-        "<img src='" + getStar(2) + "'/><img src='" + getStar(3) + "'/><img src='" + getStar(4) + "'/>";
+    formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
+      var record = matrix.getRecord(cdfkey);
+
+      element.innerHTML = "<img src='" + plugIn._getStars(record.rating).join("'/><img src='") + "'/>";
     },
 
     _onOnlineFilterMenuExecute: function(objMenu, objMatrix, strRecordId) {
@@ -90,28 +92,44 @@
       console.log(strRecordId);
     },
 
+    _onOnlineListExecute: function(objPalette, objMatrix, strRecordId) {
+      var record = objMatrix.getRecord(strRecordId);
+      console.log(record);
+      objPalette.setOnlineDetail(record);
+    },
+
     _buildXMLURL: function() {
       var objSearchBox = jsx3.IDE.getJSXByName("jsx_ide_online_search"),
           objFilterMenu = jsx3.IDE.getJSXByName("jsx_ide_online_filter_menu"),
           strSearch = objSearchBox && objSearchBox.getValue(),
           hasFilter = (this._currentFilter != "all"),
           baseUri = "http://localhost:8080/Prototype/",
-          uri = baseUri;
+          uri = baseUri,
+          parts = [];
       if (hasFilter) {
-        if (strSearch && strSearch.length) {
-          uri = baseUri + "?fulltext('" + strSearch + "')&featured=true";
-        } else {
-          uri = baseUri + "?featured=true";
-        }
-      } else if (strSearch && strSearch.length) {
-        uri = baseUri + "?fulltext('" + strSearch + "')";
+        parts.push('featured=true');
       }
+      if (strSearch && strSearch.length) {
+        parts.push("fulltext('" + strSearch + "')");
+      }
+      uri += parts.length ? '?' + parts.join('&') : '';
       jsx3.log("Matrix XML URL: " + uri);
       return uri;
     },
 
     _onSearch: function(objSearchBox, objMatrix, strValue) {
-      this._reloadList(objMatrix);
+      var self = this,
+          doSearch = function(matrix) {
+            self._reloadList(matrix);
+          };
+      if (this._searchTO != null) {
+        window.clearTimeout(this._searchTO);
+        this._searchTO = null;
+      }
+      this._searchTO = window.setTimeout(function() {
+        doSearch(objMatrix);
+        this._searchTO = null;
+      }, 200);
     },
 
     _clearSearch: function(objSearchBox, objMatrix) {
@@ -124,6 +142,22 @@
       objMatrix.setXMLURL(this._buildXMLURL());
       objMatrix.resetCacheData();
       objMatrix.repaint();
+    },
+
+    getLicenseAgreement: function() {
+      // Gets the saved credentials from the
+      // user's settings
+      var s = jsx3.ide.getIDESettings();
+      var id = this.getId();
+
+      return s.get(id, 'license_accepted');
+    },
+
+    agreeToLicense: function() {
+      var s = jsx3.ide.getIDESettings();
+      var id = this.getId();
+
+      s.set(id, 'license_accepted', true);
     }
   });
 
