@@ -1,30 +1,15 @@
 #adminInterface {
-	margin: 0 0 25px 0;
+	margin: 0;
 	padding: 0;
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 	font-size: 13px;
 	color: #333;
-	background-color: #F4F4F4;
+	background-color: #F5F5F5;
 }
 
 #app-border {
 	position: relative;
 	height: 100%;
-}
-
-#content {
-	background-color: white;
-  	width: 750px;
-  	margin: 0;
-  	padding: 25px 0 25px 10px;
-  	margin-left: auto;
-  	margin-right: auto;
-  	border: 1px solid #aaa;
-  	border-top: none;
-}
-
-.tag {
-	display: block;
 }
 
 button {
@@ -69,6 +54,10 @@ button:active {
 	right: 6px;
 	line-height: 25px;
 	z-index: 3;
+}
+
+.dj_ie #user {
+	top: 82px;	
 }
 
 #user span {
@@ -116,6 +105,10 @@ button:active {
 	margin-right: 12px;
 }
 
+.dj_ie #component-controls button {
+	padding-left: 5px;
+}
+
 #filter-box-form {
 	position: absolute;
 	right: 7px;
@@ -131,15 +124,34 @@ button:active {
 .verticalRuleButton {
 	width: 1px;
 	height: 20px;
+	margin-right: 12px;
 	padding: 2px 1px 2px 0;
 	background: #FFF;
 	border-left: 1px solid #CCC;
 }
 
+.dj_ie .verticalRuleButton {
+	position: relative;
+	top: -8px;
+}
+
+/* --------- grid --------- */
+
+#adminInterface .dojoxGridRowOdd {
+	background-color: #F0F7FA;
+}
+
+#adminInterface .dojoxGridCell {
+	border-style: solid;
+	border-color: transparent #DBDADB #DBDADB transparent;	
+}
+
+
 /* --------- tundra theme overrides --------- */
 
 #adminInterface .dijitBorderContainer {
 	padding: 0;
+	background-color: #F5F5F5;
 }
 
 #adminInterface .dijitTabContainerTopStrip {
@@ -170,21 +182,104 @@ button:active {
 	font-weight: bold;
 }
 
+#adminInterface .dijitTabInnerDiv {
+	padding: 2px 8px 2px 4px;
+}
+
+#adminInterface .dijitSplitterH, .tundra .dijitGutterH {
+	height: 8px;
+	background: #F5F5F5;
+}
+
+#adminInterface .dijitSplitterH .dijitSplitterThumb {
+	height: 5px;
+	background: url("../images/splitterThumbH.gif") no-repeat;
+}
+
 /* ---------- info pane ---------- */
 
+#adminInterface #info-pane .dijitTabContainerTop-tabs {
+	position: relative;
+	height: 30px;
+	border-bottom: 1px solid #AEAEAE;	
+}
+
 #info-pane .dijitTabContainerTopStrip {
+	height: 30px !important;	
 	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: none;
-	border-top: 1px solid #AFAFAF;
-	border-bottom: 1px solid #AEAEAE;
+	border: 1px solid #AFAFAF;
+}
+
+#adminInterface #info-pane .dijitTab {
+	top: 3px;
+	padding: 3px 0;
+	background: #E8E8E8 url("../images/infoTabBg.png") repeat-x left top;
+	border: 1px solid #BFBEBF;
+}
+
+#adminInterface #info-pane .tabLabel {
+	font-weight: normal;
+}
+
+#adminInterface #info-pane  .dijitTabChecked {
+	padding-bottom: 3px;
+	background: #FFF;
+	border-color: #CDCDCD;
+	border-bottom-color: #F00;
+	z-index: 999;
 }
  
+#component-actions {
+	position: absolute;
+	top: 0;
+	right: 20px;
+}
+
 #component-actions button {
-	padding: 3px;
+	top: 1px;
+	position: relative;
+	padding: 3px 14px;
 	font-size: 13px;
 	font-weight: bold;
 	font-family: Helvetica;
 	color: #333;
 	background: #E9EDF0 url("../images/grayButtonBg.png") repeat-x left top;
 	border: 1px solid #AEBAC3;
+}
+
+.dj_gecko #component-actions button {
+	top: 3px;
+	margin-left: 3px;
+	padding: 2px 14px;
+}
+
+.dj_ie #component-actions button {
+	top: 3px;
+	margin-left: 7px;
+	padding: 1px 2px;
+}
+
+#component-actions .acceptIcon,
+#component-actions .rejectIcon,
+#component-actions .featureIcon {
+	position: relative;
+	top: 2px;
+	left: -5px;
+	width: 14px;
+	height: 14px;
+	display: inline-block;
+	background: url("../images/componentButtonSprite.png") no-repeat 0 0;
+}
+
+#component-actions .rejectIcon { background-position: -14px 0 }
+#component-actions .featureIcon { background-position: -28px 0; width: 0; }
+
+#info-pane .dijitTabPaneWrapper {
+	position: relative;
+	z-index: -1;	
+	top: 32px !important;
+}
+
+#info-pane .dijitTabListContainer-top {
 }
