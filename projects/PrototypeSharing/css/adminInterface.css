@@ -12,6 +12,12 @@
 	height: 100%;
 }
 
+hr {
+	background: #E3E3E3;
+	height: 1px;
+	border: none;
+}
+
 button {
 	cursor: pointer;
 	font-size: 12px;
@@ -281,5 +287,29 @@ button:active {
 	top: 32px !important;
 }
 
-#info-pane .dijitTabListContainer-top {
+#info-pane .dijitContentPane {
+	padding: 0 25px 25px 25px;
+}
+
+#info-description {
+	float: left;
+	width: 50%;
+	margin-right: 50px;
+}
+
+#info-details {
+	float: left;
+	width: 220px;
+	margin-top: 1.5em;
+}
+
+#info-details button {
+	padding: 6px 20px;
+	background: #E8E8E8 url("../images/infoTabBg.png") repeat-x left top;
+	border: 1px solid #BFBEBF;
+}
+
+
+.dj_ie #info-details button {
+	padding: 2px 6px;
 }
