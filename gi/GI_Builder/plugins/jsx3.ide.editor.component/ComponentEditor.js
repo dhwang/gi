@@ -190,7 +190,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
         objXML = objBody.toXMLDoc(profileProps);
       }
 
-      objXML = jsx3.ide.makeXmlPretty(objXML, true);
+      objXML = this.formatXML(objXML);
       if (jsx3.ide.writeUserXmlFile(objFile, objXML)) {
         this.setDirty(false);
         didSave = true;
@@ -208,6 +208,33 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
     if (didSave)
       this.publish({subject:"saved"});
     return didSave;
+  };
+  
+  ComponentEditor_prototype.formatXML = function(objXML) {
+    objXML = jsx3.ide.makeXmlPretty(objXML, true);
+
+    if (!jsx3.CLASS_LOADER.IE) {
+      var serPath = "/jsx1:serialization/";
+      objXML.setSelectionNamespaces("xmlns:jsx1='" + jsx3.app.Model.CURRENT_VERSION + "'");
+      for (var f in jsx3.app.Model._META_MAP) {
+        var node = objXML.selectSingleNode(serPath + "jsx1:" + jsx3.app.Model._META_MAP[f]);
+        if (node) {
+          var children = node.getChildIterator(true);
+          var nodeData = '';
+          while (children.hasNext()) {
+            var child = children.next();
+            nodeData += child.getValue();
+          }
+          
+          if (nodeData.length > 0) {
+            node.removeChildren();
+            node.appendChild(node.createNode(4, nodeData));
+          }
+        }
+      }
+    }
+
+    return objXML;
   };
 
   ComponentEditor_prototype.revert = function() {
@@ -377,7 +404,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
     }
 
     var objXML = (firstChild || objBody).toXMLDoc(profileProps);
-    objXML = jsx3.ide.makeXmlPretty(objXML, true);
+    objXML = this.formatXML(objXML);
 
     // create a dummy server view
     var server = new jsx3.ide.ServerView(jsx3.ide.SERVER, testDiv, objXML);

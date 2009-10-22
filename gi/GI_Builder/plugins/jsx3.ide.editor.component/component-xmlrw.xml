@@ -19,7 +19,7 @@ objJSX.onShowMe = function() {
   if (root) {
     window.setTimeout(jsx3.$F(function() {
       if (root.getChild(0) == null) profileProps.children = true;
-      this.setTextValue(root != null ? jsx3.ide.makeXmlPretty((root.getChild(0) || root).toXMLDoc(profileProps)).toString() : "");
+      this.setTextValue(root != null ? this.getEditor().formatXML((root.getChild(0) || root).toXMLDoc(profileProps)).toString() : "");
 
       this.getDescendantOfName('jsxcodeeditor').initAsType("xml");
     }).bind(this), 100);

@@ -820,8 +820,8 @@ jsx3.ide._PRETTY_TEMPLATE_URI = jsx3.IDE.resolveURI("xml/xmlpretty.xsl");
 
 jsx3.ide.makeXmlPretty = function(objXML, bDoc) {
   var objTemplate = jsx3.getSystemCache().getOrOpenDocument(this._PRETTY_TEMPLATE_URI, null, jsx3.xml.XslDocument.jsxclass);
-  var src = objTemplate.transform(objXML);
-  return bDoc ? (new jsx3.xml.Document()).loadXML(src) : jsx3.ide._makeXmlCloseTags(src);
+  return bDoc ? objTemplate.transformToObject(objXML) :
+         jsx3.ide._makeXmlCloseTags(objTemplate.transform(objXML));
 };
 
 /** @private @jsxobf-clobber */

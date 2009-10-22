@@ -16,31 +16,28 @@
   <xsl:param name="indent-increment" select="'  '" />
 
   <xsl:template match="/*">
-    <xsl:param name="indent" select="''"/>
-
-    <xsl:value-of select="$indent"/>
     <xsl:copy>
       <xsl:copy-of select="@*" />
       <xsl:apply-templates>
-        <xsl:with-param name="indent" select="concat('&#xA;', $indent-increment)"/>
+        <xsl:with-param name="indent" select="concat('', $indent-increment)"/>
       </xsl:apply-templates>
       <xsl:if test="*">
-        <xsl:value-of select="'&#xA;'"/>
+        <xsl:text>&#xA;</xsl:text>
       </xsl:if>
     </xsl:copy>
   </xsl:template>
 
   <xsl:template match="*">
-    <xsl:param name="indent" select="'&#xA;'"/>
+    <xsl:param name="indent" select="''"/>
 
-    <xsl:value-of select="$indent"/>
+    <xsl:text>&#xA;</xsl:text><xsl:value-of select="$indent"/>
     <xsl:copy>
       <xsl:copy-of select="@*" />
       <xsl:apply-templates>
         <xsl:with-param name="indent" select="concat($indent, $indent-increment)"/>
       </xsl:apply-templates>
       <xsl:if test="*">
-        <xsl:value-of select="$indent"/>
+        <xsl:text>&#xA;</xsl:text><xsl:value-of select="$indent"/>
       </xsl:if>
     </xsl:copy>
   </xsl:template>
