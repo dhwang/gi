@@ -53,7 +53,7 @@
 				setText(dojo.byId("log-action-detail"), logStore.getValue(selectedItem, "action"));
 				setText(dojo.byId("log-notes-detail"), logStore.getValue(selectedItem, "notes"));
 			});
-			var tabElement = infoPane.tablist.tablistWrapper.children[0];
+			var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
 			tabElement.style.width = "100%";
 			var componentActions = dojo.byId("component-actions");
 			componentActions.style.display = "inline-block";
@@ -75,7 +75,7 @@
 				});
 				logStore.save();
 			});
-			dojo.connect(dojo.byId("prohibit-button"), "onclick", function(){
+			dojo.connect(dojo.byId("reject-button"), "onclick", function(){
 				var reason = prompt("Enter the reason for prohibiting");
 				if(typeof reason === "string"){
 					prototypeStore.setValue(selectedItem, "enabled", false);

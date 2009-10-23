@@ -1,10 +1,10 @@
 var SQLStore = require("store/sql").SQLStore;
 
 exports.store = SQLStore({
-	connection: "jdbc:mysql://localhost/prototype?user=root&password=&useUnicode=true&characterEncoding=utf-8",
+  connection: "jdbc:sqlite:prototype.db",
 	table: "Prototype",
-	driver: "com.mysql.jdbc.Driver",
+	driver: "org.sqlite.JDBC",
 	starterStatements: [
-		"CREATE TABLE Prototype (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(100), category VARCHAR(100), rating FLOAT, ratingsCount INT, downloads INT, license_id INT, uploaded DATETIME, enabled BOOL, description VARCHAR(2000), component TEXT, user VARCHAR(100), featured BOOL, status VARCHAR(10), PRIMARY KEY(id))"],
+		"CREATE TABLE Prototype (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category TEXT, rating REAL, ratingsCount INTEGER, downloads INTEGER, license_id INTEGER, uploaded TEXT, enabled TEXT, description TEXT, component TEXT, user TEXT, featured TEXT, status TEXT)"],
 	idColumn: "id"
 });
