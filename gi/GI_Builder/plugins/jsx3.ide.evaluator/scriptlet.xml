@@ -62,7 +62,7 @@ objJSX._doScriptletHistory = function(strHistoryId) {
  ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
    <dynamics jsxbgcolor="@Solid Medium" />
-   <variants jsxwidth="500" jsxheight="300" />
+   <variants jsxwidth="500" jsxheight="300" jsxoverflow="2"/>
    <strings jsxname="jsx_dlg_scriptlet" jsxhelpid="ide.scriptlet"/>
     <object type="jsx3.gui.WindowBar">
      <dynamics jsxtext="_script_title" />

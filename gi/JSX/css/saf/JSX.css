@@ -77,14 +77,17 @@
   overflow: hidden;
   background-repeat: no-repeat;
   background-position: center center;
+  vertical-align: top;
 }
 #JSX .jsx30toolbarbutton_cap {
   overflow: hidden;
   font-size: 0px;
+  vertical-align: top;
 }
 #JSX .jsx30toolbarbutton_mnu {
   width: 11px;
   overflow: hidden;
+  vertical-align: top;
 }
 #JSX .jsx30toolbarbutton_lbl {
 }

@@ -987,7 +987,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Box", jsx3.lang.Object, null, function(
 
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
   /** @private @jsxobf-clobber */
-  Box._CSS_FIXES = ["", "display:inline-table;", "", "display:inline-table;"];
+  Box._CSS_FIXES = ["", "display:inline-block;", "", "display:inline-block;"];
 /* @JSC */ } else if (jsx3.CLASS_LOADER.IE) {
   /** @private @jsxobf-clobber */
   Box._CSS_FIXES = ["", "", "display:inline-block;", ""];
