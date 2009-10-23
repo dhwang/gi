@@ -94,8 +94,44 @@
 
     _onOnlineListExecute: function(objPalette, objMatrix, strRecordId) {
       var record = objMatrix.getRecord(strRecordId);
-      console.log(record);
       objPalette.setOnlineDetail(record);
+    },
+
+    _onOnlineDetailDownload: function(objDetailId) {
+      var id = objDetailId.getText();
+      var protoDir = jsx3.ide.getHomeRelativeFile('prototypes'),
+          Document = jsx3.xml.Document;
+          self = this;
+
+      var doAsync = function(objEvent) {
+        var objXML = objEvent.target;
+        var strEvtType = objEvent.subject;
+        var objFile = objXML._objFile;
+
+        delete objXML._prototypeId;
+        objXML.unsubscribe("*", doAsync);
+
+        if (strEvtType == Document.ON_RESPONSE) {
+          objXML = jsx3.ide.ComponentEditor.prototype.formatXML(objXML);
+          jsx3.ide.writeUserXmlFile(objFile, objXML);
+        } else if (strEvtType == Document.ON_TIMEOUT) {
+          jsx3.ide.LOG.error("The component download timed out");
+        } else if (strEvtType == Document.ON_ERROR) {
+          jsx3.ide.LOG.error("The component download encountered an error");
+        }
+      };
+      jsx3.ide.getPlugIn("jsx3.io.browser").saveFile(jsx3.IDE.getRootBlock(), {
+          name:"jsx_ide_file_dialog", modal:true,
+          folder: protoDir, baseFolder: protoDir,
+          onChoose: function(objFile) {
+            var doc = new Document();
+            doc.setAsync(true);
+
+            doc.subscribe('*', doAsync);
+            doc._objFile = objFile;
+            doc.load(self._prototypeRootUri + id + '.' + 'component');
+          }
+      });
     },
 
     _prototypeRootUri: "http://localhost:8080/Prototype/",

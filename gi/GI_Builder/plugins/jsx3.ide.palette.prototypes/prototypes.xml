@@ -126,6 +126,7 @@ objJSX.setOnlineDetail = function(objRecord) {
   var plugIn = this.getPlugIn();
   var dateFormat = jsx3.util.DateFormat.getDateInstance(jsx3.util.DateFormat.SHORT);
 
+  detail_id.setText(objRecord.jsxid);
   detail_title.setText(objRecord.name);
   detail_uploaded.setText(dateFormat.format(new Date(objRecord.uploaded)));
   detail_downloads.setText(objRecord.downloads||0);
@@ -462,7 +463,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="4" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_online_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -470,7 +471,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_summary_tab" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                  <strings jsxname="jsx_ide_proto_summary_view" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+                  <strings jsxname="jsx_ide_proto_summary_view" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Matrix">
                     <variants jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="1" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1"/>
@@ -622,7 +623,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_detail_tab" jsxtext="Tab" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.LayoutGrid">
                   <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                  <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
+                  <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
                   <object type="jsx3.gui.Block">
                     <variants jsxoverflow="2" jsxfontsize="14"/>
                     <strings jsxname="detail_title" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="License" jsxfontweight="bold" jsxpadding="2 0 0 0"/>
@@ -656,11 +657,11 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                         <strings jsxname="layoutRows" jsxrows="20,20,20,20,20" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxcols="75,*"/>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="2"/>
-                          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtext="Version:" jsxtextalign="right" jsxfontweight="bold"/>
+                          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtext="Unique ID:" jsxtextalign="right" jsxfontweight="bold"/>
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="1"/>
-                          <strings jsxname="detail_version" jsxwidth="100%" jsxheight="100%" jsxtext="1.2" jsxpadding="0 0 0 8"/>
+                          <strings jsxname="detail_id" jsxwidth="100%" jsxheight="100%" jsxtext="0" jsxpadding="0 0 0 8"/>
                         </object>
                         <object type="jsx3.gui.Block">
                           <variants jsxoverflow="2"/>
@@ -782,7 +783,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                           <object type="jsx3.gui.Button">
                             <variants jsxindex="0" jsxheight="18" jsxwidth="100"/>
                             <strings jsxname="button" jsxtext="Download" jsxmargin="0 4 0 0"/>
-                            <events jsxexecute="alert('hello');"/>
+                            <events jsxexecute="palette.getPlugIn()._onOnlineDetailDownload(detail_id);"/>
                           </object>
                         </object>
                       </object>

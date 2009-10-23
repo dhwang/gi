@@ -600,7 +600,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
               if (objChild)
                 attemptedParent.insertBefore(objChild, objJSXParent, true);
             } else {
-              objJSXParent.loadXML(objXML);
+              objChild = objJSXParent.loadXML(objXML);
             }
 
             if (!objChild) {
