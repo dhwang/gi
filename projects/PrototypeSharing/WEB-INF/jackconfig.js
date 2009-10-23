@@ -8,6 +8,7 @@ require("CDF");
 require("tibco-application");
 require("Prototype");
 require("Log");
+require("Auth");
 require("LDAPUser");
 
 exports.app = require("jack/cascade").Cascade([ 
@@ -15,6 +16,5 @@ exports.app = require("jack/cascade").Cascade([
 	require("jack/static").Static(null,{urls:[""],root:["web"]}),
 	pintura.app
 ]);
-
 
 new (require("worker").SharedWorker)("console");

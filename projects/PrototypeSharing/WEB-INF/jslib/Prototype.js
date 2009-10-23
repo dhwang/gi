@@ -5,9 +5,10 @@ var prototypeStore = require("db/Prototype").store;
 prototypeStore = require("store/lucene").Lucene(prototypeStore, "Prototype");
 var logStore = require("Log").logStore;
 var QueryRegExp = require("json-query").QueryRegExp;
-var queryToSql = require("store/sql").JsonQueryToSQL("Prototype", "id, name, rating, ratingsCount, downloads, license_id, category, uploaded, enabled, user, featured, status", ["id","user","name", "uploaded","downloads","enabled","featured","status"])
+var queryToSql = require("store/sql").JsonQueryToSQL("Prototype", "id, name, rating, ratingsCount, downloads, license_id, description, uploaded, enabled, user, featured, status", ["id","user","name", "uploaded","downloads","enabled","featured","status"])
+var deepCopy = require("util/copy").deepCopy;
 
-var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
+var PrototypeClass = stores.registerStore("Prototype", prototypeStore, deepCopy(prototypeStore.getSchema(),
 	{
 		query: function(query, options){
 			var matches;
@@ -59,6 +60,14 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 			save: function(){
 				print("save");
 			},
+			get: function(name){
+				if(name == "component"){
+					print("incrementing downloads");
+					this.downloads++;
+					this.save();
+				}
+				return this[name];
+			},
 			rate: function(rating){
 				if(rating < 0 || rating > 5){
 					throw new Error("Invalid rating vote");
@@ -82,10 +91,21 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 				this.save();
 			}
 			
+		},
+		// these are used by atom
+		getTitle: function(item){
+			return item.name;
+		},
+		getSummary: function(item){
+			return item.description;
+		},
+		getUpdated: function(item){
+			return item.uploaded;
 		}
-	});
-	
-SchemaFacet({
+	}));
+
+
+SchemaFacet(PrototypeClass, {
 	additionalProperties: {readonly: true},
 	prototype: {
 		rate: function(rating, source){
@@ -104,7 +124,6 @@ SchemaFacet({
 });
 
 function verifyComponent(component){
-	print("verify");
 	var errors = [];
 	try{
 		var parser = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder();

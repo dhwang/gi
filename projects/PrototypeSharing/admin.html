@@ -9,7 +9,7 @@
 		@import "../jsclient/dijit/themes/tundra/tundra.css";
 		@import "../jsclient/dojox/highlight/resources/highlight.css";
     </style>
-	<link rel="stylesheet" href="../css/adminInterface.css" type="text/css" media="screen" />	
+	<link rel="stylesheet" href="../css/adminInterface.css" type="text/css" media="screen" />
   	<script djConfig="isDebug:true, parseOnLoad: true" src="../jsclient/dojo/dojo.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var path = location.pathname.match(/(.*\/)[^\/]*$/)[1];
@@ -22,7 +22,7 @@
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dojox.highlight");
 		dojo.require("dojox.highlight.languages.xml");
-		
+
 		var prototypeStore = new dojox.data.PersevereStore({target:"/Prototype/", idAsRef: true}); // persevere stores are auto-generated
 		var logStore = new dojox.data.PersevereStore({target:"/Log/", idAsRef: true}); // persevere stores are auto-generated
 		function requery(status){
@@ -54,12 +54,13 @@
 				setText(dojo.byId("log-notes-detail"), logStore.getValue(selectedItem, "notes"));
 			});
 			var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
+
 			tabElement.style.width = "100%";
 			var componentActions = dojo.byId("component-actions");
 			componentActions.style.display = "inline-block";
 			tabElement.appendChild(componentActions);
 			setText(dojo.byId("username"), "John Adams");
-			
+
 			dojo.connect(dojo.byId("download"), "onclick", function(){
 				var id = prototypeStore.getIdentity(selectedItem);
 				window.location.href = "/Prototype/" + id + ".component";
@@ -71,7 +72,7 @@
 				logStore.newItem({
 					prototype_id:selectedItem.id,
 					action: "Accepted",
-					notes: null 
+					notes: null
 				});
 				logStore.save();
 			});
@@ -84,7 +85,7 @@
 					logStore.newItem({
 						prototype_id:selectedItem.id,
 						action: "Prohibited",
-						notes: reason 
+						notes: reason
 					});
 					logStore.save();
 				}
@@ -96,7 +97,7 @@
 				logStore.newItem({
 					prototype_id:selectedItem.id,
 					action: "Featured",
-					notes: null 
+					notes: null
 				});
 				logStore.save();
 
@@ -128,7 +129,7 @@
 		}
 	</script>
 </head>
-  
+
   <body class="tundra" id="adminInterface">
   		<div id="app-border" dojoType="dijit.layout.BorderContainer">
         <div id="header-pane" dojoType="dijit.layout.ContentPane" splitter="false" region="top" style="height:78px;">
@@ -142,7 +143,7 @@
 		</div>
 		<div id="interfaceWrapper" dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
 	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Components">
-		
+
 				<div dojoType="dijit.layout.ContentPane" region="center" role="main" style="overflow:hidden">
 					<div id="component-controls">
 						<button onclick="componentGrid.setQuery('')">All</button>
@@ -162,12 +163,11 @@
 								<th width="10%" field="user">Author</th>
 								<th width="10%" field="rating">Rating</th>
 								<th width="10%" field="downloads">Downloads</th>
-								<th width="10%" field="category">Category</th>
 								<th width="10%" field="uploaded" formatter="dateFormatter">Upload Date</th>
 								<th width="10%" get="getDelete">Delete</th>
 							</tr>
 						</thead>
-					</table>    
+					</table>
 				</div>
 		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" tabStrip="true" style="height:50%">
 		        	<div id="component-actions">
@@ -216,7 +216,7 @@
 								<th editable="true" width="10%" field="date" formatter="dateFormatter">Date</th>
 							</tr>
 						</thead>
-					</table>    
+					</table>
 				</div>
 				<div id="log-description-pane" jsid="logDescriptionPane" dojoType="dijit.layout.ContentPane" splitter="true" region="bottom" style="height:15%">
 					<div id="log-details">
@@ -228,13 +228,13 @@
 						<span>Notes: </span><span id="log-notes-detail"></span>
 						<hr />
 					</div>
-					
+
 				</div>
 			</div>
 
 		</div>
 	</div>
 
-  	
+
   </body>
 </html>
