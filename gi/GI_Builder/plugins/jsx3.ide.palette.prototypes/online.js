@@ -98,21 +98,22 @@
       objPalette.setOnlineDetail(record);
     },
 
+    _prototypeRootUri: "http://localhost:8080/Prototype/",
+
     _buildXMLURL: function() {
       var objSearchBox = jsx3.IDE.getJSXByName("jsx_ide_online_search"),
           objFilterMenu = jsx3.IDE.getJSXByName("jsx_ide_online_filter_menu"),
           strSearch = objSearchBox && objSearchBox.getValue(),
           hasFilter = (this._currentFilter != "all"),
-          baseUri = "http://localhost:8080/Prototype/",
-          uri = baseUri,
+          uri = this._prototypeRootUri,
           parts = [];
       if (hasFilter) {
-        parts.push('featured=true');
+        parts.push('featured:true');
       }
       if (strSearch && strSearch.length) {
-        parts.push("fulltext('" + strSearch + "')");
+        parts.push(strSearch);
       }
-      uri += parts.length ? '?' + parts.join('&') : '';
+      uri += parts.length ? "?fulltext('" + parts.join(' ') + "')" : '';
       jsx3.log("Matrix XML URL: " + uri);
       return uri;
     },

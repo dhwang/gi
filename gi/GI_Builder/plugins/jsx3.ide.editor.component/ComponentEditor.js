@@ -574,6 +574,66 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
           bSuccess = true;
           jsx3.ide.maybeSelectNewDom([objChild], objDomTree);
         }
+      } else if (objCurParent.getName() == "ide_component_libs_online_list") {
+        var objRecord = objCurParent.getRecord(strRecordIds[0]);
+        var Document = jsx3.xml.Document;
+
+        //get the path for this object
+        var myId = objRecord.jsxid;
+        var doc = new Document();
+        doc.setAsync(true);
+
+        var self = this;
+        var doAsync = function(objEvent) {
+          var objXML = objEvent.target;
+          var strEvtType = objEvent.subject;
+          var componentId = objXML._prototypeId;
+
+          delete objXML._prototypeId;
+          objXML.unsubscribe("*", doAsync);
+
+          if (strEvtType == Document.ON_RESPONSE) {
+            var objChild = null, attemptedParent = objJSXParent;
+            if (bInsertBefore) {
+              attemptedParent = objJSXParent.getParent();
+              objChild = attemptedParent.loadXML(objXML, false);
+              if (objChild)
+                attemptedParent.insertBefore(objChild, objJSXParent, true);
+            } else {
+              objJSXParent.loadXML(objXML);
+            }
+
+            if (!objChild) {
+              jsx3.ide.LOG.error("The component was not added to the stage because the object that it was dropped on, " +
+                                 attemptedParent + ", rejected it.");
+              return;
+            }
+
+            if (objChild !== false) {
+              if (bStageDrop)
+                self._moveNewComponentToProperPlace(objChild);
+
+              bSuccess = true;
+              jsx3.ide.maybeSelectNewDom([objChild], objDomTree);
+            }
+
+            // call on-change event to clear drag mask
+            jsx3.EventHelp.reset();
+
+            if (bSuccess)
+              jsx3.ide.getActiveEditor().setDirty(true);
+          } else if (strEvtType == Document.ON_TIMEOUT) {
+            jsx3.ide.LOG.error("The component download timed out");
+          } else if (strEvtType == Document.ON_ERROR) {
+            jsx3.ide.LOG.error("The component download encountered an error");
+          }
+        };
+
+        doc.subscribe('*', doAsync);
+        doc._prototypeId = myId;
+        doc.load(jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes')._prototypeRootUri + myId + '.' + 'component');
+
+        return false;
       }
 
       // call on-change event to clear drag mask
