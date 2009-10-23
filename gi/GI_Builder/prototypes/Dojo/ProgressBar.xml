@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Progress Bar]]></name>
-  <icon><![CDATA[images/icon_32.gif]]></icon>
+  <icon><![CDATA[images/prototypes/progress.gif]]></icon>
   <description><![CDATA[Progress Bar]]></description>
   <object type="jsx3.gui.DojoWidget">
     <strings jsxname="dijitProgress" dijitClassName="dijit.ProgressBar"/>

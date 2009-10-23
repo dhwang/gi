@@ -288,9 +288,9 @@ _typeIcons: {
   "jsx3.gui.Block": function(o) {
     var icn = "block-abs.gif";
     switch (o.getTagName()) {
-      case "fieldset": icn = "block.gif"; break;
-      case "legend": icn = "block-text.gif"; break;
-      case "h1": case "h2": case "h3": case "h4": case "h5": case "h6": icn = "block-text.gif"; break;
+      case "fieldset": icn = "fieldset.gif"; break;
+      case "legend": icn = "legend.gif"; break;
+      case "h1": case "h2": case "h3": case "h4": case "h5": case "h6": icn = o.getTagName() + ".gif"; break;
       case "img": icn = "block-image"; break;
       default: 
         if (o.getChildren().length == 0 && (o.getText() || "").length > 0)
@@ -300,7 +300,7 @@ _typeIcons: {
   },
   "jsx3.gui.BlockX": systemIconPath + "blockX.gif",
   "jsx3.gui.Button": systemIconPath + "button.gif",
-  "jsx3.gui.CDF": systemIconPath + "block.gif",
+  "jsx3.gui.CDF": systemIconPath + "container.gif",
   "jsx3.gui.CheckBox": systemIconPath + "checkbox.gif",
   "jsx3.gui.ColorPicker": systemIconPath + "colorpicker.gif",
   "jsx3.gui.DatePicker": systemIconPath + "datepicker.gif",
@@ -308,7 +308,7 @@ _typeIcons: {
   "jsx3.gui.IFrame": systemIconPath + "iframe.gif",
   "jsx3.gui.Image": systemIconPath + "block-image.gif",
   "jsx3.gui.ImageButton": systemIconPath + "image-button.gif",
-  "jsx3.gui.Label": systemIconPath + "block-text.gif",
+  "jsx3.gui.Label": systemIconPath + "label.gif",
   "jsx3.gui.LayoutGrid": function (o) { 
     var numRows = o.getRows().split(/\s*,\s*/g).length;
     var numCols = o.getCols().split(/\s*,\s*/g).length;
@@ -317,12 +317,12 @@ _typeIcons: {
   "jsx3.gui.Matrix": systemIconPath + "matrix.gif",
   "jsx3.gui.Matrix.Column": systemIconPath + "matrix-column.gif",
   "jsx3.gui.Menu": systemIconPath + "menu.gif",
-  "jsx3.gui.NativeButton": systemIconPath + "button.gif",
-  "jsx3.gui.NativeFileUpload": systemIconPath + "textbox.gif",
-  "jsx3.gui.NativeForm": systemIconPath + "block.gif",
+  "jsx3.gui.NativeButton": systemIconPath + "nativebutton.gif",
+  "jsx3.gui.NativeFileUpload": systemIconPath + "fileupload.gif",
+  "jsx3.gui.NativeForm": systemIconPath + "form.gif",
   "jsx3.gui.NativeHidden": systemIconPath + "hidden.gif",
   "jsx3.gui.NativeSelect": systemIconPath + "select.gif",
-  "jsx3.gui.NumberInput": systemIconPath + "textbox.gif",
+  "jsx3.gui.NumberInput": systemIconPath + "numberinput.gif",
   "jsx3.gui.RadioButton": systemIconPath + "radio.gif",
   "jsx3.gui.Select": function(o) {
     return systemIconPath + (o.getType() == 1 ? "combo.gif" : "select.gif");
@@ -380,7 +380,7 @@ _typeIcons: {
   "jsx3.chart.PlotChart": chartingIconPath + "plotPoint.gif",
   "jsx3.chart.PointSeries": chartingIconPath + "scatterSeries.gif",
   "jsx3.app.Model": "jsxapp:/images/icon_89.gif",
-  "jsx3.xml.CDFSchema": systemIconPath + "block.gif"
+  "jsx3.xml.CDFSchema": systemIconPath + "schema.gif"
 },
 
 _getIconPath: function(o) {

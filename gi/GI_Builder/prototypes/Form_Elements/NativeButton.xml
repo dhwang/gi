@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Button - Native]]></name>
-  <icon><![CDATA[images/prototypes/button.gif]]></icon>
+  <icon><![CDATA[images/prototypes/nativebutton.gif]]></icon>
   <description><![CDATA[A jsx3.gui.NativeButton object.]]></description>
   <object type="jsx3.gui.NativeButton">
     <variants jsxindex="0"/>

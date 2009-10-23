@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Label]]></name>
-  <icon><![CDATA[images/prototypes/block-text.gif]]></icon>
+  <icon><![CDATA[images/prototypes/label.gif]]></icon>
   <description><![CDATA[A native HTML label tag]]></description>
   <object type="jsx3.gui.Label">
     <variants jsxrelativeposition="1" jsxoverflow="3"/>

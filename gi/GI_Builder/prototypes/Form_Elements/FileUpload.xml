@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[File Upload]]></name>
-  <icon><![CDATA[images/prototypes/textbox.gif]]></icon>
+  <icon><![CDATA[images/prototypes/fileupload.gif]]></icon>
   <description><![CDATA[A jsx3.gui.NativeFileUpload object.]]></description>
   <object type="jsx3.gui.NativeFileUpload">
     <variants jsxindex="0"/>

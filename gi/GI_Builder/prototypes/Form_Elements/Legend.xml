@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Field Set Legend]]></name>
-  <icon><![CDATA[images/prototypes/block-text.gif]]></icon>
+  <icon><![CDATA[images/prototypes/legend.gif]]></icon>
   <description><![CDATA[A native HTML legend tag]]></description>
   <object type="jsx3.gui.Block">
     <variants jsxrelativeposition="1" jsxoverflow="3"/>

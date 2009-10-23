@@ -1,6 +1,6 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.5">
   <name>CDF Master Detail</name>
-  <icon>images/prototypes/block.gif</icon>
+  <icon>images/prototypes/container.gif</icon>
   <description>Provides a master/detail component that is built using the jsx3.gui.CDF control</description>
   <onBeforeDeserialize/>
   <onAfterDeserialize/>

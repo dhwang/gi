@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[CDF Schema]]></name>
-  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <icon><![CDATA[images/prototypes/schema.gif]]></icon>
   <description><![CDATA[A custom CDF data schema.]]></description>
   <object type="jsx3.xml.CDFSchema" jsxname="schema1"/>
 </serialization>

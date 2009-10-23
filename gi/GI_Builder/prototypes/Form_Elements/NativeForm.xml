@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Form]]></name>
-  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <icon><![CDATA[images/prototypes/form.gif]]></icon>
   <description><![CDATA[A jsx3.gui.NativeForm object.]]></description>
   <object type="jsx3.gui.NativeForm">
     <strings jsxname="form" jsxaction="#" jsxmethod="get" jsxmulti="0" jsxtarget="0"/>

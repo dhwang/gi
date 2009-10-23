@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[H6 Heading]]></name>
-  <icon><![CDATA[images/prototypes/block-text.gif]]></icon>
+  <icon><![CDATA[images/prototypes/h6.gif]]></icon>
   <description><![CDATA[An HTML H6 tag]]></description>
   <object type="jsx3.gui.Block">
     <variants jsxrelativeposition="1" jsxoverflow="3"/>

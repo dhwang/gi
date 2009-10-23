@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Rating]]></name>
-  <icon><![CDATA[images/prototypes/block-image.gif]]></icon>
+  <icon><![CDATA[images/prototypes/rating.gif]]></icon>
   <description><![CDATA[Rating]]></description>
   <object type="jsx3.gui.DojoWidget">
     <strings dijitClassName="dojox.form.Rating" jsxname="dijitRating" />

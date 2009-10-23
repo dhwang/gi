@@ -3,7 +3,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
-  <name><![CDATA[Text]]></name>
+  <name><![CDATA[Text/HTML]]></name>
   <icon><![CDATA[images/prototypes/block-text.gif]]></icon>
   <description><![CDATA[Block with long Text/HTML property.  relatively positioned, so text will wrap around other relatively positioned objects.]]></description>
   <object type="jsx3.gui.Block">

@@ -1,6 +1,6 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.5">
   <name>CDF Mapping Container</name>
-  <icon>images/prototypes/block.gif</icon>
+  <icon>images/prototypes/container.gif</icon>
   <description>Maps descendant form fields to records and attributes in a cached CDF document.</description>
   <onBeforeDeserialize/>
   <onAfterDeserialize/>

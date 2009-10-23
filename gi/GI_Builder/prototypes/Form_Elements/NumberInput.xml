@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Number Input]]></name>
-  <icon><![CDATA[images/prototypes/textbox.gif]]></icon>
+  <icon><![CDATA[images/prototypes/numberinput.gif]]></icon>
   <description><![CDATA[Number input object.]]></description>
   <object type="jsx3.gui.NumberInput">
     <dynamics jsxformat="@Number"/>
