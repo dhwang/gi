@@ -1,5 +1,5 @@
 var stores = require("stores");
-var SchemaFacet = require("facet").SchemaFacet;
+var Restrictive = require("facet").Restrictive;
 var security = require("pintura").pinturaApp.security;
 var FullAccess = require("security").FullAccess;
 var ReadOnly = require("security").ReadOnly;
@@ -12,16 +12,11 @@ security.authStore = authStore;
 adminUsers = ["kris", "bryan"];
 security.getAllowedFacets = function(user, request){
 	if(adminUsers.indexOf(user) > -1){
-		return [FullAccess];//[Prototype.AdminFacet, FullAccess];
+		return [Prototype.AdminFacet, FullAccess];
 	}
 	if(user){
-		return [FullAccess];//[Prototype.BuilderFacet];
+		return [Prototype.BuilderFacet];
 	}
 	return [ReadOnly];
 }
 
-SchemaFacet(AuthClass, {
-	additionalProperties: {readonly: true},
-	prototype: {
-	}
-});

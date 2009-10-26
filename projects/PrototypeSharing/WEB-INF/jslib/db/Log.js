@@ -5,6 +5,6 @@ exports.store = SQLStore({
 	table: "Log",
 	type: "mysql",
 	starterStatements:[
-		"CREATE TABLE Log (id INT NOT NULL AUTO_INCREMENT, prototype_id VARCHAR(100), user VARCHAR(100), action VARCHAR(100), notes VARCHAR(2000), date DATETIME, PRIMARY KEY(id))"],
+		"CREATE TABLE Log (id INT NOT NULL AUTO_INCREMENT, prototype_id INT, user VARCHAR(100), action VARCHAR(100), notes VARCHAR(2000), date DATETIME, PRIMARY KEY(id))"],
 	idColumn:"id"
 });

@@ -1,14 +1,15 @@
 var stores = require("stores");
-var SchemaFacet = require("facet").SchemaFacet;
+var Permissive = require("facet").Permissive;
+var Restrictive = require("facet").Restrictive;
 
 var prototypeStore = require("db/Prototype").store;
 prototypeStore = require("store/lucene").Lucene(prototypeStore, "Prototype");
-var logStore = require("Log").logStore;
+var LogClass = require("Log").LogClass;
 var QueryRegExp = require("json-query").QueryRegExp;
 var queryToSql = require("store/sql").JsonQueryToSQL("Prototype", "id, name, rating, ratingsCount, downloads, license_id, description, uploaded, enabled, user, featured, status", ["id","user","name", "uploaded","downloads","enabled","featured","status"])
 var deepCopy = require("util/copy").deepCopy;
 
-var PrototypeClass = stores.registerStore("Prototype", prototypeStore, deepCopy(prototypeStore.getSchema(),
+var PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
 	{
 		query: function(query, options){
 			var matches;
@@ -29,7 +30,7 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore, deepCopy(
 				
 					if(errors.length){
 						print("Errors found in verification");
-						logStore.put({
+						LogClass.create({
 							action: "Rejected",
 							notes: errors.join(", \n"),
 							date: new Date(),
@@ -62,7 +63,7 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore, deepCopy(
 			},
 			get: function(name){
 				if(name == "component"){
-					print("incrementing downloads");
+					print("increment download");
 					this.downloads++;
 					this.save();
 				}
@@ -78,7 +79,7 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore, deepCopy(
 				this.save();
 			},
 			flag: function(accusation){
-				logStore.put({
+				LogClass.put({
 					action: "Flagged",
 					notes: accusation,
 					date: new Date(),
@@ -102,11 +103,10 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore, deepCopy(
 		getUpdated: function(item){
 			return item.uploaded;
 		}
-	}));
+	});
 
 
-SchemaFacet(PrototypeClass, {
-	additionalProperties: {readonly: true},
+exports.BuilderFacet = Restrictive(PrototypeClass, {
 	prototype: {
 		rate: function(rating, source){
 			source.rate(rating);
@@ -118,10 +118,26 @@ SchemaFacet(PrototypeClass, {
 			}
 			source.flag(accusation);
 			this.load();
-		},
+		}
 		
 	}
 });
+
+exports.AdminFacet = Permissive(PrototypeClass, {
+	properties: {
+		log: {
+			get: function(){
+				return this.id ? LogClass.query("?prototype_id=" + this.id).
+					map(function(item){
+						delete item.id;
+						return item;
+					}) : [];
+			}
+		}
+	},
+	quality: 2
+});
+
 
 function verifyComponent(component){
 	var errors = [];
@@ -176,7 +192,7 @@ function verifyComponent(component){
 							JSON.parse(attrs.item(j).getValue());
 						}
 						catch(e){
-							errors.push(e.message);
+							errors.push("Variant value for " + attrs.item(j).getName() + " is not a valid JSON value: " + attrs.item(j).getValue());
 						}
 					}
 				}

@@ -11,123 +11,7 @@
     </style>
 	<link rel="stylesheet" href="../css/adminInterface.css" type="text/css" media="screen" />
   	<script djConfig="isDebug:true, parseOnLoad: true" src="../jsclient/dojo/dojo.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		var path = location.pathname.match(/(.*\/)[^\/]*$/)[1];
-		//dojo.require("dojox.data.ClientFilter");
-		dojo.require("dojo.cookie");
-		dojo.require("dojox.data.PersevereStore");
-		dojo.require("dojox.grid.DataGrid");
-		dojo.require("dijit.layout.BorderContainer");
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.ContentPane");
-		dojo.require("dojox.highlight");
-		dojo.require("dojox.highlight.languages.xml");
-
-		var prototypeStore = new dojox.data.PersevereStore({target:"/Prototype/", idAsRef: true}); // persevere stores are auto-generated
-		var logStore = new dojox.data.PersevereStore({target:"/Log/", idAsRef: true}); // persevere stores are auto-generated
-		function requery(status){
-			componentGrid.setQuery({status:status});
-		}
-		function setText(element, text){
-			element.innerHTML = text && text.toString().replace(/</g,"&lt;");
-		}
-		dojo.addOnLoad(function(){
-			dojo.connect(componentGrid,"onRowClick", function(event){
-				selectedItem = event.grid.getItem(event.rowIndex);
-				var sourceCode = prototypeStore.getValue(selectedItem, "component");
-				sourceCode = sourceCode && sourceCode.toString().replace(/</g,"&lt;");
-				sourceTab.attr("content", sourceCode);
-				dojox.highlight.init(sourceTab.containerNode);
-				setText(dojo.byId("author-detail"), prototypeStore.getValue(selectedItem, "user"));
-				setText(dojo.byId("status-detail"), prototypeStore.getValue(selectedItem, "status"));
-				setText(dojo.byId("version-detail"), prototypeStore.getValue(selectedItem, "version"));
-				setText(dojo.byId("downloads-detail"), prototypeStore.getValue(selectedItem, "downloads"));
-				setText(dojo.byId("uploaded-detail"), prototypeStore.getValue(selectedItem, "uploaded"));
-				setText(dojo.byId("rating-detail"), prototypeStore.getValue(selectedItem, "rating"));
-				setText(dojo.byId("category-detail"), prototypeStore.getValue(selectedItem, "category"));
-				setText(dojo.byId("description-detail"), prototypeStore.getValue(selectedItem, "description"));
-			});
-			dojo.connect(activityGrid,"onRowClick", function(event){
-				selectedItem = event.grid.getItem(event.rowIndex);
-				setText(dojo.byId("log-user-detail"), logStore.getValue(selectedItem, "user"));
-				setText(dojo.byId("log-action-detail"), logStore.getValue(selectedItem, "action"));
-				setText(dojo.byId("log-notes-detail"), logStore.getValue(selectedItem, "notes"));
-			});
-			var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
-
-			tabElement.style.width = "100%";
-			var componentActions = dojo.byId("component-actions");
-			componentActions.style.display = "inline-block";
-			tabElement.appendChild(componentActions);
-			setText(dojo.byId("username"), "John Adams");
-
-			dojo.connect(dojo.byId("download"), "onclick", function(){
-				var id = prototypeStore.getIdentity(selectedItem);
-				window.location.href = "/Prototype/" + id + ".component";
-			});
-			dojo.connect(dojo.byId("accept-button"), "onclick", function(){
-				prototypeStore.setValue(selectedItem, "enabled", true);
-				prototypeStore.setValue(selectedItem, "status", "Accepted");
-				prototypeStore.save();
-				logStore.newItem({
-					prototype_id:selectedItem.id,
-					action: "Accepted",
-					notes: null
-				});
-				logStore.save();
-			});
-			dojo.connect(dojo.byId("reject-button"), "onclick", function(){
-				var reason = prompt("Enter the reason for prohibiting");
-				if(typeof reason === "string"){
-					prototypeStore.setValue(selectedItem, "enabled", false);
-					prototypeStore.setValue(selectedItem, "status", "Prohibited");
-					prototypeStore.save();
-					logStore.newItem({
-						prototype_id:selectedItem.id,
-						action: "Prohibited",
-						notes: reason
-					});
-					logStore.save();
-				}
-			});
-			dojo.connect(dojo.byId("feature-button"), "onclick", function(){
-				prototypeStore.setValue(selectedItem, "featured", true);
-				prototypeStore.setValue(selectedItem, "enabled", true);
-				prototypeStore.setValue(selectedItem, "status", "Featured");
-				logStore.newItem({
-					prototype_id:selectedItem.id,
-					action: "Featured",
-					notes: null
-				});
-				logStore.save();
-
-				prototypeStore.save();
-			});
-			dojo.connect(dojo.byId("filter-box-form"), "onsubmit", function(event){
-				componentGrid.setQuery("?fulltext('" + dojo.byId("filter-box").value.replace(/'/g,"\\'") + "')");
-				prototypeStore.save();
-				dojo.stopEvent(event);
-			});
-		});
-		function dateFormatter(date){
-			return date && (date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear());
-		}
-		function getStatus(rowIndex, item){
-	        if(!item){
-	                return this.defaultValue;
-	        }
-	        if(prototypeStore.getValue(item, "featured")){
-				return "Featured";
-			}
-	        if(prototypeStore.getValue(item, "enabled")){
-				return "Accepted";
-			}
-			return "Flagged";
-	 	}
-		function getDelete(){
-			return "delete";
-		}
-	</script>
+	<script src="../jsclient/admin.js" type="text/javascript"></script>
 </head>
 
   <body class="tundra" id="adminInterface">
@@ -139,9 +23,9 @@
 		<div id="user">
 			<span id="username"></span>
 			<span class="verticalRule"></span>
-			<span id="logout"><a href="">Logout</a></span>
+			<span id="login">Logout</span>
 		</div>
-		<div id="interfaceWrapper" dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
+		<div id="interfaceWrapper" jsid="interfaceWrapper" dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
 	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Components">
 
 				<div dojoType="dijit.layout.ContentPane" region="center" role="main" style="overflow:hidden">
@@ -178,9 +62,12 @@
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="Information" iconClass="plusIcon" tooltip="Information about component">
 						<div id="info-description">
 							<h5>Author Notes</h5>
-							<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat Lorem ipsum dolor sit amet, consectetuer adipiscing eli.Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p>
+							<p><span id="description-detail"></span></p>
+							<div id="component-log"></div>
 						</div>
 						<div id="info-details">
+							<hr />
+							<span>Name: </span><span id="name-detail"></span>
 							<hr />
 							<span>Author: </span><span id="author-detail"></span>
 							<hr />
@@ -196,8 +83,6 @@
 							<hr />
 							<span>Category: </span><span id="category-detail"></span>
 							<hr />
-							<span>Description: </span><span id="description-detail"></span>
-							<hr />
 							<button id="download">Download</button>
 						</div>
 					</div>
@@ -212,6 +97,7 @@
 						<thead>
 							<tr>
 								<th editable="true" width="10%" field="user">User</th>
+								<th editable="true" width="10%" field="name">Component Name</th>
 								<th editable="true" width="80%" field="action">Action</th>
 								<th editable="true" width="10%" field="date" formatter="dateFormatter">Date</th>
 							</tr>
