@@ -110,6 +110,9 @@ exports.BuilderFacet = Restrictive(PrototypeClass, {
 	}
 });
 exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
+	create: function(object){
+		return PrototypeClass.create(object);
+	},
 	prototype: {
 		rate: function(rating, source){
 			source.rate(rating);
