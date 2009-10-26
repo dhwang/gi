@@ -63,7 +63,6 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 			},
 			get: function(name){
 				if(name == "component"){
-					print("increment download");
 					this.downloads++;
 					this.save();
 				}
@@ -107,6 +106,10 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 
 
 exports.BuilderFacet = Restrictive(PrototypeClass, {
+	prototype: {		
+	}
+});
+exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
 	prototype: {
 		rate: function(rating, source){
 			source.rate(rating);

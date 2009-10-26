@@ -15,8 +15,8 @@ security.getAllowedFacets = function(user, request){
 		return [Prototype.AdminFacet, FullAccess];
 	}
 	if(user){
-		return [Prototype.BuilderFacet];
+		return [Prototype.AuthenticatedBuilderFacet, Authenticate];
 	}
-	return [ReadOnly];
+	return [Prototype.BuilderFacet, Authenticate];
 }
 
