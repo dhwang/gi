@@ -438,6 +438,7 @@ img.jsx30select_icon {
 /* jsx3.gui.Tree */
 #JSX .jsx30tree {
   -moz-user-select: none;
+  overflow: auto;
 }
 #JSX .jsx30tree_text {
   position: relative;
