@@ -57,30 +57,32 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
               this.rootDocument = autFrameDocument;
               
               /*GITAK's GI DOM viewer, accessible after executing first extended command (e.g. clickJsxElement|JsxMenuName|) */
-              try { 
-                  jsx3.require("jsx3.gui.Window");
-                  this.globalJSXBODY = jsx3.GO('JSXBODY');
+              try {
+                  //jsx3.require("jsx3.gui.Window");
+                  var JSXBODY = jsx3.GO('JSXBODY');
                   var currentUrl = window.location.href; // get selenium path from browser URL
                   var start_page = currentUrl.split('?')[0]; // get first part without parameters
-                  var localpath = start_page.slice(0, start_page.lastIndexOf('/core'));
-
-                  globalJSXBODY.getServer().loadInclude(localpath +'/gi/domviewer/JsxDom32/js/logic.js', 'domjs', 'script', false);
+                  var localpath = start_page.slice(0, start_page.lastIndexOf('/selenium'));
+                  console.debug(JSXBODY);
+                  //console.debug(localpath +'/domviewer/JsxDom32/js/logic.js');
+                  //console.debug(localpath +'/domviewer/JsxDom32/components/dlgJsxDom.xml');
+                  
+                  JSXBODY.getServer().loadInclude(localpath +'/domviewer/JsxDom32/js/logic.js', 'domjs', 'script', false);
                   if (!browserVersion.isIE || !browserVersion.isHTA) {
-                      globalJSXBODY.load(localpath +'/gi/domviewer/JsxDom32/components/dlgJsxDom.xml');
+                      JSXBODY.load(localpath +'/domviewer/JsxDom32/components/dlgJsxDom.xml');
                   } else {
-                      var w = globalJSXBODY.getServer().getAppWindow("DomWin");
+                      var w = JSXBODY.getServer().getAppWindow("DomWin");
                       if (w == null) {
-                        w = globalJSXBODY.getServer().createAppWindow("DomWin");
+                        w = JSXBODY.getServer().createAppWindow("DomWin");
                         w.setHeight(400);
                         w.setWidth(500);
                         w.setTitle("JSX DOM");
                         w.setResizable(true);
                       
-                      w.unsubscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
-                      w.subscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
+                        w.unsubscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
+                        w.subscribe(jsx3.gui.Window.WILL_CLOSE, this, handleClose);
 
-                      w.getRootBlock().load(localpath +'/gi/domviewer/JsxDom32/components/dlgJsxDom.xml');
-                      
+                        w.getRootBlock().load(localpath +'/domviewer/JsxDom32/components/dlgJsxDom.xml');
                       }
                       if (!w.isOpen()) { //and show the window if it isn'talready visible
                         w.open();
@@ -95,13 +97,15 @@ to work-around a bug in IE on Win2K whereby the HTA application doesn't function
             }
             
             function handleClose() {
-                var w = globalJSXBODY.getServer().getAppWindow("DomWin");
-                if (w.getRootBlock().getChild(0))
-                   w.getRootBlock.removeChildren();
+                var JSXBODY = jsx3.GO('JSXBODY');
+                var w = JSXBODY.getServer().getAppWindow("DomWin");
                 if (w.doClose)
                   w.doClose();
-                else
+                else {
+                 if (w.getRootBlock().getChild(0))
+                   w.getRootBlock.removeChildren();
                   w.close();
+                }
             }
             
             function toggleBannerDisplay(elm) {

@@ -1,4 +1,9 @@
 /*
+ * Modified by Darren Hwang © 2009
+ * General Interface Test Automation Kit (GITAK) 0.8.1, 0.9.1, 1.0
+ */
+ 
+/*
 * Copyright 2004 ThoughtWorks, Inc
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -143,7 +148,7 @@ objectExtend(HtmlTestRunner.prototype, {
         testFrame.scrollToTop();
         //todo: move testFailed and storedVars to TestCase
         this.testFailed = false;
-        storedVars = new Object();
+        //storedVars = new Object(); // GITAK, alter storedVars to be global and available across test cases. Don't reset here.
         storedVars.nbsp = String.fromCharCode(160);
         storedVars.space = ' ';
         this.currentTest = new HtmlRunnerTestLoop(testFrame.getCurrentTestCase(), this.metrics, this.commandFactory);
@@ -783,9 +788,19 @@ objectExtend(SeleniumTestResult.prototype, {
         form.createHiddenField("numCommandFailures", this.metrics.numCommandFailures);
         form.createHiddenField("numCommandErrors", this.metrics.numCommandErrors);
 
+        // GITAK -- move numTestTotal and suite to the front.
+        form.createHiddenField("numTestTotal", rowNum-1);
+        if (selenium.jsxversion) {
+          form.createHiddenField("jsxVersion", selenium.jsxversion);
+        }
+        form.createHiddenField("userAgent", navigator.userAgent);
+        // end GITAK
+        // Add HTML for the suite itself
+        form.createHiddenField("suite", this.suiteTable.parentNode.innerHTML);
+
         // Create an input for each test table.  The inputs are named
         // testTable.1, testTable.2, etc.
-        for (rowNum = 1; rowNum < this.suiteTable.rows.length; rowNum++) {
+        for (var rowNum = 1; rowNum < this.suiteTable.rows.length; rowNum++) {
             // If there is a second column, then add a new input
             if (this.suiteTable.rows[rowNum].cells.length > 1) {
                 var resultCell = this.suiteTable.rows[rowNum].cells[1];
@@ -795,11 +810,25 @@ objectExtend(SeleniumTestResult.prototype, {
             }
         }
 
-        form.createHiddenField("numTestTotal", rowNum-1);
+        // GITAK create report for failed tests named failed.1, failed.2 etc.
+        for (var i = 0;  i < this.metrics.failedTests.length; i++) {
+          var failedTest = this.metrics.failedTests[i];
+          form.createHiddenField("failed." + i, failedTest);
+        }
+        // GITAK create report for passed tests named passed.1, passed.2 etc.
+        for (var i = 0;  i < this.metrics.passedTests.length; i++) {
+          var passedTest = this.metrics.passedTests[i];
+          form.createHiddenField("passed." + i, passedTest);
+        }
 
-        // Add HTML for the suite itself
-        form.createHiddenField("suite", this.suiteTable.parentNode.innerHTML);
-
+        var serializedVars = [];
+        for (name in storedVars) { // post as part of results all the 
+           LOG.debug("stored[" + name + "]=" + storedVars[name] );
+           serializedVars.push(name+':"'+storedVars[name]+'"');
+        }
+        var logVars = serializedVars.join(",");
+        form.createHiddenField("storedVars", logVars);
+        
         var logMessages = [];
         while (LOG.pendingMessages.length > 0) {
             var msg = LOG.pendingMessages.shift();
@@ -851,7 +880,7 @@ objectExtend(SeleniumTestResult.prototype, {
         
         scriptFile.WriteLine("<html><head><title>Test suite results</title><style>");
         scriptFile.WriteLine(styles);
-        scriptFile.WriteLine("</style>");
+        scriptFile.WriteLine("</style></head>");
         scriptFile.WriteLine("<body>\n<h1>Test suite results</h1>" +
              "\n\n<table>\n<tr>\n<td>result:</td>\n<td>" + inputs["result"] + "</td>\n" +
              "</tr>\n<tr>\n<td>totalTime:</td>\n<td>" + inputs["totalTime"] + "</td>\n</tr>\n" +
@@ -861,17 +890,38 @@ objectExtend(SeleniumTestResult.prototype, {
              "<tr>\n<td>numCommandPasses:</td>\n<td>" + inputs["numCommandPasses"] + "</td>\n</tr>\n" +
              "<tr>\n<td>numCommandFailures:</td>\n<td>" + inputs["numCommandFailures"] + "</td>\n</tr>\n" +
              "<tr>\n<td>numCommandErrors:</td>\n<td>" + inputs["numCommandErrors"] + "</td>\n</tr>\n" +
+             "<tr>\n<td>user agent:</td>\n<td>" + inputs["userAgent"] + "</td>\n</tr>\n" +        
              "<tr>\n<td>" + inputs["suite"] + "</td>\n<td>&nbsp;</td>\n</tr></table><table>");
+
         var testNum = inputs["numTestTotal"];
-        
-        for (var rowNum = 1; rowNum <= testNum; rowNum++) {
-            scriptFile.WriteLine("<tr>\n<td>" + inputs["testTable." + rowNum] + "</td>\n<td>&nbsp;</td>\n</tr>");
+        if ( inputs["jsxVersion"] ) { // GITAK specific
+          scriptFile.WriteLine("<dl>\n<dt>GI Version:</dt>\n<dd>" + inputs["jsxVersion"] + "</dd>\n\n" );
+          scriptFile.WriteLine("<dt>storedVars</dt>\n<dd>" + inputs["storedVars"] + "</dd></dl>\n");
         }
+        // small optimization.
+        var rowStart = "<tr>\n<td>";
+        var rowEnd = "</td>\n<td>&nbsp;</td>\n</tr>";
+        // end GITAK
+        for (var rowNum = 1; rowNum <= testNum; rowNum++) {
+            scriptFile.WriteLine(rowStart + inputs["testTable." + rowNum] + rowEnd);
+        }
+        
+        // GITAK
+        scriptFile.WriteLine("</table><table id=\"failed_tests\">");
+        for (var i = 0;  i < this.metrics.failedTests.length; i++) {
+            scriptFile.WriteLine("<tr class=\"status_failed\">\n<td>"+ i +"</td>\n<td>" + inputs["failed." + i] + "</td>\n</tr>");
+        }
+        scriptFile.WriteLine("</table><table id=\"passed_tests\">");
+        for (var i = 0;  i < this.metrics.passedTests.length; i++) {
+            scriptFile.WriteLine("<tr class=\"status_passed\">\n<td>"+ i +"&nbsp;</td>\n<td>" + inputs["passed." + i] + "</td>\n</tr>");
+        }
+        // end GITAK
         scriptFile.WriteLine("</table><pre>");
         var log = inputs["log"];
         log=log.replace(/&/gm,"&amp;").replace(/</gm,"&lt;").replace(/>/gm,"&gt;").replace(/"/gm,"&quot;").replace(/'/gm,"&apos;");
         scriptFile.WriteLine(log);
-        scriptFile.WriteLine("</pre></body></html>");
+        scriptFile.WriteLine("</pre>");
+        scriptFile.WriteLine("</table></body></html>");
         scriptFile.Close();
     }
 });
@@ -906,6 +956,7 @@ objectExtend(HtmlTestCase.prototype, {
     _collectCommandRows: function () {
         var commandRows = [];
         var tables = sel$A(this.testDocument.getElementsByTagName("table"));
+        this.caption = tables[0].caption || this.headerRow ; // GITAK, use caption for test description
         var self = this;
         for (var i = 0; i < tables.length; i++) {
             var table = tables[i];
@@ -1018,6 +1069,8 @@ var get_new_rows = function() {
 var Metrics = classCreate();
 objectExtend(Metrics.prototype, {
     initialize: function() {
+        this.failedTests = [];
+        this.passedTests = [];
         // The number of tests run
         this.numTestPasses = 0;
         // The number of tests that have failed
@@ -1034,6 +1087,15 @@ objectExtend(Metrics.prototype, {
         this.currentTime = null;
     },
 
+    // Add the failed test to the list/array --gitak
+    addFailedTest: function (objTest) {
+        this.failedTests.push(objTest);
+    },
+
+    addPassedTest: function (objTest) {
+        this.passedTests.push(objTest);
+    },
+    
     printMetrics: function() {
         setText(sel$('commandPasses'), this.numCommandPasses);
         setText(sel$('commandFailures'), this.numCommandFailures);
@@ -1058,6 +1120,8 @@ objectExtend(Metrics.prototype, {
     },
 
     resetMetrics: function() {
+        this.failedTests = [];
+        this.passedTests = [];
         this.numTestPasses = 0;
         this.numTestFailures = 0;
         this.numCommandPasses = 0;
