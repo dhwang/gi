@@ -112,7 +112,7 @@ dojo.addOnLoad(function(){
 	dojo.connect(dojo.byId("login"), "onclick", function(){
 		dojo.require("persevere.Login");
 	    var login = new persevere.Login({onLoginSuccess: function(){
-	    	alert("success");
+	    	alert("Logged in");
 	    	//location.reload();
 	    }});
 		dojo.body().appendChild(login.domNode);

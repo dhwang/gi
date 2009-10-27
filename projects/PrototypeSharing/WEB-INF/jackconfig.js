@@ -13,7 +13,7 @@ require("LDAPUser");
 
 exports.app = require("jack/cascade").Cascade([ 
 		// cascade from static to pintura REST handling
-	require("jack/static").Static(null,{urls:[""],root:["web"]}),
+	require("jack/static").Static(null,{urls:[""],root:"../"}),
 	pintura.app
 ]);
 
