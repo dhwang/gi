@@ -1,0 +1,1 @@
+exports.adminUsers = ["kris", "bryan", "rachel", "jesse"];

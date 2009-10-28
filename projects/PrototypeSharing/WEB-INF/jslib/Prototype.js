@@ -4,12 +4,11 @@ var Restrictive = require("facet").Restrictive;
 
 var prototypeStore = require("db/Prototype").store;
 prototypeStore = require("store/lucene").Lucene(prototypeStore, "Prototype");
-var LogClass = require("Log").LogClass;
 var QueryRegExp = require("json-query").QueryRegExp;
-var queryToSql = require("store/sql").JsonQueryToSQL("Prototype", "id, name, rating, ratingsCount, downloads, license_id, description, uploaded, enabled, user, featured, status", ["id","user","name", "uploaded","downloads","enabled","featured","status"])
+var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"])
 var deepCopy = require("util/copy").deepCopy;
 
-var PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
+var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
 	{
 		query: function(query, options){
 			var matches;
@@ -18,9 +17,20 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 				return prototypeStore.fulltext(eval(matches[1]), options);
 			}
 			var sql = queryToSql(query, options);
+			
 			if(sql){
-				return prototypeStore.executeSql(sql, options);
+				return prototypeStore.executeSql(
+					"SELECT id, name, rating, ratingsCount, downloads, license_id, description, uploaded, enabled, user, featured, status FROM Prototype " + 
+					"WHERE deleted=false AND " +
+					sql, options);
 			}
+		},
+		"delete": function(id){
+			var instance = this.get(id);
+			instance.deleted = true;
+		},
+		purge: function(){
+			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=true");
 		},
 		properties:{
 			component: {
@@ -31,15 +41,15 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 					if(errors.length){
 						print("Errors found in verification");
 						LogClass.create({
-							action: "Rejected",
+							action: "Pending",
 							notes: errors.join(", \n"),
 							date: new Date(),
 							prototype_id: this.id || 0
 						});
 						source.enabled = false;
 						this.enabled = false;
-						source.status = "Rejected";
-						this.status = "Rejected";
+						source.status = "Pending";
+						this.status = "Pending";
 					}
 					return value;
 				}
@@ -53,13 +63,11 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 				this.status = "New";
 				this.downloads = 0;
 				this.enabled = true;
+				this.deleted = false;
 				this.featured = false;
 				this.uploaded = new Date();
 				this.ratingsCount = 0;
 				this.rating = 0;
-			},
-			save: function(){
-				print("save");
 			},
 			get: function(name){
 				if(name == "component"){
@@ -104,6 +112,7 @@ var PrototypeClass = stores.registerStore("Prototype", prototypeStore,
 		}
 	});
 
+var LogClass = require("Log").LogClass;
 
 exports.BuilderFacet = Restrictive(PrototypeClass, {
 	prototype: {		

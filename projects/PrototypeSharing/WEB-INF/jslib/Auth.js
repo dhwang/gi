@@ -10,7 +10,7 @@ var Prototype = require("Prototype");
 var AuthClass = stores.registerStore("Auth", authStore);
 
 security.authStore = authStore;
-adminUsers = ["kris", "bryan"];
+adminUsers = require("config/admin-users").adminUsers;
 security.getAllowedFacets = function(user, request){
 	if(adminUsers.indexOf(user) > -1){
 		return [Prototype.AdminFacet, FullAccess, Authenticate];

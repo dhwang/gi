@@ -36,6 +36,7 @@
 						<span class="verticalRuleButton"></span>
 						<button onclick="requery('New')">New</button>
 						<button onclick="requery('Flagged')">Flagged</button>
+						<button onclick="requery('Pending')">Pending</button>
 						<button onclick="requery('Rejected')">Rejected</button>
 						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
 					</div>
@@ -48,7 +49,6 @@
 								<th width="10%" field="rating">Rating</th>
 								<th width="10%" field="downloads">Downloads</th>
 								<th width="10%" field="uploaded" formatter="dateFormatter">Upload Date</th>
-								<th width="10%" get="getDelete">Delete</th>
 							</tr>
 						</thead>
 					</table>
@@ -58,6 +58,8 @@
 		        		<button id="accept-button"><span class="acceptIcon"></span>Accept</button>
 						<button id="reject-button"><span class="rejectIcon"></span>Reject</button>
 						<button id="feature-button"><span class="featureIcon"></span>Feature</button>
+						<button id="delete-button"><span class="featureIcon"></span>Delete</button>
+						<button id="purge-button"><span class="featureIcon"></span>Purge Database</button>
 					</div>
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="Information" iconClass="plusIcon" tooltip="Information about component">
 						<div id="info-description">
@@ -90,10 +92,10 @@
 					</div>
 		        </div>
 			</div>
-			<div id="activity-tab" dojoType="dijit.layout.BorderContainer" title="Activity Log" iconClass="plusIcon" tooltip="Activity Log">
+			<div id="activity-tab" jsid="activityTab" dojoType="dijit.layout.BorderContainer" title="Activity Log" iconClass="plusIcon" tooltip="Activity Log">
 		        <div id="log-pane" jsid="logPane" dojoType="dijit.layout.ContentPane" splitter="true" region="center" style="overflow:hidden">
 					<h2>Activity Log</h2>
-					<table rowSelector="0px" rowsPerPage="20" query="''" store="logStore" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:88%">
+					<table rowSelector="0px" rowsPerPage="20" id="activity-grid" jsid="activityGrid" dojoType="dojox.grid.DataGrid" style="height:88%">
 						<thead>
 							<tr>
 								<th editable="true" width="10%" field="user">User</th>

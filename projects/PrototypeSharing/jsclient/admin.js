@@ -17,7 +17,23 @@ function requery(status){
 function setText(element, text){
 	element.innerHTML = text && text.toString().replace(/</g,"&lt;");
 }
+function login(){
+	var loginAgain = login;
+	login = function(){};// no way else 
+	dojo.require("persevere.Login");
+    var loginDialog = new persevere.Login({onLoginSuccess: function(){
+    	alert("Logged in");
+    	login = loginAgain;
+    	//location.reload();
+    }});
+	dojo.body().appendChild(loginDialog.domNode);
+	loginDialog.startup();
+}
 dojo.addOnLoad(function(){
+	activityTab.onShow = function(){
+		activityGrid.setStore(logStore, '');
+		delete activityTab.onShow; 
+	};
 	dojo.connect(componentGrid,"onRowClick", function(event){
 		selectedItem = event.grid.getItem(event.rowIndex);
 		showSelectedComponent();
@@ -65,8 +81,12 @@ dojo.addOnLoad(function(){
 	var componentActions = dojo.byId("component-actions");
 	componentActions.style.display = "inline-block";
 	tabElement.appendChild(componentActions);
-	setText(dojo.byId("username"), "John Adams");
-
+	
+	var saveParameters = {
+		onError: function(error){
+			alert("Save failed: " + error);
+		}		
+	};
 	dojo.connect(dojo.byId("download"), "onclick", function(){
 		var id = prototypeStore.getIdentity(selectedItem);
 		window.location.href = "/Prototype/" + id + ".component";
@@ -74,53 +94,74 @@ dojo.addOnLoad(function(){
 	dojo.connect(dojo.byId("accept-button"), "onclick", function(){
 		prototypeStore.setValue(selectedItem, "enabled", true);
 		prototypeStore.setValue(selectedItem, "status", "Accepted");
-		prototypeStore.save();
+		prototypeStore.save(saveParameters);
 		logStore.newItem({
 			prototype_id:selectedItem.id,
 			action: "Accepted",
+			sendEmail: confirm("Send an email to author?"),
 			notes: null
 		});
-		logStore.save();
+		logStore.save(saveParameters);
 	});
 	dojo.connect(dojo.byId("reject-button"), "onclick", function(){
-		var reason = prompt("Enter the reason for prohibiting");
+		var reason = prompt("Enter the reason for rejecting");
 		if(typeof reason === "string"){
 			prototypeStore.setValue(selectedItem, "enabled", false);
-			prototypeStore.setValue(selectedItem, "status", "Prohibited");
-			prototypeStore.save();
+			prototypeStore.setValue(selectedItem, "status", "Rejected");
+			prototypeStore.save(saveParameters);
 			logStore.newItem({
 				prototype_id:selectedItem.id,
-				action: "Prohibited",
+				action: "Rejected",
+				sendEmail: confirm("Send an email to author?"),
 				notes: reason
 			});
-			logStore.save();
+			logStore.save(saveParameters);
 		}
 	});
 	dojo.connect(dojo.byId("feature-button"), "onclick", function(){
-		prototypeStore.setValue(selectedItem, "featured", true);
+		prototypeStore.setValue(selectedItem, "featured", !prototypeStore.getValue(selectedItem, "featured"));
 		prototypeStore.setValue(selectedItem, "enabled", true);
 		prototypeStore.setValue(selectedItem, "status", "Featured");
-		prototypeStore.save();
+		prototypeStore.save(saveParameters);
 		logStore.newItem({
 			prototype_id:selectedItem.id,
 			action: "Featured",
+			sendEmail: confirm("Send an email to author?"),
 			notes: null
 		});
-		logStore.save();
-
+		logStore.save(saveParameters);
 	});
-	dojo.connect(dojo.byId("login"), "onclick", function(){
-		dojo.require("persevere.Login");
-	    var login = new persevere.Login({onLoginSuccess: function(){
-	    	alert("Logged in");
-	    	//location.reload();
-	    }});
-		dojo.body().appendChild(login.domNode);
-		login.startup();
+	dojo.connect(dojo.byId("delete-button"), "onclick", function(){
+		prototypeStore.setValue(selectedItem, "deleted", true);
+		prototypeStore.setValue(selectedItem, "enabled", false);
+		prototypeStore.setValue(selectedItem, "status", "Deleted");
+		prototypeStore.save(saveParameters);
 	});
+	dojo.connect(dojo.byId("purge-button"), "onclick", function(){
+		dojo.xhrPost({
+            url: this.userUrl,
+            postData: dojo.toJson({method: "purge", id:"purge", params:[]}),
+            handleAs: "json",
+            headers: {Accept:"application/javascript, application/json"},
+            load: function(response){
+            	if(response.error == null){
+            		alert("Database purged");
+            	}
+            	else{
+            		alert("Purge failed: " + response.error);
+            	}
+            },
+            error: function(error){
+            	alert("Purge failed: " + error);
+            }
+        });
+		
+	});
+	
+	dojo.connect(dojo.byId("login"), "onclick", login);
 	dojo.connect(dojo.byId("filter-box-form"), "onsubmit", function(event){
 		componentGrid.setQuery("?fulltext('" + dojo.byId("filter-box").value.replace(/'/g,"\\'") + "')");
-		prototypeStore.save();
+		prototypeStore.save(saveParameters);
 		dojo.stopEvent(event);
 	});
 });
@@ -139,15 +180,15 @@ function getStatus(rowIndex, item){
 	}
 	return "Flagged";
 }
-function getDelete(){
-	return "delete";
-}
 (function(){
 	var plainXhr = dojo.xhr;
 	username = undefined;
 	dojo.xhr = function(method,args,hasBody) {
 		function done(res) {
 			username = dfd.ioArgs.xhr.getResponseHeader("Username");
+			if(!username){
+				login();
+			}
 			// if the sign-in button is waiting for us
 			dojo.byId("username").innerHTML = username;
 			return res;
