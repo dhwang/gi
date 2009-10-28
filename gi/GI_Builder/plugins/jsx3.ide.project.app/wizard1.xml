@@ -52,7 +52,7 @@ objJSX._doSelect = function(id) {
     <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxrows="120,*"/>
     <object type="jsx3.gui.Block">
       <dynamics jsxborder="@Inset"/>
-      <variants jsxoverflow="1"/>
+      <variants jsxoverflow="2"/>
       <strings jsxwidth="100%" jsxheight="100%"/>
       <object type="jsx3.gui.Matrix">
         <dynamics jsxbgcolor="@Solid Medium"/>

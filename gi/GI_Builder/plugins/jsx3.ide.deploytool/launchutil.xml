@@ -65,7 +65,7 @@ objJSX.onHelp = function() {
  ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
    <dynamics jsxbgcolor="@Solid Medium"/>
-   <variants jsxwidth="428" jsxheight="287" jsxresize="0"/>
+   <variants jsxwidth="428" jsxheight="287" jsxresize="0" jsxoverflow="2"/>
    <strings jsxname="jsx_ide_launchutility" jsxhelpid="ide.launchutil"/>
     <object type="jsx3.gui.WindowBar">
      <variants/>

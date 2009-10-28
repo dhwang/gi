@@ -77,7 +77,7 @@
       </object>
     </object>
     <object type="jsx3.gui.Block">
-     <variants jsxoverflow="1"/>
+     <variants jsxoverflow="2"/>
      <strings jsxname="jsx_schema_bindingeditor" jsxhelpid="ide.mapper.settings"/>
       <object type="jsx3.gui.LayoutGrid">
        <variants jsxrelativeposition="0"/>

@@ -72,7 +72,7 @@ projectPath._doIncChange = function(strNewValue) {
                jsxtext="Enter the name of the project you wish to create or click on the folder button to browse to a location for the new project. A directory will be created in JSXAPPS with the name of the new project. The new project will open in the current browser window."/>
     </object>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="1" jsxpadding="8"/>
+      <variants jsxoverflow="2" jsxpadding="8"/>
       <strings jsxwidth="100%" jsxheight="40"/>
       <object type="jsx3.gui.LayoutGrid">
         <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>

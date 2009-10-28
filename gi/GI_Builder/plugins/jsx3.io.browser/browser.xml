@@ -11,7 +11,7 @@ objJSX.registerHotKey('doCancel', '.', false, true, false);
   ]]></onAfterDeserialize>
     <object type="jsx3.io.FileDialog">
       <dynamics jsxbgcolor="@Solid Medium" />
-      <variants jsxwidth="600" jsxheight="320" />
+      <variants jsxwidth="600" jsxheight="320" jsxoverflow="2"/>
       <strings jsxname="file_dialog" jsxhelpid="ide.filedialog"/>
         <object type="jsx3.gui.WindowBar">
           <variants />

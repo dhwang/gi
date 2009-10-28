@@ -520,7 +520,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   /** @private @jsxobf-clobber */
   Select._getMode = function() {
     var intMode = html.getMode();
-    if (intMode == html.MODE_IE_STRICT && jsx3.CLASS_LOADER.IE7)
+    if (intMode == html.MODE_IE_STRICT && jsx3.CLASS_LOADER.getVersion() >= 7)
       intMode += "x";
     return intMode;
   };

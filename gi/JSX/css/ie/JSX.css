@@ -63,11 +63,14 @@ v\:* {
 }
 #JSX .jsx30toolbarbutton_cap {
   overflow: hidden;
+  vertical-align: top;
 }
 #JSX .jsx30toolbarbutton_mnu {
   overflow: hidden;
+  vertical-align: top;
 }
 #JSX .jsx30toolbarbutton_lbl {
+  vertical-align: top;
 }
 
 /* jsx3.gui.WindowBar */
@@ -77,7 +80,6 @@ v\:* {
 }
 #JSX .jsx30windowbar_lbl {
   white-space: nowrap;
-  z-index: -1;
 }
 
 /* jsx3.gui.Menu */
@@ -719,7 +721,7 @@ table.jsx30menu_0_kct td.keycode {
   float: left;
 }
 #JSX .jsx30checkbox input {
-  margin: -4px 0px 0px -4px;
+  margin: -4px 0px 0px -4px; /* Looks bad in IE8 XHTML mode */
   padding: 0px;
   left: 0px;
   top: 2px;
@@ -741,7 +743,7 @@ table.jsx30menu_0_kct td.keycode {
   float: left;
 }
 #JSX .jsx30radio input {
-  margin: -5px 0px 0px -5px;
+  margin: -5px 0px 0px -5px; /* Looks bad in IE8 XHTML mode */
   padding: 0px;
   left: 1px;
   top: 3px;

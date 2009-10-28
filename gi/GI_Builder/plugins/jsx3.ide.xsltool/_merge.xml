@@ -26,7 +26,7 @@
         <variants jsxoverflow="2"/>
         <strings jsxpadding="8 0 8 0"/>
         <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1"/>
+          <variants jsxoverflow="2"/>
           <strings jsxwidth="100%" jsxheight="100%"/>
           <object type="jsx3.gui.LayoutGrid">
             <strings jsxcols="*,8,*" jsxrows="17,*"/>
