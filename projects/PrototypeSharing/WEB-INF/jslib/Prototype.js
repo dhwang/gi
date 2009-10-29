@@ -19,15 +19,17 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 			var sql = queryToSql(query, options);
 			
 			if(sql){
+				(options.parameters || (options.parameters = [])).unshift(false);
 				return prototypeStore.executeSql(
 					"SELECT id, name, rating, ratingsCount, downloads, license_id, description, uploaded, enabled, user, featured, status FROM Prototype " + 
-					"WHERE deleted=false AND " +
+					"WHERE deleted=? AND " +
 					sql, options);
 			}
 		},
 		"delete": function(id){
 			var instance = this.get(id);
 			instance.deleted = true;
+			instance.save();
 		},
 		purge: function(){
 			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=true");

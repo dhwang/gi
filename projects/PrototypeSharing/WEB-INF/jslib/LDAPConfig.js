@@ -1,4 +1,4 @@
-Class({
+var LDAPConfig = exports.LDAPConfig = Class({
         "id": "LDAPConfig",
         "properties": {
 	 	"ldapURL": {optional: true, type: "string"},	
@@ -27,7 +27,7 @@ Class({
         },
 	"prototype": {
 		"getContext": function(username, password){
-			console.log("instance getContext()", this, username);
+			print("instance getContext()", this, username);
 			var authEnv = new java.util.Hashtable(11);
 			if (typeof username != 'undefined') {
 				var dn = this.getUserDN(username);
@@ -43,11 +43,11 @@ Class({
 			}
 
 			if (this.contexts[dn]){
-				console.log("Returning existing context");
+				print("Returning existing context");
 				return this.contexts[dn];
 			}
 	
-			console.log("getLdapContext: ", dn, ldapURL);
+			print("getLdapContext: ", dn, ldapURL);
 			authEnv.put(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 			authEnv.put(javax.naming.Context.PROVIDER_URL, ldapURL);
 			authEnv.put(javax.naming.Context.SECURITY_AUTHENTICATION, "simple");
@@ -85,12 +85,12 @@ Class({
 			var groups = []
 			while(results.hasMore()){
 				var sr = results.next();
-				console.log("sr: ", sr);
+				print("sr: ", sr);
 				var g = {};
 				var attrs = sr.getAttributes();
 				g.members = [];
 				this.groupAttributes.forEach(function(p){
-					console.log("Getting Attribute: ", p);
+					print("Getting Attribute: ", p);
 					if (p==this.groupMemberAttribute){
 						var mems = attrs.get(p).getAll();
 						while(mems.hasMore()){
@@ -108,13 +108,13 @@ Class({
 		"createUser": function(params){
                 	var BasicAttributes = javax.naming.directory.BasicAttributes;
 	                var BasicAttribute = javax.naming.directory.BasicAttribute;
-			console.log("createUser: ", serialize(params));
+			print("createUser: ", serialize(params));
 			var attrs = new BasicAttributes(true);
-			console.log("LDAP Config instance: ", this);
+			print("LDAP Config instance: ", this);
 			if (this.userAttributeMap){
-				console.log("found userAttributeMap")
+				print("found userAttributeMap")
 			}else{
-				console.log("couldn't access userAttributeMap");
+				print("couldn't access userAttributeMap");
 			}
 			for (var i in this.userAttributeMap){
 				var valArr = this.userAttributeMap[i].map(function(v){
@@ -142,7 +142,7 @@ Class({
 			                        adminContext.modifyAttributes(groupDN, [mod]);
 					}catch(e){
 						console.warn("Unable to add user to default group:", g, groupDN, dn);
-						console.log("Error: ", e);
+						print("Error: ", e);
 						errors.push(e);
 					}
 
@@ -155,14 +155,14 @@ Class({
 	},
 
 	getContext: function(username, password){
-		var active = load("/LDAPConfig/[?active]")[0];
+		var active = LDAPConfig.query("[?active]").first();
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
 		return active.getContext.apply(active, arguments);
 	},
 	"createUser": function(params){
-		var active = load("/LDAPConfig/[?active]")[0];
+		var active = LDAPConfig.query("?active")[0];
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
@@ -170,7 +170,7 @@ Class({
 	},
 	
 	getBaseUserDN: function(username){
-		var active = load("/LDAPConfig/[?active]")[0];
+		var active = LDAPConfig.query("?active")[0];
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
@@ -179,7 +179,7 @@ Class({
 	},
 
 	getUserDN: function(username){
-		var active = load("/LDAPConfig/[?active]")[0];
+		var active = LDAPConfig.query("?active")[0];
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
@@ -187,16 +187,16 @@ Class({
 	
 	},
 	getAllAttributes: function(dn, context){
-		console.log("getAllAttributes", dn, context);
-		var active = load("/LDAPConfig/[?active]")[0];
+		print("getAllAttributes", dn, context);
+		var active = LDAPConfig.query("?active")[0];
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
 		return active.getAllAttributes.apply(active, arguments);
 	},
 	getAllGroups: function(context){
-		console.log("getAllAttributes", context);
-		var active = load("/LDAPConfig/[?active]")[0];
+		print("getAllAttributes", context);
+		var active = LDAPConfig.query("?active")[0];
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
@@ -207,7 +207,7 @@ Class({
 
 
 authenticate = function(username, password){
-        console.log("LDAPConfig authenticate()", username, password);
+        print("LDAPConfig authenticate()", username, password);
         if(username == null){
                 throw new AccessError("Missing Username or Password");
         }
@@ -215,17 +215,17 @@ authenticate = function(username, password){
 	var context = LDAPConfig.getContext(username, password);
 	var attr = LDAPConfig.getAllAttributes(LDAPConfig.getUserDN(username), context);
 	var query = "LDAPUser/[?uid='" + username + "']";
-	console.log("Query: ", query, username);
+	print("Query: ", query, username);
 	var users=load(query);
-	console.log("load results[0]: ", users, users[0]);
+	print("load results[0]: ", users, users[0]);
 	//user was authenticated, but not in persevere, create them
 	if (!users || typeof users == 'undefined' || users.length<1){
-		console.log("LDAPUser didn't exist for ", username, ': Auto Import');
+		print("LDAPUser didn't exist for ", username, ': Auto Import');
 		var u = new LDAPUser.importLDAPUser(username);
 		//throw AccessError("AutoImport Disabled");
 	}else{
 		var u=users[0];
-		console.log("Authenticated User: ", u);
+		print("Authenticated User: ", u);
 	}
 
 	// copy over all the ldap props, except pass
@@ -238,6 +238,6 @@ authenticate = function(username, password){
 		}
 	}
 	commit();
-	console.log("Returning Authenticated User: ", u);
+	print("Returning Authenticated User: ", u);
 	return u;
 }

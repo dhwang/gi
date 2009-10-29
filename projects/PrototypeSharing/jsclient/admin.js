@@ -84,7 +84,7 @@ dojo.addOnLoad(function(){
 	
 	var saveParameters = {
 		onError: function(error){
-			alert("Save failed: " + error);
+			alert("Save failed: " + error.responseText);
 		}		
 	};
 	dojo.connect(dojo.byId("download"), "onclick", function(){
@@ -132,14 +132,12 @@ dojo.addOnLoad(function(){
 		logStore.save(saveParameters);
 	});
 	dojo.connect(dojo.byId("delete-button"), "onclick", function(){
-		prototypeStore.setValue(selectedItem, "deleted", true);
-		prototypeStore.setValue(selectedItem, "enabled", false);
-		prototypeStore.setValue(selectedItem, "status", "Deleted");
+		prototypeStore.deleteItem(selectedItem);
 		prototypeStore.save(saveParameters);
 	});
 	dojo.connect(dojo.byId("purge-button"), "onclick", function(){
 		dojo.xhrPost({
-            url: this.userUrl,
+            url: "Class/Prototype",
             postData: dojo.toJson({method: "purge", id:"purge", params:[]}),
             handleAs: "json",
             headers: {Accept:"application/javascript, application/json"},
