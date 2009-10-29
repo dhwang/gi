@@ -14,7 +14,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 			var matches;
 			if(matches = query.match(
 					QueryRegExp(/^\?fulltext\($value\)$/))){
-				return prototypeStore.fulltext(eval(matches[1]), options);
+				return prototypeStore.fulltext(eval(matches[1]), ["description", "name"], options);
 			}
 			var sql = queryToSql(query, options);
 			
@@ -82,7 +82,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 				}
 				var ratingTotal = this.rating * this.ratingsCount + rating;
 				this.ratingsCount++;
-				this.rating = ratingTotal / this.ratingsCount;  
+				this.rating = ratingTotal / this.ratingsCount;
 				this.save();
 			},
 			flag: function(accusation){

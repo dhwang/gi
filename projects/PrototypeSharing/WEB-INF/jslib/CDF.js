@@ -20,10 +20,13 @@ Media({
 				function writeRecord(item){
 					write(' <record jsxid="' +item.id + '"');
 					for(var i in item){
+						if(i == "component"){
+							continue;
+						}
 						if(item.hasOwnProperty(i)){
 							var value = item[i];
 							if(typeof value == 'string'){
-								write(' ' + i + '="' + value.replace(/"/g,"&quot") + '"');
+								write(' ' + i + '="' + value.replace(/"/g,"&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '"');
 							}
 							else{
 								write(' ' + i + '="' + value + '"');
