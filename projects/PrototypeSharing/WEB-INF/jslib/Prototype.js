@@ -197,6 +197,9 @@ function verifyComponent(component){
 			var childNodes = objectElement.getChildNodes();
 			for(var i = 0; i < childNodes.getLength();i++){
 				var child = childNodes.item(i);
+				if(!child.getTagName){
+					continue;
+				}
 				var tagName = child.getTagName();
 				print("child tag " + tagName);
 				if(tagName == "variants"){
