@@ -528,7 +528,8 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
             bSuccess = true;
           }
         }
-      } else if (objCurParent.getName() == "ide_component_libs_tree") {
+      } else if (objCurParent.getName() == "ide_component_libs_tree" ||
+                 objCurParent.getName() == "ide_component_libs_user_tree") {
         var objRecord = objCurParent.getRecord(strRecordIds[0]);
 
         //get the path for this object

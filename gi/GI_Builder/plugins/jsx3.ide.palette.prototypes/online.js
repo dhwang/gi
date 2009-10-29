@@ -78,7 +78,7 @@
           } else if (strRecordId == "user") {
             formatHandler = "@unescape";
           } else if (strRecordId == "uploaded") {
-            formatHandler = "@datetime,medium";
+            formatHandler = "@date,medium";
           }
           column.setFormatHandler(formatHandler);
           break;
@@ -143,11 +143,14 @@
           hasFilter = (this._currentFilter != "all"),
           uri = this._prototypeRootUri,
           parts = [];
-      if (hasFilter) {
-        parts.push('featured:true');
-      }
       if (strSearch && strSearch.length) {
-        parts.push(strSearch);
+        parts.push("(" + strSearch.split(" ").join("* AND ") + "*)");
+      }
+      if (hasFilter) {
+        if (parts.length) {
+          parts.push('AND');
+        }
+        parts.push('featured:true');
       }
       uri += parts.length ? "?fulltext('" + parts.join(' ') + "')" : '';
       jsx3.log("Matrix XML URL: " + uri);
@@ -166,7 +169,7 @@
       this._searchTO = window.setTimeout(function() {
         doSearch(objMatrix);
         this._searchTO = null;
-      }, 200);
+      }, 500);
     },
 
     _clearSearch: function(objSearchBox, objMatrix) {
