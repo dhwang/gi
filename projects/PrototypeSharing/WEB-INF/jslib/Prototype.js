@@ -8,6 +8,7 @@ var QueryRegExp = require("json-query").QueryRegExp;
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"])
 var deepCopy = require("util/copy").deepCopy;
 var auth = require("jsgi/auth");
+var AccessError = require("./errors").AccessError;
 
 var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
 	{
@@ -138,6 +139,12 @@ exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
 			this.load();
 		}
 		
+	},
+	"delete": function(id){
+		if(this.get(id).user != auth.currentUser){
+			throw AccessError("Can only delete components created by you"); 
+		}
+		PrototypeClass["delete"](id);
 	}
 });
 
