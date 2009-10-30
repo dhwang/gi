@@ -63,11 +63,9 @@ dojo.addOnLoad(function(){
 		setText(dojo.byId("author-detail"), prototypeStore.getValue(selectedItem, "user"));
 		setText(dojo.byId("name-detail"), prototypeStore.getValue(selectedItem, "name"));
 		setText(dojo.byId("status-detail"), prototypeStore.getValue(selectedItem, "status"));
-		setText(dojo.byId("version-detail"), prototypeStore.getValue(selectedItem, "version"));
 		setText(dojo.byId("downloads-detail"), prototypeStore.getValue(selectedItem, "downloads"));
 		setText(dojo.byId("uploaded-detail"), prototypeStore.getValue(selectedItem, "uploaded"));
 		setText(dojo.byId("rating-detail"), prototypeStore.getValue(selectedItem, "rating"));
-		setText(dojo.byId("category-detail"), prototypeStore.getValue(selectedItem, "category"));
 		setText(dojo.byId("description-detail"), prototypeStore.getValue(selectedItem, "description"));
 		dojo.byId("component-log").innerHTML = dojo.map(prototypeStore.getValue(selectedItem, "log"), function(entry){
 			return "<hr /><div><span>Action: <span><span>" + entry.action + "</span></div>" +

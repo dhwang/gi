@@ -7,6 +7,7 @@ prototypeStore = require("store/lucene").Lucene(prototypeStore, "Prototype");
 var QueryRegExp = require("json-query").QueryRegExp;
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"])
 var deepCopy = require("util/copy").deepCopy;
+var auth = require("jsgi/auth");
 
 var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
 	{
@@ -44,6 +45,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 						print("Errors found in verification");
 						LogClass.create({
 							action: "Pending",
+							user: auth.currentUser, 
 							notes: errors.join(", \n"),
 							date: new Date(),
 							prototype_id: this.id || 0
@@ -67,6 +69,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 				this.enabled = true;
 				this.deleted = false;
 				this.featured = false;
+				this.user = auth.currentUser; 
 				this.uploaded = new Date();
 				this.ratingsCount = 0;
 				this.rating = 0;
@@ -88,8 +91,9 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 				this.save();
 			},
 			flag: function(accusation){
-				LogClass.put({
+				LogClass.create({
 					action: "Flagged",
+					user: auth.currentUser, 
 					notes: accusation,
 					date: new Date(),
 					prototype_id: this.id
@@ -111,6 +115,9 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 		},
 		getUpdated: function(item){
 			return item.uploaded;
+		},
+		getId: function(item){
+			return item.id;
 		}
 	});
 
