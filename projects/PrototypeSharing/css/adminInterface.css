@@ -269,7 +269,7 @@ button {
 	right: 20px;
 }
 
-#component-actions button {
+.actions button {
 	top: 1px;
 	position: relative;
 	padding: 3px 14px;
@@ -281,21 +281,21 @@ button {
 	border: 1px solid #AEBAC3;
 }
 
-.dj_gecko #component-actions button {
+.dj_gecko .actions button {
 	top: 3px;
 	margin-left: 3px;
 	padding: 2px 14px;
 }
 
-.dj_ie #component-actions button {
+.dj_ie .actions button {
 	top: 3px;
 	margin-left: 7px;
 	padding: 1px 2px;
 }
 
-#component-actions .acceptIcon,
-#component-actions .rejectIcon,
-#component-actions .featureIcon {
+.actions .acceptIcon,
+.actions .rejectIcon,
+.actions .featureIcon {
 	position: relative;
 	top: 2px;
 	left: -5px;
@@ -305,8 +305,8 @@ button {
 	background: url("../images/componentButtonSprite.png") no-repeat 0 0;
 }
 
-#component-actions .rejectIcon { background-position: -14px 0 }
-#component-actions .featureIcon { background-position: -28px 0; width: 0; }
+.actions .rejectIcon { background-position: -14px 0 }
+.actions .featureIcon { background-position: -28px 0; width: 0; }
 
 #info-pane .dijitTabPaneWrapper {
 	top: 31px !important;

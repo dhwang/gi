@@ -4,6 +4,7 @@ var logStore = require("db/Log").store;
 var deepCopy = require("util/copy").deepCopy;
 var email = require("mail/smtp");
 var emailConfig = require("config/mail").config;
+var auth = require("jsgi/auth");
 
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
 var LogClass = stores.registerStore("Log", logStore, 
@@ -21,6 +22,7 @@ var LogClass = stores.registerStore("Log", logStore,
 		prototype: {
 			initialize: function(){
 				this.date = new Date();
+				this.user = auth.currentUser;
 				if(this.sendEmail){
 					//TODO: get the email address from this.user
 					var userEmail = "kriszyp@gmail.com";

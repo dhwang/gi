@@ -8,6 +8,7 @@ dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dojox.highlight");
 dojo.require("dojox.highlight.languages.xml");
+dojo.require("dijit.Dialog");
 
 var prototypeStore = new dojox.data.PersevereStore({target:"/Prototype/", idAsRef: true}); // persevere stores are auto-generated
 var logStore = new dojox.data.PersevereStore({target:"/Log/", idAsRef: true}); // persevere stores are auto-generated
@@ -79,7 +80,21 @@ dojo.addOnLoad(function(){
 	var componentActions = dojo.byId("component-actions");
 	componentActions.style.display = "inline-block";
 	tabElement.appendChild(componentActions);
-	
+	function showDialog(question, needReason, callback){
+		statusDialog.show();
+		dojo.byId("action-confirmation").innerHTML = question;
+		dojo.byId("action-reason").style.display = needReason ? "block" : "none";
+		dojo.byId("confirm-action").onclick = function(){
+			statusDialog.hide();
+			callback({
+				notes: dojo.byId("action-reason").value,
+				sendEmail: dojo.byId("send-email").checked
+			});
+		};
+		dojo.byId("cancel-action").onclick = function(){
+			statusDialog.hide();
+		};
+	}
 	var saveParameters = {
 		onError: function(error){
 			alert("Save failed: " + error.responseText);
@@ -90,68 +105,77 @@ dojo.addOnLoad(function(){
 		window.location.href = "/Prototype/" + id + ".component";
 	});
 	dojo.connect(dojo.byId("accept-button"), "onclick", function(){
-		prototypeStore.setValue(selectedItem, "enabled", true);
-		prototypeStore.setValue(selectedItem, "status", "Accepted");
-		prototypeStore.save(saveParameters);
-		logStore.newItem({
-			prototype_id:selectedItem.id,
-			action: "Accepted",
-			sendEmail: confirm("Send an email to author?"),
-			notes: null
+		showDialog("Accepting component", false, function(info){
+			prototypeStore.setValue(selectedItem, "enabled", true);
+			prototypeStore.setValue(selectedItem, "status", "Accepted");
+			prototypeStore.save(saveParameters);
+			logStore.newItem({
+				prototype_id:selectedItem.id,
+				action: "Accepted",
+				sendEmail: info.sendEmail,
+				notes: info.notes
+			});
+			logStore.save(saveParameters);
 		});
-		logStore.save(saveParameters);
 	});
 	dojo.connect(dojo.byId("reject-button"), "onclick", function(){
-		var reason = prompt("Enter the reason for rejecting");
-		if(typeof reason === "string"){
+		showDialog("Rejecting component<br/>Reason for rejecting:", true, function(info){
 			prototypeStore.setValue(selectedItem, "enabled", false);
 			prototypeStore.setValue(selectedItem, "status", "Rejected");
 			prototypeStore.save(saveParameters);
 			logStore.newItem({
 				prototype_id:selectedItem.id,
 				action: "Rejected",
-				sendEmail: confirm("Send an email to author?"),
-				notes: reason
+				sendEmail: info.sendEmail,
+				notes: info.notes
 			});
 			logStore.save(saveParameters);
-		}
+		});
 	});
 	dojo.connect(dojo.byId("feature-button"), "onclick", function(){
-		prototypeStore.setValue(selectedItem, "featured", !prototypeStore.getValue(selectedItem, "featured"));
-		prototypeStore.setValue(selectedItem, "enabled", true);
-		prototypeStore.setValue(selectedItem, "status", "Featured");
-		prototypeStore.save(saveParameters);
-		logStore.newItem({
-			prototype_id:selectedItem.id,
-			action: "Featured",
-			sendEmail: confirm("Send an email to author?"),
-			notes: null
+		var wasFeatured = prototypeStore.getValue(selectedItem, "featured");
+		showDialog(wasFeatured ? 
+			"Unfeaturing component" : "Featuring component", false, function(info){
+			prototypeStore.setValue(selectedItem, "featured", !wasFeatured);
+			prototypeStore.setValue(selectedItem, "enabled", true);
+			prototypeStore.setValue(selectedItem, "status", wasFeatured ? "Accepted" : "Featured");
+			prototypeStore.save(saveParameters);
+			logStore.newItem({
+				prototype_id:selectedItem.id,
+				action: wasFeatured ? "Not Featured" : "Featured",
+				sendEmail: info.sendEmail,
+				notes: info.notes
+			});
+			logStore.save(saveParameters);
 		});
-		logStore.save(saveParameters);
 	});
 	dojo.connect(dojo.byId("delete-button"), "onclick", function(){
-		prototypeStore.deleteItem(selectedItem);
-		prototypeStore.save(saveParameters);
+		if(confirm("Are you sure you want to delete the component?")){
+			prototypeStore.deleteItem(selectedItem);
+			prototypeStore.save(saveParameters);
+		}
 	});
 	dojo.connect(dojo.byId("purge-button"), "onclick", function(){
-		dojo.xhrPost({
-            url: "Class/Prototype",
-            postData: dojo.toJson({method: "purge", id:"purge", params:[]}),
-            handleAs: "json",
-            headers: {Accept:"application/javascript, application/json"},
-            load: function(response){
-            	if(response.error == null){
-            		alert("Database purged");
-            	}
-            	else{
-            		alert("Purge failed: " + response.error);
-            	}
-            },
-            error: function(error){
-            	alert("Purge failed: " + error);
-            }
-        });
-		
+		if(confirm("Are you sure you want to purge the database of deleted components?")){
+			dojo.xhrPost({
+	            url: "Class/Prototype",
+	            postData: dojo.toJson({method: "purge", id:"purge", params:[]}),
+	            handleAs: "json",
+	            headers: {Accept:"application/javascript, application/json"},
+	            load: function(response){
+	            	if(response.error == null){
+	            		alert("Database purged");
+	            	}
+	            	else{
+	            		alert("Purge failed: " + response.error);
+	            	}
+	            },
+	            error: function(error){
+	            	alert("Purge failed: " + error);
+	            }
+	        });
+			
+		}
 	});
 	
 	dojo.connect(dojo.byId("login"), "onclick", login);
