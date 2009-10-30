@@ -33,7 +33,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 			instance.save();
 		},
 		purge: function(){
-			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=true");
+			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=?", { parameters: [true] });
 		},
 		create: function(object){
 			var errors = verifyComponent(object.component);

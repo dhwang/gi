@@ -8,7 +8,7 @@
     	<param-name>reload</param-name>
     	<param-value>false</param-value>
     </init-param>
-<--
+<!--
     <init-param>
     	<param-name>narwhalFilePath</param-name>
     	<param-value>C:/dev/narwhal</param-value>
