@@ -35,32 +35,26 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 		purge: function(){
 			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=true");
 		},
-		properties:{
-			component: {
-				type: "string",
-				set: function(value, source, oldValue){
-					var errors = verifyComponent(value);
-				
-					if(errors.length){
-						print("Errors found in verification");
-						LogClass.create({
-							action: "Pending",
-							user: auth.currentUser, 
-							notes: errors.join(", \n"),
-							date: new Date(),
-							prototype_id: this.id || 0
-						});
-						source.enabled = false;
-						this.enabled = false;
-						source.status = "Pending";
-						this.status = "Pending";
-					}
-					return value;
-				}
-			},
-			name: {
-				type: "string"
+		create: function(object){
+			var errors = verifyComponent(object.component);
+			if(errors.length){
+				print("Errors found in verification");
+				object.enabled = false;
+				object.status = "Pending";
 			}
+			var id = prototypeStore.create(object);
+		
+			if(errors.length){
+				// do this afterwards so we get the right id
+				LogClass.create({
+					action: "Pending",
+					user: auth.currentUser, 
+					notes: errors.join(", \n"),
+					date: new Date(),
+					prototype_id: id
+				});
+			}
+			return id;
 		},
 		prototype: {
 			initialize: function(){

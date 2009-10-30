@@ -1,7 +1,7 @@
 var SQLStore = require("store/sql").SQLStore;
 
 exports.store = SQLStore({
-	connection:"jdbc:mysql://localhost/prototype?user=root&password=&useUnicode=true&characterEncoding=utf-8",
+	connection:"jdbc:mysql://localhost/prototype?user=root&password=&useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
 	table: "Auth",
 	type: "mysql",
 	starterStatements:[
