@@ -89,7 +89,7 @@
     },
 
     _onOnlineFeedMenuExecute: function(strRecordId) {
-      console.log(strRecordId);
+      //console.log(strRecordId);
     },
 
     _onOnlineListExecute: function(objPalette, objMatrix, strRecordId) {

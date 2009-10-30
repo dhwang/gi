@@ -186,7 +186,7 @@ objJSX.setUploadDetail = function(objXML, objRecord) {
       child.getParent().removeChild(child);
     }
   }
-  console.log(objXML);
+  //console.log(objXML);
   upload_description.setValue(descNode.getValue());
 
   upload_checkbox.setChecked(jsx3.gui.CheckBox.UNCHECKED);
@@ -216,7 +216,7 @@ objJSX._doUpload = function() {
   descNode.removeChildren();
   descNode.appendChild(objXML.createNode(jsx3.xml.Entity.TYPECDATA, upload_description.getValue()));
 
-  console.log(objXML);
+  //console.log(objXML);
   var request = new jsx3.net.Request();
   request.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, function(objEvent){
     var target = objEvent.target,
@@ -224,7 +224,7 @@ objJSX._doUpload = function() {
 
     if (status == 201) {
       var res = jsx3.eval("(" + target.getResponseText() + ")");
-      console.log(res);
+      //console.log(res);
       _uploadObjXML = null;
     } else if(status == 401) {
       objJSX.setUserView('login');
