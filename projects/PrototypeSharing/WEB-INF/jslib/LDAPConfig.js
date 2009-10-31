@@ -52,6 +52,7 @@ var LDAPConfig = exports.LDAPConfig = Class({
 			authEnv.put(javax.naming.Context.PROVIDER_URL, ldapURL);
 			authEnv.put(javax.naming.Context.SECURITY_AUTHENTICATION, "simple");
 			authEnv.put(javax.naming.Context.SECURITY_PRINCIPAL, dn);
+			print("password" + password);
 			authEnv.put(javax.naming.Context.SECURITY_CREDENTIALS, password);
 			this.contexts[dn] = new javax.naming.directory.InitialDirContext(authEnv);
 			return this.contexts[dn];
@@ -159,48 +160,48 @@ var LDAPConfig = exports.LDAPConfig = Class({
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
-		return active.getContext.apply(active, arguments);
+		return active.load().getContext.apply(active, arguments);
 	},
 	"createUser": function(params){
-		var active = LDAPConfig.query("?active")[0];
+		var active = LDAPConfig.query("?active").first();
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
-		return active.createUser.apply(active, arguments);
+		return active.load().createUser.apply(active, arguments);
 	},
 	
 	getBaseUserDN: function(username){
-		var active = LDAPConfig.query("?active")[0];
+		var active = LDAPConfig.query("?active").first();
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
-		return active.getBaseUserDN.apply(active, arguments);
+		return active.load().getBaseUserDN.apply(active, arguments);
 	
 	},
 
 	getUserDN: function(username){
-		var active = LDAPConfig.query("?active")[0];
+		var active = LDAPConfig.query("?active").first();
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
-		return active.getUserDN.apply(active, arguments);
+		return active.load().getUserDN.apply(active, arguments);
 	
 	},
 	getAllAttributes: function(dn, context){
 		print("getAllAttributes", dn, context);
-		var active = LDAPConfig.query("?active")[0];
+		var active = LDAPConfig.query("?active").first();
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
-		return active.getAllAttributes.apply(active, arguments);
+		return active.load().getAllAttributes.apply(active, arguments);
 	},
 	getAllGroups: function(context){
 		print("getAllAttributes", context);
-		var active = LDAPConfig.query("?active")[0];
+		var active = LDAPConfig.query("?active").first();
 		if (!active){
 			throw Error("No LDAP Config set to active");
 		}
-		return active.getAllGroups.apply(active, arguments);
+		return active.load().getAllGroups.apply(active, arguments);
 	}
 
 });

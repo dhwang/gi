@@ -22,10 +22,10 @@ var LogClass = stores.registerStore("Log", logStore,
 		prototype: {
 			initialize: function(){
 				this.date = new Date();
-				this.user = auth.currentUser;
+				this.user = auth.currentUser.uid;
 				if(this.sendEmail){
 					//TODO: get the email address from this.user
-					var userEmail = "kriszyp@gmail.com";
+					var userEmail = this.user + "@dojotoolkit.org";
 					var component = PrototypeClass.get(this.prototype_id);
 					email.send(emailConfig,
 						{

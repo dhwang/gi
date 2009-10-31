@@ -49,7 +49,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 				// do this afterwards so we get the right id
 				LogClass.create({
 					action: "Pending",
-					user: auth.currentUser, 
+					user: auth.currentUser.uid, 
 					notes: errors.join(", \n"),
 					date: new Date(),
 					prototype_id: id
@@ -64,7 +64,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 				this.enabled = true;
 				this.deleted = false;
 				this.featured = false;
-				this.user = auth.currentUser; 
+				this.user = auth.currentUser.uid; 
 				this.uploaded = new Date();
 				this.ratingsCount = 0;
 				this.rating = 0;
@@ -88,7 +88,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 			flag: function(accusation){
 				LogClass.create({
 					action: "Flagged",
-					user: auth.currentUser, 
+					user: auth.currentUser.uid, 
 					notes: accusation,
 					date: new Date(),
 					prototype_id: this.id
@@ -141,7 +141,7 @@ exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
 		
 	},
 	"delete": function(id){
-		if(this.get(id).user != auth.currentUser){
+		if(this.get(id).user != auth.currentUser.uid){
 			throw AccessError("Can only delete components created by you"); 
 		}
 		PrototypeClass["delete"](id);

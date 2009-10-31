@@ -5,6 +5,6 @@ exports.store = SQLStore({
 	table: "Auth",
 	type: "mysql",
 	starterStatements:[
-		"CREATE TABLE Auth (id BIGINT NOT NULL, user VARCHAR(100), PRIMARY KEY(id))"],
+		"CREATE TABLE Auth (id BIGINT NOT NULL, user VARCHAR(1000), PRIMARY KEY(id))"],
 	idColumn:"id"
 });

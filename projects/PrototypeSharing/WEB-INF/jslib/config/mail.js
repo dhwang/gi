@@ -1,4 +1,4 @@
 exports.config = {
-	host:"localhost",
+	host:"smtp.dojotoolkit.org",
 	defaultFrom: "prototype.library.admin@generalinterface.org"
 };
