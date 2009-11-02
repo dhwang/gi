@@ -62,7 +62,7 @@ objMatrix.removeMapperBinding = function(strRecordId) {
         </object>
         <object type="jsx3.gui.CheckBox">
           <variants jsxheight="20" jsxrelativeposition="0" jsxleft="100" jsxtop="28" jsxchecked="1"/>
-          <strings jsxname="jsx_schema_mapnode_jsonp" jsxtext="Use JSONP" jsxtip="if checked, the mapper adds a callback pointer (&amp;callback=) to the endpoint url"/>
+          <strings jsxname="jsx_schema_mapnode_jsonp" jsxtext="Use JSONP" jsxtip="if checked, the mapper adds a callback pointer (&amp;#38;callback=) to the endpoint url"/>
         </object>
       </object>
       <object type="jsx3.gui.Block">
