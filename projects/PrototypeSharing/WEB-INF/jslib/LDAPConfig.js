@@ -1,3 +1,4 @@
+var LDAP_SETTINGS = require("LDAP-settings").LDAP_SETTINGS;
 var LDAPConfig = exports.LDAPConfig = Class({
         "id": "LDAPConfig",
         "properties": {
@@ -156,56 +157,30 @@ var LDAPConfig = exports.LDAPConfig = Class({
 	},
 
 	getContext: function(username, password){
-		var active = LDAPConfig.query("[?active]").first();
-		if (!active){
-			throw Error("No LDAP Config set to active");
-		}
-		return active.load().getContext.apply(active, arguments);
+		return LDAP_SETTINGS.getContext.apply(LDAP_SETTINGS, arguments);
 	},
 	"createUser": function(params){
-		var active = LDAPConfig.query("?active").first();
-		if (!active){
-			throw Error("No LDAP Config set to active");
-		}
-		return active.load().createUser.apply(active, arguments);
+		return LDAP_SETTINGS.createUser.apply(active, arguments);
 	},
 	
 	getBaseUserDN: function(username){
-		var active = LDAPConfig.query("?active").first();
-		if (!active){
-			throw Error("No LDAP Config set to active");
-		}
-		return active.load().getBaseUserDN.apply(active, arguments);
+		return LDAP_SETTINGS.getBaseUserDN.apply(active, arguments);
 	
 	},
 
 	getUserDN: function(username){
-		var active = LDAPConfig.query("?active").first();
-		if (!active){
-			throw Error("No LDAP Config set to active");
-		}
-		return active.load().getUserDN.apply(active, arguments);
+		return LDAP_SETTINGS.getUserDN.apply(active, arguments);
 	
 	},
 	getAllAttributes: function(dn, context){
-		print("getAllAttributes", dn, context);
-		var active = LDAPConfig.query("?active").first();
-		if (!active){
-			throw Error("No LDAP Config set to active");
-		}
-		return active.load().getAllAttributes.apply(active, arguments);
+		return LDAP_SETTINGS.getAllAttributes.apply(active, arguments);
 	},
 	getAllGroups: function(context){
-		print("getAllAttributes", context);
-		var active = LDAPConfig.query("?active").first();
-		if (!active){
-			throw Error("No LDAP Config set to active");
-		}
-		return active.load().getAllGroups.apply(active, arguments);
+		return LDAP_SETTINGS.getAllGroups.apply(active, arguments);
 	}
 
 });
-
+LDAP_SETTINGS.__proto__ = LDAPConfig.prototype;
 
 authenticate = function(username, password){
         print("LDAPConfig authenticate()", username, password);
