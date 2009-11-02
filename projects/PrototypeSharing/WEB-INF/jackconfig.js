@@ -8,6 +8,7 @@ require("CDF");
 require("tibco-application");
 require("Prototype");
 require("Log");
+require("Rating");
 require("Auth");
 require("LDAPUser");
 

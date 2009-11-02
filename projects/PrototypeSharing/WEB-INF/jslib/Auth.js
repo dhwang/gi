@@ -6,6 +6,7 @@ var Authenticate = require("security").Authenticate;
 var ReadOnly = require("security").ReadOnly;
 var authStore = require("db/Auth").store;
 var Prototype = require("Prototype");
+var RatingFacet = require("Rating").RatingFacet;
 var LDAPConfig = require("LDAPConfig").LDAPConfig;
 
 var AuthClass = stores.registerStore("Auth", authStore);
@@ -30,10 +31,10 @@ security.authenticate = function(username, password){
 adminUsers = require("config/admin-users").adminUsers;
 security.getAllowedFacets = function(user, request){
 	if(user && (adminUsers.indexOf(user.uid) > -1)){
-		return [Prototype.AdminFacet, FullAccess, Authenticate];
+		return [Prototype.AdminFacet, RatingFacet, FullAccess, Authenticate];
 	}
 	if(user){
-		return [Prototype.AuthenticatedBuilderFacet, Authenticate];
+		return [Prototype.AuthenticatedBuilderFacet, RatingFacet, Authenticate];
 	}
 	return [Prototype.BuilderFacet, Authenticate];
 }

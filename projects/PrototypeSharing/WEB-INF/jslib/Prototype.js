@@ -21,9 +21,10 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 			var sql = queryToSql(query, options);
 			
 			if(sql){
-				(options.parameters || (options.parameters = [])).unshift(false);
+				(options.parameters || (options.parameters = [])).unshift(auth.currentUser.uid, false);
 				return prototypeStore.executeSql(
-					"SELECT id, name, rating, ratingsCount, downloads, license_id, description, uploaded, enabled, user, featured, status FROM Prototype " + 
+					"SELECT id, name, Prototype.rating as rating, ratingsCount, downloads, license_id, description, uploaded, enabled, Prototype.user as user, featured, status, Rating.rating as myRating FROM Prototype " +
+					"LEFT JOIN Rating ON Prototype.id = Rating.prototype_id AND Rating.user=? " + 
 					"WHERE deleted=? AND " +
 					sql, options);
 			}
@@ -76,15 +77,6 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 				}
 				return this[name];
 			},
-			rate: function(rating){
-				if(rating < 0 || rating > 5){
-					throw new Error("Invalid rating vote");
-				}
-				var ratingTotal = this.rating * this.ratingsCount + rating;
-				this.ratingsCount++;
-				this.rating = ratingTotal / this.ratingsCount;
-				this.save();
-			},
 			flag: function(accusation){
 				LogClass.create({
 					action: "Flagged",
@@ -127,10 +119,6 @@ exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
 		return PrototypeClass.create(object);
 	},
 	prototype: {
-		rate: function(rating, source){
-			source.rate(rating);
-			this.load();
-		},
 		flag: function(accusation, source){
 			if(this.flagged){
 				throw new Error("Can not change flagged after it has been set")
