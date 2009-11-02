@@ -10,8 +10,8 @@ dojo.require("dojox.highlight");
 dojo.require("dojox.highlight.languages.xml");
 dojo.require("dijit.Dialog");
 
-var prototypeStore = new dojox.data.PersevereStore({target:"/Prototype/", idAsRef: true}); // persevere stores are auto-generated
-var logStore = new dojox.data.PersevereStore({target:"/Log/", idAsRef: true}); // persevere stores are auto-generated
+var prototypeStore = new dojox.data.PersevereStore({target:"Prototype/", idAsRef: true}); // persevere stores are auto-generated
+var logStore = new dojox.data.PersevereStore({target:"Log/", idAsRef: true}); // persevere stores are auto-generated
 function requery(status){
 	componentGrid.setQuery({status:status});
 }
@@ -102,7 +102,7 @@ dojo.addOnLoad(function(){
 	};
 	dojo.connect(dojo.byId("download"), "onclick", function(){
 		var id = prototypeStore.getIdentity(selectedItem);
-		window.location.href = "/Prototype/" + id + ".component";
+		window.location.href = "Prototype/" + id + ".component";
 	});
 	dojo.connect(dojo.byId("accept-button"), "onclick", function(){
 		showDialog("Accepting component", false, function(info){

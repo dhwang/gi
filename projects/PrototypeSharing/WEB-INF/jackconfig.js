@@ -2,7 +2,6 @@
  * The starting point for Pintura running as a Jack app.
  */
 var pintura = require("pintura");
-require.paths.push("jslib");
 require("persvr");
 require("CDF");
 require("tibco-application");
