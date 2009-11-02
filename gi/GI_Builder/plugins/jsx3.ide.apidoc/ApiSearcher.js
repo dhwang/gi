@@ -74,10 +74,10 @@ jsx3.Class.defineClass("jsx3.ide.ApiSearcher", null, [jsx3.util.EventDispatcher]
 
     var objXML = null, strPath = null;
 
-    if (typeof(doc) == "string") {
+    if (typeof(doc) == "string" || doc instanceof jsx3.net.URI) {
       objXML = new jsx3.xml.Document();
       strPath = jsx3.IDE.resolveURI(doc);
-    } else if (typeof(doc) == "object" && doc.instanceOf) {
+    } else if (typeof(doc) == "object") {
       if (doc instanceof jsx3.xml.Entity) {
         objXML = doc;
       } else if (doc instanceof jsx3.io.File) {
