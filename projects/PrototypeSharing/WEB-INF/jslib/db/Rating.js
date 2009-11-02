@@ -6,8 +6,8 @@ exports.store = SQLStore({
 	type: "mysql",
 	starterStatements:[
 		"CREATE TABLE Rating (user VARCHAR(100), prototype_id INT, rating TINYINT)",
-		"CREATE INDEX user_index ON Prototype (user)",
-		"CREATE INDEX prototype_id_index ON Prototype (prototype_id)"
+		"CREATE INDEX user_index ON Rating (user)",
+		"CREATE INDEX prototype_id_index ON Rating (prototype_id)"
 		],
 	idColumn:"id"
 });
