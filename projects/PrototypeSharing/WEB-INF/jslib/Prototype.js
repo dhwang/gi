@@ -2,7 +2,18 @@ var stores = require("stores");
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
 
-var prototypeStore = require("db/Prototype").store;
+var SQLStore = require("store/sql").SQLStore;
+
+var prototypeStore = SQLStore({
+	table: "Prototype",
+	starterStatements: [
+		"CREATE TABLE Prototype (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(100), rating FLOAT, ratingsCount INT, downloads INT, license_id INT, uploaded DATETIME, enabled BOOL, description VARCHAR(2000), component TEXT, user VARCHAR(100), featured BOOL, deleted BOOL, status VARCHAR(10), PRIMARY KEY(id))",
+		"CREATE INDEX rating_index ON Prototype (rating)",
+		"CREATE INDEX status_index ON Prototype (status)"
+		],
+	idColumn: "id"
+});
+
 prototypeStore = require("store/lucene").Lucene(prototypeStore, "Prototype");
 var QueryRegExp = require("json-query").QueryRegExp;
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"])
@@ -21,7 +32,7 @@ var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", 
 			var sql = queryToSql(query, options);
 			
 			if(sql){
-				(options.parameters || (options.parameters = [])).unshift(auth.currentUser.uid, false);
+				(options.parameters || (options.parameters = [])).unshift(auth.currentUser && auth.currentUser.uid, false);
 				return prototypeStore.executeSql(
 					"SELECT id, name, Prototype.rating as rating, ratingsCount, downloads, license_id, description, uploaded, enabled, Prototype.user as user, featured, status, Rating.rating as myRating FROM Prototype " +
 					"LEFT JOIN Rating ON Prototype.id = Rating.prototype_id AND Rating.user=? " + 

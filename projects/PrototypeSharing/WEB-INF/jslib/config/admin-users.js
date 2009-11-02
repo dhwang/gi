@@ -1,1 +1,0 @@
-exports.adminUsers = ["kzyp", "bryan", "rachel", "jesse"];

@@ -1,10 +1,20 @@
 var stores = require("stores");
 var Restrictive = require("facet").Restrictive;
-var logStore = require("db/Log").store;
 var deepCopy = require("util/copy").deepCopy;
 var email = require("mail/smtp");
-var emailConfig = require("config/mail").config;
 var auth = require("jsgi/auth");
+
+var SQLStore = require("store/sql").SQLStore;
+
+var logStore = SQLStore({
+	connection:"jdbc:mysql://localhost/prototype?user=root&password=&useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
+	table: "Log",
+	type: "mysql",
+	starterStatements:[
+		"CREATE TABLE Log (id INT NOT NULL AUTO_INCREMENT, prototype_id INT, user VARCHAR(100), action VARCHAR(100), notes VARCHAR(2000), date DATETIME, PRIMARY KEY(id))"],
+	idColumn:"id"
+});
+
 
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
 var LogClass = stores.registerStore("Log", logStore, 
@@ -27,7 +37,7 @@ var LogClass = stores.registerStore("Log", logStore,
 					//TODO: get the email address from this.user
 					var userEmail = this.user + "@dojotoolkit.org";
 					var component = PrototypeClass.get(this.prototype_id);
-					email.send(emailConfig,
+					email.send(
 						{
 							recipient: userEmail,
 							subject: "Component " + component.name + " was " + this.action,

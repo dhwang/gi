@@ -1,8 +1,20 @@
 var stores = require("stores");
 var Restrictive = require("facet").Restrictive;
-var ratingStore = require("db/Rating").store;
+
 var auth = require("jsgi/auth");
 var PrototypeClass = require("Prototype").PrototypeClass;
+var SQLStore = require("store/sql").SQLStore;
+
+var ratingStore = SQLStore({
+	table: "Rating",
+	starterStatements:[
+		"CREATE TABLE Rating (user VARCHAR(100), prototype_id INT, rating TINYINT)",
+		"CREATE INDEX user_index ON Rating (user)",
+		"CREATE INDEX prototype_id_index ON Rating (prototype_id)"
+		],
+	idColumn:"id"
+});
+
 
 var RatingClass = stores.registerStore("Rating", ratingStore, 
 	{
