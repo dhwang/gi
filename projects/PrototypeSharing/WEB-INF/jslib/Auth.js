@@ -19,6 +19,7 @@ var authStore = SQLStore({
 
 var AuthClass = stores.registerStore("Auth", authStore);
 
+security.authClass = AuthClass; 
 security.authenticate = function(username, password){
 	return {uid:username};
 	var context = LDAPConfig.getContext(username, password);
