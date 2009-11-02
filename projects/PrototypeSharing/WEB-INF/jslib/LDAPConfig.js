@@ -160,23 +160,23 @@ var LDAPConfig = exports.LDAPConfig = Class({
 		return LDAP_SETTINGS.getContext.apply(LDAP_SETTINGS, arguments);
 	},
 	"createUser": function(params){
-		return LDAP_SETTINGS.createUser.apply(active, arguments);
+		return LDAP_SETTINGS.createUser.apply(LDAP_SETTINGS, arguments);
 	},
 	
 	getBaseUserDN: function(username){
-		return LDAP_SETTINGS.getBaseUserDN.apply(active, arguments);
+		return LDAP_SETTINGS.getBaseUserDN.apply(LDAP_SETTINGS, arguments);
 	
 	},
 
 	getUserDN: function(username){
-		return LDAP_SETTINGS.getUserDN.apply(active, arguments);
+		return LDAP_SETTINGS.getUserDN.apply(LDAP_SETTINGS, arguments);
 	
 	},
 	getAllAttributes: function(dn, context){
-		return LDAP_SETTINGS.getAllAttributes.apply(active, arguments);
+		return LDAP_SETTINGS.getAllAttributes.apply(LDAP_SETTINGS, arguments);
 	},
 	getAllGroups: function(context){
-		return LDAP_SETTINGS.getAllGroups.apply(active, arguments);
+		return LDAP_SETTINGS.getAllGroups.apply(LDAP_SETTINGS, arguments);
 	}
 
 });
