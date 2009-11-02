@@ -47,7 +47,7 @@
   <xsl:param name="jsxasyncmessage"></xsl:param>
 
   <xsl:template match="/">
-    <JSX_FF_WELLFORMED_WRAPPER xmlns=''>
+    <JSX_FF_WELLFORMED_WRAPPER>
       <xsl:choose>
         <xsl:when test="$jsxasyncmessage and $jsxasyncmessage!=''">
           <xsl:value-of select="$jsxasyncmessage"/>
@@ -78,7 +78,7 @@
       <xsl:if test="$jsxselectedimage">background-image:url(<xsl:value-of select="$jsxselectedimage"/>);</xsl:if>
     </xsl:variable>
 
-    <div jsxtype='item' class='jsx30tree_item' id="{$jsxid}_{$myjsxid}" jsxid="{$myjsxid}" unselectable="on" xmlns=''>
+    <div jsxtype='item' class='jsx30tree_item' id="{$jsxid}_{$myjsxid}" jsxid="{$myjsxid}" unselectable="on">
       <div jsxtype='caption' class='jsx30tree_caption' unselectable="on">
         <xsl:if test="@*[name() = $attrtip]">
           <xsl:attribute name="title">
