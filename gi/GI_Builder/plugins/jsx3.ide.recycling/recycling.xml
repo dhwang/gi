@@ -84,7 +84,7 @@ objJSX.onRsrcLoad = function() {
        <strings jsxname="jsx_ide_recycle_bar" />
       </object>
       <object type="jsx3.gui.Block">
-       <variants jsxoverflow="1" />
+       <variants jsxoverflow="2" />
        <strings jsxwidth="100%" jsxheight="100%" jsxbgcolor="white" />
         <object type="jsx3.gui.Tree">
          <dynamics jsxpadding="@Tree Padding"/>

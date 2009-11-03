@@ -52,7 +52,7 @@
           </object>
           <object type="jsx3.gui.Block">
            <dynamics jsxborder="@Inset" jsxbgcolor="@Solid Light"/>
-           <variants jsxoverflow="1"/>
+           <variants jsxoverflow="2"/>
            <strings/>
             <object type="jsx3.gui.Tree">
              <dynamics jsxpadding="@Tree Padding"/>

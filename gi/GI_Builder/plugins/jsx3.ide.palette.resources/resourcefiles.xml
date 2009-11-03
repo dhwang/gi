@@ -67,7 +67,7 @@ objJSX.getTree = function() {
             </object>
             <object type="jsx3.gui.Block">
               <dynamics jsxborder="@Outset"/>
-              <variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+              <variants jsxleft="0" jsxtop="0" jsxoverflow="2" />
               <strings jsxname="jsx_ide_cache_treeblock" jsxwidth="100%" jsxheight="100%"/>
                 <object type="jsx3.gui.Tree">
                   <dynamics jsxpadding="@Tree Padding" jsxbgcolor="@Solid Light"/>

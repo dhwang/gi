@@ -102,7 +102,7 @@ objJSX.getXMPPTree = function() {
         </object>
         <object type="jsx3.gui.Block">
           <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
-          <variants jsxleft="0" jsxtop="0" jsxoverflow="1" />
+          <variants jsxleft="0" jsxtop="0" jsxoverflow="2" />
           <strings jsxwidth="100%" jsxheight="100%" />
           <object type="jsx3.gui.Tree">
             <dynamics jsxpadding="@Tree Padding"/>

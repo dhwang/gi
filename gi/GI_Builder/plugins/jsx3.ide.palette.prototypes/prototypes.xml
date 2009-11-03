@@ -398,7 +398,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               <dynamics jsxbgcolor="@Solid Medium"/>
             </object>
             <object type="jsx3.gui.Block">
-              <variants jsxleft="0" jsxtop="0" jsxoverflow="1"/>
+              <variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
               <strings jsxname="jsx_ide_comps_treeblock" jsxwidth="100%" jsxheight="100%"/>
               <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tree">
@@ -455,7 +455,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <variants jsxheight="18"/>
                 <strings jsxname="jsx_ide_complibs_user_summary_tab" jsxtext="Tab"/>
                 <object type="jsx3.gui.Block">
-                  <variants jsxleft="0" jsxtop="0" jsxoverflow="1"/>
+                  <variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                   <strings jsxname="jsx_ide_comps_user_treeblock" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Tree">
