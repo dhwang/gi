@@ -577,12 +577,20 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
    * @jsxobf-clobber-shared
    */
   Interactive_prototype._bridge = function(objEvent, objElement, strMethod) {
-    var method = this[strMethod];
-    var e = jsx3.gui.Event.wrap(objEvent);
-    if (method) {
-      method.call(this, e, objElement);
-    } else {
-      throw new jsx3.Exception(jsx3._msg("gui.int.br", strMethod, e.getType(), this));
+    var win;
+    // Refs GI-720: For some reason Matrix focus and blur events may not come through in IE.
+    // It must be because of Matrix's HTML to DOM conversion. This is the workaround. 
+    if (!objEvent && objElement && (win = objElement.ownerDocument.parentWindow))
+      objEvent = win.event;
+
+    if (objEvent) {
+      var method = this[strMethod];
+      var e = jsx3.gui.Event.wrap(objEvent);
+      if (method) {
+        method.call(this, e, objElement);
+      } else {
+        throw new jsx3.Exception(jsx3._msg("gui.int.br", strMethod, e.getType(), this));
+      }
     }
   };
 
