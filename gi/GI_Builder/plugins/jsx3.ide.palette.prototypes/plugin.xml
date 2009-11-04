@@ -14,6 +14,13 @@
     return this.getEngine().getPlugIn("jsx3.ide.ui").getPalette(this, "complibs.palette");
   ]]></method>
 
+  <method id="getRootObject"><![CDATA[
+    var p = this.getPalette();
+    if (p) {
+      return p.getUIObject();
+    }
+  ]]></method>
+
   <method id="getSystemTree"><![CDATA[
     var p = this.getPalette();
     if (p) {

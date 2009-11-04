@@ -1,9 +1,17 @@
 (function(plugIn){
 
+  var rootUri = "http://www.generalinterface.org/prototypes/";
+
   jsx3.$O(plugIn).extend({
     _emptyStar: plugIn.resolveURI('images/emptyStar.png'),
     _halfStar: plugIn.resolveURI('images/halfStar.png'),
     _fullStar: plugIn.resolveURI('images/fullStar.png'),
+
+    uri: {
+      login: rootUri + "Class/User",
+      prototypeRoot: rootUri + "Prototype/",
+      rate: rootUri + "Rating/"
+    },
 
     _currentFilter: "all",
 
@@ -134,14 +142,12 @@
       });
     },
 
-    _prototypeRootUri: "http://localhost:8080/Prototype/",
-
     _buildXMLURL: function() {
       var objSearchBox = jsx3.IDE.getJSXByName("jsx_ide_online_search"),
           objFilterMenu = jsx3.IDE.getJSXByName("jsx_ide_online_filter_menu"),
           strSearch = objSearchBox && objSearchBox.getValue(),
           hasFilter = (this._currentFilter != "all"),
-          uri = this._prototypeRootUri,
+          uri = this.uri.prototypeRoot,
           parts = [];
       if (strSearch && strSearch.length) {
         parts.push("(" + strSearch.split(" ").join("* AND ") + "*)");
@@ -198,6 +204,196 @@
       var id = this.getId();
 
       s.set(id, 'license_accepted', true);
+    },
+
+    removeComponent: function(objPalette, objCheckbox, objMatrix, objRecord) {
+      var self = this;
+
+      var doRemoveComponent = function() {
+        var request = new jsx3.net.Request();
+        request.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, function(objEvent) {
+            var target = objEvent.target;
+            var status = target.getStatus();
+
+            if (status == 200) {
+              self._reloadList(objMatrix);
+              objPalette.setOnlineView('summary');
+            } else if (status == 401) {
+              objPalette.setUserLoginAction(function(){
+                doRemoveComponent();
+              });
+              objPalette.setLoginBackAction(function(){
+                objPalette.setComponentView('online');
+              });
+              objPalette.setLoginProblem("Not authorized");
+              objPalette.setUserView('login', true);
+              objPalette.setComponentView('user');
+            } else if (status >= 500) {
+              // TODO: how should we show that there was an error?
+            } else {
+              // TODO: what else should we handle?
+            }
+        });
+        request.subscribe(jsx3.net.Request.EVENT_ON_TIMEOUT, function(objEvent){
+          // TODO: how should we show that it timed out?
+        });
+        request.subscribe('*', function(objEvent) {
+          objCheckbox.setChecked(jsx3.gui.CheckBox.UNCHECKED);
+        });
+
+        request.open("delete", self.uri.prototypeRoot + objRecord.id, true);
+        request.setRequestHeader('Accept', 'application/json');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send("", 5000);
+      };
+
+      doRemoveComponent();
+    },
+
+    reportProblem: function(objPalette, objRecord) {
+    },
+
+    rateComponent: function(objPalette, objContainer, strRating, objMatrix) {
+      var s = jsx3.ide.getIDESettings();
+      var id = this.getId();
+      var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
+
+      var self = this;
+      var doRateComponent = function(on_done){
+        var request = new jsx3.net.Request();
+
+        request.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, function(objEvent) {
+          var target = objEvent.target;
+          var status = target.getStatus();
+
+          if (status == 201) {
+            var response = jsx3.eval("(" + target.getResponseText() + ")");
+
+            objView._selected_detail_record.myRating = response.rating;
+            objView._selected_detail_record.rating = response.newRating;
+            objMatrix.insertRecord(objView._selected_detail_record, null, false);
+          } else if (status == 401) {
+            objPalette.setUserLoginAction(function(){
+              doRateComponent(function(){
+                objPalette.setComponentView('online');
+              });
+            });
+            objPalette.setLoginBackAction(function(){
+              objPalette.setComponentView('online');
+            });
+            objPalette.setLoginProblem("Not authorized");
+            objPalette.setUserView('login', true);
+            objPalette.setComponentView('user');
+
+          } else if (status >= 500) {
+          } else {
+          }
+        });
+        request.subscribe(jsx3.net.Request.EVENT_ON_TIMEOUT, function(objEvent){
+          // TODO: how should we show that it timed out?
+        });
+        request.subscribe('*', function(objEvent) {
+          objPalette.setOnlineDetail(objView._selected_detail_record, true);
+          if (on_done) {
+            on_done();
+          }
+        });
+
+        request.open("post", self.uri.rate, true);
+        request.setRequestHeader('Accept', 'application/json');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(jsx3.$O.json({
+          prototype_id: objView._selected_detail_record.id,
+          rating: strRating
+        }), 5000);
+      };
+
+      if (objView._selected_detail_record &&
+        objView._selected_detail_record.myRating != null &&
+        objView._selected_detail_record.myRating != "null") {
+        return;
+      }
+      if (!objView._selected_detail_record) {
+        return;
+      }
+
+      if (!s.get(id, "username")) {
+        objPalette.setUserLoginAction(function(){
+          doRateComponent(function(){
+            objPalette.setComponentView('online');
+          });
+        });
+        objPalette.setLoginBackAction(function(){
+          objPalette.setComponentView('online');
+        });
+        objPalette.setUserView('login', true);
+        objPalette.setComponentView('user');
+        return;
+      }
+
+      doRateComponent();
+    },
+
+    onRatingMouseOver: function(objContainerNode, objEvent) {
+      var target = objEvent.target;
+      var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
+
+      var objStar;
+      var objContainer = jsx3.IDE.getJSXById(objContainerNode.getAttribute('id'));
+
+      if (objView._selected_detail_record &&
+        objView._selected_detail_record.myRating != "null" &&
+        objView._selected_detail_record.myRating != null) {
+        return;
+      }
+      if (!objView._selected_detail_record) {
+        return;
+      }
+
+      if (target.tagName.toLowerCase() == "img") {
+        objStar = jsx3.IDE.getJSXById(target.parentNode.getAttribute('id'));
+      } else if (target.tagName.toLowerCase() == "span") {
+        objStar = jsx3.IDE.getJSXById(target.getAttribute('id'));
+      }
+      if (!objStar) {
+        return;
+      }
+      var children = objContainer.getChildren();
+
+      var index = objStar.getChildIndex();
+      for(var i=0, l=children.length; i<l; i++){
+        var child = objContainer.getChild(i);
+        var starUrl = (i<=index ? this._fullStar : this._emptyStar).toString();
+        child.setSrc(starUrl);
+        var childNode = document.getElementById(child._jsxid);
+        if (childNode && childNode.children[0]) {
+          childNode.children[0].setAttribute('src', starUrl);
+        }
+      }
+    },
+
+    onRatingMouseOut: function(objContainerNode, objEvent) {
+      var objTarget = jsx3.IDE.getJSXById(objContainerNode.getAttribute('id'));
+      var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
+
+      if (objView._selected_detail_record &&
+        objView._selected_detail_record.myRating != null &&
+        objView._selected_detail_record.myRating != "null") {
+        return;
+      }
+      if (!objView._selected_detail_record) {
+        return;
+      }
+
+      var children = objTarget.getChildren();
+      for(var i=0, l=children.length; i<l; i++){
+        var child = objTarget.getChild(i);
+        child.setSrc(this._emptyStar.toString());
+        var childNode = document.getElementById(child._jsxid);
+        if (childNode && childNode.children[0]) {
+          childNode.children[0].setAttribute('src', this._emptyStar.toString());
+        }
+      }
     }
   });
 

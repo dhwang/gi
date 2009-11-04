@@ -23,36 +23,6 @@ jsx3.$O(this).extend({
     this.publish({subject: "user_reloaded"});
   },
 
-  _userLoginUri: "http://localhost:8080/Class/User",
-
-  userLogin: function(username, password, onLogin, onTimeout, onAll) {
-    var request = new jsx3.net.Request(),
-        s = jsx3.ide.getIDESettings(),
-        id = this.getId();
-
-    if (onLogin) {
-      request.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, onLogin);
-    }
-    if (onTimeout) {
-      request.subscribe(jsx3.net.Request.EVENT_ON_TIMEOUT, onTimeout);
-    }
-    if (onAll) {
-      request.subscribe('*', onAll);
-    }
-
-    request.open("post", this._userLoginUri, true);
-    request.setRequestHeader('Accept', 'application/json');
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.send(jsx3.$O.json({
-      id: "call1",
-      method: "authenticate",
-      params: [
-        username,
-        password
-      ]
-    }), 5000);
-  },
-
   uploadUserPrototype: function(objPalette, objTree) {
     var s = jsx3.ide.getIDESettings();
     var id = this.getId();
@@ -80,8 +50,5 @@ jsx3.$O(this).extend({
     }
 
     return objXML;
-  },
-
-  _doUploadComponent: function(objName, objDescription, objXML, objPalette, objButton, objSpinner, objPalette) {
   }
 });
