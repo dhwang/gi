@@ -1,40 +1,85 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="jsxwidth" jsxtext="Width"
-          jsxtip="Sets the width of the control as implied pixels or a percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
-          docgetter="getWidth" docsetter="setWidth"
-          docdefault="Empty"
-          eval="0"
-          jsxexecute="objJSX.setWidth((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
-          disallow="[^cm^pt^\\.^%^0-9^-]"
-          jsxmask="jsxtext"/>
-      <record jsxid="jsxheight" jsxtext="Height"
-          jsxtip="Sets the height of the control in pixels or percentage. For example, &lt;code&gt;100&lt;/code&gt; or &lt;code&gt;25%&lt;/code&gt;."
-          docgetter="getHeight" docsetter="setHeight"
-          docdefault="Empty"
-          eval="0"
-          jsxexecute="objJSX.setHeight((jsx3.util.numIsNaN(vntValue))?vntValue:vntValue-0,true);"
-          disallow="[^cm^pt^\\.^%^0-9^-]"
-          jsxmask="jsxtext"/>
-      <record jsxid="jsxenabled" jsxtext="Enabled"
-          jsxtip="Sets whether or not the view for this item is enabled and mouse/keyboard events will be listened to."
-          docgetter="getEnabled" docsetter="setEnabled"
-          docdefault="Enabled (&lt;code&gt;jsx3.gui.Form.STATEENABLED&lt;/code&gt;)"
-          jsxexecute="objJSX.setEnabled(vntValue,true);" eval="1"
-          jsxmask="jsxselect">
-        <enum jsxid="jsx3.gui.Form.STATEENABLED" jsxtext="Enabled"/>
-        <enum jsxid="jsx3.gui.Form.STATEDISABLED" jsxtext="Disabled"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_imagebuttonnormal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.ImageButton">
-      <variants jsxwidth="16" jsxheight="16" jsxtype="0" jsxprefetch="1" jsxstate="0"/>
-      <strings jsxname="target" jsxtext="[button text]" jsximage="jsx:///images/imagebutton/off.gif" jsxoverimage="jsx:///images/imagebutton/over.gif" jsxdownimage="jsx:///images/imagebutton/down.gif" jsxonimage="jsx:///images/imagebutton/on.gif" jsxdisabledimage="jsx:///images/imagebutton/disabled.gif"/>
-      <events jsxexecute="alert('Execute');"/>
+  <name><![CDATA[ImageButton]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates basic ImageButton usage.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onWidthChange = function(strValue) {
+  imagebutton.setWidth(strValue, true);
+};
+
+this.onHeightChange = function(strValue) {
+  imagebutton.setHeight(strValue, true);
+};
+
+this.onEnabledSelect = function(strRecordId) {
+  imagebutton.setEnabled(strRecordId).repaint();
+};
+
+desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));
+
+width.setValue(imagebutton.getWidth());
+height.setValue(imagebutton.getHeight());
+enabled.setValue(imagebutton.getEnabled());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.ImageButton">
+        <variants jsxwidth="16" jsxheight="16" jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"/>
+        <strings jsxname="imagebutton" jsxtext="Example ImageButton" jsximage="jsx:///images/imagebutton/off.gif" jsxoverimage="jsx:///images/imagebutton/over.gif" jsxdownimage="jsx:///images/imagebutton/down.gif" jsxonimage="jsx:///images/imagebutton/on.gif" jsxdisabledimage="jsx:///images/imagebutton/disabled.gif"/>
+        <events jsxexecute="alert('Clicked!');"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Width" jsxfor="width" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="width" jsxmargin="0 4 4 0"/>
+        <events jsxchange="root.onWidthChange(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Height" jsxfor="height" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="height" jsxmargin="0 4 4 0"/>
+        <events jsxchange="root.onHeightChange(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Enabled" jsxfor="enabled" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxenabled="1" jsxvalue="1"/>
+        <strings jsxname="enabled" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Disabled&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Enabled&quot;/&gt;&lt;/data&gt;"/>
+        <events jsxselect="root.onEnabledSelect(strRECORDID);"/>
+      </object>
     </object>
   </object>
 </serialization>
