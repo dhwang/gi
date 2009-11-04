@@ -1,9 +1,9 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <name>Block Relative</name>
+  <name><![CDATA[Relative Block]]></name>
   <icon/>
-  <description>This shows the properties you can set on a relative block.</description>
+  <description><![CDATA[This shows the properties you can set on a relative block.]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize>
+  <onAfterDeserialize><![CDATA[
 this.onOverflowSelect = function(strRecordId) {
   block.setOverflow(strRecordId);
 };
@@ -26,7 +26,7 @@ overflow.setValue(block.getOverflow());
 alignment.setValue(block.getTextAlign());
 padding.setValue(block.getPadding());
 margin.setValue(block.getMargin());
-  </onAfterDeserialize>
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
@@ -46,11 +46,11 @@ margin.setValue(block.getMargin());
       <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
       <object type="jsx3.gui.Block">
         <variants jsxfontsize="12"/>
-        <strings jsxname="name" jsxwidth="100%" jsxtext="Component name" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants/>
-        <strings jsxname="desc" jsxwidth="100%" jsxtext="This shows the properties you can set on a relative block."/>
+        <strings jsxname="desc" jsxwidth="100%"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants/>

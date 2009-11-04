@@ -1,11 +1,38 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_blockxpp" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.BlockX">
-      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxxmlasync="1" jsxxslasync="1"/>
-      <strings jsxwidth="100%" jsxheight="100%" jsxname="target" jsxxml="&lt;rootNode&gt;&lt;constants&gt;&lt;item&gt;3.14159&lt;/item&gt;&lt;item&gt;2.71828&lt;/item&gt;&lt;item&gt;1.61803&lt;/item&gt; &lt;/constants&gt;&lt;helloworld&gt;Hello, World!&lt;/helloworld&gt;&lt;/rootNode&gt;"/>
-      <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"/>
+  <name><![CDATA[Pretty-print XML]]></name>
+  <icon/>
+  <description><![CDATA[This shows a BlockX component pretty-printing XML.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.BlockX">
+        <variants jsxrelativeposition="0" jsxxmlasync="1" jsxxslasync="1"/>
+        <strings jsxwidth="100%" jsxheight="100%" jsxname="blockX" jsxxml="&lt;breakfast_menu&gt;&lt;food&gt;&lt;name&gt;Belgian Waffles&lt;/name&gt;&lt;price&gt;$5.95&lt;/price&gt;&lt;description&gt;two of our famous Belgian Waffles with plenty of real maple syrup&lt;/description&gt;&lt;calories&gt;650&lt;/calories&gt;&lt;/food&gt;&lt;food&gt;&lt;name&gt;Strawberry Belgian Waffles&lt;/name&gt;&lt;price&gt;$7.95&lt;/price&gt;&lt;description&gt;light Belgian waffles covered with strawberries and whipped cream&lt;/description&gt;&lt;calories&gt;900&lt;/calories&gt;&lt;/food&gt;&lt;food&gt;&lt;name&gt;Berry-Berry Belgian Waffles&lt;/name&gt;&lt;price&gt;$8.95&lt;/price&gt;&lt;description&gt;light Belgian waffles covered with an assortment of fresh berries and whipped cream&lt;/description&gt;&lt;calories&gt;900&lt;/calories&gt;&lt;/food&gt;&lt;food&gt;&lt;name&gt;French Toast&lt;/name&gt;&lt;price&gt;$4.50&lt;/price&gt;&lt;description&gt;thick slices made from our homemade sourdough bread&lt;/description&gt;&lt;calories&gt;600&lt;/calories&gt;&lt;/food&gt;&lt;food&gt;&lt;name&gt;Homestyle Breakfast&lt;/name&gt;&lt;price&gt;$6.95&lt;/price&gt;&lt;description&gt;two eggs, bacon or sausage, toast, and our ever-popular hash browns&lt;/description&gt;&lt;calories&gt;950&lt;/calories&gt;&lt;/food&gt;&lt;/breakfast_menu&gt;"/>
+        <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
     </object>
   </object>
 </serialization>

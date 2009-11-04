@@ -1,10 +1,37 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_iframelocal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.IFrame">
-      <variants/>
-      <strings jsxname="target" jsxsrc="lorem_ipsum.html" jsxstyleoverride="display:block; width:300px; height:300px; border:1px solid #000;"/>
+  <name><![CDATA[IFrame (Local)]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates a simple locally hosted IFrame.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.IFrame">
+        <variants/>
+        <strings jsxname="iframe" jsxstyleoverride="display:block; width:300px; height:400px; border:1px solid #000;" jsxsrc="lorem_ipsum.html"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0" jsxtext="IFrame (Local)"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxtext="This demonstrates a simple locally hosted IFrame."/>
+      </object>
     </object>
   </object>
 </serialization>
