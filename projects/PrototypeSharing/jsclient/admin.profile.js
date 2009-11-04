@@ -1,7 +1,8 @@
 dependencies = {
 	layers: [
 		{
-			name: "../admin-deps.js",
+			name: "../admin/deps.js",
+			resourceName: "admin.deps",
 			dependencies: [
 				"dojox.rpc.JsonRest",
 				"persevere.persevere",
@@ -26,6 +27,8 @@ dependencies = {
 
 	prefixes: [
 		[ "dijit", "../dijit" ],
-		[ "dojox", "../dojox" ]
+		[ "dojox", "../dojox" ],
+		[ "persevere", "../persevere" ],
+		[ "admin", "../admin" ]
 	]
 }
