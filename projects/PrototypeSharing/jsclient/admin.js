@@ -23,12 +23,25 @@ function login(){
 	login = function(){};// no way else 
 	dojo.require("persevere.Login");
     var loginDialog = new persevere.Login({onLoginSuccess: function(){
-    	alert("Logged in");
-    	login = loginAgain;
-    	//location.reload();
-    }});
+	    	alert("Logged in");
+	    	login = loginAgain;
+	    	//location.reload();
+	    	realHide();
+	    },
+	    closable: false});
+    var realHide = dojo.hitch(loginDialog, loginDialog.hide);
+    loginDialog.onExecute = function(){
+    	realHide();
+    };
+	loginDialog.hide = function(){
+		alert("Must login first");
+	};
+    
 	dojo.body().appendChild(loginDialog.domNode);
 	loginDialog.startup();
+	setTimeout(function(){
+	    dojo.query("#dijit_form_Button_0", loginDialog.domNode)[0].parentNode.parentNode.parentNode.style.display= "none";
+	},100);
 }
 dojo.addOnLoad(function(){
 	activityTab.onShow = function(){
@@ -85,7 +98,7 @@ dojo.addOnLoad(function(){
 		dojo.byId("action-confirmation").innerHTML = question;
 		dojo.byId("action-reason").style.display = needReason ? "block" : "none";
 		dojo.byId("confirm-action").onclick = function(){
-			statusDialog.hide();
+			realHide();
 			callback({
 				notes: dojo.byId("action-reason").value,
 				sendEmail: dojo.byId("send-email").checked
