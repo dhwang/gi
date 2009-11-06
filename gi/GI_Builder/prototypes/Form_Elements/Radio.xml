@@ -9,6 +9,5 @@
   <object type="jsx3.gui.RadioButton">
     <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"/>
     <strings jsxname="radio" jsxtext="[radio button text]" jsxgroupname="group1" jsxmargin="0 4 0 0"/>
-    <events jsxselect=""/>
   </object>
 </serialization>

@@ -8,7 +8,7 @@
   <description><![CDATA[A jsx3.gui.ImageButton object.]]></description>
   <object type="jsx3.gui.ImageButton">
     <variants jsxwidth="16" jsxheight="16"/>
-    <strings jsxname="imagebutton" jsxtext="[button text]"
+    <strings jsxname="imagebutton" 
         jsximage="jsx:///images/imagebutton/off.gif"
         jsxoverimage="jsx:///images/imagebutton/over.gif"
         jsxdownimage="jsx:///images/imagebutton/down.gif"

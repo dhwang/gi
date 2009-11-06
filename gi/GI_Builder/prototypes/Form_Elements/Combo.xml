@@ -9,6 +9,5 @@
   <object type="jsx3.gui.Select">
     <variants jsxwidth="150" jsxheight="18" jsxtype="1" jsxxmlasync="1"/>
     <strings jsxname="combo" jsxvalue="a" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0"/>
-    <events onmousedown="this.style.backgroundColor='';"/>
   </object>
 </serialization>
