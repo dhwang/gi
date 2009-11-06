@@ -16,15 +16,20 @@ jsx3.$O(this).extend({
 onModelEventEdit: function(objGrid, strRecordId, strValue) {
   //called when the edit mask is about to be committed (jsxafteredit)
   var objJSXs = jsx3.ide.getSelected();
+  var execScript = objGrid.getRecord(strRecordId).jsxexecute;
 
   for (var i = 0; i < objJSXs.length; i++) {
     var objJSX = objJSXs[i];
 
-    var bHad = objJSX.hasEvent(strRecordId);
-    objJSX.setEvent(strValue, strRecordId);
-
-    if (bHad != objJSX.hasEvent(strRecordId))
-      objJSX.repaint();
+    if (execScript) {
+      objJSX.eval(execScript, {objJSX:objJSX, strType:strRecordId, strValue:strValue});
+    } else {
+      var bHad = objJSX.hasEvent(strRecordId);
+      objJSX.setEvent(strValue, strRecordId);
+  
+      if (bHad != objJSX.hasEvent(strRecordId))
+        objJSX.repaint();
+    }
   }
 
   this.publish({subject:"eventChanged", o:objJSXs, key:strRecordId, value:strValue});

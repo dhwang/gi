@@ -552,7 +552,8 @@ _getClassPropertiesDoc: function(objJSX) {
     objNode.setAttribute('jsxunselectable', '1');
   }
 
-  cache.setDocument(cachedDocId, objXML);
+  if (objXML._idecacheable)
+    cache.setDocument(cachedDocId, objXML);
   return objXML;
 },
 

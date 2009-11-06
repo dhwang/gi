@@ -148,6 +148,8 @@ toggleStageOnly: function(bShowPalettes) {
 
       if (handler)
         objXML = handler(objJSX);
+    } else {
+      objXML._idecacheable = true;
     }
 
     return objXML;
