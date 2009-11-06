@@ -72,6 +72,9 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
   jsx3.html.loadImages(ToolbarButton.IMAGEDOWN, ToolbarButton.IMAGEON, ToolbarButton.IMAGEOVER,
       ToolbarButton.DEFAULTIMAGE);
 
+  /** {jsx3.gui.HotKey} @private @jsxobf-clobber */
+  ToolbarButton_prototype._jsxhotkey = null;
+
   /**
    * The instance initializer.
    * @param strName {String} unique name distinguishing this object from all other JSX GUI objects in the JSX application
@@ -655,6 +658,12 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
     if (es) {
 //      jsx3.log("execute for record id " + es.recordId);
     }
+  };
+  
+  ToolbarButton_prototype.onDestroy = function(objParent) {
+    if (this._jsxhotkey) 
+      this._jsxhotkey.destroy();
+    this.jsxsuper(objParent);
   };
 
 });

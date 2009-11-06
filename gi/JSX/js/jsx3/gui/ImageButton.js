@@ -445,4 +445,10 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
     return myTip ? ' alt="' + myTip.replace(/"/g, "&quot;") + '" ' : ' alt=""';
   };
 
+  ImageButton_prototype.onDestroy = function(objParent) {
+    if (this._jsxhotkey) 
+      this._jsxhotkey.destroy();
+    this.jsxsuper(objParent);
+  };
+
 });

@@ -397,6 +397,12 @@ jsx3.Class.defineClass("jsx3.gui.Button", jsx3.gui.Block, [jsx3.gui.Form], funct
 //      jsx3.log("execute for record id " + es.recordId);
     }
   };
+  
+  Button_prototype.onDestroy = function(objParent) {
+    if (this._jsxhotkey) 
+      this._jsxhotkey.destroy();
+    this.jsxsuper(objParent);
+  };
 
 });
 
