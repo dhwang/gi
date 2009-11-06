@@ -1,69 +1,153 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="jsxbarsize" jsxtext="Bar Size"
-          eval="1"
-          jsxtip="Sets the height/width of the caption bar for each child stack, depending upon orientation"
-          docgetter="getBarSize" docsetter="setBarSize"
-          docdefault="&lt;code&gt;jsx3.gui.StackGroup.DEFAULTBARSIZE&lt;/code&gt;. See the API documentation for this component."
-          disallow="[^0-9]"
-          jsxmask="jsxtext"/>
-      <record jsxid="jsxbgcolor" jsxtext="BG Color"
-          eval="0"
-          jsxtip="Sets the background color. Accepts CSS values, such as predefined color names, RGB, or hexadecimal values. For example, &lt;code&gt;red&lt;/code&gt;, &lt;code&gt;rgb(255,0,0)&lt;/code&gt;, or &lt;code&gt;#ff0000&lt;/code&gt;."
-          docgetter="getBackgroundColor" docsetter="setBackgroundColor"
-          docdefault="The default background color specified in the static field, &lt;code&gt;DEFAULTBACKGROUNDCOLOR&lt;/code&gt;, of the component class.  For example, the default background color for a list is #f3f2f4 and is specified in &lt;code&gt;jsx3.gui.List.DEFAULTBACKGROUNDCOLOR&lt;/code&gt;. See the API documentation for the component. For some components, this property is empty."
-          disallow="[^-0-9a-zA-Z#\(\);:\/\.,]"
-          jsxexecute="objJSX.setBackgroundColor(vntValue,true);"
-          jsxmask="jsxcolor"/>
-      <record jsxid="jsxselectedindex" jsxtext="Active Stack Index"
-          eval="1"
-          jsxtip="Sets the zero-based index of the active tab."
-          docgetter="getSelectedIndex"
-          docdefault="&lt;code&gt;0&lt;/code&gt;"
-          disallow="[^0-9]"
-          jsxmask="jsxtext"/>
-      <record jsxid="jsxtext1" jsxtext="Stack 1 Text"
-          eval="0"
-          jsxtip="Sets the text label for this object."
-          docgetter="getText" docsetter="setText"
-          docdefault="Empty"
-          validatehtml="true"
-          jsxexecute="objJSX.setText(vntValue, true);"
-          jsxtarget="stack1"
-          jsxmask="jsxtextarea"/>
-      <record jsxid="jsxtext2" jsxtext="Stack 2 Text"
-          eval="0"
-          jsxtip="Sets the text label for this object."
-          docgetter="getText" docsetter="setText"
-          docdefault="Empty"
-          validatehtml="true"
-          jsxexecute="objJSX.setText(vntValue, true);"
-          jsxtarget="stack2"
-          jsxmask="jsxtextarea"/>
-      </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_stackhorizontal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.StackGroup">
+  <name><![CDATA[Button]]></name>
+  <icon/>
+  <description><![CDATA[This shows some properties you can set on a button.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onBarSizeChange = function(strValue) {
+  stackgroup.setBarSize(strValue).repaint();
+};
+
+this.onActiveIndexSelect = function(strRecordId) {
+  var stacks = stackgroup.getChildren();
+  stacks[strRecordId].doShow();
+};
+
+this.onText1Change = function(strValue) {
+  stack1.setText(strValue).repaint();
+};
+
+this.onText2Change = function(strValue) {
+  stack2.setText(strValue).repaint();
+};
+
+this.onText3Change = function(strValue) {
+  stack3.setText(strValue).repaint();
+};
+
+this.onBackgroundColorChange = function(strValue) {
+  stackgroup.setBackgroundColor(strValue, true);
+};
+
+desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));
+
+barsize.setValue(stackgroup.getBarSize());
+activeindex.setValue(stackgroup.getSelectedIndex());
+text1.setValue(stack1.getText());
+text2.setValue(stack2.getText());
+text3.setValue(stack3.getText());
+bgcolor.setValue(stackgroup.getBackgroundColor());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
-      <strings jsxname="target" jsxrows="*,27"/>
-      <object type="jsx3.gui.Stack">
-        <variants/>
-        <strings jsxname="stack1" jsxtext="Stack 1"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay=""/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.StackGroup">
+        <variants jsxoverflow="2" jsxbarsize="27"/>
+        <strings jsxname="stackgroup" jsxrows="*,27,27" jsxbgcolor="#FFFFFF"/>
+        <object type="jsx3.gui.Stack">
+          <variants/>
+          <strings jsxname="stack1" jsxtext="Stack 1"/>
+          <events jsxshow="activeindex.setValue(stackgroup.getSelectedIndex());"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxloadtype="4"/>
+            <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="" jsxtext="Pane 1 text" jsxpadding="8"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Stack">
+          <variants/>
+          <strings jsxname="stack2" jsxtext="Stack 2"/>
+          <events jsxshow="activeindex.setValue(stackgroup.getSelectedIndex());"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxloadtype="4"/>
+            <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none" jsxtext="Pane 2 text" jsxpadding="8"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Stack">
+          <variants/>
+          <strings jsxname="stack3" jsxtext="Stack 3"/>
+          <events jsxshow="activeindex.setValue(stackgroup.getSelectedIndex());"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxloadtype="4"/>
+            <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none" jsxtext="Pane 3 text" jsxpadding="8"/>
+          </object>
         </object>
       </object>
-      <object type="jsx3.gui.Stack">
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0" jsxtext="Button"/>
+      </object>
+      <object type="jsx3.gui.Block">
         <variants/>
-        <strings jsxname="stack2" jsxtext="Stack 2"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none"/>
-        </object>
+        <strings jsxname="desc" jsxwidth="100%" jsxtext="This shows some properties you can set on a button."/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Bar Size" jsxfor="barsize" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100" jsxvalue="20"/>
+        <strings jsxname="barsize" jsxmargin="0 4 4 0"/>
+        <events jsxchange="root.onBarSizeChange(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Active Index" jsxfor="activeindex" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxenabled="1" jsxvalue="0"/>
+        <strings jsxname="activeindex" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;0&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;1&quot;/&gt;&lt;record jsxid=&quot;2&quot; jsxtext=&quot;2&quot;/&gt;&lt;/data&gt;"/>
+        <events jsxselect="root.onActiveIndexSelect(strRECORDID);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Text 1" jsxfor="text1" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="text1" jsxmargin="0 4 4 0" jsxvalue="Stack 1"/>
+        <events jsxchange="root.onText1Change(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Text 2" jsxfor="text2" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="text2" jsxmargin="0 4 4 0" jsxvalue="Stack 2"/>
+        <events jsxchange="root.onText2Change(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Text 3" jsxfor="text3" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="text3" jsxmargin="0 4 4 0" jsxvalue="Stack 3"/>
+        <events jsxchange="root.onText3Change(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="BG Color" jsxfor="bgcolor" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="bgcolor" jsxmargin="0 4 4 0" jsxvalue="#FFFFFF"/>
+        <events jsxchange="root.onBackgroundColorChange(strVALUE);"/>
       </object>
     </object>
   </object>
