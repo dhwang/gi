@@ -14,7 +14,7 @@ var prototypeStore = SQLStore({
 	idColumn: "id"
 });
 
-prototypeStore = require("store/lucene").Lucene(prototypeStore, "Prototype");
+prototypeStore = require("store/full-text").FullText(prototypeStore, "Prototype");
 var QueryRegExp = require("json-query").QueryRegExp;
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"])
 var deepCopy = require("util/copy").deepCopy;

@@ -29,16 +29,18 @@ exports.RatingFacet = Restrictive(RatingClass, {
 
 		var prototype = PrototypeClass.get(object.prototype_id); // should throw an error if the prototype doesn't exist
 
-		if(ratingStore.executeSql("SELECT * FROM Rating WHERE user=? AND prototype_id=?", {
-				parameters: [auth.currentUser.uid, object.prototype_id]
-			}).totalCount){
-			throw new Error("You have already rating this component");
-		}
-
 		object.user = auth.currentUser.uid;
+		var lastRating = ratingStore.executeSql("SELECT * FROM Rating WHERE user=? AND prototype_id=?", {
+				parameters: [auth.currentUser.uid, object.prototype_id]
+			}).first();
+		if(lastRating){
+			var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating - lastRating.rating;
+		}
+		else{
+			var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating;
+			prototype.ratingsCount++;
+		}
 		
-		var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating;
-		prototype.ratingsCount++;
 		prototype.rating = ratingTotal / prototype.ratingsCount;
 		prototype.save();
 		
