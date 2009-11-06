@@ -113,7 +113,7 @@ General Interface Framework
       Windows XP Professional SP1, SP2 and SP3
       Windows Vista
 
--------------------------------
+---------------------------------
 General Interface Builder
 
   General Interface Builder runs on the following browsers.
@@ -129,6 +129,15 @@ General Interface Builder
       Windows 2003 Server
       Windows XP Professional SP1, SP2 and SP3
       Windows Vista
+
+======================================================================
+Minimum Disk Space and Memory Requirements
+
+---------------------------------
+TIBCO General Interface Framework
+
+  Free disk space: 100 MB 
+  Memory: Required 1024 MB; but we recommend 2048 MB
 
 ======================================================================
 Copyright
