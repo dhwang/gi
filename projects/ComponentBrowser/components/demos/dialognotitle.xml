@@ -1,30 +1,42 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="jsxresize" jsxtext="Resizable"
-          eval="1"
-          jsxtip="Determines if the dialog can be resized by the user at runtime."
-          docgetter="getResizable" docsetter="setResizable"
-          docdefault="Resizable (&lt;code&gt;jsx3.Boolean.TRUE&lt;/code&gt;)"
-          jsxexecute="objJSX.setResize(vntValue);objJSX.repaint();"
-          jsxmask="jsxselect">
-        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="Resizable"/>
-        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="Fixed"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_dialognotitle" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.Dialog">
-      <variants jsxwidth="431" jsxheight="318" jsxzindex="5000" jsxwindowstate="1"/>
-      <strings jsxname="target"/>
-      <dynamics jsxbgcolor="@Solid Medium"/>
+  <name><![CDATA[Dialog (No Title Bar)]]></name>
+  <icon/>
+  <description><![CDATA[This shows how to instantiate a dialog having no title bar.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+desc.setText(root.getMetaValue("description"));
+name.setText(root.getMetaValue("name"));
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Dialog">
+        <variants jsxwidth="300" jsxheight="200" jsxzindex="5000" jsxwindowstate="1" jsxleft="40" jsxtop="40" jsxresize="0" jsxmodal="0"/>
+        <strings jsxname="dialog"/>
+        <dynamics jsxbgcolor="@Solid Medium"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1" jsxloadtype="1"/>
+          <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtext="&lt;p&gt;This is the dialog's body block. Since the dialog has no title bar, you can't drag it around; normally, you'd want at least one button in the dialog itself so the user can close it.&lt;/p&lt;p&gt;This dialog is modal, so you can't change the input focus away from it.&lt;/p&gt;" jsxpadding="0 8 8 8"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
       <object type="jsx3.gui.Block">
-        <variants jsxoverflow="1" jsxloadtype="1"/>
-        <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtext="This is a dialog without a title bar."/>
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
       </object>
     </object>
   </object>
 </serialization>
-
