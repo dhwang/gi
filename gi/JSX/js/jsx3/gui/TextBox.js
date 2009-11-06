@@ -644,12 +644,14 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
 
     //first check if the text field can be null and whether or not it is null
     var vntValue = this.getValue();
+    if (vntValue != null) vntValue = String(vntValue);
+    
     var re = null;
     if (vntValue == null || jsx3.util.strTrim(vntValue) == "") {
       if (this.getRequired() == jsx3.gui.Form.REQUIRED)
         // this is a required field that is either returning null or an empty string
         this.setValidationState(jsx3.gui.Form.STATEINVALID);
-    } else if (typeof(vntValue) == "string") {
+    } else {
       //check if the developer has chosen to use a custom regular expression of their own
       var sre = this.getValidationExpression();
 
