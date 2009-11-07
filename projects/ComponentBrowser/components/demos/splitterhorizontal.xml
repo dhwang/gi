@@ -15,7 +15,7 @@ enabled.setValue(splitter.getEnabled());
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
@@ -25,12 +25,12 @@ enabled.setValue(splitter.getEnabled());
         <strings jsxname="splitter" jsxsubcontainer1pct="50%"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="1"/>
-          <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%"/>
+          <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#CCDDFF"/>
           <dynamics jsxborder="@Inset"/>
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="1"/>
-          <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%"/>
+          <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#CCFFEE"/>
           <dynamics jsxborder="@Inset"/>
         </object>
       </object>

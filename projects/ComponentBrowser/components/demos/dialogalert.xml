@@ -14,9 +14,9 @@ name.setText(root.getMetaValue("name"));
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="2"/>
+      <variants jsxoverflow="2" jsxpadding="8"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.Button">

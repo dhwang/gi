@@ -10,13 +10,13 @@ name.setText(root.getMetaValue("name"));
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="2"/>
-      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <variants jsxoverflow="2" jsxpadding="8"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%" jsxbgcolor=""/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.Dialog">
-        <variants jsxwidth="431" jsxheight="318" jsxzindex="5004" jsxwindowstate="1" jsxleft="36" jsxtop="13" jsxresize="1" jsxmodal="1"/>
+        <variants jsxwidth="400" jsxheight="225" jsxleft="50" jsxtop="40" jsxresize="1" jsxmodal="1"/>
         <strings jsxname="dialog"/>
         <dynamics jsxbgcolor="@Solid Medium"/>
         <object type="jsx3.gui.WindowBar">
@@ -27,6 +27,10 @@ name.setText(root.getMetaValue("name"));
           <variants jsxoverflow="1" jsxloadtype="1"/>
           <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxtext="&lt;p&gt;This is the dialog's body block. With a modal dialog, you cannot give the input focus to another component until the dialog is dismissed. Try clicking around in the white content area of this page, and the dialog will flash to indicate that such clicks won't work.&lt;/p&gt;&lt;p&gt;The dialog is only modal within its parent block, so you can still click on the tree to the left.&lt;/p&gt;" jsxpadding="0 8 8 8"/>
         </object>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxheight="19"/>
+        <strings jsxtext="A Button in Background"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">

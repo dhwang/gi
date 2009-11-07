@@ -13,14 +13,15 @@ name.setText(root.getMetaValue("name"));
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="2"/>
+      <variants jsxoverflow="2" jsxpadding="8"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.Block">
         <variants jsxrelativeposition="1" jsxspy="1"/>
-        <strings jsxoverflow="1" jsxname="block" jsxtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit." jsxtextalign="left" jsxpadding="0 8 0 8"/>
+        <strings jsxoverflow="1" jsxname="block" jsxtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit." jsxtextalign="left" jsxpadding="8"
+            jsxbgcolor="#EEEEEE" jsxborder="1px solid #CCCCCC"/>
         <events jsxspy="root.onSpyglass();"/>
       </object>
     </object>

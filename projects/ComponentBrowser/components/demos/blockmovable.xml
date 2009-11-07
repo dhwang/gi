@@ -10,14 +10,15 @@ name.setText(root.getMetaValue("name"));
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.Block">
-        <variants jsxrelativeposition="0" jsxwidth="200" jsxleft="20" jsxtop="20" jsxmove="1"/>
-        <strings jsxoverflow="1" jsxname="block" jsxtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non lorem elit. Quisque vel risus et nulla aliquet vestibulum in in quam. Vestibulum fermentum dignissim ullamcorper. Duis vitae odio id dui facilisis porta. Donec scelerisque odio eget nunc fermentum eu fermentum quam sodales. In in risus dolor. Fusce nec ante in arcu interdum consequat. Aliquam lorem nisl, molestie et laoreet eget, ornare sit amet purus. In massa ipsum, viverra ut vulputate ornare, malesuada sed nunc. Sed luctus mollis mollis. Integer eu tristique lacus" jsxtextalign="left" jsxpadding="0 8 0 8"/>
+        <variants jsxrelativeposition="0" jsxwidth="200" jsxleft="8" jsxtop="8" jsxmove="1"/>
+        <strings jsxoverflow="1" jsxname="block" jsxtext="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non lorem elit. Quisque vel risus et nulla aliquet vestibulum in in quam. Vestibulum fermentum dignissim ullamcorper. Duis vitae odio id dui facilisis porta. Donec scelerisque odio eget nunc fermentum eu fermentum quam sodales. In in risus dolor. Fusce nec ante in arcu interdum consequat. Aliquam lorem nisl, molestie et laoreet eget, ornare sit amet purus. In massa ipsum, viverra ut vulputate ornare, malesuada sed nunc. Sed luctus mollis mollis. Integer eu tristique lacus" 
+            jsxtextalign="left"  jsxpadding="8" jsxbgcolor="#EEEEEE" jsxborder="1px solid #CCCCCC"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">

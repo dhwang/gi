@@ -16,14 +16,14 @@ url.setValue(image.getSrc());
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
-      <variants jsxoverflow="2"/>
+      <variants jsxoverflow="2" jsxpadding="8"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.Button">
         <variants jsxindex="0" jsxheight="80" jsxfontsize="12" jsxwidth="191" jsxenabled="1" jsxrelativeposition="1" jsxoverflow="3"/>
-        <strings jsxname="button" jsxfontname="Arial" jsxcolor="#000000" jsxdisabledcolor="#999999" jsxpadding="8 8 8 8" jsxbgcolor="#C5EAFF"/>
+        <strings jsxname="button" jsxcolor="#000000" jsxdisabledcolor="#999999" jsxpadding="8 8 8 8" jsxbgcolor="#C5EAFF"/>
         <object type="jsx3.gui.Image">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="2" jsxtop="2"/>
           <strings jsxname="image" jsxsrc="images/GI_logo.png"/>

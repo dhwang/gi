@@ -10,14 +10,14 @@ name.setText(root.getMetaValue("name"));
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.IFrame">
         <variants/>
-        <strings jsxname="iframe" jsxstyleoverride="display:block; width:300px; height:400px; border:1px solid #000;" jsxsrc="lorem_ipsum.html"/>
+        <strings jsxname="iframe" jsxwidth="100%" jsxheight="100%" jsxsrc="lorem_ipsum.html"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">

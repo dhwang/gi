@@ -10,22 +10,25 @@ name.setText(root.getMetaValue("name"));
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.Block">
         <variants jsxrelativeposition="1"/>
-        <strings jsxoverflow="1" jsxname="block" jsxtext="&lt;b&gt;First&lt;/b&gt; lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non lorem elit. Quisque vel risus et nulla aliquet vestibulum in in quam. Vestibulum fermentum dignissim ullamcorper. Duis vitae odio id dui facilisis porta. Donec scelerisque odio eget nunc fermentum eu fermentum quam sodales. In in risus dolor. Fusce nec ante in arcu interdum consequat. Aliquam lorem nisl, molestie et laoreet eget, ornare sit amet purus. In massa ipsum, viverra ut vulputate ornare, malesuada sed nunc. Sed luctus mollis mollis. Integer eu tristique lacus" jsxtextalign="left" jsxpadding="0 8 0 8"/>
+        <strings jsxoverflow="1" jsxname="block" jsxtext="&lt;b&gt;First&lt;/b&gt; lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non lorem elit. Quisque vel risus et nulla aliquet vestibulum in in quam. Vestibulum fermentum dignissim ullamcorper. Duis vitae odio id dui facilisis porta. Donec scelerisque odio eget nunc fermentum eu fermentum quam sodales. In in risus dolor. Fusce nec ante in arcu interdum consequat. Aliquam lorem nisl, molestie et laoreet eget, ornare sit amet purus. In massa ipsum, viverra ut vulputate ornare, malesuada sed nunc. Sed luctus mollis mollis. Integer eu tristique lacus" 
+            jsxtextalign="left" jsxpadding="8" jsxwidth="100%" jsxbgcolor="#FFCCBB"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants jsxrelativeposition="1"/>
-        <strings jsxoverflow="1" jsxname="block2" jsxtext="&lt;b&gt;Second&lt;/b&gt; lorem ipsum dolor sit amet." jsxtextalign="left" jsxpadding="0 8 0 8"/>
+        <strings jsxoverflow="1" jsxname="block2" jsxtext="&lt;b&gt;Second&lt;/b&gt; lorem ipsum dolor sit amet."  
+            jsxtextalign="left" jsxpadding="8" jsxwidth="100%" jsxbgcolor="#FFCCAA"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants jsxrelativeposition="1"/>
-        <strings jsxoverflow="1" jsxname="block3" jsxtext="&lt;b&gt;Third&lt;/b&gt; integer augue est, porttitor vel tincidunt sollicitudin, elementum consectetur metus. Morbi in nibh ullamcorper arcu sodales faucibus. Pellentesque in diam ligula. Vivamus eleifend justo sit amet purus rutrum congue. Aenean mollis pretium eros, faucibus malesuada odio ultrices sit amet. Mauris sagittis aliquam nulla, sit amet viverra velit viverra sit amet. Integer blandit orci tellus. Nam vulputate porttitor iaculis. Donec quis leo nunc. Etiam velit mi, placerat non euismod quis, dignissim eget metus." jsxtextalign="left" jsxpadding="0 8 0 8"/>
+        <strings jsxoverflow="1" jsxname="block3" jsxtext="&lt;b&gt;Third&lt;/b&gt; integer augue est, porttitor vel tincidunt sollicitudin, elementum consectetur metus. Morbi in nibh ullamcorper arcu sodales faucibus. Pellentesque in diam ligula. Vivamus eleifend justo sit amet purus rutrum congue. Aenean mollis pretium eros, faucibus malesuada odio ultrices sit amet. Mauris sagittis aliquam nulla, sit amet viverra velit viverra sit amet. Integer blandit orci tellus. Nam vulputate porttitor iaculis. Donec quis leo nunc. Etiam velit mi, placerat non euismod quis, dignissim eget metus."  
+            jsxtextalign="left" jsxpadding="8" jsxwidth="100%" jsxbgcolor="#FFCC99"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">

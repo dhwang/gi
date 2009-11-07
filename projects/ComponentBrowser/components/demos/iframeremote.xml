@@ -20,14 +20,14 @@ scrolling.setValue(iframe.getScrolling());
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <events/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.IFrame">
         <variants jsxscroll="1"/>
-        <strings jsxname="iframe" jsxstyleoverride="display:block; width:500px; height:400px; border:1px solid #000;" jsxsrc="http://www.generalinterface.org/"/>
+        <strings jsxname="iframe" jsxwidth="100%" jsxheight="100%" jsxsrc="http://www.generalinterface.org/"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">
