@@ -34,18 +34,22 @@ exports.RatingFacet = Restrictive(RatingClass, {
 		var lastRating = ratingStore.executeSql("SELECT * FROM Rating WHERE user=? AND prototype_id=?", {
 				parameters: [auth.currentUser.uid, object.prototype_id]
 			}).first();
+
 		if(lastRating){
 			var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating - lastRating.rating;
+			lastRating.rating = object.rating;
+			ratingStore.executeSql("UPDATE Rating SET rating=? WHERE user=? AND prototype_id=?", {
+					parameters:[object.rating, auth.currentUser.uid, object.prototype_id]});
 		}
 		else{
 			var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating;
 			prototype.ratingsCount++;
+			RatingClass.create(object);
 		}
 		
 		prototype.rating = ratingTotal / prototype.ratingsCount;
 		prototype.save();
 		
-		RatingClass.create(object);
 		object.newRating = prototype.rating;
 	},
 	quality: 2
