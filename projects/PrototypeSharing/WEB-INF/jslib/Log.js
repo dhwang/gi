@@ -1,9 +1,9 @@
-var stores = require("stores");
+var persistence = require("persistence");
 var Restrictive = require("facet").Restrictive;
 var deepCopy = require("util/copy").deepCopy;
 var email = require("mail/smtp");
 var auth = require("jsgi/auth");
-
+var NotFoundError = require("errors").NotFoundError;
 var SQLStore = require("store/sql").SQLStore;
 
 var logStore = SQLStore({
@@ -17,7 +17,7 @@ var logStore = SQLStore({
 
 
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
-var LogClass = stores.registerStore("Log", logStore, 
+var LogClass = persistence.Class("Log", logStore, 
 	{
 		query: function(query, options){
 			options = options || {};
@@ -27,7 +27,7 @@ var LogClass = stores.registerStore("Log", logStore,
 					"SELECT Log.id, prototype_id, Log.user, action, name, date, notes FROM Log, Prototype WHERE prototype_id = Prototype.id AND " +
 					sql, options);
 			}
-			throw new stores.NotFoundError("Query not acceptable");
+			throw NotFoundError("Query not acceptable");
 		},
 		prototype: {
 			initialize: function(){

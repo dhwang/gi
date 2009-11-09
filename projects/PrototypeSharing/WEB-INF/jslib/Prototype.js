@@ -1,4 +1,4 @@
-var stores = require("stores");
+var persistence = require("persistence");
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
 
@@ -22,7 +22,7 @@ var deepCopy = require("util/copy").deepCopy;
 var auth = require("jsgi/auth");
 var AccessError = require("./errors").AccessError;
 
-var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
+var PrototypeClass = exports.PrototypeClass = persistence.Class("Prototype", prototypeStore, 
 	{
 		query: function(query, options){
 			var fulltext = queryToFullText(query, options);

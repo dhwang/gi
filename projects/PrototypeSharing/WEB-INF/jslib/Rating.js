@@ -1,4 +1,4 @@
-var stores = require("stores");
+var persistence = require("persistence");
 var Restrictive = require("facet").Restrictive;
 
 var auth = require("jsgi/auth");
@@ -16,7 +16,7 @@ var ratingStore = SQLStore({
 });
 
 
-var RatingClass = stores.registerStore("Rating", ratingStore, 
+var RatingClass = persistence.Class("Rating", ratingStore, 
 	{
 	}
 );
