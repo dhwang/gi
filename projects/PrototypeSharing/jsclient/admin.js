@@ -102,6 +102,7 @@ dojo.addOnLoad(function(){
 				notes: dojo.byId("action-reason").value,
 				sendEmail: dojo.byId("send-email").checked
 			});
+			statusDialog.hide();
 		};
 		dojo.byId("cancel-action").onclick = function(){
 			statusDialog.hide();
