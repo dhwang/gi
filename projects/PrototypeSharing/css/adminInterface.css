@@ -9,6 +9,7 @@
 	font-size: 13px;
 	color: #333;
 	background-color: #F5F5F5;
+	overflow: hidden;
 }
 
 #app-border {
@@ -202,7 +203,7 @@ button {
 }
 
 #adminInterface .dijitTabInnerDiv {
-	padding: 2px 8px 2px 4px;
+	padding: 2px 8px;
 }
 
 #adminInterface .dijitSplitterH, .tundra .dijitGutterH {
@@ -220,7 +221,7 @@ button {
 #adminInterface #info-pane .dijitTabContainerTop-tabs {
 	position: relative;
 	height: 30px;
-	border-bottom: 1px solid #AEAEAE;	
+	border-bottom: none;	
 }
 
 .dj_ie #adminInterface #info-pane .dijitTabContainerTop-tabs {
