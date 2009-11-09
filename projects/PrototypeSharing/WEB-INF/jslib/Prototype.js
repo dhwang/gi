@@ -16,7 +16,8 @@ var prototypeStore = SQLStore({
 
 prototypeStore = require("store/full-text").FullText(prototypeStore, "Prototype");
 var QueryRegExp = require("json-query").QueryRegExp;
-var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"])
+var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted", "rating"])
+var queryToFullText = require("store/full-text").JsonQueryToFullTextSearch("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"]);
 var deepCopy = require("util/copy").deepCopy;
 var auth = require("jsgi/auth");
 var AccessError = require("./errors").AccessError;
@@ -24,14 +25,16 @@ var AccessError = require("./errors").AccessError;
 var PrototypeClass = exports.PrototypeClass = stores.registerStore("Prototype", prototypeStore, 
 	{
 		query: function(query, options){
-			var matches;
-			if(matches = query.match(
-					QueryRegExp(/^\?fulltext\($value\)$/))){
-				return prototypeStore.fulltext(eval(matches[1]), ["description", "name"], options);
+			var fulltext = queryToFullText(query, options);
+			if(fulltext){
+				return prototypeStore.fulltext(fulltext + " AND deleted:false", ["description", "name"], options);
 			}
+
+
 			var sql = queryToSql(query, options);
-			
+
 			if(sql){
+				sql = sql.replace(/rating/, 'Prototype.rating');
 				(options.parameters || (options.parameters = [])).unshift(auth.currentUser && auth.currentUser.uid, false);
 				return prototypeStore.executeSql(
 					"SELECT id, name, Prototype.rating as rating, ratingsCount, downloads, license_id, description, uploaded, enabled, Prototype.user as user, featured, status, Rating.rating as myRating FROM Prototype " +
