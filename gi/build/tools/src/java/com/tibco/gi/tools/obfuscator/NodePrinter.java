@@ -1016,7 +1016,7 @@ public abstract class NodePrinter {
     REGISTRY.put(Token.RC, null);
     REGISTRY.put(Token.LP, null);
     REGISTRY.put(Token.RP, null);
-    REGISTRY.put(Token.COMMA, null);
+    REGISTRY.put(Token.COMMA, new BinaryOperator(","));
     REGISTRY.put(Token.ASSIGN, new BinaryOperator("="));
     REGISTRY.put(Token.ASSIGN_BITOR, new BinaryOperator("|="));
     REGISTRY.put(Token.ASSIGN_BITXOR, new BinaryOperator("^="));
