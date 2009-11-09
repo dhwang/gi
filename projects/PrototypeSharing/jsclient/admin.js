@@ -98,7 +98,6 @@ dojo.addOnLoad(function(){
 		dojo.byId("action-confirmation").innerHTML = question;
 		dojo.byId("action-reason").style.display = needReason ? "block" : "none";
 		dojo.byId("confirm-action").onclick = function(){
-			realHide();
 			callback({
 				notes: dojo.byId("action-reason").value,
 				sendEmail: dojo.byId("send-email").checked
