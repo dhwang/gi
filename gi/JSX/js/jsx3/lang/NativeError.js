@@ -223,8 +223,17 @@ jsx3.Class.defineClass("jsx3.lang.NativeError", jsx3.lang.Exception, null, funct
   NativeError_prototype.printStackTrace = function() {
     var s = this.getClass().getName() + ": " + this + "\n" + Exception.formatStack(this._stack);
 
-    if (this._error.stack)
-      s += "\n" + this._error.stack;
+    if (this._error.stack) {
+      var lines = String(this._error.stack).split(/\n/g);
+      s += "\nCaused By:\n";
+      for (var i = 0; i < lines.length; i++) {
+        if (/^([^\(]*)\((.*)\)@(.*):(\d+)$/.exec(lines[i])) {
+          s += "    at " + (RegExp.$1 ? RegExp.$1 : "anonymous") + "(), line:" + RegExp.$4 + ", file:" + RegExp.$3 + "\n"; 
+        } else {
+          s += lines[i] + "\n";
+        }
+      }
+    }
 
     if (this._cause != null)
       s += "\nCaused By:\n" + this._cause.printStackTrace();

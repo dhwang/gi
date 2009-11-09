@@ -37,7 +37,8 @@
   <plugin id="jsx3.ide.apidoc"/>
   <plugin id="jsx3.ide.colorpicker"/>
   <plugin id="jsx3.ide.deploytool"/>
-  <plugin id="jsx3.ide.evaluator"/>
+  <!--<plugin id="jsx3.ide.evaluator"/>-->
+  <plugin id="jsx3.ide.jsconsole"/>
   <plugin id="jsx3.ide.find"/>
   <plugin id="jsx3.ide.ui.license"/>
   <plugin id="jsx3.ide.xsltool"/>
