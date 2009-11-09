@@ -1,4 +1,4 @@
-var persistence = require("persistence");
+var persisted = require("persisted");
 var Restrictive = require("facet").Restrictive;
 var security = require("pintura").config.security;
 var FullAccess = require("security").FullAccess;
@@ -17,7 +17,7 @@ var authStore = SQLStore({
 	idColumn:"id"
 });
 
-var AuthClass = persistence.Class("Auth", authStore, {});
+var AuthClass = persisted.Class("Auth", authStore, {});
 
 security.authClass = AuthClass; 
 security.authenticate = function(username, password){

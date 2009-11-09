@@ -1,4 +1,4 @@
-var persistence = require("persistence");
+var persisted = require("persisted");
 var Restrictive = require("facet").Restrictive;
 var deepCopy = require("util/copy").deepCopy;
 var email = require("mail/smtp");
@@ -17,7 +17,7 @@ var logStore = SQLStore({
 
 
 var queryToSql = require("store/sql").JsonQueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
-var LogClass = persistence.Class("Log", logStore, 
+var LogClass = persisted.Class("Log", logStore, 
 	{
 		query: function(query, options){
 			options = options || {};
