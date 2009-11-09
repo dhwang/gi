@@ -13,7 +13,28 @@
       rate: rootUri + "Rating/"
     },
 
-    _currentFilter: "all",
+    _currentFilter: "featured",
+
+    _getStarImage: function(rating) {
+      var rating = Number(rating),
+          wholes = 0,
+          fraction = 0;
+      if (isNaN(rating)) {
+        rating = 0;
+      } else if (rating > 0) {
+        wholes = Math.floor(rating);
+        fraction = (rating - wholes);
+      }
+
+      var uri = wholes + ".png";
+      if (fraction >= .75) {
+        uri = (wholes+1) + ".png";
+      } else if (fraction > .25 && fraction < .75) {
+        uri = (wholes + .5) + ".png";
+      }
+
+      return this.resolveURI('images/' + uri);
+    },
 
     _getStars: function(rating) {
       var rating = Number(rating),
@@ -49,7 +70,7 @@
     formatRating: function(element, cdfkey, matrix, column, rownumber, server) {
       var record = matrix.getRecord(cdfkey);
 
-      element.innerHTML = "<img src='" + plugIn._getStars(record.rating).join("'/><img src='") + "'/>";
+      element.innerHTML = "<img src='" + plugIn._getStarImage(record.rating) + "'/>";
     },
 
     _onOnlineFilterMenuExecute: function(objMenu, objMatrix, strRecordId) {
@@ -137,7 +158,7 @@
 
             doc.subscribe('*', doAsync);
             doc._objFile = objFile;
-            doc.load(self._prototypeRootUri + id + '.' + 'component');
+            doc.load(self.uri.prototypeRoot + id + '.' + 'component');
           }
       });
     },
@@ -145,21 +166,38 @@
     _buildXMLURL: function() {
       var objSearchBox = jsx3.IDE.getJSXByName("jsx_ide_online_search"),
           objFilterMenu = jsx3.IDE.getJSXByName("jsx_ide_online_filter_menu"),
-          strSearch = objSearchBox && objSearchBox.getValue(),
+          strSearch = objSearchBox && jsx3.util.strTrim(objSearchBox.getValue()),
           hasFilter = (this._currentFilter != "all"),
           uri = this.uri.prototypeRoot,
-          parts = [];
+          searches = [];
       if (strSearch && strSearch.length) {
-        parts.push("(" + strSearch.split(" ").join("* AND ") + "*)");
+        searches = strSearch.split(" ");
+        for (var i=searches.length; i--;) {
+          var s = jsx3.util.strTrim(searches[i]);
+          if (!s) {
+            // remove extra whitespace
+            searches.splice(i, 1);
+          } else {
+            var m = s.match(/^(user|featured|uploaded):(.*)/);
+            if (!m) {
+              s = s + "*";
+              searches.splice(i, 1, s);
+            } else if (!m[2]) {
+              searches.splice(i, 1);
+            } else if (m[1] == "featured") {
+              hasFilter = (m[2] == "true");
+              searches.splice(i, 1);
+            } else if (m[1] == "uploaded") {
+              searches.splice(i, 1, "uploaded:[" + m[2] + " TO " + m[2] + "]");
+            }
+          }
+        }
       }
       if (hasFilter) {
-        if (parts.length) {
-          parts.push('AND');
-        }
-        parts.push('featured:true');
+        searches.push('featured:true');
       }
-      uri += parts.length ? "?fulltext('" + parts.join(' ') + "')" : '';
-      jsx3.log("Matrix XML URL: " + uri);
+      uri += searches.length ? "?fulltext('(" + searches.join(' AND ') + ")')" : '';
+      this.getLog().debug("Matrix XML URL: " + uri);
       return uri;
     },
 
@@ -184,7 +222,7 @@
     },
 
     _reloadList: function(objMatrix) {
-      jsx3.log("Reloading matrix");
+      this.getLog().debug("Reloading matrix");
       objMatrix.setXMLURL(this._buildXMLURL());
       objMatrix.resetCacheData();
       objMatrix.repaint();
@@ -250,13 +288,101 @@
       doRemoveComponent();
     },
 
-    reportProblem: function(objPalette, objRecord) {
+    checkReportCriteria: function(objIssue, objComments, objFlag, objSend) {
+      var issue = objIssue.getValue(),
+          comments = jsx3.util.strTrim(objComments.getValue()),
+          flag = objFlag.getChecked();
+
+      objSend.setEnabled(
+        (issue && comments && flag ? jsx3.gui.Form.STATEENABLED : jsx3.gui.Form.STATEDISABLED),
+        true
+      );
+    },
+
+    reportProblem: function(objPalette, objIssue, objComments, objSent, objView, objMatrix) {
+      if (!objView._selected_detail_record) {
+        return;
+      }
+
+      var s = jsx3.ide.getIDESettings(),
+          id = this.getId(),
+          issue = objIssue.getValue(),
+          issueRecord = objIssue.getRecord(issue),
+          comments = jsx3.util.strTrim(objComments.getValue()),
+          objRecord = objView._selected_detail_record,
+          self = this;
+
+      var doReport = function(){
+        var request = new jsx3.net.Request();
+
+        request.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, function(objEvent) {
+          var target = objEvent.target;
+          var status = target.getStatus();
+
+          if (status == 201) {
+            objPalette.closeReportForm();
+            objSent.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+            window.setTimeout(function(){
+              if(objSent){
+                objSent.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
+              }
+            }, 3000);
+          } else if (status == 401) {
+            objPalette.setUserLoginAction(function(){
+              doReport();
+            });
+            objPalette.setLoginBackAction(function(){
+              objPalette.setComponentView('online');
+            });
+            objPalette.setLoginProblem('Not authorized');
+            objPalette.setUserView('login', true);
+            objPalette.setComponentView('user');
+          } else if (status >= 500) {
+          } else {
+          }
+        });
+        request.subscribe(jsx3.net.Request.EVENT_ON_TIMEOUT, function(objEvent){
+          // TODO: how should we show that it timed out?
+        });
+        request.subscribe('*', function(objEvent) {
+          objMatrix.resetCacheData();
+        });
+
+        request.open("post", self.uri.prototypeRoot + objRecord.id, true);
+        request.setRequestHeader('Accept', 'application/json');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(jsx3.$O.json({
+          id: "call1",
+          method: "flag",
+          params: [
+            issueRecord.jsxtext + ": " + comments
+          ]
+        }), 5000);
+      };
+      if (!s.get(id, "username")) {
+        objPalette.setUserLoginAction(function(){
+          doReport();
+        });
+        objPalette.setLoginBackAction(function(){
+          objPalette.setComponentView('online');
+        });
+        objPalette.setLoginProblem('Not authorized');
+        objPalette.setUserView('login', true);
+        objPalette.setComponentView('user');
+        return;
+      }
+
+      doReport();
     },
 
     rateComponent: function(objPalette, objContainer, strRating, objMatrix) {
       var s = jsx3.ide.getIDESettings();
       var id = this.getId();
       var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
+
+      if (!objView._selected_detail_record) {
+        return;
+      }
 
       var self = this;
       var doRateComponent = function(on_done){
@@ -308,15 +434,6 @@
         }), 5000);
       };
 
-      if (objView._selected_detail_record &&
-        objView._selected_detail_record.myRating != null &&
-        objView._selected_detail_record.myRating != "null") {
-        return;
-      }
-      if (!objView._selected_detail_record) {
-        return;
-      }
-
       if (!s.get(id, "username")) {
         objPalette.setUserLoginAction(function(){
           doRateComponent(function(){
@@ -338,17 +455,12 @@
       var target = objEvent.target;
       var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
 
-      var objStar;
-      var objContainer = jsx3.IDE.getJSXById(objContainerNode.getAttribute('id'));
-
-      if (objView._selected_detail_record &&
-        objView._selected_detail_record.myRating != "null" &&
-        objView._selected_detail_record.myRating != null) {
-        return;
-      }
       if (!objView._selected_detail_record) {
         return;
       }
+
+      var objStar;
+      var objContainer = jsx3.IDE.getJSXById(objContainerNode.getAttribute('id'));
 
       if (target.tagName.toLowerCase() == "img") {
         objStar = jsx3.IDE.getJSXById(target.parentNode.getAttribute('id'));
@@ -376,11 +488,6 @@
       var objTarget = jsx3.IDE.getJSXById(objContainerNode.getAttribute('id'));
       var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
 
-      if (objView._selected_detail_record &&
-        objView._selected_detail_record.myRating != null &&
-        objView._selected_detail_record.myRating != "null") {
-        return;
-      }
       if (!objView._selected_detail_record) {
         return;
       }

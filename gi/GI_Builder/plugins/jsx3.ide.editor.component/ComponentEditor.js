@@ -632,7 +632,7 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
 
         doc.subscribe('*', doAsync);
         doc._prototypeId = myId;
-        doc.load(jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes')._prototypeRootUri + myId + '.' + 'component');
+        doc.load(jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes').uri.prototypeRoot + myId + '.' + 'component');
 
         return false;
       }

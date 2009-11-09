@@ -4,8 +4,8 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <data jsxid="jsxroot">
-    <record jsxid="all" jsxtext="All" jsxselected="1" jsxgroupname="online_featured" />
-    <record jsxid="featured" jsxtext="Featured" jsxgroupname="online_featured" />
+    <record jsxid="all" jsxtext="All" jsxgroupname="online_featured" />
+    <record jsxid="featured" jsxtext="Featured" jsxselected="1" jsxgroupname="online_featured" />
     <record jsxid="rating" jsxtext="Rating" jsxdivider="1" jsxselected="1" jsxgroupname="online_right" />
     <record jsxid="downloads" jsxtext="Popularity" jsxgroupname="online_right" />
     <record jsxid="user" jsxtext="User" jsxgroupname="online_right" />
