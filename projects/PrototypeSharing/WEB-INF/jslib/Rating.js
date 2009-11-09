@@ -23,6 +23,7 @@ var RatingClass = persisted.Class("Rating", ratingStore,
 exports.RatingClass = RatingClass;
 exports.RatingFacet = Restrictive(RatingClass, {
 	create: function(object){
+		object.rating = parseInt(object.rating, 10);
 		if(isNaN(object.rating) || object.rating < 0 || object.rating > 5){
 			throw new Error("Invalid rating vote");
 		}
