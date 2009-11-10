@@ -36,9 +36,6 @@ this.onDisabledColorChange = function(strValue) {
   button.setDisabledColor(strValue, true);
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
-
 width.setValue(button.getWidth());
 height.setValue(button.getHeight());
 enabled.setValue(button.getEnabled());

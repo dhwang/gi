@@ -12,8 +12,6 @@ this.onHeightChange = function(strValue) {
   image.setHeight(strValue, true);
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 width.setValue(image.getWidth());
 height.setValue(image.getHeight());
   ]]></onAfterDeserialize>

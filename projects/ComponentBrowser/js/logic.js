@@ -82,6 +82,17 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
     container.loadXML(objXML, true);
 
+    root = container.getDescendantOfName('root');
+    var desc = root.getDescendantOfName('desc');
+    if (desc) {
+      desc.setText(root.getMetaValue('description'), true);
+    }
+    var name = root.getDescendantOfName('name');
+    if (name) {
+      name.setText(root.getMetaValue('name'), true);
+    }
+
+
     var tree = ce.getJSXByName('treeExplorer');
 
     var record = tree.getRecord(componentId);

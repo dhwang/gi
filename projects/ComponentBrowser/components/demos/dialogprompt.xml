@@ -15,9 +15,6 @@ this.doPromptDialog = function() {
   };
   tibco.ce.prompt("Prompt Alert", "<p>This is a prompt alert dialog. Please provide some input.</p>", okCallback, cancelCallback);
 };
-
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>

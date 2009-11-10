@@ -20,8 +20,6 @@ this.onTopChange = function(strValue) {
   block.setTop(strValue, true);
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 width.setValue(block.getWidth());
 height.setValue(block.getHeight());
 left.setValue(block.getLeft());

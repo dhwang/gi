@@ -15,9 +15,6 @@ this.doConfirmDialog = function() {
   };
   tibco.ce.confirm("Confirm Alert", "<p>This is a confirm alert dialog.</p>", okCallback, cancelCallback);
 };
-
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>

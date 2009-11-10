@@ -24,8 +24,6 @@ this.onFontChange = function(strValue) {
   block.setFontName(strValue).repaint();
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 width.setValue(block.getWidth());
 height.setValue(block.getHeight());
 text.setValue(block.getText());

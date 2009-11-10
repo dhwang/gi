@@ -20,8 +20,6 @@ this.onMarginChange = function(strValue) {
   block.setMargin(strValue, true);
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 overflow.setValue(block.getOverflow());
 alignment.setValue(block.getTextAlign());
 padding.setValue(block.getPadding());

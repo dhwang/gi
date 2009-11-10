@@ -12,9 +12,6 @@ this.setChecked = function(intValue) {
   state.setValue(intValue);
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
-
 state.setValue(checkbox.getChecked());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">

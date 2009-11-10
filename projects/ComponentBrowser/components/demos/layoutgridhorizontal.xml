@@ -7,9 +7,6 @@
 this.onColumnsChange = function(strValue) {
   layout.setCols(strValue, true);
 };
-
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 columns.setValue(layout.getCols());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">

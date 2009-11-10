@@ -6,10 +6,10 @@
   <onAfterDeserialize><![CDATA[
 this.onEnabledSelect = function(strRecordId) {
   splitter.setEnabled(strRecordId);
+  splitter.recalcBox();
+  splitter.repaint();
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 enabled.setValue(splitter.getEnabled());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">

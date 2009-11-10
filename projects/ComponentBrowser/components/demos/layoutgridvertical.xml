@@ -8,8 +8,6 @@ this.onRowsChange = function(strValue) {
   layout.setRows(strValue, true);
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 rows.setValue(layout.getRows());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">

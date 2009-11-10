@@ -3,10 +3,7 @@
   <icon/>
   <description><![CDATA[This loads RSS using BlockX XML functionality.]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize><![CDATA[
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
-  ]]></onAfterDeserialize>
+  <onAfterDeserialize/>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>

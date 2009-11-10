@@ -12,8 +12,6 @@ this.onScrollingSelect = function(strRecordId) {
   iframe.setScrolling(strRecordId).repaint();
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 url.setValue(iframe.getSrc());
 scrolling.setValue(iframe.getScrolling());
   ]]></onAfterDeserialize>

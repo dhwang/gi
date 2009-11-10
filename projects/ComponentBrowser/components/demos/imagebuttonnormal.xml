@@ -16,9 +16,6 @@ this.onEnabledSelect = function(strRecordId) {
   imagebutton.setEnabled(strRecordId).repaint();
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
-
 width.setValue(imagebutton.getWidth());
 height.setValue(imagebutton.getHeight());
 enabled.setValue(imagebutton.getEnabled());

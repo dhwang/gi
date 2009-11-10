@@ -28,9 +28,6 @@ this.onCloseButtonSelect = function(strRecordId) {
   btnClose.repaint();
 };
 
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
-
 resize.setValue(dialog.getResize());
 caption.setValue(windowBar.getText());
 minimize.setValue(btnMinimize.getDisplay() == jsx3.gui.Block.DISPLAYNONE ? "Hide" : "Show");

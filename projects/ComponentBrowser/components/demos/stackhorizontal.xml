@@ -1,11 +1,13 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <name><![CDATA[Button]]></name>
+  <name><![CDATA[Horizontal StackGroup]]></name>
   <icon/>
-  <description><![CDATA[This shows some properties you can set on a button.]]></description>
+  <description><![CDATA[This shows how you can use a StackGroup with horizontally oriented Stack items.]]></description>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onBarSizeChange = function(strValue) {
-  stackgroup.setBarSize(strValue).repaint();
+  stackgroup.setBarSize(strValue);
+  stackgroup.recalcBox(["padding", "margin", "border"]);
+  stackgroup.repaint();
 };
 
 this.onActiveIndexSelect = function(strRecordId) {
@@ -28,9 +30,6 @@ this.onText3Change = function(strValue) {
 this.onBackgroundColorChange = function(strValue) {
   stackgroup.setBackgroundColor(strValue, true);
 };
-
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
 
 barsize.setValue(stackgroup.getBarSize());
 activeindex.setValue(stackgroup.getSelectedIndex());

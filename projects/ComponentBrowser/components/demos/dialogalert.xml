@@ -7,9 +7,6 @@
 this.doAlertDialog = function() {
   tibco.ce.alert("Alert", "<p>This is an alert dialog without any callbacks attached.</p>");
 };
-
-desc.setText(root.getMetaValue("description"));
-name.setText(root.getMetaValue("name"));
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
