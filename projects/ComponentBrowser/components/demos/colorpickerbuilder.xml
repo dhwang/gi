@@ -1,6 +1,252 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Color Picker Dialog]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates a dialog-based color picker control, similar to what is used in the Builder.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onAxisSelect = function(strRecordId) {
+  var mode = ["h", "s", "b"][strRecordId-1];
+  this.onAxisPicker(mode);
+  if (mode == "h") radioH.setSelected(true);
+  if (mode == "s") radioS.setSelected(true);
+  if (mode == "b") radioB.setSelected(true);
+};
+axis.setValue(colorpicker.getAxis());
+
+
+this.onColorPick = function(intRGB, strSkip) {
+  var hsb = jsx3.gui.ColorPicker.RGBtoHSB(intRGB);
+  if (strSkip != "hsbH") hsbH.setValue(Math.round(hsb[0] * 100));
+  if (strSkip != "hsbS") hsbS.setValue(Math.round(hsb[1] * 100));
+  if (strSkip != "hsbB") hsbB.setValue(Math.round(hsb[2] * 100));
+  if (strSkip != "rgbR") rgbR.setValue((intRGB & 0xFF0000) && 16);
+  if (strSkip != "rgbG") rgbG.setValue((intRGB & 0x00FF00) && 8);
+  if (strSkip != "rgbB") rgbB.setValue((intRGB & 0x0000FF) && 0);
+  var hex = "#" + (0x1000000 + intRGB).toString(16).substring(1).toUpperCase();
+  if (strSkip != "rgbHex") rgbHex.setValue(hex);
+  preview.setBackgroundColor(hex, true);
+};
+
+this.onAxisPicker = function(strMode) {
+  var intAxis = null;
+  switch (strMode) {
+    case "h": intAxis = jsx3.gui.ColorPicker.HUE; break;
+    case "s": intAxis = jsx3.gui.ColorPicker.SATURATION; break;
+    case "b": intAxis = jsx3.gui.ColorPicker.BRIGHTNESS; break;
+  }
+
+  if (intAxis != null) {
+    axis.setValue(intAxis);
+    colorpicker.setAxis(intAxis);
+    colorpicker.repaint();
+  }
+};
+
+this.onTextChange = function(objText, strValue) {
+  if (objText.getName() == "rgbHex") {
+    strValue = strValue.replace(/[^a-fA-F0-9]/g, "");
+    strValue = parseInt("0x" + strValue);
+    colorpicker.setRGB(strValue);
+    this.onColorPick(colorpicker.getRGB(), objText.getName());
+  } else {
+    var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(strValue)));
+    if (isNaN(val)) val = 0;
+    this.updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+  }
+};
+
+this.onTextKeyDown = function(objText, objEvent) {
+  if (objEvent.downArrow() || objEvent.upArrow()) {
+    var val = Math.max(objText.cpmin, Math.min(objText.cpmax, parseInt(objText.getValue()) + (objEvent.upArrow() ? 1 : -1)));
+    if (isNaN(val)) val = 0;
+    objText.setValue(val);
+    this.updateOneAxis(objText.cpindex, objText.getName().indexOf("hsb") == 0, val, objText.getName());
+    objEvent.cancelAll();
+  }
+};
+
+this.updateOneAxis = function(intIndex, bHSB, intValue, strSkip) {
+  if (bHSB) {
+    var hsb = jsx3.gui.ColorPicker.RGBtoHSB(colorpicker.getRGB());
+    hsb[intIndex] = intValue/100;
+    colorpicker.setHSB(hsb[0], hsb[1], hsb[2]);
+    this.onColorPick(colorpicker.getRGB(), strSkip);
+  } else {
+    var rgb = colorpicker.getRGB();
+    rgb = [(rgb & 0xFF0000) && 16, (rgb & 0xFF00) && 8, (rgb & 0xFF) && 0];
+    rgb[intIndex] = intValue;
+    colorpicker.setRGB((rgb[0] >> 16) + (rgb[1] >> 8) + rgb[2]);
+    this.onColorPick(colorpicker.getRGB(), strSkip);
+  }
+}
+
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Dialog">
+        <variants jsxresize="0"/>
+        <strings jsxname="dialog" jsxwidth="421" jsxheight="310"/>
+        <dynamics jsxbgcolor="@Solid Medium"/>
+          <object type="jsx3.gui.WindowBar">
+            <variants/>
+            <strings jsxname="caption" jsxtext="Color Picker"/>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants/>
+                <strings jsxkeycode="ctrl+m"/>
+                <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+                <events jsxexecute="this.getParent().getParent().doToggleState();"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants/>
+                <strings jsxkeycode="alt+w"/>
+                <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"/>
+                <events jsxexecute="this.getParent().getParent().doClose();"/>
+              </object>
+          </object>
+          <object type="jsx3.gui.LayoutGrid">
+            <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" jsxloadtype="1"/>
+            <strings jsxwidth="100%" jsxheight="100%" jsxcols="300,*"/>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"/>
+                <strings jsxwidth="100%" jsxheight="100%"/>
+                <dynamics jsxpadding="@8Pixel"/>
+                  <object type="jsx3.gui.ColorPicker">
+                    <variants jsxaxis="1" jsxrgb="16711680"/>
+                    <strings jsxname="colorpicker" jsxwidth="100%" jsxheight="100%"/>
+                    <dynamics jsxborder="@Outset"/>
+                    <events jsxchange="root.onColorPick(intRGB);"/>
+                  </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"/>
+                <strings jsxwidth="100%" jsxheight="100%" jsxpadding="2 8 8 4"/>
+                  <object type="jsx3.gui.Block">
+                    <variants jsxoverflow="2"/>
+                    <strings jsxwidth="100%" jsxheight="100%"/>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="8" jsxmaxlength="3" jsxvalue="0" cpmin="0" cpmax="100" cpindex="0"/>
+                        <strings jsxname="hsbH"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"
+                                jsxkeydown="root.onTextKeyDown(this,objEVENT);"/>
+                      </object>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="30" jsxmaxlength="3" jsxvalue="100" cpmin="0" cpmax="100" cpindex="1"/>
+                        <strings jsxname="hsbS"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"
+                                jsxkeydown="root.onTextKeyDown(this,objEVENT);"/>
+                      </object>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="52" jsxmaxlength="3" jsxvalue="100" cpmin="0" cpmax="100" cpindex="2"/>
+                        <strings jsxname="hsbB"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"
+                                jsxkeydown="root.onTextKeyDown(this,objEVENT);"/>
+                      </object>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="86" jsxmaxlength="3" jsxvalue="255" cpmin="0" cpmax="255" cpindex="0"/>
+                        <strings jsxname="rgbR"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"
+                                jsxkeydown="root.onTextKeyDown(this,objEVENT);"/>
+                      </object>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="108" jsxmaxlength="3" jsxvalue="0" cpmin="0" cpmax="255" cpindex="1"/>
+                        <strings jsxname="rgbG"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"
+                                jsxkeydown="root.onTextKeyDown(this,objEVENT);"/>
+                      </object>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="35" jsxleft="36" jsxtop="130" jsxmaxlength="3" cpmin="0" cpmax="255" cpindex="2"/>
+                        <strings jsxname="rgbB" jsxvalue="0"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"
+                                jsxkeydown="root.onTextKeyDown(this,objEVENT);"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="8" jsxleft="0"/>
+                        <strings jsxtext="H:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="30" jsxleft="0"/>
+                        <strings jsxtext="S:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="52" jsxleft="0"/>
+                        <strings jsxtext="B:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="86" jsxleft="0"/>
+                        <strings jsxtext="R:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="108" jsxleft="0"/>
+                        <strings jsxtext="G:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="130" jsxleft="0"/>
+                        <strings jsxtext="B:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxwidth="32" jsxheight="18" jsxrelativeposition="0" jsxoverflow="1" jsxtop="164" jsxleft="0"/>
+                        <strings jsxtext="Hex:" jsxfontweight="bold" jsxpadding="3 0 0 0" jsxtextalign="right"/>
+                      </object>
+                      <object type="jsx3.gui.TextBox">
+                        <variants jsxheight="18" jsxrelativeposition="0" jsxwidth="65" jsxleft="36" jsxtop="164" jsxmaxlength="7"/>
+                        <strings jsxname="rgbHex" jsxvalue="#FF0000"/>
+                        <events jsxincchange="root.onTextChange(this,strVALUE);"/>
+                      </object>
+                      <object type="jsx3.gui.RadioButton">
+                        <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="0" jsxtop="8"/>
+                        <strings jsxname="radioH" jsxgroupname="hsb"/>
+                        <events jsxselect="root.onAxisPicker('h');"/>
+                      </object>
+                      <object type="jsx3.gui.RadioButton">
+                        <variants jsxheight="18" jsxdefaultselected="0" jsxrelativeposition="0" jsxtop="30"/>
+                        <strings jsxname="radioS" jsxgroupname="hsb"/>
+                        <events jsxselect="root.onAxisPicker('s');"/>
+                      </object>
+                      <object type="jsx3.gui.RadioButton">
+                        <variants jsxheight="18" jsxdefaultselected="0" jsxrelativeposition="0" jsxtop="52"/>
+                        <strings jsxname="radioB" jsxgroupname="hsb"/>
+                        <events jsxselect="root.onAxisPicker('b');"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxheight="50" jsxrelativeposition="1" jsxoverflow="1"/>
+                        <strings jsxname="preview" jsxwidth="100%" jsxbgcolor="#FF0000" jsxmargin="190 0 0 0"/>
+                        <dynamics jsxborder="@Outset"/>
+                      </object>
+                  </object>
+              </object>
+          </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Axis" jsxfor="axis" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+        <strings jsxname="axis" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Hue (H)&quot;/&gt;&lt;record jsxid=&quot;2&quot; jsxtext=&quot;Saturation (S)&quot;/&gt;&lt;record jsxid=&quot;3&quot; jsxtext=&quot;Brightness (B)&quot;/&gt;&lt;/data&gt;"/>
+        <events jsxselect="root.onAxisSelect(strRECORDID);"/>
+      </object>
+    </object>
   </object>
 </serialization>

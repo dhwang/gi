@@ -23,12 +23,12 @@ rows.setValue(layout.getRows());
         <strings jsxname="layout" jsxrows="100,*" jsxwidth="100%" jsxheight="100%"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2"/>
-          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#A9E4DE"/>
           <dynamics jsxborder="@Outset"/>
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="1"/>
-          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#D1F9E9"/>
           <dynamics jsxborder="@Outset"/>
         </object>
       </object>

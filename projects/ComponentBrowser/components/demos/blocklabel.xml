@@ -49,11 +49,11 @@ font.setValue(block.getFontName());
       <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
       <object type="jsx3.gui.Block">
         <variants jsxfontsize="12"/>
-        <strings jsxname="name" jsxwidth="100%" jsxtext="Block Relative" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants/>
-        <strings jsxname="desc" jsxwidth="100%" jsxtext="This shows the properties you can set on a relative block."/>
+        <strings jsxname="desc" jsxwidth="100%"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants/>
