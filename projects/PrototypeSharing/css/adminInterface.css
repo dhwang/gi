@@ -165,7 +165,6 @@ button {
 	border-color: transparent #DBDADB #DBDADB transparent;	
 }
 
-
 /* --------- tundra theme overrides --------- */
 
 #adminInterface .dijitBorderContainer {
@@ -251,17 +250,24 @@ button {
 }
 
 #adminInterface #info-pane .tabLabel {
+	line-height: 20px;
+	text-shadow: 0 1px 0 #FFF;
 	font-weight: normal;
 }
 
-#adminInterface #info-pane  .dijitTabChecked {
+#adminInterface #info-pane .dijitTabChecked {
+	height: 23px !important;	
 	background: #FFF;
 	border-color: #CDCDCD;
 	border-bottom-color: #FFF;
 }
 
-#adminInterface #info-pane .tabLabel {
-	text-shadow: 0 1px 0 #FFF;	
+.dj_ie #adminInterface #info-pane .dijitTabChecked {
+	height: 28px !important;	
+}
+
+#adminInterface #info-pane .dijitTabChecked .tabLabel {
+	font-weight: bold;
 }
 
 #component-actions {
