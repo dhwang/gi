@@ -218,9 +218,9 @@ button {
 /* ---------- info pane ---------- */
 
 #adminInterface #info-pane .dijitTabContainerTop-tabs {
-	position: relative;
 	height: 30px;
-	border-bottom: none;	
+	border-bottom: none;
+	z-index: -1;	
 }
 
 .dj_ie #adminInterface #info-pane .dijitTabContainerTop-tabs {
@@ -272,7 +272,7 @@ button {
 
 #component-actions {
 	position: absolute;
-	top: 0;
+	top: -31px;
 	right: 20px;
 }
 
@@ -300,6 +300,10 @@ button {
 	padding: 1px 2px;
 }
 
+.actions button:hover {
+	border: 1px solid #838d95;
+}
+
 .actions .acceptIcon,
 .actions .rejectIcon,
 .actions .featureIcon {
@@ -316,6 +320,7 @@ button {
 .actions .featureIcon { background-position: -28px 0; width: 0; }
 
 #info-pane .dijitTabPaneWrapper {
+	overflow: visible;
 	top: 31px !important;
 	border-top: 1px solid #AFAFAF;
 }
@@ -381,4 +386,20 @@ button {
 
 #log-pane .dojoxGrid {
 	border: 1px solid #CCC;
+}
+
+/* ---------- application showcase ---------- */
+
+.uploadApplication {
+	padding-left: 16px;
+	background: url("/images/add.png") no-repeat 0 0;
+}
+
+.dj_webkit .uploadApplication {
+	padding-left: 20px;
+}
+
+.dj_ie .uploadApplication {
+	padding-left: 0px !important;
+	background: url("/images/add.png") no-repeat 0 center;	
 }
