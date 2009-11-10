@@ -1,28 +1,67 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_stackevent" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.StackGroup">
+  <name><![CDATA[StackGroup Events]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates the Stack's Show event.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
+    <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
-      <strings jsxname="target" jsxrows="*,27"/>
-      <object type="jsx3.gui.Stack">
-        <variants/>
-        <strings jsxname="stack1" jsxtext="Stack 1"/>
-        <events jsxshow="alert(&quot;show&quot;)" jsxdestroy="alert(&quot;destroy&quot;)" jsxexecute="alert(&quot;execute&quot;)"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay=""/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.StackGroup">
+        <variants jsxoverflow="2" jsxbarsize="27"/>
+        <strings jsxname="stackgroup" jsxrows="*,27,27" jsxbgcolor="#FFFFFF"/>
+        <object type="jsx3.gui.Stack">
+          <variants/>
+          <dynamics jsxactivecolor="@Solid Medium AC" jsxinactivecolor="@Solid Disabled IC"/>
+          <strings jsxname="stack1" jsxtext="Stack 1"/>
+          <events jsxshow="alert('Stack 1 shown');"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxloadtype="4"/>
+            <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="" jsxtext="Pane 1 text" jsxpadding="8"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Stack">
+          <variants/>
+          <dynamics jsxactivecolor="@Solid Medium AC" jsxinactivecolor="@Solid Disabled IC"/>
+          <strings jsxname="stack2" jsxtext="Stack 2"/>
+          <events jsxshow="alert('Stack 2 shown');"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxloadtype="4"/>
+            <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none" jsxtext="Pane 2 text" jsxpadding="8"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Stack">
+          <variants/>
+          <dynamics jsxactivecolor="@Solid Medium AC" jsxinactivecolor="@Solid Disabled IC"/>
+          <strings jsxname="stack3" jsxtext="Stack 3"/>
+          <events jsxshow="alert('Stack 3 shown');"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1" jsxloadtype="4"/>
+            <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none" jsxtext="Pane 3 text" jsxpadding="8"/>
+          </object>
         </object>
       </object>
-      <object type="jsx3.gui.Stack">
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
         <variants/>
-        <strings jsxname="stack2" jsxtext="Stack 2"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxbgcolor="#ffffff" jsxdisplay="none"/>
-        </object>
+        <strings jsxname="desc" jsxwidth="100%"/>
       </object>
     </object>
   </object>
 </serialization>
+
+
 
