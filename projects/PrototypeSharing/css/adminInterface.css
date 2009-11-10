@@ -220,7 +220,6 @@ button {
 #adminInterface #info-pane .dijitTabContainerTop-tabs {
 	height: 30px;
 	border-bottom: none;
-	z-index: -1;	
 }
 
 .dj_ie #adminInterface #info-pane .dijitTabContainerTop-tabs {
