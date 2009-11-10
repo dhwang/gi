@@ -197,33 +197,12 @@
 
     instance.doEval = function(strScript, objContext, objConsole) {
       if (strScript != null && strScript !== "") {
-        if (!this._injectedAPI) {
-          this._injectedAPI = jsx3.$O();
-          this._injectedAPI.extend(Util.injectedAPI);
-        }
-        
         /* @jsxobf-bless */
-        var __injectedAPI = this._injectedAPI;
+        var __api = objContext;
+        for (var __f in Util.injectedAPI)
+          __api[__f] = Util.injectedAPI[__f];
         
-        /* @jsxobf-bless */
-        var __strScript = "with (__injectedAPI) { " + strScript + " }";
-        /* @jsxobf-bless */
-        var __vars = "";
-        /* @jsxobf-bless */
-        var __f;
-        
-        if (objContext) {
-          /* @jsxobf-bless */
-          var __ec = objContext;
-          /* @jsxobf-bless */
-          var __a = [];
-          for (__f in __ec)
-            __a[__a.length] = "var " + __f + " = __ec." + __f + ";";
-
-          __vars = __a.join("");
-        }
-        
-        return window.eval(__vars + __strScript);
+        return eval("with (__api) { " + strScript + " }");
       }
     };
 
