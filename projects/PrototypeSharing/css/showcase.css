@@ -1,0 +1,97 @@
+#applicationIndex {
+	margin: 0;
+	padding: 50px;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 13px;
+	color: #333;
+}
+
+#applicationIndex a {
+	color: #0079C1;
+	text-decoration: none;	
+}
+
+#applicationIndex a:hover {
+	color: #58ACE4;	
+}
+
+#applicationIndex h1 {
+	font-size: 30px;
+	color: #146291;
+}
+
+.appFilter {
+	width: 58%;
+	margin: 2em 0;
+	color: #666;
+	font-size: 12px;
+	text-align: right;
+}
+
+.appFilter label {
+	margin-right: 10px;
+}
+
+.appList {
+	clear: both;
+	width: 58%;
+}
+
+#applicationIndex h3 a {
+	font-size: 16px;
+	font-weight: normal;
+}
+
+#applicationIndex p {
+	margin: 0.1em 0 0.3em 0;
+	line-height: 18px;
+}
+
+#applicationIndex span {
+	margin-top: 0;
+	font-size: 12px;
+	font-weight: normal;
+	color: #666;
+}
+
+.appVersion {
+	margin-left: 5px;
+}
+
+.appDetail {
+	width: 58%;
+}
+
+#applicationIndex .appDetail .appMeta {
+	display: block;
+	margin: 1em 0;
+}
+
+.appTags {
+	margin: 1em 0;
+	line-height: 16px;
+	padding-left: 26px;
+	background: url("/images/tag_blue.png") no-repeat left center;
+}
+
+.appTags a {
+	margin-right: 5px;
+	font-size: 12px;
+}
+
+.appActions {
+	margin-top: 2em;
+}
+
+.launch,
+.download {
+	margin-right: 50px;
+	padding-left: 20px;
+	font-size: 13px;
+	background: url("/images/launch.png") no-repeat left center;
+}
+
+.download {
+	margin-right: 0;
+	background: url("/images/box.png") no-repeat left center;
+}

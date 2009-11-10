@@ -35,7 +35,7 @@
 						<button onclick="requery(true)">Open Source</button>
 						<button onclick="requery(false)">Closed Source</button>
 						<span class="verticalRuleButton"></span>
-						<button onclick="requery('New')">Upload Application</button>
+						<button class="uploadApplication" onclick="requery('New')">Upload Application</button>
 						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
 					</div>
 					<table rowSelector="0px" rowsPerPage="20" query="''" store="applicationStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:87%">
@@ -51,8 +51,8 @@
 				</div>
 		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" tabStrip="true" style="height:50%">
 		        	<div id="component-actions" class="actions">
-		        		<button id="save-button"><span class="saveIcon"></span>Save</button>
-						<button id="delete-button"><span class="featureIcon"></span>Delete</button>
+		        		<button id="save-button"><span class="modifyIcon"></span>Modify</button>
+						<button id="delete-button"><span class="deleteIcon"></span>Delete</button>
 					</div>
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="App Info" iconClass="plusIcon" tooltip="Information about application">
 						<div id="info-description">
