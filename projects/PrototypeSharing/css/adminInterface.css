@@ -232,6 +232,7 @@ button {
 	border: none;
 	border: 1px solid #AFAFAF;
 	border-bottom: none;
+	z-index: -1;
 }
 
 #adminInterface #info-pane .dijitTab {
@@ -308,7 +309,9 @@ button {
 .actions .featureIcon,
 .actions .modifyIcon,
 .actions .deleteIcon,
-.actions .databaseIcon {
+.actions .databaseIcon,
+.actions .saveIcon,
+.actions .cancelIcon {
 	position: relative;
 	top: 3px;
 	left: -5px;
@@ -323,7 +326,9 @@ button {
 .dj_ie .actions .featureIcon,
 .dj_ie .actions .modifyIcon,
 .dj_ie .actions .deleteIcon,
-.dj_ie .actions .databaseIcon {
+.dj_ie .actions .databaseIcon,
+.dj_ie .actions .saveIcon,
+.dj_ie .actions .cancelIcon {
 	top: 1px;
 }
 
@@ -332,6 +337,8 @@ button {
 .actions .deleteIcon { background-position: -48px 0 }
 .actions .databaseIcon { background-position: -64px 0 }
 .actions .featureIcon { background-position: -80px 0 }
+.actions .saveIcon { background-position: -96px 0 }
+.actions .cancelIcon { background-position: -112px 0 }
 
 #info-pane .dijitTabPaneWrapper {
 	overflow: visible;
