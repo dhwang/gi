@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Application Showcase Administration</title>
+    <style type="text/css">
+		@import "jsclient/dojo/resources/dojo.css";
+		@import "jsclient/dojox/grid/resources/Grid.css";
+		@import "jsclient/dojox/grid/resources/tundraGrid.css";
+		@import "jsclient/dijit/themes/tundra/tundra.css";
+		@import "jsclient/dojox/highlight/resources/highlight.css";
+    </style>
+	<link rel="stylesheet" href="css/adminInterface.css" type="text/css" media="screen" />
+  	<script djConfig="isDebug:true, parseOnLoad: true" src="jsclient/dojo/dojo.js" type="text/javascript"></script>
+	<script src="jsclient/admin/deps.js" type="text/javascript"></script>
+	<script src="jsclient/showcase-admin.js" type="text/javascript"></script>
+</head>
+
+  <body class="tundra" id="adminInterface">
+  		<div id="app-border" dojoType="dijit.layout.BorderContainer">
+        <div id="header-pane" dojoType="dijit.layout.ContentPane" splitter="false" region="top" style="height:78px;">
+	      <h1>General Interface</h1>
+		  <h2>Application Showcase Administration</h2>
+		</div>
+		<div id="user">
+			<span id="username"></span>
+			<span class="verticalRule"></span>
+			<span id="login">Login</span>
+		</div>
+		<div id="interfaceWrapper" jsid="interfaceWrapper" dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
+	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Showcase Applications">
+
+				<div dojoType="dijit.layout.ContentPane" region="center" role="main" style="overflow:hidden">
+					<div id="component-controls">
+						<button onclick="componentGrid.setQuery('')">All</button>
+						<button onclick="requery(true)">Open Source</button>
+						<button onclick="requery(false)">Closed Source</button>
+						<span class="verticalRuleButton"></span>
+						<button onclick="requery('New')">Upload Application</button>
+						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
+					</div>
+					<table rowSelector="0px" rowsPerPage="20" query="''" store="applicationStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:87%">
+						<thead>
+							<tr>
+								<th editable="true" width="40%" field="name">Name</th>
+								<th width="20%" field="user">Author</th>
+								<th width="20%" field="license">License</th>
+								<th width="20%" field="uploaded" formatter="dateFormatter">Upload Date</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" tabStrip="true" style="height:50%">
+		        	<div id="component-actions" class="actions">
+		        		<button id="save-button"><span class="saveIcon"></span>Save</button>
+						<button id="delete-button"><span class="featureIcon"></span>Delete</button>
+					</div>
+					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="App Info" iconClass="plusIcon" tooltip="Information about application">
+						<div id="info-description">
+							<h5 id="name-header">Name</h5>
+							<p><span id="description-detail"></span></p>
+							<h5>Tags</h5>
+							<p><span id="description-detail"></span></p>
+						</div>
+						<div id="info-details">
+							<hr />
+							<span>Name: </span><span id="name-detail"></span>
+							<hr />
+							<span>Author: </span><span id="author-detail"></span>
+							<hr />
+							<span>Status: </span><span id="status-detail"></span>
+							<hr />
+							<span>Downloads: </span><span id="downloads-detail"></span>
+							<hr />
+							<span>Uploaded: </span><span id="uploaded-detail"></span>
+							<hr />
+							<span>Rating: </span><span id="rating-detail"></span>
+							<hr />
+							<button id="download">Download</button>
+						</div>
+					</div>
+		        </div>
+			</div>
+
+		</div>
+	</div>
+	<div dojoType="dijit.Dialog" jsid="statusDialog" title="Change Status" >
+		<div id="action-confirmation"></div>
+		<textarea id="action-reason"></textarea>
+		<div>
+			<span>Send email to author:</span><input id="send-email" type="checkbox"></input>
+		</div>
+		<div class="actions">
+			<button id="confirm-action">OK</button><button id="cancel-action">Cancel</button>
+		</div>
+	</div>
+
+  </body>
+</html>
