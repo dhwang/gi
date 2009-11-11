@@ -1,37 +1,75 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="jsxdateformat" jsxtext="Date Format"
-          jsxtip="Sets the date format used to format and parse the value of this DatePicker in its text field. Supported tokens include y, M, d, and E. See the API documentation for &lt;code&gt;jsx3.util.DateFormat&lt;/code&gt;."
-          docgetter="getFormat" docsetter="setFormat"
-          docdefault="Determined by the locale of the server containing this DatePicker."
-          eval="0"
-          disallow="&quot;"
-          jsxtype="jsxdateformat"
-          jsxmask="jsxtext"
-          jsxexecute="objJSX.setFormat(vntValue);objJSX.repaint();"/>
-      <record jsxid="jsxfirstweekday" jsxtext="Week Start"
-          jsxtip="Sets the first day of the week."
-          docgetter="getFirstDayOfWeek" docsetter="setFirstDayOfWeek"
-          docdefault="Determined by the locale of the server containing this DatePicker."
-          eval="1"
-          jsxmask="jsxselect">
-        <enum jsxid="0" jsxtext="{date.day[0]}"/>
-        <enum jsxid="1" jsxtext="{date.day[1]}"/>
-        <enum jsxid="2" jsxtext="{date.day[2]}"/>
-        <enum jsxid="3" jsxtext="{date.day[3]}"/>
-        <enum jsxid="4" jsxtext="{date.day[4]}"/>
-        <enum jsxid="5" jsxtext="{date.day[5]}"/>
-        <enum jsxid="6" jsxtext="{date.day[6]}"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_datepickerformat" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.DatePicker">
-      <variants jsxwidth="100" jsxrelativeposition="1" jsxheight="18"/>
-      <strings jsxname="target" jsxmargin="0 4 0 0"/>
+  <name><![CDATA[Date Picker]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates a date picker. For the format, enter 1, 2, 3, or 4 for a predefined format (short, medium, long, and full, respectively); or enter a custom format using syntax expected by jsx3.util.DateFormat.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onFormatChange = function(strValue) {
+  var value = strValue;
+  if (strValue == "1" || strValue == "2" || strValue == "3" || strValue == "4") {
+    var locale = this.getServer().getLocale();
+    value = jsx3.util.DateFormat.getDateInstance(parseInt(strValue), locale).getFormat();
+  }
+  datepicker.setFormat(value);
+  datepicker.repaint();
+};
+
+this.onLocaleSelect = function(strRecordId) {
+  var server = this.getServer();
+  server.setLocale(jsx3.util.Locale.valueOf(strRecordId));
+  server.reloadLocalizedResources();
+  this.onFormatChange(format.getValue());
+};
+
+format.setValue(datepicker.getFormat());
+locale.setValue(this.getServer().getLocale().getLanguage());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.DatePicker">
+        <variants jsxwidth="200" jsxrelativeposition="1" jsxheight="18" jsxformat="1"/>
+        <strings jsxname="datepicker" jsxmargin="0 4 0 0"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Format" jsxfor="format" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="100"/>
+        <strings jsxname="format" jsxmargin="0 4 4 0"/>
+        <events jsxchange="root.onFormatChange(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
+        <strings jsxname="formLabel" jsxtext="Locale" jsxfor="locale" jsxfontweight="bold" jsxtextalign="left"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+        <strings jsxname="locale" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;ar&quot; jsxtext=&quot;Arabic&quot;/&gt;&lt;record jsxid=&quot;zh&quot; jsxtext=&quot;Chinese&quot;/&gt;&lt;record jsxid=&quot;da&quot; jsxtext=&quot;Danish&quot;/&gt;&lt;record jsxid=&quot;nl&quot; jsxtext=&quot;Dutch&quot;/&gt;&lt;record jsxid=&quot;en&quot; jsxtext=&quot;English&quot;/&gt;&lt;record jsxid=&quot;fr&quot; jsxtext=&quot;French&quot;/&gt;&lt;record jsxid=&quot;fi&quot; jsxtext=&quot;Finnish&quot;/&gt;&lt;record jsxid=&quot;de&quot; jsxtext=&quot;German&quot;/&gt;&lt;record jsxid=&quot;el&quot; jsxtext=&quot;Greek&quot;/&gt;&lt;record jsxid=&quot;he&quot; jsxtext=&quot;Hebrew&quot;/&gt;&lt;record jsxid=&quot;id&quot; jsxtext=&quot;Indonesian&quot;/&gt;&lt;record jsxid=&quot;it&quot; jsxtext=&quot;Italian&quot;/&gt;&lt;record jsxid=&quot;ja&quot; jsxtext=&quot;Japanese&quot;/&gt;&lt;record jsxid=&quot;ko&quot; jsxtext=&quot;Korean&quot;/&gt;&lt;record jsxid=&quot;nn&quot; jsxtext=&quot;Norwegian&quot;/&gt;&lt;record jsxid=&quot;pl&quot; jsxtext=&quot;Polish&quot;/&gt;&lt;record jsxid=&quot;pt&quot; jsxtext=&quot;Portuguese&quot;/&gt;&lt;record jsxid=&quot;ru&quot; jsxtext=&quot;Russian&quot;/&gt;&lt;record jsxid=&quot;es&quot; jsxtext=&quot;Spanish&quot;/&gt;&lt;record jsxid=&quot;sv&quot; jsxtext=&quot;Swedish&quot;/&gt;&lt;record jsxid=&quot;th&quot; jsxtext=&quot;Thai&quot;/&gt;&lt;record jsxid=&quot;tr&quot; jsxtext=&quot;Turkish&quot;/&gt;&lt;record jsxid=&quot;vi&quot; jsxtext=&quot;Vietnamese&quot;/&gt;&lt;/data&gt;"/>
+        <events jsxselect="root.onLocaleSelect(strRECORDID);"/>
+      </object>
     </object>
   </object>
 </serialization>

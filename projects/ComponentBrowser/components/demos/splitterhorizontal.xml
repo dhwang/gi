@@ -5,7 +5,7 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onEnabledSelect = function(strRecordId) {
-  splitter.setEnabled(strRecordId);
+  splitter.setEnabled(strRecordId == "0" ? 0 : 1);
   splitter.recalcBox();
   splitter.repaint();
 };
