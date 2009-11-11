@@ -1,27 +1,83 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_radiobuttongroup" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.RadioButton">
-      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
-      <strings jsxname="radio1" jsxtext="Radio button 1" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxstyleoverride="display:block" jsxbgcolor=""/>
-      <events jsxselect=""/>
+  <name><![CDATA[Radio Button]]></name>
+  <icon/>
+  <description><![CDATA[This example shows how to handle multiple groups of radio buttons.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onGroup1ValueChange = function(strValue) {
+  apple.setGroupValue(strValue);
+};
+
+this.onGroup2ValueChange = function(strValue) {
+  cedar.setGroupValue(strValue);
+};
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.RadioButton">
+        <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
+        <strings jsxname="apple" jsxvalue="apple" jsxtext="Apple" jsxgroupname="fruit" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
+      </object>
+      <object type="jsx3.gui.RadioButton">
+        <variants jsxheight="18" jsxdefaultselected="0" jsxselected="0" jsxrelativeposition="1"/>
+        <strings jsxname="banana" jsxvalue="banana" jsxtext="Banana" jsxgroupname="fruit" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
+      </object>
+      <object type="jsx3.gui.RadioButton">
+        <variants jsxheight="18" jsxdefaultselected="0" jsxselected="0" jsxrelativeposition="1"/>
+        <strings jsxname="orange" jsxvalue="orange" jsxtext="Orange" jsxgroupname="fruit" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
+      </object>
+      <object type="jsx3.gui.RadioButton">
+        <variants jsxheight="18" jsxdefaultselected="0" jsxselected="0" jsxrelativeposition="1"/>
+        <strings jsxname="cedar" jsxvalue="cedar" jsxtext="Cedar" jsxgroupname="wood" jsxmargin="16 4 0 0" jsxstyleoverride="display:block"/>
+      </object>
+      <object type="jsx3.gui.RadioButton">
+        <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
+        <strings jsxname="oak" jsxvalue="oak" jsxtext="Oak" jsxgroupname="wood" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
+      </object>
+      <object type="jsx3.gui.RadioButton">
+        <variants jsxheight="18" jsxdefaultselected="0" jsxselected="0" jsxrelativeposition="1"/>
+        <strings jsxname="mahogany" jsxvalue="mahogany" jsxtext="Mahogany" jsxgroupname="wood" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
+      </object>
     </object>
-    <object type="jsx3.gui.RadioButton">
-      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"/>
-      <strings jsxname="radio2" jsxtext="Radio button 2" jsxgroupname="group1" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
-      <events jsxselect=""/>
-    </object>
-    <object type="jsx3.gui.RadioButton">
-      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
-      <strings jsxname="radio3" jsxtext="Radio button 3" jsxgroupname="group2" jsxmargin="20 4 0 0" jsxstyleoverride="display:block" jsxbgcolor=""/>
-      <events jsxselect=""/>
-    </object>
-    <object type="jsx3.gui.RadioButton">
-      <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"/>
-      <strings jsxname="radio4" jsxtext="Radio button 4" jsxgroupname="group2" jsxmargin="0 4 0 0" jsxstyleoverride="display:block"/>
-      <events jsxselect=""/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="125"/>
+        <strings jsxname="formLabel" jsxtext="Group 1 Value" jsxfor="group1" jsxfontweight="bold" jsxtextalign="left" jsxstyleoverride="display:block;"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="150"/>
+        <strings jsxname="group1" jsxmargin="0 4 4 0" jsxstyleoverride="display:block;" jsxvalue="apple"/>
+        <events jsxchange="root.onGroup1ValueChange(strVALUE);"/>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="125"/>
+        <strings jsxname="formLabel" jsxtext="Group 2 Value" jsxfor="group2" jsxfontweight="bold" jsxtextalign="left" jsxstyleoverride="display:block;" jsxmargin="8 0 0 0"/>
+      </object>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="18" jsxwidth="150"/>
+        <strings jsxname="group2" jsxmargin="0 4 4 0" jsxstyleoverride="display:block;" jsxvalue="oak"/>
+        <events jsxchange="root.onGroup2ValueChange(strVALUE);"/>
+      </object>
     </object>
   </object>
 </serialization>
-
