@@ -528,6 +528,10 @@ input {
 	height: 60px;
 }
 
+#info-description #about-description {
+	height: 110px;
+}
+
 #info-description small {
 	display: block;
 	margin: 5px 0 12px 10.6%;
