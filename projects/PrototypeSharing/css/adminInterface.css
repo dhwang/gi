@@ -393,9 +393,16 @@ textarea {
 .cancelIcon { background-position: -112px 0 }
 
 
-/*  Note: these are to be toggled
+/*  Note: these are the
+    containers for the compoenent buttons
+    in the tabstrip
+to be toggled determined by with tab is open
 
+*/
 
+.app-info-buttons {
+	display: block;
+}
 
 .app-modify-buttons {
 	display: none;
