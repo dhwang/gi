@@ -117,7 +117,7 @@
         <record jsxid="textboxreadonly" jsxtext="Read-Only" description="" />
         <record jsxid="textboxdisabled" jsxtext="Disabled" description="" />
         <record jsxid="textboxchange" jsxtext="Change Event" description="" />
-        <record jsxid="textboxincchange" jsxtext="Incrementtal Change Event" description="" />
+        <record jsxid="textboxincchange" jsxtext="Incremental Change Event" description="" />
         <record jsxid="textboxexecute" jsxtext="Execute Event" description="" />
       </record>
       <record jsxid="form" jsxtext="Form" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/block.gif">
