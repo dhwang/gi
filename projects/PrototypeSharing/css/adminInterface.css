@@ -258,26 +258,27 @@ button {
 
 #adminInterface #info-pane .dijitTabContainerTop-tabs {
 	height: 30px;
-	border-bottom: none;
 }
 
 .dj_ie #adminInterface #info-pane .dijitTabContainerTop-tabs {
 	height: 32px;
 }
 
-#info-pane .dijitTabContainerTopStrip {
-	height: 31px !important;	
-	background: url("../images/tabStripTallBg.png") repeat-x;
+#adminInterface #info-pane .dijitTabSpacer {
 	border: none;
+}
+
+#info-pane .dijitTabContainerTopStrip {
+	height: 27px !important;	
+	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: 1px solid #AFAFAF;
-	border-bottom: none;
 	z-index: -1;
 }
 
 #adminInterface #info-pane .dijitTab {
 	top: 3px;
 	padding-top: 2px;
-	height: 24px;
+	height: 23px;
 	background: #E8E8E8 url("../images/infoTabBg.png") repeat-x left top;
 	border: 1px solid #BFBEBF;
 	border-bottom: 1px solid #AFAFAF;
@@ -382,7 +383,6 @@ button {
 #info-pane .dijitTabPaneWrapper {
 	overflow: visible;
 	top: 31px !important;
-	border-top: 1px solid #AFAFAF;
 }
 
 #info-pane .dijitContentPane {
