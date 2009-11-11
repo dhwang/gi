@@ -393,10 +393,11 @@ textarea {
 .cancelIcon { background-position: -112px 0 }
 
 
-/*  Note: these are the
-    containers for the compoenent buttons
-    in the tabstrip
-to be toggled determined by with tab is open
+/* -------------------------------------------- */
+/*  Note: these are the containers for the
+	component buttons in the tabstrip area of
+	the bottom pane.  They are to be toggled
+	dependant upon which tab is open.
 
 */
 
@@ -411,8 +412,7 @@ to be toggled determined by with tab is open
 .app-upload-buttons {
 	display: none;
 }
-
-/* ------------------------------ */
+/* -------------------------------------------- */
 
 #info-pane .dijitTabPaneWrapper {
 	overflow: visible;
@@ -614,4 +614,28 @@ input {
 
 .errorMessage {
 	color: #F00;
+}
+
+.loadingContainer {
+	width: 200px;
+	height: 34px;
+	margin: 5% auto;
+	text-align: center;
+	background: #DFDFDF;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+}
+
+.loadingContainer p {
+	display: inline;
+	line-height: 34px;
+	color: #727272;
+}
+
+.loadingContainer img {
+	display: inline;
+	position: relative;
+	top: 3px;
+	margin-left: 5px;
 }
