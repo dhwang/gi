@@ -1,7 +1,6 @@
 (function(plugIn){
 
   var rootUri = "http://www.generalinterface.org/prototypes/";
-  rootUri = "http://localhost:8080/";
 
   jsx3.$O(plugIn).extend({
     _emptyStar: plugIn.resolveURI('images/emptyStar.png'),
