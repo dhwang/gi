@@ -202,7 +202,7 @@ button {
 }
 
 #adminInterface .dijitTabInnerDiv {
-	padding: 2px 8px;
+	padding: 2px 22px;
 }
 
 #adminInterface .dijitSplitterH, .tundra .dijitGutterH {
@@ -213,6 +213,45 @@ button {
 #adminInterface .dijitSplitterH .dijitSplitterThumb {
 	height: 5px;
 	background: url("../images/splitterThumbH.gif") no-repeat;
+}
+
+#adminInterface .dijitDialog {
+	border-color: #CCC;
+	font-size: 12px;
+} 
+
+#adminInterface .dijitDialogTitle {
+	text-shadow: 0 1px 0 #FFF;
+} 
+
+#adminInterface .dijitDialogTitleBar {
+	padding: 6px;
+	background: #E0E0E0 url("../images/tabStripBg.png") repeat-x;
+	border: none;
+	border-top: 1px solid #FFF;	
+}
+
+#adminInterface .dijitDialog .dijitDialogPaneContent {
+	border-top-color: #B1B1B1;
+}
+
+#adminInterface .dialogButtons button {
+	font-weight: normal;
+	margin: 6px 0 0 8px;
+	padding: 4px 16px;
+	background: #D5D5D5 url("../images/dialogButtonBg.png") repeat-x 0 0;
+	border: 1px solid #CCC;
+}
+
+.dj_ie #adminInterface .dialogButtons button {
+	padding: 2px;
+	background: #FFF url("../images/dialogButtonBg.png") repeat-x 0 0;
+	overflow: hidden;
+}
+
+#adminInterface .dialogButtons {
+	text-align: right;
+	padding-bottom: 2px;
 }
 
 /* ---------- info pane ---------- */
@@ -297,11 +336,11 @@ button {
 .dj_ie .actions button {
 	top: 3px;
 	margin-left: 7px;
-	padding: 2px 2px;
+	padding: 2px;
 }
 
 .actions button:hover {
-	border: 1px solid #9aa5ae;
+	border: 1px solid #9AA5AE;
 }
 
 .actions .acceptIcon,
@@ -356,25 +395,29 @@ button {
 	margin-right: 50px;
 }
 
+#info-description p {
+	margin: 0.5em 0;
+}
+
 #info-details {
 	float: left;
 	width: 340px;
 	margin-top: 1.5em;
 }
 
+
 #author-detail,
-#status-detail,
-#version-detail,
-#downloads-detail,
-#rating-detail,
-#uploaded-detail,
-#category-detail,
-#description-detail {
-	font-weight: bold;
+#author-email {
+	color: #0033CC;
 }
 
-#author-detail {
-	color: #0033CC;
+#author-email {
+	margin-left: 10px;
+	text-decoration: none;
+}
+
+#author-email:hover {
+	color: #58ACE4;	
 }
 
 #info-details button {
@@ -423,4 +466,12 @@ button {
 .dj_ie .uploadApplication {
 	padding-left: 0px !important;
 	background: url("/images/add.png") no-repeat 0 center;	
+}
+
+#view {
+	margin-right: 12px;
+}
+
+#deleteDialog {
+	width: 400px;
 }

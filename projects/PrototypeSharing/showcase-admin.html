@@ -56,25 +56,28 @@
 					</div>
 					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="App Info" iconClass="plusIcon" tooltip="Information about application">
 						<div id="info-description">
-							<h5 id="name-header">Name</h5>
-							<p><span id="description-detail"></span></p>
-							<h5>Tags</h5>
-							<p><span id="description-detail"></span></p>
+							<h5 id="address-book-header">Address Book</h5>
+							<p><span id="address-book-detail"></span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat Lorem ipsum dolor sit amet, consectetuer adipiscing eli.Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p>
+							<h5>Tagged</h5>
+							<p><span id="tagged-detail"></span>Address, Share, Buddies, Book, Contacts</p>
+							<h5>Proxy URLs</h5>
+							<p><span id="proxy-detail"></span>None</p>
+							<h5>GI Runtime Location</h5>
+							<p><span id="runtime-location-detail"></span>None</p>														
 						</div>
 						<div id="info-details">
 							<hr />
-							<span>Name: </span><span id="name-detail"></span>
+							<span>Author: </span><strong id="author-detail">Adam Smith</strong><a href="" id="author-email">asmith@gmail.com</a>
 							<hr />
-							<span>Author: </span><span id="author-detail"></span>
+							<span>Version: </span><strong id="version-detail">1.23</strong>
 							<hr />
-							<span>Status: </span><span id="status-detail"></span>
+							<span>License: </span><strong id="license-detail">Open Source</strong>
 							<hr />
-							<span>Downloads: </span><span id="downloads-detail"></span>
+							<span>Uploaded: </span><strong id="uploaded-detail">11/10/2009</strong>
 							<hr />
-							<span>Uploaded: </span><span id="uploaded-detail"></span>
+							<span>App Key: </span><strong id="key-detail">-</strong>
 							<hr />
-							<span>Rating: </span><span id="rating-detail"></span>
-							<hr />
+							<button id="view">View</button>
 							<button id="download">Download</button>
 						</div>
 					</div>
@@ -83,14 +86,14 @@
 
 		</div>
 	</div>
-	<div dojoType="dijit.Dialog" jsid="statusDialog" title="Change Status" >
+	<div dojoType="dijit.Dialog" jsid="statusDialog" title="Delete Application" id="deleteDialog" >
 		<div id="action-confirmation"></div>
-		<textarea id="action-reason"></textarea>
 		<div>
-			<span>Send email to author:</span><input id="send-email" type="checkbox"></input>
+			<p>Are you sure you want to delete the application: Address Book?</span>
 		</div>
-		<div class="actions">
-			<button id="confirm-action">OK</button><button id="cancel-action">Cancel</button>
+		<div class="dialogButtons">
+			<button id="cancel-action">Cancel</button>
+			<button id="confirm-action">Yes, Delete It</button>
 		</div>
 	</div>
 
