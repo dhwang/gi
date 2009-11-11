@@ -100,6 +100,8 @@
 							</div>
 							<div class="description-row">
 								<label>Tags: </label><input id="tags-description"></input>
+								<br />
+								<small>Comma separated, e.g. Fun, Easy, Fast</small>								
 							</div>
 							<div class="description-row">
 								<label id="proxy-url-label">Proxy URLs: </label><textarea id="proxy-description"></textarea>
@@ -132,6 +134,59 @@
 							<div class="replace">
 								<span>&nbsp;</span><button id="replace">Replace</button>
 							</div>	
+						</div>
+					</div>
+
+		        	<div class="component-actions app-upload-buttons">
+		        		<button id="save-button"><span class="saveIcon"></span>Save</button>
+						<button id="cancel-button"><span class="cancelIcon"></span>Cancel</button>
+					</div>	
+
+					<div id="upload-tab" jsid="uploadTab" dojoType="dijit.layout.ContentPane" title="Upload Application" tooltip="Upload an application">
+					
+						<div id="info-description">
+							<div class="description-row" style="margin-top: 1.5em">
+								<label>Title: </label><input id="title-description"></input><span class="required">*</span>
+							</div>
+							<div class="description-row">
+								<label>About: </label><textarea id="about-description"></textarea><span class="required">*</span>
+							</div>
+							<div class="description-row">
+								<label>Tags: </label><input id="tags-description"></input>
+								<br />
+								<small>Comma separated, e.g. Fun, Easy, Fast</small>
+							</div>
+							<div class="description-row">
+								<label id="proxy-url-label">Proxy URLs: </label><textarea id="proxy-description"></textarea>
+								<br />
+								<small>One per line</small>
+							</div
+							<div class="description-row">
+								<label>GI Runtime Location: </label><input id="runtime-location-description"></input>
+							</div																											
+						</div>
+						<div id="info-details">
+							<hr />
+							<span>Author: </span><input id="author-detail"></input><span class="required">*</span>
+							<hr />
+							<span>Email: </span><input id="email-detail"></input><span class="required">*</span>
+							<hr />
+							<span>Version: </span><input id="version-detail"></input><span class="required">*</span>
+							<hr />
+							<span>License: </span>
+							<select id="license-detail">
+								<option value="open-source">Open Source</option>
+								<option value="freeware">Freeware</option>
+								<option value="shareware">Shareware</option>
+							</select>
+							<hr />
+							<span>App Key: </span><input id="key-detail"></input>
+							<hr />
+							<span>App File: </span><input id="file-detail"></input><span style="width:auto"><button id="browse">Browse</button></span><span class="required">*</span>
+							<hr />
+							<div class="errorMessage">
+								<span>File Error: </span> <span style="width:70%">Error message here.</span>
+							</div>								
 						</div>
 					</div>
 

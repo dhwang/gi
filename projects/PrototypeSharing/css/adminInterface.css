@@ -37,11 +37,16 @@ button {
 	text-shadow: 0 1px 0 #FFF;
 }
 
-input {
+input,
+textarea {
 	height: 24px;
 	border: 1px solid #B3B3B3;
 	padding: 2px 0 0 2px;
 	background: #FFF;
+}
+
+textarea {
+	height: auto;
 }
 
 #interfaceWrapper {
@@ -387,9 +392,22 @@ input {
 .saveIcon { background-position: -96px 0 }
 .cancelIcon { background-position: -112px 0 }
 
+
+/*  Note: these are to be toggled
+
+.app-info-buttons {
+	display: block;
+}
+
 .app-modify-buttons {
 	display: none;
 }
+
+.app-upload-buttons {
+	display: none;
+}
+
+/* ------------------------------ */
 
 #info-pane .dijitTabPaneWrapper {
 	overflow: visible;
@@ -583,4 +601,12 @@ input {
 
 .dj_ie #info-details #file-detail {
 	margin-top: 0;
+}
+
+.inputWarning {
+	background: #FFFFF2;
+}
+
+.errorMessage {
+	color: #F00;
 }
