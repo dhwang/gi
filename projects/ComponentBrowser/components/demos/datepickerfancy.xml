@@ -1,11 +1,22 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <name><![CDATA[Date Picker]]></name>
   <icon/>
-  <description><![CDATA[This demonstrates how to handle fancy input in a date picker. Try entering something like "now" or "tomorrow."]]></description>
+  <description><![CDATA[This demonstrates how to handle fancy input in a date picker. Try entering "now," "yesterday," or "tomorrow."]]></description>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
-this.onDatePick = function(strDate) {
-  alert(strDate);
+this.onDateInput = function(strDate) {
+  var d = strDate.toLowerCase();
+  var date = new Date();
+  if (d == "now") {
+    datepicker.setDate(date);
+  } else if (d == "yesterday") {
+    date.setDate(date.getDate()-1);
+    datepicker.setDate(date);
+  } else if (d == "tomorrow") {
+    date.setDate(date.getDate()+1);
+    datepicker.setDate(date);
+  }
+  return true;
 };
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
@@ -18,7 +29,7 @@ this.onDatePick = function(strDate) {
       <object type="jsx3.gui.DatePicker">
         <variants jsxwidth="200" jsxrelativeposition="1" jsxheight="18" jsxformat=""/>
         <strings jsxname="datepicker" jsxmargin="0 4 0 0"/>
-        <events jsxchange="root.onDatePick(newDATE);"/>
+        <events jsxinput="root.onDateInput(strINPUT);"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">
