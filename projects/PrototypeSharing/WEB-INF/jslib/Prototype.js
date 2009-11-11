@@ -125,10 +125,18 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 var LogClass = require("Log").LogClass;
 
 exports.BuilderFacet = Restrictive(PrototypeClass, {
-	prototype: {		
+	query: function(query, options){
+		query += (query ? "&" : "") + "enabled=true";
+		return PrototypeClass.query(query, options);
+	},
+	prototype: {
 	}
 });
 exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
+	query: function(query, options){
+		query += (query ? "&" : "") + "enabled=true";
+		return PrototypeClass.query(query, options);
+	},
 	create: function(object){
 		return PrototypeClass.create(object);
 	},

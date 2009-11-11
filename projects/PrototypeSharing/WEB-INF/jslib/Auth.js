@@ -33,14 +33,22 @@ security.authenticate = function(username, password){
 			user[name]=val;
 		}
 	}
+	LDAPConfig.getAllGroups(context).some(function(group){
+		if(group.cn === "gi-source"){
+			user.isAdmin = group.members.some(function(userString){
+				return userString.match("^uid=" + username + ",");
+			});
+			return true;
+		}
+	});
 	return user;
 };
 var ADMIN_USERS = require("settings").ADMIN_USERS;
 security.getAllowedFacets = function(user, request){
-	if(user && (ADMIN_USERS.indexOf(user.uid) > -1)){
-		return [Prototype.AdminFacet, RatingFacet, FullAccess, Authenticate];
-	}
 	if(user){
+		if(user.isAdmin){
+			return [Prototype.AdminFacet, RatingFacet, FullAccess, Authenticate];
+		}
 		return [Prototype.AuthenticatedBuilderFacet, RatingFacet, Authenticate];
 	}
 	return [Prototype.BuilderFacet, Authenticate];
