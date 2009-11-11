@@ -4,7 +4,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <data jsxid="jsxroot">
-    <record jsxid="1" jsxtext="Top Rated" />
-    <record jsxid="2" jsxtext="Most Popular" />
-    <record jsxid="3" jsxtext="Most Recent" />
+    <record jsxid="top_rated" jsxtext="Top Rated" />
+    <record jsxid="most_popular" jsxtext="Most Popular" />
+    <record jsxid="most_recent" jsxtext="Most Recent" />
 </data>

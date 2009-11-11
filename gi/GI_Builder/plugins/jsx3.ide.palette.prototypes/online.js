@@ -1,6 +1,7 @@
 (function(plugIn){
 
   var rootUri = "http://www.generalinterface.org/prototypes/";
+  rootUri = "http://localhost:8080/";
 
   jsx3.$O(plugIn).extend({
     _emptyStar: plugIn.resolveURI('images/emptyStar.png'),
@@ -10,7 +11,8 @@
     uri: {
       login: rootUri + "Class/User",
       prototypeRoot: rootUri + "Prototype/",
-      rate: rootUri + "Rating/"
+      rate: rootUri + "Rating/",
+      feeds: rootUri + "feeds/"
     },
 
     _currentFilter: "featured",
@@ -117,8 +119,9 @@
       objMatrix.repaint();
     },
 
-    _onOnlineFeedMenuExecute: function(strRecordId) {
-      //console.log(strRecordId);
+    _onOnlineFeedMenuExecute: function(objMenu, strRecordId) {
+      var recordNode = objMenu.getRecordNode(strRecordId);
+      window.open(this.uri.feeds + strRecordId + '/', recordNode.getAttribute('jsxtext') + ' Components');
     },
 
     _onOnlineListExecute: function(objPalette, objMatrix, strRecordId) {

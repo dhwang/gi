@@ -238,7 +238,7 @@ objJSX.setUploadDetail = function(objXML, objRecord) {
     nameNode.removeChildren();
     nameNode.appendChild(objXML.createNode(jsx3.xml.Entity.TYPECDATA, objRecord.jsxtext));
   }
-  upload_name.setText(nameNode.getValue()||objRecord.jsxtext);
+  upload_name.setValue(nameNode.getValue()||objRecord.jsxtext);
 
   var descNode = objXML.selectSingleNode('/jsx1:serialization/jsx1:description');
   if (!descNode) {
@@ -330,7 +330,7 @@ objJSX._doUpload = function() {
   request.setRequestHeader('Content-Type', 'application/json');
   request.setRequestHeader('Accept', 'application/json');
   request.send(jsx3.$O.json({
-    name: upload_name.getText(),
+    name: upload_name.getValue(),
     description: upload_description.getValue(),
     component: objXML.toString()
   }), 5000);
@@ -375,6 +375,9 @@ objJSX.setOnlineDetail = function(objRecord, bDontCloseReportForm) {
   }
 
   report_sent.setDisplay(jsx3.gui.Block.DISPLAYNONE);
+  report_button.setDisplay(
+    username == objRecord.user ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, true
+  );
 
   var s = jsx3.ide.getIDESettings();
   var username = s.get(this.getPlugIn().getId(), "username");
@@ -522,7 +525,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       <strings jsxname="menuBar" jsxdisplay="none"/>
     </object>
     <object type="jsx3.gui.TabbedPane">
-      <variants jsxtabheight="18" jsxselectedindex="2"/>
+      <variants jsxtabheight="18" jsxselectedindex="1"/>
       <strings jsxname="tabbedpane" jsxtextalign="0" jsxborder="solid 1px #f6f6ff;0px;0px;0px"/>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
@@ -556,10 +559,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxheight="18"/>
-        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
+        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxloadtype="4" jsxleft="0" jsxtop="0"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -590,7 +593,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="-1" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="3" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_user_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -799,15 +802,23 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                       <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
                       <dynamics jsxpadding="@8Pixel"/>
                       <object type="jsx3.gui.Block">
-                        <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12" jsxheight="30"/>
-                        <strings jsxname="upload_name" jsxtext="Component Name" jsxfontweight="bold"/>
+                        <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="18"/>
+                        <strings jsxname="upload_name" jsxtext="Component Name:"/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="1" jsxheight="28"/>
+                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"/>
+                        <object type="jsx3.gui.TextBox">
+                          <variants jsxtype="0" jsxheight="18"/>
+                          <strings jsxwidth="100%" jsxname="upload_name" jsxvalue=""/>
+                        </object>
                       </object>
                       <object type="jsx3.gui.Block">
                         <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="18"/>
                         <strings jsxname="label" jsxtext="Description:" jsxwidth="100%"/>
                       </object>
                       <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="1" jsxheight="150"/>
+                        <variants jsxoverflow="1" jsxheight="170"/>
                         <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="0 0 20 0"/>
                         <object type="jsx3.gui.TextBox">
                           <variants jsxtype="1"/>
@@ -896,10 +907,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
+        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -937,7 +948,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                   <object type="jsx3.gui.Menu">
                     <variants jsxxmlasync="1" jsxdivider="0" jsxxmlbind="1"/>
                     <strings jsxname="menu" jsxtip="Feeds" jsximage="images/feed.png" jsxxmlid="jsx3.ide.palette.prototypes.menu-feeds"/>
-                    <events jsxexecute="palette.getPlugIn()._onOnlineFeedMenuExecute(strRECORDID);"/>
+                    <events jsxexecute="palette.getPlugIn()._onOnlineFeedMenuExecute(this, strRECORDID);"/>
                   </object>
                   <object type="jsx3.gui.ToolbarButton">
                     <variants jsxdivider="0"/>
@@ -948,7 +959,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="4" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="-1" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_online_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
