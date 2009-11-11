@@ -37,6 +37,13 @@ button {
 	text-shadow: 0 1px 0 #FFF;
 }
 
+input {
+	height: 24px;
+	border: 1px solid #B3B3B3;
+	padding: 2px 0 0 2px;
+	background: #FFF;
+}
+
 #interfaceWrapper {
 	top: 78px !important;
 }
@@ -310,13 +317,13 @@ button {
 	font-weight: bold;
 }
 
-#component-actions {
+.component-actions {
 	position: absolute;
 	top: -31px;
-	right: 20px;
+	right: 3px;
 }
 
-.actions button {
+.component-actions button {
 	top: 1px;
 	position: relative;
 	padding: 0 14px 3px;
@@ -328,30 +335,30 @@ button {
 	border: 1px solid #AEBAC3;
 }
 
-.dj_gecko .actions button {
+.dj_gecko .component-actions button {
 	top: 3px;
 	margin-left: 3px;
 	padding: 0 14px 2px;
 }
 
-.dj_ie .actions button {
+.dj_ie .component-actions button {
 	top: 3px;
 	margin-left: 7px;
 	padding: 2px;
 }
 
-.actions button:hover {
+.component-actions button:hover {
 	border: 1px solid #9AA5AE;
 }
 
-.actions .acceptIcon,
-.actions .rejectIcon,
-.actions .featureIcon,
-.actions .modifyIcon,
-.actions .deleteIcon,
-.actions .databaseIcon,
-.actions .saveIcon,
-.actions .cancelIcon {
+.acceptIcon,
+.rejectIcon,
+.featureIcon,
+.modifyIcon,
+.deleteIcon,
+.databaseIcon,
+.saveIcon,
+.cancelIcon {
 	position: relative;
 	top: 3px;
 	left: -5px;
@@ -361,24 +368,28 @@ button {
 	background: url("../images/componentButtonSprite.png") no-repeat 0 0;
 }
 
-.dj_ie .actions .acceptIcon,
-.dj_ie .actions .rejectIcon,
-.dj_ie .actions .featureIcon,
-.dj_ie .actions .modifyIcon,
-.dj_ie .actions .deleteIcon,
-.dj_ie .actions .databaseIcon,
-.dj_ie .actions .saveIcon,
-.dj_ie .actions .cancelIcon {
+.dj_ie .acceptIcon,
+.dj_ie .rejectIcon,
+.dj_ie .featureIcon,
+.dj_ie .modifyIcon,
+.dj_ie .deleteIcon,
+.dj_ie .databaseIcon,
+.dj_ie .saveIcon,
+.dj_ie .cancelIcon {
 	top: 1px;
 }
 
-.actions .rejectIcon { background-position: -16px 0 }
-.actions .modifyIcon { background-position: -32px 0 }
-.actions .deleteIcon { background-position: -48px 0 }
-.actions .databaseIcon { background-position: -64px 0 }
-.actions .featureIcon { background-position: -80px 0 }
-.actions .saveIcon { background-position: -96px 0 }
-.actions .cancelIcon { background-position: -112px 0 }
+.rejectIcon { background-position: -16px 0 }
+.modifyIcon { background-position: -32px 0 }
+.deleteIcon { background-position: -48px 0 }
+.databaseIcon { background-position: -64px 0 }
+.featureIcon { background-position: -80px 0 }
+.saveIcon { background-position: -96px 0 }
+.cancelIcon { background-position: -112px 0 }
+
+.app-modify-buttons {
+	display: none;
+}
 
 #info-pane .dijitTabPaneWrapper {
 	overflow: visible;
@@ -392,7 +403,7 @@ button {
 #info-description {
 	float: left;
 	width: 50%;
-	margin-right: 50px;
+	margin: 10px 50px 0 0;
 }
 
 #info-description p {
@@ -474,4 +485,98 @@ button {
 
 #deleteDialog {
 	width: 400px;
+}
+
+.description-row {
+	display: block;
+	margin: 12px 0;
+}
+
+input {
+	height: 24px;
+	border: 1px solid #B3B3B3;
+	padding: 2px 0 0 2px;
+	background: #FFF;
+}
+
+#info-description label {
+	width: 10%;
+	display: inline-block;
+	vertical-align: top;	
+}
+
+.dj_ie #info-description label {
+	width: 12%;
+}
+
+#info-description #proxy-url-label {
+	width: 5%;
+	margin-right: 5%
+}
+
+.dj_ie #info-description #proxy-url-label {
+	width: 7%;
+	margin-right: 5%
+}
+
+#info-description input,
+#info-description textarea {
+	width: 80%;
+}
+
+#info-description textarea {
+	height: 60px;
+}
+
+#info-description small {
+	display: block;
+	margin: 5px 0 12px 10.6%;
+	font-size: 10px;
+	color: #000;
+	font-weight: bold;
+}
+
+.dj_ie #info-description small {
+	margin: 5px 0 12px 12.6%;
+}
+
+.required {
+	margin-left: 7px;
+	color: #FC3;
+}
+
+#info-details span {
+	width: 20%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#info-details input,
+#info-details select {
+	width: 70%;
+}
+
+#info-details .required {
+	width: auto;
+}
+
+#info-details #browse {
+	margin: 0 0 0 20px;
+}
+
+.dj_gecko #info-details #browse {
+	margin: 0 0 0 15px;
+}
+
+.dj_ie #info-details #browse {
+	margin: 0 0 0 23px;
+}
+
+#info-details #file-detail {
+	width: 40%;
+	margin-top: 3px;
+}
+
+.dj_ie #info-details #file-detail {
+	margin-top: 0;
 }
