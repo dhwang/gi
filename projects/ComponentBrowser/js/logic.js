@@ -64,7 +64,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
 
     var rsURL = this.resolveURI('components/demos/' + componentId + '.xml');
 
-    var doc = Document.jsxclass.newInstance();
+    var doc = new Document();
     doc.setAsync(true);
 
     doc.subscribe('*', this, '_onAsyncDone');

@@ -11,8 +11,8 @@ columns.setValue(layout.getCols());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
@@ -48,14 +48,18 @@ columns.setValue(layout.getCols());
         <variants/>
         <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
       </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Columns" jsxfor="columns" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="columns" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onColumnsChange(strVALUE);"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Columns" jsxfor="columns" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="columns" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onColumnsChange(strVALUE);"/>
+        </object>
       </object>
     </object>
   </object>

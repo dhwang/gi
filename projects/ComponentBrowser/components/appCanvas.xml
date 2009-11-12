@@ -164,9 +164,9 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
                         <properties jsxafterresizeview="tibco.ce.afterResizeView(this);"/>
                       </object>
                       <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="3" jsxwidth="200" jsxheight="25" jsxrelativeposition="0" jsxleft="404" jsxtop="359"/>
+                        <variants jsxoverflow="3" jsxheight="25" jsxrelativeposition="0" jsxleft="404" jsxtop="359"/>
                         <strings jsxname="viewSourceShowButton" jsxtext="&amp;#x25b2; View Source" jsxtextalign="center" jsxpadding="4" jsxfontweight="bold" jsxdisplay="" jsxclassname="sourceButton" jsxstyleoverride="z-index: 1000;"/>
-                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow"/>
+                        <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxcursor="@Hand" jsxbgcolor="@Solid Shadow" jsxwidth="@View Source Width"/>
                         <properties onmouseover="tibco.ce.onMouseOverSource(this);" onmouseout="tibco.ce.onMouseOutSource(this);"/>
                         <events jsxclick="tibco.ce.viewSource(this);"/>
                       </object>
@@ -184,7 +184,8 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
                           <dynamics jsxborder="@Outset"/>
                           <object type="jsx3.gui.LayoutGrid">
                             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                            <strings jsxname="layoutCols" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+                            <strings jsxname="layoutCols" jsxwidth="100%" jsxheight="100%"/>
+                            <dynamics jsxcols="@Root Cols"/>
                             <object type="jsx3.gui.Block">
                               <variants jsxoverflow="2"/>
                               <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>

@@ -1,88 +1,143 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="type" jsxtext="Chart Type"
-          jsxtip="Sets the type of area chart."
-          docgetter="getType" docsetter="setType"
-          docdefault="overlay (&lt;code&gt;jsx3.chart.AreaChart.TYPE_OVERLAY&lt;/code&gt;)"
-          eval="0" nullable="0"
-          jsxmask="jsxselect"
-          jsxexecute="objJSX.setType(vntValue); objJSX.repaint()">
-        <enum jsxid="jsx3.chart.AreaChart.TYPE_OVERLAY" jsxtext="Overlay"/>
-        <enum jsxid="jsx3.chart.AreaChart.TYPE_STACKED" jsxtext="Stacked"/>
-        <enum jsxid="jsx3.chart.AreaChart.TYPE_STACKED100" jsxtext="Stacked 100%"/>
-      </record>
-      <record jsxid="form" jsxtext="Series Type"
-          jsxtip="Sets the method for connecting the edges of series between data points."
-          docgetter="getForm" docsetter="setForm"
-          docdefault="segment (&lt;code&gt;jsx3.chart.AreaSeries.FORM_SEGMENT&lt;/code&gt;)"
-          eval="0" nullable="0"
-          jsxmask="jsxselect"
-          jsxtarget="series1">
-        <enum jsxid="jsx3.chart.AreaSeries.FORM_SEGMENT" jsxtext="Segment"/>
-        <enum jsxid="jsx3.chart.AreaSeries.FORM_STEP" jsxtext="Step"/>
-        <enum jsxid="jsx3.chart.AreaSeries.FORM_REVSTEP" jsxtext="ReverseStep"/>
-      </record>
-      <record jsxid="pointRenderer" jsxtext="Point Renderer"
-          eval="0"
-          jsxtip="Sets the renderer to use for rendering points in this series.  Built-in renderers are fields in &lt;code&gt;jsx3.chart.PointRenderer&lt;/code&gt;. If empty, points aren't rendered."
-          docgetter="getPointRenderer" docsetter="setPointRenderer"
-          jsxmask="jsxselect"
-          jsxtype="jsxchartrenderer"
-          jsxexecute="objJSX.setPointRenderer(vntValue); objJSX.repaint(); objJSX.getChart().repaintParts(jsx3.chart.Chart.PART_LEGEND);"
-          jsxtarget="series1">
-        <enum jsxid="jsx3.chart.PointRenderer.CIRCLE" eval="0" jsxtext="Circle"/>
-        <enum jsxid="jsx3.chart.PointRenderer.CROSS" eval="0" jsxtext="Cross"/>
-        <enum jsxid="jsx3.chart.PointRenderer.DIAMOND" eval="0" jsxtext="Diamond"/>
-        <enum jsxid="jsx3.chart.PointRenderer.BOX" eval="0" jsxtext="Box"/>
-        <enum jsxid="jsx3.chart.PointRenderer.TRIANGLE" eval="0" jsxtext="Triangle"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_areachartplain" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.chart.AreaChart">
-      <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
-      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record cat=&quot;03Q1&quot; y1=&quot;100000&quot;/&gt; &lt;record cat=&quot;03Q2&quot; y1=&quot;175000&quot;/&gt; &lt;record cat=&quot;03Q3&quot; y1=&quot;400000&quot;/&gt; &lt;record cat=&quot;03Q4&quot; y1=&quot;750000&quot;/&gt; &lt;record cat=&quot;04Q1&quot; y1=&quot;800000&quot; y2=&quot;250000&quot;/&gt; &lt;record cat=&quot;04Q2&quot; y1=&quot;900000&quot; y2=&quot;300000&quot;/&gt; &lt;record cat=&quot;04Q3&quot; y1=&quot;1050000&quot; y2=&quot;850000&quot;/&gt; &lt;record cat=&quot;04Q4&quot; y1=&quot;1300000&quot; y2=&quot;1700000&quot;/&gt; &lt;/data&gt;"/>
-      <object type="jsx3.chart.ChartLabel">
-        <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
-        <strings jsxname="title" jsxtext="Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
-      </object>
-      <object type="jsx3.chart.CategoryAxis">
-        <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" numCategories="8" numSeries="2" length="242" jsxleft="40" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
-        <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#666666 1" labelStyle="font-family: Verdana; font-size: 8px;" tickAlignment="aligned" categoryField="cat"/>
+  <name><![CDATA[foo]]></name>
+  <icon/>
+  <description><![CDATA[blah]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onChartTypeSelect = function(strRecordId){
+  chart.setType(strRecordId);
+  chart.repaint();
+};
+
+this.onSeriesTypeSelect = function(strRecordId){
+  series1.setForm(strRecordId);
+  series2.setForm(strRecordId);
+  chart.repaint();
+};
+
+this.onPointRendererSelect = function(strRecordId){
+  var renderer = (strRecordId == "NONE" ? null : strRecordId);
+  series1.setPointRenderer(renderer);
+  series2.setPointRenderer(renderer);
+  chart.repaint();
+};
+
+chart_type.setValue(chart.getType());
+series_type.setValue(series1.getForm());
+
+var pointRenderer = series1.getPointRenderer();
+if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
+  point_renderer.setValue("jsx3.chart.PointRenderer.CIRCLE");
+} else if(pointRenderer === jsx3.chart.PointRenderer.CROSS) {
+  point_renderer.setValue("jsx3.chart.PointRenderer.CROSS");
+} else if(pointRenderer === jsx3.chart.PointRenderer.DIAMOND) {
+  point_renderer.setValue("jsx3.chart.PointRenderer.DIAMOND");
+} else if(pointRenderer === jsx3.chart.PointRenderer.BOX) {
+  point_renderer.setValue("jsx3.chart.PointRenderer.BOX");
+} else if(pointRenderer === jsx3.chart.PointRenderer.TRIANGLE) {
+  point_renderer.setValue("jsx3.chart.PointRenderer.TRIANGLE");
+} else {
+  point_renderer.setValue("NONE");
+}
+]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8pixel"/>
+      <object type="jsx3.chart.AreaChart">
+        <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
+        <strings jsxname="chart" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record cat=&quot;03Q1&quot; y1=&quot;100000&quot;/&gt; &lt;record cat=&quot;03Q2&quot; y1=&quot;175000&quot;/&gt; &lt;record cat=&quot;03Q3&quot; y1=&quot;400000&quot;/&gt; &lt;record cat=&quot;03Q4&quot; y1=&quot;750000&quot;/&gt; &lt;record cat=&quot;04Q1&quot; y1=&quot;800000&quot; y2=&quot;250000&quot;/&gt; &lt;record cat=&quot;04Q2&quot; y1=&quot;900000&quot; y2=&quot;300000&quot;/&gt; &lt;record cat=&quot;04Q3&quot; y1=&quot;1050000&quot; y2=&quot;850000&quot;/&gt; &lt;record cat=&quot;04Q4&quot; y1=&quot;1300000&quot; y2=&quot;1700000&quot;/&gt; &lt;/data&gt;"/>
         <object type="jsx3.chart.ChartLabel">
-          <variants preferredHeight="14" labelRotation="0" jsxfontsize="12" jsxleft="0" jsxtop="239" jsxwidth="242" jsxheight="14"/>
-          <strings jsxname="xTitle" jsxtext="Quarter" jsxfontname="Arial" jsxtextalign="center" jsxfontweight="bold"/>
+          <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
+          <strings jsxname="title" jsxtext="Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        </object>
+        <object type="jsx3.chart.CategoryAxis">
+          <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" numCategories="8" numSeries="2" length="242" jsxleft="40" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+          <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#666666 1" labelStyle="font-family: Verdana; font-size: 8px;" tickAlignment="aligned" categoryField="cat"/>
+          <object type="jsx3.chart.ChartLabel">
+            <variants preferredHeight="14" labelRotation="0" jsxfontsize="12" jsxleft="0" jsxtop="239" jsxwidth="242" jsxheight="14"/>
+            <strings jsxname="xTitle" jsxtext="Quarter" jsxfontname="Arial" jsxtextalign="center" jsxfontweight="bold"/>
+          </object>
+        </object>
+        <object type="jsx3.chart.LinearAxis">
+          <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="3" displayWidth="20" autoAdjust="1" baseAtZero="1" length="223" jsxleft="40" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+          <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="none" minorTickStroke="#000000 1 1" labelFunction="function (x) { return x / 1000000; }" labelStyle="font-family: Verdana; font-size: 8px; text-align: right;"/>
+          <object type="jsx3.chart.ChartLabel">
+            <variants preferredWidth="14" labelRotation="270" jsxfontsize="12" jsxleft="-40" jsxtop="0" jsxwidth="14" jsxheight="223"/>
+            <strings jsxname="ytitle" jsxtext="Units (millions)" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+          </object>
+        </object>
+        <object type="jsx3.chart.GridLines">
+          <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" inForeground="0" strokeMajorH="['#DDDDDD 1 1']" strokeMinorH="['#EEEEEE 1 1']" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223" jsxzindex="11"/>
+          <strings jsxname="grid" borderStroke="#CCCCCC 1"/>
+        </object>
+        <object type="jsx3.chart.AreaSeries">
+          <variants usePrimaryX="1" usePrimaryY="1" index="0" jsxzindex="20" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223"/>
+          <strings jsxname="series1" seriesName="iPod" stroke="#AAAAAA 2" fill="#DDDDDD .5" yField="y1" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip"/>
+        </object>
+        <object type="jsx3.chart.AreaSeries">
+          <variants usePrimaryX="1" usePrimaryY="1" index="1" jsxzindex="21" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223"/>
+          <strings jsxname="series2" seriesName="iPod mini" stroke="#FF3399 2" fill="#FF3399 .5" yField="y2" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip"/>
+        </object>
+        <object type="jsx3.chart.Legend">
+          <variants boxHeight="10" lineHeight="22" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
+          <strings jsxname="legend" labelStyle="font-size: 10px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+          <object type="jsx3.chart.ChartLabel">
+            <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="104" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
+            <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+          </object>
         </object>
       </object>
-      <object type="jsx3.chart.LinearAxis">
-        <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="3" displayWidth="20" autoAdjust="1" baseAtZero="1" length="223" jsxleft="40" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
-        <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="none" minorTickStroke="#000000 1 1" labelFunction="function (x) { return x / 1000000; }" labelStyle="font-family: Verdana; font-size: 8px; text-align: right;"/>
-        <object type="jsx3.chart.ChartLabel">
-          <variants preferredWidth="14" labelRotation="270" jsxfontsize="12" jsxleft="-40" jsxtop="0" jsxwidth="14" jsxheight="223"/>
-          <strings jsxname="ytitle" jsxtext="Units (millions)" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Chart Type" jsxfor="chart_type" jsxfontweight="bold"/>
         </object>
-      </object>
-      <object type="jsx3.chart.GridLines">
-        <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" inForeground="0" strokeMajorH="['#DDDDDD 1 1']" strokeMinorH="['#EEEEEE 1 1']" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223" jsxzindex="11"/>
-        <strings jsxname="grid" borderStroke="#CCCCCC 1"/>
-      </object>
-      <object type="jsx3.chart.AreaSeries">
-        <variants usePrimaryX="1" usePrimaryY="1" index="0" jsxzindex="20" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223"/>
-        <strings jsxname="series1" seriesName="iPod" stroke="#AAAAAA 2" fill="#DDDDDD .5" yField="y1" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip"/>
-      </object>
-      <object type="jsx3.chart.AreaSeries">
-        <variants usePrimaryX="1" usePrimaryY="1" index="1" jsxzindex="21" jsxleft="40" jsxtop="0" jsxwidth="242" jsxheight="223"/>
-        <strings jsxname="series2" seriesName="iPod mini" stroke="#FF3399 2" fill="#FF3399 .5" yField="y2" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip"/>
-      </object>
-      <object type="jsx3.chart.Legend">
-        <variants boxHeight="10" lineHeight="22" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
-        <strings jsxname="legend" labelStyle="font-size: 10px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
-        <object type="jsx3.chart.ChartLabel">
-          <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="104" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
-          <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="chart_type" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;overlay&quot; jsxtext=&quot;Overlay&quot;/&gt;&lt;record jsxid=&quot;stacked&quot; jsxtext=&quot;Stacked&quot;/&gt;&lt;record jsxid=&quot;stacked100&quot; jsxtext=&quot;Stacked 100%&quot;/&gt;&lt;/data&gt;" />
+          <events jsxselect="root.onChartTypeSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Series Type" jsxfor="series_type" jsxfontweight="bold"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="series_type" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;segment&quot; jsxtext=&quot;Segment&quot;/&gt;&lt;record jsxid=&quot;step&quot; jsxtext=&quot;Step&quot;/&gt;&lt;record jsxid=&quot;reverseStep&quot; jsxtext=&quot;Reverse Step&quot;/&gt;&lt;/data&gt;" />
+          <events jsxselect="root.onSeriesTypeSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Point Renderer" jsxfor="point_renderer" jsxfontweight="bold"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="point_renderer" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;NONE&quot; jsxtext=&quot;None&quot; /&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.CIRCLE&quot; jsxtext=&quot;Circle&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.CROSS&quot; jsxtext=&quot;Cross&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.DIAMOND&quot; jsxtext=&quot;Diamond&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.BOX&quot; jsxtext=&quot;Box&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.TRIANGLE&quot; jsxtext=&quot;Triangle&quot;/&gt;&lt;/data&gt;" />
+          <events jsxselect="root.onPointRendererSelect(strRECORDID);"/>
         </object>
       </object>
     </object>

@@ -32,7 +32,8 @@ length.setValue(slider.getLength());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%" jsxpadding="8 8 8 8"/>
@@ -59,50 +60,54 @@ length.setValue(slider.getLength());
         <variants/>
         <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
       </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="105"/>
-        <strings jsxname="formLabel" jsxtext="Show Track" jsxfor="showtrack" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.Select">
-        <variants jsxwidth="70" jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
-        <strings jsxname="showtrack" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;No&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Yes&quot;/&gt;&lt;/data&gt;"/>
-        <events jsxselect="root.onShowTrackSelect(strRECORDID);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="105"/>
-        <strings jsxname="formLabel" jsxtext="Jump to Click" jsxfor="jumptoclick" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.Select">
-        <variants jsxwidth="70" jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
-        <strings jsxname="jumptoclick" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;No&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Yes&quot;/&gt;&lt;/data&gt;"/>
-        <events jsxselect="root.onJumpToClickSelect(strRECORDID);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxmargin="16 0 0 0" jsxtext="Enabled" jsxfor="enabled" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.Select">
-        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
-        <strings jsxname="enabled" jsxmargin="16 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Disabled&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Enabled&quot;/&gt;&lt;/data&gt;"/>
-        <events jsxselect="root.onEnabledSelect(strRECORDID);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Value" jsxfor="value" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="value" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onValueChange(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Length" jsxfor="length" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="length" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onLengthChange(strVALUE);"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Show Track" jsxfor="showtrack" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="showtrack" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;No&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Yes&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onShowTrackSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Jump to Click" jsxfor="jumptoclick" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="jumptoclick" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;No&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Yes&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onJumpToClickSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxmargin="16 0 0 0" jsxtext="Enabled" jsxfor="enabled" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="enabled" jsxmargin="16 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Disabled&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Enabled&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onEnabledSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Value" jsxfor="value" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="value" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onValueChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Length" jsxfor="length" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="length" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onLengthChange(strVALUE);"/>
+        </object>
       </object>
     </object>
   </object>

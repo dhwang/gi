@@ -6,7 +6,8 @@
   <onAfterDeserialize/>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>

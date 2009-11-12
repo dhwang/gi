@@ -36,7 +36,8 @@ inactivecolor.setValue(stack1.getInactiveColor());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
     <events jsxdestroy="objPARENT.getServer().setLocale(jsx3.util.Locale.valueOf(''));"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
@@ -93,50 +94,54 @@ inactivecolor.setValue(stack1.getInactiveColor());
         <variants/>
         <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
       </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Text 1" jsxfor="text1" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="text1" jsxmargin="0 4 4 0" jsxvalue="Stack 1"/>
-        <events jsxchange="root.onText1Change(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Text 2" jsxfor="text2" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="text2" jsxmargin="0 4 4 0" jsxvalue="Stack 2"/>
-        <events jsxchange="root.onText2Change(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Text 3" jsxfor="text3" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="text3" jsxmargin="0 4 4 0" jsxvalue="Stack 3"/>
-        <events jsxchange="root.onText3Change(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Active Color" jsxfor="activecolor" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="activecolor" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onActiveColorChange(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Inactive Color" jsxfor="inactivecolor" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="inactivecolor" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onInactiveColorChange(strVALUE);"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Text 1" jsxfor="text1" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="text1" jsxmargin="0 0 4 0" jsxvalue="Stack 1" jsxwidth="50%"/>
+          <events jsxchange="root.onText1Change(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Text 2" jsxfor="text2" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="text2" jsxmargin="0 0 4 0" jsxvalue="Stack 2" jsxwidth="50%"/>
+          <events jsxchange="root.onText2Change(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Text 3" jsxfor="text3" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="text3" jsxmargin="0 0 4 0" jsxvalue="Stack 3" jsxwidth="50%"/>
+          <events jsxchange="root.onText3Change(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Active Color" jsxfor="activecolor" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="activecolor" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onActiveColorChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Inactive Color" jsxfor="inactivecolor" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="inactivecolor" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onInactiveColorChange(strVALUE);"/>
+        </object>
       </object>
     </object>
   </object>

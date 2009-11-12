@@ -27,7 +27,8 @@ size.setValue(textbox.getFontSize());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
@@ -53,41 +54,45 @@ size.setValue(textbox.getFontSize());
         <variants/>
         <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
       </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Color" jsxfor="color" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="color" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onColorChange(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Font" jsxfor="font" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="font" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onFontChange(strVALUE);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Weight" jsxfor="weight" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.Select">
-        <variants jsxwidth="100" jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
-        <strings jsxname="weight" jsxmargin="0 4 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;normal&quot; jsxtext=&quot;Normal&quot;/&gt;&lt;record jsxid=&quot;bold&quot; jsxtext=&quot;Bold&quot;/&gt;&lt;/data&gt;"/>
-        <events jsxselect="root.onWeightSelect(strRECORDID);"/>
-      </object>
-      <object type="jsx3.gui.Label">
-        <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="75"/>
-        <strings jsxname="formLabel" jsxtext="Size" jsxfor="size" jsxfontweight="bold" jsxtextalign="left"/>
-      </object>
-      <object type="jsx3.gui.TextBox">
-        <variants jsxheight="18" jsxwidth="100"/>
-        <strings jsxname="size" jsxmargin="0 4 4 0"/>
-        <events jsxchange="root.onSizeChange(strVALUE);"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Color" jsxfor="color" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="color" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onColorChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Font" jsxfor="font" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="font" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onFontChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Weight" jsxfor="weight" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="weight" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;normal&quot; jsxtext=&quot;Normal&quot;/&gt;&lt;record jsxid=&quot;bold&quot; jsxtext=&quot;Bold&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onWeightSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Size" jsxfor="size" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="size" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onSizeChange(strVALUE);"/>
+        </object>
       </object>
     </object>
   </object>

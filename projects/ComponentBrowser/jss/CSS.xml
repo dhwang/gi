@@ -1,4 +1,7 @@
 <data jsxid="jsxroot" jsxns="urn:tibco.com/v3.0/dynamicproperties/1">
   <record jsxid="@Col2 Background" type="jsxbgcolor" jsxtext="#f2f6f9"/>
+  <record jsxid="@Root Cols" type="jsxcols" jsxtext="*,200"/>
+  <!-- the following value should be the same as the second value in @Root Cols -->
+  <record jsxid="@View Source Width" type="jsxwidth" jsxtext="200"/>
   <record jsxid="jsxautorow"/>
 </data>

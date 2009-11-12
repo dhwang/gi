@@ -6,8 +6,8 @@
   <onAfterDeserialize/>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-    <strings jsxname="root" jsxcols="*,200" jsxwidth="100%" jsxheight="100%"/>
-    <events/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
@@ -24,11 +24,19 @@
       <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
       <object type="jsx3.gui.Block">
         <variants jsxfontsize="12" jsxoverflow="3"/>
-        <strings jsxname="name" jsxwidth="100%" jsxtext="Component Name" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
       </object>
       <object type="jsx3.gui.Block">
         <variants/>
-        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext="Component description"/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
       </object>
     </object>
   </object>
