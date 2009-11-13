@@ -11,6 +11,7 @@ require("Log");
 require("Rating");
 require("Auth");
 require("LDAPUser");
+require("showcase");
 
 var defaultApp = require("jack/cascade").Cascade([ 
 		// cascade from static to pintura REST handling
@@ -39,5 +40,4 @@ exports.app = function(request){
 	}
 	return defaultApp(request);
 };
-
-new (require("worker").SharedWorker)("console");
+new (require("worker").SharedWorker)("narwhal/repl");

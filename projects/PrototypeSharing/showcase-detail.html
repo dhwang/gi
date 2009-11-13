@@ -13,26 +13,51 @@
 
   <body class="tundra" id="applicationIndex">
 
-	<div class="appDetail">	
-		<h1>Sample demo title</h1>
-		<div class="appMeta">
-			<span class="appAuthor">John Doe - </span><span class="appDate">10/25/2009</span> <span class="appVersion">v1.2</span>	
-		</div>
-		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
-		<div class="appTags">
-			<span><a href="">Tag 1</a></span>
-			<span><a href="">Tag 2</a></span>
-			<span><a href="">Tag 3</a></span>
-			<span><a href="">Tag 4</a></span>
-			<span><a href="">Tag 5</a></span>
-		</div>
-		<div class="appActions">
-			<span><a class="launch" href="">Launch demo</a></span>
-			<span><a class="download" href="">Download source</a></span>
-		</div>	
-	</div>
-	<div class="comments">
-	</div>	
-			
+<form method="POST" enctype="multipart/form-data" id="upload-form" action="/Showcase/">
+						<div id="info-description">
+							<div style="margin-top: 1.5em;" class="description-row">
+								<label>Title: </label><input id="title-description"/><span class="required">*</span>
+							</div>
+							<div class="description-row">
+								<label>About: </label><textarea id="about-description"></textarea><span class="required">*</span>
+							</div>
+							<div class="description-row">
+								<label>Tags: </label><input id="tags-description"/>
+								<br/>
+								<small>Comma separated, e.g. Fun, Easy, Fast</small>
+							</div>
+							<div class="description-row">
+								<label id="proxy-url-label">Proxy URLs: </label><textarea id="proxy-description">
+								<br/>
+								<small>One per line</small>
+							</div><div class="description-row">
+								<label>GI Runtime Location: </label><input id="runtime-location-description"/>
+							</div></div>
+						<div id="info-details">
+							<hr/>
+							<span>Author: </span><input id="author-detail"/><span class="required">*</span>
+							<hr/>
+							<span>Email: </span><input id="email-detail"/><span class="required">*</span>
+							<hr/>
+							<span>Version: </span><input id="version-detail"/><span class="required">*</span>
+							<hr/>
+							<span>License: </span>
+							<select id="license-detail">
+								<option value="open-source">Open Source</option>
+								<option value="freeware">Freeware</option>
+								<option value="shareware">Shareware</option>
+							</select>
+							<hr/>
+							<span>App Key: </span><input id="key-detail"/>
+							<hr/>
+							<span>App File: </span><input type="file" id="file-detail"/><span class="required">*</span>
+							<hr/>
+							<div class="errorMessage">
+								<span>File Error: </span> <span style="width: 70%;">Error message here.</span>
+							</div>								
+			        		<button id="save-button"><span class="saveIcon"/>Save</button>
+							<button id="cancel-button"><span class="cancelIcon"/>Cancel</button>
+						</div>
+					</form>			
   </body>
 </html>

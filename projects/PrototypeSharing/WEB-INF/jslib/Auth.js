@@ -18,9 +18,13 @@ var authStore = SQLStore({
 });
 
 var AuthClass = persisted.Class("Auth", authStore, {});
+var BYPASS_SECURITY = require("settings").BYPASS_SECURITY;
 
 security.authClass = AuthClass; 
 security.authenticate = function(username, password){
+	if(BYPASS_SECURITY){
+		return {uid:username,isAdmin:true};
+	}
 	var context = LDAPConfig.getContext(username, password);
 	var attr = LDAPConfig.getAllAttributes(LDAPConfig.getUserDN(username), null);
 	// copy over all the ldap props, except pass

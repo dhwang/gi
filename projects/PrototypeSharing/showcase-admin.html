@@ -56,137 +56,55 @@
 						<button id="delete-button"><span class="deleteIcon"></span>Delete</button>
 					</div>
 									
-					<div id="info-tab" jsid="infoTab" dojoType="dijit.layout.ContentPane" title="App Info" tooltip="Information about application">
-						<div id="info-description">
-							<h5 id="address-book-header">Address Book</h5>
-							<p><span id="address-book-detail"></span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat Lorem ipsum dolor sit amet, consectetuer adipiscing eli.Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p>
-							<h5>Tagged</h5>
-							<p><span id="tagged-detail"></span>Address, Share, Buddies, Book, Contacts</p>
-							<h5>Proxy URLs</h5>
-							<p><span id="proxy-detail"></span>None</p>
-							<h5>GI Runtime Location</h5>
-							<p><span id="runtime-location-detail"></span>None</p>														
-						</div>
-						<div id="info-details">
-							<hr />
-							<span>Author: </span><strong id="author-detail">Adam Smith</strong><a href="" id="author-email">asmith@gmail.com</a>
-							<hr />
-							<span>Version: </span><strong id="version-detail">1.23</strong>
-							<hr />
-							<span>License: </span><strong id="license-detail">Open Source</strong>
-							<hr />
-							<span>Uploaded: </span><strong id="uploaded-detail">11/10/2009</strong>
-							<hr />
-							<span>App Key: </span><strong id="key-detail">-</strong>
-							<hr />
-							<button id="view">View</button>
-							<button id="download">Download</button>
-						</div>
-					</div>
 
-		        	<div class="component-actions app-modify-buttons">
-		        		<button id="save-button"><span class="saveIcon"></span>Save</button>
-						<button id="cancel-button"><span class="cancelIcon"></span>Cancel</button>
-					</div>	
-
-					<div id="modify-tab" jsid="modifyTab" dojoType="dijit.layout.ContentPane" title="Modify" tooltip="Modify an application">
-					
-						<div id="info-description">
-							<div class="description-row" style="margin-top: 1.5em">
-								<label>Title: </label><input id="title-description"></input><span class="required">*</span>
-							</div>
-							<div class="description-row">
-								<label>About: </label><textarea id="about-description"></textarea><span class="required">*</span>
-							</div>
-							<div class="description-row">
-								<label>Tags: </label><input id="tags-description"></input>
-								<br />
-								<small>Comma separated, e.g. Fun, Easy, Fast</small>								
-							</div>
-							<div class="description-row">
-								<label id="proxy-url-label">Proxy URLs: </label><textarea id="proxy-description"></textarea>
-								<br />
-								<small>One per line</small>
-							</div
-							<div class="description-row">
-								<label>GI Runtime Location: </label><input id="runtime-location-description"></input>
-							</div																											
-						</div>
-						<div id="info-details">
-							<hr />
-							<span>Author: </span><input id="author-detail"></input><span class="required">*</span>
-							<hr />
-							<span>Email: </span><input id="email-detail"></input><span class="required">*</span>
-							<hr />
-							<span>Version: </span><input id="version-detail"></input><span class="required">*</span>
-							<hr />
-							<span>License: </span>
-							<select id="license-detail">
-								<option value="open-source">Open Source</option>
-								<option value="freeware">Freeware</option>
-								<option value="shareware">Shareware</option>
-							</select>
-							<hr />
-							<span>App Key: </span><input id="key-detail"></input>
-							<hr />
-							<span>App File: </span><input id="file-detail"></input><span style="width:auto"><button id="browse">Browse</button></span><span class="required">*</span>
-							<hr />
-							<div class="replace">
-								<span>&nbsp;</span><button id="replace">Replace</button>
-							</div>	
-						</div>
-					</div>
-
-		        	<div class="component-actions app-upload-buttons">
-		        		<button id="save-button"><span class="saveIcon"></span>Save</button>
-						<button id="cancel-button"><span class="cancelIcon"></span>Cancel</button>
-					</div>	
 
 					<div id="upload-tab" jsid="uploadTab" dojoType="dijit.layout.ContentPane" title="Upload Application" tooltip="Upload an application">
 					<form id="upload-form" enctype="multipart/form-data" method="POST">
 						<div id="info-description">
 							<div class="description-row" style="margin-top: 1.5em">
-								<label>Title: </label><input id="title-description"></input><span class="required">*</span>
+								<label>Title: </label><input name="title" id="title-description"></input><span class="required">*</span>
 							</div>
 							<div class="description-row">
-								<label>About: </label><textarea id="about-description"></textarea><span class="required">*</span>
+								<label>About: </label><textarea name="description" id="about-description"></textarea><span class="required">*</span>
 							</div>
 							<div class="description-row">
-								<label>Tags: </label><input id="tags-description"></input>
+								<label>Tags: </label><input name="tags" id="tags-description"></input>
 								<br />
 								<small>Comma separated, e.g. Fun, Easy, Fast</small>
 							</div>
 							<div class="description-row">
-								<label id="proxy-url-label">Proxy URLs: </label><textarea id="proxy-description"></textarea>
+								<label id="proxy-url-label">Proxy URLs: </label><textarea name="proxy" id="proxy-description"></textarea>
 								<br />
 								<small>One per line</small>
 							</div
 							<div class="description-row">
-								<label>GI Runtime Location: </label><input id="runtime-location-description"></input>
+								<label>GI Runtime Location: </label><input name="runtime" id="runtime-location-description"></input>
 							</div																											
 						</div>
 						<div id="info-details">
 							<hr />
-							<span>Author: </span><input id="author-detail"></input><span class="required">*</span>
+							<span>Author: </span><input name="author" id="author-detail"></input><span class="required">*</span>
 							<hr />
-							<span>Email: </span><input id="email-detail"></input><span class="required">*</span>
+							<span>Email: </span><input name="email" id="email-detail"></input><span class="required">*</span>
 							<hr />
-							<span>Version: </span><input id="version-detail"></input><span class="required">*</span>
+							<span>Version: </span><input name="version" id="version-detail"></input><span class="required">*</span>
 							<hr />
 							<span>License: </span>
-							<select id="license-detail">
+							<select name="license" id="license-detail">
 								<option value="open-source">Open Source</option>
 								<option value="freeware">Freeware</option>
 								<option value="shareware">Shareware</option>
 							</select>
 							<hr />
-							<span>App Key: </span><input id="key-detail"></input>
+							<span>App Key: </span><input name="key" id="key-detail"></input>
 							<hr />
-							<span>App File: </span><input id="file-detail" type="file"></input><span class="required">*</span>
+							<span>App File: </span><input name="zip" id="file-detail" type="file"></input><span class="required">*</span>
 							<hr />
 							<div class="errorMessage">
 								<span>File Error: </span> <span style="width:70%">Error message here.</span>
 							</div>								
+			        		<button id="save-button"><span class="saveIcon"></span>Save</button>
+							<button id="cancel-button"><span class="cancelIcon"></span>Cancel</button>
 						</div>
 					</form>
 					</div>

@@ -48,27 +48,15 @@ dojo.addOnLoad(function(){
 		showSelectedComponent();
 	});
 	function showSelectedComponent(){
-		var sourceCode = showcaseStore.getValue(selectedItem, "component");
-		sourceCode = sourceCode && sourceCode.toString().replace(/</g,"&lt;");
-		setText(dojo.byId("author-detail"), showcaseStore.getValue(selectedItem, "user"));
-		setText(dojo.byId("name-detail"), showcaseStore.getValue(selectedItem, "name"));
-		setText(dojo.byId("status-detail"), showcaseStore.getValue(selectedItem, "status"));
-		setText(dojo.byId("downloads-detail"), showcaseStore.getValue(selectedItem, "downloads"));
-		setText(dojo.byId("uploaded-detail"), showcaseStore.getValue(selectedItem, "uploaded"));
-		setText(dojo.byId("rating-detail"), showcaseStore.getValue(selectedItem, "rating"));
-		setText(dojo.byId("description-detail"), showcaseStore.getValue(selectedItem, "description"));
-		dojo.byId("component-log").innerHTML = dojo.map(showcaseStore.getValue(selectedItem, "log"), function(entry){
-			return "<hr /><div><span>Action: <span><span>" + entry.action + "</span></div>" +
-					"<div><span>Notes: <span><span>" + entry.notes + "</span></div>";
-		}).join("\n");
+		dojo.byId("title-description").value = showcaseStore.getValue(selectedItem, "title");
 		
 	}
 	var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
 
 	tabElement.style.width = "100%";
-	var componentActions = dojo.byId("component-actions");
+/*	var componentActions = dojo.byId("component-actions");
 	componentActions.style.display = "inline-block";
-	tabElement.appendChild(componentActions);
+	tabElement.appendChild(componentActions);*/
 	function showDialog(question, needReason, callback){
 		statusDialog.show();
 		dojo.byId("action-confirmation").innerHTML = question;
@@ -89,10 +77,11 @@ dojo.addOnLoad(function(){
 			alert("Save failed: " + error.responseText);
 		}		
 	};
-	dojo.connect(dojo.byId("save-button"), "onclick", function(){
+	dojo.connect(dojo.byId("save-button"), "onclick", function(e){
+		dojo.stopEvent(e);
 		dojo.io.iframe.send({
 			form:"upload-form",
-			url:"/Application?pintura-auth=" + dojo.cookie("pintura-auth") 
+			url:"http://localhost:7000/Showcase/?pintura-auth=" + dojo.cookie("pintura-auth") 
 		});
 	});
 	
