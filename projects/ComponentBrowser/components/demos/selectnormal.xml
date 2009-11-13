@@ -1,6 +1,113 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Select]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates a Select control. Notice that the control is localized, so changing the locale changes the default text that shows up when nothing is selected.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onEnabledSelect = function(strRecordId) {
+  select.setEnabled(strRecordId == "0" ? 0 : 1).repaint();
+};
+
+this.onLocaleSelect = function(strRecordId) {
+  var server = this.getServer();
+  server.setLocale(jsx3.util.Locale.valueOf(strRecordId));
+  server.reloadLocalizedResources();
+  select.repaint();
+};
+
+this.onDataSourceSelect = function(strRecordId) {
+  var xml;
+  switch (strRecordId) {
+    case "0":
+      xml = '<data jsxid="jsxroot"><record jsxid="ar" jsxtext="Arabic"/><record jsxid="zh" jsxtext="Chinese"/><record jsxid="da" jsxtext="Danish"/><record jsxid="nl" jsxtext="Dutch"/><record jsxid="en" jsxtext="English"/><record jsxid="fr" jsxtext="French"/><record jsxid="fi" jsxtext="Finnish"/><record jsxid="de" jsxtext="German"/><record jsxid="el" jsxtext="Greek"/><record jsxid="he" jsxtext="Hebrew"/><record jsxid="id" jsxtext="Indonesian"/><record jsxid="it" jsxtext="Italian"/><record jsxid="ja" jsxtext="Japanese"/><record jsxid="ko" jsxtext="Korean"/><record jsxid="nn" jsxtext="Norwegian"/><record jsxid="pl" jsxtext="Polish"/><record jsxid="pt" jsxtext="Portuguese"/><record jsxid="ru" jsxtext="Russian"/><record jsxid="es" jsxtext="Spanish"/><record jsxid="sv" jsxtext="Swedish"/><record jsxid="th" jsxtext="Thai"/><record jsxid="tr" jsxtext="Turkish"/><record jsxid="vi" jsxtext="Vietnamese"/></data>';
+      break;
+    case "1":
+      xml = '<data jsxid="jsxroot"><record jsxid="1" jsxtext="Icon 1" jsximg="images/icon_1.gif"/><record jsxid="2" jsxtext="Icon 2" jsximg="images/icon_13.gif"/><record jsxid="3" jsxtext="Icon 3" jsximg="images/icon_32.gif"/><record jsxid="4" jsxtext="Icon 4" jsximg="images/icon_84.gif"/></data>';
+      break;
+    case "2":
+      xml = '<data jsxid="jsxroot"><record jsxid="ok" jsxtext="OK" jsxstyle="color:#393; font-weight:bold;" jsxtip="Tooltip for the OK state"/><record jsxid="notice" jsxtext="Notice" jsxstyle="background-color:#508FE5; color:#A0E8F8;" jsxtip="Tooltip for the Notice state"/><record jsxid="warning" jsxtext="Warning" jsxstyle="background-color:#FF0;" jsxtip="Tooltip for the Warning state"/><record jsxid="error" jsxtext="Error" jsxstyle="background-color:#C00; color:#FF0;" jsxtip="Tooltip for the Error state"/></data>';
+      break;
+  }
+  select.resetCacheData();
+  select.setXMLString(xml);
+  xmllisting.resetCacheData();
+  xmllisting.setXMLString(xml);
+  xmllisting.repaint();
+};
+
+enabled.setValue(select.getEnabled());
+locale.setValue(this.getServer().getLocale().getLanguage());
+xmllisting.setXMLString(select.getXMLString());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Select">
+        <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+        <strings jsxname="select" jsxwidth="200" jsxmargin="0 0 4 0" jsxdisplay=""/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxheight="35"/>
+        <strings jsxname="text" jsxwidth="100%" jsxtext="Data Source:" jsxdisplay="" jsxpadding="20 0 0 0"/>
+      </object>
+      <object type="jsx3.gui.BlockX">
+        <variants jsxrelativeposition="0" jsxleft="10" jsxtop="70" jsxxmlasync="1" jsxxslasync="1"/>
+        <strings jsxname="xmllisting" jsxwidth="100%" jsxdisplay="" jsxoverflow="2"/>
+        <dynamics jsxbgcolor="@Solid Medium" jsxpadding="@8Pixel" jsxborder="@Inset"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Enabled" jsxfor="enabled" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1" jsxvalue="1"/>
+          <strings jsxname="enabled" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Disabled&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Enabled&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onEnabledSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Locale" jsxfor="locale" jsxfontweight="bold" jsxtextalign="left" jsxmargin="16 0 0 0" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="locale" jsxmargin="16 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;ar&quot; jsxtext=&quot;Arabic&quot;/&gt;&lt;record jsxid=&quot;zh&quot; jsxtext=&quot;Chinese&quot;/&gt;&lt;record jsxid=&quot;da&quot; jsxtext=&quot;Danish&quot;/&gt;&lt;record jsxid=&quot;nl&quot; jsxtext=&quot;Dutch&quot;/&gt;&lt;record jsxid=&quot;en&quot; jsxtext=&quot;English&quot;/&gt;&lt;record jsxid=&quot;fr&quot; jsxtext=&quot;French&quot;/&gt;&lt;record jsxid=&quot;fi&quot; jsxtext=&quot;Finnish&quot;/&gt;&lt;record jsxid=&quot;de&quot; jsxtext=&quot;German&quot;/&gt;&lt;record jsxid=&quot;el&quot; jsxtext=&quot;Greek&quot;/&gt;&lt;record jsxid=&quot;he&quot; jsxtext=&quot;Hebrew&quot;/&gt;&lt;record jsxid=&quot;id&quot; jsxtext=&quot;Indonesian&quot;/&gt;&lt;record jsxid=&quot;it&quot; jsxtext=&quot;Italian&quot;/&gt;&lt;record jsxid=&quot;ja&quot; jsxtext=&quot;Japanese&quot;/&gt;&lt;record jsxid=&quot;ko&quot; jsxtext=&quot;Korean&quot;/&gt;&lt;record jsxid=&quot;nn&quot; jsxtext=&quot;Norwegian&quot;/&gt;&lt;record jsxid=&quot;pl&quot; jsxtext=&quot;Polish&quot;/&gt;&lt;record jsxid=&quot;pt&quot; jsxtext=&quot;Portuguese&quot;/&gt;&lt;record jsxid=&quot;ru&quot; jsxtext=&quot;Russian&quot;/&gt;&lt;record jsxid=&quot;es&quot; jsxtext=&quot;Spanish&quot;/&gt;&lt;record jsxid=&quot;sv&quot; jsxtext=&quot;Swedish&quot;/&gt;&lt;record jsxid=&quot;th&quot; jsxtext=&quot;Thai&quot;/&gt;&lt;record jsxid=&quot;tr&quot; jsxtext=&quot;Turkish&quot;/&gt;&lt;record jsxid=&quot;vi&quot; jsxtext=&quot;Vietnamese&quot;/&gt;&lt;/data&gt;" jsxwidth="50%" jsxvalue=""/>
+          <events jsxselect="root.onLocaleSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Data Source" jsxfor="datasource" jsxfontweight="bold" jsxtextalign="left" jsxmargin="16 0 0 0" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="datasource" jsxmargin="16 0 4 0" jsxwidth="50%" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Source 1&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Source 2&quot;/&gt;&lt;record jsxid=&quot;2&quot; jsxtext=&quot;Source 3&quot;/&gt;&lt;/data&gt;"/>
+          <events jsxselect="root.onDataSourceSelect(strRECORDID);"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>
