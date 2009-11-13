@@ -1,6 +1,64 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Table]]></name>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onHeaderHeightChange = function(strValue) {
+  table.setHeaderHeight(strValue);
+};
+
+header_height.setValue(table.getHeaderHeight());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Table">
+          <variants jsxselectionmodel="0" jsxfontsize="10" jsxxmlasync="1" jsxsort="0"/>
+          <strings jsxheaderheight="29" jsxname="table" jsxcolumnprofile="&lt;data jsxid=&quot;jsxroot&quot;&gt;     &lt;record jsxid=&quot;a5&quot; jsxwidth=&quot;20&quot; jsxtext=&quot;&amp;lt;div style='padding:8px;border-right:solid 1px gray;border-bottom:solid 1px gray;white-space:nowrap;'&amp;gt;Country&amp;lt;/div&amp;gt;&quot; jsxpath=&quot;jsxtext&quot; jsxpathtype=&quot;text&quot;/&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               &lt;record jsxid=&quot;jsx_1&quot; jsxpath=&quot;jsxpopulation&quot; jsxtext=&quot;&amp;lt;div style='padding:8px;border-right:solid 1px gray;border-bottom:solid 1px gray;white-space:nowrap;'&amp;gt;Population&amp;lt;/div&amp;gt;&quot; jsxwidth=&quot;20&quot; jsxpathtype=&quot;number&quot;/&gt;&lt;/data&gt;" jsxcellstyle="border-right:solid 1px gray;border-bottom:solid 1px gray;padding:4px;padding-bottom:3px;cursor:default;word-wrap:break-word;" jsxheaderstyle="background-color:#dfdfff;" jsxfontweight="normal" jsxbgcolor="#fafaff" jsxfontname="Verdana" jsxcolor="#232743" jsxpadding="12" jsxborder="solid 1px gray" jsxtextalign="right" jsxrowstyle="background-color:#fafaff;" jsxaltrowstyle="background-color:#efefff;" jsxxmlurl="xml/countries.xml"/>
+          <dynamics jsxbg="@Bevel TopDown"/>
+          <events jsxselect="jsx3.log('The target record that was just clicked is ' + this.getSelectedIds());"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Header Height" jsxfor="header_height" jsxwidth="50%" jsxfontweight="bold"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="header_height" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onHeaderHeightChange(strVALUE);"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>

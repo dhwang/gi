@@ -119,7 +119,7 @@ if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
         <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
         <object type="jsx3.gui.Label">
           <variants jsxrelativeposition="1" jsxoverflow="3"/>
-          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Men Point Renderer" jsxfor="men_point_renderer" jsxfontweight="bold"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Men Point Renderer" jsxfor="men_point_renderer" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
         </object>
         <object type="jsx3.gui.Select">
           <variants jsxheight="18" jsxxmlasync="1"/>
@@ -128,7 +128,7 @@ if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
         </object>
         <object type="jsx3.gui.Label">
           <variants jsxrelativeposition="1" jsxoverflow="3"/>
-          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Women Point Renderer" jsxfor="women_point_renderer" jsxfontweight="bold"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Women Point Renderer" jsxfor="women_point_renderer" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
         </object>
         <object type="jsx3.gui.Select">
           <variants jsxheight="18" jsxxmlasync="1"/>

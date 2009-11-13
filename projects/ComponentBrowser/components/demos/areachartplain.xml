@@ -47,7 +47,7 @@ if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="1"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
-      <dynamics jsxborder="@Outset" jsxpadding="@8pixel"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
       <object type="jsx3.chart.AreaChart">
         <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
         <strings jsxname="chart" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record cat=&quot;03Q1&quot; y1=&quot;100000&quot;/&gt; &lt;record cat=&quot;03Q2&quot; y1=&quot;175000&quot;/&gt; &lt;record cat=&quot;03Q3&quot; y1=&quot;400000&quot;/&gt; &lt;record cat=&quot;03Q4&quot; y1=&quot;750000&quot;/&gt; &lt;record cat=&quot;04Q1&quot; y1=&quot;800000&quot; y2=&quot;250000&quot;/&gt; &lt;record cat=&quot;04Q2&quot; y1=&quot;900000&quot; y2=&quot;300000&quot;/&gt; &lt;record cat=&quot;04Q3&quot; y1=&quot;1050000&quot; y2=&quot;850000&quot;/&gt; &lt;record cat=&quot;04Q4&quot; y1=&quot;1300000&quot; y2=&quot;1700000&quot;/&gt; &lt;/data&gt;"/>

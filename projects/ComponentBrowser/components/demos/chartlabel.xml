@@ -5,10 +5,12 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onPlacementSelect = function(strRecordId){
-  chart.setTitlePlacement(strRecordId, true);
+  chart.setTitlePlacement(strRecordId);
+  chart.repaint();
 };
 this.onTextChange = function(strValue){
-  chartLabel.setText(strValue, true);
+  chartLabel.setText(strValue);
+  chart.repaint();
 };
 label_placement.setValue(chart.getTitlePlacement());
 label_text.setValue(chartLabel.getText());
@@ -23,7 +25,7 @@ label_text.setValue(chartLabel.getText());
       <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
       <object type="jsx3.chart.AreaChart">
         <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
-        <strings jsxname="chart" titlePlacement="right" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record cat=&quot;03Q1&quot; y1=&quot;100000&quot;/&gt; &lt;record cat=&quot;03Q2&quot; y1=&quot;175000&quot;/&gt; &lt;record cat=&quot;03Q3&quot; y1=&quot;400000&quot;/&gt; &lt;record cat=&quot;03Q4&quot; y1=&quot;750000&quot;/&gt; &lt;record cat=&quot;04Q1&quot; y1=&quot;800000&quot; y2=&quot;250000&quot;/&gt; &lt;record cat=&quot;04Q2&quot; y1=&quot;900000&quot; y2=&quot;300000&quot;/&gt; &lt;record cat=&quot;04Q3&quot; y1=&quot;1050000&quot; y2=&quot;850000&quot;/&gt; &lt;record cat=&quot;04Q4&quot; y1=&quot;1300000&quot; y2=&quot;1700000&quot;/&gt; &lt;/data&gt;"/>
+        <strings jsxname="chart" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record cat=&quot;03Q1&quot; y1=&quot;100000&quot;/&gt; &lt;record cat=&quot;03Q2&quot; y1=&quot;175000&quot;/&gt; &lt;record cat=&quot;03Q3&quot; y1=&quot;400000&quot;/&gt; &lt;record cat=&quot;03Q4&quot; y1=&quot;750000&quot;/&gt; &lt;record cat=&quot;04Q1&quot; y1=&quot;800000&quot; y2=&quot;250000&quot;/&gt; &lt;record cat=&quot;04Q2&quot; y1=&quot;900000&quot; y2=&quot;300000&quot;/&gt; &lt;record cat=&quot;04Q3&quot; y1=&quot;1050000&quot; y2=&quot;850000&quot;/&gt; &lt;record cat=&quot;04Q4&quot; y1=&quot;1300000&quot; y2=&quot;1700000&quot;/&gt; &lt;/data&gt;"/>
         <object type="jsx3.chart.ChartLabel">
           <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
           <strings jsxname="chartLabel" jsxtext="Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>

@@ -5,17 +5,17 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onTotalAngleChange = function(strValue) {
-  chart.setTotalAngle(strValue);
+  series1.setTotalAngle(parseInt(strValue, 10));
   chart.repaint();
 };
 
 this.onStartAngleChange = function(strValue) {
-  chart.setStartAngle(strValue);
+  series1.setStartAngle(parseInt(strValue, 10));
   chart.repaint();
 };
 
-total_angle.setValue(chart.getTotalAngle());
-start_angle.setValue(chart.getStartAngle());
+total_angle.setValue(series1.getTotalAngle());
+start_angle.setValue(series1.getStartAngle());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -30,14 +30,14 @@ start_angle.setValue(chart.getStartAngle());
         <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
         <dynamics jsxpadding="@8Pixel"/>
         <object type="jsx3.chart.PieChart">
-          <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1" innerRadius="0" seriesPadding="0.1" totalAngle="360" startAngle="0" colors="['#FF0033','#66CC00','#00FF66','#CCCCCC','#FFCC33','#66CCCC','#CCFF66','#666666']"/>
+          <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1" innerRadius="0" seriesPadding="0.1" colors="['#FF0033','#66CC00','#00FF66','#CCCCCC','#FFCC33','#66CCCC','#CCFF66','#666666']"/>
           <strings jsxname="chart" titlePlacement="top" legendPlacement="right" dataPadding="20" borderColor="#999999" categoryField="name" colorFunction="jsx3.chart.PieChart.defaultColoring" seriesStroke="#666666" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record name=&quot;Taxes&quot; value=&quot;24750&quot;/&gt; &lt;record name=&quot;Housing&quot; value=&quot;57840&quot;/&gt; &lt;record name=&quot;Food&quot; value=&quot;15930&quot;/&gt; &lt;record name=&quot;Other&quot; value=&quot;26050&quot;/&gt; &lt;/data&gt;"/>
           <object type="jsx3.chart.ChartLabel">
             <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
             <strings jsxname="title" jsxtext="Pie Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
           </object>
           <object type="jsx3.chart.PieSeries">
-            <variants usePrimaryX="1" usePrimaryY="1" index="0" jsxzindex="21" jsxleft="0" jsxtop="0" jsxwidth="258" jsxheight="233"/>
+            <variants usePrimaryX="1" usePrimaryY="1" index="0" jsxzindex="21" jsxleft="0" jsxtop="0" jsxwidth="258" jsxheight="233" totalAngle="360" startAngle="0"/>
             <strings jsxname="series1" seriesName="Series 1" field="value" tooltipFunction="jsx3.chart.PieSeries.tooltip"/>
           </object>
           <object type="jsx3.chart.Legend">

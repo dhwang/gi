@@ -1,6 +1,77 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Task Bar]]></name>
+  <icon/>
+  <description><![CDATA[blah]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+        <strings jsxname="layoutRows" jsxrows="*,26" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <object type="jsx3.gui.Dialog">
+            <variants jsxwidth="431" jsxheight="318" jsxzindex="5000" jsxwindowstate="1" jsxleft="13" jsxtop="22"/>
+            <strings jsxname="dialog"/>
+            <dynamics jsxbgcolor="@Solid Medium"/>
+            <object type="jsx3.gui.WindowBar">
+              <variants/>
+              <strings jsxname="windowBar" jsxtext="A Dialog"/>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants/>
+                <strings jsxname="btnMinimize"/>
+                <dynamics jsximage="@Min Icon" jsxtip="jsx3.gui.Dialog.min"/>
+                <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doToggleState();"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants/>
+                <strings jsxname="btnMaximize"/>
+                <dynamics jsximage="@Max Icon" jsxtip="jsx3.gui.Dialog.max"/>
+                <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doMaximize(this);"/>
+              </object>
+              <object type="jsx3.gui.ToolbarButton">
+                <variants/>
+                <strings jsxname="btnClose"/>
+                <dynamics jsximage="@Close Icon" jsxtip="jsx3.gui.Dialog.close"/>
+                <events jsxexecute="this.getAncestorOfType(jsx3.gui.Dialog).doClose();"/>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxloadtype="1"/>
+              <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+            </object>
+          </object>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"/>
+          <object type="jsx3.gui.WindowBar">
+            <variants jsxbartype="3"/>
+            <strings jsxname="taskBar"/>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+    </object>
   </object>
 </serialization>

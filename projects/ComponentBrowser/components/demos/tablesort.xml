@@ -1,6 +1,41 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Sortable Table]]></name>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Table">
+          <variants jsxheaderheight="29" jsxselectionmodel="1" jsxfontsize="10" jsxxmlasync="1" jsxsort="1"/>
+          <strings jsxname="table" jsxcolumnprofile="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;a5&quot; jsxwidth=&quot;100&quot; jsxtext=&quot;&amp;lt;div style='padding:8px;border-right:solid 1px gray;border-bottom:solid 1px gray;white-space:nowrap;'&amp;gt;Country&amp;lt;/div&amp;gt;&quot; jsxpath=&quot;jsxtext&quot; jsxpathtype=&quot;text&quot;/&gt;&lt;record jsxid=&quot;a10&quot; jsxwidth=&quot;80&quot; jsxtext=&quot;&amp;lt;div style='padding:8px;border-right:solid 1px gray;border-bottom:solid 1px gray;white-space:nowrap;'&amp;gt;Population&amp;lt;/div&amp;gt;&quot; jsxpath=&quot;jsxpopulation&quot; jsxpathtype=&quot;number&quot;/&gt;&lt;/data&gt;" jsxcellstyle="border-right:solid 1px gray;border-bottom:solid 1px gray;padding:4px;padding-bottom:3px;cursor:default;word-wrap:break-word;" jsxheaderstyle="background-color:#dfdfff;" jsxfontweight="normal" jsxbgcolor="#fafaff" jsxfontname="Verdana" jsxcolor="#232743" jsxpadding="12" jsxborder="solid 1px gray" jsxtextalign="right" jsxrowstyle="background-color:#fafaff;" jsxaltrowstyle="background-color:#efefff;" jsxxmlurl="xml/countries.xml"/>
+          <dynamics jsxbg="@Bevel TopDown"/>
+          <events jsxselect="jsx3.log('The target record that was just clicked is ' + this.getSelectedIds());"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+    </object>
   </object>
 </serialization>
