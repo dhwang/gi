@@ -1,6 +1,6 @@
 exports.MAIL = {
 	host:"mail.dojotoolkit.com",
-	defaultFrom: "prototype.library.admin@generalinterface.org"
+	defaultFrom: "prototype-admin@generalinterface.org"
 };
 
 exports.DATABASE = {
@@ -8,4 +8,12 @@ exports.DATABASE = {
 	type: "mysql"
 };
 
-exports.ADMIN_USERS = ["kzyp", "bryan", "rachel", "jesse"];
+exports.CONFLUENCE = {
+	url: "http://localhost:8080/",
+	space: "ds",
+	username: "user",
+	password: "pass",
+	listingPageId: "32789"
+};
+
+exports.APACHE_TARGET = "/srv/www/htdocs/";
