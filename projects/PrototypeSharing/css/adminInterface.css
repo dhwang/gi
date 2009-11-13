@@ -284,7 +284,7 @@ textarea {
 	height: 27px !important;	
 	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: 1px solid #AFAFAF;
-	z-index: -1;
+	/*z-index: -1;  This breaks the tabs*/
 }
 
 #adminInterface #info-pane .dijitTab {

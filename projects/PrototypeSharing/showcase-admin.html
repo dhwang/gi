@@ -38,10 +38,10 @@
 						<button class="uploadApplication" onclick="requery('New')">Upload Application</button>
 						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
 					</div>
-					<table rowSelector="0px" rowsPerPage="20" query="''" store="applicationStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:87%">
+					<table rowSelector="0px" rowsPerPage="20" query="''" store="showcaseStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:87%">
 						<thead>
 							<tr>
-								<th editable="true" width="40%" field="name">Name</th>
+								<th editable="true" width="40%" field="title">Title</th>
 								<th width="20%" field="user">Author</th>
 								<th width="20%" field="license">License</th>
 								<th width="20%" field="uploaded" formatter="dateFormatter">Upload Date</th>
@@ -143,7 +143,7 @@
 					</div>	
 
 					<div id="upload-tab" jsid="uploadTab" dojoType="dijit.layout.ContentPane" title="Upload Application" tooltip="Upload an application">
-					
+					<form id="upload-form" enctype="multipart/form-data" method="POST">
 						<div id="info-description">
 							<div class="description-row" style="margin-top: 1.5em">
 								<label>Title: </label><input id="title-description"></input><span class="required">*</span>
@@ -182,12 +182,13 @@
 							<hr />
 							<span>App Key: </span><input id="key-detail"></input>
 							<hr />
-							<span>App File: </span><input id="file-detail"></input><span style="width:auto"><button id="browse">Browse</button></span><span class="required">*</span>
+							<span>App File: </span><input id="file-detail" type="file"></input><span class="required">*</span>
 							<hr />
 							<div class="errorMessage">
 								<span>File Error: </span> <span style="width:70%">Error message here.</span>
 							</div>								
 						</div>
+					</form>
 					</div>
 
 					<div class="loadingContainer">
