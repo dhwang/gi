@@ -40,7 +40,7 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 					"SELECT id, name, Prototype.rating as rating, ratingsCount, downloads, license_id, description, uploaded, enabled, Prototype.user as user, featured, status, Rating.rating as myRating FROM Prototype " +
 					"LEFT JOIN Rating ON Prototype.id = Rating.prototype_id AND Rating.user=? " + 
 					"WHERE deleted=? AND " +
-					sql, options);
+					sql, options).rows;
 			}
 		},
 		"delete": function(id){

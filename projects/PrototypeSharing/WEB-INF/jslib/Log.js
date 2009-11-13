@@ -25,7 +25,7 @@ var LogClass = persisted.Class("Log", logStore,
 			if(sql){
 				return logStore.executeSql(
 					"SELECT Log.id, prototype_id, Log.user, action, name, date, notes FROM Log, Prototype WHERE prototype_id = Prototype.id AND " +
-					sql, options);
+					sql, options).rows;
 			}
 			throw NotFoundError("Query not acceptable");
 		},
