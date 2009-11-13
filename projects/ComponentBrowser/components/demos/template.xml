@@ -1,9 +1,10 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <name>foo</name>
+  <name><![CDATA[foo]]></name>
   <icon/>
-  <description>blah</description>
+  <description><![CDATA[blah]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize><![CDATA[
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>

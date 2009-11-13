@@ -1,7 +1,7 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <name><![CDATA[foo]]></name>
+  <name><![CDATA[Area Chart]]></name>
   <icon/>
-  <description><![CDATA[blah]]></description>
+  <description/>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onChartTypeSelect = function(strRecordId){
@@ -118,7 +118,7 @@ if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
         </object>
         <object type="jsx3.gui.Select">
           <variants jsxheight="18" jsxxmlasync="1"/>
-          <strings jsxwidth="50%" jsxname="chart_type" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;overlay&quot; jsxtext=&quot;Overlay&quot;/&gt;&lt;record jsxid=&quot;stacked&quot; jsxtext=&quot;Stacked&quot;/&gt;&lt;record jsxid=&quot;stacked100&quot; jsxtext=&quot;Stacked 100%&quot;/&gt;&lt;/data&gt;" />
+          <strings jsxwidth="50%" jsxname="chart_type" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;overlay&quot; jsxtext=&quot;Overlay&quot;/&gt;&lt;record jsxid=&quot;stacked&quot; jsxtext=&quot;Stacked&quot;/&gt;&lt;record jsxid=&quot;stacked100&quot; jsxtext=&quot;Stacked 100%&quot;/&gt;&lt;/data&gt;"/>
           <events jsxselect="root.onChartTypeSelect(strRECORDID);"/>
         </object>
         <object type="jsx3.gui.Label">
@@ -127,7 +127,7 @@ if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
         </object>
         <object type="jsx3.gui.Select">
           <variants jsxheight="18" jsxxmlasync="1"/>
-          <strings jsxwidth="50%" jsxname="series_type" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;segment&quot; jsxtext=&quot;Segment&quot;/&gt;&lt;record jsxid=&quot;step&quot; jsxtext=&quot;Step&quot;/&gt;&lt;record jsxid=&quot;reverseStep&quot; jsxtext=&quot;Reverse Step&quot;/&gt;&lt;/data&gt;" />
+          <strings jsxwidth="50%" jsxname="series_type" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;segment&quot; jsxtext=&quot;Segment&quot;/&gt;&lt;record jsxid=&quot;step&quot; jsxtext=&quot;Step&quot;/&gt;&lt;record jsxid=&quot;reverseStep&quot; jsxtext=&quot;Reverse Step&quot;/&gt;&lt;/data&gt;"/>
           <events jsxselect="root.onSeriesTypeSelect(strRECORDID);"/>
         </object>
         <object type="jsx3.gui.Label">
@@ -136,7 +136,7 @@ if (pointRenderer === jsx3.chart.PointRenderer.CIRCLE) {
         </object>
         <object type="jsx3.gui.Select">
           <variants jsxheight="18" jsxxmlasync="1"/>
-          <strings jsxwidth="50%" jsxname="point_renderer" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;NONE&quot; jsxtext=&quot;None&quot; /&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.CIRCLE&quot; jsxtext=&quot;Circle&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.CROSS&quot; jsxtext=&quot;Cross&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.DIAMOND&quot; jsxtext=&quot;Diamond&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.BOX&quot; jsxtext=&quot;Box&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.TRIANGLE&quot; jsxtext=&quot;Triangle&quot;/&gt;&lt;/data&gt;" />
+          <strings jsxwidth="50%" jsxname="point_renderer" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;NONE&quot; jsxtext=&quot;None&quot; /&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.CIRCLE&quot; jsxtext=&quot;Circle&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.CROSS&quot; jsxtext=&quot;Cross&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.DIAMOND&quot; jsxtext=&quot;Diamond&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.BOX&quot; jsxtext=&quot;Box&quot;/&gt;&lt;record jsxid=&quot;jsx3.chart.PointRenderer.TRIANGLE&quot; jsxtext=&quot;Triangle&quot;/&gt;&lt;/data&gt;"/>
           <events jsxselect="root.onPointRendererSelect(strRECORDID);"/>
         </object>
       </object>

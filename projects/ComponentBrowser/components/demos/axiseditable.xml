@@ -1,135 +1,227 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="tickPlacement" jsxtext="Major Tick Placement"
-          jsxtip="Sets the placement of major ticks."
-          docgetter="getTickPlacement" docsetter="setTickPlacement"
-          docdefault="none (&lt;code&gt;jsx3.chart.Axis.TICK_NONE&lt;/code&gt;)"
-          eval="0" nullable="0"
-          jsxmask="jsxselect"
-          jsxtarget="xAxis">
-        <enum jsxid="jsx3.chart.Axis.TICK_INSIDE" jsxtext="inside"/>
-        <enum jsxid="jsx3.chart.Axis.TICK_OUTSIDE" jsxtext="outside"/>
-        <enum jsxid="jsx3.chart.Axis.TICK_CROSS" jsxtext="cross"/>
-        <enum jsxid="jsx3.chart.Axis.TICK_NONE" jsxtext="none"/>
-      </record>
-      <record jsxid="minorTickPlacement" jsxtext="Minor Tick Placement"
-          jsxtip="Sets the placement of minor ticks."
-          docgetter="getMinorTickPlacement" docsetter="setMinorTickPlacement"
-          docdefault="none (&lt;code&gt;jsx3.chart.Axis.TICK_NONE&lt;/code&gt;)"
-          eval="0" nullable="0"
-          jsxmask="jsxselect"
-          jsxtarget="xAxis">
-        <enum jsxid="jsx3.chart.Axis.TICK_INSIDE" jsxtext="inside"/>
-        <enum jsxid="jsx3.chart.Axis.TICK_OUTSIDE" jsxtext="outside"/>
-        <enum jsxid="jsx3.chart.Axis.TICK_CROSS" jsxtext="cross"/>
-        <enum jsxid="jsx3.chart.Axis.TICK_NONE" jsxtext="none"/>
-      </record>
-      <record jsxid="tickLength" jsxtext="Major Tick Length"
-          jsxtip="Sets the length of major ticks."
-          docgetter="getTickLength" docsetter="setTickLength"
-          docdefault="&lt;code&gt;0&lt;/code&gt;"
-          eval="1"
-          jsxmask="jsxtext"
-          jsxtarget="xAxis"/>
-      <record jsxid="minorTickLength" jsxtext="Minor Tick Length"
-          jsxtip="Sets the length of minor ticks."
-          docgetter="getMinorTickLength" docsetter="setMinorTickLength"
-          docdefault="&lt;code&gt;0&lt;/code&gt;"
-          eval="1"
-          jsxmask="jsxtext"
-          jsxtarget="xAxis"/>
-      <record jsxid="showAxis" jsxtext="Show Axis"
-          jsxtip="Sets whether to show a line along the axis."
-          docgetter="getShowAxis" docsetter="setShowAxis"
-          docdefault="&lt;code&gt;FALSE (jsx3.Boolean.FALSE)&lt;/code&gt;"
-          eval="1"
-          jsxmask="jsxselect"
-          jsxtarget="xAxis">
-        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="TRUE"/>
-        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="FALSE"/>
-      </record>
-      <record jsxid="minorTickDivisions" jsxtext="Minor Tick Divisions"
-          jsxtip="Sets the number of minor tick divisions between major ticks. The number of minor ticks shown are less than this value."
-          docgetter="getMinorTickDivisions" docsetter="setMinorTickDivisions"
-          docdefault="&lt;code&gt;0&lt;/code&gt;"
-          eval="1"
-          jsxexecute="objJSX.minorTickDivisions = vntValue; objJSX.getChart().repaint();"
-          jsxmask="jsxtext"
-          jsxtarget="xAxis"/>
-      <record jsxid="showLabels" jsxtext="Show Labels"
-          jsxtip="Sets whether to show data labels along the axis."
-          docgetter="getShowLabels" docsetter="setShowLabels"
-          docdefault="&lt;code&gt;FALSE (jsx3.Boolean.FALSE)&lt;/code&gt;"
-          eval="1"
-          jsxmask="jsxselect"
-          jsxexecute="objJSX.showLabels = vntValue; objJSX.getChart().repaint();"
-          jsxtarget="xAxis">
-        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="TRUE"/>
-        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="FALSE"/>
-      </record>
-      <record jsxid="labelGap" jsxtext="Label Gap"
-          jsxtip="Sets the gap between tick marks and labels in pixels."
-          docgetter="getLabelGap" docsetter="setLabelGap"
-          docdefault="&lt;code&gt;0&lt;/code&gt;"
-          eval="1"
-          jsxmask="jsxtext"
-          jsxtarget="xAxis"/>
-      <record jsxid="labelPlacement" jsxtext="Label Placement"
-          jsxtip="Sets the placement of axis labels with respect to the axis."
-          docgetter="getLabelPlacement" docsetter="setLabelPlacement"
-          docdefault="axis (&lt;code&gt;jsx3.chart.Axis.LABEL_AXIS&lt;/code&gt;)"
-          eval="0" nullable="0"
-          jsxmask="jsxselect"
-          jsxexecute="objJSX.labelPlacement = vntValue; objJSX.getChart().repaint();"
-          jsxtarget="xAxis">
-        <enum jsxid="jsx3.chart.Axis.LABEL_AXIS" jsxtext="axis"/>
-        <enum jsxid="jsx3.chart.Axis.LABEL_HIGH" jsxtext="high"/>
-        <enum jsxid="jsx3.chart.Axis.LABEL_LOW" jsxtext="low"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_axiseditable" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.chart.AreaChart">
-      <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
-      <strings jsxname="target" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record day=&quot;0&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;20&quot; hi1=&quot;11&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;50&quot; hi1=&quot;15&quot; lo1=&quot;8&quot;/&gt; &lt;record day=&quot;105&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;162&quot; hi1=&quot;25&quot; lo1=&quot;12&quot;/&gt; &lt;record day=&quot;225&quot; hi1=&quot;30&quot; lo1=&quot;13&quot;/&gt; &lt;record day=&quot;275&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;340&quot; hi1=&quot;12&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;10&quot; hi2=&quot;28&quot; lo2=&quot;20&quot;/&gt; &lt;record day=&quot;45&quot; hi2=&quot;35&quot; lo2=&quot;26&quot;/&gt; &lt;record day=&quot;80&quot; hi2=&quot;30&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;117&quot; hi2=&quot;23&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;154&quot; hi2=&quot;17&quot; lo2=&quot;12&quot;/&gt; &lt;record day=&quot;194&quot; hi2=&quot;12&quot; lo2=&quot;8&quot;/&gt; &lt;record day=&quot;243&quot; hi2=&quot;15&quot; lo2=&quot;9&quot;/&gt; &lt;record day=&quot;278&quot; hi2=&quot;21&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;310&quot; hi2=&quot;24&quot; lo2=&quot;17&quot;/&gt; &lt;record day=&quot;345&quot; hi2=&quot;26&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;365&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;/data&gt;"/>
-      <object type="jsx3.chart.ChartLabel">
-        <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
-        <strings jsxname="title" jsxtext="Linear-X Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
-      </object>
-      <object type="jsx3.chart.LinearAxis">
-        <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" displayWidth="15" autoAdjust="1" baseAtZero="1" length="237" jsxleft="35" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
-        <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1 1" labelStyle="font-family: Verdana; font-size: 8px; text-align: right;"/>
-        <object type="jsx3.chart.ChartLabel">
-          <variants preferredWidth="14" labelRotation="270" jsxfontsize="12" jsxleft="-35" jsxtop="0" jsxwidth="14" jsxheight="237"/>
-          <strings jsxname="ytitle" jsxtext="Temperature" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+  <name><![CDATA[Axis]]></name>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onTickPlacementSelect = function(strRecordId) {
+  yAxis.setTickPlacement(strRecordId);
+  xAxis.setTickPlacement(strRecordId);
+  chart.repaint();
+};
+
+this.onMinorTickPlacementSelect = function(strRecordId) {
+  yAxis.setMinorTickPlacement(strRecordId);
+  xAxis.setMinorTickPlacement(strRecordId);
+  chart.repaint();
+};
+
+this.onTickLengthChange = function(strValue) {
+  yAxis.setTickLength(strValue);
+  xAxis.setTickLength(strValue);
+  chart.repaint();
+};
+
+this.onMinorTickLengthChange = function(strValue) {
+  yAxis.setMinorTickLength(strValue);
+  xAxis.setMinorTickLength(strValue);
+  chart.repaint();
+};
+
+this.onShowAxisToggle = function(intChecked) {
+  yAxis.setShowAxis(!!intChecked);
+  xAxis.setShowAxis(!!intChecked);
+  chart.repaint();
+};
+
+this.onMinorTickDivisionsChange = function(strValue) {
+  yAxis.setMinorTickDivisions(strValue);
+  xAxis.setMinorTickDivisions(strValue);
+  chart.repaint();
+};
+
+this.onShowLabelsToggle = function(intChecked) {
+  yAxis.setShowLabels(!!intChecked);
+  xAxis.setShowLabels(!!intChecked);
+  chart.repaint();
+};
+
+this.onLabelGapChange = function(strValue) {
+  yAxis.setLabelGap(strValue);
+  xAxis.setLabelGap(strValue);
+  chart.repaint();
+};
+
+this.onLabelPlacementSelect = function(strRecordId) {
+  yAxis.setLabelPlacement(strRecordId);
+  xAxis.setLabelPlacement(strRecordId);
+  chart.repaint();
+};
+
+tick_placement.setValue(yAxis.getTickPlacement());
+minor_tick_placement.setValue(yAxis.getMinorTickPlacement());
+tick_length.setValue(yAxis.getTickLength());
+minor_tick_length.setValue(yAxis.getMinorTickLength());
+show_axis.setValue(yAxis.getShowAxis());
+minor_tick_divisions.setValue(yAxis.getMinorTickDivisions());
+show_labels.setValue(yAxis.getShowLabels());
+label_gap.setValue(yAxis.getLabelGap());
+label_placement.setValue(yAxis.getLabelPlacement());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.chart.AreaChart">
+          <variants jsxleft="0" jsxtop="0" jsxwidth="400" jsxheight="300" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="1" loadState="1"/>
+          <strings jsxname="chart" titlePlacement="top" legendPlacement="right" dataPadding="14 10 6 6" borderColor="#999999" type="overlay" jsxbgcolor="#FFFFFF" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record day=&quot;0&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;20&quot; hi1=&quot;11&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;50&quot; hi1=&quot;15&quot; lo1=&quot;8&quot;/&gt; &lt;record day=&quot;105&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;162&quot; hi1=&quot;25&quot; lo1=&quot;12&quot;/&gt; &lt;record day=&quot;225&quot; hi1=&quot;30&quot; lo1=&quot;13&quot;/&gt; &lt;record day=&quot;275&quot; hi1=&quot;18&quot; lo1=&quot;10&quot;/&gt; &lt;record day=&quot;340&quot; hi1=&quot;12&quot; lo1=&quot;6&quot;/&gt; &lt;record day=&quot;10&quot; hi2=&quot;28&quot; lo2=&quot;20&quot;/&gt; &lt;record day=&quot;45&quot; hi2=&quot;35&quot; lo2=&quot;26&quot;/&gt; &lt;record day=&quot;80&quot; hi2=&quot;30&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;117&quot; hi2=&quot;23&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;154&quot; hi2=&quot;17&quot; lo2=&quot;12&quot;/&gt; &lt;record day=&quot;194&quot; hi2=&quot;12&quot; lo2=&quot;8&quot;/&gt; &lt;record day=&quot;243&quot; hi2=&quot;15&quot; lo2=&quot;9&quot;/&gt; &lt;record day=&quot;278&quot; hi2=&quot;21&quot; lo2=&quot;15&quot;/&gt; &lt;record day=&quot;310&quot; hi2=&quot;24&quot; lo2=&quot;17&quot;/&gt; &lt;record day=&quot;345&quot; hi2=&quot;26&quot; lo2=&quot;19&quot;/&gt; &lt;record day=&quot;365&quot; hi1=&quot;10&quot; lo1=&quot;5&quot; hi2=&quot;27&quot; lo2=&quot;19&quot;/&gt; &lt;/data&gt;"/>
+          <object type="jsx3.chart.ChartLabel">
+            <variants labelRotation="0" jsxfontsize="14" jsxleft="0" jsxtop="0" jsxwidth="398" jsxheight="25" jsxzindex="1000"/>
+            <strings jsxname="title" jsxtext="Linear-X Area Chart" jsxcolor="#FFFFFF" jsxbgcolor="#666666" jsxpadding="4 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+          </object>
+          <object type="jsx3.chart.LinearAxis">
+            <variants horizontal="0" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" displayWidth="15" autoAdjust="1" baseAtZero="1" length="237" jsxleft="35" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+            <strings jsxname="yAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1 1" labelStyle="font-family: Verdana; font-size: 8px; text-align: right;"/>
+            <object type="jsx3.chart.ChartLabel">
+              <variants preferredWidth="14" labelRotation="270" jsxfontsize="12" jsxleft="-35" jsxtop="0" jsxwidth="14" jsxheight="237"/>
+              <strings jsxname="ytitle" jsxtext="Temperature" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+            </object>
+          </object>
+          <object type="jsx3.chart.AreaSeries">
+            <variants usePrimaryX="1" usePrimaryY="1" index="0" pointRadius="3" jsxzindex="20" jsxleft="35" jsxtop="0" jsxwidth="247" jsxheight="237"/>
+            <strings jsxname="series1" seriesName="Berlin" fill="#669900 .7" yField="hi1" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip" xField="day" minField="lo1"/>
+          </object>
+          <object type="jsx3.chart.AreaSeries">
+            <variants usePrimaryX="1" usePrimaryY="1" index="1" pointRadius="3" jsxzindex="21" jsxleft="35" jsxtop="0" jsxwidth="247" jsxheight="237"/>
+            <strings jsxname="series2" seriesName="Sydney" fill="#996600 .7" yField="hi2" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip" xField="day" minField="lo2"/>
+          </object>
+          <object type="jsx3.chart.Legend">
+            <variants boxHeight="10" lineHeight="22" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
+            <strings jsxname="legend" labelStyle="font-size: 10px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+            <object type="jsx3.chart.ChartLabel">
+              <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="104" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
+              <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+            </object>
+          </object>
+          <object type="jsx3.chart.GridLines">
+            <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" strokeMajorH="['#000000 1 .2']" inForeground="0" strokeMinorH="['#000000 1 .1']" jsxleft="35" jsxtop="0" jsxwidth="247" jsxheight="237" jsxzindex="11"/>
+            <strings jsxname="bgGrid" borderStroke="#AAAAAA"/>
+          </object>
+          <object type="jsx3.chart.LinearAxis">
+            <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" autoAdjust="1" baseAtZero="1" max="365" min="1" interval="60" length="247" jsxleft="35" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
+            <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1" labelStyle="font-size: 8px;" labelFunction="function(d) { var t = new Date(2005, 0, d); return (t.getMonth()+1) + &quot;/&quot; + t.getDate(); }"/>
+          </object>
         </object>
       </object>
-      <object type="jsx3.chart.AreaSeries">
-        <variants usePrimaryX="1" usePrimaryY="1" index="0" pointRadius="3" jsxzindex="20" jsxleft="35" jsxtop="0" jsxwidth="247" jsxheight="237"/>
-        <strings jsxname="series1" seriesName="Berlin" fill="#669900 .7" yField="hi1" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip" xField="day" minField="lo1"/>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
       </object>
-      <object type="jsx3.chart.AreaSeries">
-        <variants usePrimaryX="1" usePrimaryY="1" index="1" pointRadius="3" jsxzindex="21" jsxleft="35" jsxtop="0" jsxwidth="247" jsxheight="237"/>
-        <strings jsxname="series2" seriesName="Sydney" fill="#996600 .7" yField="hi2" form="segment" tooltipFunction="jsx3.chart.AreaSeries.tooltip" xField="day" minField="lo2"/>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
       </object>
-      <object type="jsx3.chart.Legend">
-        <variants boxHeight="10" lineHeight="22" titleSpace="8" boxSpace="6" jsxleft="298" jsxtop="25" jsxwidth="100" jsxheight="273" jsxzindex="990"/>
-        <strings jsxname="legend" labelStyle="font-size: 10px; font-weight: bold;" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
-        <object type="jsx3.chart.ChartLabel">
-          <variants labelRotation="0" jsxfontsize="12" jsxleft="8" jsxtop="104" jsxwidth="78" jsxheight="18" jsxzindex="3"/>
-          <strings jsxname="legendTitle" jsxtext="Legend" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Tick Placement" jsxfor="tick_placement" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
         </object>
-      </object>
-      <object type="jsx3.chart.GridLines">
-        <variants useXPrimary="1" useYPrimary="1" horizontalAbove="1" strokeMajorH="['#000000 1 .2']" inForeground="0" strokeMinorH="['#000000 1 .1']" jsxleft="35" jsxtop="0" jsxwidth="247" jsxheight="237" jsxzindex="11"/>
-        <strings jsxname="bgGrid" borderStroke="#AAAAAA"/>
-      </object>
-      <object type="jsx3.chart.LinearAxis">
-        <variants horizontal="1" primary="1" showAxis="1" showLabels="1" labelGap="3" tickLength="3" minorTickDivisions="4" minorTickLength="2" autoAdjust="1" baseAtZero="1" max="365" min="1" interval="60" length="247" jsxleft="35" jsxtop="0" jsxwidth="282" jsxheight="253" jsxzindex="110"/>
-        <strings jsxname="xAxis" axisStroke="#000000 1 1" labelPlacement="axis" tickAlignment="aligned" tickPlacement="outside" tickStroke="#000000 1 1" minorTickPlacement="outside" minorTickStroke="#999999 1" labelStyle="font-size: 8px;" labelFunction="function(d) { var t = new Date(2005, 0, d); return (t.getMonth()+1) + &quot;/&quot; + t.getDate(); }"/>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="tick_placement" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;inside&quot; jsxtext=&quot;Inside&quot;/&gt;&lt;record jsxid=&quot;outside&quot; jsxtext=&quot;Outside&quot;/&gt;&lt;record jsxid=&quot;cross&quot; jsxtext=&quot;Cross&quot;/&gt;&lt;record jsxid=&quot;none&quot; jsxtext=&quot;None&quot;/&gt;&lt;/data&gt;"/>
+          <events jsxselect="root.onTickPlacementSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Minor Tick Placement" jsxfor="minor_tick_placement" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="minor_tick_placement" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;inside&quot; jsxtext=&quot;Inside&quot;/&gt;&lt;record jsxid=&quot;outside&quot; jsxtext=&quot;Outside&quot;/&gt;&lt;record jsxid=&quot;cross&quot; jsxtext=&quot;Cross&quot;/&gt;&lt;record jsxid=&quot;none&quot; jsxtext=&quot;None&quot;/&gt;&lt;/data&gt;"/>
+          <events jsxselect="root.onMinorTickPlacementSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Tick Length" jsxfor="tick_length" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="tick_length" jsxmargin="0 0 4 0" jsxwidth="50%" jsxvalue=""/>
+          <events jsxchange="root.onTickLengthChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Minor Tick Length" jsxfor="minor_tick_length" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="minor_tick_length" jsxmargin="0 0 4 0" jsxwidth="50%" jsxvalue=""/>
+          <events jsxchange="root.onMinorTickLengthChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="18"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Show Axis" jsxfor="show_axis" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxchecked="0" jsxdefaultchecked="0"/>
+          <strings jsxname="show_axis" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxtoggle="root.onShowAxisToggle(intCHECKED);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Minor Tick Divisions" jsxfor="minor_tick_divisions" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="minor_tick_divisions" jsxmargin="0 0 4 0" jsxwidth="50%" jsxvalue=""/>
+          <events jsxchange="root.onMinorTickDivisionsChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="18"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Show Labels" jsxfor="show_labels" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.CheckBox">
+          <variants jsxheight="18" jsxdefaultchecked="0"/>
+          <strings jsxname="show_labels" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxtoggle="root.onShowLabelsToggle(intCHECKED);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Label Gap" jsxfor="label_gap" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="label_gap" jsxmargin="0 0 4 0" jsxwidth="50%" jsxvalue=""/>
+          <events jsxchange="root.onLabelGapChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxwidth="50%" jsxname="formLabel" jsxtext="Label Placement" jsxfor="label_placement" jsxfontweight="bold" jsxmargin="0 0 4 0"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="label_placement" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;axis&quot; jsxtext=&quot;Axis&quot;/&gt;&lt;record jsxid=&quot;high&quot; jsxtext=&quot;High&quot;/&gt;&lt;record jsxid=&quot;low&quot; jsxtext=&quot;Low&quot;/&gt;&lt;/data&gt;"/>
+          <events jsxselect="root.onLabelPlacementSelect(strRECORDID);"/>
+        </object>
       </object>
     </object>
   </object>
