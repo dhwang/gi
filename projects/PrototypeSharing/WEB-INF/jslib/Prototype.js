@@ -126,7 +126,7 @@ var LogClass = require("Log").LogClass;
 
 exports.BuilderFacet = Restrictive(PrototypeClass, {
 	query: function(query, options){
-		query += (query ? "&" : "") + "enabled=true";
+		query = "?enabled=true" + (query.match(/^\?\w/) ? "&" : "") + query.substring(1);
 		return PrototypeClass.query(query, options);
 	},
 	prototype: {
@@ -134,7 +134,7 @@ exports.BuilderFacet = Restrictive(PrototypeClass, {
 });
 exports.AuthenticatedBuilderFacet = Restrictive(PrototypeClass, {
 	query: function(query, options){
-		query += (query ? "&" : "") + "enabled=true";
+		query = "?enabled=true" + (query.match(/^\?\w/) ? "&" : "") + query.substring(1);
 		return PrototypeClass.query(query, options);
 	},
 	create: function(object){
