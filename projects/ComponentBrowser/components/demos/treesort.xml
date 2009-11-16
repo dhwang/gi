@@ -17,7 +17,8 @@ this.onSortDirectionChange = function(strDirection) {
 
 var params = tree.getXSLParams();
 sort_field.setValue(params['jsxsortpath']);
-sort_ascending.setGroupValue(params['jsxsortdirection']);
+sort_ascending.setSelected(params['jsxsortdirection']=='ascending'?1:0);
+sort_descending.setSelected(params['jsxsortdirection']=='descending'?1:0);
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>

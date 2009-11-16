@@ -1,0 +1,10 @@
+<data jsxid="jsxroot">
+  <record jsxid="rootnode" jsxopen="1" jsxtext="Continents" jsximg="jsx:/images/tree/folder.gif">
+    <record jsxid="NA" jsxtext="North America" jsxpopulation="534051188" jsxarea="23083151" jsximg="jsx:/images/tree/folder.gif" jsxlazy="1"/>
+    <record jsxid="SA" jsxtext="South America" jsxpopulation="392366329" jsxarea="17433220" jsximg="jsx:/images/tree/folder.gif" jsxlazy="1"/>
+    <record jsxid="AS" jsxtext="Asia" jsxpopulation="4088647780" jsxarea="30938605" jsximg="jsx:/images/tree/folder.gif" jsxlazy="1"/>
+    <record jsxid="EU" jsxtext="Europe" jsxpopulation="728227141" jsxarea="22832227" jsximg="jsx:/images/tree/folder.gif" jsxlazy="1"/>
+    <record jsxid="OC" jsxtext="Oceania" jsxpopulation="34685745" jsxarea="8426635" jsximg="jsx:/images/tree/folder.gif" jsxlazy="1"/>
+    <record jsxid="AF" jsxtext="Africa" jsxpopulation="990189529" jsxarea="29805695" jsximg="jsx:/images/tree/folder.gif" jsxlazy="1"/>
+  </record>
+</data>

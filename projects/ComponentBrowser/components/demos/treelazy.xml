@@ -1,6 +1,85 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Lazy Loading Tree]]></name>
+  <icon/>
+  <description><![CDATA[]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+var Document = jsx3.xml.Document;
+this._onAsyncDone = function(objEvent) {
+  var objXML = objEvent.target;
+  var strEvtType = objEvent.subject;
+
+  var treeXML = objXML._treeXML;
+  var treeNode = objXML._treeNode;
+  var treeNodeId = objXML._treeNodeId;
+
+  delete objXML._treeXML;
+  delete objXML._treeNode;
+  delete objXML._treeNodeId;
+  objXML.unsubscribe("*", this);
+
+  if (strEvtType == Document.ON_RESPONSE) {
+    var childIter = objXML.getChildIterator();
+    while (childIter.hasNext()) {
+      treeNode.appendChild(childIter.next());
+    }
+    tree.redrawRecord(treeNodeId, jsx3.xml.CDF.UPDATE);
+  } else {
+    tree.insertRecord({
+      jsxid: treeNodeId + (strEvtType == Document.ON_TIMEOUT ? '_timeout' : '_error'),
+      jsxtext: (strEvtType == Document.ON_TIMEOUT ? 'The request timed out' : "There was an error requesting this node's children" )
+    }, treeNodeId, true);
+    treeNode.setAttribute('jsxlazy', '1');
+  }
+};
+
+this.onTreeData = function(objXML, objNode) {
+  objNode.removeChildren();
+
+  var jsxid = objNode.getAttribute('jsxid');
+  var doc = new Document();
+  doc.setAsync(true);
+
+  doc.subscribe('*', root, '_onAsyncDone');
+  doc._treeXML = objXML;
+  doc._treeNode = objNode;
+  doc._treeNodeId = jsxid;
+  doc.load(tibco.ce.resolveURI('xml/' + jsxid + '.xml'), 5000);
+
+  return { bCLEAR: true };
+};
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Tree">
+          <variants jsxxmlasync="1"/>
+          <strings jsxname="tree" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/continents-lazy.xml"/>
+          <events jsxdata="root.onTreeData(objXML, objNODE);" />
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+    </object>
   </object>
 </serialization>

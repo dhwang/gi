@@ -1,6 +1,77 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Asynchronous Data Loading]]></name>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onURLChange = function (strUrl) {
+  tree.setXMLURL(strUrl);
+  tree.resetCacheData();
+  tree.repaint();
+};
+
+if (tree.getXMLURL() == 'xml/continents.xml') {
+  existing_radio.setGroupValue('existing');
+} else {
+  existing_radio.setGroupValue('nonexisting');
+}
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Tree">
+          <variants jsxxmlasync="1"/>
+          <strings jsxname="tree" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/continents.xml"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="URL" jsxwidth="50%" jsxfontweight="bold"/>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3"/>
+          <strings jsxname="block" jsxwidth="50%" jsxrelativeposition="1" jsxmargin="0 0 4 0"/>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
+            <strings jsxname="existing_radio" jsxtext="Existing" jsxgroupname="tree_url" jsxmargin="0 0 4 0" jsxvalue="existing"/>
+            <events jsxselect="root.onURLChange('xml/continents.xml');"/>
+          </object>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"/>
+            <strings jsxname="non_existing_radio" jsxtext="Non-existing" jsxgroupname="tree_url" jsxmargin="0 0 4 0" jsxvalue="nonexisting"/>
+            <events jsxselect="root.onURLChange('xml/continents2.xml');"/>
+          </object>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>
