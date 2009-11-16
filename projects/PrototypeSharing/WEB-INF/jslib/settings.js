@@ -9,13 +9,11 @@ exports.DATABASE = {
 };
 
 exports.CONFLUENCE = {
-	url: "http://localhost:8040/",
+	url: "http://localhost:8080/",
 	space: "ds",
-	username: "kriszyp",
-	password: "lacking",
-	listingPageId: "32789" 
+	username: "user",
+	password: "pass",
+	listingPageId: "32789"
 };
 
-exports.BYPASS_SECURITY= true;
-
-exports.APACHE_TARGET = "C:/wamp/www/";
+exports.APACHE_TARGET = "/srv/www/htdocs/";
