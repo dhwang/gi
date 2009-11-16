@@ -1,0 +1,38 @@
+<data jsxid="jsxroot">
+  <record jsxid="rootnode" jsxopen="1" jsxtext="Continents" jsximg="jsx:/images/tree/folder.gif">
+    <record jsxid="NA" jsxtext="North America" jsxpopulation="534051188" jsxarea="23083151" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="131" jsxtext="Mexico" jsxpopulation="111211789" jsxarea="1923040"/>
+      <record jsxid="213" jsxtext="United States" jsxpopulation="307212123" jsxarea="9161923"/>
+      <record jsxid="35" jsxtext="Canada" jsxpopulation="33487208" jsxarea="9093507"/>
+    </record>
+    <record jsxid="SA" jsxtext="South America" jsxpopulation="392366329" jsxarea="17433220" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="24" jsxtext="Bolivia" jsxpopulation="9775246" jsxarea="1084390"/>
+      <record jsxid="84" jsxtext="Guyana" jsxpopulation="752940" jsxarea="196850"/>
+      <record jsxid="217" jsxtext="Venezuela" jsxpopulation="26814843" jsxarea="882050"/>
+      <record jsxid="8" jsxtext="Argentina" jsxpopulation="40913584" jsxarea="2736690"/>
+    </record>
+    <record jsxid="AS" jsxtext="Asia" jsxpopulation="4088647780" jsxarea="30938605" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="41" jsxtext="China" jsxpopulation="1338612968" jsxarea="9326410"/>
+      <record jsxid="0" jsxtext="Afghanistan" jsxpopulation="28395716" jsxarea="647500"/>
+      <record jsxid="165" jsxtext="Russia" jsxpopulation="140041247" jsxarea="16995800"/>
+      <record jsxid="102" jsxtext="Kazakhstan" jsxpopulation="15399437" jsxarea="2669800"/>
+    </record>
+    <record jsxid="EU" jsxtext="Europe" jsxpopulation="728227141" jsxarea="22832227" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="18" jsxtext="Belarus" jsxpopulation="9648533" jsxarea="207600"/>
+      <record jsxid="118" jsxtext="Luxembourg" jsxpopulation="491775" jsxarea="2586"/>
+      <record jsxid="97" jsxtext="Italy" jsxpopulation="58126212" jsxarea="294020"/>
+      <record jsxid="25" jsxtext="Bosnia and Herzegovina" jsxpopulation="4613414" jsxarea="51197"/>
+    </record>
+    <record jsxid="OC" jsxtext="Oceania" jsxpopulation="34685745" jsxarea="8426635" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="146" jsxtext="New Zealand" jsxpopulation="4213418" jsxarea="268021"/>
+      <record jsxid="11" jsxtext="Australia" jsxpopulation="21262641" jsxarea="7617930"/>
+    </record>
+    <record jsxid="AF" jsxtext="Africa" jsxpopulation="990189529" jsxarea="29805695" jsximg="jsx:/images/tree/folder.gif">
+      <record jsxid="186" jsxtext="Somalia" jsxpopulation="9832017" jsxarea="627337"/>
+      <record jsxid="58" jsxtext="Egypt" jsxpopulation="78866635" jsxarea="995450"/>
+      <record jsxid="166" jsxtext="Rwanda" jsxpopulation="10746311" jsxarea="24948"/>
+      <record jsxid="121" jsxtext="Madagascar" jsxpopulation="20653556" jsxarea="581540"/>
+      <record jsxid="5" jsxtext="Angola" jsxpopulation="12799293" jsxarea="1246700"/>
+    </record>
+  </record>
+</data>

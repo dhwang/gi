@@ -1,6 +1,90 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Sortable Tree]]></name>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onSortFieldSelect = function(strRecordId) {
+  tree.setXSLParam('jsxsortpath', strRecordId);
+  tree.setXSLParam('jsxsorttype', strRecordId == 'jsxtext' ? 'text' : 'number');
+  tree.repaint();
+};
+
+this.onSortDirectionChange = function(strDirection) {
+  tree.setXSLParam('jsxsortdirection', strDirection);
+  tree.repaint();
+};
+
+var params = tree.getXSLParams();
+sort_field.setValue(params['jsxsortpath']);
+sort_ascending.setGroupValue(params['jsxsortdirection']);
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Tree">
+          <variants jsxxmlasync="1"/>
+          <strings jsxname="tree" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxxmlurl="xml/continents.xml" jsxicon=""/>
+          <xslparameters jsxsortpath="jsxtext" jsxsortdirection="ascending" jsxsorttype="text"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Sort Field" jsxfor="sort_field" jsxwidth="50%" jsxmargin="0 0 4 0" jsxfontweight="bold"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxwidth="50%" jsxname="sort_field" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;jsxtext&quot; jsxtext=&quot;Name&quot; /&gt;&lt;record jsxid=&quot;jsxpopulation&quot; jsxtext=&quot;Population&quot; /&gt;&lt;record jsxid=&quot;jsxarea&quot; jsxtext=&quot;Area&quot; /&gt;&lt;/data&gt;" jsxvalue="jsxtext"/>
+          <events jsxselect="root.onSortFieldSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Sort Direction" jsxwidth="50%" jsxmargin="0 0 4 0" jsxfontweight="bold"/>
+        </object>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="3"/>
+          <strings jsxname="block" jsxwidth="50%" jsxrelativeposition="1" jsxmargin="0 0 4 0"/>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="0" jsxselected="0" jsxrelativeposition="1"/>
+            <strings jsxname="sort_ascending" jsxtext="Ascending" jsxgroupname="sort_direction" jsxvalue="ascending"/>
+            <events jsxselect="root.onSortDirectionChange('ascending');"/>
+          </object>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"/>
+            <strings jsxname="sort_descending" jsxtext="Descending" jsxgroupname="sort_direction" jsxvalue="descending"/>
+            <events jsxselect="root.onSortDirectionChange('descending');"/>
+          </object>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>
