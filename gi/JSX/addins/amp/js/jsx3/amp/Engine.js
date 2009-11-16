@@ -808,7 +808,6 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
   Engine_prototype._removeExtPoint = function(xp) {
     var xpid = xp.getId();
     delete this._extptmap[xpid];
-    delete this._extmap[xpid];
   };
 
   /**
