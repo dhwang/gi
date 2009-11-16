@@ -10,8 +10,8 @@ dojo.require("dojox.highlight");
 dojo.require("dojox.highlight.languages.xml");
 dojo.require("dijit.Dialog");
 
-var prototypeStore = new dojox.data.PersevereStore({target:"Prototype/", idAsRef: true}); // persevere stores are auto-generated
-var logStore = new dojox.data.PersevereStore({target:"Log/", idAsRef: true}); // persevere stores are auto-generated
+var prototypeStore = new dojox.data.PersevereStore({target:"Prototype/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
+var logStore = new dojox.data.PersevereStore({target:"Log/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
 function requery(status){
 	componentGrid.setQuery({status:status});
 }

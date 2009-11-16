@@ -10,7 +10,7 @@ dojo.require("dijit.Dialog");
 dojo.require("dojo.io.iframe");
 dojo.require("dojo.cookie");
 
-var showcaseStore = new dojox.data.PersevereStore({target:"Showcase/", idAsRef: true}); // persevere stores are auto-generated
+var showcaseStore = new dojox.data.PersevereStore({target:"Showcase/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
 function requery(status){
 	componentGrid.setQuery({status:status});
 }
