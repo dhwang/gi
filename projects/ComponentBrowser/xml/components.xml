@@ -89,6 +89,11 @@
         <record jsxid="datepickerformat" jsxtext="Formatting" description="" />
         <record jsxid="datepickerfancy" jsxtext="Fancy Input" description="" />
       </record>
+      <record jsxid="timepicker" jsxtext="TimePicker" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/timepicker.gif">
+        <record jsxid="timepickernormal" jsxtext="Hours, Minutes" description="" />
+        <record jsxid="timepickerseconds" jsxtext="With Seconds" description="" />
+        <record jsxid="timepickermillis" jsxtext="With Milliseconds" description="" />
+      </record>
       <record jsxid="numberinput" jsxtext="NumberInput" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/textbox.gif">
         <record jsxid="numberinputnumber" jsxtext="Numbers" description="" />
         <record jsxid="numberinputinteger" jsxtext="Integers" description="" />

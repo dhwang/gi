@@ -906,6 +906,24 @@
       <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">jss/CSS.xml</record>
     </record>
+    <record jsxid="148" type="map">
+      <record jsxid="id" type="string">timepickernormal_xml</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">components/demos/timepickernormal.xml</record>
+    </record>
+    <record jsxid="149" type="map">
+      <record jsxid="id" type="string">timepickerseconds_xml</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">components/demos/timepickerseconds.xml</record>
+    </record>
+    <record jsxid="150" type="map">
+      <record jsxid="id" type="string">timepickermillis_xml</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">components/demos/timepickermillis.xml</record>
+    </record>
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>
   <record jsxid="onunload" type="string"/>
