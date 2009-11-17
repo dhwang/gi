@@ -310,7 +310,7 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
 
     //get the native checkbox element
     var b1a = b1x.getChildProfile(0);
-    b1a.setAttributes(' id="' + this.getId() + '_input" type="checkbox" name="' + this.getName() + '" ' + this.paintEnabled() + this.paintChecked() + this.paintIndex());
+    b1a.setAttributes(' id="' + this.getId() + '_input" type="checkbox"' + this.paintName() + this.paintEnabled() + this.paintChecked() + this.paintIndex());
 
     //get the tri-state overlay
     var b1b = b1x.getChildProfile(1);

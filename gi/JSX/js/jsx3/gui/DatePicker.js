@@ -615,7 +615,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
 
     //paint the input box
     var b1a1 = b1a.getChildProfile(0);
-    b1a1.setAttributes(' type="text" value="' + this._getFormattedDate() + '" ' + this.paintIndex() + this.paintTip() + this.paintLabel() + this.paintEnabled() + strEvents);
+    b1a1.setAttributes(this.paintName() + ' type="text" value="' + this._getFormattedDate() + '" ' + this.paintIndex() + this.paintTip() + this.paintLabel() + this.paintEnabled() + strEvents);
     b1a1.setStyles(this.paintFontName() + this.paintColor() + this.paintFontWeight() + this.paintTextAlign() + this.paintFontSize() +
                   ((strBGColor != null)?'background-color:' + strBGColor + ';':'') +
                   ((this.getBackground() != null) ? this.getBackground() + ';':''));
