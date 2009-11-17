@@ -31,22 +31,12 @@
           <events jsxexecute="window.alert('button clicked');"/>
         </object>
         <object type="jsx3.gui.ToolbarButton">
-          <variants jsxdivider="1" jsxenabled="0"/>
-          <strings jsxname="tbSeparator1"/>
-          <events jsxexecute="window.alert('button clicked');"/>
-        </object>
-        <object type="jsx3.gui.ToolbarButton">
-          <variants jsxenabled="1"/>
+          <variants jsxenabled="1" jsxdivider="1"/>
           <strings jsxname="tbProperties" jsxtext="Properties"/>
           <events jsxexecute="window.alert('button clicked');"/>
         </object>
         <object type="jsx3.gui.ToolbarButton">
-          <variants jsxdivider="1" jsxenabled="0"/>
-          <strings jsxname="tbSeparator2"/>
-          <events jsxexecute="window.alert('button clicked');"/>
-        </object>
-        <object type="jsx3.gui.ToolbarButton">
-          <variants jsxenabled="0"/>
+          <variants jsxenabled="0" jsxdivider="1"/>
           <strings jsxname="tbInfo" jsximage="jsx:///images/select/selected.gif" jsxtext="Info"/>
           <events jsxexecute="window.alert('button clicked');"/>
         </object>

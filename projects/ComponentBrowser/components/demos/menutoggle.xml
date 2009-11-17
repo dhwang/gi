@@ -1,6 +1,53 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Toggling Menu]]></name>
+  <icon/>
+  <description><![CDATA[This shows how to set up menu items that toggle on and off. Items above the separator can be toggle individually, while items below the separator are linked in a group.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.toggleMenuItem = function(strRecordId) {
+  menuLikes[menuLikes.isItemSelected(strRecordId) ? "deselectItem" : "selectItem"](strRecordId);
+};
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.WindowBar">
+        <variants jsxbartype="2"/>
+        <strings jsxname="menuBar"/>
+        <object type="jsx3.gui.Menu">
+          <variants jsxxmlasync="1"/>
+          <strings jsxname="menuLikes" jsxtip="menu" jsxtext="Likes" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;
+&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Dogs&quot; jsxselected=&quot;1&quot; jsxexecute=&quot;root.toggleMenuItem(strRECORDID);&quot;/&gt;
+&lt;record jsxid=&quot;2&quot; jsxtext=&quot;Cats&quot; jsxselected=&quot;0&quot; jsxexecute=&quot;root.toggleMenuItem(strRECORDID);&quot;/&gt;
+&lt;record jsxid=&quot;3&quot; jsxtext=&quot;Dragons&quot; jsxselected=&quot;1&quot; jsxexecute=&quot;root.toggleMenuItem(strRECORDID);&quot;/&gt;
+&lt;record jsxid=&quot;4&quot; jsxtext=&quot;Llamas&quot; jsxdivider=&quot;1&quot; jsxgroupname=&quot;itemgroup&quot; jsxselected=&quot;1&quot; jsxexecute=&quot;root.toggleMenuItem(strRECORDID);&quot;/&gt;
+&lt;record jsxid=&quot;5&quot; jsxtext=&quot;Lemurs&quot; jsxselected=&quot;0&quot; jsxgroupname=&quot;itemgroup&quot; jsxexecute=&quot;root.toggleMenuItem(strRECORDID);&quot;/&gt;
+&lt;record jsxid=&quot;6&quot; jsxtext=&quot;Leopards&quot; jsxselected=&quot;0&quot; jsxgroupname=&quot;itemgroup&quot; jsxexecute=&quot;root.toggleMenuItem(strRECORDID);&quot;/&gt;
+&lt;/data&gt;"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+      </object>
+    </object>
   </object>
 </serialization>
