@@ -1,6 +1,83 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Radio-style Toolbar Button]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates a group of toolbar buttons that behave like radio buttons.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onGroupValueSelect = function(strRecordId) {
+  if (strRecordId == "apple") tbToggle1.setState(jsx3.gui.ToolbarButton.STATEON);
+  if (strRecordId == "banana") tbToggle2.setState(jsx3.gui.ToolbarButton.STATEON);
+  if (strRecordId == "pear") tbToggle3.setState(jsx3.gui.ToolbarButton.STATEON);
+};
+
+
+this.onButtonToggled = function() {
+  var selected;
+  if (tbToggle1.getState()) selected = "apple";
+  if (tbToggle2.getState()) selected = "banana";
+  if (tbToggle3.getState()) selected = "pear";
+  groupValue.setValue(selected);
+};
+
+this.onButtonToggled();
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.WindowBar">
+        <variants jsxbartype="1"/>
+        <strings jsxname="toolbar"/>
+        <object type="jsx3.gui.ToolbarButton">
+          <variants jsxenabled="1" jsxtype="2" jsxstate="1"/>
+          <strings jsxname="tbToggle1" jsxtext="Apple" jsxgroupname="toggleGroup"/>
+          <events jsxchange="root.onButtonToggled();"/>
+        </object>
+        <object type="jsx3.gui.ToolbarButton">
+          <variants jsxenabled="1" jsxtype="2"/>
+          <strings jsxname="tbToggle2" jsxtext="Banana" jsxgroupname="toggleGroup"/>
+          <events jsxchange="root.onButtonToggled();"/>
+        </object>
+        <object type="jsx3.gui.ToolbarButton">
+          <variants jsxenabled="1" jsxtype="2"/>
+          <strings jsxname="tbToggle3" jsxtext="Pear" jsxgroupname="toggleGroup"/>
+          <events jsxchange="root.onButtonToggled();"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Group Value" jsxfor="groupValue" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxvalue="0"/>
+          <strings jsxname="groupValue" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;apple&quot; jsxtext=&quot;Apple&quot;/&gt;&lt;record jsxid=&quot;banana&quot; jsxtext=&quot;Banana&quot;/&gt;&lt;record jsxid=&quot;pear&quot; jsxtext=&quot;Pear&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onGroupValueSelect(strRECORDID);"/>
+        </object>
+      </object>
+    </object>
   </object>
 </serialization>
