@@ -1,6 +1,140 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Form]]></name>
+  <icon/>
+  <description><![CDATA[This is a sample form containing various controls, to show how the pieces fit together.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.computeSentence = function() {
+  var n = noun.getValue(),
+      adj = adjective.getValue(),
+      v = verb.getValue(),
+      inst = instrument.getValue(),
+      v2 = radioVerb1.getGroupValue(),
+      dt = datePicker.getValue(),
+      tm = timePicker.getValue(),
+      s = "At " + tm + " on " + dt + ", the " + adj + " " + n + " " + v + " while " + v2 + " the " + inst + ".";
+
+  alert(s);
+};
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1" jsxwidth="300"/>
+        <strings jsxname="block" jsxheight="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"/>
+          <strings jsxname="formLabel" jsxtext="Noun" jsxfor="noun" jsxmargin="8 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18" jsxwidth="180"/>
+          <strings jsxname="noun" jsxmargin="8 0 0 0" jsxvalue=""/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"/>
+          <strings jsxname="formLabel" jsxtext="Adjective" jsxfor="adjective" jsxmargin="8 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18" jsxwidth="180"/>
+          <strings jsxname="adjective" jsxmargin="8 0 0 0" jsxvalue=""/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"/>
+          <strings jsxname="formLabel" jsxtext="Verb" jsxfor="verb" jsxmargin="8 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxwidth="180" jsxheight="18" jsxxmlasync="1"/>
+          <strings jsxname="verb" jsxmargin="8 0 0 0" jsxxml="&lt;data&gt;
+&lt;record jsxid=&quot;jumped&quot; jsxtext=&quot;Jumped&quot;/&gt;
+&lt;record jsxid=&quot;soared&quot; jsxtext=&quot;Soared&quot;/&gt;
+&lt;record jsxid=&quot;exploded&quot; jsxtext=&quot;Exploded&quot;/&gt;
+&lt;record jsxid=&quot;skipped&quot; jsxtext=&quot;Skipped&quot;/&gt;
+&lt;record jsxid=&quot;slept&quot; jsxtext=&quot;Slept&quot;/&gt;
+&lt;record jsxid=&quot;prayed&quot; jsxtext=&quot;Prayed&quot;/&gt;
+&lt;record jsxid=&quot;grumbled&quot; jsxtext=&quot;Grumbled&quot;/&gt;
+&lt;/data&gt;"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"/>
+          <strings jsxname="formLabel" jsxtext="Instrument" jsxfor="instrument" jsxmargin="8 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxwidth="180" jsxheight="18" jsxtype="1" jsxxmlasync="1"/>
+          <strings jsxname="instrument" jsxmargin="8 0 0 0" jsxxml="&lt;data&gt;
+&lt;record jsxid=&quot;flute&quot; jsxtext=&quot;Flute&quot;/&gt;
+&lt;record jsxid=&quot;harmonica&quot; jsxtext=&quot;Harmonica&quot;/&gt;
+&lt;record jsxid=&quot;harp&quot; jsxtext=&quot;Harp&quot;/&gt;
+&lt;record jsxid=&quot;harpsichord&quot; jsxtext=&quot;Harpsichord&quot;/&gt;
+&lt;record jsxid=&quot;piano&quot; jsxtext=&quot;Piano&quot;/&gt;
+&lt;record jsxid=&quot;timpani&quot; jsxtext=&quot;Timpani&quot;/&gt;
+&lt;record jsxid=&quot;trombone&quot; jsxtext=&quot;Trombone&quot;/&gt;
+&lt;record jsxid=&quot;trumpet&quot; jsxtext=&quot;Trumpet&quot;/&gt;
+&lt;record jsxid=&quot;tuba&quot; jsxtext=&quot;Tuba&quot;/&gt;
+&lt;record jsxid=&quot;viola&quot; jsxtext=&quot;Viola&quot;/&gt;
+&lt;record jsxid=&quot;violin&quot; jsxtext=&quot;Violin&quot;/&gt;
+&lt;/data&gt;"/>
+          <events onmousedown="this.style.backgroundColor='';"/>
+        </object>
+        <object type="jsx3.gui.RadioButton">
+          <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1" jsxwidth="100"/>
+          <strings jsxname="radioVerb1" jsxtext="Playing" jsxgroupname="group1" jsxmargin="24 0 0 0" jsxvalue="playing"/>
+          <events jsxselect=""/>
+        </object>
+        <object type="jsx3.gui.RadioButton">
+          <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1" jsxwidth="100"/>
+          <strings jsxname="radioVerb2" jsxtext="Droning" jsxgroupname="group1" jsxmargin="24 0 0 0" jsxvalue="droning on"/>
+          <events jsxselect=""/>
+        </object>
+        <object type="jsx3.gui.RadioButton">
+          <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1" jsxwidth="100"/>
+          <strings jsxname="radioVerb3" jsxtext="Fiddling" jsxgroupname="group1" jsxmargin="24 0 0 0" jsxvalue="fiddling with"/>
+          <events jsxselect=""/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"/>
+          <strings jsxname="formLabel" jsxtext="Date" jsxfor="datePicker" jsxmargin="24 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.DatePicker">
+          <variants jsxwidth="180" jsxrelativeposition="1" jsxheight="18"/>
+          <strings jsxname="datePicker" jsxmargin="24 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"/>
+          <strings jsxname="formLabel" jsxtext="Time" jsxfor="timePicker" jsxmargin="8 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.TimePicker">
+          <variants jsxrelativeposition="1" jsxheight="18" jsxhours="0" jsxminutes="0" jsxseconds="0" jsxmillis="0" jsxshowsecs="0" jsxshowmillis="0"/>
+          <strings jsxname="timePicker" jsxmargin="8 0 0 0"/>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="30" jsxwidth="80" jsxfontsize="14"/>
+          <strings jsxname="btnExecute" jsxtext="Go!" jsxmargin="8 4 0 100" jsxdisplay="" jsxpadding="4"/>
+          <events jsxexecute="root.computeSentence();"/>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+      </object>
+    </object>
   </object>
 </serialization>
