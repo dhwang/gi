@@ -8,13 +8,13 @@ this.computeSentence = function() {
   var n = noun.getValue(),
       adj = adjective.getValue(),
       v = verb.getValue(),
-      inst = instrument.getValue(),
+      inst = instrument.getText(),
       v2 = radioVerb1.getGroupValue(),
       dt = datePicker.getValue(),
       tm = timePicker.getValue(),
       s = "At " + tm + " on " + dt + ", the " + adj + " " + n + " " + v + " while " + v2 + " the " + inst + ".";
 
-  alert(s);
+  this.getServer().alert("Result", s);
 };
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
