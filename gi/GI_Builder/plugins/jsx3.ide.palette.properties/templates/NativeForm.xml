@@ -19,8 +19,8 @@
         jsxexecute="objJSX.setMethod(vntValue);"
         eval="1"
         jsxmask="jsxselect">
-      <enum jsxid="jsx3.gui.NativeForm.GET" jsxtext="GET"/>
-      <enum jsxid="jsx3.gui.NativeForm.POST" jsxtext="POST"/>
+      <enum jsxid="jsx3.gui.NativeForm.GET" jsxtext="GET" eval="0"/>
+      <enum jsxid="jsx3.gui.NativeForm.POST" jsxtext="POST" eval="0"/>
     </record>
     <record jsxid="jsxmulti" jsxtext="Multipart"
         jsxtip="Sets whether the form is multipart. Forms that include file upload fields must be multipart."

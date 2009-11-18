@@ -243,7 +243,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
   };
 
   NativeForm_prototype.updateBoxProfile = function(objImplicit, objGUI, objQueue) {
-    this.updateBoxProfileImpl(objImplicit, objGUI, objQueue, 3);
+    this.updateBoxProfileImpl(objImplicit, objGUI, objQueue, 4);
   };
 
   NativeForm_prototype.createBoxProfile = function(objImplicit) {

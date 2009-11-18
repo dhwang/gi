@@ -145,7 +145,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     //initialize and define common properties shared by all subclasses of jsx3.app.Model
 /* @JSC :: begin DEP */
     // DEPRECATED: remove strInstanceOf parameter and references
-    this.jsxinstanceof = (strInstanceOf == null) ? "jsx3.app.Model" : strInstanceOf;
+    this._jsxinstanceof = (strInstanceOf == null) ? "jsx3.app.Model" : strInstanceOf;
 /* @JSC :: end */
     this.jsxname = strName;
   };
@@ -1248,7 +1248,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 /* @JSC :: begin DEP */
     // DEPRECATED: should eventually only consult getClass()
     if (strType == null)
-      strType = this.jsxinstanceof;
+      strType = this._jsxinstanceof;
 /* @JSC :: end */
     objNode.setAttribute("type", strType);
 
@@ -1708,7 +1708,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 /* @JSC :: begin DEP */
       // DEPRECATED: old style instantiation
       objInstance = new objClass(jsx3.DESERIALIZE);
-      objInstance.jsxinstanceof = strType;
+      objInstance._jsxinstanceof = strType;
 /* @JSC :: end */
     }
 

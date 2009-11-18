@@ -12,7 +12,7 @@
     <events jsxexecute="this.getChild(0).play()"/>
     <object type="jsx3.gui.Sound">
       <variants jsxvolume="50"/>
-      <strings jsxinstanceof="jsx3.app.Model" jsxname="sound" jsxurl="jsx:///sounds/beeps.wav"/>
+      <strings jsxname="sound" jsxurl="jsx:///sounds/beeps.wav"/>
     </object>
   </object>
 </serialization>

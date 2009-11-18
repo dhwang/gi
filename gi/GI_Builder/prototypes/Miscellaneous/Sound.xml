@@ -8,6 +8,6 @@
   <description><![CDATA[A sound component that can be played programmatically.]]></description>
   <object type="jsx3.gui.Sound">
     <variants jsxvolume="50"/>
-    <strings jsxinstanceof="jsx3.app.Model" jsxname="sound" jsxurl="jsx:///sounds/beeps.wav"/>
+    <strings jsxname="sound" jsxurl="jsx:///sounds/beeps.wav"/>
   </object>
 </serialization>

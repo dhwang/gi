@@ -1049,8 +1049,9 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
     if(objImplicit.height == null) objImplicit.height = (objImplicit.height) ? objImplicit.height : this.getHeight();
 
     //set this block as a container if it is 100% wide
-    if(objImplicit.width == "100%" || (objImplicit.tagName == "div" && this.paintText() == "")) {
-      objImplicit.tagname = "div";
+    if(objImplicit.width == "100%" || (objImplicit.tagname == "div" && this.paintText() == "")) {
+      if (objImplicit.tagname == "span")
+        objImplicit.tagname = "div";
       objImplicit.container = true;
     }
 

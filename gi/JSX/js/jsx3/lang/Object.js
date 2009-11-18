@@ -296,7 +296,7 @@ window._jsxtmp = function(Object, Object_prototype) {
   Object_prototype.getInstanceOf = function() {
     if (this.getClass()) return this.getClass().getName();
     
-    return this.jsxinstanceof ? this.jsxinstanceof : this.constructor.className;
+    return this._jsxinstanceof ? this._jsxinstanceof : this.constructor.className;
   };
   
   /** 
@@ -305,7 +305,7 @@ window._jsxtmp = function(Object, Object_prototype) {
    * @deprecated  no direct replacement
    */
   Object_prototype.setInstanceOf = function(strInstanceOf) {
-    this.jsxinstanceof = strInstanceOf;
+    this._jsxinstanceof = strInstanceOf;
     return this;
   };
   
