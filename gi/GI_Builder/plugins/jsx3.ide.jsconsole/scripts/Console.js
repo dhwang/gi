@@ -106,6 +106,8 @@
       if(output instanceof RegExp) { type = "regexp"; }
       if(output instanceof Array) { type = "array"; }
       if(output instanceof Error) { type = "error"; }
+      if(output instanceof jsx3.lang.Object) { type = "giobject"; }
+      if(output instanceof jsx3.lang.Exception) { type = "error"; }
       return type;
     };
 
@@ -115,18 +117,19 @@
       if(type == "string") { return "\"" + object + "\""; }
       if(type == "array") { return "Array"; }
       if(type == "function") { return "Function"; }
+      if(type == "giobject") {
+        var strName = object.toString ? object.toString() : "Object";
+        return strName;
+      }
       if(type == "object") {
         var strName = object.toString ? object.toString() : "Object";
-        //show as GIObject
-        if(object instanceof jsx3.lang.Object) {
-          return "<" + strName + ">";
-        }
-        if(strName == "[object]") { return "Object"; }
+        if (strName == "[object]") strName = "Object";
+        
         //str.replace "[object AAA]" with AAA
-        if(strName.match(/\[object\s\w+\]/)) {
-          return strName.replace(/\[object\s(\w+)\]/, "$1");
-        }
-        return "Object";
+        if (strName.match(/\[object\s\w+\]/))
+          strName = strName.replace(/\[object\s(\w+)\]/, "$1");
+
+        return strName;
       }
       return object;
     };
@@ -152,23 +155,41 @@
       }
     };
 
+    Util.prettyXSL = (new jsx3.xml.XslDocument()).load(jsx3.resolveURI("jsx:///xsl/xml.xsl"));
+
     Util.injectedAPI = {
         $     : function(id) { return document.getElementById(id) },
         $$    : function() { if(document.querySelectorAll) return document.querySelectorAll.apply(document, arguments) },
         $x    : function(xpath, contextNode) {if(document.evaluate) return Util.getElementsByXPath(xpath, contextNode);},
         keys  : function(o) { var a = []; for (k in o) a.push(k); return a; }, 
-        values: function(o) { var a = []; for (k in o) try {a.push(o[k])} catch(e) {}; return a; }
+        values: function(o) { var a = []; for (k in o) try {a.push(o[k])} catch(e) {}; return a; },
+        prettyXML : function(strXML) {
+          return (new jsx3.ide.jsconsole.PrettyXML(strXML));
+        }
     };
 
   });
 
   var Util = jsx3.ide.jsconsole.Util;
 
+  jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.PrettyXML", null, null, function(KLASS, instance) {
+
+    instance.init = function(strXML) {
+        this.objXML = new jsx3.xml.Document();
+        this.objXML.loadXML(strXML);
+    };
+
+    instance.toHTML = function() {
+      return Util.prettyXSL.transform(this.objXML);
+    };
+  });
+
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.Command", null, null, function(KLASS, instance) {
 
     instance.init = function(script, console) {
       this._script = script;
       this._console = console;
+      this._console.cacheMessageObject(this);
     };
 
     instance.executeScript = function() {
@@ -187,9 +208,9 @@
       var result = "undefined";
       try {
         result = this.doEval(this._script, context);
-        return new jsx3.ide.jsconsole.Response(this._script, result);
+        return new jsx3.ide.jsconsole.Response(this._script, result, false, this._console);
       } catch (ex) {
-        return new jsx3.ide.jsconsole.Response(this._script, ex, true);
+        return new jsx3.ide.jsconsole.Response(this._script, ex, true, this._console);
       }
 
       
@@ -218,16 +239,22 @@
 
     };
 
+    instance.destroy = function() {
+      this._console = null;
+    };
+
   });
 
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.Response", null, null, function(KLASS, instance) {
 
-    instance.init = function(script, result, isException) {
+    instance.init = function(script, result, isException, console) {
       this._script = script;
       this._result = result;
       this.catalog = "info";
       if(isException) this.catalog = "error";
+      this._console = console;
       this.formattedResponse = this._format(result);
+      this._console.cacheMessageObject(this);
     };
 
     instance.toHtmlElement = function() {
@@ -249,12 +276,17 @@
 
     instance._format = function(response) {
       var type = Util.getType(response);
-      method = "_format" + type.substring(0,1).toUpperCase() + type.substring(1);
-
-      formatter = this[method] ? method : "_formatValue";
       var span = document.createElement("span");
-      span.className = "jsconsole-formatted-" + type;
-      this[formatter](response, span);
+      
+      if(type == "giobject" && response.instanceOf(jsx3.ide.jsconsole.PrettyXML)) {
+        span.className = "jsconsole-formatted-pretty-xml";
+        span.innerHTML = response.toHTML();
+      } else {
+        span.className = "jsconsole-formatted-" + type;
+        method = "_format" + type.substring(0,1).toUpperCase() + type.substring(1);
+        formatter = this[method] ? method : "_formatValue";
+        this[formatter](response, span);        
+      }
       return span;
     };
 
@@ -286,12 +318,20 @@
         if (i < array.length - 1) {
           elem.appendChild(document.createTextNode(", "));
         }
+        if(i >= 50) {
+          elem.appendChild(document.createTextNode("..."));
+          break;
+        }
       }
       elem.appendChild(document.createTextNode("]"));
     };
 
     instance._formatObject = function(obj, elem) {
-      elem.appendChild(new jsx3.ide.jsconsole.ObjectSection(obj).toHtmlElement());
+      elem.appendChild(new jsx3.ide.jsconsole.ObjectSection(obj, this._console).toHtmlElement());
+    };
+
+    instance._formatGiobject = function(obj, elem) {
+      this._formatObject(obj, elem);
     };
 
     instance._formatError = function(obj, elem) {
@@ -302,14 +342,22 @@
       Util.setInnerText(messageElement, result);
       elem.appendChild(messageElement);
     };
+
+    instance.destroy = function() {
+      this._result = null;
+      this.formattedResponse = null;
+    };
+
   });
 
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.ObjectSection", null, null, function(KLASS, instance) {
     
-    instance.init = function(obj) {
+    instance.init = function(obj, console) {
       this._object = obj;
       this._expanded = false;
       this._populated = false;
+      this._console = console;
+      this._console.cacheMessageObject(this);
     };
 
     instance.toHtmlElement = function() {
@@ -322,12 +370,13 @@
       this.imgElement = document.createElement("span");
       this.imgElement.className = "image";
       this.nameElement = document.createElement("span");
-      this.nameElement.className = "name";
+      this.nameElement.className = "name name-" + Util.getType(this._object);
       Util.setInnerText(this.nameElement, Util.getObjectDisplayName(this._object));
       this.titleElement.appendChild(this.imgElement);
       this.titleElement.appendChild(this.nameElement);
+      this.clickHandler = jsx3.$F(this.onClickHandler).bind(this);
 
-      jsx3.html.DOM.addEventListener(this.titleElement, "onclick", jsx3.$F(this.onClickHandler).bind(this));
+      jsx3.html.DOM.addEventListener(this.titleElement, "onclick", this.clickHandler);
 
       //this.headerElement.addEventListener("click", this.toggleExpanded.bind(this), false);
 
@@ -369,7 +418,7 @@
         for (var i = 0; i < properties.length; ++i) {
             var object = this._object;
             var propertyName = properties[i];
-            var property = new jsx3.ide.jsconsole.Property(object, propertyName);
+            var property = new jsx3.ide.jsconsole.Property(object, propertyName, this._console);
             this.propertiesList.push(property);
             try{
               this.propertiesElement.appendChild(property.toHtmlElement());
@@ -388,13 +437,25 @@
 
     };
 
+    instance.destroy = function() {
+      jsx3.html.DOM.removeEventListener(this.titleElement, "onclick", this.clickHandler);
+      this._object = null;
+      this.element = null;
+      this.titleElement = null;
+      this.imgElement = null;
+      this.nameElement = null;
+      this.propertiesElement = null;
+    };
+
   });
 
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.Property", null, null, function(KLASS, instance) {
 
-    instance.init = function(object, propertyName) {
+    instance.init = function(object, propertyName, console) {
       this._object = object;
       this._propertyName = propertyName;
+      this._console = console;
+      this._console.cacheMessageObject(this);
     };
 
 
@@ -429,12 +490,12 @@
       Util.setInnerText(this.nameElement, this._propertyName);
 
       this.valueElement = document.createElement("span");
-      this.valueElement.className = "value";
+      this.valueElement.className = "value value-" + Util.getType(this._object[this._propertyName]);
       
       var displayName = Util.getObjectDisplayName(this._object[this._propertyName]);
       if(displayName == "Array") {
         this.hasChildren = false;
-        var arrayResponse = new jsx3.ide.jsconsole.Response("", this._object[this._propertyName], false);
+        var arrayResponse = new jsx3.ide.jsconsole.Response("", this._object[this._propertyName], false, this._console);
         arrayResponse.isInlineResponse = true;
         this.valueElement.appendChild(arrayResponse.toHtmlElement())
       } else if (displayName == "Function") {
@@ -452,9 +513,9 @@
 
       if(this.hasChildren) {
         this.imgElement.className = "image-collapsed";
-
-        jsx3.html.DOM.addEventListener(this.nameElement, "onclick", jsx3.$F(this.onClickHandler).bind(this));
-        jsx3.html.DOM.addEventListener(this.imgElement, "onclick", jsx3.$F(this.onClickHandler).bind(this));
+        this.clickHandler = jsx3.$F(this.onClickHandler).bind(this);
+        jsx3.html.DOM.addEventListener(this.nameElement, "onclick", this.clickHandler);
+        jsx3.html.DOM.addEventListener(this.imgElement, "onclick", this.clickHandler);
 
         //this.headerElement.addEventListener("click", this.toggleExpanded.bind(this), false);
 
@@ -507,7 +568,7 @@
         for (var i = 0; i < properties.length; ++i) {
             var object = childObject;
             var propertyName = properties[i];
-            var property = new jsx3.ide.jsconsole.Property(object, propertyName);
+            var property = new jsx3.ide.jsconsole.Property(object, propertyName, this._console);
             this.propertiesList.push(property);
             try{
               this.propertiesElement.appendChild(property.toHtmlElement());
@@ -523,6 +584,19 @@
 
     };
 
+    instance.destroy = function() {
+      if(this.clickHandler) {
+        jsx3.html.DOM.removeEventListener(this.nameElement, "onclick", this.clickHandler);
+        jsx3.html.DOM.removeEventListener(this.imgElement, "onclick", this.clickHandler);
+      }
+      this._object = null;
+      this.element = null;
+      this.imgElement = null;
+      this.nameElement = null;
+      this.valueElement = null;
+      this.propertiesElement = null;
+    };
+
   });
   
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.Console",jsx3.gui.Template.Block, [jsx3.xml.Cacheable, jsx3.xml.CDF], 
@@ -536,6 +610,19 @@
 
       instance._history = jsx3.$A([]);
       instance._historyOffset = 0;
+
+      instance._msgObject = [];
+
+      instance.cacheMessageObject = function(object) {
+        this._msgObject.push(object);
+      };
+
+      instance.destroyMessageObjects = function() {
+        var msgItem;
+        while(msgItem = this._msgObject.pop()) {
+          if(msgItem.destroy) { try{msgItem.destroy();}catch(e){} }
+        }
+      };
 
       instance.recoverHistory = function() {
         this._history = jsx3.$A(this.getPlugIn().getHistory());
@@ -667,7 +754,7 @@
       };
 
       instance.clear = function() {
-        window.setTimeout(jsx3.$F(function() { this.repaint(); }).bind(this), 100);
+        window.setTimeout(jsx3.$F(function() { this.destroyMessageObjects(); this.repaint(); }).bind(this), 100);
       };
 
       instance.addHtmlElement= function(obj) {
@@ -689,6 +776,10 @@
           Util.moveCaretToEnd(objPrompt, true);
           objPrompt.scrollIntoView(false);
         }
+      };
+
+      instance.onDestroy = function() {
+         this.destroyMessageObjects();
       };
 
       instance.loadTemplate("console");
