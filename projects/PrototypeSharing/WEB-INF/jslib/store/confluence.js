@@ -27,6 +27,7 @@ exports.Confluence = function(options){
 		},
 		put: function(object, id){
 			var newObject = confluenceCall("storePage", [object]);
+			print("stored " + newObject);
 			for(var i in newObject){
 				object[i] = newObject[i];
 			}

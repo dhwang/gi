@@ -24,7 +24,7 @@
 		<div id="user">
 			<span id="username"></span>
 			<span class="verticalRule"></span>
-			<span id="login">Login</span>
+			<span id="login">Logout</span>
 		</div>
 		<div id="interfaceWrapper" jsid="interfaceWrapper" dojoType="dijit.layout.TabContainer" region="center" tabStrip="true">
 	  		<div id="component-border" dojoType="dijit.layout.BorderContainer" title="Showcase Applications">
@@ -32,19 +32,19 @@
 				<div dojoType="dijit.layout.ContentPane" region="center" role="main" style="overflow:hidden">
 					<div id="component-controls">
 						<button onclick="componentGrid.setQuery('')">All</button>
-						<button onclick="requery(true)">Open Source</button>
-						<button onclick="requery(false)">Closed Source</button>
+						<button onclick="requery('open-source')">Open Source</button>
+						<button onclick="requery('closed-source')">Closed Source</button>
 						<span class="verticalRuleButton"></span>
-						<button class="uploadApplication" onclick="requery('New')">Upload Application</button>
+						<button class="uploadApplication" id="uploadApplication">Upload Application</button>
 						<form id="filter-box-form"><input id="filter-box" type="text"></input></form>
 					</div>
 					<table rowSelector="0px" rowsPerPage="20" query="''" store="showcaseStore" id="component-grid" jsid="componentGrid" dojoType="dojox.grid.DataGrid" style="height:87%">
 						<thead>
 							<tr>
 								<th editable="true" width="40%" field="title">Title</th>
-								<th width="20%" field="user">Author</th>
+								<th width="20%" field="author">Author</th>
 								<th width="20%" field="license">License</th>
-								<th width="20%" field="uploaded" formatter="dateFormatter">Upload Date</th>
+								<th width="20%" field="modified" formatter="dateFormatter">Upload Date</th>
 							</tr>
 						</thead>
 					</table>
@@ -52,7 +52,7 @@
 		        <div id="info-pane" jsid="infoPane" dojoType="dijit.layout.TabContainer" splitter="true" region="bottom" tabStrip="true" style="height:50%">
 
 		        	<div class="component-actions app-info-buttons">
-		        		<button id="modify-button"><span class="modifyIcon"></span>Modify</button>
+		        		<!--<button id="modify-button"><span class="modifyIcon"></span>Modify</button>-->
 						<button id="delete-button"><span class="deleteIcon"></span>Delete</button>
 					</div>
 									
@@ -75,7 +75,7 @@
 							<div class="description-row">
 								<label id="proxy-url-label">Proxy URLs: </label><textarea name="proxy" id="proxy-description"></textarea>
 								<br />
-								<small>One per line</small>
+								<small>One rewrite rule per line, for example: ^remote-folder/(.*)$ http://some-site.com/$1</small>
 							</div
 							<div class="description-row">
 								<label>GI Runtime Location: </label><input name="runtime" id="runtime-location-description"></input>
@@ -87,22 +87,18 @@
 							<hr />
 							<span>Email: </span><input name="email" id="email-detail"></input><span class="required">*</span>
 							<hr />
-							<span>Version: </span><input name="version" id="version-detail"></input><span class="required">*</span>
+							<span>Version: </span><input name="appVersion" id="version-detail"></input><span class="required">*</span>
 							<hr />
 							<span>License: </span>
 							<select name="license" id="license-detail">
 								<option value="open-source">Open Source</option>
-								<option value="freeware">Freeware</option>
-								<option value="shareware">Shareware</option>
+								<option value="closed-source">Closed Source</option>
 							</select>
 							<hr />
 							<span>App Key: </span><input name="key" id="key-detail"></input>
 							<hr />
 							<span>App File: </span><input name="zip" id="file-detail" type="file"></input><span class="required">*</span>
 							<hr />
-							<div class="errorMessage">
-								<span>File Error: </span> <span style="width:70%">Error message here.</span>
-							</div>								
 			        		<button id="save-button"><span class="saveIcon"></span>Save</button>
 							<button id="cancel-button"><span class="cancelIcon"></span>Cancel</button>
 						</div>

@@ -2,61 +2,105 @@ var persisted = require("persisted");
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
 var CONFLUENCE = require("settings").CONFLUENCE;
-var remove = require("file").remove;
-var read = require("file").read;
-var write = require("file").write;
-
-var ConfluenceStore = require("store/confluence").Confluence;
-showcaseStore = new ConfluenceStore({});
+var HOST_URL_PREFIX = require("settings").HOST_URL_PREFIX;
+var File = require("file");
+var read = File.read;
+var write = File.write;
+var JSFile = require("store/js-file").JSFile;
+var Replicated = require("store/replicated").Replicated;
+var Confluence = require("store/confluence").Confluence;
+var confluenceStore = new Confluence({});
+showcaseStore = Replicated(JSFile("data/Showcase"), confluenceStore, {replicateFirst: true});
 var unzip = require("zip").unzip;
 
-persisted.Class("Showcase", showcaseStore, {
-	create: function(object){
-		debugger;
-		var id = showcaseStore.create(object);
+var ShowcaseClass = persisted.Class("Showcase", showcaseStore, {
+	put: function(object){
+		var redefine = !object.id;
+		defineContent(object);
+		var id = showcaseStore.put(object);
+		if(redefine){
+			// now that we have the id, we need to do it again
+			defineContent(object);
+			showcaseStore.put(object);
+		}
 		setupShowcase(object);
 		return id;
+	},
+	"delete": function(id){
+		showcaseStore["delete"](id);
+		recreateListing();
+		var targetDir = require("settings").APACHE_TARGET + id;
+		File.rmtree(targetDir);
 	},
 	prototype: {
 		initialize: function(){
 			this.space = CONFLUENCE.space;
 			this.parentId = CONFLUENCE.listingPageId;
 			this.content = "Description: " + this.description;
+			this.modified = new Date();
 		}
 	},
 	properties:{
 		title:{type:"string"}
 	}
 });
+function defineContent(object){
+	if(!object.zip){
+		throw new Error("Zip file must be included");
+	}
+	object.content = "h2. " + object.title + "\n\n" +
+		"h3. " + object.author + " - " + new Date() + " - " + object.appVersion + "\n\n" +
+		object.description + "\n\n" +
+		"Tags: " + object.tags + "\n\n" + 
+		"[Launch Demo|" + HOST_URL_PREFIX + object.id + "/launch.html]   [Download Source|" + HOST_URL_PREFIX + object.id + '/' + object.zip.tempfile + "]"; 
+}
 function setupShowcase(object){
-	var targetDir = require("settings").APACHE_TARGET + object.id;
+	var targetDir = require("settings").APACHE_TARGET + object.id + '/';
 	unzip(object.zip.tempfile, targetDir);
-	//remove(object.zip.tempfile);
-	var launchTemplate = read(require.paths[require.paths.length-1] + "/launch.html");
-	write(targetDir + "/launch.html", launchTemplate.replace(/@(\w+)@/g, function(t, name){
+	if(File.isFile(targetDir + object.zip.tempfile)){
+		File.remove(targetDir + object.zip.tempfile);
+	}
+	File.move(object.zip.tempfile, targetDir + object.zip.tempfile);
+	var launchTemplate;
+	require.paths.some(function(path){
+		try{
+			launchTemplate = read(path + "/launch.html");
+			return true;
+		}catch(e){
+			
+		}
+	});
+	write(targetDir + "launch.html", launchTemplate.replace(/@(\w+)@/g, function(t, name){
 		switch(name){
 			case "CONTAINERPATH":
 				return object.runtime;
 			case "APPPATH":
 				return object.id;
+			case "TITLE":
+				return object.title;
 		}
 	}));
+	if(object.proxy){
+		write(targetDir + ".htaccess", "RewriteEngine On\n" +
+			object.proxy.replace(/.+/g,function(t){
+				return "RewriteRule " + t + " [P]\n";
+			}));
+	} 
 	recreateListing();
 }
 
 function recreateListing(){
 		// now recreate the listing page with the confluence table plugin
-	var listingPage = showcaseStore.get(CONFLUENCE.listingPageId);
+	var listingPage = confluenceStore.get(CONFLUENCE.listingPageId);
 	var content = "These are the showcase applications:\n\n" + 
 		"{table-plus}\n|| Title || Author || Description || Uploaded ||\n";
 	var showcases = showcaseStore.query("", {});
 	showcases.forEach(function(showcase){
-		showcase = showcaseStore.get(showcase.id);
 		content += "| [" + CONFLUENCE.space + ":" + showcase.title + "] | " + 
-			showcase.modifier + " | " + showcase.content.substring(0,100) + " | " + 
+			showcase.author + " | " + (showcase.description && showcase.description.substring(0,100)) + " | " + 
 			showcase.modified + " |\n";
 	});
 	content += "{table-plus}\n";
 	listingPage.content = content;
-	showcaseStore.put(listingPage);
+	confluenceStore.put(listingPage);
 };	

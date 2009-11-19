@@ -10,8 +10,8 @@ dojo.require("dojox.highlight");
 dojo.require("dojox.highlight.languages.xml");
 dojo.require("dijit.Dialog");
 
-var prototypeStore = new dojox.data.PersevereStore({target:"Prototype/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
-var logStore = new dojox.data.PersevereStore({target:"Log/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
+var prototypeStore = new dojox.data.JsonRestStore({target:"Prototype/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
+var logStore = new dojox.data.JsonRestStore({target:"Log/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
 function requery(status){
 	componentGrid.setQuery({status:status});
 }
@@ -19,6 +19,13 @@ function setText(element, text){
 	element.innerHTML = text && text.toString().replace(/</g,"&lt;");
 }
 function login(){
+	if(username){
+        dojo.xhrPost({
+                url: "Class/User",
+                postData: dojo.toJson({method: "authenticate", id:"login", params:[null, null]}),
+                handleAs: "json",
+        });		
+	}
 	var loginAgain = login;
 	login = function(){};// no way else 
 	dojo.require("persevere.Login");

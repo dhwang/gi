@@ -5,7 +5,7 @@ var auth = require("jsgi/auth");
 var PrototypeClass = require("Prototype").PrototypeClass;
 var SQLStore = require("store/sql").SQLStore;
 
-var ratingStore = SQLStore({
+ratingStore = SQLStore({
 	table: "Rating",
 	starterStatements:[
 		"CREATE TABLE Rating (user VARCHAR(100), prototype_id INT, rating TINYINT)",

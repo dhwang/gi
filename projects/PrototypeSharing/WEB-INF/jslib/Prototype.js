@@ -48,6 +48,18 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 			instance.deleted = true;
 			instance.save();
 		},
+		get: function(id){
+			var object = prototypeStore.get(id);
+			if(auth.currentUser){
+				var ratingObject = ratingStore.executeSql("SELECT rating FROM Rating WHERE prototype_id=? AND user=?", {
+					parameters:[id, auth.currentUser.uid]
+				}).rows.first();
+				if(ratingObject){
+					object.myRating = ratingObject.rating;
+				} 
+			}
+			return object;
+		},
 		purge: function(){
 			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=?", { parameters: [true] });
 		},

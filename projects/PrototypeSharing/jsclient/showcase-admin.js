@@ -10,14 +10,22 @@ dojo.require("dijit.Dialog");
 dojo.require("dojo.io.iframe");
 dojo.require("dojo.cookie");
 
-var showcaseStore = new dojox.data.PersevereStore({target:"Showcase/", idAsRef: true, simplifiedQuery: true}); // persevere stores are auto-generated
-function requery(status){
-	componentGrid.setQuery({status:status});
+var showcaseStore = new dojox.data.JsonRestStore({target:"Showcase/", idAsRef: true}); 
+selectedItem = {};
+function requery(license){
+	componentGrid.setQuery({license:license});
 }
 function setText(element, text){
 	element.innerHTML = text && text.toString().replace(/</g,"&lt;");
 }
 function login(){
+	if(username){
+        dojo.xhrPost({
+                url: "Class/User",
+                postData: dojo.toJson({method: "authenticate", id:"login", params:[null, null]}),
+                handleAs: "json",
+        });		
+	}
 	var loginAgain = login;
 	login = function(){};// no way else 
 	dojo.require("persevere.Login");
@@ -47,8 +55,21 @@ dojo.addOnLoad(function(){
 		selectedItem = event.grid.getItem(event.rowIndex);
 		showSelectedComponent();
 	});
+	dojo.connect(dojo.byId("uploadApplication"), "onclick", function(e){
+		selectedItem = {};
+		showSelectedComponent();
+	});
 	function showSelectedComponent(){
-		dojo.byId("title-description").value = showcaseStore.getValue(selectedItem, "title");
+		dojo.byId("title-description").value = showcaseStore.getValue(selectedItem, "title") || "";
+		dojo.byId("version-detail").value = showcaseStore.getValue(selectedItem, "appVersion") || "";
+		dojo.byId("about-description").value = showcaseStore.getValue(selectedItem, "description") || "";
+		dojo.byId("tags-description").value = showcaseStore.getValue(selectedItem, "tags") || "";
+		dojo.byId("proxy-description").value = showcaseStore.getValue(selectedItem, "proxy") || "";
+		dojo.byId("license-detail").value = showcaseStore.getValue(selectedItem, "license") || "";
+		dojo.byId("author-detail").value = showcaseStore.getValue(selectedItem, "author") || "";
+		dojo.byId("key-detail").value = showcaseStore.getValue(selectedItem, "key") || "";
+		dojo.byId("runtime-location-description").value = showcaseStore.getValue(selectedItem, "runtime") || "";
+		dojo.byId("email-detail").value = showcaseStore.getValue(selectedItem, "email") || "";
 		
 	}
 	var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
@@ -77,11 +98,27 @@ dojo.addOnLoad(function(){
 			alert("Save failed: " + error.responseText);
 		}		
 	};
+	dojo.connect(dojo.byId("delete-button"), "onclick", function(e){
+		if(confirm("Are you sure you want to delete " + selectedItem.title)){
+			showcaseStore.deleteItem(selectedItem);
+			showcaseStore.save();
+		}
+	});
 	dojo.connect(dojo.byId("save-button"), "onclick", function(e){
 		dojo.stopEvent(e);
 		dojo.io.iframe.send({
 			form:"upload-form",
-			url:"http://localhost:7000/Showcase/?pintura-auth=" + dojo.cookie("pintura-auth") 
+			url:"Showcase/" + (selectedItem.id || "") + "?http-Accept=text/html&pintura-auth=" + dojo.cookie("pintura-auth"),
+			timeout: 10000,
+			handleAs: "javascript" 
+		}).addCallback(function(value){
+			if(typeof value === "string"){
+				alert(value);
+			}
+			else{
+				componentGrid._refresh(true);
+				alert("Saved ");
+			}
 		});
 	});
 	
