@@ -32,7 +32,7 @@ function login(){
     var loginDialog = new persevere.Login({onLoginSuccess: function(){
 	    	alert("Logged in");
 	    	login = loginAgain;
-	    	//location.reload();
+	    	location.reload();
 	    	realHide();
 	    },
 	    closable: false});
@@ -139,7 +139,7 @@ function dateFormatter(date){
 		function done(res) {
 			username = dfd.ioArgs.xhr.getResponseHeader("Username");
 			if(!username){
-			//	login();
+				login();
 			}
 			// if the sign-in button is waiting for us
 			dojo.byId("username").innerHTML = username;

@@ -10,7 +10,8 @@ var JSFile = require("store/js-file").JSFile;
 var Replicated = require("store/replicated").Replicated;
 var Confluence = require("store/confluence").Confluence;
 var confluenceStore = new Confluence({});
-showcaseStore = Replicated(JSFile("data/Showcase"), confluenceStore, {replicateFirst: true});
+var DATA_FOLDER = require("settings").DATA_FOLDER;
+showcaseStore = Replicated(JSFile(DATA_FOLDER + "data/Showcase"), confluenceStore, {replicateFirst: true});
 var unzip = require("zip").unzip;
 
 var ShowcaseClass = persisted.Class("Showcase", showcaseStore, {
