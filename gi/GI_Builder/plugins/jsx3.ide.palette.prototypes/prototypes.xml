@@ -258,6 +258,7 @@ objJSX.setUploadDetail = function(objXML, objRecord) {
   upload_description.setValue(descNode.getValue());
 
   upload_checkbox.setChecked(jsx3.gui.CheckBox.UNCHECKED);
+  upload_button_btn.setEnabled(jsx3.gui.Form.STATEDISABLED);
   this.setUserView('upload');
 };
 
@@ -351,6 +352,21 @@ objJSX.setOnlineView = function(viewStr, bDontRepaint) {
   this._current_user_view = view;
 };
 
+objJSX.setOnlineDetailRatings = function(objRecord, bRepaint) {
+  var plugIn = this.getPlugIn();
+  detail_avg_rating_img.setSrc(plugIn._getStarImage(objRecord.rating));
+
+  var myStars = jsx3.util.List.wrap(detail_your_rating.getChildren());
+  var starUrls = plugIn._getStars(objRecord.myRating != "null" ? parseInt(objRecord.myRating, 10) : 0);
+  for (var i=0, star; star=starUrls[i]; i++) {
+    myStars.get(i).setSrc(star);
+  }
+
+  if (bRepaint) {
+    jsx_ide_proto_detail_ratings.repaint();
+  }
+};
+
 objJSX.setOnlineDetail = function(objRecord, bDontCloseReportForm) {
   var plugIn = this.getPlugIn();
   var dateFormat = jsx3.util.DateFormat.getDateInstance(jsx3.util.DateFormat.SHORT);
@@ -362,34 +378,31 @@ objJSX.setOnlineDetail = function(objRecord, bDontCloseReportForm) {
   detail_downloads.setText("" + (objRecord.downloads||0));
   detail_status.setText(objRecord.status);
   detail_created_by.setText(objRecord.user);
-  detail_avg_rating_img.setSrc(plugIn._getStarImage(objRecord.rating));
 
-  var myStars = jsx3.util.List.wrap(detail_your_rating.getChildren());
-  var starUrls = plugIn._getStars(objRecord.myRating != "null" ? parseInt(objRecord.myRating, 10) : 0);
-  for (var i=0, star; star=starUrls[i]; i++) {
-    myStars.get(i).setSrc(star);
-  }
+  this.setOnlineDetailRatings(objRecord);
 
   if (!bDontCloseReportForm) {
     this.closeReportForm();
   }
 
-  report_sent.setDisplay(jsx3.gui.Block.DISPLAYNONE);
-  report_button.setDisplay(
-    username == objRecord.user ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, true
-  );
-
   var s = jsx3.ide.getIDESettings();
   var username = s.get(this.getPlugIn().getId(), "username");
+  var ownedByUser = username == objRecord.user;
+
+  report_sent.setDisplay(jsx3.gui.Block.DISPLAYNONE);
+  report_button.setDisplay(
+    ownedByUser ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, true
+  );
+
   detail_owner_container.setDisplay(
-    username == objRecord.user ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, true
+    ownedByUser ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, true
   );
 
   detail_your_rating.setDisplay(
-    username == objRecord.user ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, true
+    ownedByUser ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, true
   );
   detail_cant_rate.setDisplay(
-    username == objRecord.user ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, true
+    ownedByUser ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, true
   );
 
   jsx_ide_proto_detail_view._selected_detail_record = objRecord;
@@ -525,7 +538,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       <strings jsxname="menuBar" jsxdisplay="none"/>
     </object>
     <object type="jsx3.gui.TabbedPane">
-      <variants jsxtabheight="18" jsxselectedindex="2"/>
+      <variants jsxtabheight="18" jsxselectedindex="1"/>
       <strings jsxname="tabbedpane" jsxtextalign="0" jsxborder="solid 1px #f6f6ff;0px;0px;0px"/>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
@@ -559,10 +572,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxheight="18"/>
-        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
+        <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxloadtype="4" jsxleft="0" jsxtop="0"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -593,7 +606,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="1" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_user_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -601,7 +614,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_complibs_user_summary_tab" jsxtext="Tab"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                  <strings jsxname="jsx_ide_comps_user_treeblock" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay=""/>
+                  <strings jsxname="jsx_ide_comps_user_treeblock" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Tree">
                     <variants jsxuseroot="1" jsxdrag="1" jsxdrop="1"/>
@@ -617,7 +630,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_complibs_user_login_tab" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
                 <object type="jsx3.gui.LayoutGrid">
                   <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                  <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
+                  <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
                   <object type="jsx3.gui.Block">
                     <variants jsxoverflow="2" jsxfontsize="14" jsxrelativeposition="1"/>
                     <strings jsxname="login_title" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="Login" jsxfontweight="bold" jsxpadding="2 0 0 0" jsxdisplay=""/>
@@ -705,7 +718,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                     </object>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="1"/>
-                      <strings jsxname="login_problem" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="8 0 0 0" jsxdisplay=""/>
+                      <strings jsxname="login_problem" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="8 0 0 0" jsxdisplay="none"/>
                       <object type="jsx3.gui.Block">
                         <variants jsxoverflow="3"/>
                         <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxborder="solid 2px #e7dd80;" jsxbgcolor="#fff5c4"/>
@@ -895,10 +908,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
+        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -947,7 +960,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="-1" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_online_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -1033,6 +1046,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                       <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="2" jsxtop="2"/>
                       <strings jsxname="image" jsxsrc="images/backButton.png" jsxdisplay=""/>
                       <dynamics jsxcursor="@Hand"/>
+                      <events jsxclick="palette.setOnlineView('summary');"/>
                     </object>
                   </object>
                   <object type="jsx3.gui.Block">
@@ -1055,7 +1069,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                     <object type="jsx3.gui.Button">
                       <variants jsxindex="0" jsxheight="18" jsxwidth="100" jsxenabled="0"/>
                       <strings jsxname="jsx_ide_proto_remove_remove" jsxtext="Remove it" jsxmargin="0 4 0 8"/>
-                      <events jsxexecute="palette.getPlugIn().removeComponent(palette, jsx_ide_proto_remove_confirm, ide_component_libs_online_list, jsx_ide_proto_detail_view._selected_detail_record);"/>
+                      <events jsxexecute="palette.getPlugIn().removeComponent(palette, jsx_ide_proto_remove_confirm, this, jsx_ide_proto_remove_cancel, ide_component_libs_online_list, jsx_ide_proto_detail_view._selected_detail_record);"/>
                     </object>
                     <object type="jsx3.gui.Button">
                       <variants jsxindex="0" jsxheight="18" jsxwidth="100"/>
@@ -1079,7 +1093,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                       <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="2" jsxtop="2"/>
                       <strings jsxname="image" jsxsrc="images/backButton.png" jsxdisplay=""/>
                       <dynamics jsxcursor="@Hand"/>
-                      <events jsxexecute="palette.setOnlineView('summary');"/>
+                      <events jsxclick="palette.setOnlineView('summary');"/>
                     </object>
                   </object>
                   <object type="jsx3.gui.Block">

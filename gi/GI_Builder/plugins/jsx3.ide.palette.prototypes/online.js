@@ -246,8 +246,12 @@
       s.set(id, 'license_accepted', true);
     },
 
-    removeComponent: function(objPalette, objCheckbox, objMatrix, objRecord) {
+    removeComponent: function(objPalette, objCheckbox, objRemove, objCancel, objMatrix, objRecord) {
       var self = this;
+
+      objCheckbox.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
+      objRemove.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
+      objCancel.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
 
       var doRemoveComponent = function() {
         var request = new jsx3.net.Request();
@@ -255,7 +259,7 @@
             var target = objEvent.target;
             var status = target.getStatus();
 
-            if (status == 200) {
+            if (status == 204) {
               self._reloadList(objMatrix);
               objPalette.setOnlineView('summary');
             } else if (status == 401) {
@@ -279,6 +283,8 @@
         });
         request.subscribe('*', function(objEvent) {
           objCheckbox.setChecked(jsx3.gui.CheckBox.UNCHECKED);
+          objCheckbox.setEnabled(jsx3.gui.Form.STATEENABLED);
+          objCancel.setEnabled(jsx3.gui.Form.STATEENABLED);
         });
 
         request.open("delete", self.uri.prototypeRoot + objRecord.id, true);
@@ -394,7 +400,7 @@
           var target = objEvent.target;
           var status = target.getStatus();
 
-          if (status == 201) {
+          if (status == 200 || status == 201) {
             var response = jsx3.eval("(" + target.getResponseText() + ")");
 
             objView._selected_detail_record.myRating = response.rating;
@@ -421,7 +427,7 @@
           // TODO: how should we show that it timed out?
         });
         request.subscribe('*', function(objEvent) {
-          objPalette.setOnlineDetail(objView._selected_detail_record, true);
+          objPalette.setOnlineDetailRatings(objView._selected_detail_record, true);
           if (on_done) {
             on_done();
           }
@@ -494,13 +500,17 @@
         return;
       }
 
+      var myRating = objView._selected_detail_record.myRating;
+      myRating = myRating != "null" ? parseInt(myRating, 10) : 0;
+
       var children = objTarget.getChildren();
       for(var i=0, l=children.length; i<l; i++){
         var child = objTarget.getChild(i);
-        child.setSrc(this._emptyStar.toString());
+        var starUrl = (i<myRating ? this._fullStar : this._emptyStar).toString();
+        child.setSrc(starUrl);
         var childNode = document.getElementById(child._jsxid);
         if (childNode && childNode.children[0]) {
-          childNode.children[0].setAttribute('src', this._emptyStar.toString());
+          childNode.children[0].setAttribute('src', starUrl);
         }
       }
     }
