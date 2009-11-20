@@ -5,7 +5,7 @@
             <div u:id="jsConsoleOutput" class="jsconsole-output">
             </div>
             <div class="jsconsole-prompt-container">
-              <div u:id="jsConsolePrompt" class="jsconsole-prompt" u:protected="true" contentEditable="true" hideFocus='hideFocus' onkeydown="{onKeyDown}"></div>
+              <div u:id="jsConsolePrompt" class="jsconsole-prompt" u:protected="true" contenteditable="true" hideFocus='hideFocus' onkeydown="{onKeyDown}"></div>
             </div>
           </div>
         </div>
