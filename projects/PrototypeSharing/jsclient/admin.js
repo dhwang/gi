@@ -81,9 +81,10 @@ dojo.addOnLoad(function(){
 		sourceCode = sourceCode && sourceCode.toString().replace(/</g,"&lt;");
 		sourceTab.attr("content", sourceCode);
 		dojox.highlight.init(sourceTab.containerNode);
+		var status = prototypeStore.getValue(selectedItem, "status");
 		setText(dojo.byId("author-detail"), prototypeStore.getValue(selectedItem, "user"));
 		setText(dojo.byId("name-detail"), prototypeStore.getValue(selectedItem, "name"));
-		setText(dojo.byId("status-detail"), prototypeStore.getValue(selectedItem, "status"));
+		setText(dojo.byId("status-detail"), status);
 		setText(dojo.byId("downloads-detail"), prototypeStore.getValue(selectedItem, "downloads"));
 		setText(dojo.byId("uploaded-detail"), prototypeStore.getValue(selectedItem, "uploaded"));
 		setText(dojo.byId("rating-detail"), prototypeStore.getValue(selectedItem, "rating"));
@@ -92,7 +93,11 @@ dojo.addOnLoad(function(){
 			return "<hr /><div><span>Action: <span><span>" + entry.action + "</span></div>" +
 					"<div><span>Notes: <span><span>" + entry.notes + "</span></div>";
 		}).join("\n");
-		
+		dojo.byId("accept-button").disabled = prototypeStore.getValue(selectedItem, "enabled"); 
+		dojo.byId("reject-button").disabled = status == "Rejected"; 
+		dojo.byId("feature-button").disabled = false;
+		dojo.byId("feature-button").innerHTML = '<span class="featureIcon"></span>' + (status == "Featured" ? "Unfeature" : "Feature"); 
+		dojo.byId("delete-button").disabled = false; 
 	}
 	var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
 
@@ -126,49 +131,55 @@ dojo.addOnLoad(function(){
 		window.location.href = "Prototype/" + id + ".component";
 	});
 	dojo.connect(dojo.byId("accept-button"), "onclick", function(){
-		showDialog("Accepting component", false, function(info){
-			prototypeStore.setValue(selectedItem, "enabled", true);
-			prototypeStore.setValue(selectedItem, "status", "Accepted");
-			prototypeStore.save(saveParameters);
-			logStore.newItem({
-				prototype_id:selectedItem.id,
-				action: "Accepted",
-				sendEmail: info.sendEmail,
-				notes: info.notes
+		if(!this.disabled){
+			showDialog("Accepting component", false, function(info){
+				prototypeStore.setValue(selectedItem, "enabled", true);
+				prototypeStore.setValue(selectedItem, "status", "Accepted");
+				prototypeStore.save(saveParameters);
+				logStore.newItem({
+					prototype_id:selectedItem.id,
+					action: "Accepted",
+					sendEmail: info.sendEmail,
+					notes: info.notes
+				});
+				logStore.save(saveParameters);
 			});
-			logStore.save(saveParameters);
-		});
+		}
 	});
 	dojo.connect(dojo.byId("reject-button"), "onclick", function(){
-		showDialog("Rejecting component<br/>Reason for rejecting:", true, function(info){
-			prototypeStore.setValue(selectedItem, "enabled", false);
-			prototypeStore.setValue(selectedItem, "status", "Rejected");
-			prototypeStore.save(saveParameters);
-			logStore.newItem({
-				prototype_id:selectedItem.id,
-				action: "Rejected",
-				sendEmail: info.sendEmail,
-				notes: info.notes
+		if(!this.disabled){
+			showDialog("Rejecting component<br/>Reason for rejecting:", true, function(info){
+				prototypeStore.setValue(selectedItem, "enabled", false);
+				prototypeStore.setValue(selectedItem, "status", "Rejected");
+				prototypeStore.save(saveParameters);
+				logStore.newItem({
+					prototype_id:selectedItem.id,
+					action: "Rejected",
+					sendEmail: info.sendEmail,
+					notes: info.notes
+				});
+				logStore.save(saveParameters);
 			});
-			logStore.save(saveParameters);
-		});
+		}
 	});
 	dojo.connect(dojo.byId("feature-button"), "onclick", function(){
-		var wasFeatured = prototypeStore.getValue(selectedItem, "featured");
-		showDialog(wasFeatured ? 
-			"Unfeaturing component" : "Featuring component", false, function(info){
-			prototypeStore.setValue(selectedItem, "featured", !wasFeatured);
-			prototypeStore.setValue(selectedItem, "enabled", true);
-			prototypeStore.setValue(selectedItem, "status", wasFeatured ? "Accepted" : "Featured");
-			prototypeStore.save(saveParameters);
-			logStore.newItem({
-				prototype_id:selectedItem.id,
-				action: wasFeatured ? "Not Featured" : "Featured",
-				sendEmail: info.sendEmail,
-				notes: info.notes
+		if(!this.disabled){
+			var wasFeatured = prototypeStore.getValue(selectedItem, "featured");
+			showDialog(wasFeatured ? 
+				"Unfeaturing component" : "Featuring component", false, function(info){
+				prototypeStore.setValue(selectedItem, "featured", !wasFeatured);
+				prototypeStore.setValue(selectedItem, "enabled", true);
+				prototypeStore.setValue(selectedItem, "status", wasFeatured ? "Accepted" : "Featured");
+				prototypeStore.save(saveParameters);
+				logStore.newItem({
+					prototype_id:selectedItem.id,
+					action: wasFeatured ? "Not Featured" : "Featured",
+					sendEmail: info.sendEmail,
+					notes: info.notes
+				});
+				logStore.save(saveParameters);
 			});
-			logStore.save(saveParameters);
-		});
+		}
 	});
 	dojo.connect(dojo.byId("delete-button"), "onclick", function(){
 		if(confirm("Are you sure you want to delete the component?")){
