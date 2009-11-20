@@ -1,23 +1,86 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="clickSelect" jsxtext="ClickSelect" jsxtip="If clicking the slider bar changes the value or not" eval="1" docgetter="getClickSelect" docsetter="setClickSelect" getter="getClickSelect" jsxmask="jsxselect" jsxexecute="objJSX.setClickSelect(vntValue);" disallow="'">
-        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
-        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
-      </record>
-      <record jsxid="value" jsxtext="Value" eval="0" docgetter="getValue" docsetter="setValue" getter="getValue" jsxmask="jsxtext" jsxexecute="objJSX.setValue(vntValue);" jsxtip="Corresponds to the native HTML &amp;lt;input&amp;gt; element's attribute."/>
-      <record jsxid="disabled" jsxtext="Disabled" jsxtip="Should this widget respond to user input?  In markup, this is specified as &amp;quot;disabled='disabled'&amp;quot;, or just &amp;quot;disabled&amp;quot;." eval="1" docgetter="getDisabled" docsetter="setDisabled" getter="getDisabled" jsxmask="jsxselect" jsxexecute="objJSX.setDisabled(vntValue);" disallow="'">
-        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
-        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_dojosliderhorizontal" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.DojoWidget">
-      <variants jsxwidth="200"/>
-      <strings jsxname="target" dijitClassName="dijit.form.HorizontalSlider"/>
+  <name><![CDATA[Dojo Slider (Horizontal)]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates a horizontal Dojo slider widget.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onValueChange = function(strValue) {
+  slider.setValue(strValue);
+};
+
+this.onClickSelectSelect = function(strRecordId) {
+  slider.setClickSelect(parseInt(strRecordId));
+};
+
+this.onDisabledSelect = function(strRecordId) {
+  slider.setDisabled(parseInt(strRecordId), true);
+};
+
+value.setValue(slider.getValue());
+clickselect.setValue(slider.getClickSelect() ? 1 : 0);
+disabled.setValue(slider.getDisabled() ? 1 : 0);
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.DojoWidget">
+        <variants jsxwidth="200"/>
+        <strings jsxname="slider" dijitClassName="dijit.form.HorizontalSlider"/>
+        <events onChange="value.setValue(this.getValue());"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Value" jsxfor="value" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="value" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onValueChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="ClickSelect" jsxfor="clickselect" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1" jsxvalue="1"/>
+          <strings jsxname="clickselect" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Off&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;On&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onClickSelectSelect(strRECORDID);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxmargin="0 0 0 0" jsxtext="Disabled" jsxfor="disabled" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1" jsxvalue="0"/>
+          <strings jsxname="disabled" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Disabled&quot;/&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Enabled&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onDisabledSelect(strRECORDID);"/>
+        </object>
+      </object>
     </object>
   </object>
 </serialization>

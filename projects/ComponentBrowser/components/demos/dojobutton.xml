@@ -1,19 +1,71 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <properties xmlns="">
-    <data jsxid="jsxroot">
-      <record jsxid="label" jsxtext="Label" jsxtip="String Text to display in button.  If the label is hidden (showLabel=false) then and no title has been specified, then label is also set as title attribute of icon." eval="0" docgetter="getLabel" docsetter="setLabel" getter="getLabel" jsxmask="jsxtext" jsxexecute="objJSX.setLabel(vntValue);"/>
-      <record jsxid="disabled" jsxtext="Disabled" jsxtip="Should this widget respond to user input?  In markup, this is specified as &amp;quot;disabled='disabled'&amp;quot;, or just &amp;quot;disabled&amp;quot;." eval="1" docgetter="getDisabled" docsetter="setDisabled" getter="getDisabled" jsxmask="jsxselect" jsxexecute="objJSX.setDisabled(vntValue);">
-        <enum jsxid="jsx3.Boolean.TRUE" jsxtext="True"/>
-        <enum jsxid="jsx3.Boolean.FALSE" jsxtext="False"/>
-      </record>
-    </data>
-  </properties>
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_dojobutton" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.DojoWidget">
-      <variants/>
-      <strings jsxname="target" dijitClassName="dijit.form.Button" dijit_label="Button" dijit_name="Button"/>
+  <name><![CDATA[Dojo Button]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates the Dojo button widget.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+this.onLabelChange = function(strValue) {
+  button.setLabel(strValue, true);
+};
+
+this.onDisabledSelect = function(strRecordId) {
+  button.setDisabled(parseInt(strRecordId), true);
+};
+
+label.setValue(button.getLabel());
+disabled.setValue(button.getDisabled() ? 1 : 0);
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.DojoWidget">
+        <variants/>
+        <strings jsxname="button" dijitClassName="dijit.form.Button" dijit_label="Button" dijit_name="Button"/>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr&gt;" jsxpadding="8 0 8 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxtext="Label" jsxfor="label" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"/>
+          <strings jsxname="label" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <events jsxchange="root.onLabelChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Label">
+          <variants jsxrelativeposition="1" jsxoverflow="3"/>
+          <strings jsxname="formLabel" jsxmargin="0 0 0 0" jsxtext="Disabled" jsxfor="disabled" jsxfontweight="bold" jsxtextalign="left" jsxwidth="50%"/>
+        </object>
+        <object type="jsx3.gui.Select">
+          <variants jsxheight="18" jsxxmlasync="1" jsxenabled="1"/>
+          <strings jsxname="disabled" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Disabled&quot;/&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;Enabled&quot;/&gt;&lt;/data&gt;" jsxwidth="50%"/>
+          <events jsxselect="root.onDisabledSelect(strRECORDID);"/>
+        </object>
+      </object>
     </object>
   </object>
 </serialization>
