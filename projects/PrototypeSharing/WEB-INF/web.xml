@@ -4,16 +4,16 @@
   <filter>
     <filter-name>jack</filter-name>
     <filter-class>org.jackjs.JackFilter</filter-class>
-    <init-param> 
+    <init-param>
     	<param-name>reload</param-name>
-    	<param-value>true</param-value>
+    	<param-value>false</param-value>
     </init-param>
-
+<!--
     <init-param>
     	<param-name>narwhalFilePath</param-name>
     	<param-value>C:/dev/narwhal</param-value>
     </init-param>
-<!--
+
     <init-param>
     	<param-name>environment</param-name>
     	<param-value>development</param-value>
