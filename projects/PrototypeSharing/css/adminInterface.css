@@ -284,7 +284,7 @@ textarea {
 	height: 27px !important;	
 	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: 1px solid #AFAFAF;
-	/*z-index: -1;  This breaks the tabs*/
+	z-index: -1;
 }
 
 #adminInterface #info-pane .dijitTab {
@@ -322,12 +322,14 @@ textarea {
 	font-weight: bold;
 }
 
+#component-actions,
 .component-actions {
 	position: absolute;
 	top: -31px;
 	right: 3px;
 }
 
+#component-actions button,
 .component-actions button {
 	top: 1px;
 	position: relative;
@@ -340,18 +342,21 @@ textarea {
 	border: 1px solid #AEBAC3;
 }
 
+.dj_gecko #component-actions button,
 .dj_gecko .component-actions button {
 	top: 3px;
 	margin-left: 3px;
 	padding: 0 14px 2px;
 }
 
+.dj_ie #component-actions button,
 .dj_ie .component-actions button {
 	top: 3px;
 	margin-left: 7px;
 	padding: 2px;
 }
 
+#component-actions button:hover,
 .component-actions button:hover {
 	border: 1px solid #9AA5AE;
 }
