@@ -104,6 +104,7 @@ dojo.addOnLoad(function(){
 		statusDialog.show();
 		dojo.byId("action-confirmation").innerHTML = question;
 		dojo.byId("action-reason").style.display = needReason ? "block" : "none";
+		dojo.byId("action-reason").value = "";
 		dojo.byId("confirm-action").onclick = function(){
 			callback({
 				notes: dojo.byId("action-reason").value,
