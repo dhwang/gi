@@ -74,6 +74,19 @@
       element.innerHTML = "<img src='" + plugIn._getStarImage(record.rating) + "'/>";
     },
 
+    formatComponentName: function(element, cdfkey, matrix, column, rownumber, server) {
+      var record = matrix.getRecord(cdfkey);
+
+      var strName;
+      if (record.featured == "true") {
+        strName = "<span style='font-weight: bold;'>" + record.name + "</span>";
+      } else {
+        strName = record.name;
+      }
+
+      element.innerHTML = strName;
+    },
+
     _onOnlineFilterMenuExecute: function(objMenu, objMatrix, strRecordId) {
       objMenu.selectItem(strRecordId, true);
       var recordNode = objMenu.getRecordNode(strRecordId);

@@ -549,14 +549,14 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       <strings jsxname="menuBar" jsxdisplay="none"/>
     </object>
     <object type="jsx3.gui.TabbedPane">
-      <variants jsxtabheight="18" jsxselectedindex="0"/>
+      <variants jsxtabheight="18" jsxselectedindex="2"/>
       <strings jsxname="tabbedpane" jsxtextalign="0" jsxborder="solid 1px #f6f6ff;0px;0px;0px"/>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="components_tab" jsxtext="System" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
+        <strings jsxname="components_tab" jsxtext="System" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxoverflow="2"/>
@@ -919,10 +919,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
       </object>
       <object type="jsx3.gui.Tab">
         <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
+        <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -983,12 +983,12 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Matrix">
                     <variants jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="1" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1" jsxxmlasync="1"/>
-                    <strings jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxsorttype="number" jsxsortdirection="descending"/>
+                    <strings jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxsorttype="number" jsxsortdirection="descending" jsxfocusstyle="font-weight: normal;"/>
                     <dynamics jsxbgcolor="@Solid Light"/>
                     <events jsxexecute="palette.getPlugIn()._onOnlineListExecute(palette, this, strRECORDID);" jsxadopt="false"/>
                     <object type="jsx3.gui.Matrix.Column">
                       <variants jsxsort="0"/>
-                      <strings jsxname="nameColumn" jsxwidth="*" jsxcellpadding="2 2 2 8" jsxpath="name" jsxpadding="2 3 0 3" jsxtext="Name"/>
+                      <strings jsxname="nameColumn" jsxwidth="*" jsxcellpadding="2 2 2 8" jsxpath="name" jsxformathandler="jsx3.ide.getPlugIn('jsx3.ide.palette.prototypes').formatComponentName" jsxpadding="2 3 0 3" jsxtext="Name"/>
                       <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                     </object>
                     <object type="jsx3.gui.Matrix.Column">
