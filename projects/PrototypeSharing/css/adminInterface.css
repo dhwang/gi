@@ -281,10 +281,13 @@ textarea {
 }
 
 #info-pane #info-pane_tablist {
+	z-index: -1;
+}
+
+#info-pane .dijitTabContainerTopStrip {
 	height: 27px !important;	
 	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: 1px solid #AFAFAF;
-	z-index: -1;
 }
 
 #adminInterface #info-pane .dijitTab {
@@ -325,8 +328,8 @@ textarea {
 #component-actions,
 .component-actions {
 	position: absolute;
-	top: -31px;
-	right: 3px;
+	top: -2px;
+	right: 10px;
 }
 
 #component-actions button,
