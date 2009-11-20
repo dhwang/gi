@@ -38,7 +38,7 @@ var ShowcaseClass = persisted.Class("Showcase", showcaseStore, {
 			this.space = CONFLUENCE.space;
 			this.parentId = CONFLUENCE.listingPageId;
 			this.content = "Description: " + this.description;
-			this.modified = new Date();
+			this.uploaded = new Date();
 		}
 	},
 	properties:{
@@ -50,9 +50,8 @@ function defineContent(object){
 		throw new Error("Zip file must be included");
 	}
 	object.content = "h2. " + object.title + "\n\n" +
-		"h3. " + object.author + " - " + new Date() + " - " + object.appVersion + "\n\n" +
+		"h3. " + object.author + " - " + new Date() + " - Version: " + object.appVersion + "\n\n" +
 		object.description + "\n\n" +
-		"Tags: " + object.tags + "\n\n" + 
 		"[Launch Demo|" + HOST_URL_PREFIX + object.id + "/launch.html]   [Download Source|" + HOST_URL_PREFIX + object.id + '/' + object.zip.tempfile + "]"; 
 }
 function setupShowcase(object){
@@ -99,7 +98,7 @@ function recreateListing(){
 	showcases.forEach(function(showcase){
 		content += "| [" + CONFLUENCE.space + ":" + showcase.title + "] | " + 
 			showcase.author + " | " + (showcase.description && showcase.description.substring(0,100)) + " | " + 
-			showcase.modified + " |\n";
+			showcase.uploaded + " |\n";
 	});
 	content += "{table-plus}\n";
 	listingPage.content = content;

@@ -25,15 +25,15 @@ exports.app = function(request){
 		switch(request.pathInfo.slice(6)){
 			case '/top_rated/':
 				request.pathInfo = '/Prototype/';
-				request.queryString = '[/rating]';
+				request.queryString = 'sort(+rating)';
 				break;
 			case '/most_popular/':
 				request.pathInfo = '/Prototype/';
-				request.queryString = '[/downloads]';
+				request.queryString = 'sort(+downloads)';
 				break;
 			case '/most_recent/':
 				request.pathInfo = '/Prototype/';
-				request.queryString = '[\\uploaded]';
+				request.queryString = 'sort(-uploaded)';
 				break;
 		}
 		print(request.queryString);

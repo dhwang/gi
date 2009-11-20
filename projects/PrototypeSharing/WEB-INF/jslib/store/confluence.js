@@ -27,10 +27,10 @@ exports.Confluence = function(options){
 		},
 		put: function(object, id){
 			var newObject = confluenceCall("storePage", [object]);
-			print("stored " + newObject);
 			for(var i in newObject){
 				object[i] = newObject[i];
 			}
+			confluenceCall("addLabelByName",[object.tags, object.id]);
 			return object.id;
 		},
 		query: function(query, options){

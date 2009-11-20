@@ -23,7 +23,7 @@ function login(){
         dojo.xhrPost({
                 url: "Class/User",
                 postData: dojo.toJson({method: "authenticate", id:"login", params:[null, null]}),
-                handleAs: "json",
+                handleAs: "json"
         });		
 	}
 	var loginAgain = login;
