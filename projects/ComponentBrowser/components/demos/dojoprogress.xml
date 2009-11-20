@@ -5,15 +5,15 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onProgressChange = function(strValue) {
-  progressbar.setProgress(strValue, true);
+  progressbar.dijit.update({ progress: strValue });
 };
 
 this.onMaxChange = function(strValue) {
-  progressbar.setMaximum(strValue);
+  progressbar.dijit.update({ maximum: strValue });
 };
 
 this.setIndeterminate = function(intChecked) {
-  progressbar.setIndeterminate(intChecked);
+  progressbar.dijit.update({ indeterminate: intChecked });
   progress.setEnabled(1-intChecked, true);
 };
 
