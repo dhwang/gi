@@ -169,9 +169,17 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
    */
   NativeForm_prototype.submit = function() {
     var objGUI = this._getRenderedForm();
-    if (objGUI) {
+    if (objGUI) {      
       this._ebSubmit();
-      objGUI.submit();
+
+      try {
+        objGUI.submit();
+      } catch (e) {
+/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+        window.clearInterval(this._intervalId);
+/* @JSC */ }        
+        this.doEvent("jsxdata", {type:"error", message:jsx3.NativeError.wrap(e).toString()});
+      }
     }
   };
 
