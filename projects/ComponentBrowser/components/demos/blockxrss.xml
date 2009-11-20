@@ -14,7 +14,25 @@
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.BlockX">
         <variants jsxrelativeposition="0" jsxxmlasync="1" jsxxslasync="1" jsxoverflow="1"/>
-        <strings jsxwidth="100%" jsxheight="100%" jsxname="blockX" jsxxml="" jsxxmlurl="http://generalinterface.org/forums/rss.php"/>
+        <strings jsxwidth="100%" jsxheight="100%" jsxname="blockX" jsxxml="" jsxxmlurl="http://generalinterface.org/forums/rss.php" jsxxsl="&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
+&lt;xsl:output method=&quot;html&quot;/&gt;
+&lt;xsl:template match=&quot;//rss/channel&quot;&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;xsl:value-of select=&quot;/rss/channel/title&quot;/&gt;&lt;/h1&gt;
+  &lt;xsl:for-each select=&quot;/rss/channel/item&quot;&gt;
+    &lt;h2&gt;&lt;xsl:element name=&quot;a&quot;&gt;
+      &lt;xsl:attribute name=&quot;href&quot;&gt;
+        &lt;xsl:value-of select=&quot;link&quot;/&gt;
+      &lt;/xsl:attribute&gt;
+      &lt;xsl:value-of select=&quot;title&quot;/&gt;
+    &lt;/xsl:element&gt;&lt;/h2&gt;
+    &lt;p&gt;&lt;xsl:value-of select=&quot;description&quot; disable-output-escaping=&quot;yes&quot;/&gt;&lt;/p&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;"/>
         <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"/>
       </object>
     </object>

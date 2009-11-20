@@ -13,8 +13,21 @@
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
       <object type="jsx3.gui.BlockX">
-        <variants jsxrelativeposition="0" jsxwidth="300" jsxheight="100" jsxxmlasync="1" jsxxslasync="1"/>
-        <strings jsxname="blockX" jsxxml="&lt;helloworld&gt;Hello, World!&lt;/helloworld&gt;"/>
+        <variants jsxrelativeposition="0" jsxwidth="400" jsxxmlasync="1" jsxxslasync="1"/>
+        <strings jsxheight="100%" jsxname="blockX" jsxxml="&lt;catalog&gt; &lt;product&gt; &lt;name&gt;Interocitor&lt;/name&gt; &lt;price&gt;400&lt;/price&gt; &lt;description&gt;&lt;![CDATA[A strange, amazing device of alien origin that has many wonderful properties. It uses the highest quality parts, from its bead condenser to its cathermin tube and intensifier disk. We'd show you a photo, but our camera just picks up black fog when we take pictures.]]&gt;&lt;/description&gt; &lt;/product&gt; &lt;/catalog&gt;" jsxxsl="&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
+&lt;xsl:template match=&quot;/&quot;&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Product Listing&lt;/h1&gt;
+  &lt;xsl:for-each select=&quot;catalog/product&quot;&gt;
+    &lt;h2&gt;&lt;xsl:value-of select=&quot;name&quot;/&gt;&lt;/h2&gt;
+    &lt;p&gt;Cost: &lt;b&gt;&lt;xsl:value-of select=&quot;price&quot;/&gt;&lt;/b&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;xsl:value-of select=&quot;description&quot;/&gt;&lt;/p&gt;
+  &lt;/xsl:for-each&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/xsl:template&gt;
+&lt;/xsl:stylesheet&gt;"/>
         <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel"/>
       </object>
     </object>
