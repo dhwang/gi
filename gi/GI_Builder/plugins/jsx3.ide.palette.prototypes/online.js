@@ -120,7 +120,7 @@
 
     _onOnlineFeedMenuExecute: function(objMenu, strRecordId) {
       var recordNode = objMenu.getRecordNode(strRecordId);
-      window.open(this.uri.feeds + strRecordId + '/', recordNode.getAttribute('jsxtext') + ' Components');
+      window.open(this.uri.feeds + strRecordId + '/', (recordNode.getAttribute('jsxtext') + ' Components').replace(/ /g, '_'));
     },
 
     _onOnlineListExecute: function(objPalette, objMatrix, strRecordId) {
@@ -131,7 +131,7 @@
     _onOnlineDetailDownload: function(objDetailId) {
       var id = objDetailId.getText();
       var protoDir = jsx3.ide.getHomeRelativeFile('prototypes'),
-          Document = jsx3.xml.Document;
+          Document = jsx3.xml.Document,
           self = this;
 
       var doAsync = function(objEvent) {
@@ -460,7 +460,7 @@
     },
 
     onRatingMouseOver: function(objContainerNode, objEvent) {
-      var target = objEvent.target;
+      var target = objEvent.target||objEvent.srcElement;
       var objView = jsx3.IDE.getJSXByName('jsx_ide_proto_detail_view');
 
       if (!objView._selected_detail_record) {
