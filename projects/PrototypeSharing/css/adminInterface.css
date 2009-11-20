@@ -266,6 +266,12 @@ textarea {
 	padding-bottom: 2px;
 }
 
+#adminInterface #send-email {
+	height: auto;
+	margin-left: 6px;
+	border: none;
+}
+
 /* ---------- info pane ---------- */
 
 #adminInterface #info-pane .dijitTabContainerTop-tabs {
