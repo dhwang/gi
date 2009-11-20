@@ -444,9 +444,15 @@
 
       if (!s.get(id, "username")) {
         objPalette.setUserLoginAction(function(){
-          doRateComponent(function(){
+          if (objView._selected_detail_record.user != s.get(id, "username")) {
+            doRateComponent(function(){
+              objPalette.setOnlineDetail(objView._selected_detail_record, true);
+              objPalette.setComponentView('online');
+            });
+          } else {
+            objPalette.setOnlineDetail(objView._selected_detail_record, true);
             objPalette.setComponentView('online');
-          });
+          }
         });
         objPalette.setLoginBackAction(function(){
           objPalette.setComponentView('online');

@@ -361,6 +361,10 @@ objJSX.setOnlineView = function(viewStr, bDontRepaint) {
 
 objJSX.setOnlineDetailRatings = function(objRecord, bRepaint) {
   var plugIn = this.getPlugIn();
+  var s = jsx3.ide.getIDESettings();
+  var username = s.get(this.getPlugIn().getId(), "username");
+  var ownedByUser = username == objRecord.user;
+
   detail_avg_rating_img.setSrc(plugIn._getStarImage(objRecord.rating));
 
   var myStars = jsx3.util.List.wrap(detail_your_rating.getChildren());
@@ -368,6 +372,13 @@ objJSX.setOnlineDetailRatings = function(objRecord, bRepaint) {
   for (var i=0, star; star=starUrls[i]; i++) {
     myStars.get(i).setSrc(star);
   }
+
+  detail_your_rating.setDisplay(
+    ownedByUser ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, false
+  );
+  detail_cant_rate.setDisplay(
+    ownedByUser ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, false
+  );
 
   if (bRepaint) {
     jsx_ide_proto_detail_ratings.repaint();
@@ -402,13 +413,6 @@ objJSX.setOnlineDetail = function(objRecord, bDontCloseReportForm) {
   );
 
   detail_owner_container.setDisplay(
-    ownedByUser ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, true
-  );
-
-  detail_your_rating.setDisplay(
-    ownedByUser ? jsx3.gui.Block.DISPLAYNONE : jsx3.gui.Block.DISPLAYBLOCK, true
-  );
-  detail_cant_rate.setDisplay(
     ownedByUser ? jsx3.gui.Block.DISPLAYBLOCK : jsx3.gui.Block.DISPLAYNONE, true
   );
 
