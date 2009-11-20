@@ -180,6 +180,13 @@ objJSX.userLogin = function() {
 
     if (status == 200) {
       var response = jsx3.eval("(" + target.getResponseText() + ")");
+
+      if (!response.result) {
+        var m = response.error.match(/LDAP: error code \d+ - ([^\]]*)/);
+        palette.setLoginProblem(m[1], true);
+        return;
+      }
+
       s.set(plugIn.getId(), 'username', response.result.uid);
 
       if (_user_login_action) {
