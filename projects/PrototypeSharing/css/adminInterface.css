@@ -280,7 +280,7 @@ textarea {
 	border: none;
 }
 
-#info-pane .dijitTabContainerTopStrip {
+#info-pane #info-pane_tablist {
 	height: 27px !important;	
 	background: url("../images/tabStripTallBg.png") repeat-x;
 	border: 1px solid #AFAFAF;
