@@ -15,6 +15,7 @@
       <object type="jsx3.gui.BlockX">
         <variants jsxrelativeposition="0" jsxwidth="400" jsxxmlasync="1" jsxxslasync="1"/>
         <strings jsxheight="100%" jsxname="blockX" jsxxml="&lt;catalog&gt; &lt;product&gt; &lt;name&gt;Interocitor&lt;/name&gt; &lt;price&gt;400&lt;/price&gt; &lt;description&gt;&lt;![CDATA[A strange, amazing device of alien origin that has many wonderful properties. It uses the highest quality parts, from its bead condenser to its cathermin tube and intensifier disk. We'd show you a photo, but our camera just picks up black fog when we take pictures.]]&gt;&lt;/description&gt; &lt;/product&gt; &lt;/catalog&gt;" jsxxsl="&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
+&lt;xsl:output method=&quot;text&quot;/&gt;
 &lt;xsl:template match=&quot;/&quot;&gt;
 &lt;xsl:for-each select=&quot;catalog/product&quot;&gt;
   &lt;xsl:value-of select=&quot;name&quot;/&gt;
