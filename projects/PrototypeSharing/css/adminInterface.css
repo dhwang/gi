@@ -37,6 +37,12 @@ button {
 	text-shadow: 0 1px 0 #FFF;
 }
 
+button[disabled] {
+	cursor: default;
+	opacity: .5;
+}
+
+
 input,
 textarea {
 	height: 24px;
