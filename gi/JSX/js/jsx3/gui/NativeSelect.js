@@ -29,7 +29,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeSelect", jsx3.gui.Block, [jsx3.gui.Form, 
   NativeSelect.DEFAULTCLASSNAME = "jsx3nativesel";
 
   /* @jsxobf-clobber */
-  /* @Embed(source='../../../xsl/jsxselect.xsl', type='xsl') */
+  /* @Embed(source='../../../xsl/jsxnativeselect.xsl', type='xsl') */
   NativeSelect._XSLRSRC = new jsx3.xml.XslDocument().load(jsx3.resolveURI("jsx:///xsl/jsxnativeselect.xsl"));
 
   var Event = jsx3.gui.Event;
