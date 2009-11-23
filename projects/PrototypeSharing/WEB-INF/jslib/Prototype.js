@@ -16,7 +16,7 @@ var prototypeStore = SQLStore({
 
 prototypeStore = require("store/full-text").FullText(prototypeStore, "Prototype");
 var QueryRegExp = require("json-query").QueryRegExp;
-var queryToSql = require("store/sql").JsonQueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted", "rating"])
+var queryToSql = require("store/sql").QueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted", "rating"])
 var queryToFullText = require("store/full-text").JsonQueryToFullTextSearch("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"]);
 var deepCopy = require("util/copy").deepCopy;
 var auth = require("jsgi/auth");
@@ -27,7 +27,10 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 		query: function(query, options){
 			var fulltext = queryToFullText(query, options);
 			if(fulltext){
-				return prototypeStore.fulltext(fulltext + " AND deleted:false", ["description", "name"], options);
+				var queryObject = prototypeStore.fulltext(fulltext, ["description", "name"], options);
+				var results = this.query(queryObject.query, options);
+				results.totalCount = queryObject.totalCount;
+				return results;
 			}
 
 

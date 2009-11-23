@@ -93,7 +93,7 @@ dojo.addOnLoad(function(){
 			return "<hr /><div><span>Action: <span><span>" + entry.action + "</span></div>" +
 					"<div><span>Notes: <span><span>" + entry.notes + "</span></div>";
 		}).join("\n");
-		dojo.byId("accept-button").disabled = prototypeStore.getValue(selectedItem, "enabled"); 
+		dojo.byId("accept-button").disabled = prototypeStore.getValue(selectedItem, "enabled") && status != "New"; 
 		dojo.byId("reject-button").disabled = status == "Rejected"; 
 		dojo.byId("feature-button").disabled = false;
 		dojo.byId("feature-button").innerHTML = '<span class="featureIcon"></span>' + (status == "Featured" ? "Unfeature" : "Feature"); 

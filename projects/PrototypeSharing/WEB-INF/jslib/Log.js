@@ -16,7 +16,7 @@ var logStore = SQLStore({
 });
 
 
-var queryToSql = require("store/sql").JsonQueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
+var queryToSql = require("store/sql").QueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
 var LogClass = persisted.Class("Log", logStore, 
 	{
 		query: function(query, options){

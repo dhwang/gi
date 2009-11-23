@@ -25,6 +25,9 @@ Media({
 						}
 						if(item.hasOwnProperty(i)){
 							var value = item[i];
+							if(value instanceof Date){
+								value = value.getTime();
+							}
 							if(typeof value == 'string'){
 								write(' ' + i + '="' + value.replace(/"/g,"&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + '"');
 							}
