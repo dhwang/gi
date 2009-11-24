@@ -451,8 +451,8 @@ jsx3.Class.defineClass("jsx3.gui.Heavyweight", null, null, function(Heavyweight,
         objRule._viewsize = objRule._pixel - Heavyweight._PADDING;
       } else {
         objRule._vieworigin = Math.max(0, intOrigin);
-        objRule._viewsize = Math.min(intBodyClientSize - Heavyweight._PADDING - objRule._pixel,
-            intBodyClientSize - 2 * Heavyweight._PADDING);
+        objRule._viewsize = Math.min(intBodyClientSize + 2 * objBody[strScroll] - Heavyweight._PADDING - objRule._pixel,
+            intBodyClientSize + 2 * objBody[strScroll] - 2 * Heavyweight._PADDING);
       }
 
       // check to see if the content fits within the document BODY; if not keep iterating

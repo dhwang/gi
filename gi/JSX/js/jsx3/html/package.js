@@ -612,8 +612,8 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     } else {
       box = objGUI.getBoundingClientRect();
       vpBox = objRoot.getBoundingClientRect();
-      myLeft = box.left - vpBox.left + Math.max(doc.documentElement.scrollLeft, doc.body.scrollLeft) - window.scrollX;
-      myTop = box.top - vpBox.top + Math.max(doc.documentElement.scrollTop, doc.body.scrollTop) - window.scrollY;
+      myLeft = box.left - vpBox.left + Math.max(doc.documentElement.scrollLeft, doc.body.scrollLeft) - window.scrollX + objRoot.scrollLeft;
+      myTop = box.top - vpBox.top + Math.max(doc.documentElement.scrollTop, doc.body.scrollTop) - window.scrollY + objRoot.scrollTop;
     }
     return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight};
   };
@@ -688,8 +688,8 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     }
 
     //Formula: intLeft + 2(intLeftBorder) (what the hell???)
-    objDimension.L = ol + shl + (2*intLeftBorder);
-    objDimension.T = ot + sht + (2*intTopBorder);
+    objDimension.L = ol + shl + (2*intLeftBorder) + objRoot.scrollLeft;
+    objDimension.T = ot + sht + (2*intTopBorder) + objRoot.scrollTop;
     return objDimension;
   };
 
