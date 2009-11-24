@@ -1,30 +1,103 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <name><![CDATA[Logger]]></name>
   <icon/>
-  <description/>
+  <description><![CDATA[Click the buttons to output messages of different log levels to the "console"]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize><![CDATA[
+var log_handler = new jsx3.util.Logger.FormatHandler();
+log_handler.handle = function(objRecord) {
+  if (objRecord.getLoggerName() != "component-explorer") {
+    return;
+  }
+  var output = jsx3.util.strEscapeHTML(this.format(objRecord));
+  var objGUI = logger.getRendered();
+  jsx3.html.insertAdjacentHTML(objGUI, 'beforeEnd', output + "<br/>");
+
+  if (!logger._scrollTOID && objGUI.lastChild &&
+       (objGUI.scrollTop >= objGUI.lastChild.offsetTop - parseInt(objGUI.style.height) - 2 * objGUI.lastChild.offsetHeight)) {
+    logger._scrollTOID = window.setTimeout(function() {
+      logger._scrollTOID = null;
+
+      if (objGUI && objGUI.lastChild)
+        objGUI.scrollTop = objGUI.lastChild.offsetTop;
+    }, 200);
+  }
+};
+
+this.onFatal = function() {
+  jsx3.util.Logger.getLogger('component-explorer').fatal('This is a fatal message');
+};
+
+this.onError = function() {
+  jsx3.util.Logger.getLogger('component-explorer').error('This is an error message');
+};
+
+this.onWarn = function() {
+  jsx3.util.Logger.getLogger('component-explorer').warn('This is a warning message');
+};
+
+this.onInfo = function() {
+  jsx3.util.Logger.getLogger('component-explorer').info('This is an info message');
+};
+
+this.onDebug = function() {
+  jsx3.util.Logger.getLogger('component-explorer').debug('This is a debug message');
+};
+
+this.onTrace = function() {
+  jsx3.util.Logger.getLogger('component-explorer').trace('This is a tracing message');
+};
+
+this.unregisterHandler = function() {
+  jsx3.util.Logger.getLogger('component-explorer').removeHandler(log_handler);
+};
+
+jsx3.util.Logger.getLogger('component-explorer').addHandler(log_handler);
+jsx3.util.Logger.getLogger('component-explorer').setLevel(jsx3.util.Logger.TRACE);
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
     <dynamics jsxcols="@Root Cols"/>
+    <events jsxdestroy="this.unregisterHandler();" />
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
-      <dynamics jsxborder="@Outset"/>
-      <object type="jsx3.gui.Splitter">
-        <variants jsxorientation="1" jsxleft="0" jsxtop="0" jsxsubcontainer2min="150"/>
-        <strings jsxname="splitterH" jsxsubcontainer1pct="72.6775956284153%"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1"/>
-          <strings jsxname="paneTop" jsxwidth="100%" jsxheight="100%"/>
-          <dynamics jsxbgcolor="@Solid Light" jsxborder="@No jsxborder"/>
-        </object>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="1"/>
-          <strings jsxname="paneBottom" jsxwidth="100%" jsxheight="100%"/>
-          <dynamics jsxbgcolor="@Solid Light" jsxborder="@No jsxborder"/>
-        </object>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"/>
+        <strings jsxname="button" jsxtext="Fatal" jsxmargin="0 4 0 0"/>
+        <events jsxexecute="root.onFatal();"/>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"/>
+        <strings jsxname="button" jsxtext="Error" jsxmargin="0 4 0 0"/>
+        <events jsxexecute="root.onError();"/>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"/>
+        <strings jsxname="button" jsxtext="Warn" jsxmargin="0 4 0 0"/>
+        <events jsxexecute="root.onWarn();"/>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"/>
+        <strings jsxname="button" jsxtext="Info" jsxmargin="0 4 0 0"/>
+        <events jsxexecute="root.onInfo();"/>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"/>
+        <strings jsxname="button" jsxtext="Debug" jsxmargin="0 4 0 0"/>
+        <events jsxexecute="root.onDebug();"/>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"/>
+        <strings jsxname="button" jsxtext="Trace" jsxmargin="0 4 0 0"/>
+        <events jsxexecute="root.onTrace();"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1" jsxheight="200"/>
+        <strings jsxname="logger" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="4 20 4 4" jsxstyleoverride="overflow-y: auto; overflow-x: none;" jsxmargin="10 0 0 0"/>
+        <dynamics jsxborder="@Inset"/>
       </object>
     </object>
     <object type="jsx3.gui.Block">
@@ -38,14 +111,6 @@
       <object type="jsx3.gui.Block">
         <variants/>
         <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
-      </object>
-      <object type="jsx3.gui.Block">
-        <variants/>
-        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
-      </object>
-      <object type="jsx3.gui.Block">
-        <variants jsxoverflow="3"/>
-        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
       </object>
     </object>
   </object>
