@@ -581,10 +581,9 @@ jsx3.Class.defineInterface("jsx3.xml.CDF", null, function(CDF, CDF_prototype) {
   };
 
  /**
-   * Returns an array of jsxid  from this CDF .
-   * <p/>
+   * Returns an array containing all CDF IDs (<code>jsxid</code>) of this CDF.
    *
-   * @return  {Array[String]} the array of jsxid.
+   * @return  {Array<String>} the array of jsxid.
    */
    CDF_prototype.getRecordIds = function() {
     var arrayIds = [];
