@@ -261,7 +261,6 @@ objJSX.setUploadDetail = function(objXML, objRecord) {
       child.getParent().removeChild(child);
     }
   }
-  //console.log(objXML);
   upload_description.setValue(descNode.getValue());
 
   upload_checkbox.setChecked(jsx3.gui.CheckBox.UNCHECKED);
@@ -277,22 +276,16 @@ objJSX._doUpload = function() {
   upload_description.setEnabled(0, true);
   upload_checkbox.setEnabled(0, true);
 
-  // remove onBeforeDeserialize and onAfterDeserialize
-  var obs = objXML.selectSingleNode('/jsx1:serialization/jsx1:onBeforeDeserialize');
-  if (obs) {
-    obs.getParent().removeChild(obs);
-  }
-  var oas = objXML.selectSingleNode('/jsx1:serialization/jsx1:onAfterDeserialize');
-  if (oas) {
-    oas.getParent().removeChild(oas);
-  }
-
   // set description in the component
   var descNode = objXML.selectSingleNode('/jsx1:serialization/jsx1:description');
   descNode.removeChildren();
   descNode.appendChild(objXML.createNode(jsx3.xml.Entity.TYPECDATA, upload_description.getValue()));
 
-  //console.log(objXML);
+  // set name in the component
+  var nameNode = objXML.selectSingleNode('/jsx1:serialization/jsx1:name');
+  nameNode.removeChildren();
+  nameNode.appendChild(objXML.createNode(jsx3.xml.Entity.TYPECDATA, upload_name.getValue()));
+
   var request = new jsx3.net.Request();
   request.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, function(objEvent){
     var target = objEvent.target,
@@ -775,7 +768,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                       <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxpadding="8 20 8 8" jsxstyleoverride="overflow-y:auto;overflow-x:hidden;"/>
                       <object type="jsx3.gui.Block">
                         <variants jsxrelativeposition="1" jsxoverflow="3" jsxheight="18"/>
-                        <strings jsxname="upload_name" jsxtext="Component Name:"/>
+                        <strings jsxname="upload_name_block" jsxtext="Component Name:"/>
                       </object>
                       <object type="jsx3.gui.Block">
                         <variants jsxoverflow="1" jsxheight="28"/>
