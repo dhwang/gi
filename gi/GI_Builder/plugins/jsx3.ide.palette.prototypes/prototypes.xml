@@ -982,7 +982,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Matrix">
                     <variants jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="1" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1" jsxxmlasync="1"/>
-                    <strings jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxsorttype="number" jsxsortdirection="descending" jsxfocusstyle="font-weight: normal;"/>
+                    <strings jsxname="ide_component_libs_online_list" jsxrenderingmodel="shallow" jsxsorttype="number" jsxsortdirection="descending" jsxfocusstyle=";"/>
                     <dynamics jsxbgcolor="@Solid Light"/>
                     <events jsxexecute="palette.getPlugIn()._onOnlineListExecute(palette, this, strRECORDID);" jsxadopt="false"/>
                     <object type="jsx3.gui.Matrix.Column">
