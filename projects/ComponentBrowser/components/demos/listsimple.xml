@@ -38,7 +38,7 @@ show_area.setChecked(area_column.getDisplay() != jsx3.gui.Block.DISPLAYNONE);
         <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
         <dynamics jsxpadding="@8Pixel"/>
         <object type="jsx3.gui.Matrix">
-          <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"/>
+          <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxscalewidth="1" jsxjsxxmlasync="1"/>
           <strings xmlns="urn:tibco.com/v3.0" jsxname="matrix" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxmlurl="xml/countries.xml"/>
           <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"/>
           <object type="jsx3.gui.Matrix.Column">

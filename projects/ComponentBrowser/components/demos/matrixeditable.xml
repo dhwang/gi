@@ -1,0 +1,71 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name><![CDATA[Editable Matrix]]></name>
+  <icon/>
+  <description><![CDATA[This demonstrates the editing capabilities of the Matrix.  You can edit any of the columns, but some have constraints: the population column will only allow numeric input and the continent column only allows one of the five continents.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="0" jsxjsxxmlasync="1"/>
+          <strings xmlns="urn:tibco.com/v3.0" jsxname="matrix" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxxmlurl="xml/countries.xml"/>
+          <events jsxbeforeedit="jsx3.log('EVENT: (jsxbeforeedit). Record: ' + strRECORDID);" jsxafteredit="jsx3.log('EVENT: (jsxafteredit). Record: ' + strRECORDID + '. New Value: ' + strNEWVALUE);"/>
+          <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"/>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="100"/>
+            <strings xmlns="urn:tibco.com/v3.0" jsxname="nameColumn" jsxtext="Name" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtext"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxrelativeposition="0" jsxleft="0" jsxtop="20" jsxwidth="200" jsxheight="20" jsxzindex="10"/>
+              <strings xmlns="urn:tibco.com/v3.0" jsxname="textMask" jsxdisplay="none" jsxvalue="Albania"/>
+              <events jsxkeydown="1;"/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings jsxname="populationColumn" jsxwidth="*" jsxtext="Population" jsxvaluetemplate="@empty" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxpopulation" jsxformathandler="@number,integer" jsxdatatype="number"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            <object type="jsx3.gui.NumberInput">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="100" jsxtop="0" jsxwidth="100" jsxzindex="10" jsxvalue="28395716"/>
+              <strings jsxname="numberMask" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+              <dynamics jsxformat="@Integer"/>
+              <events jsxkeydown="1;"/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings jsxname="selectColumn" jsxwidth="100" jsxtext="Continent" jsxpadding="2" jsxcellpadding="3 0 0 4" jsxvaluetemplate="@empty" jsxformathandler="@lookup" jsxpath="jsxcontinent" jsxdatatype="text"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            <object type="jsx3.gui.Select">
+              <variants jsxrelativeposition="0" jsxleft="200" jsxtop="0" jsxwidth="100" jsxheight="20" jsxzindex="10"/>
+              <strings jsxname="selectMask" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;NA&quot; jsxtext=&quot;North America&quot;/&gt;&lt;record jsxid=&quot;SA&quot; jsxtext=&quot;South America&quot;/&gt;&lt;record jsxid=&quot;AS&quot; jsxtext=&quot;Asia&quot;/&gt;&lt;record jsxid=&quot;EU&quot; jsxtext=&quot;Europe&quot;/&gt;&lt;record jsxid=&quot;OC&quot; jsxtext=&quot;Oceania&quot;/&gt;&lt;record jsxid=&quot;AF&quot; jsxtext=&quot;Africa&quot;/&gt;&lt;/data&gt;" jsxdisplay="none"/>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+    </object>
+  </object>
+</serialization>

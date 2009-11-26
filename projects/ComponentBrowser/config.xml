@@ -187,748 +187,742 @@
       <record jsxid="src" type="string">components/demos/gridnormal.xml</record>
     </record>
     <record jsxid="28" type="map">
-      <record jsxid="id" type="string">matrixmulti_xml</record>
-      <record jsxid="type" type="string">component</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/demos/matrixmulti.xml</record>
-    </record>
-    <record jsxid="29" type="map">
       <record jsxid="id" type="string">matrixtree_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/matrixtree.xml</record>
     </record>
-    <record jsxid="30" type="map">
+    <record jsxid="29" type="map">
       <record jsxid="id" type="string">menucontext_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/menucontext.xml</record>
     </record>
-    <record jsxid="31" type="map">
+    <record jsxid="30" type="map">
       <record jsxid="id" type="string">menudisabled_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/menudisabled.xml</record>
     </record>
-    <record jsxid="32" type="map">
+    <record jsxid="31" type="map">
       <record jsxid="id" type="string">menuaccel_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/menuaccel.xml</record>
     </record>
-    <record jsxid="33" type="map">
+    <record jsxid="32" type="map">
       <record jsxid="id" type="string">toolbarbuttontoggle_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/toolbarbuttontoggle.xml</record>
     </record>
-    <record jsxid="34" type="map">
+    <record jsxid="33" type="map">
       <record jsxid="id" type="string">toolbarbuttonradio_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/toolbarbuttonradio.xml</record>
     </record>
-    <record jsxid="35" type="map">
+    <record jsxid="34" type="map">
       <record jsxid="id" type="string">windowbartask_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/windowbartask.xml</record>
     </record>
-    <record jsxid="36" type="map">
+    <record jsxid="35" type="map">
       <record jsxid="id" type="string">plotchartbubble_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/plotchartbubble.xml</record>
     </record>
-    <record jsxid="37" type="map">
+    <record jsxid="36" type="map">
       <record jsxid="id" type="string">blocklabel_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blocklabel.xml</record>
     </record>
-    <record jsxid="38" type="map">
+    <record jsxid="37" type="map">
       <record jsxid="id" type="string">gridlines_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/gridlines.xml</record>
     </record>
-    <record jsxid="39" type="map">
+    <record jsxid="38" type="map">
       <record jsxid="id" type="string">legend_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/legend.xml</record>
     </record>
-    <record jsxid="40" type="map">
+    <record jsxid="39" type="map">
       <record jsxid="id" type="string">blockhtml_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockhtml.xml</record>
     </record>
-    <record jsxid="41" type="map">
+    <record jsxid="40" type="map">
       <record jsxid="id" type="string">blockflow_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockflow.xml</record>
     </record>
-    <record jsxid="42" type="map">
+    <record jsxid="41" type="map">
       <record jsxid="id" type="string">blockmovable_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockmovable.xml</record>
     </record>
-    <record jsxid="43" type="map">
+    <record jsxid="42" type="map">
       <record jsxid="id" type="string">blockxhtml_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockxhtml.xml</record>
     </record>
-    <record jsxid="44" type="map">
+    <record jsxid="43" type="map">
       <record jsxid="id" type="string">blockxpp_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockxpp.xml</record>
     </record>
-    <record jsxid="45" type="map">
+    <record jsxid="44" type="map">
       <record jsxid="id" type="string">blockxtext_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockxtext.xml</record>
     </record>
-    <record jsxid="46" type="map">
+    <record jsxid="45" type="map">
       <record jsxid="id" type="string">blockxrss_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/blockxrss.xml</record>
     </record>
-    <record jsxid="47" type="map">
+    <record jsxid="46" type="map">
       <record jsxid="id" type="string">imagenormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/imagenormal.xml</record>
     </record>
-    <record jsxid="48" type="map">
+    <record jsxid="47" type="map">
       <record jsxid="id" type="string">imagescaled_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/imagescaled.xml</record>
     </record>
-    <record jsxid="49" type="map">
+    <record jsxid="48" type="map">
       <record jsxid="id" type="string">dialognormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialognormal.xml</record>
     </record>
-    <record jsxid="50" type="map">
+    <record jsxid="49" type="map">
       <record jsxid="id" type="string">dialogmodal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialogmodal.xml</record>
     </record>
-    <record jsxid="51" type="map">
+    <record jsxid="50" type="map">
       <record jsxid="id" type="string">dialognotitle_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialognotitle.xml</record>
     </record>
-    <record jsxid="52" type="map">
+    <record jsxid="51" type="map">
       <record jsxid="id" type="string">dialogalert_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialogalert.xml</record>
     </record>
-    <record jsxid="53" type="map">
+    <record jsxid="52" type="map">
       <record jsxid="id" type="string">dialogconfirm_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialogconfirm.xml</record>
     </record>
-    <record jsxid="54" type="map">
+    <record jsxid="53" type="map">
       <record jsxid="id" type="string">dialogprompt_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialogprompt.xml</record>
     </record>
-    <record jsxid="55" type="map">
+    <record jsxid="54" type="map">
       <record jsxid="id" type="string">dialogconstrained_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialogconstrained.xml</record>
     </record>
-    <record jsxid="56" type="map">
+    <record jsxid="55" type="map">
       <record jsxid="id" type="string">dialogwithtaskbar_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dialogwithtaskbar.xml</record>
     </record>
-    <record jsxid="57" type="map">
+    <record jsxid="56" type="map">
       <record jsxid="id" type="string">iframelocal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/iframelocal.xml</record>
     </record>
-    <record jsxid="58" type="map">
+    <record jsxid="57" type="map">
       <record jsxid="id" type="string">iframeremote_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/iframeremote.xml</record>
     </record>
-    <record jsxid="59" type="map">
+    <record jsxid="58" type="map">
       <record jsxid="id" type="string">layoutgridhorizontal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/layoutgridhorizontal.xml</record>
     </record>
-    <record jsxid="60" type="map">
+    <record jsxid="59" type="map">
       <record jsxid="id" type="string">layoutgridvertical_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/layoutgridvertical.xml</record>
     </record>
-    <record jsxid="61" type="map">
+    <record jsxid="60" type="map">
       <record jsxid="id" type="string">layoutgridgrid_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/layoutgridgrid.xml</record>
     </record>
-    <record jsxid="62" type="map">
+    <record jsxid="61" type="map">
       <record jsxid="id" type="string">splitterhorizontal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/splitterhorizontal.xml</record>
     </record>
-    <record jsxid="63" type="map">
+    <record jsxid="62" type="map">
       <record jsxid="id" type="string">splittervertical_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/splittervertical.xml</record>
     </record>
-    <record jsxid="64" type="map">
+    <record jsxid="63" type="map">
       <record jsxid="id" type="string">splitterconstrained_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/splitterconstrained.xml</record>
     </record>
-    <record jsxid="65" type="map">
+    <record jsxid="64" type="map">
       <record jsxid="id" type="string">splitterresize_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/splitterresize.xml</record>
     </record>
-    <record jsxid="66" type="map">
+    <record jsxid="65" type="map">
       <record jsxid="id" type="string">stackhorizontal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/stackhorizontal.xml</record>
     </record>
-    <record jsxid="67" type="map">
+    <record jsxid="66" type="map">
       <record jsxid="id" type="string">stackvertical_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/stackvertical.xml</record>
     </record>
-    <record jsxid="68" type="map">
+    <record jsxid="67" type="map">
       <record jsxid="id" type="string">stackmenu_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/stackmenu.xml</record>
     </record>
-    <record jsxid="69" type="map">
+    <record jsxid="68" type="map">
       <record jsxid="id" type="string">stackevent_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/stackevent.xml</record>
     </record>
-    <record jsxid="70" type="map">
+    <record jsxid="69" type="map">
       <record jsxid="id" type="string">tabnormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tabnormal.xml</record>
     </record>
-    <record jsxid="71" type="map">
+    <record jsxid="70" type="map">
       <record jsxid="id" type="string">tabhidden_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tabhidden.xml</record>
     </record>
-    <record jsxid="72" type="map">
+    <record jsxid="71" type="map">
       <record jsxid="id" type="string">tabclose_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tabclose.xml</record>
     </record>
-    <record jsxid="73" type="map">
+    <record jsxid="72" type="map">
       <record jsxid="id" type="string">tabmenu_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tabmenu.xml</record>
     </record>
-    <record jsxid="74" type="map">
+    <record jsxid="73" type="map">
       <record jsxid="id" type="string">tabevent_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tabevent.xml</record>
     </record>
-    <record jsxid="75" type="map">
+    <record jsxid="74" type="map">
       <record jsxid="id" type="string">tablazy_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tablazy.xml</record>
     </record>
-    <record jsxid="76" type="map">
+    <record jsxid="75" type="map">
       <record jsxid="id" type="string">buttonnormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/buttonnormal.xml</record>
     </record>
-    <record jsxid="77" type="map">
+    <record jsxid="76" type="map">
       <record jsxid="id" type="string">buttonhotkey_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/buttonhotkey.xml</record>
     </record>
-    <record jsxid="78" type="map">
+    <record jsxid="77" type="map">
       <record jsxid="id" type="string">buttonimage_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/buttonimage.xml</record>
     </record>
-    <record jsxid="79" type="map">
+    <record jsxid="78" type="map">
       <record jsxid="id" type="string">imagebuttonnormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/imagebuttonnormal.xml</record>
     </record>
-    <record jsxid="80" type="map">
+    <record jsxid="79" type="map">
       <record jsxid="id" type="string">imagebuttontoggle_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/imagebuttontoggle.xml</record>
     </record>
-    <record jsxid="81" type="map">
+    <record jsxid="80" type="map">
       <record jsxid="id" type="string">checkboxnormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/checkboxnormal.xml</record>
     </record>
-    <record jsxid="82" type="map">
+    <record jsxid="81" type="map">
       <record jsxid="id" type="string">checkboxtristate_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/checkboxtristate.xml</record>
     </record>
-    <record jsxid="83" type="map">
+    <record jsxid="82" type="map">
       <record jsxid="id" type="string">colorpickerplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/colorpickerplain.xml</record>
     </record>
-    <record jsxid="84" type="map">
+    <record jsxid="83" type="map">
       <record jsxid="id" type="string">colorpickerbuilder_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/colorpickerbuilder.xml</record>
     </record>
-    <record jsxid="85" type="map">
+    <record jsxid="84" type="map">
       <record jsxid="id" type="string">datepickerformat_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/datepickerformat.xml</record>
     </record>
-    <record jsxid="86" type="map">
+    <record jsxid="85" type="map">
       <record jsxid="id" type="string">datepickerfancy_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/datepickerfancy.xml</record>
     </record>
-    <record jsxid="87" type="map">
+    <record jsxid="86" type="map">
       <record jsxid="id" type="string">numberinputnumber_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/numberinputnumber.xml</record>
     </record>
-    <record jsxid="88" type="map">
+    <record jsxid="87" type="map">
       <record jsxid="id" type="string">numberinputcurrency_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/numberinputcurrency.xml</record>
     </record>
-    <record jsxid="89" type="map">
+    <record jsxid="88" type="map">
       <record jsxid="id" type="string">radiobuttongroup_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/radiobuttongroup.xml</record>
     </record>
-    <record jsxid="90" type="map">
+    <record jsxid="89" type="map">
       <record jsxid="id" type="string">selectcombo_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/selectcombo.xml</record>
     </record>
-    <record jsxid="91" type="map">
+    <record jsxid="90" type="map">
       <record jsxid="id" type="string">slidervertical_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/slidervertical.xml</record>
     </record>
-    <record jsxid="92" type="map">
+    <record jsxid="91" type="map">
       <record jsxid="id" type="string">textboxplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/textboxplain.xml</record>
     </record>
-    <record jsxid="93" type="map">
+    <record jsxid="92" type="map">
       <record jsxid="id" type="string">textboxreadonly_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/textboxreadonly.xml</record>
     </record>
-    <record jsxid="94" type="map">
+    <record jsxid="93" type="map">
       <record jsxid="id" type="string">textboxchange_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/textboxchange.xml</record>
     </record>
-    <record jsxid="95" type="map">
+    <record jsxid="94" type="map">
       <record jsxid="id" type="string">formnormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/formnormal.xml</record>
     </record>
-    <record jsxid="96" type="map">
+    <record jsxid="95" type="map">
       <record jsxid="id" type="string">listselect_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/listselect.xml</record>
     </record>
-    <record jsxid="97" type="map">
+    <record jsxid="96" type="map">
       <record jsxid="id" type="string">listformat_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/listformat.xml</record>
     </record>
-    <record jsxid="98" type="map">
+    <record jsxid="97" type="map">
       <record jsxid="id" type="string">listdnd_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/listdnd.xml</record>
     </record>
-    <record jsxid="99" type="map">
-      <record jsxid="id" type="string">grideditable_xml</record>
-      <record jsxid="type" type="string">component</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/demos/grideditable.xml</record>
-    </record>
-    <record jsxid="100" type="map">
+    <record jsxid="98" type="map">
       <record jsxid="id" type="string">menunormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/menunormal.xml</record>
     </record>
-    <record jsxid="101" type="map">
+    <record jsxid="99" type="map">
       <record jsxid="id" type="string">menutoggle_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/menutoggle.xml</record>
     </record>
-    <record jsxid="102" type="map">
+    <record jsxid="100" type="map">
       <record jsxid="id" type="string">toolbarbuttonnormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/toolbarbuttonnormal.xml</record>
     </record>
-    <record jsxid="103" type="map">
+    <record jsxid="101" type="map">
       <record jsxid="id" type="string">windowbardialog_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/windowbardialog.xml</record>
     </record>
-    <record jsxid="104" type="map">
+    <record jsxid="102" type="map">
       <record jsxid="id" type="string">windowbarmenu_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/windowbarmenu.xml</record>
     </record>
-    <record jsxid="105" type="map">
+    <record jsxid="103" type="map">
       <record jsxid="id" type="string">cdfmapping_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/cdfmapping.xml</record>
     </record>
-    <record jsxid="106" type="map">
+    <record jsxid="104" type="map">
       <record jsxid="id" type="string">sound_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/sound.xml</record>
     </record>
-    <record jsxid="107" type="map">
+    <record jsxid="105" type="map">
       <record jsxid="id" type="string">tablenormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tablenormal.xml</record>
     </record>
-    <record jsxid="108" type="map">
+    <record jsxid="106" type="map">
       <record jsxid="id" type="string">tableselect_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tableselect.xml</record>
     </record>
-    <record jsxid="109" type="map">
+    <record jsxid="107" type="map">
       <record jsxid="id" type="string">tablesort_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/tablesort.xml</record>
     </record>
-    <record jsxid="110" type="map">
+    <record jsxid="108" type="map">
       <record jsxid="id" type="string">treenormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treenormal.xml</record>
     </record>
-    <record jsxid="111" type="map">
+    <record jsxid="109" type="map">
       <record jsxid="id" type="string">treecustom_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treecustom.xml</record>
     </record>
-    <record jsxid="112" type="map">
+    <record jsxid="110" type="map">
       <record jsxid="id" type="string">treelazy_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treelazy.xml</record>
     </record>
-    <record jsxid="113" type="map">
+    <record jsxid="111" type="map">
       <record jsxid="id" type="string">treednd_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treednd.xml</record>
     </record>
-    <record jsxid="114" type="map">
+    <record jsxid="112" type="map">
       <record jsxid="id" type="string">treeselect_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treeselect.xml</record>
     </record>
-    <record jsxid="115" type="map">
+    <record jsxid="113" type="map">
       <record jsxid="id" type="string">treesort_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treesort.xml</record>
     </record>
-    <record jsxid="116" type="map">
+    <record jsxid="114" type="map">
       <record jsxid="id" type="string">treeasync_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/treeasync.xml</record>
     </record>
-    <record jsxid="117" type="map">
+    <record jsxid="115" type="map">
       <record jsxid="id" type="string">areachartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/areachartplain.xml</record>
     </record>
-    <record jsxid="118" type="map">
+    <record jsxid="116" type="map">
       <record jsxid="id" type="string">areachartlinearx_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/areachartlinearx.xml</record>
     </record>
-    <record jsxid="119" type="map">
+    <record jsxid="117" type="map">
       <record jsxid="id" type="string">barchartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/barchartplain.xml</record>
     </record>
-    <record jsxid="120" type="map">
+    <record jsxid="118" type="map">
       <record jsxid="id" type="string">barchartlineary_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/barchartlineary.xml</record>
     </record>
-    <record jsxid="121" type="map">
+    <record jsxid="119" type="map">
       <record jsxid="id" type="string">columnchartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/columnchartplain.xml</record>
     </record>
-    <record jsxid="122" type="map">
+    <record jsxid="120" type="map">
       <record jsxid="id" type="string">columnchartlinearx_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/columnchartlinearx.xml</record>
     </record>
-    <record jsxid="123" type="map">
+    <record jsxid="121" type="map">
       <record jsxid="id" type="string">linechartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/linechartplain.xml</record>
     </record>
-    <record jsxid="124" type="map">
+    <record jsxid="122" type="map">
       <record jsxid="id" type="string">linechartlinearx_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/linechartlinearx.xml</record>
     </record>
-    <record jsxid="125" type="map">
+    <record jsxid="123" type="map">
       <record jsxid="id" type="string">piechartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/piechartplain.xml</record>
     </record>
-    <record jsxid="126" type="map">
+    <record jsxid="124" type="map">
       <record jsxid="id" type="string">piechartdoughnut_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/piechartdoughnut.xml</record>
     </record>
-    <record jsxid="127" type="map">
+    <record jsxid="125" type="map">
       <record jsxid="id" type="string">plotchartplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/plotchartplain.xml</record>
     </record>
-    <record jsxid="128" type="map">
+    <record jsxid="126" type="map">
       <record jsxid="id" type="string">axislabel_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/axislabel.xml</record>
     </record>
-    <record jsxid="129" type="map">
+    <record jsxid="127" type="map">
       <record jsxid="id" type="string">seriesplain_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/seriesplain.xml</record>
     </record>
-    <record jsxid="130" type="map">
+    <record jsxid="128" type="map">
       <record jsxid="id" type="string">seriesevents_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/seriesevents.xml</record>
     </record>
-    <record jsxid="131" type="map">
+    <record jsxid="129" type="map">
       <record jsxid="id" type="string">axiseditable_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/axiseditable.xml</record>
     </record>
-    <record jsxid="132" type="map">
+    <record jsxid="130" type="map">
       <record jsxid="id" type="string">chartlabel_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/chartlabel.xml</record>
     </record>
-    <record jsxid="133" type="map">
+    <record jsxid="131" type="map">
       <record jsxid="id" type="string">dojobutton_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojobutton.xml</record>
     </record>
-    <record jsxid="134" type="map">
+    <record jsxid="132" type="map">
       <record jsxid="id" type="string">dojocheckbox_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojocheckbox.xml</record>
     </record>
-    <record jsxid="135" type="map">
+    <record jsxid="133" type="map">
       <record jsxid="id" type="string">dojocolorpalette_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojocolorpalette.xml</record>
     </record>
-    <record jsxid="136" type="map">
+    <record jsxid="134" type="map">
       <record jsxid="id" type="string">dojocurrency_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojocurrency.xml</record>
     </record>
-    <record jsxid="137" type="map">
+    <record jsxid="135" type="map">
       <record jsxid="id" type="string">dojodatetextbox_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojodatetextbox.xml</record>
     </record>
-    <record jsxid="138" type="map">
+    <record jsxid="136" type="map">
       <record jsxid="id" type="string">dojosliderhorizontal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojosliderhorizontal.xml</record>
     </record>
-    <record jsxid="139" type="map">
+    <record jsxid="137" type="map">
       <record jsxid="id" type="string">dojoslidervertical_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojoslidervertical.xml</record>
     </record>
-    <record jsxid="140" type="map">
+    <record jsxid="138" type="map">
       <record jsxid="id" type="string">dojonumberspinner_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojonumberspinner.xml</record>
     </record>
-    <record jsxid="141" type="map">
+    <record jsxid="139" type="map">
       <record jsxid="id" type="string">dojoprogress_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojoprogress.xml</record>
     </record>
-    <record jsxid="142" type="map">
+    <record jsxid="140" type="map">
       <record jsxid="id" type="string">dojorating_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojorating.xml</record>
     </record>
-    <record jsxid="143" type="map">
+    <record jsxid="141" type="map">
       <record jsxid="id" type="string">dojoeditor_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojoeditor.xml</record>
     </record>
-    <record jsxid="144" type="map">
+    <record jsxid="142" type="map">
       <record jsxid="id" type="string">dojotimebox_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/dojotimebox.xml</record>
     </record>
-    <record jsxid="145" type="map">
+    <record jsxid="143" type="map">
       <record jsxid="id" type="string">components_xml</record>
       <record jsxid="type" type="string">xml</record>
       <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">xml/components.xml</record>
     </record>
-    <record jsxid="146" type="map">
+    <record jsxid="144" type="map">
       <record jsxid="id" type="string">template_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/template.xml</record>
     </record>
-    <record jsxid="147" type="map">
+    <record jsxid="145" type="map">
       <record jsxid="id" type="string">CSS_xml</record>
       <record jsxid="type" type="string">jss</record>
       <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">jss/CSS.xml</record>
     </record>
-    <record jsxid="148" type="map">
+    <record jsxid="146" type="map">
       <record jsxid="id" type="string">timepickernormal_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/timepickernormal.xml</record>
     </record>
-    <record jsxid="149" type="map">
+    <record jsxid="147" type="map">
       <record jsxid="id" type="string">timepickerseconds_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/timepickerseconds.xml</record>
     </record>
-    <record jsxid="150" type="map">
+    <record jsxid="148" type="map">
       <record jsxid="id" type="string">timepickermillis_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/timepickermillis.xml</record>
     </record>
-    <record jsxid="151" type="map">
+    <record jsxid="149" type="map">
       <record jsxid="id" type="string">logger_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/logger.xml</record>
+    </record>
+    <record jsxid="150" type="map">
+      <record jsxid="id" type="string">matrixeditable_xml</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">components/demos/matrixeditable.xml</record>
     </record>
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>

@@ -141,11 +141,7 @@
         <record jsxid="listdnd" jsxtext="Drag and Drop" />
         <record jsxid="listspy" jsxtext="Per-Row Spy Glass" />
       </record>
-      <record jsxid="grid" jsxtext="Grid" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/matrix.gif">
-        <record jsxid="gridnormal" jsxtext="Normal" />
-        <record jsxid="grideditable" jsxtext="Editable" />
-      </record>
-      <record jsxid="matrixmulti" jsxtext="Multiselect" jsximg="jsxapp:/images/prototypes/matrix.gif"/>
+      <record jsxid="matrixeditable" jsxtext="Editable" jsximg="jsxapp:/images/prototypes/matrix.gif"/>
       <record jsxid="matrixtree" jsxtext="Tree" jsximg="jsxapp:/images/prototypes/matrix.gif"/>
     </record>
     <record jsxid="menus" jsxtext="Menus and Toolbars" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">

@@ -4,12 +4,18 @@
   <description/>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
-this.onSelectionModelChange = function(strRecordId) {
+this.onSelectionModelSelect = function(strRecordId) {
   matrix.setSelectionModel(strRecordId);
   matrix.repaint();
 };
 
+this.onSelectionBackgroundSelect = function(strRecordId) {
+  matrix.setSelectionBG(strRecordId);
+  matrix.repaint();
+};
+
 selection_model.setValue(matrix.getSelectionModel());
+selection_background.setValue(matrix.getSelectionBG()||jsx3.gui.Matrix.SELECTION_BG);
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -69,10 +75,19 @@ selection_model.setValue(matrix.getSelectionModel());
           <strings jsxname="formLabel" jsxtext="Selection Model" jsxfor="selection_model" jsxmargin="0 0 4 0" jsxwidth="50%" jsxfontweight="bold"/>
         </object>
         <object type="jsx3.gui.Select">
-          <variants jsxheight="18" jsxxmlasync="1"/>
+          <variants jsxheight="18" jsxxmlasync="1" jsxvalue="2"/>
           <strings jsxwidth="50%" jsxname="selection_model" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;0&quot; jsxtext=&quot;None&quot;/&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Single&quot;/&gt;&lt;record jsxid=&quot;2&quot; jsxtext=&quot;Multiple&quot;/&gt;&lt;/data&gt;"/>
-          <events jsxselect="root.onSelectionModelChange(strRECORDID);"/>
+          <events jsxselect="root.onSelectionModelSelect(strRECORDID);"/>
         </object>
+      </object>
+      <object type="jsx3.gui.Label">
+        <variants jsxrelativeposition="1" jsxoverflow="3"/>
+        <strings jsxname="formLabel" jsxtext="Selection Background" jsxfor="selection_background" jsxwidth="50%" jsxmargin="0 0 4 0" jsxfontweight="bold"/>
+      </object>
+      <object type="jsx3.gui.Select">
+        <variants jsxheight="18" jsxxmlasync="1"/>
+        <strings jsxwidth="50%" jsxname="selection_background" jsxmargin="0 0 4 0" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;jsx:///images/matrix/select.gif&quot; jsxtext=&quot;Default&quot;/&gt;&lt;record jsxid=&quot;jsx:///images/tree/minus.gif&quot; jsxtext=&quot;Minus&quot;/&gt;&lt;record jsxid=&quot;jsx:///images/tree/plus.gif&quot; jsxtext=&quot;Plus&quot;/&gt;&lt;/data&gt;"/>
+        <events jsxselect="root.onSelectionBackgroundSelect(strRECORDID);"/>
       </object>
     </object>
   </object>
