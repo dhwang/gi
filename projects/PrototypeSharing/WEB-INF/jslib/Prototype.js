@@ -1,7 +1,7 @@
 var persisted = require("persisted");
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
-
+var first = require("lazy").first;
 var SQLStore = require("store/sql").SQLStore;
 
 var prototypeStore = SQLStore({
@@ -11,12 +11,11 @@ var prototypeStore = SQLStore({
 		"CREATE INDEX rating_index ON Prototype (rating)",
 		"CREATE INDEX status_index ON Prototype (status)"
 		],
+	indexedColumns: ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted", "rating"],
 	idColumn: "id"
 });
 
 prototypeStore = require("store/full-text").FullText(prototypeStore, "Prototype");
-var QueryRegExp = require("json-query").QueryRegExp;
-var queryToSql = require("store/sql").QueryToSQLWhere("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted", "rating"])
 var queryToFullText = require("store/full-text").JsonQueryToFullTextSearch("Prototype", ["id","user","name", "uploaded","downloads","enabled","featured","status","deleted"]);
 var deepCopy = require("util/copy").deepCopy;
 var auth = require("jsgi/auth");
@@ -34,16 +33,16 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 			}
 
 
-			var sql = queryToSql(query, options);
+			var sql = prototypeStore.getWhereClause(query, options);
 
 			if(sql){
 				sql = sql.replace(/rating/, 'Prototype.rating');
 				(options.parameters || (options.parameters = [])).unshift(auth.currentUser && auth.currentUser.uid, false);
-				return prototypeStore.executeSql(
+				return prototypeStore.executeQuery(
 					"SELECT id, name, Prototype.rating as rating, ratingsCount, downloads, license_id, description, uploaded, enabled, Prototype.user as user, featured, status, Rating.rating as myRating FROM Prototype " +
 					"LEFT JOIN Rating ON Prototype.id = Rating.prototype_id AND Rating.user=? " + 
 					"WHERE deleted=? AND " +
-					sql, options).rows;
+					sql, options);
 			}
 		},
 		"delete": function(id){
@@ -52,7 +51,7 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 			instance.save();
 		},
 		purge: function(){
-			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=?", { parameters: [true] });
+			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=?", [true]);
 		},
 		create: function(object){
 			var errors = verifyComponent(object.component);
@@ -114,9 +113,9 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 			myRating: {
 				get:function(){
 					if(auth.currentUser && this.id){
-						var ratingObject = ratingStore.executeSql("SELECT rating FROM Rating WHERE prototype_id=? AND user=?", {
-							parameters:[this.id, auth.currentUser.uid]
-						}).rows.first();
+						var ratingObject = first(ratingStore.executeSql("SELECT rating FROM Rating WHERE prototype_id=? AND user=?", 
+							[this.id, auth.currentUser.uid]
+						).rows);
 						if(ratingObject){
 							return ratingObject.rating;
 						} 

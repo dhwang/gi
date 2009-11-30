@@ -1,5 +1,6 @@
 var persisted = require("persisted");
 var Restrictive = require("facet").Restrictive;
+var first = require("lazy").first;
 
 var auth = require("jsgi/auth");
 var PrototypeClass = require("Prototype").PrototypeClass;
@@ -31,15 +32,15 @@ exports.RatingFacet = Restrictive(RatingClass, {
 		var prototype = PrototypeClass.get(object.prototype_id); // should throw an error if the prototype doesn't exist
 
 		object.user = auth.currentUser.uid;
-		var lastRating = ratingStore.executeSql("SELECT * FROM Rating WHERE user=? AND prototype_id=?", {
-				parameters: [auth.currentUser.uid, object.prototype_id]
-			}).rows.first();
+		var lastRating = first(ratingStore.executeSql("SELECT * FROM Rating WHERE user=? AND prototype_id=?", 
+				[auth.currentUser.uid, object.prototype_id]
+			).rows);
 
 		if(lastRating){
 			var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating - lastRating.rating;
 			lastRating.rating = object.rating;
-			ratingStore.executeSql("UPDATE Rating SET rating=? WHERE user=? AND prototype_id=?", {
-					parameters:[object.rating, auth.currentUser.uid, object.prototype_id]}).rows;
+			ratingStore.executeSql("UPDATE Rating SET rating=? WHERE user=? AND prototype_id=?", 
+				[object.rating, auth.currentUser.uid, object.prototype_id]);
 		}
 		else{
 			var ratingTotal = prototype.rating * prototype.ratingsCount + object.rating;

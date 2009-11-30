@@ -7,25 +7,23 @@ var NotFoundError = require("errors").NotFoundError;
 var SQLStore = require("store/sql").SQLStore;
 
 var logStore = SQLStore({
-	connection:"jdbc:mysql://localhost/prototype?user=root&password=&useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
 	table: "Log",
-	type: "mysql",
 	starterStatements:[
 		"CREATE TABLE Log (id INT NOT NULL AUTO_INCREMENT, prototype_id INT, user VARCHAR(100), action VARCHAR(100), notes VARCHAR(2000), date DATETIME, PRIMARY KEY(id))"],
-	idColumn:"id"
+	idColumn:"id",
+	indexedColumns: ["id","user","action", "prototype_id", "date"]
 });
 
 
-var queryToSql = require("store/sql").QueryToSQLWhere("Log", ["id","user","action", "prototype_id", "date"])
 var LogClass = persisted.Class("Log", logStore, 
 	{
 		query: function(query, options){
 			options = options || {};
-			var sql = queryToSql(query, options);
+			var sql = logStore.getWhereClause(query, options);
 			if(sql){
-				return logStore.executeSql(
+				return logStore.executeQuery(
 					"SELECT Log.id, prototype_id, Log.user, action, name, date, notes FROM Log, Prototype WHERE prototype_id = Prototype.id AND " +
-					sql, options).rows;
+					sql, options);
 			}
 			throw NotFoundError("Query not acceptable");
 		},

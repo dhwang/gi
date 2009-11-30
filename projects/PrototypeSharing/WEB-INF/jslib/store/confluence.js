@@ -18,6 +18,7 @@ exports.Confluence = function(options){
 				params[0] = token = rpc("confluence1.login", [CONFLUENCE.username, CONFLUENCE.password]);
 				return rpc("confluence1." + methodName, params);
 			}
+			throw e;
 		} 
 		
 	}
