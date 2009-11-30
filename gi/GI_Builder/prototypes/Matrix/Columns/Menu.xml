@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Menu]]></name>
-  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <icon><![CDATA[images/prototypes/matrix-columnmask.gif]]></icon>
   <description><![CDATA[Renders a drop-down menu in each row of a column using the jsx3.gui.Menu class.
     In the EXECUTE event, the CDF record id is available with this.emGetSession().recordId.
     Honors the @jsxdisabled and @jsxnomask CDF attributes.]]></description>

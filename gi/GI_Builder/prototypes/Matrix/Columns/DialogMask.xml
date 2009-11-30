@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Mask - Dialog]]></name>
-  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <icon><![CDATA[images/prototypes/matrix-columnmask.gif]]></icon>
   <description><![CDATA[Example of using a dialog as an edit mask for a matrix column.]]></description>
   <object type="jsx3.gui.Matrix.Column">
     <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>

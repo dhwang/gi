@@ -9,7 +9,7 @@
                                       customizing the scroll info label,
                                       custom row heights, and
                                       paging (paged model, including panel, row, and paint-queue configuration).]]></meta>
-  <meta name="icon"><![CDATA[images/prototypes/matrix.gif]]></meta>
+  <meta name="icon"><![CDATA[images/prototypes/matrixlist.gif]]></meta>
   <Matrix
       p:name="matrix1"
       p:bodyborder="1px solid #dfdfff"

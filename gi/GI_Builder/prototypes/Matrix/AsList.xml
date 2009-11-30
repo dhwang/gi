@@ -15,7 +15,7 @@
                                       custom focus style
                                       event binding (execute), and
                                       XSLT uri-resolver template (resolving image URLs at runtime).]]></meta>
-  <meta name="icon"><![CDATA[images/prototypes/matrix.gif]]></meta>
+  <meta name="icon"><![CDATA[images/prototypes/matrixlist.gif]]></meta>
   <Matrix
       p:name="matrix1"
       p:bodyborder="1px solid #dfdfef"

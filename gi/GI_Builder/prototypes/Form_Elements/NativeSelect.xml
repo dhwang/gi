@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Select - Native]]></name>
-  <icon><![CDATA[images/prototypes/select.gif]]></icon>
+  <icon><![CDATA[images/prototypes/nativeselect.gif]]></icon>
   <description><![CDATA[A select object implemented with the native browser control.]]></description>
   <object type="jsx3.gui.NativeSelect">
     <variants jsxwidth="150" jsxxmlasync="1"/>

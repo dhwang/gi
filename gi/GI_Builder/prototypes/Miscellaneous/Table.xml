@@ -1,6 +1,6 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.5">
   <name><![CDATA[Table]]></name>
-  <icon><![CDATA[images/prototypes/matrix.gif]]></icon>
+  <icon><![CDATA[images/prototypes/table.gif]]></icon>
   <description><![CDATA[Pre-built table control.]]></description>
   <object type="jsx3.gui.Table">
     <variants jsxheaderheight="29" jsxselectionmodel="1" jsxfontsize="10" jsxxmlasync="1"/>

@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Button - Native]]></name>
-  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <icon><![CDATA[images/prototypes/matrix-columnmask.gif]]></icon>
   <description><![CDATA[Renders a clickable button in each row of a column using the jsx3.gui.NativeButton class.
     In the EXECUTE event, the CDF record id is available with this.emGetSession().recordId. Honors the @jsxdisabled
     and @jsxnomask CDF attributes.]]></description>

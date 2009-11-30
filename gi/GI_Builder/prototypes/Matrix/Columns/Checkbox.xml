@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Checkbox]]></name>
-  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <icon><![CDATA[images/prototypes/matrix-columnmask.gif]]></icon>
   <description><![CDATA[Renders a checkbox in each row of a column. Sets the CDF attribute specified in the path
     property to 0 or 1 based on the checked state. Honors the @jsxdisabled and @jsxnomask CDF attributes.]]></description>
   <object type="jsx3.gui.Matrix.Column">

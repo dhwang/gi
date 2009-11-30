@@ -6,7 +6,7 @@
 <component classpath="jsx3.gui" xmlns:id="http://xsd.tns.tibco.com/gi/cif/2006/inlinedata" xmlns:e="http://xsd.tns.tibco.com/gi/cif/2006/events" xmlns:d="http://xsd.tns.tibco.com/gi/cif/2006/dynamics" xmlns:p="http://xsd.tns.tibco.com/gi/cif/2006/property" xmlns:pe="http://xsd.tns.tibco.com/gi/cif/2006/property.eval" xmlns:x="http://xsd.tns.tibco.com/gi/cif/2006/xslparameters" xmlns:v="http://xsd.tns.tibco.com/gi/cif/2006/view" xmlns:u="http://xsd.tns.tibco.com/gi/cif/2006/userdefined" xmlns:ue="http://xsd.tns.tibco.com/gi/cif/2006/userdefined.eval" xmlns="http://xsd.tns.tibco.com/gi/cif/2006">
   <meta name="name"><![CDATA[Grid]]></meta>
   <meta name="description"><![CDATA[Matrix instance configured to allow for spreadsheet-like functionality such as cell-based edits.]]></meta>
-  <meta name="icon"><![CDATA[images/prototypes/matrix.gif]]></meta>
+  <meta name="icon"><![CDATA[images/prototypes/matrixgrid.gif]]></meta>
   <Matrix
       p:name="matrix1"
       p:bodyborder="1px solid #dfdfef"

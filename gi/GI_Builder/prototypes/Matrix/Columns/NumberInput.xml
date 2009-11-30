@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Number - Input]]></name>
-  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <icon><![CDATA[images/prototypes/matrix-columnmask.gif]]></icon>
   <description><![CDATA[Allows localized input of a number. One of:
     "@number", "@number,integer", "@number,percent", and "@number,currency".]]></description>
   <object type="jsx3.gui.Matrix.Column">

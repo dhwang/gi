@@ -314,14 +314,28 @@ _typeIcons: {
     var numCols = o.getCols().split(/\s*,\s*/g).length;
     return systemIconPath + (numRows > 1 && numCols > 1 ? "layout-side.gif" : (numRows > 1 ? "layout-over.gif" : "layout-side.gif"));
   },
-  "jsx3.gui.Matrix": systemIconPath + "matrix.gif",
-  "jsx3.gui.Matrix.Column": systemIconPath + "matrix-column.gif",
+  "jsx3.gui.Matrix": function(o) {
+    var icon = "matrix.gif";
+    if (o.getRenderingModel() == "hierarchical")
+      icon = "matrixtree.gif";
+    else if (o.getSelectionModel() == 0)
+      icon = "matrixgrid.gif";
+    else
+      icon = "matrixlist.gif";
+    
+    return systemIconPath + icon;
+  },
+  "jsx3.gui.Matrix.Column": function(o) {
+    return systemIconPath + (o.getChildren().length > 0 ? "matrix-columnmask.gif" : "matrix-column.gif");
+  },
   "jsx3.gui.Menu": systemIconPath + "menu.gif",
   "jsx3.gui.NativeButton": systemIconPath + "nativebutton.gif",
   "jsx3.gui.NativeFileUpload": systemIconPath + "fileupload.gif",
   "jsx3.gui.NativeForm": systemIconPath + "form.gif",
   "jsx3.gui.NativeHidden": systemIconPath + "hidden.gif",
-  "jsx3.gui.NativeSelect": systemIconPath + "select.gif",
+  "jsx3.gui.NativeSelect": function(o) {
+    return systemIconPath + (o.getSize() > 1 ? "nativemultiselect.gif" : "nativeselect.gif");
+  },
   "jsx3.gui.NumberInput": systemIconPath + "numberinput.gif",
   "jsx3.gui.RadioButton": systemIconPath + "radio.gif",
   "jsx3.gui.Select": function(o) {
@@ -342,7 +356,7 @@ _typeIcons: {
   },
   "jsx3.gui.Tab": systemIconPath + "tab.gif",
   "jsx3.gui.TabbedPane": systemIconPath + "tabbedpane.gif",
-  "jsx3.gui.Table": systemIconPath + "matrix.gif",
+  "jsx3.gui.Table": systemIconPath + "table.gif",
   "jsx3.gui.TextBox": function (o) {
     var t = o.getType();
     return systemIconPath + (t == 2 ? "textbox-password.gif" : (t == 1 ? "textbox-area.gif" : "textbox.gif"));

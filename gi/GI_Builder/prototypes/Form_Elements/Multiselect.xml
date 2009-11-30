@@ -4,7 +4,7 @@
   -->
 <serialization xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Multiselect]]></name>
-  <icon><![CDATA[images/prototypes/matrix-column.gif]]></icon>
+  <icon><![CDATA[images/prototypes/matrixlist.gif]]></icon>
   <description><![CDATA[Multiselect object.]]></description>
   <object type="jsx3.gui.Block">
     <variants jsxwidth="150" jsxheight="200" jsxoverflow="2"/>

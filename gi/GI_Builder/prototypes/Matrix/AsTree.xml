@@ -11,7 +11,7 @@
                                       drag and drop, and
                                       on-demand (stepped) paging.
   ]]></meta>
-  <meta name="icon"><![CDATA[images/prototypes/matrix.gif]]></meta>
+  <meta name="icon"><![CDATA[images/prototypes/matrixtree.gif]]></meta>
   <Matrix
       p:name="matrix1"
       d:bgcolor="@Solid Light"
