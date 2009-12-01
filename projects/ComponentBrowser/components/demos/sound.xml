@@ -28,7 +28,7 @@ this.onRewind = function() {
         <dynamics jsxpadding="@8Pixel"/>
         <object type="jsx3.gui.Sound">
           <variants jsxvolume="50"/>
-          <strings jsxinstanceof="jsx3.app.Model" jsxname="sound" jsxurl="jsx:///sounds/beeps.wav"/>
+          <strings jsxname="sound" jsxurl="jsx:///sounds/beeps.wav"/>
         </object>
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18"/>
