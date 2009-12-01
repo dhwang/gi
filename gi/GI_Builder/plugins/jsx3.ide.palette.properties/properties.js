@@ -439,7 +439,7 @@ _updatePropertyNode: function(objTree, arrJSX, strPropName, objNode) {
 
     stepDynVal = objJSX.getDynamicProperty(strPropName);
     if (strGetter) {
-      if (/^[_a-zA-Z]\w*$/.test(strGetter))
+      if (jsx3.util.isName(strGetter))
         //check for null on getter
         stepVal = objJSX[strGetter]();
       else

@@ -177,11 +177,16 @@ jsx3.Package.definePackage("jsx3", function() {
   };
   
   /**
-   * Evaluate a string of code with a particular local variable stack context.
+   * Evaluates a JavaScript expression in a controlled local variable context. Every name-value pair in 
+   * <code>objContext</code> will be exposed as a local variable to the evaluated script. All names must be valid
+   * JavaScript names in order to be exposed as local variables. Any invalid names will be ignored.
    *
-   * @param strScript {String} the code to execute
-   * @param objContext {Object} a map containing the local variable stack context
-   * @return  the eval value of the script
+   * @param strScript {String} the JavaScript to evaluate.
+   * @param objContext {Object<String, Object>} a map containing the local variable context. Each key is the name
+   *    of a variable to expose and each value is the value of that variable. 
+   * @return  the results of evaluating <code>strScript</code>.
+   * 
+   * @see jsx3.util#isName()
    */
   jsx3.eval = function(strScript, objContext) {
     // name of parameter will be obfuscated so ...
@@ -193,7 +198,8 @@ jsx3.Package.definePackage("jsx3", function() {
         var a = [];
 
         for (var f in _ec)
-          a[a.length] = "var " + f + " = _ec." + f + ";";
+          if (jsx3.util.isName(f))
+            a[a.length] = "var " + f + " = _ec." + f + ";";
 
         vars = a.join("");
       }

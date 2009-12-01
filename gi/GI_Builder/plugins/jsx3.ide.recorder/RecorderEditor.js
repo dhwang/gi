@@ -140,7 +140,6 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
   Editor_prototype._getTargetString = function(objJSX) {
     var dom = objJSX.getServer().getDOM();
     var path = "";
-    var nameRegex = /^[a-zA-Z_]\w*$/;
 
     while (objJSX) {
       var parent = objJSX.getParent();
@@ -149,11 +148,11 @@ jsx3.Class.defineClass("jsx3.ide.recorder.Editor", jsx3.ide.Editor, null, functi
 
       if (path) path = " " + path;
 
-      if ((matches.length == 1 || !parent) && nameRegex.test(name)) {
+      if ((matches.length == 1 || !parent) && jsx3.util.isName(name)) {
         path = "#" + name + path;
         break;
       } else if (parent.findDescendants(function(x){ return x.getName() == name; }, false, true).length == 1
-           && nameRegex.test(name)) {
+           && jsx3.util.isName(name)) {
         path = "#" + name + path;
       } else {
         path = " > :nth(" + objJSX.getChildIndex() + ")" + path;

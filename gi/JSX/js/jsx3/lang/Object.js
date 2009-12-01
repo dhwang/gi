@@ -349,11 +349,15 @@ window._jsxtmp = function(Object, Object_prototype) {
 /* @JSC :: end */ 
 
   /**
-   * Eval a string of code with a particular this and local variable stack context.
+   * Evaluates a JavaScript expression in the context of this object with a controlled local variable context. 
+   * Every name-value pair in <code>objContext</code> will be exposed as a local variable to the evaluated script. 
+   * All names must be valid JavaScript names in order to be exposed as local variables. Any invalid names will be 
+   * ignored.
    * 
-   * @param strScript {String} the code to execute
-   * @param objContext {Object} a map containing the local variable stack context
-   * @return {Object} the eval value of the script
+   * @param strScript {String} the JavaScript to evaluate.
+   * @param objContext {Object} a map containing the local variable context.
+   * @return {Object} the results of evaluating <code>strScript</code>.
+   * @see jsx3#eval()
    */
   Object_prototype.eval = function(strScript, objContext) {
     return jsx3.eval.call(this, strScript, objContext);

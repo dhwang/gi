@@ -158,7 +158,7 @@ window._jsxtmp = function(Method, Method_prototype) {
   Method.newAbstract = function(paramNames) {
     var paramString = "";
     for (var i = 0; i < arguments.length; i++) {
-      if (! arguments[i].match(/^[a-zA-Z_]\w*$/))
+      if (! jsx3.util.isName(arguments[i]))
         throw new jsx3.IllegalArgumentException("paramNames[" + i + "]", arguments[i]);
 
       paramString += "'" + arguments[i] + "', ";
