@@ -84,11 +84,14 @@ jsx3.Class.defineClass("jsx3.util.Dojo", null, null, function(Dojo) {
       jsx3.CLASS_LOADER.loadJSFileSync(jsx3.util.Dojo.getPath("/dojo/dojo.js"));
       delete load;
 
-      // we need to redefine this so the JSXBODY element is treated as the body.
-      // This is done for Dijit's popup code so it gets styled correctly.
-      dojo.body = function(){
-        return dojo.query('[label="JSXBODY"]')[0];
-      };
+      // we have to grab the font-size and font-family styles off of the JSXBODY
+      // element and apply them to the html element so that the styles defined by
+      // dijit inherit them
+      var jsxbody = dojo.query('[label="JSXBODY"]')[0];
+      dojo.style(dojo.query('html')[0], {
+        'fontSize': dojo.style(jsxbody, 'fontSize'),
+        'fontFamily': dojo.style(jsxbody, 'fontFamily')
+      });
     }
   };
 
