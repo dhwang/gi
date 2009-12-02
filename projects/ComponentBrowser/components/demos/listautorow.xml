@@ -1,6 +1,72 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[List with Auto Row]]></name>
+  <icon/>
+  <description><![CDATA[A list with an auto row allows the user to add data to a list.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxautorow="2"/>
+          <strings xmlns="urn:tibco.com/v3.0" jsxname="matrix" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxmlurl="xml/countries.xml"/>
+          <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"/>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings xmlns="urn:tibco.com/v3.0" jsxname="name_column" jsxtext="Name" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="20" jsxwidth="194" jsxzindex="10"/>
+              <strings jsxname="name_input" jsxmargin="0 4 0 0" jsxdisplay="none" jsxvalue="Afghanistan"/>
+              <events jsxkeydown="1;"/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings jsxname="population_column" jsxwidth="100" jsxtext="Population" jsxvaluetemplate="@empty" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxpopulation" jsxformathandler="@number,integer"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            <object type="jsx3.gui.NumberInput">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+              <strings jsxname="population_input" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+              <dynamics jsxformat="@Integer"/>
+              <events jsxkeydown="1;"/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings jsxname="area_column" jsxwidth="100" jsxtext="Area" jsxvaluetemplate="@empty" jsxpadding="2" jsxcellpadding="2" jsxpath="jsxarea" jsxformathandler="@number,integer"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+            <object type="jsx3.gui.NumberInput">
+              <variants jsxheight="18" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+              <strings jsxname="area_input" jsxmargin="0 4 0 0" jsxdisplay="none"/>
+              <dynamics jsxformat="@Integer"/>
+              <events jsxkeydown="1;"/>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+    </object>
   </object>
 </serialization>
