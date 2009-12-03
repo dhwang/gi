@@ -3,238 +3,236 @@
   ~ Copyright (c) 2001-2009, TIBCO Software Inc.
   ~ Use, modification, and distribution subject to terms of license.
   -->
-<data jsxid="jsxroot">
-  <record jsxid="jsxrootnode" jsxtext="rootnode" jsxunselectable="1" jsxopen="1">
-    <record jsxid="blk" jsxtext="Block" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="block" jsxtext="Block" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/block.gif">
-        <record jsxid="blockrelative" jsxtext="Relative" />
-        <record jsxid="blockabsolute" jsxtext="Absolute" />
-        <record jsxid="blocklabel" jsxtext="Label" />
-        <record jsxid="blockhtml" jsxtext="Html Content" />
-        <record jsxid="blockflow" jsxtext="Flow Layout" />
-        <record jsxid="blockmovable" jsxtext="Movable" />
-        <record jsxid="blockspy" jsxtext="Spy Glass" />
-      </record>
-      <record jsxid="blockx" jsxtext="BlockX" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/blockX.gif">
-        <record jsxid="blockxhtml" jsxtext="Html Output" />
-        <record jsxid="blockxpp" jsxtext="Pretty-print XML" />
-        <record jsxid="blockxtext" jsxtext="Text Output" />
-        <record jsxid="blockxrss" jsxtext="RSS" />
-      </record>
-      <record jsxid="image" jsxtext="Image" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/block-image.gif">
-        <record jsxid="imagenormal" jsxtext="Normal" />
-        <record jsxid="imagescaled" jsxtext="Scaled" />
-      </record>
-    </record>
-    <record jsxid="containers" jsxtext="Containers" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="dialog" jsxtext="Dialog" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/dialog.gif">
-        <record jsxid="dialognormal" jsxtext="Normal" />
-        <record jsxid="dialogmodal" jsxtext="Modal" />
-        <record jsxid="dialognotitle" jsxtext="No Title Bar" />
-        <record jsxid="dialogalert" jsxtext="Alert" />
-        <record jsxid="dialogconfirm" jsxtext="Confirm" />
-        <record jsxid="dialogprompt" jsxtext="Prompt" />
-        <record jsxid="dialogconstrained" jsxtext="Constrained Size" />
-        <record jsxid="dialogwithtaskbar" jsxtext="With Task Bar" />
-      </record>
-      <record jsxid="iframe" jsxtext="IFrame" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/iframe.gif">
-        <record jsxid="iframelocal" jsxtext="Local" />
-        <record jsxid="iframeremote" jsxtext="Remote" />
-      </record>
-      <record jsxid="layoutgrid" jsxtext="LayoutGrid" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/layout-over.gif">
-        <record jsxid="layoutgridhorizontal" jsxtext="Horizontal" />
-        <record jsxid="layoutgridvertical" jsxtext="Vertical" />
-        <record jsxid="layoutgridgrid" jsxtext="Grid" />
-      </record>
-      <record jsxid="splitter" jsxtext="Splitter" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/splitter-over.gif">
-        <record jsxid="splitterhorizontal" jsxtext="Horizontal" />
-        <record jsxid="splittervertical" jsxtext="Vertical" />
-        <record jsxid="splitterconstrained" jsxtext="Constrained" />
-        <record jsxid="splitterresize" jsxtext="Resize Event" />
-      </record>
-      <record jsxid="stack" jsxtext="StackGroup" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/stack-over.gif">
-        <record jsxid="stackhorizontal" jsxtext="Horizontal" />
-        <record jsxid="stackvertical" jsxtext="Vertical" />
-        <record jsxid="stackmenu" jsxtext="Menu" />
-        <record jsxid="stackevent" jsxtext="Events" />
-      </record>
-      <record jsxid="tab" jsxtext="TabbedPane" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/tabbedpane.gif">
-        <record jsxid="tabnormal" jsxtext="Normal" />
-        <record jsxid="tabhidden" jsxtext="Hidden Tabs" />
-        <record jsxid="tabclose" jsxtext="Close Icon" />
-        <record jsxid="tabmenu" jsxtext="Context Menu" />
-        <record jsxid="tabevent" jsxtext="Events" />
-        <record jsxid="tablazy" jsxtext="Lazy Loading" />
-      </record>
-    </record>
-    <record jsxid="formelements" jsxtext="Form Elements" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="button" jsxtext="Button" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/button.gif">
-        <record jsxid="buttonnormal" jsxtext="Normal" />
-        <record jsxid="buttonhotkey" jsxtext="Hot Keys" />
-        <record jsxid="buttonimage" jsxtext="With Image" />
-      </record>
-      <record jsxid="imagebutton" jsxtext="ImageButton" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/image-button.gif">
-        <record jsxid="imagebuttonnormal" jsxtext="Normal" />
-        <record jsxid="imagebuttontoggle" jsxtext="Toggle" />
-      </record>
-      <record jsxid="checkbox" jsxtext="Checkbox" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/checkbox.gif">
-        <record jsxid="checkboxnormal" jsxtext="Normal" />
-        <record jsxid="checkboxtristate" jsxtext="Tri-State" />
-      </record>
-      <record jsxid="colorpicker" jsxtext="ColorPicker" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/colorpicker.gif">
-        <record jsxid="colorpickerplain" jsxtext="Plain" />
-        <record jsxid="colorpickerbuilder" jsxtext="Builder" />
-      </record>
-      <record jsxid="datepicker" jsxtext="DatePicker" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/datepicker.gif">
-        <record jsxid="datepickerformat" jsxtext="Formatting" />
-        <record jsxid="datepickerfancy" jsxtext="Fancy Input" />
-      </record>
-      <record jsxid="timepicker" jsxtext="TimePicker" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/timepicker.gif">
-        <record jsxid="timepickernormal" jsxtext="Hours, Minutes" />
-        <record jsxid="timepickerseconds" jsxtext="With Seconds" />
-        <record jsxid="timepickermillis" jsxtext="With Milliseconds" />
-      </record>
-      <record jsxid="numberinput" jsxtext="NumberInput" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/textbox.gif">
-        <record jsxid="numberinputnumber" jsxtext="Numbers" />
-        <record jsxid="numberinputinteger" jsxtext="Integers" />
-        <record jsxid="numberinputcurrency" jsxtext="Currency" />
-      </record>
-      <record jsxid="radiobutton" jsxtext="RadioButton" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/radio.gif">
-        <record jsxid="radiobuttontext" jsxtext="Text" />
-        <record jsxid="radiobuttonhtml" jsxtext="HTML Label" />
-        <record jsxid="radiobuttongroup" jsxtext="Grouped" />
-        <record jsxid="radiobuttondisabled" jsxtext="Enabled/Disabled" />
-      </record>
-      <record jsxid="select" jsxtext="Select" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/select.gif">
-        <record jsxid="selectnormal" jsxtext="Normal" />
-        <record jsxid="selectcombo" jsxtext="Combo" />
-      </record>
-      <record jsxid="slider" jsxtext="Slider" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/slider.gif">
-        <record jsxid="sliderhorizontal" jsxtext="Horizontal" />
-        <record jsxid="slidervertical" jsxtext="Vertical" />
-        <record jsxid="sliderconstrained" jsxtext="Constrained" />
-        <record jsxid="slidercustom" jsxtext="Custom Handle" />
-      </record>
-      <record jsxid="textbox" jsxtext="TextBox" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/textbox.gif">
-        <record jsxid="textboxplain" jsxtext="Plain" />
-        <record jsxid="textboxarea" jsxtext="Text Area" />
-        <record jsxid="textboxpassword" jsxtext="Password" />
-        <record jsxid="textboxreadonly" jsxtext="Read-Only" />
-        <record jsxid="textboxdisabled" jsxtext="Disabled" />
-        <record jsxid="textboxchange" jsxtext="Change Event" />
-        <record jsxid="textboxincchange" jsxtext="Incremental Change Event" />
-        <record jsxid="textboxexecute" jsxtext="Execute Event" />
-      </record>
-      <record jsxid="form" jsxtext="Form" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/block.gif">
-        <record jsxid="formnormal" jsxtext="Normal" />
-        <record jsxid="formcontext" jsxtext="Context Sensitive Help" />
-      </record>
-    </record>
-    <record jsxid="matrix" jsxtext="Matrix" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="list" jsxtext="List" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/matrix.gif">
-        <record jsxid="listsimple" jsxtext="Simple" />
-        <record jsxid="listselect" jsxtext="Selectable" />
-        <record jsxid="listtrans" jsxtext="XML Transformers" />
-        <record jsxid="listtemplates" jsxtext="Value Templates" />
-        <record jsxid="listformat" jsxtext="Format Handlers" />
-        <record jsxid="listautorow" jsxtext="Auto Row" />
-        <record jsxid="listdnd" jsxtext="Drag and Drop" />
-        <record jsxid="listspy" jsxtext="Per-Row Spy Glass" />
-      </record>
-      <record jsxid="matrixeditable" jsxtext="Editable" jsximg="jsxapp:/images/prototypes/matrix.gif"/>
-      <record jsxid="matrixtree" jsxtext="Tree" jsximg="jsxapp:/images/prototypes/matrix.gif"/>
-    </record>
-    <record jsxid="menus" jsxtext="Menus and Toolbars" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="menu" jsxtext="Menu" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/menu.gif">
-        <record jsxid="menunormal" jsxtext="Normal" />
-        <record jsxid="menucontext" jsxtext="Context Menu" />
-        <record jsxid="menutoggle" jsxtext="Toggle Items" />
-        <record jsxid="menudisabled" jsxtext="Disabled Items" />
-        <record jsxid="menuaccel" jsxtext="Accelerator Keys" />
-      </record>
-      <record jsxid="toolbarbutton" jsxtext="ToolbarButton" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/toolbar-button.gif">
-        <record jsxid="toolbarbuttonnormal" jsxtext="Normal" />
-        <record jsxid="toolbarbuttontoggle" jsxtext="Toggle" />
-        <record jsxid="toolbarbuttonradio" jsxtext="Radio" />
-      </record>
-      <record jsxid="windowbar" jsxtext="WindowBar" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/taskbar.gif">
-        <record jsxid="windowbardialog" jsxtext="Dialog Bar" />
-        <record jsxid="windowbartask" jsxtext="Task Bar" />
-        <record jsxid="windowbartool" jsxtext="Tool Bar" />
-        <record jsxid="windowbarmenu" jsxtext="Menu Bar" />
-      </record>
-    </record>
-    <record jsxid="misc" jsxtext="Miscellaneous" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="cdfmapping" jsxtext="CDF Mapping" jsximg="jsxapp:/images/prototypes/block.gif"/>
-      <record jsxid="logger" jsxtext="Logging" jsximg="jsxapp:/images/prototypes/block.gif"/>
-      <record jsxid="sound" jsxtext="Sound" jsximg="jsxapp:/images/prototypes/sound.gif"/>
-      <record jsxid="table" jsxtext="Table" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/matrix.gif">
-        <record jsxid="tablenormal" jsxtext="Normal" />
-        <record jsxid="tableselect" jsxtext="Selectable" />
-        <record jsxid="tablesort" jsxtext="Sortable" />
-      </record>
-      <record jsxid="tree" jsxtext="Tree" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/tree.gif">
-        <record jsxid="treenormal" jsxtext="Normal" />
-        <record jsxid="treecustom" jsxtext="Custom Images" />
-        <record jsxid="treelazy" jsxtext="Lazy Loading" />
-        <record jsxid="treednd" jsxtext="Drag and Drop" />
-        <record jsxid="treeselect" jsxtext="Selection" />
-        <record jsxid="treesort" jsxtext="Sorting" />
-        <record jsxid="treeasync" jsxtext="Asynchronous Data and Error" />
-      </record>
-    </record>
-    <record jsxid="charting" jsxtext="Charting" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="areachart" jsxtext="AreaChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/overlayArea.gif">
-        <record jsxid="areachartplain" jsxtext="Plain" />
-        <record jsxid="areachartlinearx" jsxtext="LinearX" />
-      </record>
-      <record jsxid="barchart" jsxtext="BarChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/clusteredBar.gif">
-        <record jsxid="barchartplain" jsxtext="Plain" />
-        <record jsxid="barchartlineary" jsxtext="LinearY" />
-      </record>
-      <record jsxid="columnchart" jsxtext="ColumnChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/clusteredColumn.gif">
-        <record jsxid="columnchartplain" jsxtext="Plain" />
-        <record jsxid="columnchartlinearx" jsxtext="LinearX" />
-      </record>
-      <record jsxid="linechart" jsxtext="LineChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/overlayLine.gif">
-        <record jsxid="linechartplain" jsxtext="Plain" />
-        <record jsxid="linechartlinearx" jsxtext="LinearX" />
-      </record>
-      <record jsxid="piechart" jsxtext="PieChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/pie.gif">
-        <record jsxid="piechartplain" jsxtext="Plain" />
-        <record jsxid="piechartdoughnut" jsxtext="Doughnut" />
-      </record>
-      <record jsxid="plotchart" jsxtext="PlotChart" jsxunselectable="1" jsximg="jsxapp:/images/charting/plotBubble.gif">
-        <record jsxid="plotchartplain" jsxtext="Plain" />
-        <record jsxid="plotchartbubble" jsxtext="Bubble" />
-      </record>
-      <record jsxid="gridlines" jsxtext="GridLines" jsximg="jsxapp:/images/charting/gridLines.gif"/>
-      <record jsxid="series" jsxtext="Series" jsxunselectable="1" jsximg="jsxapp:/images/charting/areaSeries.gif">
-        <record jsxid="seriesplain" jsxtext="Plain" />
-        <record jsxid="seriesevents" jsxtext="Events" />
-      </record>
-      <record jsxid="legend" jsxtext="Legend" jsximg="jsxapp:/images/charting/legend.gif"/>
-      <record jsxid="axis" jsxtext="Axis" jsxunselectable="1" jsximg="jsxapp:/images/charting/categoryAxis.gif">
-        <record jsxid="axiseditable" jsxtext="Editable" />
-        <record jsxid="axislabel" jsxtext="Label Functions" />
-      </record>
-      <record jsxid="chartlabel" jsxtext="ChartLabel" jsximg="jsxapp:/images/charting/chartLabel.gif"/>
-    </record>
-    <record jsxid="dojo" jsxtext="Dojo" jsxunselectable="1" jsximg="jsx:/images/tree/folder.gif">
-      <record jsxid="dojobutton" jsxtext="Button" jsximg="jsxapp:/images/prototypes/button.gif"/>
-      <record jsxid="dojocheckbox" jsxtext="Check Box" jsximg="jsxapp:/images/prototypes/checkbox.gif"/>
-      <record jsxid="dojocolorpalette" jsxtext="Color Palette" jsximg="jsxapp:/images/prototypes/colorpicker.gif"/>
-      <record jsxid="dojocurrency" jsxtext="Currency Text Box" jsximg="jsxapp:/images/prototypes/textbox.gif"/>
-      <record jsxid="dojodatetextbox" jsxtext="Date Text Box" jsximg="jsxapp:/images/prototypes/datepicker.gif"/>
-      <record jsxid="dojoslider" jsxtext="Slider" jsxunselectable="1" jsximg="jsxapp:/images/prototypes/slider.gif">
-        <record jsxid="dojosliderhorizontal" jsxtext="Horizontal" />
-        <record jsxid="dojoslidervertical" jsxtext="Vertical" />
-      </record>
-      <record jsxid="dojonumberspinner" jsxtext="Number Spinner" jsximg="jsxapp:/images/prototypes/combo.gif"/>
-      <record jsxid="dojoprogress" jsxtext="Progress Bar" jsximg="jsxapp:/images/icon_32.gif"/>
-      <record jsxid="dojorating" jsxtext="Rating" jsximg="jsxapp:/images/prototypes/block-image.gif"/>
-      <record jsxid="dojoeditor" jsxtext="Rich Text Editor" jsximg="jsxapp:/images/prototypes/textbox-area.gif"/>
-      <record jsxid="dojotimebox" jsxtext="Time Text Box" jsximg="jsxapp:/images/prototypes/timepicker.gif"/>
-    </record>
-  </record>
-</data>
+<categories>
+  <category id="blk" name="Block">
+    <demos id="block" name="Block" icon="prototypes/block.gif">
+      <demo file="blockrelative" name="Relative"/>
+      <demo file="blockabsolute" name="Absolute" />
+      <demo file="blocklabel" name="Label" />
+      <demo file="blockhtml" name="Html Content" />
+      <demo file="blockflow" name="Flow Layout" />
+      <demo file="blockmovable" name="Movable" />
+      <demo file="blockspy" name="Spy Glass" />
+    </demos>
+    <demos id="blockx" name="BlockX" icon="prototypes/blockX.gif">
+      <demo file="blockxhtml" name="Html Output" />
+      <demo file="blockxpp" name="Pretty-print XML" />
+      <demo file="blockxtext" name="Text Output" />
+      <demo file="blockxrss" name="RSS" />
+    </demos>
+    <demos id="image" name="Image" icon="prototypes/block-image.gif">
+      <demo file="imagenormal" name="Normal" />
+      <demo file="imagescaled" name="Scaled" />
+    </demos>
+  </category>
+  <category id="containers" name="Containers">
+    <demos id="dialog" name="Dialog" icon="prototypes/dialog.gif">
+      <demo file="dialognormal" name="Normal" />
+      <demo file="dialogmodal" name="Modal" />
+      <demo file="dialognotitle" name="No Title Bar" />
+      <demo file="dialogalert" name="Alert" />
+      <demo file="dialogconfirm" name="Confirm" />
+      <demo file="dialogprompt" name="Prompt" />
+      <demo file="dialogconstrained" name="Constrained Size" />
+      <demo file="dialogwithtaskbar" name="With Task Bar" />
+    </demos>
+    <demos id="iframe" name="IFrame" icon="prototypes/iframe.gif">
+      <demo file="iframelocal" name="Local" />
+      <demo file="iframeremote" name="Remote" />
+    </demos>
+    <demos id="layoutgrid" name="LayoutGrid" icon="prototypes/layout-over.gif">
+      <demo file="layoutgridhorizontal" name="Horizontal" />
+      <demo file="layoutgridvertical" name="Vertical" />
+      <demo file="layoutgridgrid" name="Grid" />
+    </demos>
+    <demos id="splitter" name="Splitter" icon="prototypes/splitter-over.gif">
+      <demo file="splitterhorizontal" name="Horizontal" />
+      <demo file="splittervertical" name="Vertical" />
+      <demo file="splitterconstrained" name="Constrained" />
+      <demo file="splitterresize" name="Resize Event" />
+    </demos>
+    <demos id="stack" name="StackGroup" icon="prototypes/stack-over.gif">
+      <demo file="stackhorizontal" name="Horizontal" />
+      <demo file="stackvertical" name="Vertical" />
+      <demo file="stackmenu" name="Menu" />
+      <demo file="stackevent" name="Events" />
+    </demos>
+    <demos id="tab" name="TabbedPane" icon="prototypes/tabbedpane.gif">
+      <demo file="tabnormal" name="Normal" />
+      <demo file="tabhidden" name="Hidden Tabs" />
+      <demo file="tabclose" name="Close Icon" />
+      <demo file="tabmenu" name="Context Menu" />
+      <demo file="tabevent" name="Events" />
+      <demo file="tablazy" name="Lazy Loading" />
+    </demos>
+  </category>
+  <category id="formelements" name="Form Elements">
+    <demos id="button" name="Button" icon="prototypes/button.gif">
+      <demo file="buttonnormal" name="Normal" />
+      <demo file="buttonhotkey" name="Hot Keys" />
+      <demo file="buttonimage" name="With Image" />
+    </demos>
+    <demos id="imagebutton" name="ImageButton" icon="prototypes/image-button.gif">
+      <demo file="imagebuttonnormal" name="Normal" />
+      <demo file="imagebuttontoggle" name="Toggle" />
+    </demos>
+    <demos id="checkbox" name="Checkbox" icon="prototypes/checkbox.gif">
+      <demo file="checkboxnormal" name="Normal" />
+      <demo file="checkboxtristate" name="Tri-State" />
+    </demos>
+    <demos id="colorpicker" name="ColorPicker" icon="prototypes/colorpicker.gif">
+      <demo file="colorpickerplain" name="Plain" />
+      <demo file="colorpickerbuilder" name="Builder" />
+    </demos>
+    <demos id="datepicker" name="DatePicker" icon="prototypes/datepicker.gif">
+      <demo file="datepickerformat" name="Formatting" />
+      <demo file="datepickerfancy" name="Fancy Input" />
+    </demos>
+    <demos id="timepicker" name="TimePicker" icon="prototypes/timepicker.gif">
+      <demo file="timepickernormal" name="Hours, Minutes" />
+      <demo file="timepickerseconds" name="With Seconds" />
+      <demo file="timepickermillis" name="With Milliseconds" />
+    </demos>
+    <demos id="numberinput" name="NumberInput" icon="prototypes/numberinput.gif">
+      <demo file="numberinputnumber" name="Numbers" />
+      <demo file="numberinputinteger" name="Integers" />
+      <demo file="numberinputcurrency" name="Currency" />
+    </demos>
+    <demos id="radiobutton" name="RadioButton" icon="prototypes/radio.gif">
+      <demo file="radiobuttontext" name="Text" />
+      <demo file="radiobuttonhtml" name="HTML Label" />
+      <demo file="radiobuttongroup" name="Grouped" />
+      <demo file="radiobuttondisabled" name="Enabled/Disabled" />
+    </demos>
+    <demos id="select" name="Select" icon="prototypes/select.gif">
+      <demo file="selectnormal" name="Normal" />
+      <demo file="selectcombo" name="Combo" />
+    </demos>
+    <demos id="slider" name="Slider" icon="prototypes/slider.gif">
+      <demo file="sliderhorizontal" name="Horizontal" />
+      <demo file="slidervertical" name="Vertical" />
+      <demo file="sliderconstrained" name="Constrained" />
+      <demo file="slidercustom" name="Custom Handle" />
+    </demos>
+    <demos id="textbox" name="TextBox" icon="prototypes/textbox.gif">
+      <demo file="textboxplain" name="Plain" />
+      <demo file="textboxarea" name="Text Area" />
+      <demo file="textboxpassword" name="Password" />
+      <demo file="textboxreadonly" name="Read-Only" />
+      <demo file="textboxdisabled" name="Disabled" />
+      <demo file="textboxchange" name="Change Event" />
+      <demo file="textboxincchange" name="Incremental Change Event" />
+      <demo file="textboxexecute" name="Execute Event" />
+    </demos>
+    <demos id="form" name="Form" icon="prototypes/form.gif">
+      <demo file="formnormal" name="Normal" />
+      <demo file="formcontext" name="Context Sensitive Help" />
+    </demos>
+  </category>
+  <category id="matrix" name="Matrix">
+    <demos id="list" name="List" icon="prototypes/matrixlist.gif">
+      <demo file="listsimple" name="Simple" />
+      <demo file="listselect" name="Selectable" />
+      <demo file="listtrans" name="XML Transformers" />
+      <demo file="listtemplates" name="Value Templates" />
+      <demo file="listformat" name="Format Handlers" />
+      <demo file="listautorow" name="Auto Row" />
+      <demo file="listdnd" name="Drag and Drop" />
+      <demo file="listspy" name="Per-Row Spy Glass" />
+    </demos>
+    <demo file="matrixeditable" name="Editable Grid" icon="prototypes/matrixgrid.gif"/>
+    <demo file="matrixtree" name="Tree" icon="prototypes/matrixtree.gif"/>
+  </category>
+  <category id="menus" name="Menus and Toolbars">
+    <demos id="menu" name="Menu" icon="prototypes/menu.gif">
+      <demo file="menunormal" name="Normal" />
+      <demo file="menucontext" name="Context Menu" />
+      <demo file="menutoggle" name="Toggle Items" />
+      <demo file="menudisabled" name="Disabled Items" />
+      <demo file="menuaccel" name="Accelerator Keys" />
+    </demos>
+    <demos id="toolbarbutton" name="ToolbarButton" icon="prototypes/toolbar-button.gif">
+      <demo file="toolbarbuttonnormal" name="Normal" />
+      <demo file="toolbarbuttontoggle" name="Toggle" />
+      <demo file="toolbarbuttonradio" name="Radio" />
+    </demos>
+    <demos id="windowbar" name="WindowBar" icon="prototypes/taskbar.gif">
+      <demo file="windowbardialog" name="Dialog Bar" />
+      <demo file="windowbartask" name="Task Bar" />
+      <demo file="windowbartool" name="Tool Bar" />
+      <demo file="windowbarmenu" name="Menu Bar" />
+    </demos>
+  </category>
+  <category id="misc" name="Miscellaneous">
+    <demo file="cdfmapping" name="CDF Mapping" icon="prototypes/schema.gif"/>
+    <demo file="logger" name="Logging" icon="prototypes/container.gif"/>
+    <demo file="sound" name="Sound" icon="prototypes/sound.gif"/>
+    <demos id="table" name="Table" icon="prototypes/table.gif">
+      <demo file="tablenormal" name="Normal" />
+      <demo file="tableselect" name="Selectable" />
+      <demo file="tablesort" name="Sortable" />
+    </demos>
+    <demos id="tree" name="Tree" icon="prototypes/tree.gif">
+      <demo file="treenormal" name="Normal" />
+      <demo file="treecustom" name="Custom Images" />
+      <demo file="treelazy" name="Lazy Loading" />
+      <demo file="treednd" name="Drag and Drop" />
+      <demo file="treeselect" name="Selection" />
+      <demo file="treesort" name="Sorting" />
+      <demo file="treeasync" name="Asynchronous Data and Error" />
+    </demos>
+  </category>
+  <category id="charting" name="Charting">
+    <demos id="areachart" name="AreaChart" icon="charting/overlayArea.gif">
+      <demo file="areachartplain" name="Plain" />
+      <demo file="areachartlinearx" name="LinearX" />
+    </demos>
+    <demos id="barchart" name="BarChart" icon="charting/clusteredBar.gif">
+      <demo file="barchartplain" name="Plain" />
+      <demo file="barchartlineary" name="LinearY" />
+    </demos>
+    <demos id="columnchart" name="ColumnChart" icon="charting/clusteredColumn.gif">
+      <demo file="columnchartplain" name="Plain" />
+      <demo file="columnchartlinearx" name="LinearX" />
+    </demos>
+    <demos id="linechart" name="LineChart" icon="charting/overlayLine.gif">
+      <demo file="linechartplain" name="Plain" />
+      <demo file="linechartlinearx" name="LinearX" />
+    </demos>
+    <demos id="piechart" name="PieChart" icon="charting/pie.gif">
+      <demo file="piechartplain" name="Plain" />
+      <demo file="piechartdoughnut" name="Doughnut" />
+    </demos>
+    <demos id="plotchart" name="PlotChart" icon="charting/plotBubble.gif">
+      <demo file="plotchartplain" name="Plain" />
+      <demo file="plotchartbubble" name="Bubble" />
+    </demos>
+    <demo file="gridlines" name="GridLines" icon="charting/gridLines.gif"/>
+    <demos id="series" name="Series" icon="charting/areaSeries.gif">
+      <demo file="seriesplain" name="Plain" />
+      <demo file="seriesevents" name="Events" />
+    </demos>
+    <demo file="legend" name="Legend" icon="charting/legend.gif"/>
+    <demos id="axis" name="Axis" icon="charting/categoryAxis.gif">
+      <demo file="axiseditable" name="Editable" />
+      <demo file="axislabel" name="Label Functions" />
+    </demos>
+    <demo file="chartlabel" name="ChartLabel" icon="charting/chartLabel.gif"/>
+  </category>
+  <category id="dojo" name="Dojo">
+    <demo file="dojobutton" name="Button" icon="prototypes/button.gif"/>
+    <demo file="dojocheckbox" name="Check Box" icon="prototypes/checkbox.gif"/>
+    <demo file="dojocolorpalette" name="Color Palette" icon="prototypes/colorpicker.gif"/>
+    <demo file="dojocurrency" name="Currency Text Box" icon="prototypes/numberinput.gif"/>
+    <demo file="dojodatetextbox" name="Date Text Box" icon="prototypes/datepicker.gif"/>
+    <demos id="dojoslider" name="Slider" icon="prototypes/slider.gif">
+      <demo file="dojosliderhorizontal" name="Horizontal" />
+      <demo file="dojoslidervertical" name="Vertical" />
+    </demos>
+    <demo file="dojonumberspinner" name="Number Spinner" icon="prototypes/combo.gif"/>
+    <demo file="dojoprogress" name="Progress Bar" icon="icon_32.gif"/>
+    <demo file="dojorating" name="Rating" icon="prototypes/rating.gif"/>
+    <demo file="dojoeditor" name="Rich Text Editor" icon="prototypes/textbox-area.gif"/>
+    <demo file="dojotimebox" name="Time Text Box" icon="prototypes/timepicker.gif"/>
+  </category>
+</categories>

@@ -879,7 +879,7 @@
     <record jsxid="143" type="map">
       <record jsxid="id" type="string">components_xml</record>
       <record jsxid="type" type="string">xml</record>
-      <record jsxid="load" type="number">1</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">xml/components.xml</record>
     </record>
     <record jsxid="144" type="map">
@@ -923,6 +923,12 @@
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/demos/matrixeditable.xml</record>
+    </record>
+    <record jsxid="151" type="map">
+      <record jsxid="id" type="string">components_xsl</record>
+      <record jsxid="type" type="string">xsl</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">xsl/components.xsl</record>
     </record>
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>

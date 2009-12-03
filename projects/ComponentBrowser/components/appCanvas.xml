@@ -1,10 +1,10 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <onAfterDeserialize>
+  <onAfterDeserialize><![CDATA[
 jsx3.require("jsx3.gui.DojoWidget");
 componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_VIEW, function() {
   tibco.ce.onComponentViewChanged(componentViewContainer, viewSourceShowButton);
 });
-  </onAfterDeserialize>
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.Block">
     <variants jsxrelativeposition="1"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
@@ -66,8 +66,8 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
               <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="5 5 5 5"/>
               <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tree">
-                <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0"/>
-                <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxicon="" jsxpadding="5 5 5 5" jsxxmlid="components_xml"/>
+                <variants jsxxmlasync="1" jsxmultiselect="0" jsxdrag="0" jsxdrop="0" jsxuseroot="0" jsxxmlbind="0"/>
+                <strings jsxname="treeExplorer" jsxwidth="100%" jsxheight="100%" jsxvalue="1" jsxicon="" jsxpadding="5 5 5 5" jsxxmltrans="xsl/components.xsl" jsxxmlurl="xml/components.xml"/>
                 <events jsxselect="tibco.ce.componentSelect(this, strRECORDID);"/>
                 <xslparameters jsx_no_empty_indent="1"/>
               </object>
@@ -87,14 +87,14 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown"/>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="2" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
               <strings jsxname="paneContentContainer" jsxtextalign="0"/>
               <object type="jsx3.gui.Tab">
                 <variants jsxzindex="3" jsxheight="20"/>
                 <strings jsxname="welcome_tab" jsxtext="Tab 1" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="1" jsxrelativeposition="1"/>
-                  <strings jsxname="welcomeView" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxpadding="5 5 5 5"/>
+                  <strings jsxname="welcomeView" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxpadding="5 5 5 5"/>
                   <object type="jsx3.gui.Block">
                     <variants jsxrelativeposition="1" jsxoverflow="3"/>
                     <strings jsxname="h1" jsxtagname="h1" jsxtext="Welcome to the General Interface Component Explorer." jsxpadding="0 0 0 0" jsxmargin="0 0 5 0"/>
@@ -151,7 +151,7 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
                 <events jsxshow="tibco.ce.onComponentViewChanged(componentViewContainer, viewSourceShowButton);"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="1" jsxrelativeposition="1"/>
-                  <strings jsxname="componentView" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
+                  <strings jsxname="componentView" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="componentViewLayout" jsxrows="*,0" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
