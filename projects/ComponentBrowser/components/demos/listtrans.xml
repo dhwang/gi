@@ -3,7 +3,13 @@
   <icon/>
   <description><![CDATA[This demonstrates using an XML Transformer to transform a plain XML document to a CDF document.]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize><![CDATA[
+properties.setText('<a target="_blank" href="' +
+  tibco.ce.resolveURI('xml/countries_xml.xml') +
+  '">Download XML</a><br /><a target="_blank" href="' +
+  tibco.ce.resolveURI('xsl/countries.xsl') +
+  '">Download XSL</a>');
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
@@ -49,6 +55,14 @@
       <object type="jsx3.gui.Block">
         <variants/>
         <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="hr" jsxwidth="100%" jsxtext="&lt;hr/&gt;"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="3"/>
+        <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
       </object>
     </object>
   </object>

@@ -1,6 +1,65 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+  <name><![CDATA[Format Handlers]]></name>
+  <icon/>
+  <description><![CDATA[The Matrix can format each column using JavaScript functions.  There are some provided (@number, @date, @datetime, etc.) but you can also specify your own custom functions.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[
+var formatter = function(element, cdfkey, matrix, matrixcolumn, rownumber, server){
+  element.innerHTML = '<img src="' + server.resolveURI(jsx3.util.strTrim(element.innerHTML.replace(/&nbsp;/g, ''))).toString() + '" />';
+};
+image_column.setFormatHandler(formatter.toString());
+  ]]></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+        <dynamics jsxpadding="@8Pixel"/>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"/>
+          <strings xmlns="urn:tibco.com/v3.0" jsxname="matrix" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;   &lt;record jsxid=&quot;0&quot; jsxtext=&quot;&amp;lt;span style=&amp;quot;color:blue;&amp;quot;&amp;gt;Tree&amp;lt;span&amp;gt;&quot; jsximg=&quot;images/prototypes/tree.gif&quot; jsxcost=&quot;40&quot; /&gt;   &lt;record jsxid=&quot;1&quot; jsxtext=&quot;&amp;lt;span style=&amp;quot;color:red;&amp;quot;&amp;gt;Block&amp;lt;span&amp;gt;&quot; jsximg=&quot;images/prototypes/block.gif&quot; jsxcost=&quot;700&quot; /&gt;   &lt;record jsxid=&quot;2&quot; jsxtext=&quot;&amp;lt;span style=&amp;quot;color:violet;&amp;quot;&amp;gt;Textbox&amp;lt;span&amp;gt;&quot; jsximg=&quot;images/prototypes/textbox.gif&quot; jsxcost=&quot;100&quot; /&gt;   &lt;record jsxid=&quot;3&quot; jsxtext=&quot;&amp;lt;span style=&amp;quot;color:black;&amp;quot;&amp;gt;Button&amp;lt;span&amp;gt;&quot; jsximg=&quot;images/prototypes/button.gif&quot; jsxcost=&quot;900&quot; /&gt;   &lt;record jsxid=&quot;4&quot; jsxtext=&quot;&amp;lt;span style=&amp;quot;color:yellow;&amp;quot;&amp;gt;Matrix&amp;lt;span&amp;gt;&quot; jsximg=&quot;images/prototypes/matrix.gif&quot; jsxcost=&quot;1&quot; /&gt; &lt;/data&gt;"/>
+          <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"/>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings xmlns="urn:tibco.com/v3.0" jsxname="text_column" jsxtext="Text" jsxpadding="2" jsxwidth="*" jsxcellpadding="2" jsxpath="jsxtext"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="200"/>
+            <strings jsxname="unescape_column" jsxtext="Unescaped" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxtext" jsxformathandler="@unescape"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants/>
+            <strings jsxname="currency_column" jsxwidth="100" jsxtext="Currency" jsxpadding="2" jsxcellpadding="3" jsxpath="jsxcost" jsxformathandler="@number,currency"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="50"/>
+            <strings jsxname="image_column" jsxtext="Image" jsxpadding="3" jsxcellpadding="1" jsxpath="jsximg"/>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"/>
+          </object>
+        </object>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12" jsxoverflow="3"/>
+        <strings jsxname="name" jsxwidth="100%" jsxtext="" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%" jsxpadding="0 0 4 0" jsxtext=""/>
+      </object>
+    </object>
   </object>
 </serialization>
