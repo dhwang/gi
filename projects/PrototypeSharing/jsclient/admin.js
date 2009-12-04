@@ -48,7 +48,7 @@ function login(){
 	loginDialog.startup();
 	dojo.style(loginDialog.closeButtonNode, "display", "none");
 	setTimeout(function(){
-	    dojo.query("#dijit_form_Button_0", loginDialog.domNode)[0].parentNode.parentNode.parentNode.style.display= "none";
+	    dojo.query("button", loginDialog.domNode)[0].parentNode.parentNode.parentNode.style.display= "none";
 	},100);
 }
 dojo.addOnLoad(function(){

@@ -5,8 +5,9 @@ Media({
 	getQuality: function(){
 		return 1;
 	},
-	serialize: function(object, env){
+	serialize: function(object, request, response){
 		if(typeof object == "string"){
+			response.headers["content-disposition"] = "attachment; filename=component.xml";
 			return [object];
 		}
 		return {forEach:function(write){
