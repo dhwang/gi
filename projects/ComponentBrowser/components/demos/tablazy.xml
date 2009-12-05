@@ -1,39 +1,66 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
-  <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="8" jsxtop="8"/>
-    <strings jsxname="demo_tablazy" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
-    <object type="jsx3.gui.TabbedPane">
-      <variants selectedIndex="2" jsxselectedindex="0"/>
-      <strings jsxname="target" jsxtextalign="0"/>
-      <events jsxchange="alert(&quot;Tab change&quot;);"/>
-      <object type="jsx3.gui.Tab">
-        <variants jsxzindex="3" jsxheight="20"/>
-        <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxtext="Tab 1 Content"/>
-          <dynamics jsxbgcolor="@Solid Medium"/>
+  <name><![CDATA[Lazy Tabs]]></name>
+  <icon/>
+  <description><![CDATA[This shows how to lazy load tab content.]]></description>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+    <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
+    <dynamics jsxcols="@Root Cols"/>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxpadding="8"/>
+      <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxborder="@Outset"/>
+      <object type="jsx3.gui.TabbedPane">
+        <variants selectedIndex="2" jsxselectedindex="0"/>
+        <strings jsxname="tabpane" jsxtextalign="0"/>
+        <object type="jsx3.gui.Tab">
+          <variants jsxzindex="3" jsxheight="20"/>
+          <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
+          <events jsxshow="alert(&quot;Tab 1 show&quot;);" jsxhide="alert(&quot;Tab 1 hide&quot;);"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+            <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxtext="Tab 1 Content"/>
+            <dynamics jsxbgcolor="@Solid Medium"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Tab">
+          <variants jsxzindex="3" jsxheight="18"/>
+          <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
+          <events jsxshow="alert(&quot;Tab 2 show&quot;);" jsxhide="alert(&quot;Tab 2 hide&quot;);"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+            <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 2 Content"/>
+            <dynamics jsxbgcolor="@Solid Medium"/>
+          </object>
+        </object>
+        <object type="jsx3.gui.Tab">
+          <variants jsxzindex="3" jsxheight="18"/>
+          <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
+          <events jsxshow="alert(&quot;Tab 3 show&quot;);" jsxhide="alert(&quot;Tab 3 hide&quot;);"/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+            <strings jsxname="pane3" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 3 Content"/>
+            <dynamics jsxbgcolor="@Solid Medium"/>
+          </object>
         </object>
       </object>
-      <object type="jsx3.gui.Tab">
-        <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 2 Content"/>
-          <dynamics jsxbgcolor="@Solid Medium"/>
-        </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"/>
+      <strings jsxname="col2" jsxwidth="100%" jsxheight="100%"/>
+      <dynamics jsxbgcolor="@Col2 Background" jsxpadding="@8Pixel"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxfontsize="12"/>
+        <strings jsxname="name" jsxwidth="100%" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
       </object>
-      <object type="jsx3.gui.Tab">
-        <variants jsxzindex="3" jsxheight="18"/>
-        <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 3 Content"/>
-          <dynamics jsxbgcolor="@Solid Medium"/>
-        </object>
+      <object type="jsx3.gui.Block">
+        <variants/>
+        <strings jsxname="desc" jsxwidth="100%"/>
       </object>
     </object>
   </object>
 </serialization>
+
 
