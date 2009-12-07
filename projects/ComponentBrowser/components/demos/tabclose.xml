@@ -3,7 +3,25 @@
   <icon/>
   <description><![CDATA[This demonstrates a TabbedPane with tabs having a Close icon.]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize><![CDATA[
+var close = tibco.ce.resolveURI('images/clearSearch.gif');
+
+tab1.setText(
+  '<span style="float:left;padding-top:2px;">' + tab1.getText() + '</span>'+
+  '<img src="' + close + '" style="cursor:pointer;padding-top:2px;float:right;" '+
+    'onclick="jsx3.html.getJSXParent(this).getParent().removeChild(jsx3.html.getJSXParent(this));" />'
+);
+tab2.setText(
+  '<span style="float:left;padding-top:2px;">' + tab2.getText() + '</span>'+
+  '<img src="' + close + '" style="cursor:pointer;padding-top:2px;float:right;" '+
+    'onclick="jsx3.html.getJSXParent(this).getParent().removeChild(jsx3.html.getJSXParent(this));" />'
+);
+tab3.setText(
+  '<span style="float:left;padding-top:2px;">' + tab3.getText() + '</span>'+
+  '<img src="' + close + '" style="cursor:pointer;padding-top:2px;float:right;" '+
+    'onclick="jsx3.html.getJSXParent(this).getParent().removeChild(jsx3.html.getJSXParent(this));" />'
+);
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
@@ -16,7 +34,7 @@
         <variants selectedIndex="2" jsxselectedindex="0"/>
         <strings jsxname="tabpane" jsxtextalign="0"/>
         <object type="jsx3.gui.Tab">
-          <variants jsxzindex="3" jsxheight="20" jsxwidth="50" jsxindex="0"/>
+          <variants jsxzindex="3" jsxheight="20" jsxwidth="75" jsxindex="0"/>
           <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
@@ -25,7 +43,7 @@
           </object>
         </object>
         <object type="jsx3.gui.Tab">
-          <variants jsxzindex="3" jsxheight="20" jsxwidth="50" jsxindex="1"/>
+          <variants jsxzindex="3" jsxheight="20" jsxwidth="75" jsxindex="1"/>
           <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
@@ -34,7 +52,7 @@
           </object>
         </object>
         <object type="jsx3.gui.Tab">
-          <variants jsxzindex="3" jsxheight="20" jsxwidth="50" jsxindex="2"/>
+          <variants jsxzindex="3" jsxheight="20" jsxwidth="75" jsxindex="2"/>
           <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
