@@ -85,11 +85,15 @@ jsx3.Class.defineClass("jsx3.gui.DojoWidget", jsx3.gui.Block, null, function(Doj
    * @param vntTop
    * @param vntWidth
    * @param vntHeight
+   * @param dijitClassName {String} the class name of the Dojo widget you are instantiating.
    * @param dijitProps {Object} the properties to send to the Dojo class constructor.
+   * @param dijitStyleSheets {Array<String>} paths of extra stylesheets to load relative to the Dojo root.
    */
-  DojoWidget_prototype.init = function(strName,vntLeft,vntTop,vntWidth,vntHeight,dijitProps) {
+  DojoWidget_prototype.init = function(strName,vntLeft,vntTop,vntWidth,vntHeight,dijitClassName,dijitProps,dijitStyleSheets) {
     //call constructor for super class
+    this.dijitClassName = dijitClassName;
     this.dijitProps = dijitProps||{};
+    this.dijitStyleSheets = dijitStyleSheets||[];
     this.jsxsuper(strName,vntLeft,vntTop,vntWidth,vntHeight);
     this._createDijit(this.dijitProps);
   };
