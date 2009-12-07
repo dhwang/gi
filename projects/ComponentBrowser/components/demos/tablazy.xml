@@ -4,23 +4,25 @@
   <description><![CDATA[This shows how to lazy load tab content.]]></description>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
+this.loadTab = function(tab) {
+  var url = this.getServer().resolveURI('components/tabs/' + tab.getName() + '.xml'),
+      pane = tab.getChild(0),
+      doc = new jsx3.xml.Document();
+
+  doc.load(url, 60000);
+  pane.loadXML(doc, true);
+};
+
 this.onTabChange = function() {
-  var tab = tabpane.getChild(tabpane.getSelectedIndex()),
-      pane = tab.getChild(0);
+  var tab = tabpane.getChild(tabpane.getSelectedIndex());
 
   // if the tab's content pane has no children, load something
   if (!pane.getChildren().length) {
-    var url = this.getServer().resolveURI('components/tabs/' + tab.getName() + '.xml'),
-        doc = new jsx3.xml.Document();
-
-    doc.load(url, 60000);
-    pane.loadXML(doc, true);
-	console.log(doc);
-	console.log(pane.getChildren());
-  } else {
-    console.log(pane.getChildren());
+    this.loadTab(tab);
   }
 };
+
+this.loadTab(tab1);
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
