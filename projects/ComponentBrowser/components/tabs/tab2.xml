@@ -1,0 +1,10 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name><![CDATA[Lazy Tab 2]]></name>
+  <icon/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Block">
+    <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+    <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxbgcolor="#00ff00"/>
+  </object>
+</serialization>
