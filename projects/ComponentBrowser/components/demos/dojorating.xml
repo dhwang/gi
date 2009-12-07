@@ -5,7 +5,15 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onNumStarsChange = function(strValue) {
-  rating.setNumStars(strValue);
+  var rating = col1.getChild('rating');
+  var dijitProps = {
+    value: rating.getValue(),
+    numStars: strValue
+  };
+  var newRating = new jsx3.gui.DojoWidget("rating",null,null,null,null,"dojox.form.Rating",dijitProps,rating.dijitStyleSheets);
+  col1.removeChild(rating);
+  col1.setChild(newRating);
+  col1.repaint();
 };
 
 numstars.setValue(rating.getNumStars());
