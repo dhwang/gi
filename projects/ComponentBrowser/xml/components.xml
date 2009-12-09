@@ -4,7 +4,7 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <categories>
-  <category id="blk" name="Block">
+  <category id="containers" name="Layout and Containers">
     <demos id="block" name="Block" icon="prototypes/block.gif">
       <demo file="blockrelative" name="Relative"/>
       <demo file="blockabsolute" name="Absolute" />
@@ -14,18 +14,10 @@
       <demo file="blockmovable" name="Movable" />
       <demo file="blockspy" name="Spy Glass" />
     </demos>
-    <demos id="blockx" name="BlockX" icon="prototypes/blockX.gif">
-      <demo file="blockxhtml" name="Html Output" />
-      <demo file="blockxpp" name="Pretty-print XML" />
-      <demo file="blockxtext" name="Text Output" />
-      <demo file="blockxrss" name="RSS" />
-    </demos>
     <demos id="image" name="Image" icon="prototypes/block-image.gif">
       <demo file="imagenormal" name="Normal" />
       <demo file="imagescaled" name="Scaled" />
     </demos>
-  </category>
-  <category id="containers" name="Containers">
     <demos id="dialog" name="Dialog" icon="prototypes/dialog.gif">
       <demo file="dialognormal" name="Normal" />
       <demo file="dialogmodal" name="Modal" />
@@ -66,7 +58,7 @@
       <demo file="tablazy" name="Lazy Loading" />
     </demos>
   </category>
-  <category id="formelements" name="Form Elements">
+  <category id="formelements" name="Forms">
     <demos id="button" name="Button" icon="prototypes/button.gif">
       <demo file="buttonnormal" name="Normal" />
       <demo file="buttonhotkey" name="Hot Keys" />
@@ -129,8 +121,8 @@
       <demo file="formcontext" name="Context Sensitive Help" />
     </demos>
   </category>
-  <category id="matrix" name="Matrix">
-    <demos id="list" name="List" icon="prototypes/matrixlist.gif">
+  <category id="matrix" name="Data Controls">
+    <demos id="list" name="Matrix" icon="prototypes/matrixlist.gif">
       <demo file="listsimple" name="Simple" />
       <demo file="listselect" name="Selectable" />
       <demo file="listtrans" name="XML Transformers" />
@@ -139,9 +131,30 @@
       <demo file="listautorow" name="Auto Row" />
       <demo file="listdnd" name="Drag and Drop" />
       <demo file="listspy" name="Per-Row Spy Glass" />
+      <demo file="matrixeditable" name="Editable Grid"/>
+      <demo file="matrixtree" name="Tree"/>
     </demos>
-    <demo file="matrixeditable" name="Editable Grid" icon="prototypes/matrixgrid.gif"/>
-    <demo file="matrixtree" name="Tree" icon="prototypes/matrixtree.gif"/>
+    <demos id="table" name="Table" icon="prototypes/table.gif">
+      <demo file="tablenormal" name="Normal" />
+      <demo file="tableselect" name="Selectable" />
+      <demo file="tablesort" name="Sortable" />
+    </demos>
+    <demos id="tree" name="Tree" icon="prototypes/tree.gif">
+      <demo file="treenormal" name="Normal" />
+      <demo file="treecustom" name="Custom Images" />
+      <demo file="treelazy" name="Lazy Loading" />
+      <demo file="treednd" name="Drag and Drop" />
+      <demo file="treeselect" name="Selection" />
+      <demo file="treesort" name="Sorting" />
+      <demo file="treeasync" name="Asynchronous Data and Error" />
+    </demos>
+    <demos id="blockx" name="BlockX" icon="prototypes/blockX.gif">
+      <demo file="blockxhtml" name="Html Output" />
+      <demo file="blockxpp" name="Pretty-print XML" />
+      <demo file="blockxtext" name="Text Output" />
+      <demo file="blockxrss" name="RSS" />
+    </demos>
+    <demo file="cdfmapping" name="CDF Mapping" icon="prototypes/schema.gif"/>
   </category>
   <category id="menus" name="Menus and Toolbars">
     <demos id="menu" name="Menu" icon="prototypes/menu.gif">
@@ -163,26 +176,7 @@
       <demo file="windowbarmenu" name="Menu Bar" />
     </demos>
   </category>
-  <category id="misc" name="Miscellaneous">
-    <demo file="cdfmapping" name="CDF Mapping" icon="prototypes/schema.gif"/>
-    <demo file="logger" name="Logging" icon="prototypes/container.gif"/>
-    <demo file="sound" name="Sound" icon="prototypes/sound.gif"/>
-    <demos id="table" name="Table" icon="prototypes/table.gif">
-      <demo file="tablenormal" name="Normal" />
-      <demo file="tableselect" name="Selectable" />
-      <demo file="tablesort" name="Sortable" />
-    </demos>
-    <demos id="tree" name="Tree" icon="prototypes/tree.gif">
-      <demo file="treenormal" name="Normal" />
-      <demo file="treecustom" name="Custom Images" />
-      <demo file="treelazy" name="Lazy Loading" />
-      <demo file="treednd" name="Drag and Drop" />
-      <demo file="treeselect" name="Selection" />
-      <demo file="treesort" name="Sorting" />
-      <demo file="treeasync" name="Asynchronous Data and Error" />
-    </demos>
-  </category>
-  <category id="charting" name="Charting">
+  <category id="charting" name="Charts (GI Charting Add-In)">
     <demos id="areachart" name="AreaChart" icon="charting/overlayArea.gif">
       <demo file="areachartplain" name="Plain" />
       <demo file="areachartlinearx" name="LinearX" />
@@ -219,7 +213,7 @@
     </demos>
     <demo file="chartlabel" name="ChartLabel" icon="charting/chartLabel.gif"/>
   </category>
-  <category id="dojo" name="Dojo">
+  <category id="dojo" name="Dojo Dijits">
     <demo file="dojobutton" name="Button" icon="prototypes/button.gif"/>
     <demo file="dojocheckbox" name="Check Box" icon="prototypes/checkbox.gif"/>
     <demo file="dojocolorpalette" name="Color Palette" icon="prototypes/colorpicker.gif"/>
@@ -234,5 +228,9 @@
     <demo file="dojorating" name="Rating" icon="prototypes/rating.gif"/>
     <demo file="dojoeditor" name="Rich Text Editor" icon="prototypes/textbox-area.gif"/>
     <demo file="dojotimebox" name="Time Text Box" icon="prototypes/timepicker.gif"/>
+  </category>
+  <category id="misc" name="Miscellaneous">
+    <demo file="logger" name="Logging" icon="prototypes/container.gif"/>
+    <demo file="sound" name="Sound" icon="prototypes/sound.gif"/>
   </category>
 </categories>

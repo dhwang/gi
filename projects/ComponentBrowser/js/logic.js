@@ -80,18 +80,18 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       container.removeChild(root);
     }
 
-    container.loadXML(objXML, true);
+    // better performance to not paint on load since we modify the GI DOM immediately after loading
+    var compRoot = container.loadXML(objXML, false);
 
     root = container.getDescendantOfName('root');
     var desc = root.getDescendantOfName('desc');
     if (desc) {
-      desc.setText(root.getMetaValue('description'), true);
+      desc.setText(root.getMetaValue('description'));
     }
     var name = root.getDescendantOfName('name');
     if (name) {
-      name.setText(root.getMetaValue('name'), true);
+      name.setText(root.getMetaValue('name'));
     }
-
 
     var tree = ce.getJSXByName('treeExplorer');
 
@@ -102,6 +102,15 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     if (!record.jsximg) {
       name = rNode.getParent().getAttribute('jsxtext');
     }
+    
+    // make sure all text boxes in the properties column respond to the execute (enter key) event
+    compRoot.selectDescendants("#properties jsx3_gui_TextBox").each(function(e) {
+      e.setEvent('this.doEvent(jsx3.gui.Interactive.CHANGE, {strVALUE:this.getValue()})', 
+          jsx3.gui.Interactive.EXECUTE);
+    });
+    
+    // paint now after modifying the DOM
+    container.paintChild(compRoot);
 
     this.getCache().setDocument('source_xml', objXML);
 
