@@ -1,8 +1,6 @@
 /* place JavaScript code here */
 jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.init = function(){
-    var doc = new jsx3.xml.Document().loadXML('<data/>');
-    this.getCache().setDocument('source_xml', doc);
     this.setView(ce.WELCOME);
   };
 
@@ -112,7 +110,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     // paint now after modifying the DOM
     container.paintChild(compRoot);
 
-    this.getCache().setDocument('source_xml', objXML);
+    ce.getJSXByName('sourceView').setText(ce.prettyXML(objXML), true);
 
     _selectedComponentId = componentId;
     this.setView(ce.COMPONENT, ce._getComponentTitle(rNode, record.jsxtext));
@@ -183,7 +181,8 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   };
 
   ce.onCopySource = function(sourceView) {
-    var data = sourceView.getXML().toString();
+    var elm = sourceView.getRendered();
+    var data = elm.textContent || elm.innerText;
     if(!_copy(data)){
       var w = window.open("about:blank", "CopyCode");
       w.document.write("<html><head><title>Copy Code</title></head><body><pre>" + jsx3.util.strEscapeHTML(data) + "</pre></body></html>");
@@ -375,4 +374,266 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       true
     );
   };
+  
+  ce.prettyXML = function(doc) {
+    var XmlTokenizer = tibco.ce.XmlTokenizer;
+    var tk = new tibco.ce.XmlTokenizer(doc.toString());
+    var join = [];
+    var token;
+    var lastElm;
+    
+    while ((token = tk.next()) != null) {
+      switch (token.type) {
+        case XmlTokenizer.MARKUP:
+          join.push('<span class="ts ps">', token.token.replace(/>/g, "&gt;").replace(/</g, "&lt;"), '</span>')
+          break;
+        case XmlTokenizer.SPACE:
+          join.push(token.token);
+          break;
+        case XmlTokenizer.TAGNAME:
+          lastElm = token.token;
+          join.push('<span class="ts eln">', token.token, '</span>')
+          break;
+        case XmlTokenizer.ATTRNAME:
+          join.push('<span class="ts ans">', token.token, '</span>')
+          break;
+        case XmlTokenizer.ATTRVALUE:
+          if (lastElm == "events") 
+            ; // TODO: format as JS
+          join.push('<span class="ts avs">', token.token, '</span>')
+          break;
+        case XmlTokenizer.TEXT:
+          if (lastElm == "onAfterDeserialize") 
+            ; // TODO: format as JS
+          join.push('<span class="ts tns">', token.token, '</span>')
+          break;
+      }
+    }
+    
+    return join.join("");
+  };
+  
+});
+
+jsx3.Class.defineClass("tibco.ce.XmlTokenizer", null, null, function(XmlTokenizer, XmlTokenizer_prototype){
+
+  XmlTokenizer.MARKUP = 1;
+  XmlTokenizer.SPACE = 2;
+  XmlTokenizer.TAGNAME = 3;
+  XmlTokenizer.ATTRNAME = 4;
+  XmlTokenizer.ATTRVALUE = 5;
+  XmlTokenizer.TEXT = 6;
+  
+  XmlTokenizer_prototype.init = function(xml) {
+    this._xml = xml;
+    this._l = xml.length;
+    this._i = 0;
+    this._state = 0;
+  };
+  
+  XmlTokenizer_prototype.next = function() {
+    if (this._i >= this._l) return null;
+    
+    var token, type;
+    
+    switch (this._state) {
+      case 0: // outside
+        var nextOpen = this._xml.indexOf("<", this._i);
+        if (nextOpen == this._i) {
+          if (this._xml.indexOf("</", this._i) == this._i) {
+            token = this._xml.substring(this._i, this._i + 2);
+            type = XmlTokenizer.MARKUP;
+            this._state = "4a";
+            this._i += 2;
+          } else if (this._xml.indexOf("<![CDATA[", this._i) == this._i) {
+            token = this._xml.substring(this._i, this._i + 9);
+            type = XmlTokenizer.MARKUP;
+            this._state = 5;
+            this._i += 9;
+          } else {
+            token = this._xml.substring(this._i, this._i + 1);
+            type = XmlTokenizer.MARKUP;
+            this._state = "1a";
+            this._i += 1;
+          }
+        } else if (nextOpen == -1) {
+          token = this._xml.substring(this._i);
+          type = XmlTokenizer.TEXT;
+          this._i = this._l;
+        } else {
+          token = this._xml.substring(this._i, nextOpen);
+          type = XmlTokenizer.TEXT;
+          this._i = nextOpen;
+        }
+        break;
+      case "1a": // just inside open tag
+        var space = chompSpace(this._xml, this._i);
+        if (space) {
+          token = space;
+          type = XmlTokenizer.SPACE;
+          this._i += space.length;
+        } else {
+          var name = chompName(this._xml, this._i);
+          if (name) {
+            token = name;
+            type = XmlTokenizer.TAGNAME;
+            this._state = 1;
+            this._i += name.length;
+          } else {
+            throw new Error("Expected name at char " + this._i);
+          }
+        }
+        break;
+      case 1: // inside open tag
+        var space = chompSpace(this._xml, this._i);
+        if (space) {
+          token = space;
+          type = XmlTokenizer.SPACE;
+          this._i += space.length;
+        } else {
+          if (this._xml.indexOf("/>", this._i) == this._i) {
+            token = this._xml.substring(this._i, this._i + 2);
+            type = XmlTokenizer.MARKUP;
+            this._state = 0;
+            this._i += 2;
+          } else if (this._xml.indexOf(">", this._i) == this._i) {
+            token = this._xml.substring(this._i, this._i + 1);
+            type = XmlTokenizer.MARKUP;
+            this._state = 0;
+            this._i += 1;
+          } else {
+            var name = chompName(this._xml, this._i);
+            if (name) {
+              token = name;
+              type = XmlTokenizer.ATTRNAME;
+              this._i += name.length;
+              this._state = 2;
+            } else {
+              throw new Error("Expected attr name at char " + this._i);
+            }
+          }
+        }
+        break;
+      case 2: // after attr name
+        var space = chompSpace(this._xml, this._i);
+        if (space) {
+          token = space;
+          type = XmlTokenizer.SPACE;
+          this._i += space.length;
+        } else if (this._xml.charAt(this._i) == "=") {
+          token = this._xml.substring(this._i, this._i + 1);
+          type = XmlTokenizer.MARKUP;
+          this._state = 3;
+          this._i += 1;
+        } else {
+          throw new Error("Expected = at char " + this._i);
+        }
+        break;
+      case 3: // after attr equals
+        var space = chompSpace(this._xml, this._i);
+        if (space) {
+          token = space;
+          type = XmlTokenizer.SPACE;
+          this._i += space.length;
+        } else if (this._xml.charAt(this._i) == '"') {
+          token = this._xml.substring(this._i, this._i + 1);
+          type = XmlTokenizer.MARKUP;
+          this._state = 6;
+          this._i += 1;
+        } else {
+          throw new Error("Expected = at char " + this._i);
+        }
+        break;
+      case "4a": // just inside close tag
+        var space = chompSpace(this._xml, this._i);
+        if (space) {
+          token = space;
+          type = XmlTokenizer.SPACE;
+          this._i += space.length;
+        } else {
+          var name = chompName(this._xml, this._i);
+          if (name) {
+            token = name;
+            type = XmlTokenizer.TAGNAME;
+            this._state = 4;
+            this._i += name.length;
+          } else {
+            throw new Error("Expected name at char " + this._i);
+          }
+        }
+        break;
+      case 4: // inside close tag
+        var space = chompSpace(this._xml, this._i);
+        if (space) {
+          token = space;
+          type = XmlTokenizer.SPACE;
+          this._i += space.length;
+        } else if (this._xml.charAt(this._i) == ">") {
+          token = ">";
+          type = XmlTokenizer.MARKUP;
+          this._state = 0;
+          this._i += 1;
+        } else {
+          throw new Error("Expected > at char " + this._i);
+        }
+        break;
+      case 5: // inside cdata
+        var nextClose = this._xml.indexOf("]]>", this._i);
+        if (nextClose >= 0) {
+          token = this._xml.substring(this._i, nextClose);
+          type = XmlTokenizer.TEXT;
+          this._state = 8;
+          this._i = nextClose;
+        } else {
+          throw new Error("No close CDATA after char " + this._i);
+        }
+        break;
+      case 8: // before ]]>
+        token = "]]>";
+        type = XmlTokenizer.MARKUP;
+        this._state = 0;
+        this._i += 3;
+        break;
+      case 6: // after attr open "
+        var nextQuote = this._xml.indexOf('"', this._i);
+        if (nextQuote >= 0) {
+          token = this._xml.substring(this._i, nextQuote);
+          type = XmlTokenizer.ATTRVALUE;
+          this._state = 7;
+          this._i = nextQuote;
+        } else {
+          throw new Error("No close attribute (\") after char " + this._i);
+        }
+        break;
+      case 7: // after attr close "
+        token = '"';
+        type = XmlTokenizer.MARKUP;
+        this._state = 1;
+        this._i += 1;
+        break;
+    }
+    
+    return {token:token, type:type};
+  };
+  
+  var chompSpace = function(s, start) {
+    var i = start;
+    while (s.charAt(i) == " ")
+      i++;
+    return s.substring(start, i);
+  };
+  
+  var chompName = function(s, start) {
+    var i = start;
+    while (i < s.length) {
+      var c = s.charAt(i);
+      if (c == "-" || c == "_" || (c >= "0" && c <= "9") || (c >= "a" && c <= "z") || (c >= "A" && c <= "Z"))
+        i++;
+      else
+        break;
+    }
+    
+    return s.substring(start, i);
+  };
+  
 });

@@ -108,7 +108,7 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
                     </object>
                     <object type="jsx3.gui.Block">
                       <variants jsxrelativeposition="1" jsxoverflow="3"/>
-                      <strings jsxname="h2" jsxtagname="h2" jsxtext="How to Use"/>
+                      <strings jsxname="h2" jsxtagname="h2" jsxtext="How to Use" jsxmargin="20 0 0 0"/>
                     </object>
                     <object type="jsx3.gui.Block">
                       <variants jsxfontsize="12"/>
@@ -226,9 +226,10 @@ componentViewContainer.getParent().subscribe(jsx3.gui.Interactive.AFTER_RESIZE_V
                             <variants jsxoverflow="3"/>
                             <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxpadding="2 2 2 2"/>
                             <dynamics jsxborder="@Outset"/>
-                            <object type="jsx3.gui.BlockX">
-                              <variants jsxrelativeposition="1" jsxxmlasync="1" jsxxslasync="1" jsxxmlbind="1" jsxshare="1" jsxoverflow="1"/>
-                              <strings jsxwidth="100%" jsxheight="100%" jsxname="sourceView" jsxdisplay="" jsxxmlid="source_xml"/>
+                            <object type="jsx3.gui.Block">
+                              <variants jsxrelativeposition="1" jsxoverflow="1"/>
+                              <strings jsxwidth="100%" jsxheight="100%" jsxname="sourceView" jsxclassname="prettyxml"
+                                  jsxstyleoverride="white-space:pre;"/>
                               <dynamics jsxbgcolor="@Solid Light" jsxpadding="@8Pixel" jsxborder="@Inset"/>
                             </object>
                           </object>

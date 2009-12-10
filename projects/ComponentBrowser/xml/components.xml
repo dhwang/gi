@@ -43,7 +43,7 @@
       <demo file="splitterconstrained" name="Constrained" />
       <demo file="splitterresize" name="Resize Event" />
     </demos>
-    <demos id="stack" name="StackGroup" icon="prototypes/stack-over.gif">
+    <demos id="stack" name="StackGroup" icon="prototypes/stackgroup-over.gif">
       <demo file="stackhorizontal" name="Horizontal" />
       <demo file="stackvertical" name="Vertical" />
       <demo file="stackmenu" name="Menu" />
