@@ -210,14 +210,18 @@ jsx3.Class.defineClass("jsx3.ide.ComponentEditor", jsx3.ide.Editor, null, functi
     return didSave;
   };
   
+  ComponentEditor.CDATA_FIELDS = ["name", "icon", "description", "onBeforeDeserialize", "onAfterDeserialize"];
+  
   ComponentEditor_prototype.formatXML = function(objXML) {
     objXML = jsx3.ide.makeXmlPretty(objXML, true);
 
     if (!jsx3.CLASS_LOADER.IE) {
       var serPath = "/jsx1:serialization/";
       objXML.setSelectionNamespaces("xmlns:jsx1='" + jsx3.app.Model.CURRENT_VERSION + "'");
-      for (var f in jsx3.app.Model._META_MAP) {
-        var node = objXML.selectSingleNode(serPath + "jsx1:" + jsx3.app.Model._META_MAP[f]);
+      for (var i = 0; i < ComponentEditor.CDATA_FIELDS.length; i++) {
+        var f = ComponentEditor.CDATA_FIELDS[i];
+
+        var node = objXML.selectSingleNode(serPath + "jsx1:" + f);
         if (node) {
           var children = node.getChildIterator(true);
           var nodeData = '';
