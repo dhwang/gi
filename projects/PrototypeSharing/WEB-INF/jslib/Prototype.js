@@ -53,6 +53,13 @@ var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", proto
 		purge: function(){
 			prototypeStore.executeSql("DELETE FROM Prototype WHERE deleted=?", [true]);
 		},
+		get: function(id){
+			var object = prototypeStore.get(id);
+			if(object && object.deleted){
+				return;
+			}
+			return object;
+		},
 		create: function(object){
 			var errors = verifyComponent(object.component);
 			if(errors.length){

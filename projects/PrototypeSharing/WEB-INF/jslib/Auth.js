@@ -18,11 +18,11 @@ var authStore = SQLStore({
 });
 
 var AuthClass = persisted.Class("Auth", authStore, {});
-var BYPASS_SECURITY = require("settings").BYPASS_SECURITY;
+var bypassSecurity = require("settings").bypassSecurity;
 
 security.authClass = AuthClass; 
 security.authenticate = function(username, password){
-	if(BYPASS_SECURITY){
+	if(bypassSecurity){
 		return {uid:username,isAdmin:true};
 	}
 	var context = LDAPConfig.getContext(username, password);

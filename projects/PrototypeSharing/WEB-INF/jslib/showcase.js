@@ -1,7 +1,7 @@
 var persisted = require("persisted");
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
-var CONFLUENCE = require("settings").CONFLUENCE;
+var confluenceSettings = require("settings").confluenceSettings;
 var HOST_URL_PREFIX = require("settings").HOST_URL_PREFIX;
 var File = require("file");
 var read = File.read;
@@ -10,8 +10,8 @@ var JSFile = require("store/js-file").JSFile;
 var Replicated = require("store/replicated").Replicated;
 var Confluence = require("store/confluence").Confluence;
 var confluenceStore = new Confluence({});
-var DATA_FOLDER = require("settings").DATA_FOLDER;
-showcaseStore = Replicated(JSFile(DATA_FOLDER + "/Showcase"), confluenceStore, {replicateFirst: true});
+var dataFolder = require("settings").dataFolder;
+showcaseStore = Replicated(JSFile(dataFolder + "/Showcase"), confluenceStore, {replicateFirst: true});
 var unzip = require("zip").unzip;
 
 var ShowcaseClass = persisted.Class("Showcase", showcaseStore, {
@@ -35,8 +35,8 @@ var ShowcaseClass = persisted.Class("Showcase", showcaseStore, {
 	},
 	prototype: {
 		initialize: function(){
-			this.space = CONFLUENCE.space;
-			this.parentId = CONFLUENCE.listingPageId;
+			this.space = confluenceSettings.space;
+			this.parentId = confluenceSettings.listingPageId;
 			this.content = "Description: " + this.description;
 			this.uploaded = new Date();
 		}
@@ -91,12 +91,12 @@ function setupShowcase(object){
 
 function recreateListing(){
 		// now recreate the listing page with the confluence table plugin
-	var listingPage = confluenceStore.get(CONFLUENCE.listingPageId);
+	var listingPage = confluenceStore.get(confluenceSettings.listingPageId);
 	var content = "These are the showcase applications:\n\n" + 
 		"{table-plus}\n|| Title || Author || Description || Uploaded ||\n";
 	var showcases = showcaseStore.query("", {});
 	showcases.forEach(function(showcase){
-		content += "| [" + CONFLUENCE.space + ":" + showcase.title + "] | " + 
+		content += "| [" + confluenceSettings.space + ":" + showcase.title + "] | " + 
 			showcase.author + " | " + (showcase.description && showcase.description.substring(0,100)) + " | " + 
 			showcase.uploaded + " |\n";
 	});

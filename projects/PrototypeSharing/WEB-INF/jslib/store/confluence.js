@@ -4,10 +4,10 @@
 var jsonQuery = require("../json-query").jsonQuery;
 var extendSome = require("lazy").extendSome;
 var XmlRpc = require("xml-rpc").XmlRpc;
-var CONFLUENCE = require("settings").CONFLUENCE;
+var confluenceSettings = require("settings").confluenceSettings;
 var token;
 exports.Confluence = function(options){
-	var rpc = XmlRpc(CONFLUENCE.url + "rpc/xmlrpc");
+	var rpc = XmlRpc(confluenceSettings.url + "rpc/xmlrpc");
 	function confluenceCall(methodName, params){
 		params.unshift(token);
 		try{
@@ -15,7 +15,7 @@ exports.Confluence = function(options){
 		}catch(e){
 			if(e.message.match(/NotPermittedException/)){
 				// failed to login, time to re-login and try again
-				params[0] = token = rpc("confluence1.login", [CONFLUENCE.username, CONFLUENCE.password]);
+				params[0] = token = rpc("confluence1.login", [confluenceSettings.username, confluenceSettings.password]);
 				return rpc("confluence1." + methodName, params);
 			}
 			throw e;
@@ -35,7 +35,7 @@ exports.Confluence = function(options){
 			return object.id;
 		},
 		query: function(query, options){
-			return confluenceCall("getChildren", [CONFLUENCE.listingPageId]);
+			return confluenceCall("getChildren", [confluenceSettings.listingPageId]);
 		},
 		"delete": function(id){
 			return confluenceCall("removePage", [id]);

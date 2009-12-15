@@ -1,7 +1,7 @@
 /**
  * The starting point for Pintura running as a Jack app.
  */
-require.paths.push("jslib");
+require.paths.unshift("jslib");
 var pintura = require("pintura");
 require("persvr");
 require("CDF");
