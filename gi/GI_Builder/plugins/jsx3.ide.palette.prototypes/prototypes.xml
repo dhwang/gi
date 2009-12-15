@@ -430,6 +430,9 @@ var doToggleReportForm = function () {
   download_container.setBorder(!_report_open ? "0; 0; 2px solid #dddde9; 0;" : "0;0;0;0;", true);
   jsx_ide_proto_detail_actions.setHeight(!_report_open ? 248 : 20, true);
   _report_open = !_report_open;
+  if(_report_open){
+    report_issue.focus();
+  }
 };
 
 objJSX.toggleReportForm = function() {
@@ -931,7 +934,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <variants jsxzindex="3" jsxheight="18"/>
                 <strings jsxname="jsx_ide_proto_summary_tab" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
-                  <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                  <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
                   <strings jsxname="jsx_ide_proto_summary_view" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Matrix">
