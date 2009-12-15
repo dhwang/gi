@@ -212,7 +212,7 @@ function verifyComponent(component){
 					}
 					objectElement = child;
 				}
-				if(tagName == "onAfterDeserialization" || tagName == "onBeforeDeserialization"){
+				if(tagName == "onAfterDeserialize" || tagName == "onBeforeDeserialize"){
 					var deserializationNl = child.getChildNodes();
 					for(var j = 0; j < deserializationNl.getLength(); j++){
 						deserializationChild = deserializationNl.item(j);
