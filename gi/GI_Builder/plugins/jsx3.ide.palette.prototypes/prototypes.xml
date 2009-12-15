@@ -301,7 +301,7 @@ objJSX._doUpload = function() {
       delete res["log"];
       res.myRating = "null";
       res.jsxid = res.id;
-      res.uploaded = dateFormat.parse(res.uploaded);
+      res.uploaded = dateFormat.parse(res.uploaded).valueOf();
       objJSX.setOnlineDetail(res);
       objJSX.setOnlineView('detail', true);
       objJSX.setComponentView('online');
