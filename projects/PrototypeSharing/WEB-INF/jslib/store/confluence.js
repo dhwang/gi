@@ -4,7 +4,7 @@
 var jsonQuery = require("../json-query").jsonQuery;
 var extendSome = require("lazy").extendSome;
 var XmlRpc = require("xml-rpc").XmlRpc;
-var confluenceSettings = require("settings").confluenceSettings;
+var confluenceSettings = require("settings").confluence;
 var token;
 exports.Confluence = function(options){
 	var rpc = XmlRpc(confluenceSettings.url + "rpc/xmlrpc");
