@@ -13,7 +13,7 @@ exports.Confluence = function(options){
 		try{
 			return rpc("confluence1." + methodName, params);
 		}catch(e){
-			if(e.message.match(/NotPermittedException/)){
+			if(e.message.match(/NotPermittedException|InvalidSessionException/)){
 				// failed to login, time to re-login and try again
 				params[0] = token = rpc("confluence1.login", [confluenceSettings.username, confluenceSettings.password]);
 				return rpc("confluence1." + methodName, params);
@@ -31,7 +31,7 @@ exports.Confluence = function(options){
 			for(var i in newObject){
 				object[i] = newObject[i];
 			}
-			confluenceCall("addLabelByName",[object.tags, object.id]);
+			//confluenceCall("addLabelByName",[object.tags, object.id]);
 			return object.id;
 		},
 		query: function(query, options){
