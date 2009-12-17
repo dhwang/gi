@@ -56,20 +56,21 @@ function defineContent(object){
 }
 function setupShowcase(object){
 	var targetDir = require("settings").APACHE_TARGET + object.id + '/';
-	if(File.isDirectory(targetDir)){
-		File.rmtree(targetDir);
-	}
+
 	unzip(object.zip.tempfile, targetDir);
 	var appDirectory;
 	File.list(targetDir).forEach(function (name) {
             if(File.isDirectory(File.join(targetDir, name))){
             	if(appDirectory){
-            		appDirectory = name;
-            	}else{
             		appDirectory = true;
+            	}else{
+            		appDirectory = name;
             	}
             }
         });
+   	if(File.isFile(targetDir + object.zip.tempfile)){
+		File.remove(targetDir + object.zip.tempfile);
+	}
 	File.move(object.zip.tempfile, targetDir + object.zip.tempfile);
 	var launchTemplate;
 	require.paths.some(function(path){
