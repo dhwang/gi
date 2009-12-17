@@ -56,7 +56,9 @@ function defineContent(object){
 }
 function setupShowcase(object){
 	var targetDir = require("settings").APACHE_TARGET + object.id + '/';
-	File.rmtree(targetDir);
+	if(File.isDirectory(targetDir)){
+		File.rmtree(targetDir);
+	}
 	unzip(object.zip.tempfile, targetDir);
 	var appDirectory;
 	File.list(targetDir).forEach(function (name) {
