@@ -23,8 +23,11 @@ function login(){
         dojo.xhrPost({
                 url: "Class/User",
                 postData: dojo.toJson({method: "authenticate", id:"login", params:[null, null]}),
-                handleAs: "json"
-        });		
+                handleAs: "json",
+                sync: true
+        });
+        location.reload();
+        return;
 	}
 	var loginAgain = login;
 	login = function(){};// no way else 
@@ -36,7 +39,7 @@ function login(){
 	    	realHide();
 	    },
 	    closable: false});
-    var realHide = dojo.hitch(loginDialog, loginDialog.hide);
+    var realHide = dojo.hitch(loginDialog, loginDialog.destroy);
     loginDialog.onExecute = function(){
     	realHide();
     };
