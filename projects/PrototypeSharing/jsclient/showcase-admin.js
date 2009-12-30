@@ -34,17 +34,9 @@ function login(){
     var loginDialog = new persevere.Login({onLoginSuccess: function(){
 	    	alert("Logged in");
 	    	login = loginAgain;
-	    	location.reload();
-	    	realHide();
+	    	loginDialog.destroy();
 	    },
 	    closable: false});
-    var realHide = dojo.hitch(loginDialog, loginDialog.hide);
-    loginDialog.onExecute = function(){
-    	realHide();
-    };
-	loginDialog.hide = function(){
-		alert("Must login first");
-	};
     
 	dojo.body().appendChild(loginDialog.domNode);
 	loginDialog.startup();
