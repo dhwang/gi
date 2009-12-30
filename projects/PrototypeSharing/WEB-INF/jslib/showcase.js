@@ -1,4 +1,4 @@
-var persisted = require("persisted");
+var model = require("model");
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
 var confluenceSettings = require("settings").confluence;
@@ -14,7 +14,7 @@ var dataFolder = require("settings").dataFolder;
 showcaseStore = Replicated(JSFile(dataFolder + "/Showcase"), confluenceStore, {replicateFirst: true});
 var unzip = require("zip").unzip;
 
-var ShowcaseClass = persisted.Class("Showcase", showcaseStore, {
+var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 	put: function(object){
 		var redefine = !object.id;
 		defineContent(object);
