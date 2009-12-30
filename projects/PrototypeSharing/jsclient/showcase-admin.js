@@ -24,7 +24,9 @@ function login(){
                 url: "Class/User",
                 postData: dojo.toJson({method: "authenticate", id:"login", params:[null, null]}),
                 handleAs: "json",
+                sync: true
         });		
+        location.reload();
 	}
 	var loginAgain = login;
 	login = function(){};// no way else 

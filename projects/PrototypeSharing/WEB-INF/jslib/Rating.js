@@ -1,4 +1,4 @@
-var persisted = require("persisted");
+var model = require("model");
 var Restrictive = require("facet").Restrictive;
 var first = require("lazy").first;
 
@@ -17,7 +17,7 @@ ratingStore = SQLStore({
 });
 
 
-var RatingClass = persisted.Class("Rating", ratingStore, 
+var RatingClass = model.Model("Rating", ratingStore, 
 	{
 	}
 );

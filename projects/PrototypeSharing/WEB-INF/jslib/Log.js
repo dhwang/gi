@@ -1,4 +1,4 @@
-var persisted = require("persisted");
+var model = require("model");
 var Restrictive = require("facet").Restrictive;
 var deepCopy = require("util/copy").deepCopy;
 var email = require("mail/smtp");
@@ -15,7 +15,7 @@ var logStore = SQLStore({
 });
 
 
-var LogClass = persisted.Class("Log", logStore, 
+var LogClass = model.Model("Log", logStore, 
 	{
 		query: function(query, options){
 			options = options || {};

@@ -1,4 +1,4 @@
-var persisted = require("persisted");
+var Model = require("model").Model;
 var Permissive = require("facet").Permissive;
 var Restrictive = require("facet").Restrictive;
 var first = require("lazy").first;
@@ -21,7 +21,7 @@ var deepCopy = require("util/copy").deepCopy;
 var auth = require("jsgi/auth");
 var AccessError = require("./errors").AccessError;
 
-var PrototypeClass = exports.PrototypeClass = persisted.Class("Prototype", prototypeStore, 
+var PrototypeClass = exports.PrototypeClass = Model("Prototype", prototypeStore, 
 	{
 		query: function(query, options){
 			var fulltext = queryToFullText(query, options);
@@ -245,7 +245,6 @@ function verifyComponent(component){
 					continue;
 				}
 				var tagName = child.getTagName();
-				print("child tag " + tagName);
 				if(tagName == "variants"){
 					var attrs = child.getAttributes();
 					for(var j = 0; j < attrs.getLength();j++){
