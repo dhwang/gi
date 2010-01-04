@@ -195,6 +195,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    * @private
    */
   Template._filterTemplate = function(objXML,objClass) {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer(Template.jsxclass, objClass, 5);
+/* @JSC :: end */
+
     //add model section (since its implied, developers may not actually declare it)
     var objM = objXML.selectSingleNode("/t:transform/t:model");
     if(!objM) {
@@ -340,6 +344,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
       if(objNode)
         objNode.setValue(cur.newval);
     }
+
+/* @JSC :: begin BENCH */
+    t1.log("compile.preprocessors.filter");
+/* @JSC :: end */
   };
   Template.registerPreprocessor("jsxfilter",Template._filterTemplate);
 
@@ -413,6 +421,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
 
     var objClass = eval(strQualifiedName);
     if(objClass) {
+/* @JSC :: begin BENCH */
+      var t1 = new jsx3.util.Timer(Template.jsxclass, objClass, 4);
+/* @JSC :: end */
+
       var a = [];
 
       //tell the template to unregister the class if previously registered
@@ -468,7 +480,13 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
       a.push(strPrototypeName + ".onbeforeresizechild = " + objClass.prototype.onbeforeresizechild);
 
       //join the code and do a bit of cleanup (remove the word 'anonymous')
-      return ("(function(" + strClassName + "," + strPrototypeName + ") {\n\n" + a.join(";\n\n") + ";\n\n})(" + strClassName + "," + strPrototypeName + ");").replace(/function anonymous/gi,"function");
+      var rv = ("(function(" + strClassName + "," + strPrototypeName + ") {\n\n" + a.join(";\n\n") + ";\n\n})(" + strClassName + "," + strPrototypeName + ");").replace(/function anonymous/gi,"function");
+
+/* @JSC :: begin BENCH */
+      t1.log("precompile");
+/* @JSC :: end */
+
+      return rv;
     }
   };
 
@@ -483,6 +501,9 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    * @see jsx3.gui.Template.Block
    */
   Template.compile = function(Markup,objClass,bCache) {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer(Template.jsxclass, objClass);
+/* @JSC :: end */
 
     if(!(objClass instanceof jsx3.lang.Class))
       //TODO: need to go through and localize all 'error' and 'throw' messages
@@ -511,6 +532,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
       if(bCache)
         jsx3.getSharedCache().setDocument(objClass.getName()+"_1_XML",objDoc.cloneDocument());
 
+/* @JSC :: begin BENCH */
+      var t2 = new jsx3.util.Timer(Template.jsxclass, objClass, 5);
+/* @JSC :: end */
+
       //preprocess the XML (any browser-specific modifications that may be necessary)
       for(var p in Template._preprocessors)
         if(p != "jsxinlinebox")
@@ -520,12 +545,24 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
       if(bCache)
         jsx3.getSharedCache().setDocument(objClass.getName()+"_2_XML",objDoc);
 
+/* @JSC :: begin BENCH */
+      t2.log("compile.preprocessors");
+/* @JSC :: end */
+
       //step 1) load the imported resolvers
       objInstance._importResolverLibraries();
 
+/* @JSC :: begin BENCH */
+      t2.log("compile.import-resolvers");
+/* @JSC :: end */
+
       //Step 2) load the declared resolvers
-      var objResolverSet = Template.getResolverSet(objClass.getName(),true);
+      Template.getResolverSet(objClass.getName(),true);
       objInstance._addLocalResolvers();
+
+/* @JSC :: begin BENCH */
+      t2.log("compile.local-resolvers");
+/* @JSC :: end */
 
       //Step 3) parse the markup (this will inject 4 dynamically-created functions into the class that reflect the declarative markup)
       objInstance._parseMarkup();
@@ -533,6 +570,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
       LOG.error("The XHTML template markup used by the class, " + objClass + ", contains invalid XML and cannot be parsed (" + objDoc.getError().code + ") :\n" + objDoc.getError().description.replace(/<transform/,"\n<transform").replace("----","\n----"));
       throw new jsx3.Exception("invalid, malformed xml for declarative markup");
     }
+
+/* @JSC :: begin BENCH */
+    t1.log("compile");
+/* @JSC :: end */
   };
 
   
@@ -683,11 +724,11 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    *   onbeforepaint (if a String is returned, it will be used instead of calling paint), onbeforeresize (if false is returned, the resize is cancelled)
    * @private
    */
-  Template_prototype._parseEventHandler = function(strHandler,bSleep) {
-    var objNode = this._markup.selectSingleNode("/t:transform/t:template/@" + strHandler);
-    this._class.getConstructor().prototype[strHandler] = objNode == null ?
-      new Function(";"):
-      bSleep ? new Function("jsx3.sleep(function() { " + objNode.getValue() + "},this.getId(),this);") : new Function(objNode.getValue());
+  Template_prototype._parseEventHandler = function(strHandler, objNode, bSleep) {
+    var attrValue = objNode.getAttribute(strHandler);
+    this._class.getConstructor().prototype[strHandler] = attrValue == null ? new Function(";") : 
+        (bSleep ? new Function("jsx3.sleep(function() { " + attrValue + "},this.getId(),this);") : 
+            new Function(attrValue));
   };
 
   /**
@@ -695,6 +736,12 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    * @private
    */
   Template_prototype._parseMarkup = function() {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer(Template.jsxclass, this._class, 5);
+/* @JSC :: end */
+
+    var proto = this._class.getConstructor().prototype;
+    
     //establish whether or not the DM reflects a 'fluid' structure. when not set, it is assumed the dom is fixed and predictable, allowing
     //for fast resolution of which on-screen GUI element attaches to which model box
     var objRoot = this._markup.selectSingleNode("/t:transform/t:template");
@@ -702,14 +749,14 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
     this._class._JSXRECALC = objRoot.getAttribute("recalc") == "true";
     this._class._JSXTEMPLATE_INITED = true;
 
-    this._parseEventHandler("onbeforeinit");
-    this._parseEventHandler("oninit");
-    this._parseEventHandler("onbeforepaint");
+    this._parseEventHandler("onbeforeinit", objRoot);
+    this._parseEventHandler("oninit", objRoot);
+    this._parseEventHandler("onbeforepaint", objRoot);
     //add the paint event to the paint queue (this allows the GUI to paint/update, so the onpaint event fires at the correct time)
-    this._parseEventHandler("onpaint",true);
-    this._parseEventHandler("onbeforeresize");
-    this._parseEventHandler("onresize");
-    this._parseEventHandler("onbeforeresizechild");
+    this._parseEventHandler("onpaint", objRoot, true);
+    this._parseEventHandler("onbeforeresize", objRoot);
+    this._parseEventHandler("onresize", objRoot);
+    this._parseEventHandler("onbeforeresizechild", objRoot);
 
     //alias variables that will be obfuscated
     var _jsxdrawspace = "_jsxdrawspace";
@@ -747,27 +794,31 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
     //createBoxProfile
     functionBuilder.create.push("return " + _jsxboxprofile + ";");
     var strCreateBox = functionBuilder.create.join("\n");
-    var dynFn = this._class.getConstructor().prototype._createBoxProfile = new Function("_jsxdrawspace","_jsxpaintprofile",Template._wrapwithtrycatch(strCreateBox,"_createBoxProfile"));
+    var dynFn = proto._createBoxProfile = new Function("_jsxdrawspace","_jsxpaintprofile",Template._wrapwithtrycatch(strCreateBox,"_createBoxProfile"));
 
     //paint
     functionBuilder.paint.push("return _output.join('');");
     var strPaint = functionBuilder.paint.join("\n");
-    dynFn = this._class.getConstructor().prototype._paint = new Function("_jsxpaintprofile","_jsxboxprofile",Template._wrapwithtrycatch(strPaint,"_paint"));
+    dynFn = proto._paint = new Function("_jsxpaintprofile","_jsxboxprofile",Template._wrapwithtrycatch(strPaint,"_paint"));
 
     //close out the function and create the instance (this is the function that will be called upon to update the Box structure--cascading where necessary)
     Template._optimizeCompiledCode(functionBuilder.update);
-    dynFn = this._class.getConstructor().prototype._updateBoxProfileImpl = new Function("_jsxdrawspace","_jsxpaintprofile","_jsxupdatequeue","_jsxobjgui","_jsxforcecascade",Template._wrapwithtrycatch(functionBuilder.update.join("\n"),"_updateBoxProfileImpl"));
+    dynFn = proto._updateBoxProfileImpl = new Function("_jsxdrawspace","_jsxpaintprofile","_jsxupdatequeue","_jsxobjgui","_jsxforcecascade",Template._wrapwithtrycatch(functionBuilder.update.join("\n"),"_updateBoxProfileImpl"));
 
     //getClientDimensions
     Template._optimizeCompiledCode(functionBuilder.dimensions);
     functionBuilder.dimensions.push("return jsx3.gui.Template.getEmptyDrawspace();");
     var strDimensionsBox = functionBuilder.dimensions.join("\n");
-    dynFn = this._class.getConstructor().prototype._getClientDimensions = new Function("_jsxdrawspace","_jsxpaintprofile","_targetchild","_jsxboxprofile",Template._wrapwithtrycatch(strDimensionsBox,"_getClientDimensions"));
+    dynFn = proto._getClientDimensions = new Function("_jsxdrawspace","_jsxpaintprofile","_targetchild","_jsxboxprofile",Template._wrapwithtrycatch(strDimensionsBox,"_getClientDimensions"));
 
     //paintChild
     Template._optimizeCompiledCode(functionBuilder.paintchild);
     var strPaintChild = functionBuilder.paintchild.join("\n");
-    dynFn = this._class.getConstructor().prototype._paintChild = new Function("_targetchild","_jsxpaintprofile",Template._wrapwithtrycatch(strPaintChild,"_paintChild"));
+    dynFn = proto._paintChild = new Function("_targetchild","_jsxpaintprofile",Template._wrapwithtrycatch(strPaintChild,"_paintChild"));
+
+/* @JSC :: begin BENCH */
+    t1.log("compile.markup");
+/* @JSC :: end */
   };
 
 
@@ -782,6 +833,7 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    * @private
    */
   Template._optimizeCompiledCode = function(arrCode) {
+    // QUESTION: is this necessary? what is this doing?
     var myReg = /^var\s(\S*)\s=\s/;
     for(var i = arrCode.length -1;i>0; i--) {
       var itm = arrCode[i];
@@ -845,6 +897,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    * @private
    */
   Template_prototype._convertStatementNode = function(objNode,functionBuilder,intDepth,intMyChildIndex,strPath) {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer(Template.jsxclass, this._class, 5);
+/* @JSC :: end */
+
     var _targetchild = "_targetchild";
     var _jsxupdatequeue = "_jsxupdatequeue";
     var _jsxpaintprofile = "_jsxpaintprofile";
@@ -1000,6 +1056,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
         functionBuilder.dimensions.push(strClose);
       }
     }
+
+/* @JSC :: begin BENCH */
+    t1.log("compile.markup.csn");
+/* @JSC :: end */
   };
 
   
@@ -1027,6 +1087,10 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
    * @private
    */
   Template_prototype._convertBoxNode = function(objNode,functionBuilder,intDepth,intMyChildIndex,strPath,strForEachCounterName) {
+/* @JSC :: begin BENCH */
+    var t1 = new jsx3.util.Timer(Template.jsxclass, this._class, 5);
+/* @JSC :: end */
+
     var _jsxforcecascade = "_jsxforcecascade";
     var _jsxboxprofile = "_jsxboxprofile";
     var _jsxpaintprofile = "_jsxpaintprofile";
@@ -1198,6 +1262,11 @@ jsx3.Class.defineClass("jsx3.gui.Template", null, null, function(Template, Templ
 
     //paint the closing html tag
     functionBuilder.paint.push("_output.push(" + _jsxboxprofile + "[\"" + strRBoxId + "\"]." + paintClose + "());");
+
+/* @JSC :: begin BENCH */
+    if (intDepth == 0)
+      t1.log("compile.markup.cbn");
+/* @JSC :: end */
   };
 
 
