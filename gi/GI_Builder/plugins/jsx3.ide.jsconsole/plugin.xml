@@ -11,6 +11,7 @@
     <plugin id="jsx3.ide.ui"/>
     <plugin id="jsx3.gui.Block"/>
     <plugin id="jsx3.gui.Template"/>
+    <plugin id="jsx3.xml.Cacheable"/>
   </requires>
 
   <resources>
@@ -18,7 +19,10 @@
       <prereq id="Console"/>
     </xml>
     <xml id="menu" path="menu.xml"/>
-    <script id="Console" path="scripts/Console.js" eval="true"/>
+    <xml id="console_xml" path="templates/console.xml"/>
+    <script id="Console" path="scripts/Console.js" eval="true">
+      <prereq id="console_xml"/>
+    </script>
     <css id="jsConsole_css" path="css/jsconsole.css"/>
   </resources>
 

@@ -45,8 +45,6 @@
     }
   };
 
-  jsx3.require("jsx3.gui.Template","jsx3.xml.Cacheable","jsx3.xml.CDF");
-
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.Util", null, null, function(Util) {
 
     Util.getInnerText = function(objElm) {
@@ -155,34 +153,17 @@
       }
     };
 
-    Util.prettyXSL = (new jsx3.xml.XslDocument()).load(jsx3.resolveURI("jsx:///xsl/xml.xsl"));
-
     Util.injectedAPI = {
         $     : function(id) { return document.getElementById(id) },
         $$    : function() { if(document.querySelectorAll) return document.querySelectorAll.apply(document, arguments) },
         $x    : function(xpath, contextNode) {if(document.evaluate) return Util.getElementsByXPath(xpath, contextNode);},
         keys  : function(o) { var a = []; for (k in o) a.push(k); return a; }, 
-        values: function(o) { var a = []; for (k in o) try {a.push(o[k])} catch(e) {}; return a; },
-        prettyXML : function(strXML) {
-          return (new jsx3.ide.jsconsole.PrettyXML(strXML));
-        }
+        values: function(o) { var a = []; for (k in o) try {a.push(o[k])} catch(e) {}; return a; }
     };
 
   });
 
   var Util = jsx3.ide.jsconsole.Util;
-
-  jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.PrettyXML", null, null, function(KLASS, instance) {
-
-    instance.init = function(strXML) {
-        this.objXML = new jsx3.xml.Document();
-        this.objXML.loadXML(strXML);
-    };
-
-    instance.toHTML = function() {
-      return Util.prettyXSL.transform(this.objXML);
-    };
-  });
 
   jsx3.lang.Class.defineClass("jsx3.ide.jsconsole.Command", null, null, function(KLASS, instance) {
 
@@ -278,15 +259,11 @@
       var type = Util.getType(response);
       var span = document.createElement("span");
       
-      if(type == "giobject" && response.instanceOf(jsx3.ide.jsconsole.PrettyXML)) {
-        span.className = "jsconsole-formatted-pretty-xml";
-        span.innerHTML = response.toHTML();
-      } else {
-        span.className = "jsconsole-formatted-" + type;
-        method = "_format" + type.substring(0,1).toUpperCase() + type.substring(1);
-        formatter = this[method] ? method : "_formatValue";
-        this[formatter](response, span);        
-      }
+      span.className = "jsconsole-formatted-" + type;
+      var method = "_format" + type.substring(0,1).toUpperCase() + type.substring(1);
+      var formatter = this[method] ? method : "_formatValue";
+      this[formatter](response, span);        
+
       return span;
     };
 
@@ -629,15 +606,12 @@
         this._historyOffset = 0
       };
 
-      instance.loadTemplate = function(templateName) {
-        var server = plugIn.getServer();   
-        var klass = this.getClass().getConstructor();
-        var TEMPLATE_XML = server.loadInclude(KLASS.TEMPLATE_PATH + templateName + ".xml", templateName, "xml").toString();
-        jsx3.gui.Template.compile(TEMPLATE_XML, this.getClass());
+      instance.loadTemplate = function() {
+        var templateXML = plugIn.getResource("console_xml").getData();
+        jsx3.gui.Template.compile(templateXML, this.getClass());
         this.getTemplateXML = function() {
-            return TEMPLATE_XML;
+            return templateXML;
         };
-        return TEMPLATE_XML;
       };
 
       instance.onAfterPaint = function() {
@@ -782,7 +756,7 @@
          this.destroyMessageObjects();
       };
 
-      instance.loadTemplate("console");
+      instance.loadTemplate();
 
     }
   );
