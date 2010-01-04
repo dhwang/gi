@@ -248,7 +248,10 @@ jsx3.Class.defineClass("jsx3.gui.Dialog", jsx3.gui.Block, [jsx3.gui.Alerts], fun
    };
 
   /**
-   * Applies focus to the caption bar if the dialog has one; otherwise the dialog is given focus.
+   * Applies focus to the caption bar if the dialog has one, otherwise the dialog is given focus. This method places
+   * this dialog in front of all other dialogs. If this dialog is minimized in a task bar then this method will 
+   * un-minimize it. 
+   * 
    * @param-private bTimeout {boolean}
    */
   Dialog_prototype.focus = function(bTimeout) {
