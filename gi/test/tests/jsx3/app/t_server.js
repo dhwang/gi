@@ -30,6 +30,20 @@ gi.test.jsunit.defineTests("jsx3.app.Server", function(t, jsunit) {
     jsunit.assertUndefined(gi.test.app1);
   };
 
+  t.testGetEnv = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".", null, {testkey:"testvalue"});
+
+    jsunit.assertEquals("testvalue", s.getEnv("testkey"));
+    jsunit.assertEquals("testvalue", s.getEnv("TestKey"));
+  };
+  
+  t.testGetEnvCase = function() {
+    var s = t._server = t.newServer("data/server1.xml", ".", null, {TestKey:"testvalue"});
+
+    jsunit.assertEquals("testvalue", s.getEnv("testkey"));
+    jsunit.assertEquals("testvalue", s.getEnv("TestKey"));
+  };
+  
 //  t.testGetAppPath = function() {
 //    // TODO:
 //  };

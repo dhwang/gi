@@ -23,6 +23,20 @@ gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
     jsunit.assertEquals(5, jsx3.eval("x + y", {x:2, y:3, "function":1, "var":1, "eval":1}));
   };
   
+  t.testSetEnv = function() {
+    jsx3.setEnv("testkey", "testvalue");
+  };
+  
+  t.testGetEnv = function() {
+    jsx3.setEnv("testkey", "testvalue");
+    jsx3.setEnv("TestKey2", "testvalue2");
+    
+    jsunit.assertEquals("testvalue", jsx3.getEnv("testkey"));
+    jsunit.assertEquals("testvalue", jsx3.getEnv("TestKey"));
+    jsunit.assertEquals("testvalue2", jsx3.getEnv("TestKey2"));
+    jsunit.assertEquals("testvalue2", jsx3.getEnv("testkey2"));
+  };
+  
   t.testSharedCache = function() {
     var c = jsx3.getSharedCache();
     jsunit.assertInstanceOf(c, jsx3.app.Cache);

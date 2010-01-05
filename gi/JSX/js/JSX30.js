@@ -2513,9 +2513,9 @@ window['jsx_main'] = function() {
     var params = getUrlParameters(objScript.src);
     var attrs = objScript.attributes;
     for (var i = 0; i < attrs.length; i++) {
-      if (!scriptAttributes[attrs[i].nodeName]) {
-        params[attrs[i].nodeName] = attrs[i].nodeValue;
-      }
+      var key = attrs[i].nodeName.toLowerCase(); // lower case so that comparison below on "jsx" is correct
+      if (!scriptAttributes[key])
+        params[key] = attrs[i].nodeValue;
     }
 
     for (var f in params) {
