@@ -7,6 +7,22 @@ gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
 
   jsunit.require("jsx3.jsxpackage", "jsx3.app.Cache", "jsx3.lang.System");
 
+  t.testEval = function() {
+    jsunit.assertEquals(5, jsx3.eval("2 + 3"));
+  };
+  
+  t.testEvalParams = function() {
+    jsunit.assertEquals(5, jsx3.eval("x + y", {x:2, y:3}));
+  };
+  
+  t.testEvalBadParam = function() {
+    jsunit.assertEquals(5, jsx3.eval("x + y", {x:2, y:3, " not a js name ":5}));
+  };
+  
+  t.testEvalReservedWordParam = function() {
+    jsunit.assertEquals(5, jsx3.eval("x + y", {x:2, y:3, "function":1, "var":1, "eval":1}));
+  };
+  
   t.testSharedCache = function() {
     var c = jsx3.getSharedCache();
     jsunit.assertInstanceOf(c, jsx3.app.Cache);
