@@ -46,8 +46,7 @@ var LDAPConfig = exports.LDAPConfig = Class({
 			authEnv.put(javax.naming.Context.SECURITY_PRINCIPAL, dn);
 			print("password" + password);
 			authEnv.put(javax.naming.Context.SECURITY_CREDENTIALS, password);
-			this.contexts[dn] = new javax.naming.directory.InitialDirContext(authEnv);
-			return this.contexts[dn];
+			return new javax.naming.directory.InitialDirContext(authEnv);
 		},
 
 		"getBaseUserDN": function(){
