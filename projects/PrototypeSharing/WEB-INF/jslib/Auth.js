@@ -26,7 +26,7 @@ security.authenticate = function(username, password){
 		return {uid:username,isAdmin:true};
 	}
 	var context = LDAPConfig.getContext(username, password);
-	var attr = LDAPConfig.getAllAttributes(LDAPConfig.getUserDN(username), null);
+	var attr = LDAPConfig.getAllAttributes(LDAPConfig.getUserDN(username), context);
 	// copy over all the ldap props, except pass
 	var user = {};
 	while (attr.hasMoreElements()){
