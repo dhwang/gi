@@ -608,7 +608,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               <object type="jsx3.gui.ToolbarButton">
                 <variants jsxdivider="1"/>
                 <strings jsxname="toolBarBtn" jsximage="jsxapp:/images/icon_15.gif" jsxtip="Refresh the list of prototypes"/>
-                <events jsxexecute="palette.getPlugIn().reloadUserLibraries(ide_component_libs_user_tree);"/>
+                <events jsxexecute="palette.getPlugIn().reloadUserLibraries(ide_component_libs_user_tree);palette._onUserChange(ide_component_libs_user_tree);"/>
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
@@ -694,7 +694,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                             <dynamics jsxborder="@No jsxborder"/>
                             <object type="jsx3.gui.Block">
                               <variants jsxrelativeposition="1"/>
-                              <strings jsxname="text" jsxtext="Create Account" jsxdisplay=""/>
+                              <strings jsxname="text" jsxtext="&lt;a href=&quot;http://www.generalinterface.org/alias/signup&quot; target=&quot;_blank&quot;&gt;Create Account&lt;/a&gt;" jsxdisplay=""/>
                               <dynamics jsxcursor="@Hand"/>
                             </object>
                           </object>
