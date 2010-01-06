@@ -20,7 +20,7 @@ gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
   };
   
   t.testEvalReservedWordParam = function() {
-    jsunit.assertEquals(5, jsx3.eval("x + y", {x:2, y:3, "function":1, "var":1, "eval":1}));
+    jsunit.assertEquals(5, jsx3.eval("x + y", {x:2, y:3, "function":1, "var":1}));
   };
   
   t.testSetEnv = function() {
