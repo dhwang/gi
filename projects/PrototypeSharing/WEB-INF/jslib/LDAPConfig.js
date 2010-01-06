@@ -39,15 +39,6 @@ var LDAPConfig = exports.LDAPConfig = Class({
 
 			var ldapURL = this.ldapURL;
 
-			if (!this.contexts){
-				this.contexts={};
-			}
-
-			if (this.contexts[dn]){
-				print("Returning existing context");
-				return this.contexts[dn];
-			}
-	
 			print("getLdapContext: ", dn, ldapURL);
 			authEnv.put(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 			authEnv.put(javax.naming.Context.PROVIDER_URL, ldapURL);
@@ -70,16 +61,10 @@ var LDAPConfig = exports.LDAPConfig = Class({
 		},
 
 		"getAllAttributes": function(dn, context){
-			if (!context){
-				context = this.getContext();
-			}
        			return context.getAttributes(dn).getAll();
 		},
 
 		"getAllGroups": function(context){
-			if (!context){
-				context = this.getContext();
-			}
 			var sc = new javax.naming.directory.SearchControls();
 			sc.setReturningAttributes(this.groupAttributes);
 			sc.setSearchScope(javax.naming.directory.SearchControls.SUBTREE_SCOPE);	
