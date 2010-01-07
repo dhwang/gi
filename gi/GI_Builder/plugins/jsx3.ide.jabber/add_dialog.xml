@@ -9,7 +9,7 @@ objJSX.getJID = function(){
 }
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="399" jsxheight="133" jsxzindex="5015" jsxwindowstate="1" jsxresize="0" jsxmodal="1" jsxleft="66" jsxtop="103"/>
+    <variants jsxwidth="399" jsxheight="133" jsxwindowstate="1" jsxresize="0" jsxmodal="1" jsxleft="66" jsxtop="103"/>
     <strings jsxname="jsx_xmpp_add_dialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">

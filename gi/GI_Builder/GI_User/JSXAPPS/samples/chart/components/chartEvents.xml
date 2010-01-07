@@ -26,38 +26,38 @@ JSX version: 3.4.0&lt;/p&gt;
      <variants jsxoverflow="1"/>
      <strings jsxname="blockApp" jsxwidth="100%" jsxheight="100%"/>
       <object type="jsx3.chart.PieChart">
-       <variants jsxleft="10" jsxtop="10" jsxwidth="250" jsxheight="165" jsxzindex="1" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="0" loadState="1" seriesPadding="0.1" totalAngle="360" startAngle="0"/>
-       <strings jsxdisplay="" jsxvisibility="" jsxname="majorCategories" titlePlacement="top" legendPlacement="right" dataPadding="10" borderColor="#999999" categoryField="jsxtext" colorFunction="eg.chart.pieColoring" seriesStroke="#666666" jsxbgcolor="#FFFFFF" jsxxmlurl="xml/drilldown.xml"/>
+       <variants jsxleft="10" jsxtop="10" jsxwidth="250" jsxheight="165" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="0" loadState="1" seriesPadding="0.1" totalAngle="360" startAngle="0"/>
+       <strings jsxname="majorCategories" titlePlacement="top" legendPlacement="right" dataPadding="10" borderColor="#999999" categoryField="jsxtext" colorFunction="eg.chart.pieColoring" seriesStroke="#666666" jsxbgcolor="#FFFFFF" jsxxmlurl="xml/drilldown.xml"/>
         <object type="jsx3.chart.ChartLabel">
-         <variants jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="16" jsxzindex="1000" labelRotation="0" jsxfontsize="12" preferredHeight="16"/>
-         <strings jsxdisplay="" jsxvisibility="" jsxname="title" jsxtext="Major Categories" jsxpadding="2 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+         <variants jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="16" labelRotation="0" jsxfontsize="12" preferredHeight="16"/>
+         <strings jsxname="title" jsxtext="Major Categories" jsxpadding="2 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
         </object>
         <object type="jsx3.chart.PieSeries">
-         <variants jsxleft="0" jsxtop="0" jsxwidth="118" jsxheight="127" jsxzindex="21" usePrimaryX="1" usePrimaryY="1" index="0"/>
-         <strings jsxdisplay="" jsxvisibility="" jsxname="series1" seriesName="Series 1" field="jsxvalue"/>
+         <variants jsxleft="0" jsxtop="0" jsxwidth="118" jsxheight="127" usePrimaryX="1" usePrimaryY="1" index="0"/>
+         <strings jsxname="series1" seriesName="Series 1" field="jsxvalue"/>
          <events jsxselect="eg.chart.doDrillDown(this.getChart(), strRECORDID);" jsxspy="eg.chart.pieSpy(this.getChart(), strRECORDID);"/>
         </object>
         <object type="jsx3.chart.Legend">
-         <variants boxHeight="10" lineHeight="16" titleSpace="8" boxSpace="6" jsxleft="138" jsxtop="16" jsxwidth="110" jsxheight="147" jsxzindex="990" preferredWidth="110"/>
-         <strings jsxvisibility="" jsxname="legend" labelStyle="font-size: 10px;" backgroundFill="" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+         <variants boxHeight="10" lineHeight="16" titleSpace="8" boxSpace="6" jsxleft="138" jsxtop="16" jsxwidth="110" jsxheight="147" preferredWidth="110"/>
+         <strings jsxname="legend" labelStyle="font-size: 10px;" backgroundFill="" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
          <events jsxselect="eg.chart.doDrillDown(this.getChart(), strRECORDID);" jsxspy="eg.chart.legendSpy(this.getChart(), strRECORDID);"/>
         </object>
       </object>
       <object type="jsx3.chart.PieChart">
-       <variants jsxleft="10" jsxtop="190" jsxwidth="250" jsxheight="165" jsxzindex="1" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="0" loadState="1" innerRadius="0" seriesPadding="0.1" totalAngle="360" startAngle="0"/>
-       <strings jsxdisplay="" jsxvisibility="" jsxname="minorCategories" titlePlacement="top" legendPlacement="right" dataPadding="10" borderColor="#999999" categoryField="jsxtext" colorFunction="eg.chart.pieColoring" seriesStroke="#666666" jsxbgcolor="#FFFFFF"/>
+       <variants jsxleft="10" jsxtop="190" jsxwidth="250" jsxheight="165" borderWidth="1" borderAlpha="1" alpha="1" jsxrelativeposition="0" loadState="1" innerRadius="0" seriesPadding="0.1" totalAngle="360" startAngle="0"/>
+       <strings jsxname="minorCategories" titlePlacement="top" legendPlacement="right" dataPadding="10" borderColor="#999999" categoryField="jsxtext" colorFunction="eg.chart.pieColoring" seriesStroke="#666666" jsxbgcolor="#FFFFFF"/>
         <object type="jsx3.chart.ChartLabel">
-         <variants jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="16" jsxzindex="1000" labelRotation="0" jsxfontsize="12" preferredHeight="16"/>
-         <strings jsxdisplay="" jsxvisibility="" jsxname="title" jsxtext="Minor Categories" jsxpadding="2 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
+         <variants jsxleft="0" jsxtop="0" jsxwidth="248" jsxheight="16" labelRotation="0" jsxfontsize="12" preferredHeight="16"/>
+         <strings jsxname="title" jsxtext="Minor Categories" jsxpadding="2 0 0 0" jsxfontname="Arial" jsxfontweight="bold" jsxtextalign="center"/>
         </object>
         <object type="jsx3.chart.PieSeries">
-         <variants jsxleft="0" jsxtop="0" jsxwidth="118" jsxheight="127" jsxzindex="21" usePrimaryX="1" usePrimaryY="1" index="0"/>
-         <strings jsxdisplay="" jsxvisibility="" jsxname="series2" seriesName="Series 2" field="jsxvalue"/>
+         <variants jsxleft="0" jsxtop="0" jsxwidth="118" jsxheight="127" usePrimaryX="1" usePrimaryY="1" index="0"/>
+         <strings jsxname="series2" seriesName="Series 2" field="jsxvalue"/>
          <events jsxspy="eg.chart.pieSpy(this.getChart(), strRECORDID);"/>
         </object>
         <object type="jsx3.chart.Legend">
-         <variants boxHeight="10" lineHeight="16" titleSpace="8" boxSpace="6" jsxleft="138" jsxtop="16" jsxwidth="110" jsxheight="147" jsxzindex="990" preferredWidth="110"/>
-         <strings jsxdisplay="" jsxvisibility="" jsxname="legend" labelStyle="font-size: 10px;" backgroundFill="" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
+         <variants boxHeight="10" lineHeight="16" titleSpace="8" boxSpace="6" jsxleft="138" jsxtop="16" jsxwidth="110" jsxheight="147" preferredWidth="110"/>
+         <strings jsxname="legend" labelStyle="font-size: 10px;" backgroundFill="" backgroundStroke="#BBBBBB" jsxmargin="10 10 10 4" jsxpadding="4 4 0 4"/>
         </object>
       </object>
     </object>

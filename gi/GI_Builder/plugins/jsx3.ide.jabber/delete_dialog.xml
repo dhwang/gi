@@ -19,7 +19,7 @@ objJSX.getJID = function() {
 };
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="326" jsxheight="101" jsxzindex="5007" jsxwindowstate="1" jsxmodal="1" jsxleft="147" jsxtop="76"/>
+    <variants jsxwidth="326" jsxheight="101" jsxwindowstate="1" jsxmodal="1" jsxleft="147" jsxtop="76"/>
     <strings jsxname="jsx_xmpp_delete_dialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">
@@ -38,7 +38,7 @@ objJSX.getJID = function() {
       <dynamics jsxpadding="@8Pixel"/>
       <object type="jsx3.gui.LayoutGrid">
         <variants jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-        <strings jsxname="layoutRows" jsxrows="30,30" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+        <strings jsxname="layoutRows" jsxrows="30,30" jsxwidth="100%" jsxheight="100%"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2"/>
           <strings jsxname="nick_block" jsxwidth="100%" jsxheight="100%" jsxtext="Really delete username from your roster?"/>

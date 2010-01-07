@@ -40,7 +40,7 @@ objJSX.registerHotKey('doCancel', '.', false, true, false);
     <object type="jsx3.gui.Dialog">
       <dynamics jsxbgcolor="@Solid Disabled" />
       <variants jsxwidth="300" jsxheight="145" jsxmodal="1" jsxresize="0" jsxoverflow="2"/>
-      <strings jsxname="jsx_dialog_prompt" jsxvisibility="" />
+      <strings jsxname="jsx_dialog_prompt" />
         <object type="jsx3.gui.WindowBar">
           <variants />
           <strings jsxname="title" jsxtext="Prompt" />

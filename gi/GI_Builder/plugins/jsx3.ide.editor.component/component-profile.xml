@@ -104,7 +104,7 @@ objJSX.onShowMe = function() {
       <object type="jsx3.gui.LayoutGrid">
         <dynamics jsxbgcolor="@Solid Medium"/>
         <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-        <strings jsxname="mylayout" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxrows="25,125,*,*"/>
+        <strings jsxname="mylayout" jsxwidth="100%" jsxheight="100%" jsxrows="25,125,*,*"/>
         <object type="jsx3.gui.Block">
           <dynamics jsxtext="_edit_profile_title"/>
           <variants jsxoverflow="1" jsxfontsize="14"/>

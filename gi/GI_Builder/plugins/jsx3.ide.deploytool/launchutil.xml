@@ -90,7 +90,7 @@ objJSX.onHelp = function() {
      <variants selectedIndex="2" jsxselectedindex="2" jsxloadtype="1"/>
      <strings jsxname="tabbedpane" jsxtextalign="0"/>
       <object type="jsx3.gui.Tab">
-       <variants jsxindex="0" jsxzindex="3" jsxheight="18"/>
+       <variants jsxindex="0" jsxheight="18"/>
        <strings jsxname="tab" jsxtext="HTML Page" jsxbgcolor="#d8d8e5" jsxhelpid="ide.launchutil.page"/>
         <object type="jsx3.gui.Block">
          <dynamics jsxbgcolor="@Solid Medium" jsxpadding="@8Pixel"/>
@@ -151,7 +151,7 @@ objJSX.onHelp = function() {
         </object>
       </object>
       <object type="jsx3.gui.Tab">
-       <variants jsxindex="0" jsxzindex="3" jsxheight="18"/>
+       <variants jsxindex="0" jsxheight="18"/>
        <strings jsxname="tab" jsxtext="Launch Link" jsxbgcolor="#d8d8e5" jsxhelpid="ide.launchutil.link"/>
         <object type="jsx3.gui.Block">
          <dynamics jsxbgcolor="@Solid Medium" jsxpadding="@8Pixel"/>
@@ -188,12 +188,12 @@ objJSX.onHelp = function() {
         </object>
       </object>
       <object type="jsx3.gui.Tab">
-       <variants jsxindex="0" jsxzindex="3" jsxheight="20"/>
+       <variants jsxindex="0" jsxheight="20"/>
        <strings jsxname="tab" jsxtext="Inline DIV" jsxbgcolor="#e8e8f5" jsxhelpid="ide.launchutil.div"/>
         <object type="jsx3.gui.Block">
          <dynamics jsxbgcolor="@Solid Medium" jsxpadding="@8Pixel"/>
          <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-         <strings jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+         <strings jsxwidth="100%" jsxheight="100%"/>
           <object type="jsx3.gui.LayoutGrid">
            <variants jsxrelativeposition="1" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
            <strings jsxwidth="100%" jsxheight="100%" jsxrows="95,*,25"/>

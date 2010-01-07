@@ -20,7 +20,7 @@ objJSX.registerHotKey('doCancel', '.', false, true, false);
   <object type="jsx3.gui.Dialog">
     <dynamics jsxbgcolor="@Solid Medium"/>
     <variants jsxwidth="300" jsxheight="145" jsxmodal="1" jsxresize="0"/>
-    <strings jsxname="jsx_dialog_confirm" jsxvisibility=""/>
+    <strings jsxname="jsx_dialog_confirm"/>
     <object type="jsx3.gui.WindowBar">
       <variants/>
       <strings jsxname="title" jsxtext="Confirm"/>

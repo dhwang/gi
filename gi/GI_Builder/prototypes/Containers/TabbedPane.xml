@@ -10,16 +10,16 @@
     <variants selectedIndex="2" jsxselectedindex="0"/>
     <strings jsxname="tabbedpane" jsxtextalign="0"/>
     <object type="jsx3.gui.Tab">
-      <variants jsxzindex="3" jsxheight="20"/>
+      <variants jsxheight="20"/>
       <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
       <object type="jsx3.gui.Block">
         <dynamics jsxbgcolor="@Solid Medium"/>
         <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
       </object>
     </object>
     <object type="jsx3.gui.Tab">
-      <variants jsxzindex="3" jsxheight="18"/>
+      <variants jsxheight="18"/>
       <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
       <object type="jsx3.gui.Block">
         <dynamics jsxbgcolor="@Solid Medium"/>
@@ -28,7 +28,7 @@
       </object>
     </object>
     <object type="jsx3.gui.Tab">
-      <variants jsxzindex="3" jsxheight="18"/>
+      <variants jsxheight="18"/>
       <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
       <object type="jsx3.gui.Block">
         <dynamics jsxbgcolor="@Solid Medium"/>

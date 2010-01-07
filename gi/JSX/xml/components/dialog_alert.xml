@@ -27,7 +27,7 @@ objJSX.registerHotKey('onEnter', 13, false, false, false); // enter
   <object type="jsx3.gui.Dialog">
     <dynamics jsxbgcolor="@Solid Medium"/>
     <variants jsxwidth="300" jsxheight="145" jsxmodal="1" jsxresize="0"/>
-    <strings jsxname="jsx_dialog_alert" jsxvisibility=""/>
+    <strings jsxname="jsx_dialog_alert"/>
     <object type="jsx3.gui.WindowBar">
       <variants/>
       <strings jsxname="title" jsxtext="Alert"/>

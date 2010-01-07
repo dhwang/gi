@@ -14,7 +14,7 @@
         jsxpadding="2" jsxcellpadding="2" jsxpath="jsxvalue"/>
     <object type="jsx3.gui.Block">
       <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Dashed"/>
-      <variants jsxwidth="200" jsxheight="25" jsxzindex="1"/>
+      <variants jsxwidth="200" jsxheight="25"/>
       <strings jsxname="block" jsxpadding="5"/>
       <object type="jsx3.gui.Slider">
         <variants jsxvalue="0" jsxrelativeposition="1" jsxorientation="0"/>

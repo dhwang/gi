@@ -134,7 +134,7 @@ objJSX._updateBtnState = function(msg) {
 
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="431" jsxheight="318" jsxzindex="5009" jsxwindowstate="1" jsxleft="70" jsxtop="26"/>
+    <variants jsxwidth="431" jsxheight="318" jsxwindowstate="1" jsxleft="70" jsxtop="26"/>
     <strings jsxname="jsx_chat_dialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">

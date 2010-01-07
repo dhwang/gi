@@ -8,7 +8,7 @@
  <onAfterDeserialize><![CDATA[]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
    <dynamics jsxbgcolor="@Solid Medium"/>
-   <variants jsxzindex="5001" jsxwindowstate="1" jsxminx="650" jsxminy="300"/>
+   <variants jsxwindowstate="1" jsxminx="650" jsxminy="300"/>
    <strings jsxname="dialog" jsxwidth="650" jsxheight="300" jsxhelpid="ide.mapper.tester"/>
     <properties onmousedown="var objJSX = jsx3.GO(this.id);if(!objJSX.isFront()) objJSX.getDescendantsOfType(jsx3.ide.mapper.ServiceTest)[0].onRestore();"/>
     <object type="jsx3.gui.WindowBar">
@@ -89,17 +89,17 @@
              <variants jsxselectedindex="0" tabHeight="24" jsxindex="0" jsxrelativeposition="0" jsxshowtabs="0"/>
              <strings jsxname="jsx_schema_tpsoaptester" jsxwidth="100%" jsxheight="100%"/>
               <object type="jsx3.gui.Tab">
-               <variants jsxheight="20" jsxzindex="4" jsxtabIndex="0" jsxindex="0"/>
+               <variants jsxheight="20" jsxtabIndex="0" jsxindex="0"/>
                <strings jsxname="jsx_schema_jsx_schema_taboutboundmapping" jsxtext="Outbound Mappings &amp;rarr;&amp;#160;" jsxbgcolor="#e8e8f5"/>
                 <object type="jsx3.gui.Block">
                  <dynamics jsxbgcolor="@Solid Medium"/>
                  <variants jsxoverflow="1" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                 <strings jsxname="jsx_schema_jsx_schema_taboutboundmappingContent" jsxwidth="100%" jsxheight="100%" jsxdisplay=""/>
+                 <strings jsxname="jsx_schema_jsx_schema_taboutboundmappingContent" jsxwidth="100%" jsxheight="100%"/>
                   <include src="components/ServiceTest/panel1.xml" async="true"/>
                 </object>
               </object>
               <object type="jsx3.gui.Tab">
-               <variants jsxheight="18" jsxzindex="4" jsxtabIndex="1" jsxindex="0"/>
+               <variants jsxheight="18" jsxtabIndex="1" jsxindex="0"/>
                <strings jsxname="jsx_schema_taboutbound" jsxtext="Outbound Message  &amp;rarr;&amp;#160;" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                  <dynamics jsxbgcolor="@Solid Medium"/>
@@ -109,7 +109,7 @@
                 </object>
               </object>
               <object type="jsx3.gui.Tab">
-               <variants jsxheight="18" jsxzindex="4" jsxtabIndex="2" jsxindex="0"/>
+               <variants jsxheight="18" jsxtabIndex="2" jsxindex="0"/>
                <strings jsxname="jsx_schema_tabinbound" jsxtext="Inbound Message &amp;rarr;&amp;#160;" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                  <dynamics jsxbgcolor="@Solid Medium"/>
@@ -119,7 +119,7 @@
                 </object>
               </object>
               <object type="jsx3.gui.Tab">
-               <variants jsxheight="18" jsxzindex="4" jsxtabIndex="3" jsxindex="0"/>
+               <variants jsxheight="18" jsxtabIndex="3" jsxindex="0"/>
                <strings jsxname="jsx_schema_jsx_schema_tabinboundmapping" jsxtext="Inbound Mappings &amp;rarr;" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                  <dynamics jsxbgcolor="@Solid Medium"/>

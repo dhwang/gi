@@ -32,7 +32,7 @@ objJSX.registerHotKey('_doCloseMe', 'w', false, false, true); // close on alt-w
     <object type="jsx3.gui.Dialog">
       <dynamics jsxbgcolor="@Solid Medium" />
       <variants jsxwidth="300" jsxheight="300" />
-      <strings jsxname="dialog" jsxvisibility="" />
+      <strings jsxname="dialog" />
       <events jsxaftermove="this.constrainPosition(); this.getManager()._afterDialogMove(this);" jsxafterresize="this.getManager()._afterDialogMove(this);"/>
         <object type="jsx3.gui.WindowBar">
           <variants />

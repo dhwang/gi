@@ -8,7 +8,7 @@
   <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
   <object type="jsx3.gui.Dialog">
     <dynamics jsxbgcolor="@Solid Medium"/>
-    <variants jsxwidth="431" jsxheight="318" jsxzindex="5100" jsxwindowstate="1"/>
+    <variants jsxwidth="431" jsxheight="318" jsxwindowstate="1"/>
     <strings jsxname="dialog"/>
     <object type="jsx3.gui.WindowBar">
       <strings jsxname="windowBar" jsxtext="[Caption]"/>

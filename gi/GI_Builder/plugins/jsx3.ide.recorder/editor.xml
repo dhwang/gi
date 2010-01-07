@@ -27,7 +27,7 @@ this.setGIPP = function(b) {
           <strings jsxname="mode_grid"/>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2"/>
-            <strings jsxheight="100%" jsxwidth="100%" jsxvisibility="" jsxdisplay=""/>
+            <strings jsxheight="100%" jsxwidth="100%"/>
             <dynamics jsxbgcolor="@Solid Medium"/>
             <object type="jsx3.gui.LayoutGrid">
               <variants jsxoverflow="2"/>

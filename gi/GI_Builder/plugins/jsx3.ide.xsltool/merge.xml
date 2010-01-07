@@ -144,7 +144,7 @@ objJSX.getMergeDocument = function(btn) {
 ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
    <dynamics jsxbgcolor="@Solid Medium"/>
-   <variants jsxwidth="750" jsxheight="475" jsxzindex="5004" jsxminx="720" jsxminy="475"/>
+   <variants jsxwidth="750" jsxheight="475" jsxminx="720" jsxminy="475"/>
    <strings jsxname="jsxdialog" jsxhelpid="ide.merge"/>
     <object type="jsx3.gui.WindowBar">
      <variants/>

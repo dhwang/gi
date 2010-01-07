@@ -15,7 +15,7 @@ objJSX.getNickname = function(){
 }
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="391" jsxheight="132" jsxzindex="5012" jsxwindowstate="1" jsxleft="61" jsxtop="27" jsxmodal="1"/>
+    <variants jsxwidth="391" jsxheight="132" jsxwindowstate="1" jsxleft="61" jsxtop="27" jsxmodal="1"/>
     <strings jsxname="jsx_xmpp_nick_dialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">
