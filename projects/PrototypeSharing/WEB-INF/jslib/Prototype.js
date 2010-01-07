@@ -36,7 +36,6 @@ var PrototypeClass = exports.PrototypeClass = Model("Prototype", prototypeStore,
 			var sql = prototypeStore.getWhereClause(query, options);
 
 			if(sql){
-				sql = sql.replace(/rating/, 'Prototype.rating');
 				(options.parameters || (options.parameters = [])).unshift(auth.currentUser && auth.currentUser.uid, false);
 				return prototypeStore.executeQuery(
 					"SELECT id, name, Prototype.rating as rating, ratingsCount, downloads, license_id, description, uploaded, enabled, Prototype.user as user, featured, status, Rating.rating as myRating FROM Prototype " +
