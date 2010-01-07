@@ -7,7 +7,7 @@
     <record jsxid="all" jsxtext="All" jsxgroupname="online_featured" />
     <record jsxid="featured" jsxtext="Featured" jsxselected="1" jsxgroupname="online_featured" />
     <record jsxid="rating" jsxtext="Rating" jsxdivider="1" jsxselected="1" jsxgroupname="online_right" />
-    <record jsxid="downloads" jsxtext="Popularity" jsxgroupname="online_right" />
+    <record jsxid="downloads" jsxtext="Downloads" jsxgroupname="online_right" />
     <record jsxid="user" jsxtext="User" jsxgroupname="online_right" />
     <record jsxid="uploaded" jsxtext="Upload Date" jsxgroupname="online_right" />
 </data>
