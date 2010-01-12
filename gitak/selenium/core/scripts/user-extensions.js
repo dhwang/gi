@@ -491,6 +491,9 @@ function Dialog_getRenderedDialog(objJSX) {
      }
    } 
  };
+ 
+
+
 /*
 Copyright 2006-2009 TIBCO Software, Inc
 
@@ -559,7 +562,7 @@ function triggerLeftMouseEvent(element, eventType, canBubble, objPos) {
     }
 
     canBubble = (!canBubble) ? true : canBubble;
-    if (element.fireEvent) {
+    if (element.fireEvent && element.ownerDocument && element.ownerDocument.createEventObject) { // IE
         var evt = element.ownerDocument.createEventObject();
         evt.clientY = clientY;
         evt.clientX = clientX;
@@ -615,7 +618,7 @@ function triggerRightMouseEvent(element, eventType, canBubble, objPos) {
     LOG.debug("right mouse event type = " + eventType);
     var screenX = 0;
     var screenY = 0;
-    if (element.fireEvent) {
+    if (element.fireEvent && element.ownerDocument && element.ownerDocument.createEventObject) { // IE
         var evt = element.ownerDocument.createEventObject();
         if (objPos && objPos.T) {
           LOG.debug("event pos T = " + objPos.T + " L=" +  objPos.L );
@@ -5139,7 +5142,3 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
       }
     }
 };
-    
- 
-
-
