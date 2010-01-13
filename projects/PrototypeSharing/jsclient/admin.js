@@ -90,6 +90,9 @@ dojo.addOnLoad(function(){
 			return "<hr /><div><span>Action: <span><span>" + entry.action + "</span></div>" +
 					"<div><span>Notes: <span><span>" + entry.notes + "</span></div>";
 		}).join("\n");
+		updateButtonsForComponent();
+	}
+	function updateButtonsForComponent(){
 		dojo.byId("accept-button").disabled = prototypeStore.getValue(selectedItem, "enabled") && status != "New"; 
 		dojo.byId("reject-button").disabled = status == "Rejected"; 
 		dojo.byId("feature-button").disabled = false;
@@ -140,6 +143,7 @@ dojo.addOnLoad(function(){
 					notes: info.notes
 				});
 				logStore.save(saveParameters);
+				updateButtonsForComponent();
 			});
 		}
 	});
@@ -156,6 +160,7 @@ dojo.addOnLoad(function(){
 					notes: info.notes
 				});
 				logStore.save(saveParameters);
+				updateButtonsForComponent();
 			});
 		}
 	});
@@ -175,6 +180,7 @@ dojo.addOnLoad(function(){
 					notes: info.notes
 				});
 				logStore.save(saveParameters);
+				updateButtonsForComponent();
 			});
 		}
 	});

@@ -33,8 +33,7 @@ function login(){
 	dojo.require("persevere.Login");
     var loginDialog = new persevere.Login({onLoginSuccess: function(){
 	    	alert("Logged in");
-	    	login = loginAgain;
-	    	loginDialog.destroy();
+	    	location.reload();
 	    },
 	    closable: false});
     
@@ -115,13 +114,51 @@ dojo.addOnLoad(function(){
 			}
 		});
 	});
-	
+	dojo.connect(dojo.byId("add-runtime-button"), "onclick", function(e){
+		dojo.stopEvent(e);
+		var runtimePath = prompt("Enter new GI runtime path:");
+		if(runtimePath){
+	        dojo.xhrPost({
+	        	url: "GIRuntime/",
+	        	headers:{"Accept":"application/json"},
+                postData: dojo.toJson({path: runtimePath}),
+                handleAs: "json"
+	        });
+	        addRuntimeOption({path: runtimePath});
+		}
+	});
+	dojo.connect(dojo.byId("remove-runtime-button"), "onclick", function(e){
+		dojo.stopEvent(e);
+		var confirmed = confirm("Are you sure you want to remove the runtime path " + dojo.byId("runtime-location-description").value + "?");
+		if(confirmed){
+	        dojo.xhrDelete({
+                url: "GIRuntime/" + runtimes[dojo.byId("runtime-location-description").value].id,
+	        	headers:{"Accept":"application/json"},
+                handleAs: "json"
+	        });
+		}
+	});
 	dojo.connect(dojo.byId("login"), "onclick", login);
 	dojo.connect(dojo.byId("filter-box-form"), "onsubmit", function(event){
 		componentGrid.setQuery("?fulltext('" + dojo.byId("filter-box").value.replace(/'/g,"\\'") + "')");
 		showcaseStore.save(saveParameters);
 		dojo.stopEvent(event);
 	});
+	var runtimes = {};
+	dojo.xhrGet({
+		url: "GIRuntime/",
+	    headers:{"Accept":"application/json"},
+		handleAs:"json"
+	}).addCallback(function(runtimes){
+		dojo.forEach(runtimes, addRuntimeOption);
+	});
+	var select = dojo.byId("runtime-location-description");
+	function addRuntimeOption(runtime){
+		runtimes[runtime.path] = runtime;
+		var option = select.appendChild(document.createElement("option"));
+		option.innerHTML = runtime.path;
+		option.value = runtime.path;
+	}
 });
 function dateFormatter(date){
 	return date && (date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear());

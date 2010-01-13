@@ -12,6 +12,7 @@ require("Rating");
 require("Auth");
 require("LDAPUser");
 require("showcase");
+require("gi-runtime");
 
 var defaultApp = require("jack/cascade").Cascade([ 
 		// cascade from static to pintura REST handling
