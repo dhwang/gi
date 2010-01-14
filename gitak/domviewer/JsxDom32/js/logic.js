@@ -121,7 +121,7 @@ jsx3.require('jsx3.gui.BlockX');
 
     jsxdom.doEval = function (objJSX) {
        try {
-        result = eval(objJSX.getServer().getJSXByName('txtScript').getValue()); 
+        result = jsx3.eval(objJSX.getServer().getJSXByName('txtScript').getValue()); 
         } catch (ex) {
           result = ex.message;
         }

@@ -123,7 +123,8 @@ var BrowserVersion = function() {
         this.browser = BrowserVersion.FIREFOX;
         this.isFirefox = true;
         this.isGecko = true;
-        var result = /.*Firefox\/([\d\.]+).*/.exec(navigator.userAgent);
+        var fxRegExp = new RegExp(".*Firefox\/([\d\.]+).*");
+        var result = fxRegExp.exec(navigator.userAgent);
         if (result) {
             this.firefoxVersion = result[1];
         }
