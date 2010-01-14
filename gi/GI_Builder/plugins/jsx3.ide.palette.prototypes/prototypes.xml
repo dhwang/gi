@@ -786,41 +786,40 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                         <strings jsxname="label" jsxtext="Description:" jsxwidth="100%"/>
                       </object>
                       <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="3" jsxheight="150"/>
-                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="0 0 20 0"/>
+                        <variants jsxoverflow="3" jsxheight="125"/>
+                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxmargin="0 0 8 0"/>
                         <object type="jsx3.gui.TextBox">
                           <variants jsxtype="1"/>
                           <strings jsxwidth="100%" jsxheight="100%" jsxname="upload_description" jsxvalue="Just a blue button"/>
                         </object>
                       </object>
                       <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="1" jsxheight="150"/>
-                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="8 20 8 8" jsxstyleoverride="overflow-y:auto;overflow-x:hidden;"/>
-                        <dynamics jsxborder="@Inset"/>
-                        <object type="jsx3.gui.Block">
-                          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"/>
-                          <strings jsxname="label" jsxtext="License Agreement" jsxfontweight="bold" jsxpadding="0 0 4 0"/>
-                        </object>
-                        <object type="jsx3.gui.Block">
-                          <variants/>
-                          <strings jsxname="text" jsxwidth="100%" jsxtext="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat."/>
-                        </object>
-                      </object>
-                      <object type="jsx3.gui.Block">
-                        <variants jsxoverflow="1" jsxheight="40"/>
-                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1" jsxpadding="20 0 0 0"/>
+                        <variants jsxoverflow="1" jsxheight="50"/>
+                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"/>
                         <object type="jsx3.gui.LayoutGrid">
-                          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                          <strings jsxname="layoutCols" jsxcols="*,100" jsxwidth="100%" jsxheight="100%"/>
+                          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"/>
+                          <strings jsxcols="20,*"/>
                           <object type="jsx3.gui.Block">
                             <variants jsxoverflow="2"/>
                             <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
                             <object type="jsx3.gui.CheckBox">
                               <variants jsxheight="18" jsxchecked="0" jsxdefaultchecked="0"/>
-                              <strings jsxname="upload_checkbox" jsxtext="I Agree" jsxmargin="0 4 0 0"/>
+                              <strings jsxname="upload_checkbox" jsxmargin="0 4 0 0"/>
                               <events jsxtoggle="upload_button_btn.setEnabled(intCHECKED, true);"/>
                             </object>
                           </object>
+                          <object type="jsx3.gui.Block">
+                            <strings jsxtext="I have read and agree to the &lt;a href=&quot;http://www.generalinterface.org/terms.html&quot; target=&quot;_blank&quot;&gt;GeneralInterface.org terms of service&lt;/a&gt;."/>
+                          </object>
+                        </object>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="1" jsxheight="20"/>
+                        <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"/>
+                        <object type="jsx3.gui.LayoutGrid">
+                          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+                          <strings jsxname="layoutCols" jsxcols="*,100" jsxwidth="100%" jsxheight="100%"/>
+                          <object type="jsx3.gui.Block"/>
                           <object type="jsx3.gui.Block">
                             <variants jsxoverflow="1"/>
                             <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
