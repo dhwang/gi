@@ -1,5 +1,5 @@
 /*
-Copyright 2006-2008 TIBCO Software Inc.
+Copyright 2006-2010 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -143,10 +143,10 @@ _jsxlookups.jsx3_gui_Matrix        = {
                                       },events:"click"}
 
                                       };
-_jsxlookups.jsx3_gui_MatrixColumn   = {
+_jsxlookups.jsx3_gui_MatrixColumn  = {
                                        undefined:{dom:"",events:"mousedown"}
                                       };
-_jsxlookups.jsx3_gui_Menu           = {
+_jsxlookups.jsx3_gui_Menu          = {
                                       undefined:{dom:function(objJSX) {
                                                       return objJSX.getRendered();
                                                     },events:"blur,focus,keydown,keypress,mouseover,mousedown,mouseout"},
@@ -255,35 +255,34 @@ _jsxlookups.jsx3_gui_TabbedPane    = {
                                       undefined:{dom:"",events:"mouseup"}
                                      };
 _jsxlookups.jsx3_gui_Table    = {
-                                      undefined:{dom:"",events:"mouseup,mousedown,mouseover,click,dblclick"},
-									  header: {dom:"",events:"mouseup"},
-                                      rows:{dom:function(objJSX) {
-                                                      return _jsxlookups.jsx3_gui_Table_getIterableRows(objJSX.getRendered());
+                                  undefined:{dom:"",events:"mouseup,mousedown,mouseover,click,dblclick"},
+                                  header: {dom:"",events:"mouseup"},
+                                  rows:{dom:function(objJSX) {
+                                              return _jsxlookups.jsx3_gui_Table_getIterableRows(objJSX.getRendered());
                                             },events:""},
-                                      rowbyindex:{dom:function(objJSX,intRowIndex) {
-                                                      return _jsxlookups.jsx3_gui_Table.rows.dom(objJSX)[intRowIndex];
-                                                    },events:"mousedown,mouseover"},
- 									  rowbyjsxid:{dom:function(objJSX,strJsxId) {
-                                                      var strId = objJSX.getId() + "_" + strJsxId;
-                                                      var objDoc = objJSX.getServer().getDocumentOf();
-                                                      return objDoc.getElementById(strId);
-                                                    },events:"mousedown,mouseover"},
-                                      cellbyindex:{dom:function(objJSX,intRowIndex,intColumnIndex) {
-                                                      var objRow = _jsxlookups.jsx3_gui_Table.rowbyindex.dom(objJSX,intRowIndex);
-                                                      if(objRow != null)
-                                                        return objRow.childNodes[intColumnIndex];
-                                                    },events:"mousedown"},
-                                      cellbyjsxid:{dom:function(objJSX,strJsxId,intColumnIndex) {
+                                  rowbyindex:{dom:function(objJSX,intRowIndex) {
+                                              return _jsxlookups.jsx3_gui_Table.rows.dom(objJSX)[intRowIndex];
+                                            },events:"mousedown,mouseover"},
+                                  rowbyjsxid:{dom:function(objJSX,strJsxId) {
+                                                    var strId = objJSX.getId() + "_" + strJsxId;
+                                                    var objDoc = objJSX.getServer().getDocumentOf();
+                                                    return objDoc.getElementById(strId);
+                                                  },events:"mousedown,mouseover"},
+                                  cellbyindex:{dom:function(objJSX,intRowIndex,intColumnIndex) {
+                                                     var objRow = _jsxlookups.jsx3_gui_Table.rowbyindex.dom(objJSX,intRowIndex);
+                                                     if(objRow != null)
+                                                       return objRow.childNodes[intColumnIndex];
+                                                  },events:"mousedown"},
+                                  cellbyjsxid:{dom:function(objJSX,strJsxId,intColumnIndex) {
                                                       var objRow = _jsxlookups.jsx3_gui_Table.rowbyjsxid.dom(objJSX,strJsxId);
                                                       if(objRow != null)
                                                         return objRow.childNodes[intColumnIndex];
-                                                    },events:"mousedown"}
-
-								};
-_jsxlookups.jsx3_gui_TextBox       = {
+                                                  },events:"mousedown"}
+                                };
+_jsxlookups.jsx3_gui_TextBox    = {
                                       undefined:{dom:"",events:"blur,change,dblclick,focus,keydown,keypress,keyup,mouseup,mousewheel,scroll"}
-                                     };
-_jsxlookups.jsx3_gui_TimePicker    = {
+                                  };
+_jsxlookups.jsx3_gui_TimePicker = {
                                       undefined:{dom:"",events:""},
                                       hour:{dom:"0,0",events:"blur,focus,keydown,mousewheel"},
                                       minute:{dom:"0,2",events:"blur,focus,keydown,mousewheel"},
@@ -416,12 +415,13 @@ _jsxlookups.jsx3_gui_Table_getIterableRows = function(objGUI) {
     var myToken;
     var objRows = [];
     if (objGUI) {	
-	  objRows = objGUI.childNodes[0].childNodes[0].rows;
-	  var list = new jsx3.util.List(objRows);     
-      objRows = list.toArray();
+      var rows = objGUI.childNodes[0].childNodes[0].rows;
+      for (var i=0; i< rows.length;i++) {
+        objRows.push(rows[i]);
+      }
     }
 	return objRows;
-  };
+};
 
 
 //Returns a native HTML object that can be acted upon per a given control type
@@ -495,7 +495,7 @@ function Dialog_getRenderedDialog(objJSX) {
 
 
 /*
-Copyright 2006-2009 TIBCO Software, Inc
+Copyright 2006-2010 TIBCO Software, Inc
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -518,6 +518,7 @@ Copyright 2006-2009 TIBCO Software, Inc
 		- Add gi dom locator, "gi".
     - Add jsxselector , css3 like, gi dom locator.
     - Add recorder playback
+ (1.0) Upgrade to Selenium 1.0.1
  */
 
 /* element outerHTML works only on IE. jsx3.html.getOuterHTML() is GI 3.2 crossbrowser function*/
@@ -5141,4 +5142,4 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
         Assert.fail("Eval failed : " + e.message); 
       }
     }
-};
+};  

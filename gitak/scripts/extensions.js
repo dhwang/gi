@@ -1,5 +1,5 @@
 /*
-Copyright 2006-2009 TIBCO Software, Inc
+Copyright 2006-2010 TIBCO Software, Inc
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ Copyright 2006-2009 TIBCO Software, Inc
 		- Add gi dom locator, "gi".
     - Add jsxselector , css3 like, gi dom locator.
     - Add recorder playback
+ (1.0) Upgrade to Selenium 1.0.1
  */
 
 /* element outerHTML works only on IE. jsx3.html.getOuterHTML() is GI 3.2 crossbrowser function*/
