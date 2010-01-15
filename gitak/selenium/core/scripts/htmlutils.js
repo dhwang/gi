@@ -853,7 +853,10 @@ var seenReadyStateWarning = false;
 
 function openSeparateApplicationWindow(url, suppressMozillaWarning) {
     // resize the Selenium window itself
-    window.resizeTo(1200, 500);
+    if (browserVersion.isHTA)
+      window.resizeTo(1200, 340);
+    else
+      window.resizeTo(1200, 500);
     window.moveTo(window.screenX, 0);
 
     var appWindow = window.open(url + '?start=true', 'selenium_main_app_window');
