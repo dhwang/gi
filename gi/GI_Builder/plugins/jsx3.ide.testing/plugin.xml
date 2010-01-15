@@ -38,8 +38,8 @@
 
   <method id="launchGITAK" params="testFilePath">
     var gitak = this.getGITAKDir();
-    // Test Runner is under "core/" subdirectory, need go one more up from gitak.relativePath
-    var query = "GI=../" + gitak.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=../" +
+    // Test Runner is under "selenium/core/" subdirectory, need go one more up from gitak.relativePath
+    var query = "GI=../../" + gitak.relativePathTo(jsx3.ide.getSystemRelativeFile("")) + "&amp;APP=../../" +
         gitak.relativePathTo(jsx3.ide.PROJECT.getDirectory());
 
     if (testFilePath) {
@@ -55,7 +55,7 @@
     
     var uri = gitak.toURI();
     uri = jsx3.net.URI.fromParts(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-        uri.getPath() + "core/TestRunner.html", query, null);
+        uri.getPath() + "selenium/core/TestRunner.html", query, null);
 
     window.open(uri.toString());
   </method>
@@ -91,7 +91,7 @@
   </method>
 
   <method id="isValidGITAK" params="objFile">
-    return objFile.resolve("core/TestRunner.html").isFile();
+    return objFile.resolve("selenium/core/TestRunner.html").isFile();
   </method>
 
   <requires>
