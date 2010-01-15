@@ -11,9 +11,9 @@ effAdopt.APP;
   effAdopt.preLoad = function (objJSX) {
     effAdopt.APP = objJSX.getServer();
 
-    this.APP.getCache().getOrOpenAsync("components/list_of_states.xml");
-    this.APP.getCache().getOrOpenAsync("components/containers/stack.xml");
-    this.APP.getCache().getOrOpenAsync("components/containers/tab.xml");
+    this.APP.getCache().getOrOpenAsync(effAdopt.APP.resolveURI("components/list_of_states.xml"));
+    this.APP.getCache().getOrOpenAsync(effAdopt.APP.resolveURI("components/containers/stack.xml"));
+    this.APP.getCache().getOrOpenAsync(effAdopt.APP.resolveURI("components/containers/tab.xml"));
 
   }
   /**
