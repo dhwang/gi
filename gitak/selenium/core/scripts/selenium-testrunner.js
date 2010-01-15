@@ -639,7 +639,7 @@ objectExtend(HtmlTestSuite.prototype, {
         var tables = sel$A(this.suiteDocument.getElementsByTagName("table"));
         var testTable = tables[0];
         if (!testTable) return;
-        for (rowNum = 1; rowNum < testTable.rows.length; rowNum++) {
+        for (var rowNum = 1; rowNum < testTable.rows.length; rowNum++) {
             var rowElement = testTable.rows[rowNum];
             result.push(new HtmlTestSuiteRow(rowElement, testFrame, this));
         }
@@ -647,7 +647,7 @@ objectExtend(HtmlTestSuite.prototype, {
         // process the unsuited rows as well
         for (var tableNum = 1; tableNum < sel$A(this.suiteDocument.getElementsByTagName("table")).length; tableNum++) {
             testTable = tables[tableNum];
-            for (rowNum = 1; rowNum < testTable.rows.length; rowNum++) {
+            for (var rowNum = 1; rowNum < testTable.rows.length; rowNum++) {
                 var rowElement = testTable.rows[rowNum];
                 new HtmlTestSuiteRow(rowElement, testFrame, this);
             }
@@ -742,8 +742,8 @@ objectExtend(SeleniumTestResult.prototype, {
         if (!this.controlPanel.isAutomatedRun()) {
             return;
         }
-        var form = document.createElement("form");
-        document.body.appendChild(form);
+        var form = window.document.createElement("form");
+        window.document.body.appendChild(form);
 
         form.id = "resultsForm";
         form.method = "post";
@@ -759,7 +759,7 @@ objectExtend(SeleniumTestResult.prototype, {
         var resultsUrlQueryString = actionAndParameters[1];
 
         form.createHiddenField = function(name, value) {
-            input = document.createElement("input");
+            var input = window.document.createElement("input");
             input.type = "hidden";
             input.name = name;
             input.value = value;
@@ -789,7 +789,7 @@ objectExtend(SeleniumTestResult.prototype, {
         form.createHiddenField("numCommandErrors", this.metrics.numCommandErrors);
 
         // GITAK -- move numTestTotal and suite to the front.
-        form.createHiddenField("numTestTotal", rowNum-1);
+        form.createHiddenField("numTestTotal", this.suiteTable.rows.length-1);
         if (selenium.jsxversion) {
           form.createHiddenField("jsxVersion", selenium.jsxversion);
         }
@@ -821,12 +821,13 @@ objectExtend(SeleniumTestResult.prototype, {
           form.createHiddenField("passed." + i, passedTest);
         }
 
-        var serializedVars = [];
-        for (name in storedVars) { // post as part of results all the 
+        var serializedVars = ["{\n"];
+        for (var name in storedVars) { // post as part of results all the 
            LOG.debug("stored[" + name + "]=" + storedVars[name] );
-           serializedVars.push(name+':"'+storedVars[name]+'"');
+           serializedVars.push('"'+name+'":"'+storedVars[name]+'",');
         }
-        var logVars = serializedVars.join(",");
+        serializedVars.push("}\n");
+        var logVars = serializedVars.join("\n");
         form.createHiddenField("storedVars", logVars);
         
         var logMessages = [];
@@ -845,7 +846,8 @@ objectExtend(SeleniumTestResult.prototype, {
         } else {
             form.submit();
         }
-        document.body.removeChild(form);
+        //document.body.removeChild(form);
+        form = "";
         if (this.controlPanel.closeAfterTests()) {
             window.top.close();
         }
@@ -880,24 +882,22 @@ objectExtend(SeleniumTestResult.prototype, {
         
         scriptFile.WriteLine("<html><head><title>Test suite results</title><style>");
         scriptFile.WriteLine(styles);
-        scriptFile.WriteLine("</style></head>");
-        scriptFile.WriteLine("<body>\n<h1>Test suite results</h1>" +
-             "\n\n<table>\n<tr>\n<td>result:</td>\n<td>" + inputs["result"] + "</td>\n" +
-             "</tr>\n<tr>\n<td>totalTime:</td>\n<td>" + inputs["totalTime"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>numTestTotal:</td>\n<td>" + inputs["numTestTotal"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>numTestPasses:</td>\n<td>" + inputs["numTestPasses"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>numTestFailures:</td>\n<td>" + inputs["numTestFailures"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>numCommandPasses:</td>\n<td>" + inputs["numCommandPasses"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>numCommandFailures:</td>\n<td>" + inputs["numCommandFailures"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>numCommandErrors:</td>\n<td>" + inputs["numCommandErrors"] + "</td>\n</tr>\n" +
-             "<tr>\n<td>user agent:</td>\n<td>" + inputs["userAgent"] + "</td>\n</tr>\n" +        
-             "<tr>\n<td>" + inputs["suite"] + "</td>\n<td>&nbsp;</td>\n</tr></table><table>");
+        scriptFile.WriteLine("</style></head>\n<body>\n");
+        scriptFile.WriteLine("<h1>Test suite results</h1>" +
+             "\n\n<table>\n<tr>\n<td>result:</td>\n<td>" + inputs.result + "</td>\n" +
+             "</tr>\n<tr>\n<td>totalTime:</td>\n<td>" + inputs.totalTime + "</td>\n</tr>\n" +
+             "<tr>\n<td>Test Total:</td>\n<td>" + inputs.numTestTotal + "</td>\n</tr>\n" +
+             "<tr>\n<td>Test Passes:</td>\n<td>" + inputs.numTestPasses + "</td>\n</tr>\n" +
+             "<tr>\n<td>Test Failures:</td>\n<td>" + inputs.numTestFailures + "</td>\n</tr>\n" +
+             "<tr>\n<td>Command Passes:</td>\n<td>" + inputs.numCommandPasses + "</td>\n</tr>\n" +
+             "<tr>\n<td>Command Failures:</td>\n<td>" + inputs.numCommandFailures + "</td>\n</tr>\n" +
+             "<tr>\n<td>Command Errors:</td>\n<td>" + inputs.numCommandErrors + "</td>\n</tr>\n" +
+             "<tr>\n<td>User agent:</td>\n<td>" + inputs.userAgent + "</td>\n</tr>\n" +        
+             "<tr>\n<td>JSX version:</td>\n<td>" + inputs.jsxVersion + "</td>\n</tr>\n" +
+             "<tr><td>storedVars</td>\n<td>" + inputs.storedVars + "</td></tr>\n" +
+             "<tr>\n<td>Test Suite</td><td>" + inputs.suite + "</td>\n</tr></table><table>");
 
-        var testNum = inputs["numTestTotal"];
-        if ( inputs["jsxVersion"] ) { // GITAK specific
-          scriptFile.WriteLine("<dl>\n<dt>GI Version:</dt>\n<dd>" + inputs["jsxVersion"] + "</dd>\n\n" );
-          scriptFile.WriteLine("<dt>storedVars</dt>\n<dd>" + inputs["storedVars"] + "</dd></dl>\n");
-        }
+        var testNum = inputs.numTestTotal;
         // small optimization.
         var rowStart = "<tr>\n<td>";
         var rowEnd = "</td>\n<td>&nbsp;</td>\n</tr>";
@@ -917,7 +917,7 @@ objectExtend(SeleniumTestResult.prototype, {
         }
         // end GITAK
         scriptFile.WriteLine("</table><pre>");
-        var log = inputs["log"];
+        var log = inputs.log;
         log=log.replace(/&/gm,"&amp;").replace(/</gm,"&lt;").replace(/>/gm,"&gt;").replace(/"/gm,"&quot;").replace(/'/gm,"&apos;");
         scriptFile.WriteLine(log);
         scriptFile.WriteLine("</pre>");
@@ -1058,7 +1058,7 @@ var get_new_rows = function() {
         var row = '<td style="display:none;" class="js">getEval</td>' +
                   '<td style="display:none;">currentTest.doNextCommand()</td>' +
                   '<td style="white-space: pre;">' + new_source + '</td>' +
-                  '<td></td>'
+                  '<td></td>';
 
         row_array.push(row);
     }
