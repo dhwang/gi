@@ -50,5 +50,14 @@ jsx3.$O(this).extend({
     }
 
     return objXML;
+  },
+
+  _onAgreeLabelClick: function(objEvent, objCheckbox, objButton) {
+      var target = objEvent.srcElement();
+      if (target.tagName.toLowerCase() != 'a') {
+        var intChecked = objCheckbox.getChecked();
+        objCheckbox.setChecked(!intChecked);
+        objButton.setEnabled(!intChecked, true);
+      }
   }
 });

@@ -551,7 +551,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
         <strings jsxname="components_tab" jsxtext="System" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxoverflow="2"/>
@@ -581,7 +581,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
         <strings jsxname="user_tab" jsxtext="User" jsxbgcolor="#d8d8e5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxloadtype="4" jsxleft="0" jsxtop="0"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -612,7 +612,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="-1" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_user_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -620,7 +620,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_complibs_user_summary_tab" jsxtext="Tab"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                  <strings jsxname="jsx_ide_comps_user_treeblock" jsxwidth="100%" jsxheight="100%"/>
+                  <strings jsxname="jsx_ide_comps_user_treeblock" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Tree">
                     <variants jsxuseroot="1" jsxdrag="1" jsxdrop="1"/>
@@ -636,7 +636,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_complibs_user_login_tab" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxwidth="100" jsxheight="100" jsxoverflow="1" jsxrelativeposition="0"/>
-                  <strings jsxname="block" jsxdisplay="none"/>
+                  <strings jsxname="block" jsxdisplay="none" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
@@ -751,7 +751,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_complibs_user_upload_tab" jsxtext="Tab" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="3" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxdisplay="none"/>
+                  <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
@@ -797,7 +797,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                         <variants jsxoverflow="1" jsxheight="50"/>
                         <strings jsxname="block" jsxwidth="100%" jsxrelativeposition="1"/>
                         <object type="jsx3.gui.LayoutGrid">
-                          <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="11"/>
+                          <variants jsxrelativeposition="1" jsxoverflow="2" jsxfontsize="11"/>
                           <strings jsxcols="20,*"/>
                           <object type="jsx3.gui.Block">
                             <variants jsxoverflow="2"/>
@@ -809,7 +809,9 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                             </object>
                           </object>
                           <object type="jsx3.gui.Block">
+                            <variants/>
                             <strings jsxtext="I have read and agree to the &lt;a href=&quot;http://www.generalinterface.org/terms.html&quot; target=&quot;_blank&quot;&gt;GeneralInterface.org terms of service&lt;/a&gt;."/>
+                            <events jsxclick="palette.getPlugIn()._onAgreeLabelClick(objEVENT, upload_checkbox, upload_button_btn);"/>
                           </object>
                         </object>
                       </object>
@@ -819,7 +821,10 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                         <object type="jsx3.gui.LayoutGrid">
                           <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                           <strings jsxname="layoutCols" jsxcols="*,100" jsxwidth="100%" jsxheight="100%"/>
-                          <object type="jsx3.gui.Block"/>
+                          <object type="jsx3.gui.Block">
+                            <variants/>
+                            <strings/>
+                          </object>
                           <object type="jsx3.gui.Block">
                             <variants jsxoverflow="1"/>
                             <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
@@ -877,7 +882,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
         <strings jsxname="online_tab" jsxtext="Online" jsxbgcolor="#e8e8f5" jsxmargin="0 4 0 0"/>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+          <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay=""/>
           <dynamics jsxbgcolor="@Solid Medium"/>
           <object type="jsx3.gui.LayoutGrid">
             <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
@@ -926,7 +931,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
               </object>
             </object>
             <object type="jsx3.gui.TabbedPane">
-              <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
+              <variants selectedIndex="2" jsxselectedindex="1" jsxshowtabs="0"/>
               <strings jsxname="jsx_ide_complibs_online_views" jsxtextalign="0"/>
               <dynamics jsxbgcolor="@Solid Light"/>
               <object type="jsx3.gui.Tab">
@@ -934,7 +939,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_summary_tab" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-                  <strings jsxname="jsx_ide_proto_summary_view" jsxwidth="100%" jsxheight="100%"/>
+                  <strings jsxname="jsx_ide_proto_summary_view" jsxwidth="100%" jsxheight="100%" jsxvisibility="" jsxdisplay="none"/>
                   <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Light"/>
                   <object type="jsx3.gui.Matrix">
                     <variants jsxjsxxmlasync="1" jsxselectionmodel="1" jsxdrag="1" jsxdrop="0" jsxreorder="0" jsxsuppressvscroll="0" jsxscalewidth="1" jsxpagingmodel="1" jsxxmlasync="1"/>
@@ -959,43 +964,31 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_license_tab" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxwidth="100" jsxheight="100" jsxoverflow="1" jsxrelativeposition="0"/>
-                  <strings jsxname="block" jsxdisplay="none"/>
+                  <strings jsxname="block" jsxdisplay="" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="2" jsxfontsize="14"/>
-                      <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="License" jsxfontweight="bold" jsxpadding="2 0 0 0"/>
+                      <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="License Agreement" jsxfontweight="bold" jsxpadding="2 0 0 0"/>
                       <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                     </object>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="1"/>
                       <strings jsxname="jsx_ide_proto_license_view" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
                       <dynamics jsxpadding="@8Pixel"/>
-                      <object type="jsx3.gui.LayoutGrid">
-                        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
-                        <strings jsxname="layoutRows" jsxrows="*,30" jsxwidth="100%" jsxheight="100%"/>
-                        <object type="jsx3.gui.Block">
-                          <variants jsxoverflow="1"/>
-                          <strings jsxname="block" jsxheight="50%" jsxrelativeposition="1" jsxpadding="8 20 8 8" jsxstyleoverride="overflow-y:auto;overflow-x:hidden;"/>
-                          <dynamics jsxborder="@Inset"/>
-                          <object type="jsx3.gui.Block">
-                            <variants jsxrelativeposition="1" jsxoverflow="3" jsxfontsize="12"/>
-                            <strings jsxname="label" jsxtext="License Agreement" jsxpadding="0 0 12 0" jsxfontweight="bold"/>
-                          </object>
-                          <object type="jsx3.gui.Block">
-                            <variants/>
-                            <strings jsxname="license_agreement" jsxtext="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat.  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat.  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat.  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In pharetra wisi non dolor. Pellentesque a ipsum. Nulla laoreet erat a nulla. In porta luctus justo. Pellentesque arcu odio, sollicitudin ac, hendrerit non, ornare et, risus. Proin aliquam viverra ligula. Aliquam eget lectus eu lorem convallis volutpat. Aliquam erat volutpat." jsxstyleoverride="width: auto;"/>
-                          </object>
-                        </object>
-                        <object type="jsx3.gui.Block">
-                          <variants jsxoverflow="3" jsxheight="18"/>
-                          <strings jsxname="pane2" jsxwidth="100%" jsxmargin="12 0 0 0"/>
-                          <object type="jsx3.gui.Button">
-                            <variants jsxindex="0" jsxheight="18" jsxwidth="100"/>
-                            <strings jsxname="jsx_ide_proto_license_download" jsxtext="I Agree" jsxmargin="0 4 0 0"/>
-                            <events jsxexecute="palette.onLicenseAgree();"/>
-                          </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxrelativeposition="1" jsxoverflow="3"/>
+                        <strings jsxname="label" jsxtext="Before using the Online features of Builder, you must agree to the &lt;a
+ href='http://www.generalinterface.org/terms.html' target='_blank'&gt;GeneralInterface.org terms of service&lt;/a&gt;."/>
+                      </object>
+                      <object type="jsx3.gui.Block">
+                        <variants jsxoverflow="3" jsxheight="18"/>
+                        <strings jsxname="pane2" jsxwidth="100%" jsxmargin="12 0 0 0" jsxtextalign="right"/>
+                        <object type="jsx3.gui.Button">
+                          <variants jsxindex="0" jsxheight="18" jsxwidth="100"/>
+                          <strings jsxname="jsx_ide_proto_license_download" jsxtext="I Agree" jsxmargin="0 4 0 0"/>
+                          <events jsxexecute="palette.onLicenseAgree();"/>
                         </object>
                       </object>
                     </object>
@@ -1007,7 +1000,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_remove_tab" jsxtext="Tab" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxwidth="100" jsxheight="100" jsxoverflow="1" jsxrelativeposition="0"/>
-                  <strings jsxname="block" jsxdisplay="none"/>
+                  <strings jsxname="block" jsxdisplay="none" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
@@ -1057,7 +1050,7 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_removed_tab" jsxtext="Tab" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxwidth="100" jsxheight="100" jsxoverflow="1" jsxrelativeposition="0"/>
-                  <strings jsxname="block" jsxdisplay="none"/>
+                  <strings jsxname="block" jsxdisplay="none" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="layoutRows" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
@@ -1095,13 +1088,13 @@ objJSX.onSystemDrag = function(objSource, sourceId) {
                 <strings jsxname="jsx_ide_proto_detail_tab" jsxtext="Tab" jsxbgcolor="#d8d8e5"/>
                 <object type="jsx3.gui.Block">
                   <variants jsxleft="0" jsxtop="0" jsxwidth="100" jsxheight="100" jsxoverflow="1" jsxrelativeposition="0"/>
-                  <strings jsxname="block" jsxdisplay="none"/>
+                  <strings jsxname="block" jsxdisplay="none" jsxvisibility=""/>
                   <object type="jsx3.gui.LayoutGrid">
                     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
                     <strings jsxname="detail_container" jsxrows="26,*" jsxwidth="100%" jsxheight="100%"/>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="2" jsxfontsize="14"/>
-                      <strings jsxname="detail_title" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="License" jsxfontweight="bold"/>
+                      <strings jsxname="detail_title" jsxwidth="100%" jsxheight="100%" jsxtextalign="center" jsxtext="Detail" jsxfontweight="bold"/>
                       <dynamics jsxborder="@Outset" jsxbg="@Fade TopDown"/>
                       <object type="jsx3.gui.Image">
                         <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="2" jsxtop="2"/>
