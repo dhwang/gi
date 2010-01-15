@@ -5,24 +5,24 @@
         <script type="text/javascript">
         
         function getQueryParam (searchKey) {
-        var topWindow = window.parent;
-        var str = topWindow.location.search.substr(1);
-        if (str == null) return null;
+          var topWindow = window.parent;
+          var str = topWindow.location.search.substr(1);
+          if (str == null) return null;
 
-        var clauses = str.split('&');
+          var clauses = str.split('&');
 
-        for (var i = 0; i < clauses.length; i++) {
-            var keyValuePair = clauses[i].split('=', 2);
-            var key = unescape(keyValuePair[0]);
-            if (key == "GI" || key == "APP" )
-             topWindow.storedVars[key] = prepareUrl( unescape(keyValuePair[1]) );
-            else 
-            topWindow.storedVars[key] = unescape(keyValuePair[1]); // save query params in 
-            if (key == searchKey) {
-                return unescape(keyValuePair[1]);
-            }
-        }
-        return null;
+          for (var i = 0; i < clauses.length; i++) {
+              var keyValuePair = clauses[i].split('=', 2);
+              var key = unescape(keyValuePair[0]);
+              if (key == "GI" || key == "APP" )
+               topWindow.storedVars[key] = prepareUrl( unescape(keyValuePair[1]) );
+              else 
+              topWindow.storedVars[key] = unescape(keyValuePair[1]); // save query params in 
+              if (key == searchKey) {
+                  return unescape(keyValuePair[1]);
+              }
+          }
+          return null;
         }
         
         prepareUrl = function(includeUrl) {
