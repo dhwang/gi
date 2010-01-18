@@ -136,16 +136,12 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     return strName;
   };
 
-  ce.viewSource = function(button) {
-    button.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
-    var layout = ce.getJSXByName('componentViewLayout');
-    layout.setRows("*,50%", true);
+  ce.viewSource = function(sourceContainer){
+    sourceContainer.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
   };
 
-  ce.unViewSource = function(button) {
-    var layout = ce.getJSXByName('componentViewLayout');
-    layout.setRows("*,0", true);
-    button.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
+  ce.unViewSource = function(sourceContainer){
+    sourceContainer.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
   };
 
   var _copy = function(strText) {
@@ -364,7 +360,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   };
 
   ce.onComponentViewChanged = function(container, button){
-    var contDim = container.getParent().getClientDimensions();
+    var contDim = container.getClientDimensions();
     var btnDim = button.getDimensions();
     button.setDimensions(
       contDim.parentwidth - btnDim[2],
