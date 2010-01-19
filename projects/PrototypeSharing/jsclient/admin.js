@@ -93,9 +93,10 @@ dojo.addOnLoad(function(){
 		updateButtonsForComponent();
 	}
 	function updateButtonsForComponent(){
+		var status = prototypeStore.getValue(selectedItem, "status");
 		dojo.byId("accept-button").disabled = prototypeStore.getValue(selectedItem, "enabled") && status != "New"; 
 		dojo.byId("reject-button").disabled = status == "Rejected"; 
-		dojo.byId("feature-button").disabled = false;
+		dojo.byId("feature-button").disabled = status == "Rejected";
 		dojo.byId("feature-button").innerHTML = '<span class="featureIcon"></span>' + (status == "Featured" ? "Unfeature" : "Feature"); 
 		dojo.byId("delete-button").disabled = false; 
 	}
