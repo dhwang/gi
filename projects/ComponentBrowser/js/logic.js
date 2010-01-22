@@ -1,7 +1,58 @@
 /* place JavaScript code here */
 jsx3.Package.definePackage("tibco.ce", function(ce){
-  ce.init = function(){
-    this.setView(ce.WELCOME);
+  ce.init = function() {
+    this.setView(ce.WELCOME, null, true);
+  };
+
+  ce.initFromHash = function(objXML) {
+    var hash;
+    if (typeof window['dhtmlHistory'] != 'undefined') {
+      var self = this;
+      window.dhtmlHistory.initialize(function(){
+        tibco.ce.historyListener.apply(tibco.ce, arguments);
+      });
+      hash = window.dhtmlHistory.getCurrentLocation();
+    } else {
+      dojo.subscribe("/dojo/hashchange", null, function(){
+        tibco.ce.historyListener.apply(tibco.ce, arguments);
+      });
+      hash = dojo.hash();
+    }
+    if (hash) {
+      var toSelect = objXML.selectSingleNode('//record[@jsxid="' + hash + '"]');
+      if (toSelect) {
+        toSelect.setAttribute('jsxselected', '1');
+        while((toSelect = toSelect.getParent()).getAttribute('jsxid') != 'jsxrootnode'){
+          toSelect.setAttribute('jsxopen', '1');
+        }
+      }
+      this.historyListener(hash, true);
+    }
+  };
+
+  ce.historyListener = function(hash, initialize) {
+    if (!hash) {
+      if(!initialize){
+        this.setView(ce.WELCOME);
+      }
+      return;
+    }
+
+    this.setView(ce.LOADING, null, initialize);
+
+    if (!initialize&&!this._selectInTree(hash)) {
+      this.setView(ce.WELCOME);
+      return;
+    }
+
+    var rsURL = this.resolveURI('components/demos/' + hash + '.xml');
+
+    var doc = new Document();
+    doc.setAsync(true);
+
+    doc.subscribe('*', this, '_onAsyncDone');
+    doc._componentId = hash;
+    doc.load(rsURL, 60000);
   };
 
   var _LOG = jsx3.util.Logger.getLogger("tibco.ce");
@@ -13,7 +64,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.LOADING = 1;
   ce.COMPONENT = 2;
 
-  ce.setView = function(viewType, title) {
+  ce.setView = function(viewType, title, bDontRepaint) {
     var titleStr, view;
     var header = ce.getJSXByName('paneContentHeader');
     var container = ce.getJSXByName('paneContentContainer');
@@ -31,11 +82,11 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
         break;
     }
 
-    header.setText(titleStr, true);
+    header.setText(titleStr, !bDontRepaint);
     var selectedIdx = container.getSelectedIndex();
 
     if (viewType != selectedIdx) {
-      container.setSelectedIndex(viewType, true);
+      container.setSelectedIndex(viewType, !bDontRepaint);
     }
   };
 
@@ -58,20 +109,15 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   };
 
   ce.componentSelect = function(tree, componentId) {
-    this.setView(ce.LOADING);
-
-    var rsURL = this.resolveURI('components/demos/' + componentId + '.xml');
-
-    var doc = new Document();
-    doc.setAsync(true);
-
-    doc.subscribe('*', this, '_onAsyncDone');
-    doc._componentId = componentId;
-    doc.load(rsURL, 60000);
+    window.location.hash = componentId;
   };
 
   var _selectedComponentId = null;
   ce.componentLoaded = function(componentId, objXML) {
+    if (typeof dhtmlHistory != 'undefined') {
+      window.dhtmlHistory.add(componentId);
+    }
+
     var container = ce.getJSXByName('componentViewContainer');
     var root = container.getDescendantOfName('root');
     if (root) {
@@ -91,13 +137,12 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
       name.setText(root.getMetaValue('name'));
     }
 
-    var tree = ce.getJSXByName('treeExplorer');
+    var objXML = this.getCache().getDocument('components');
 
-    var record = tree.getRecord(componentId);
-    var rNode = tree.getRecordNode(record.jsxid);
+    var rNode = objXML.selectSingleNode('//record[@jsxid="' + componentId + '"]');
 
-    var name = record.jsxtext;
-    if (!record.jsximg) {
+    var name = rNode.getAttribute('jsxtext');
+    if (!rNode.getAttribute('jsximg')) {
       name = rNode.getParent().getAttribute('jsxtext');
     }
     
@@ -113,7 +158,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     ce.getJSXByName('sourceView').setText(ce.prettyXML(objXML), true);
 
     _selectedComponentId = componentId;
-    this.setView(ce.COMPONENT, ce._getComponentTitle(rNode, record.jsxtext));
+    this.setView(ce.COMPONENT, ce._getComponentTitle(rNode));
   };
 
   ce.componentTimeout = function(componentId) {
@@ -124,23 +169,21 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     ce.showError(error, "Error");
   };
 
-  ce._getComponentTitle = function(compNode, strName) {
+  ce._getComponentTitle = function(compNode) {
     var compParent = compNode.getParent();
-
-    var strName = compParent.getAttribute('jsxtext') + " &raquo; " + strName;
-
-    if (compParent.getAttribute('jsximg') != "jsx:/images/tree/folder.gif") {
-      strName = ce._getComponentTitle(compParent, strName);
+    var strName = compNode.getAttribute('jsxtext');
+    if (compParent.getAttribute('jsxid') != "jsxrootnode") {
+      return ce._getComponentTitle(compParent) + " &raquo; " + strName;
     }
 
     return strName;
   };
 
-  ce.viewSource = function(sourceContainer){
+  ce.viewSource = function(sourceContainer) {
     sourceContainer.setDisplay(jsx3.gui.Block.DISPLAYBLOCK, true);
   };
 
-  ce.unViewSource = function(sourceContainer){
+  ce.unViewSource = function(sourceContainer) {
     sourceContainer.setDisplay(jsx3.gui.Block.DISPLAYNONE, true);
   };
 
@@ -179,7 +222,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.onCopySource = function(sourceView) {
     var elm = sourceView.getRendered();
     var data = elm.textContent || elm.innerText;
-    if(!_copy(data)){
+    if (!_copy(data)) {
       var w = window.open("about:blank", "CopyCode");
       w.document.write("<html><head><title>Copy Code</title></head><body><pre>" + jsx3.util.strEscapeHTML(data) + "</pre></body></html>");
       w.document.close();
@@ -261,36 +304,55 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     return results;
   };
 
+  ce._selectInTree = function(componentId, cacheId) {
+    var tree = this.getJSXByName('treeExplorer');
+    var cacheId = cacheId||tree.getXMLId();
+    var objXML = this.getCache().getDocument(cacheId);
+    var oldSelected = objXML.selectSingleNode('//record[@jsxselected="1"]');
+
+    if (componentId) {
+      if (oldSelected && oldSelected.getAttribute('jsxid') != componentId) {
+        oldSelected.setAttribute('jsxselected', '0');
+      }
+
+      // select the component
+      var toSelect = objXML.selectSingleNode('//record[@jsxid="' + componentId + '"]');
+      if (toSelect) {
+        toSelect.setAttribute('jsxselected', '1');
+      } else {
+        if (cacheId != 'components') {
+          var components = this.getCache().getDocument('components');
+          if (components.selectSingleNode('//record[@jsxid="' + componentId + '"]')) {
+            tree.setXMLId(cacheId);
+            tree.repaint();
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+
+    tree.setXMLId(cacheId);
+    tree.repaint();
+
+    if (componentId) {
+      tree.revealRecord(componentId);
+    }
+
+    return true;
+  };
+
   var _searchBlank = true;
   ce.onSearch = function(searchbox) {
     var text = jsx3.util.strTrim(searchbox.getValue());
     var tree = this.getJSXByName('treeExplorer');
 
-    var xmlDoc = this.getCache().getDocument('components_xml');
-
-    if (_searchBlank && _selectedComponentId) {
-      // deselect the old selected component if there is one
-      var oldSelected = xmlDoc.selectSingleNode('//record[@jsxselected="1"]');
-      if (oldSelected) {
-        oldSelected.setAttribute('jsxselected', '0');
-      }
-
-      // select the currently selected component
-      var toSelect = xmlDoc.selectSingleNode('//record[@jsxid="' + _selectedComponentId + '"]');
-      toSelect.setAttribute('jsxselected', '1');
-
-      // open the currently selected demo's parent nodes
-      var toOpen = toSelect.getParent();
-      while (toOpen.getAttribute('jsxid') != 'jsxrootnode') {
-        toOpen.setAttribute('jsxopen', '1');
-        toOpen = toOpen.getParent();
-      }
-
-      tree.setXMLId('components_xml');
-      tree.repaint();
+    if (_searchBlank) {
+      this._selectInTree(_selectedComponentId, 'components');
       return;
     }
 
+    var objXML = this.getCache().getDocument('components');
     var searchDoc = this.getCache().getDocument('search_results_xml');
 
     if (!searchDoc) {
@@ -301,7 +363,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     var searchRoot = searchDoc.selectSingleNode('//record[@jsxid="jsxrootnode"]');
     searchRoot.removeChildren();
 
-    var categories = xmlDoc.selectNodeIterator('/data/record/record');
+    var categories = objXML.selectNodeIterator('/data/record/record');
     var searchString = text.toLowerCase();
 
     while (categories.hasNext()) {
@@ -359,7 +421,7 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
     }
   };
 
-  ce.onComponentViewChanged = function(container, button){
+  ce.onComponentViewChanged = function(container, button) {
     var contDim = container.getClientDimensions();
     var btnDim = button.getDimensions();
     button.setDimensions(
