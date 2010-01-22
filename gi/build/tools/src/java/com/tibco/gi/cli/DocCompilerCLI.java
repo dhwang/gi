@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -7,11 +7,12 @@ package com.tibco.gi.cli;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.tibco.gi.tools.DocCompiler;
 import com.tibco.gi.tools.HtmlDocCompiler;
@@ -29,7 +30,7 @@ public class DocCompilerCLI extends BaseCLI {
     BaseCLI.mainTemplate(DocCompilerCLI.class, args);
   }
 
-  public static Set<String> DEFAULT_SUFFIXES = new HashSet<String>(Arrays.asList("js"));
+  public static Collection<String> DEFAULT_SUFFIXES = Arrays.asList("js");
 
   private List<String> sources = new ArrayList<String>();
 
@@ -74,7 +75,7 @@ public class DocCompilerCLI extends BaseCLI {
     compiler.setAccess(access);
     compiler.setDestDir(xmlDestDir);
 
-    final Set<String> suffixes = sourceSuffixes != null ? sourceSuffixes : DEFAULT_SUFFIXES;
+    final Collection<String> suffixes = sourceSuffixes != null ? sourceSuffixes : DEFAULT_SUFFIXES;
     FileFilter filter = new FileFilter() {
       public boolean accept(File pathname) {
         String name = pathname.getName();

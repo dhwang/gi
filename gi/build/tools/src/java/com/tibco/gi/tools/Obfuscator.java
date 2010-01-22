@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 package com.tibco.gi.tools;
@@ -89,7 +89,7 @@ public class Obfuscator {
 
   /**
    * Sets whether to rename method parameters. If this property is set to <code>true</code> (the default is
-   * <code>false</code>) then this obfuscator will rename all method parameters to short random names.
+   * <code>false</code>) then this obfuscator will rename all method parameters to short pseudo-random names.
    * @param obfuscateParameters
    */
   public void setObfuscateParameters(boolean obfuscateParameters) {
@@ -98,7 +98,7 @@ public class Obfuscator {
 
   /**
    * Sets whether to rename locale variables. If this property is set to <code>true</code> (the default is
-   * <code>false</code>) then this obfuscator will rename all local variables to short random names.
+   * <code>false</code>) then this obfuscator will rename all local variables to short pseudo-random names.
    * @param obfuscateVariables
    */
   public void setObfuscateVariables(boolean obfuscateVariables) {
@@ -198,7 +198,7 @@ public class Obfuscator {
     Collection<FileHandler> handlers = new ArrayList<FileHandler>();
     MetaDataParser mdp = new MetaDataParser(strict);
 
-    for (File inputFile : fileMap.keySet()) {
+    for (File inputFile : Utils.getSortedCopy(fileMap.keySet())) {
       File outputFile = fileMap.get(inputFile);
 
       FileHandler handler = FileHandler.getHandler(inputFile, strict);

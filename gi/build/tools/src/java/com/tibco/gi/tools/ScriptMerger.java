@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 package com.tibco.gi.tools;
@@ -80,7 +80,7 @@ public class ScriptMerger {
     /**
      * Index graph records by what symbol(s) they provide.
      */
-    private Map<String, Record> byProvides = new HashMap<String, Record>();
+    private Map<String, Record> byProvides = new HashMap<String, Record>(); // ok non-deterministic access, no iteration over values
 
     public DependencyGraph(File graph) throws IOException {
       try {
@@ -89,7 +89,7 @@ public class ScriptMerger {
         for (Element node : fileNodes) {
           Record r = new Record(node.getAttribute("path"), node.getAttribute("provides"), node.getAttribute("requires"));
           files.add(r);
-          for (String symbol : r.provides) {
+          for (String symbol : r.provides) { // ok non-deterministic access, added to map
             if (byProvides.containsKey(symbol))
               throw new RuntimeException("Two records provide the same symbol " + symbol + ": " + byProvides.get(symbol) + " and " + r);
             byProvides.put(symbol, r);
@@ -99,7 +99,7 @@ public class ScriptMerger {
         for (Element node : aliasNodes) {
           Record r = new Record("", node.getAttribute("provides"), node.getAttribute("requires"));
           aliases.add(r);
-          for (String symbol : r.provides) {
+          for (String symbol : r.provides) { // ok non-deterministic access, added to map
             if (byProvides.containsKey(symbol))
               throw new RuntimeException("Two records provide the same symbol " + symbol + ": " + byProvides.get(symbol) + " and " + r);
             byProvides.put(symbol, r);

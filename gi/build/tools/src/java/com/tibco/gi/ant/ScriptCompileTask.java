@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -36,7 +36,7 @@ public class ScriptCompileTask extends AbstractFileTask {
     compiler.setStrict(strict);
 
     Map<File, File> fileMap = this.getFileMap();
-    for (File inFile : fileMap.keySet())
+    for (File inFile : fileMap.keySet()) // ok non-deterministic access
       compiler.addFileMap(inFile, fileMap.get(inFile));
 
     try {

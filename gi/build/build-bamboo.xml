@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Copyright (c) 2001-2010, TIBCO Software Inc.
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
@@ -86,7 +86,7 @@
     <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
 
     <!-- standard build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}"/>
     </ant>
@@ -96,7 +96,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- Dojo build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}dj"/>
       <property name="build.gi.docs" value="false"/>
@@ -109,7 +109,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- debug build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}db"/>
       <property name="build.gi.benchmark" value="true"/>
@@ -121,7 +121,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- no deprecated code build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}nd"/>
       <property name="build.gi.deprecated" value="false"/>
@@ -133,7 +133,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- cross-domain code build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}xd"/>
       <property name="build.gi.docs" value="false"/>
@@ -293,7 +293,7 @@
     <ant antfile="build.xml" target="distclean" inheritall="false" inheritrefs="false"/>
 
     <!-- standard build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="dist.gi" value="gi-${build.gi.version.name}"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}"/>
@@ -304,7 +304,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- debug build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="dist.gi" value="gi-${build.gi.version.name}-debug"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}db"/>
@@ -316,7 +316,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- max build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="dist.gi" value="gi-${build.gi.version.name}-max"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}mx"/>
@@ -328,7 +328,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- dojo build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="dist.gi" value="gi-${build.gi.version.name}-dojo"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}dj"/>
@@ -341,7 +341,7 @@
     <ant antfile="build.xml" target="clean" inheritall="false" inheritrefs="false"/>
 
     <!-- cross-domain code build -->
-    <ant antfile="build.xml" target="dist-zip" inheritall="false" inheritrefs="false">
+    <ant antfile="build.xml" target="dist-zip-clean" inheritall="false" inheritrefs="false">
       <property name="dist.gi" value="gi-${build.gi.version.name}-xd"/>
       <property name="build.dist.zip" value="build/${temp.distzip}"/>
       <property name="build.gi.buildno" value="${rev}xd"/>

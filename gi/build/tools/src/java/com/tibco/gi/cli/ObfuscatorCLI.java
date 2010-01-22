@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class ObfuscatorCLI extends BaseCLI {
     BaseCLI.mainTemplate(ObfuscatorCLI.class, args);
   }
 
-  public static Set<String> DEFAULT_SUFFIXES = new HashSet<String>(Arrays.asList("js"));
+  public static Collection<String> DEFAULT_SUFFIXES = Arrays.asList("js");
 
   private List<String> sources = new ArrayList<String>();
 
@@ -88,7 +89,7 @@ public class ObfuscatorCLI extends BaseCLI {
     obfuscator.setObfuscateVariables(obfuscateVariables);
     obfuscator.setOptimizeLiterals(optimizeLiterals);
 
-    final Set<String> suffixes = sourceSuffixes != null ? sourceSuffixes : DEFAULT_SUFFIXES;
+    final Collection<String> suffixes = sourceSuffixes != null ? sourceSuffixes : DEFAULT_SUFFIXES;
     FileFilter filter = new FileFilter() {
       public boolean accept(File pathname) {
         String name = pathname.getName();

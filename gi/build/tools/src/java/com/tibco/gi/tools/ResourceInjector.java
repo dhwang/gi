@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -10,15 +10,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.logging.Logger;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Injects the contents of a Java resource bundle into the source of a JavaScript file. 
@@ -42,7 +43,7 @@ public class ResourceInjector {
 
   private File textFile;
   private String replacementToken;
-  private Set<Locale> locales;
+  private SortedSet<Locale> locales;
   private String bundleResource;
   private boolean strict = false;
 
@@ -207,7 +208,11 @@ public class ResourceInjector {
    * @param localeKeys  the locale keys.
    */
   public void setLocaleKeys(String[] localeKeys) {
-    locales = new HashSet<Locale>();
+    locales = new TreeSet<Locale>(new Comparator<Locale>(){
+      public int compare(Locale o1, Locale o2) {
+        return o1.toString().compareTo(o2.toString());
+      }
+    });
 
     for (String key : localeKeys) {
       String[] tokens = key.split("_");

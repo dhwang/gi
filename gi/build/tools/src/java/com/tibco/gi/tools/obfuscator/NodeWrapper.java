@@ -1,20 +1,21 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 package com.tibco.gi.tools.obfuscator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.mozilla.javascript.FunctionNode;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Token;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Wraps the Rhino engine's {@link Node} class and provides necessary extra functionality for the obfuscator.
@@ -22,6 +23,19 @@ import java.util.NoSuchElementException;
  * @author Jesse Costello-Good
  */
 public class NodeWrapper {
+
+  public static final Comparator<Node> NODE_COMPARATOR = new Comparator<Node>() {
+    public int compare(Node o1, Node o2) {
+      if (o1 == o2) return 0;
+
+      int l1 = o1.getLineno(), l2 = o2.getLineno();
+      if (l1 == l2) {
+        int t1 = o1.getType(), t2 = o2.getType();
+        return t1 > t2 ? 1 : t1 == t2 ? 0 : -1;
+      } else if (l1 > l2) return 1;
+      else return -1;
+    }
+  };
 
   /**
    * Depth-first or breadth-first node iterator.

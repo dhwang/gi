@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
-  ~ Copyright (c) 2001-2009, TIBCO Software Inc.
+  ~ Copyright (c) 2001-2010, TIBCO Software Inc.
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
@@ -807,6 +807,12 @@
         destfile="${project.dir}/${build.dist.zip}"
         />
   </target>
+
+  <target name="clean-dist" depends="init, init-filters">
+    <delete dir="${dist.dir}"/>
+  </target>
+
+  <target name="dist-zip-clean" depends="clean-dist, dist-zip"/>
 
   <target name="compile-locales" depends="init, init-filters, init-tools"
       description="Compiles locale data from the Common Locale Data Repository.">

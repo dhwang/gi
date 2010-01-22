@@ -78,7 +78,7 @@ public class JsEncoder {
 
     URI baseDirURI = baseDir.toURI();
 
-    for (File input : fileMappings.keySet()) {
+    for (File input : fileMappings.keySet()) { // ok non-deterministic access, each is independent
       String contents = Utils.readFile(input);
 
       File output = fileMappings.get(input);

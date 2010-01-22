@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,7 +175,7 @@ public class DocCompiler {
   private static final String GLOBAL_PACKAGE = "window";
 
   private File destDir;
-  private final Set<File> srcFiles = new HashSet<File>();
+  private final SortedSet<File> srcFiles = new TreeSet<File>();
   private JsMember.Access access = JsMember.Access.PUBLIC;
   private final DocumentBuilder parser;
   private boolean strict = false;
@@ -225,12 +226,12 @@ public class DocCompiler {
     filterOnAccess();
     makeIndex();
 
-    for (JsMember c : classMap.values())
+    for (JsMember c : classMap.values()) // ok non-deterministic access, each item is independent
       serializeClass(c);
   }
 
   private void linkClasses() {
-    for (String name : classMap.keySet()) {
+    for (String name : classMap.keySet()) { // ok non-deterministic access, no consequenses
       JsMember member = classMap.get(name);
       String parentName = member.getNamePrefix();
       if (parentName.length() == 0) parentName = GLOBAL_PACKAGE;
@@ -248,7 +249,7 @@ public class DocCompiler {
   }
 
   private void filterOnAccess() {
-    Set<String> keys = new HashSet<String>(classMap.keySet());
+    Set<String> keys = new HashSet<String>(classMap.keySet()); // ok non-deterministic access, no additions to state
     for (String className : keys) {
       JsMember jsClass = classMap.get(className);
       if (jsClass.getAccess().compareTo(access) < 0) {
@@ -256,7 +257,7 @@ public class DocCompiler {
       }
     }
 
-    for (JsMember jsClass : classMap.values()) {
+    for (JsMember jsClass : classMap.values()) { // ok non-deterministic access, no additions to state
       Collection<JsMember> members = new ArrayList<JsMember>(jsClass.getMembers());
       for (JsMember member : members) {
         if (member.getAccess().compareTo(access) < 0) {
@@ -282,7 +283,7 @@ public class DocCompiler {
     Map<String, JsMember> implicitMembers = new HashMap<String, JsMember>();
 
     // Create packages for any classes whose package is not defined.
-    for (JsMember c : classMap.values()) {
+    for (JsMember c : classMap.values()) { // ok non-deterministic access, eventually sorted
       if (c.getType() != JsMember.Type.PACKAGE && c.getPackage() == null) {
         String pkgName;
         boolean ntv = false;
@@ -309,7 +310,8 @@ public class DocCompiler {
 
     classMap.putAll(implicitMembers);
 
-    for (JsMember c : classMap.values()) {
+    List<JsMember> sortedClasses = Utils.getSortedCopy(classMap.values(), JsMember.BY_NAME);
+    for (JsMember c : sortedClasses) {
       if (c.getType() == JsMember.Type.PACKAGE) {
         Element packageElm = createIndexRecord(doc, c);
         data.appendChild(packageElm);
@@ -317,7 +319,7 @@ public class DocCompiler {
       }
     }
 
-    for (JsMember c : classMap.values()) {
+    for (JsMember c : sortedClasses) {
       if (c.getType() != JsMember.Type.PACKAGE) {
         Element classElm = createIndexRecord(doc, c);
         JsMember pkg = c.getPackage();
@@ -381,7 +383,7 @@ public class DocCompiler {
 
       if (c.getType() == JsMember.Type.CLASS) {
         // 2. Do implements
-        Set<String> interfaces = new TreeSet<String>();
+        SortedSet<String> interfaces = new TreeSet<String>();
         Set<String> toCheck = new HashSet<String>(supers);
         toCheck.add(c.getName());
         for (String className : toCheck) {
@@ -406,9 +408,9 @@ public class DocCompiler {
 
       if (c.getType() == JsMember.Type.INTERFACE) {
         // 3. Do implementors
-        Set<String> implementors = new TreeSet<String>();
+        SortedSet<String> implementors = new TreeSet<String>();
         FOR:
-        for (JsMember jsMember : classMap.values()) {
+        for (JsMember jsMember : classMap.values()) { // ok non-deterministic access, values added to sorted set
           JsMember node = jsMember;
           while (node != null) {
             if (node.getInterfaces().contains(c.getName())) {
@@ -429,8 +431,8 @@ public class DocCompiler {
         }
       } else {
         // 4. Do subclasses
-        Set<String> subclasses = new TreeSet<String>();
-        for (JsMember jsMember : classMap.values()) {
+        SortedSet<String> subclasses = new TreeSet<String>();
+        for (JsMember jsMember : classMap.values()) { // ok non-deterministic access, values added to sorted set
           if (c.getName().equals(jsMember.getSuperClass()))
             subclasses.add(jsMember.getName());
         }
@@ -467,7 +469,7 @@ public class DocCompiler {
     List<JsMember> sortedMembers = new ArrayList<JsMember>(c.getMembers());
     // add nested classes to a package
     if (c.getType() == JsMember.Type.PACKAGE) {
-      Set<JsMember> grandChildren = new HashSet<JsMember>();
+      Collection<JsMember> grandChildren = new ArrayList<JsMember>();
       for (JsMember member : sortedMembers) {
         if (member.getType() == JsMember.Type.CLASS || member.getType() == JsMember.Type.INTERFACE) {
           for (JsMember grandChild : member.getMembers()) {
@@ -476,13 +478,14 @@ public class DocCompiler {
           }
         }
       }
-      sortedMembers.addAll(grandChildren);
+      sortedMembers.addAll(grandChildren); // ok non-deterministic access, sorted below
     }
     Collections.sort(sortedMembers, new Comparator<JsMember>() {
       public int compare(JsMember o1, JsMember o2) {
-        int c1 = o1.getType().toString().compareTo(o2.toString());
-        if (c1 == 0) c1 = Boolean.valueOf(o1.isStatic()).compareTo(o2.isStatic());
-        if (c1 == 0) c1 = o1.getName().compareTo(o2.toString());
+        if (o1 == o2) return 0;
+        int c1 = o1.getType().toString().compareTo(o2.getType().toString());
+        if (c1 == 0) c1 = o1.isStatic() == o2.isStatic() ? 0 : (o1.isStatic() ? 1 : -1);
+        if (c1 == 0) c1 = o1.getName().compareTo(o2.getName().toString());
         return c1;
       }
     });
@@ -497,8 +500,7 @@ public class DocCompiler {
         serializeClassMember(root, member, null);
     }
 
-    List<String> sortedNames = new ArrayList<String>(inheritedMembers.keySet());
-    Collections.sort(sortedNames, new Comparator<String>() {
+    List<String> sortedNames = Utils.getSortedCopy(inheritedMembers.keySet(), new Comparator<String>() {
       public int compare(String o1, String o2) {
         JsMember m1 = inheritedMembers.get(o1);
         JsMember m2 = inheritedMembers.get(o2);

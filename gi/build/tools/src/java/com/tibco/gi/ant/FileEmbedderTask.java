@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -32,7 +32,7 @@ public class FileEmbedderTask extends AbstractFileTask {
     Map<File, File> fileMap = this.getFileMap();
 
     try {
-      for (File inFile : fileMap.keySet()) {
+      for (File inFile : fileMap.keySet()) { // ok non-deterministic access
         embedder.setFile(inFile);
         embedder.setOutFile(fileMap.get(inFile));
         embedder.run();

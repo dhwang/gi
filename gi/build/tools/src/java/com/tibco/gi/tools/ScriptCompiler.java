@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -18,7 +18,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -82,9 +84,9 @@ public class ScriptCompiler {
 
   private static final Logger LOG = Logger.getLogger(ScriptCompiler.class.getName());
 
-  private final Set<String> targets = new HashSet<String>();
+  private final SortedSet<String> targets = new TreeSet<String>();
   private final Map<String, Boolean> symbols = new HashMap<String, Boolean>();
-  private final Map<String, Set<String>> aliases = new HashMap<String, Set<String>>();
+  private final Map<String, Collection<String>> aliases = new HashMap<String, Collection<String>>();
   private final Map<File, File> fileMap = new HashMap<File, File>();
   private boolean deleteSourceFiles = false;
   private boolean strict = false;
@@ -163,7 +165,7 @@ public class ScriptCompiler {
       for (String group : groups) {
         String[] parts = group.split("=", 2);
         String[] targets = parts[1].split("\\+");
-        this.addAlias(parts[0], new HashSet<String>(Arrays.asList(targets)));
+        this.addAlias(parts[0], Utils.getSortedCopy(Arrays.asList(targets)));
       }
     }
   }
@@ -174,7 +176,7 @@ public class ScriptCompiler {
    * @param alias the alias.
    * @param targets the set of targets that the alias aliases.
    */
-  public void addAlias(String alias, Set<String> targets) {
+  public void addAlias(String alias, Collection<String> targets) {
     aliases.put(alias, targets);
   }
 
@@ -216,7 +218,7 @@ public class ScriptCompiler {
     LOG.info("Running script compiler on " + fileMap.size() + " scripts with targets " + targets +
         ", aliases " + aliases + ", and symbols " + symbols + ".");
 
-    for (File scriptFile : fileMap.keySet()) {
+    for (File scriptFile : Utils.getSortedCopy(fileMap.keySet())) {
       try {
         File outFile = fileMap.get(scriptFile);
         if (symbols.size() > 0)
@@ -249,7 +251,7 @@ public class ScriptCompiler {
     boolean inBranch = false;
     // Keeps track of the targets seen in each if/else statement, so we can calculate which targets are on in
     // the final else block.
-    Set<String> seenThisBlock = new HashSet<String>(targets.size());
+    Set<String> seenThisBlock = new HashSet<String>(targets.size()); // ok non-deterministic access, no iteration over values
 
     // We'll have a writer open for each target
     Map<String, Writer> writers = new HashMap<String, Writer>(targets.size());

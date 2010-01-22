@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Comparator;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -274,4 +275,15 @@ public class Utils {
       return getNewLanguageCode(l);
   }
 
+  public static <T> List<T> getSortedCopy(Collection<T> values, Comparator<T> comparator) {
+    List<T> sorted = new ArrayList<T>(values);
+    Collections.sort(sorted, comparator);
+    return sorted;
+  }
+
+  public static <T extends Comparable> List<T> getSortedCopy(Collection<T> values) {
+    List<T> sorted = new ArrayList<T>(values);
+    Collections.sort(sorted);
+    return sorted;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 package com.tibco.gi.tools.obfuscator;
@@ -121,8 +121,8 @@ public abstract class Scope<E extends Scope, F extends Scope> {
   private final Collection<Object> clobberPrivateNames = new ArrayList<Object>();
   private final Collection<Object> blessNames = new ArrayList<Object>();
   private final Map<String[], Object> finalMap = new HashMap<String[], Object>();
-  private final Set<String> finalSet = new HashSet<String>();
-  private final Set<String> finalLastTokenSet = new HashSet<String>();
+  private final Set<String> finalSet = new HashSet<String>(); // ok non-deterministic access, not iterated
+  private final Set<String> finalLastTokenSet = new HashSet<String>(); // ok non-deterministic access, not iterated
   private final Map<Pattern, String> renamePatterns = new HashMap<Pattern, String>();
   private final Collection<String> globals = new ArrayList<String>();
   private final Collection<String> reservedNames = new HashSet<String>();
@@ -256,7 +256,7 @@ public abstract class Scope<E extends Scope, F extends Scope> {
   }
 
   public String getPatternedRename(String original, String renamed) {
-    for (Pattern pattern : renamePatterns.keySet()) {
+    for (Pattern pattern : renamePatterns.keySet()) { // ok non-deterministic access, should only match one
       Matcher m = pattern.matcher(original);
       if (m.matches())
         return renamePatterns.get(pattern).replaceAll("\\*", renamed);
@@ -270,7 +270,7 @@ public abstract class Scope<E extends Scope, F extends Scope> {
 
   public Object getFinalReplacement(String... names) {
     OUTER:
-    for (String[] matches : finalMap.keySet()) {
+    for (String[] matches : finalMap.keySet()) { // ok non-deterministic access, should only match one
       for (int i = matches.length - 1, j = names.length - 1; i >= 0 && j >= 0; i--, j--) {
         if (!matches[i].equals(names[j])) continue OUTER;
       }

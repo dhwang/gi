@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,10 +75,10 @@ public class LocaleCompiler {
    * We need to keep the locales to process sorted so that a locale is always processed after any locales that it
    * depends on.
    */
-  private final Set<Locale> locales = new TreeSet<Locale>(LOCALE_COMPARATOR);
+  private final SortedSet<Locale> locales = new TreeSet<Locale>(LOCALE_COMPARATOR);
   private File outFile;
   private URL cldrURL;
-  private final Set<URL> sourceURLs = new HashSet<URL>();
+  private final Set<URL> sourceURLs = new HashSet<URL>(); // ok non-deterministic access?
   private String defaultLocale = "en_US";
   private String rootLocale = "root";
   private boolean mergeLanguages = true;
@@ -86,13 +88,13 @@ public class LocaleCompiler {
    * Keep track of any languages that are included in this compile. We will know to include the name of the language in
    * the localized resource.
    */
-  private final Set<String> languages = new TreeSet<String>();
+  private final SortedSet<String> languages = new TreeSet<String>();
 
   /**
    * Keep track of any countries that are included in this compile. We will know to include the name of the country in
    * the localized resource.
    */
-  private final Set<String> countries = new TreeSet<String>();
+  private final SortedSet<String> countries = new TreeSet<String>();
 
   public LocaleCompiler() {
   }
@@ -201,7 +203,7 @@ public class LocaleCompiler {
     // If this is the main bundle file, we need to add to it metadata indicating which locales are stored in
     // other files in this bundle.
     if (main && !data.hasAttribute("locales")) {
-      Set<Locale> extLocales = new TreeSet<Locale>(LOCALE_COMPARATOR);
+      SortedSet<Locale> extLocales = new TreeSet<Locale>(LOCALE_COMPARATOR);
 
       // get all the locales that are stored externally
       for (Locale locale : locales) {
@@ -337,7 +339,7 @@ public class LocaleCompiler {
   private void mergeUnicodeOrgSource(Element node, Document srcDoc) {
     try {
 // Do all the simple queries listed above in SIMPLE_MAP.
-      for (String query : SIMPLE_MAP.keySet()) {
+      for (String query : SIMPLE_MAP.keySet()) { // ok non-deterministic access
         Element elm = (Element) new DOMXPath(query).selectSingleNode(srcDoc);
         if (elm != null)
           setLocaleProperty(node, SIMPLE_MAP.get(query), elm.getFirstChild().getNodeValue(), false);
@@ -573,7 +575,7 @@ public class LocaleCompiler {
     }
   }
 
-  private List<URL> mergeURIs(Set<URL> sourceURIs, String path) throws MalformedURLException {
+  private List<URL> mergeURIs(Collection<URL> sourceURIs, String path) throws MalformedURLException {
     List<URL> uris = new ArrayList<URL>();
     for (URL sourceURI : sourceURIs) {
       String glue = sourceURI.toString().endsWith("/") ? "" : "/";

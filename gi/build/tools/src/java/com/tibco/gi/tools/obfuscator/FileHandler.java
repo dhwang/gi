@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 package com.tibco.gi.tools.obfuscator;
@@ -338,6 +338,7 @@ public abstract class FileHandler {
 
     protected final Document document;
     protected final Map<Node, NodeWrapper> scriptMap = new HashMap<Node, NodeWrapper>();
+    protected final List<Node> scriptOrder = new ArrayList<Node>();
 
     public XML(File inputFile, Document document) {
       super(inputFile);
@@ -345,7 +346,7 @@ public abstract class FileHandler {
     }
 
     protected void serializeScriptsToNodes() throws IOException {
-      for (Node node : scriptMap.keySet()) {
+      for (Node node : scriptOrder) { // ok non-deterministic access, no state change
         node.setNodeValue(serializeScript(scriptMap.get(node)));
       }
     }
@@ -372,7 +373,7 @@ public abstract class FileHandler {
 
     public Collection<? extends Reader> getScriptBlocks() throws IOException {
       Collection<StringReader> readers = new ArrayList<StringReader>();
-      for (Node node : scriptMap.keySet()) {
+      for (Node node : scriptOrder) {
         readers.add(new StringReader(node.getNodeValue()));
       }
       return readers;
@@ -390,6 +391,7 @@ public abstract class FileHandler {
 
     public Collection<NodeWrapper> getScripts() throws IOException {
       scriptMap.clear();
+      scriptOrder.clear();
       Collection<NodeWrapper> scripts = new ArrayList<NodeWrapper>();
 
       try {
@@ -402,7 +404,9 @@ public abstract class FileHandler {
           if (text != null) {
             NodeWrapper scriptNode = parseScript(text.getNodeValue(), inputFile, 1);
             scripts.add(scriptNode);
+
             scriptMap.put(text, scriptNode);
+            scriptOrder.add(text);
           }
         }
 
@@ -413,12 +417,14 @@ public abstract class FileHandler {
           NamedNodeMap attributes = node.getAttributes();
           for (int i = 0; i < attributes.getLength(); i++) {
             Attr attribute = (Attr) attributes.item(i);
-            if (! props || attribute.getNodeName().startsWith("on")) {
+            if (!props || attribute.getNodeName().startsWith("on")) {
               Text text = (Text) attribute.getFirstChild();
               if (text != null) {
                 NodeWrapper scriptNode = parseScript(text.getNodeValue(), inputFile, 1);
                 scripts.add(scriptNode);
+
                 scriptMap.put(text, scriptNode);
+                scriptOrder.add(text);
               }
             }
           }
@@ -452,6 +458,8 @@ public abstract class FileHandler {
 
     public Collection<NodeWrapper> getScripts() throws IOException {
       scriptMap.clear();
+      scriptOrder.clear();
+
       Collection<NodeWrapper> scripts = new ArrayList<NodeWrapper>();
 
       try {
@@ -464,6 +472,7 @@ public abstract class FileHandler {
             NodeWrapper scriptNode = parseScript(text.getNodeValue(), inputFile, 1);
             scripts.add(scriptNode);
             scriptMap.put(text, scriptNode);
+            scriptOrder.add(text);
           }
         }
       } catch (JaxenException e) {
@@ -494,6 +503,7 @@ public abstract class FileHandler {
 
     public Collection<NodeWrapper> getScripts() throws IOException {
       scriptMap.clear();
+      scriptOrder.clear();
       Collection<NodeWrapper> scripts = new ArrayList<NodeWrapper>();
 
       try {
@@ -505,7 +515,9 @@ public abstract class FileHandler {
           if (text != null) {
             NodeWrapper scriptNode = parseScript(text.getNodeValue(), inputFile, 1);
             scripts.add(scriptNode);
+
             scriptMap.put(text, scriptNode);
+            scriptOrder.add(text);
           }
         }
       } catch (JaxenException e) {

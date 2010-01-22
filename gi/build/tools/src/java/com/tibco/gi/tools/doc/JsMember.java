@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -8,6 +8,7 @@ package com.tibco.gi.tools.doc;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -51,6 +52,12 @@ public class JsMember {
       return isMethodType;
     }
   }
+  
+  public static final Comparator<JsMember> BY_NAME = new Comparator<JsMember>() {
+    public int compare(JsMember o1, JsMember o2) {
+      return o1.name.compareToIgnoreCase(o2.name);
+    }
+  };
 
   private Type type;
   private String name = "";
@@ -414,6 +421,8 @@ public class JsMember {
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
+    if (_static) sb.append("static ");
+    if (_abstract) sb.append("abstract ");
     if (type == Type.CLASS) {
       sb.append("class ").append(name);
       if (superClass != null)
@@ -433,8 +442,6 @@ public class JsMember {
     } else if (type == Type.PACKAGE) {
       sb.append("package ").append(name);
     } else if (type.isMethodType()) {
-      if (_static) sb.append("static ");
-      if (_abstract) sb.append("abstract ");
       sb.append("method ").append(name).append("(");
       if (params != null && params.size() > 0) {
         for (Iterator<JsParam> i = params.iterator(); i.hasNext();) {
@@ -445,7 +452,6 @@ public class JsMember {
       }
       sb.append(")");
     } else if (type == Type.FIELD) {
-      if (_static) sb.append("static ");
       sb.append("field ").append(name);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 package com.tibco.gi.tools.obfuscator;
@@ -376,7 +376,7 @@ public class NodeTraverser {
         }
 
         if (toReplace.size() > 0 && nestedFunction) {
-          for (NodeWrapper n : toReplace.keySet())
+          for (NodeWrapper n : toReplace.keySet()) // ok non-deterministic access, no additive state
             n.getParent().replaceChild(n, toReplace.get(n));
 
           List<String> keyList = new ArrayList<String>();

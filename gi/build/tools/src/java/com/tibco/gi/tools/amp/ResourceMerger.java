@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -51,7 +51,7 @@ public class ResourceMerger {
     filesToDelete.clear();
 
     try {
-      for (File file : configFiles) {
+      for (File file : configFiles) { // ok non-deterministic access, independent
         Document doc = Utils.parseXML(file);
         Element docElm = doc.getDocumentElement();
 
@@ -88,7 +88,7 @@ public class ResourceMerger {
       throw new IOException(e.toString());
     }
 
-    for (File file : filesToDelete) {
+    for (File file : filesToDelete) { // ok non-deterministic access, independent
       file.delete();
     }
   }
@@ -148,7 +148,7 @@ public class ResourceMerger {
   }
 
   private boolean idMatches(String id) {
-    for (Pattern p : idsToMerge) {
+    for (Pattern p : idsToMerge) { // ok non-deterministic access, should only match one
       if (p.matcher(id).matches())
         return true;
     }

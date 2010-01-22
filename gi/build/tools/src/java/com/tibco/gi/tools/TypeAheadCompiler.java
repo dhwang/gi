@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2009, TIBCO Software Inc.
+ * Copyright (c) 2001-2010, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -69,7 +69,7 @@ public class TypeAheadCompiler {
 
     // Load every source file.
     Collection<Document> documents = new ArrayList<Document>();
-    for (File srcFile : srcFiles) {
+    for (File srcFile : Utils.getSortedCopy(srcFiles)) {
       try {
         documents.add(parser.parse(srcFile));
       } catch (SAXException e) {
