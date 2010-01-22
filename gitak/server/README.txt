@@ -92,4 +92,4 @@ Getting started
 ======================================================================
 Copyright
 
-Copyright (C) 2001-2009 TIBCO Software Inc. ALL RIGHTS RESERVED.
+Copyright (C) 2001-2010 TIBCO Software Inc. ALL RIGHTS RESERVED.
