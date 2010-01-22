@@ -1,9 +1,9 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <onAfterDeserialize><![CDATA[
+if (typeof window['_fromLaunchHtml'] != 'undefined' && typeof window['dhtmlHistory'] == 'undefined') {
 jsx3.require("jsx3.util.Dojo");
 jsx3.util.Dojo.load();
 
-if (typeof window['dhtmlHistory'] == 'undefined') {
 (function(){
   dojo.provide("dojo.hash");
   //TODOC: where does this go?
