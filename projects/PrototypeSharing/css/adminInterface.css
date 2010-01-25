@@ -394,9 +394,10 @@ textarea {
 	position: relative;
 	top: 3px;
 	left: -5px;
-	width: 16px;
+	width: 16px !important;
 	height: 16px;
 	display: inline-block;
+	vertical-align: baseline !important;
 	background: url("../images/componentButtonSprite.png") no-repeat 0 0;
 }
 
