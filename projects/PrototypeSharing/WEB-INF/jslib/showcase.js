@@ -13,9 +13,11 @@ var confluenceStore = new Confluence({});
 var dataFolder = require("settings").dataFolder;
 showcaseStore = Replicated(JSFile(dataFolder + "/Showcase"), confluenceStore, {replicateFirst: true});
 var unzip = require("zip").unzip;
+var Unzip = require("zip").Unzip;
 
 var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 	put: function(object){
+		checkZipFile(object);
 		var redefine = !object.id;
 		defineContent(object);
 		var id = showcaseStore.put(object);
@@ -42,7 +44,8 @@ var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 		}
 	},
 	properties:{
-		title:{type:"string"}
+		title:{type:"string"},
+		key:{unique:true}
 	}
 });
 function defineContent(object){
@@ -53,6 +56,18 @@ function defineContent(object){
 		"h3. " + object.author + " - " + new Date() + " - Version: " + object.appVersion + "\n\n" +
 		object.description + "\n\n" +
 		"[Launch Demo|" + HOST_URL_PREFIX + object.id + "/launch.html]   [Download Source|" + HOST_URL_PREFIX + object.id + '/' + object.zip.tempfile + "]"; 
+}
+function checkZipFile(object){
+	var unzipper = new Unzip(object.zip.tempfile);
+	var foundConfigXml;
+	unzipper.forEach(function (entry) {
+        if(entry.getName().match(/config\.xml$/)){
+        	foundConfigXml = true;
+        }
+	});
+	if(!foundConfigXml){
+		throw new Error("config.xml not found");
+	}
 }
 function setupShowcase(object){
 	var targetDir = require("settings").APACHE_TARGET + object.id + '/';

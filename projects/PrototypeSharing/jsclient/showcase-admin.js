@@ -131,6 +131,7 @@ dojo.addOnLoad(function(){
 		dojo.stopEvent(e);
 		var confirmed = confirm("Are you sure you want to remove the runtime path " + dojo.byId("runtime-location-description").value + "?");
 		if(confirmed){
+			removeRuntimeOption(select.value);
 	        dojo.xhrDelete({
                 url: "GIRuntime/" + runtimes[dojo.byId("runtime-location-description").value].id,
 	        	headers:{"Accept":"application/json"},
@@ -158,6 +159,16 @@ dojo.addOnLoad(function(){
 		var option = select.appendChild(document.createElement("option"));
 		option.innerHTML = runtime.path;
 		option.value = runtime.path;
+	}
+	function removeRuntimeOption(path){
+		var runtime = runtimes[path];
+		delete runtimes[path];
+		var children = select.childNodes;
+		dojo.forEach(select.childNodes, function(element){
+			if(element.value == runtime.path){
+				select.removeChild(element);
+			}
+		});
 	}
 });
 function dateFormatter(date){
