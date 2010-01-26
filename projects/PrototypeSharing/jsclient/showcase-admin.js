@@ -172,7 +172,7 @@ dojo.addOnLoad(function(){
 	}
 });
 function dateFormatter(date){
-	return date && (date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear());
+	return date && ((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear());
 }
 (function(){
 	var plainXhr = dojo.xhr;
