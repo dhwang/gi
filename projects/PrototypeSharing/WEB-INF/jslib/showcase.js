@@ -44,7 +44,7 @@ var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 		}
 	},
 	properties:{
-		title:{type:"string"},
+		title:{type:"string", unique: true},
 		key:{unique:true}
 	}
 });
