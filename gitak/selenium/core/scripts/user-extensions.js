@@ -4741,7 +4741,16 @@ Selenium.prototype.doJsxchange = function (locator, value) {
 * _doJsxAction : dispatch recorder commands 
 */
 Selenium.prototype.doJsxAction = function (locator, value) {
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
+    LOG.debug("dojsxaction " + locator);
+    var locatorType;
+    var locatorString = locator;
+    var result = locator.match(/^([A-Za-z]+)=(.+)/);
+    if (result) {
+        locatorType = result[1].toLowerCase();
+        locatorString = result[2];
+    }        
+
+    var objJSX = this.browserbot.findByJsxSelector(locatorString);
     if (objJSX) {
       try {
         value = eval("var tmp = " + value + "; tmp");
@@ -4749,6 +4758,7 @@ Selenium.prototype.doJsxAction = function (locator, value) {
         throw new Error("Bad action value: " + value);
       }
       var action = currentTest.currentRow.getCommand().command;
+      var match;
       if (match = action.match(/^(do_)(.*)/) ) {
            action = match[2];
       } 
