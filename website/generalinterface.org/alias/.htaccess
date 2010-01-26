@@ -23,6 +23,10 @@ RewriteRule  ^samples$          http://www.generalinterface.org/docs/pages/viewp
 RewriteRule  ^tutorials$        http://www.generalinterface.org/docs/display/DOC/Tutorials  [R,L]
 RewriteRule  ^planning$         http://www.generalinterface.org/docs/display/OS/Planning  [R,L]
 
-# In future we can forward based on the version number, which is $1 in both of the following rules
+# Legacy 3.8 documentation aliases
+RewriteRule  ^search/3\.8(\.\d)?/([^/]+)$   http://www.generalinterface.org/docs/dosearchsite.action?searchQuery.queryString=$2&searchQuery.spaceKey=GIDOCS38&gi-searchgo=true&gi-searchanchor=$2  [R,L]
+RewriteRule  ^userguide/3\.8(\.\d)?$        http://www.generalinterface.org/docs/display/GIDOCS38 [R,L]
+
+# Most recent documentation aliases
 RewriteRule  ^search/([^/]+)/([^/]+)$   http://www.generalinterface.org/docs/dosearchsite.action?searchQuery.queryString=$2&searchQuery.spaceKey=GIDOCS&gi-searchgo=true&gi-searchanchor=$2  [R,L]
-RewriteRule  ^userguide/([^/]+)$        http://www.generalinterface.org/docs/display/GIDOCS
+RewriteRule  ^userguide/([^/]+)$        http://www.generalinterface.org/docs/display/GIDOCS [R,L]

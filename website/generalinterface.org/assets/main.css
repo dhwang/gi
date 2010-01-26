@@ -480,6 +480,10 @@ body#com-atlassian-confluence.gi table.layout1 td.col2 h3 a {
   margin: 8px 0px 2px 0px;
 }
 
+div.plugin_pagetree ul.plugin_pagetree_children_list li, div.plugin_pagetree ul.plugin_pagetree_children_list li div.plugin_pagetree_children_container {
+  width:inherit;
+}
+
 body#com-atlassian-confluence.gi .plugin_pagetree_children {
   margin-left: -10px;
 }
@@ -499,7 +503,7 @@ body#com-atlassian-confluence.gi table.layout1 td.col2 div.plugin_pagetree ul {
 
 body#com-atlassian-confluence.gi table.layout1 td.col2 div.plugin_pagetree li {
   margin-left: 15px;
-  padding-left: 5px;
+  padding-left: 10px;
   text-indent: -10px;
 }
 
