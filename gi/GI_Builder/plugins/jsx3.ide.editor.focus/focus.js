@@ -114,7 +114,7 @@ showFocusRectangle: jsx3.$F(function(bShow, bEvent, bDoFocus) {
   var objRules = null, x1 = Number.POSITIVE_INFINITY, x2 = Number.NEGATIVE_INFINITY;
   var y1 = x1, y2 = x2;
   for (var i = 0; i < objJSX.length; i++) {
-    if (!objJSX[i]) continue;
+    if (!objJSX[i] || !objJSX[i].getMaskProperties) continue;
 
     var r = objJSX[i].getMaskProperties();
     if (objRules == null) {
@@ -336,6 +336,7 @@ _doFocusNudge: function(objEvent, strDirection) {
 
   for (var i = 0; i < objJSXs.length; i++) {
     var objJSX = objJSXs[i];
+    if (!objJSX || !objJSX.getMaskProperties) continue;
 
     // must be allowed to drag from center
     var objRules = objJSX.getMaskProperties();
