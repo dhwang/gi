@@ -116,6 +116,15 @@ onAttributeChange: function() {
 
     content.makeActive(bSuccess);
   }
+},
+
+allArePainted: function(arrJSX) {
+  var bOk = arrJSX.length > 0;
+  for (var i = 0; i < arrJSX.length && bOk; i++) {
+    if (! arrJSX[i].instanceOf(jsx3.gui.Painted))
+      bOk = false;
+  }
+  return bOk;
 }
 
 });

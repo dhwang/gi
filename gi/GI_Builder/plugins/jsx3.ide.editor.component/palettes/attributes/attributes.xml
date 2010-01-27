@@ -7,11 +7,12 @@
   <onAfterDeserialize><![CDATA[
 
 objJSX.onEditorChanged = function(newEditor, oldEditor) {
-  var onNow = newEditor && newEditor.getMode() == "component";
+  var onNow = newEditor && newEditor.getMode() == "component" && 
+      this.getPlugIn().allArePainted(newEditor.getSelection());
 
   this.makeActive(onNow);
   if (onNow)
-    this.onSelectionChanged(newEditor);
+    this._onSelectionChanged(newEditor);
 };
 
 objJSX.makeActive = jsx3.$F(function(bActive) {
@@ -29,7 +30,11 @@ objJSX.makeActive = jsx3.$F(function(bActive) {
   }
 }).throttled();
 
-objJSX.onSelectionChanged = function() {
+objJSX.onSelectionChanged = function(objEditor) {
+  this.onEditorChanged(objEditor);
+};
+
+objJSX._onSelectionChanged = function(objEditor) {
   this.getPlugIn().onAttributeChange();
 };
 
@@ -52,8 +57,6 @@ objJSX._attributeExec = function() {
 };
 
 objJSX.onPaletteLoaded = function() {
-  this.onSelectionChanged();
-
   jsxattribute_name._regex = /^[_A-Za-z]\w*(\:([_A-Za-z]\w*)?)?$/;
   jsxattribute_value._regex = /^[^"]*$/;
 
@@ -69,6 +72,10 @@ objJSX.onPaletteLoaded = function() {
 
   objJSX.registerHotKey(function() { objJSX.getPlugIn().onAttributeDelete(jsxattributes.getValue()); },
       jsx3.gui.Event.KEY_DELETE, false, true, false); // delete
+
+  var editor = jsx3.ide.getActiveEditor();
+  if (editor)
+    this.onEditorChanged(editor, null);
 };
 
   ]]></onAfterDeserialize>

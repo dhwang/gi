@@ -145,7 +145,7 @@ onXslParameterChange: jsx3.$F(function() {
   }
 }).throttled(),
 
-oneOrMoreCacheable: function(arrJSX) {
+allAreCacheable: function(arrJSX) {
   var bOk = arrJSX.length > 0;
   for (var i = 0; i < arrJSX.length && bOk; i++) {
     if (! arrJSX[i].instanceOf(jsx3.xml.Cacheable))

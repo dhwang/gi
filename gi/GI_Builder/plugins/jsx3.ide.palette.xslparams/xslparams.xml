@@ -14,7 +14,7 @@ objJSX.onPaletteLoaded = function() {
 
 objJSX.onEditorChanged = function(newEditor, oldEditor) {
   var onNow = newEditor && newEditor.getMode() == "component" && 
-      this.getPlugIn().oneOrMoreCacheable(newEditor.getSelection());
+      this.getPlugIn().allAreCacheable(newEditor.getSelection());
 
   this._makeActive(onNow);
 
