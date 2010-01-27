@@ -1,0 +1,84 @@
+<!--
+  ~ Copyright (c) 2001-2010, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+<plugin xmlns="http://www.generalinterface.org/gi/amp"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugin.xsd"
+        id="com.google.gears"
+        name="Google Gears Plug-In"
+        version="0.1">
+
+  <method id="isAvailable"><![CDATA[
+    return window.google != null && google.gears != null && google.gears.factory != null &&
+        typeof(google.gears.factory.create) == "function";
+  ]]></method>
+
+  <requires>
+    <plugin id="jsx3.io"/>
+  </requires>
+
+  <resources>
+    <script id="init" path="gears_init.js" load="early"/>
+    <script id="js" path="GearsFile.js"/>
+  </resources>
+
+  <extension point="jsx3.io.file-system">
+    <method id="isAvailable"><![CDATA[
+      return this.getPlugIn().isAvailable();
+    ]]></method>
+
+    <file-system 
+        id="gears"
+        label="Google Gears"
+        class="com.google.gears.FileSystem"
+        scheme="gears"
+        read="true"
+        write="true"
+        list="true"
+        />
+  </extension>
+
+  <extension point="jsx3.amp.persist.provider" id="gears">
+    <method id="_getDB">
+      var db = google.gears.factory.create('beta.database');
+      db.open("AmpPersist");
+      return db;
+    </method>
+
+    <method id="isAvailable">
+      var rv = this.getPlugIn().isAvailable();
+      if (rv) {
+        var db = this._getDB();
+        db.execute('CREATE TABLE IF NOT EXISTS map ' +
+                   '  (key TEXT NOT NULL UNIQUE, value TEXT)');
+        db.close();
+      }
+      return rv;
+    </method>
+
+    <method id="get" params="k">
+      var db = this._getDB();
+      var rs = db.execute("SELECT value FROM map WHERE key=?", [k]);
+      var rv = null;
+      if (rs.isValidRow())
+        rv = rs.field(0);
+      rs.close();
+      db.close();
+      return rv;
+    </method>
+
+    <method id="put" params="k, v">
+      var db = this._getDB();
+      db.execute("INSERT OR REPLACE INTO map (key,value) VALUES (?,?)", [k, v]);
+      db.close();
+    </method>
+
+    <method id="remove" params="k">
+      var db = this._getDB();
+      db.execute("DELETE FROM map WHERE key=?", [k]);
+      db.close();
+    </method>
+  </extension>
+
+</plugin>
