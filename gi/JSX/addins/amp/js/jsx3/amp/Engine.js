@@ -1172,7 +1172,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
             if (strType == "propsbundle") {
               var basePath = objResource.getFullPath(dataNode.getAttribute("path"));
               if (cache) cache.setDocument(basePath, objData); // So that PropsBundle can find the document in the cache
-              var props = jsx3.app.PropsBundle.getProps(basePath, objServer.getLocale(), objCache);
+              var props = jsx3.app.PropsBundle.getProps(basePath, objServer.getLocale(), cache);
               objServer.LJSS.addParent(props);
             }
 
