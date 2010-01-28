@@ -63,6 +63,7 @@ dojo.addOnLoad(function(){
 		dojo.byId("key-detail").value = showcaseStore.getValue(selectedItem, "key") || "";
 		dojo.byId("runtime-location-description").value = showcaseStore.getValue(selectedItem, "runtime") || "";
 		dojo.byId("email-detail").value = showcaseStore.getValue(selectedItem, "email") || "";
+		dojo.byId("publish-detail").checked= showcaseStore.getValue(selectedItem, "publish") || "";
 		
 	}
 	var tabElement = dojo.query('div.nowrapTabStrip', infoPane.tablist.tablistWrapper)[0];
@@ -113,6 +114,10 @@ dojo.addOnLoad(function(){
 				alert("Saved ");
 			}
 		});
+	});
+	dojo.connect(dojo.byId("preview-button"), "onclick", function(e){
+		dojo.stopEvent(e);
+		window.location = '/' + selectedItem.id + "/launch.html"; 
 	});
 	dojo.connect(dojo.byId("add-runtime-button"), "onclick", function(e){
 		dojo.stopEvent(e);

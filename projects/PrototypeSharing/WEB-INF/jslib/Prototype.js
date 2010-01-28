@@ -112,8 +112,17 @@ var PrototypeClass = exports.PrototypeClass = Model("Prototype", prototypeStore,
 				}
 				this.status = "Flagged";
 				this.save();
+			},
+			// these are used by atom
+			getTitle: function(){
+				return this.name;
+			},
+			getSummary: function(){
+				return this.description;
+			},
+			getUpdated: function(){
+				return this.uploaded;
 			}
-			
 		},
 		properties: {
 			myRating: {
@@ -129,19 +138,6 @@ var PrototypeClass = exports.PrototypeClass = Model("Prototype", prototypeStore,
 					return null;
 				}
 			}
-		},
-		// these are used by atom
-		getTitle: function(item){
-			return item.name;
-		},
-		getSummary: function(item){
-			return item.description;
-		},
-		getUpdated: function(item){
-			return item.uploaded;
-		},
-		getId: function(item){
-			return item.id;
 		}
 	});
 

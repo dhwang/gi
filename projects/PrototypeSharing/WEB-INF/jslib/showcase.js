@@ -17,6 +17,11 @@ var Unzip = require("zip").Unzip;
 
 var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 	put: function(object){
+		showcaseStore.query("").forEach(function(showcase){
+			if(showcase.id != object.id && showcase.title == object.title){
+				throw new Error("Duplicate name " + showcase.title + " not allowed");
+			}
+		});
 		checkZipFile(object);
 		var redefine = !object.id;
 		defineContent(object);
@@ -58,15 +63,22 @@ function defineContent(object){
 		"[Launch Demo|" + HOST_URL_PREFIX + object.id + "/launch.html]   [Download Source|" + HOST_URL_PREFIX + object.id + '/' + object.zip.tempfile + "]"; 
 }
 function checkZipFile(object){
+	if(!object.zip.tempfile){
+		throw new Error("No file provided");
+	}
 	var unzipper = new Unzip(object.zip.tempfile);
-	var foundConfigXml;
-	unzipper.forEach(function (entry) {
-        if(entry.getName().match(/config\.xml$/)){
-        	foundConfigXml = true;
-        }
-	});
-	if(!foundConfigXml){
-		throw new Error("config.xml not found");
+	try{
+		var foundConfigXml;
+		unzipper.forEach(function (entry) {
+	        if(entry.getName().match(/config\.xml$/)){
+	        	foundConfigXml = true;
+	        }
+		});
+		if(!foundConfigXml){
+			throw new Error("config.xml not found");
+		}
+	}finally{
+		unzipper.close();
 	}
 }
 function setupShowcase(object){
@@ -122,9 +134,11 @@ function recreateListing(){
 		"{table-plus}\n|| Title || Author || Description || Uploaded ||\n";
 	var showcases = showcaseStore.query("", {});
 	showcases.forEach(function(showcase){
-		content += "| [" + confluenceSettings.space + ":" + showcase.title + "] | " + 
-			showcase.author + " | " + (showcase.description && showcase.description.substring(0,100)) + " | " + 
-			showcase.uploaded + " |\n";
+		if(showcase.publish){
+			content += "| [" + confluenceSettings.space + ":" + showcase.title + "] | " + 
+				showcase.author + " | " + (showcase.description && showcase.description.substring(0,100)) + " | " + 
+				showcase.uploaded + " |\n";
+		}
 	});
 	content += "{table-plus}\n";
 	listingPage.content = content;
