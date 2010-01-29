@@ -2382,7 +2382,7 @@ window['jsx_main'] = function() {
                 '<div style="font-size:16px;"><span style="font-weight:bold;">General&#160;Interface</span></div>'+
                 '<div style="padding:6px 0px 0px 0px;font-size:10px;font-family:Verdana,sans-serif;">' + getMsgStr("nosup") +
                    '<div style="color:#000033;padding:8px 0px 0px 0px;margin:0px 0px 0px -2px;">'+
-                     '<span style="font-size:8px;">&gt; </span><a style="color:#000033;" href="http://www.generalinterface.org/alias/sysreqs38" target="_blank">' + getMsgStr("b_req") + '</a>'+
+                     '<span style="font-size:8px;">&gt; </span><a style="color:#000033;" href="http://www.generalinterface.org/alias/sysreqs/@build.gi.version@" target="_blank">' + getMsgStr("b_req") + '</a>'+
                      '<div style="padding:2px 0px 0px 0px;"><span style="font-size:8px;">&gt; </span><span id="jsxforcestart_span" tabindex="1" style="cursor:pointer;text-decoration:underline;" ' +
                        'onclick="jsx3.CLASS_LOADER.'+_forceStartQueue+'();" onkeydown="if (event.keyCode == 13) this.onclick();">' + getMsgStr("contd") + '</span></div>'+
                    '</div>'+

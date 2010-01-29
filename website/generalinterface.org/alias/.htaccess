@@ -16,7 +16,6 @@ RewriteRule  ^learning$         http://www.generalinterface.org/docs/display/DOC
 RewriteRule  ^forum_dev$        http://www.generalinterface.org/forums/viewforum.php?f=3  [R,L]
 RewriteRule  ^forum_gipp$       http://www.generalinterface.org/forums/viewforum.php?f=6  [R,L]
 RewriteRule  ^forum_gitak$      http://www.generalinterface.org/forums/viewforum.php?f=5  [R,L]
-RewriteRule  ^sysreqs38$        http://www.generalinterface.org/docs/display/GIDOCS/System+Requirements+for+General+Interface
 RewriteRule  ^decline_license$  http://www.generalinterface.org/  [R,L]
 RewriteRule  ^support$          http://www.generalinterface.org/docs/display/DOC/Support  [R,L]
 RewriteRule  ^samples$          http://www.generalinterface.org/docs/pages/viewpage.action?pageId=2392105  [R,L]
@@ -30,3 +29,9 @@ RewriteRule  ^userguide/3\.8(\.\d)?$        http://www.generalinterface.org/docs
 # Most recent documentation aliases
 RewriteRule  ^search/([^/]+)/([^/]+)$   http://www.generalinterface.org/docs/dosearchsite.action?searchQuery.queryString=$2&searchQuery.spaceKey=GIDOCS&gi-searchgo=true&gi-searchanchor=$2  [R,L]
 RewriteRule  ^userguide/([^/]+)$        http://www.generalinterface.org/docs/display/GIDOCS [R,L]
+
+# System requirements
+# 3.8.0, 3.8.1, 3.9.0 (OS)
+RewriteRule  ^sysreqs38$            http://www.generalinterface.org/docs/display/GIDOCS38/System+Requirements+for+General+Interface
+# 3.9.1 and on ($2 contains the GI version)
+RewriteRule  ^sysreqs(/([^/]+))?$   http://www.generalinterface.org/docs/display/GIDOCS/System+Requirements+for+General+Interface
