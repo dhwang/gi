@@ -94,6 +94,7 @@ dojo.addOnLoad(function(){
 		}		
 	};
 	dojo.connect(dojo.byId("delete-button"), "onclick", function(e){
+		dojo.stopEvent(e);
 		if(confirm("Are you sure you want to delete " + selectedItem.title)){
 			showcaseStore.deleteItem(selectedItem);
 			showcaseStore.save();
