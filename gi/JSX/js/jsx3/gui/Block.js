@@ -99,7 +99,7 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
    * {String} [empty string] (default)
    * @final @jsxobf-final
    */
-  Block.VISIBILITYVISIBLE = "";
+  Block.VISIBILITYVISIBLE = "visible";
 
   /**
    * {String} hidden
@@ -945,6 +945,9 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
    * @param bUpdateView {boolean} if <code>true</code>, the view of this object is immediately updated, obviating the need to call <code>repaint()</code>.
    */
   Block_prototype.setVisibility = function(VISIBILITY,bUpdateView) {
+    if (VISIBILITY != Block.VISIBILITYHIDDEN)
+      VISIBILITY = Block.VISIBILITYVISIBLE;
+      
     //update the model
     this.jsxvisibility = VISIBILITY;
 
@@ -1381,8 +1384,7 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
    * @private
    */
   Block_prototype.paintVisibility = function() {
-    return (jsx3.util.strEmpty(this.getVisibility()) || this.getVisibility() == Block.VISIBILITYVISIBLE) ?
-        "" : "visibility:hidden;";
+    return this.getVisibility() == Block.VISIBILITYHIDDEN ? "visibility:hidden;" : "";
   };
 
   /**

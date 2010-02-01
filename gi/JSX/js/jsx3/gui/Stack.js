@@ -392,7 +392,7 @@ return;
     if (objContent instanceof Block) {
       objContent.setDisplay(bActive ? Block.DISPLAYBLOCK : Block.DISPLAYNONE, true);
       //3.5.1:  clear legacy setting from model. Visibility was inappropriately used to hide inactive stacks. Display will be used
-      objContent.setVisibility();
+      objContent.setVisibility(Block.VISIBILITYVISIBLE);
     }
     return objContent;
   };
