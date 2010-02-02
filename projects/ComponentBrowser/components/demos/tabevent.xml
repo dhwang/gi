@@ -3,46 +3,97 @@
   <icon/>
   <description><![CDATA[This demonstrates a few simple tab event handlers.]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize><![CDATA[
+var log_handler = new jsx3.util.Logger.FormatHandler();
+log_handler.handle = function(objRecord) {
+  if (objRecord.getLoggerName() != "tab-event") {
+    return;
+  }
+  var output = jsx3.util.strEscapeHTML(this.format(objRecord));
+  var objGUI = logger.getRendered();
+  jsx3.html.insertAdjacentHTML(objGUI, 'beforeEnd', "<div>" + output + "</div>");
+
+  if (!logger._scrollTOID && objGUI.lastChild &&
+       (objGUI.scrollTop >= objGUI.lastChild.offsetTop - parseInt(objGUI.style.height) - 2 * objGUI.lastChild.offsetHeight)) {
+    logger._scrollTOID = window.setTimeout(function() {
+      logger._scrollTOID = null;
+
+      if (objGUI && objGUI.lastChild)
+        objGUI.scrollTop = objGUI.lastChild.offsetTop;
+    }, 200);
+  }
+};
+
+this.logEvent = function(text){
+  jsx3.util.Logger.getLogger('tab-event').info(text);
+};
+
+this.unregisterHandler = function() {
+  jsx3.util.Logger.getLogger('tab-event').removeHandler(log_handler);
+};
+
+jsx3.util.Logger.getLogger('tab-event').addHandler(log_handler);
+jsx3.util.Logger.getLogger('tab-event').setLevel(jsx3.util.Logger.INFO);
+  ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
     <dynamics jsxcols="@Root Cols"/>
+    <events jsxdestroy="this.unregisterHandler();"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2" jsxpadding="8"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
       <dynamics jsxborder="@Outset"/>
-      <object type="jsx3.gui.TabbedPane">
-        <variants selectedIndex="2" jsxselectedindex="0"/>
-        <strings jsxname="tabpane" jsxtextalign="0"/>
-        <object type="jsx3.gui.Tab">
-          <variants jsxzindex="3" jsxheight="20"/>
-          <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#e8e8f5"/>
-          <events jsxshow="alert(&quot;Tab 1 show&quot;);" jsxhide="alert(&quot;Tab 1 hide&quot;);"/>
-          <object type="jsx3.gui.Block">
-            <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
-            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="" jsxtext="Tab 1 Content"/>
-            <dynamics jsxbgcolor="@Solid Medium"/>
+      <object type="jsx3.gui.LayoutGrid">
+        <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+        <strings jsxname="layoutRows" jsxrows="*,100" jsxwidth="100%" jsxheight="100%"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="2"/>
+          <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"/>
+          <dynamics jsxborder="@No jsxborder"/>
+          <object type="jsx3.gui.TabbedPane">
+            <variants selectedIndex="2" jsxselectedindex="0"/>
+            <strings jsxname="tabpane" jsxtextalign="0"/>
+            <events jsxchange="root.logEvent('Active tab changed');"/>
+            <object type="jsx3.gui.Tab">
+              <variants jsxzindex="3" jsxheight="20"/>
+              <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#d8d8e5"/>
+              <events jsxshow="root.logEvent(&quot;Tab 1 show&quot;);" jsxhide="root.logEvent(&quot;Tab 1 hide&quot;);"/>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"/>
+                <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="visible" jsxtext="Tab 1 Content"/>
+                <dynamics jsxbgcolor="@Solid Medium"/>
+              </object>
+            </object>
+            <object type="jsx3.gui.Tab">
+              <variants jsxzindex="3" jsxheight="18"/>
+              <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#e8e8f5"/>
+              <events jsxshow="root.logEvent(&quot;Tab 2 show&quot;);" jsxhide="root.logEvent(&quot;Tab 2 hide&quot;);"/>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+                <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible" jsxtext="Tab 2 Content"/>
+                <dynamics jsxbgcolor="@Solid Medium"/>
+              </object>
+            </object>
+            <object type="jsx3.gui.Tab">
+              <variants jsxzindex="3" jsxheight="18"/>
+              <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
+              <events jsxshow="root.logEvent(&quot;Tab 3 show&quot;);" jsxhide="root.logEvent(&quot;Tab 3 hide&quot;);"/>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
+                <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible" jsxtext="Tab 3 Content"/>
+                <dynamics jsxbgcolor="@Solid Medium"/>
+              </object>
+            </object>
           </object>
         </object>
-        <object type="jsx3.gui.Tab">
-          <variants jsxzindex="3" jsxheight="18"/>
-          <strings jsxname="tab2" jsxtext="Tab 2" jsxbgcolor="#d8d8e5"/>
-          <events jsxshow="alert(&quot;Tab 2 show&quot;);" jsxhide="alert(&quot;Tab 2 hide&quot;);"/>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"/>
+          <strings jsxheight="100%" jsxname="pane2" jsxwidth="100%" jsxpadding="12 0 0 0"/>
           <object type="jsx3.gui.Block">
-            <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 2 Content"/>
-            <dynamics jsxbgcolor="@Solid Medium"/>
-          </object>
-        </object>
-        <object type="jsx3.gui.Tab">
-          <variants jsxzindex="3" jsxheight="18"/>
-          <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5"/>
-          <events jsxshow="alert(&quot;Tab 3 show&quot;);" jsxhide="alert(&quot;Tab 3 hide&quot;);"/>
-          <object type="jsx3.gui.Block">
-            <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"/>
-            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="" jsxtext="Tab 3 Content"/>
-            <dynamics jsxbgcolor="@Solid Medium"/>
+            <variants jsxoverflow="1"/>
+            <strings jsxname="logger" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
+            <dynamics jsxborder="@Inset"/>
           </object>
         </object>
       </object>
@@ -62,4 +113,3 @@
     </object>
   </object>
 </serialization>
-
