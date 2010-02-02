@@ -6,10 +6,23 @@
   <onAfterDeserialize><![CDATA[
 this.onSelectionMethodSelect = function(strRecordId) {
   var strRecordId = parseInt(strRecordId, 10);
-  if (strRecordId <= 1) {
-    tree.setMultiSelect(strRecordId, 10);
-  } else {
+  var records = tree.getXML().selectNodeIterator('//record');
+  while (records.hasNext()) {
+    records.next().setAttribute('jsxunselectable', strRecordId <= 1 ? 0 : 1);
   }
+  var selected = tree.getXML().selectNodeIterator('//record[@jsxselected="1"]');
+  if (strRecordId != 1 && selected.hasNext()) {
+    if (strRecordId == 0) {
+      selected.next();
+    }
+    while (selected.hasNext()) {
+      selected.next().setAttribute('jsxselected', '0');
+    }
+  }
+  if (strRecordId <= 1) {
+    tree.setMultiSelect(strRecordId);
+  }
+  tree.repaint();
 };
 
 selection_method.setValue(tree.getMultiSelect());
