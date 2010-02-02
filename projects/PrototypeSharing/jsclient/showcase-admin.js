@@ -98,6 +98,8 @@ dojo.addOnLoad(function(){
 		if(confirm("Are you sure you want to delete " + selectedItem.title)){
 			showcaseStore.deleteItem(selectedItem);
 			showcaseStore.save();
+			selectedItem = {};
+			showSelectedComponent();
 		}
 	});
 	dojo.connect(dojo.byId("save-button"), "onclick", function(e){
