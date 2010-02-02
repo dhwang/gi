@@ -11,7 +11,8 @@ this.onSpyglass = function(objMatrix, strRecordId) {
     '<span style="font-weight: bold;">Country</span> ' + objRecord.jsxtext + '<br/>' +
     '<span style="font-weight: bold;">Population</span> ' + objRecord.jsxpopulation + '<br/>' +
     '<span style="font-weight: bold;">Area</span> ' + objRecord.jsxarea + '<br/>' +
-    '<span style="font-weight: bold;">Density</span> ' + objRecord.jsxdensity + '<br/>';
+    '<span style="font-weight: bold;">Density</span> ' + objRecord.jsxdensity + '<br/>' +
+    '</div>';
 };
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
