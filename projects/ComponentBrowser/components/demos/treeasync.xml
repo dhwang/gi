@@ -1,7 +1,7 @@
 <serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
   <name><![CDATA[Asynchronous Data Loading]]></name>
   <icon/>
-  <description/>
+  <description><![CDATA[This demonstrates the asynchronous loading capabilities of the Tree.  The "Existing" radio button will load data from a URL that exists.  The "Non-existing" radio button will attempt to load a URL that doesn't exist and demonstrate an error message.]]></description>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
 this.onURLChange = function (strUrl) {
@@ -55,7 +55,7 @@ if (tree.getXMLURL() == 'xml/continents.xml') {
         <strings jsxname="properties" jsxwidth="100%" jsxrelativeposition="1"/>
         <object type="jsx3.gui.Label">
           <variants jsxrelativeposition="1" jsxoverflow="3"/>
-          <strings jsxname="formLabel" jsxtext="URL" jsxwidth="50%" jsxfontweight="bold"/>
+          <strings jsxname="formLabel" jsxtext="URL" jsxwidth="50%" jsxfontweight="bold" jsxstyleoverride="vertical-align: top;"/>
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxoverflow="3"/>
