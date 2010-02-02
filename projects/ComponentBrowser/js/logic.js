@@ -1,6 +1,7 @@
 /* place JavaScript code here */
 jsx3.Package.definePackage("tibco.ce", function(ce){
   ce.init = function() {
+    this._defaultLocale = this.getLocale();
     this.setView(ce.WELCOME, null, true);
   };
 

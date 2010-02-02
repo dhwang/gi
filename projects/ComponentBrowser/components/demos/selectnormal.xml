@@ -36,13 +36,14 @@ this.onDataSourceSelect = function(strRecordId) {
 };
 
 enabled.setValue(select.getEnabled());
-locale.setValue(this.getServer().getLocale().getLanguage());
+locale.setValue(this.getServer()._defaultLocale.getLanguage());
 xmllisting.setXMLString(select.getXMLString());
   ]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
     <strings jsxname="root" jsxwidth="100%" jsxheight="100%"/>
     <dynamics jsxcols="@Root Cols"/>
+    <events jsxdestroy="objPARENT.getServer().setLocale(objPARENT.getServer()._defaultLocale);"/>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="2"/>
       <strings jsxname="col1" jsxwidth="100%" jsxheight="100%"/>
