@@ -312,7 +312,7 @@ _typeIcons: {
   "jsx3.gui.LayoutGrid": function (o) { 
     var numRows = o.getRows().split(/\s*,\s*/g).length;
     var numCols = o.getCols().split(/\s*,\s*/g).length;
-    return systemIconPath + (numRows > 1 && numCols > 1 ? "layout-side.gif" : (numRows > 1 ? "layout-over.gif" : "layout-side.gif"));
+    return systemIconPath + (numRows > 1 && numCols > 1 ? "layout-over.gif" : (numRows > 1 ? "layout-over.gif" : "layout-side.gif"));
   },
   "jsx3.gui.Matrix": function(o) {
     var icon = "matrix.gif";

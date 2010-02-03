@@ -53,6 +53,9 @@ function suite() {
 
       /* Localization suite */
       ["jsx3/util/t_locale.js", "jsx3/util/t_dateformat.js", "jsx3/util/t_numberformat.js",
-          "jsx3/util/t_messageformat.js"]
+          "jsx3/util/t_messageformat.js"],
+      
+      /* GUI suite */
+      ["jsx3/gui/t_layoutgrid.js"]
   );
 }

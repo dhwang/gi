@@ -212,12 +212,12 @@ jsx3.Class.defineClass("jsx3.gui.LayoutGrid", jsx3.gui.Block, null, function(Lay
   };
 
   /**
-   * @param strCols {String}
+   * @param strCols {String|Array}
    * @return {jsx3.gui.LayoutGrid} this object.
    * @since 3.4
    */
   LayoutGrid_prototype.setCols = function(strCols, bRepaint) {
-    this.jsxcols = strCols;
+    this.jsxcols = jsx3.$A.is(strCols) ? strCols.join(",") : strCols;
     if (bRepaint) this._bRepaint();
     return this;
   };
@@ -231,12 +231,12 @@ jsx3.Class.defineClass("jsx3.gui.LayoutGrid", jsx3.gui.Block, null, function(Lay
   };
 
   /**
-   * @param strRows {String}
+   * @param strRows {String|Array}
    * @return {jsx3.gui.LayoutGrid} this object.
    * @since 3.4
    */
   LayoutGrid_prototype.setRows = function(strRows, bRepaint) {
-    this.jsxrows = strRows;
+    this.jsxrows = jsx3.$A.is(strRows) ? strRows.join(",") : strRows;
     if (bRepaint) this._bRepaint();
     return this;
   };
