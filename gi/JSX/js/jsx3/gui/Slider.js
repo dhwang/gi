@@ -620,6 +620,10 @@ jsx3.Class.defineClass("jsx3.gui.Slider", jsx3.gui.Block, [jsx3.gui.Form], funct
         (this.getOrientation() == Slider.HORIZONTAL ? Slider.DEFAULT_BACKGROUND_H : Slider.DEFAULT_BACKGROUND_V);
   };
 
+  Slider_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 /* @JSC :: begin DEP */
 
   /**

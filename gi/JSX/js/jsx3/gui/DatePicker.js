@@ -899,6 +899,10 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     this._hideCalendar(objEvent,false);
   };
 
+  DatePicker_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 });
 
 /* @JSC :: begin DEP */

@@ -216,4 +216,8 @@ jsx3.Class.defineClass("jsx3.gui.NativeButton", jsx3.gui.Block, [jsx3.gui.Form],
   NativeButton_prototype._emOnExecute = function(objEvent) {
   };
 
+  NativeButton_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 });

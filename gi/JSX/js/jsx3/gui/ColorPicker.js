@@ -523,6 +523,10 @@ jsx3.Class.defineClass("jsx3.gui.ColorPicker", jsx3.gui.Block, [jsx3.gui.Form],
     }
   };
   
+  ColorPicker_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+      
   /**
    * Converts HSB color components to RGB components.
    * @param h {float} The hue component, [0.0, 1.0].

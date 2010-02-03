@@ -302,6 +302,10 @@ jsx3.Class.defineClass("jsx3.gui.NativeSelect", jsx3.gui.Block, [jsx3.gui.Form, 
     var cn = this.getClassName();
     return NativeSelect.DEFAULTCLASSNAME + (cn ? " " + cn : "");
   };
+  
+  NativeSelect_prototype.onSetChild = function(child) {
+    return !(child instanceof jsx3.gui.Painted);
+  };  
 
   NativeSelect_prototype.emInit = function(objColumn) {
     this.jsxsupermix(objColumn);

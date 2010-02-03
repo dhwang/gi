@@ -956,6 +956,10 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     }
   };
 
+  TimePicker_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+
   TimePicker_prototype.emSetValue = function(strValue) {
     var es = this.emGetSession();
     var date = null;

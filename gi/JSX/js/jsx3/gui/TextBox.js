@@ -672,6 +672,10 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
     return this.getValidationState();
   };
 
+  TextBox_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+
   /**
    * call to designate an error or alert the user's attention to the textbox on-screen. Causes the textbox to 'flash/blink'
    */

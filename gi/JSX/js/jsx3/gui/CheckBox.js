@@ -429,6 +429,10 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
     }
   };
 
+  CheckBox_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 });
 
 /* @JSC :: begin DEP */

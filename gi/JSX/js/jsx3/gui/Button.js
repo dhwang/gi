@@ -404,6 +404,10 @@ jsx3.Class.defineClass("jsx3.gui.Button", jsx3.gui.Block, [jsx3.gui.Form], funct
     this.jsxsuper(objParent);
   };
 
+  Button_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 });
 
 /* @JSC :: begin DEP */

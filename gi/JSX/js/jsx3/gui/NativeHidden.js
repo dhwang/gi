@@ -51,4 +51,8 @@ jsx3.Class.defineClass("jsx3.gui.NativeHidden", jsx3.gui.Painted, [jsx3.gui.Form
     return this;
   };
 
+  NativeHidden_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+
 });

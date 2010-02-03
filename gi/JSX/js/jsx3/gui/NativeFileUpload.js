@@ -125,4 +125,8 @@ jsx3.Class.defineClass("jsx3.gui.NativeFileUpload", jsx3.gui.Block, [jsx3.gui.Fo
     // no-op security
   };
 
+  NativeFileUpload_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+
 });

@@ -451,4 +451,8 @@ jsx3.Class.defineClass('jsx3.gui.ImageButton', jsx3.gui.Block, [jsx3.gui.Form], 
     this.jsxsuper(objParent);
   };
 
+  ImageButton_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 });

@@ -666,6 +666,10 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
     this.jsxsuper(objParent);
   };
 
+  ToolbarButton_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+
 });
 
 /* @JSC :: begin DEP */

@@ -459,6 +459,10 @@ jsx3.Class.defineClass("jsx3.gui.RadioButton", jsx3.gui.Block, [jsx3.gui.Form], 
     return this.getId() + "_input";
   };
 
+  RadioButton_prototype.onSetChild = function(objChild) {
+    return false;
+  };
+  
 /* @JSC :: begin DEP */
 
   /**
