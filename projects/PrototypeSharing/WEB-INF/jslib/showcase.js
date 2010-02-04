@@ -49,8 +49,13 @@ var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 		}
 	},
 	properties:{
-		title:{type:"string", unique: true},
-		key:{unique:true}
+		title:{type:"string", unique: true, minLength:1},
+		key:{unique:true, minLength:1},
+		description: {type:"string", minLength:1},
+		author: {type:"string", minLength:1},
+		email: {type:"string", minLength:1},
+		appVersion: {type:["string", "number"], minLength:1},
+		runtime: {type:"string", minLength:1}
 	}
 });
 function defineContent(object){
@@ -74,6 +79,7 @@ function checkZipFile(object){
 	        	foundConfigXml = true;
 	        }
 		});
+		
 		if(!foundConfigXml){
 			throw new Error("config.xml not found");
 		}
@@ -83,7 +89,6 @@ function checkZipFile(object){
 }
 function setupShowcase(object){
 	var targetDir = require("settings").APACHE_TARGET + object.id + '/';
-
 	unzip(object.zip.tempfile, targetDir);
 	var appDirectory;
 	File.list(targetDir).forEach(function (name) {

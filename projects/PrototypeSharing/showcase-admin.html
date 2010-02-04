@@ -73,7 +73,7 @@
 								<small>One rewrite rule per line, for example: ^remote-folder/(.*)$ http://some-site.com/$1</small>
 							</div
 							<div class="description-row">
-								<label>GI Runtime Location: </label><select name="runtime" id="runtime-location-description"></select>
+								<label>GI Runtime Location: </label><select name="runtime" id="runtime-location-description"></select><span class="required">*</span>
 								<button id="add-runtime-button">Add runtime path</button>
 								<button id="remove-runtime-button">Remove runtime path</button>
 							</div																											
@@ -92,7 +92,7 @@
 								<option value="closed-source">Closed Source</option>
 							</select>
 							<hr />
-							<span>App Key: </span><input name="key" id="key-detail"></input>
+							<span>App Key: </span><input name="key" id="key-detail"></input><span class="required">*</span>
 							<hr />
 							<span>App File: </span><input name="zip" id="file-detail" type="file"></input><span class="required">*</span>
 							<hr />
