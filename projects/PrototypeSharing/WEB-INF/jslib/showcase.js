@@ -65,7 +65,9 @@ function defineContent(object){
 	object.content = "h2. " + object.title + "\n\n" +
 		"h3. " + object.author + " - " + new Date() + " - Version: " + object.appVersion + "\n\n" +
 		object.description + "\n\n" +
-		"[Launch Demo|" + HOST_URL_PREFIX + object.id + "/launch.html]   [Download Source|" + HOST_URL_PREFIX + object.id + '/' + object.zip.tempfile + "]"; 
+		"[Launch Demo|" + HOST_URL_PREFIX + object.id + "/launch.html]" +
+		(object.license == "open-source" ? 
+		   "[Download Source|" + HOST_URL_PREFIX + object.id + '/' + object.zip.tempfile + "]" : ""); 
 }
 function checkZipFile(object){
 	if(!object.zip.tempfile){
