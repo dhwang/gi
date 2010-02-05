@@ -86,6 +86,31 @@ jsx3.Class.defineClass("jsx3.gui.NativeSelect", jsx3.gui.Block, [jsx3.gui.Form, 
     this.jsxsize = Math.round(intSize);
   };
 
+  /**
+   * Returns the value of this select box. If this is a multi-select then the return value is an array. 
+   * @return {String | Array<String>} 
+   */
+  NativeSelect_prototype.getValue = function() {
+    var objGUI = this.getRendered();
+    if (objGUI) {
+      if (this.getMultiple()) {
+        var v = [];
+        for (var i = 0; i < objGUI.options.length; i++)
+          if (objGUI.options[i].selected)
+            v.push(objGUI.options[i].value)
+        return v;
+      } else {
+        return objGUI.value;
+      }
+    } else {
+      return this.jsxvalue;
+    }
+  };
+
+  /**
+   * Sets the value of this select box. If this is a multi-select then <b>strValue</b> may be an array.
+   * @param strValue {String | Array<String>}
+   */
   NativeSelect_prototype.setValue = function(strValue) {
     this.jsxvalue = strValue;
     var objGUI = this.getRendered();

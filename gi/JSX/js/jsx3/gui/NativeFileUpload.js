@@ -121,6 +121,18 @@ jsx3.Class.defineClass("jsx3.gui.NativeFileUpload", jsx3.gui.Block, [jsx3.gui.Fo
     return NativeFileUpload.DEFAULTCLASSNAME + (cn ? " " + cn : "");
   };
 
+  /**
+   * Returns the value of the rendered file upload field.
+   */
+  NativeFileUpload_prototype.getValue = function() {
+    var objGUI = this.getRendered();
+    return objGUI ? objGUI.value : null;
+  };
+
+  /**
+   * No-op. 
+   * @param strValue
+   */
   NativeFileUpload_prototype.setValue = function(strValue) {
     // no-op security
   };

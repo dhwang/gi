@@ -8,6 +8,6 @@
   <description><![CDATA[A multiselect object implemented with the native browser control.]]></description>
   <object type="jsx3.gui.NativeSelect">
     <variants jsxwidth="150" jsxxmlasync="1" jsxmultiple="1" jsxsize="10"/>
-    <strings jsxname="select" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0"/>
+    <strings jsxname="nativeMultiSelect" jsxxmlurl="jsx:///xml/sample.xml" jsxmargin="0 4 0 0"/>
   </object>
 </serialization>
