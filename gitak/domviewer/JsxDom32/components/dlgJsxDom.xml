@@ -6,7 +6,7 @@
   <onAfterDeserialize/>
   <object type="jsx3.gui.Dialog">
     <variants jsxwidth="626" jsxheight="393" jsxzindex="5000" jsxwindowstate="1" jsxleft="10" jsxtop="10"/>
-    <strings jsxname="dialog"/>
+    <strings jsxname="dlgJsxDom"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">
       <variants/>

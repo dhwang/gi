@@ -123,7 +123,7 @@
                   <strings jsxname="mcEditDeleteColumn" jsxpadding="3" jsxcellpadding="1" jsxvaluetemplate="@empty"></strings>
                   <dynamics jsxbgcolor="@Solid Medium" jsxbg="@Fade TopDown" jsxborder="@Outset"></dynamics>
                   <object type="jsx3.gui.ImageButton">
-                    <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0"></variants>
+                    <variants jsxenabled="1" jsxprefetch="1" jsxtype="0" jsxstate="0" jsxheight="16" jsxwidth="16"></variants>
                     <strings jsxname="imageButtonMask" jsximage="jsx:///images/list/delete.gif"></strings>
                     <events jsxexecute="this.getParent().getParent().deleteRecord(this.emGetSession().recordId, true);"></events>
                   </object>

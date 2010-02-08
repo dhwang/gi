@@ -58,7 +58,7 @@ jsx3.require('jsx3.gui.BlockX');
 
      jsxdom.buildDomTree = function (objJSX,strParentId,bNoEmbed) {
        var name = objJSX.getName(); 
-       if (name  == 'dlgJsxDom') return;
+       if (name  === 'rootJsxDom' || name === "dlgJsxDom") return;
        var objTree = objJSX.getServer().getJSXByName('treeJsxDom');
 
        //create record object (will become a record node in the CDF)
@@ -111,7 +111,8 @@ jsx3.require('jsx3.gui.BlockX');
      
          while (objKids.hasNext()) {           
             var nextChild = objKids.next();
-              jsxdom.buildDomTree(nextChild, o.jsxid,  (intPersist == jsx3.app.Model.PERSISTNONE || bNoEmbed)); 
+
+            jsxdom.buildDomTree(nextChild, o.jsxid,  (intPersist == jsx3.app.Model.PERSISTNONE || bNoEmbed)); 
          }
        }
 
@@ -119,13 +120,45 @@ jsx3.require('jsx3.gui.BlockX');
        objTree.getParent().hideMask();
      }; // end buildTree    
 
+     jsxdom.injectedAPI = {
+        $     : function(id) { return document.getElementById(id) },
+        $$    : function() { if(document.querySelectorAll) return document.querySelectorAll.apply(document, arguments) },
+        $x    : function(xpath, contextNode) {if(document.evaluate) return Util.getElementsByXPath(xpath, contextNode);},
+        keys  : function(o) { var a = []; for (k in o) a.push(k); return a; }, 
+        values: function(o) { var a = []; for (k in o) try {a.push(o[k])} catch(e) {}; return a; }
+    };
+
+    jsxdom.doEvaluate = function(strScript, objContext, objConsole) {
+      if (strScript != null && strScript !== "") {
+        /* @jsxobf-bless */
+        var __api = objContext;
+        for (var __f in jsxdom.injectedAPI)
+          __api[__f] = jsxdom.injectedAPI[__f];
+        
+        return eval("with (__api) { " + strScript + " }");
+      }
+    };
+
     jsxdom.doEval = function (objJSX) {
+      // Import all DOM nodes in the active component editor to the current scope
+      var context = {};
+      var server = objJSX.getServer();
+      if (server) {
+        server.getBodyBlock().findDescendants(function(x) {
+          var n = x.getName();
+          if (n && !context[n] && jsx3.util.isName(n)) {
+            context[n] = x;
+          }
+        }, false, false, false, true);
+      }
+
+       var result = "undefined";
        try {
-        result = jsx3.eval(objJSX.getServer().getJSXByName('txtScript').getValue()); 
+        result = jsxdom.doEvaluate(server.getJSXByName('txtScript').getValue(), context); 
         } catch (ex) {
           result = ex.message;
         }
-        objJSX.getServer().getJSXByName('txtResult').setValue(result);   
+        objJSX.getServer().getJSXByName('txtResult').setValue(result).repaint();   
     };
 
     jsxdom.doCopy = function (objJSX, column) {
