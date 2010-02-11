@@ -53,7 +53,7 @@ var ShowcaseClass = model.Model("Showcase", showcaseStore, {
 		key:{unique:true, minLength:1},
 		description: {type:"string", minLength:1},
 		author: {type:"string", minLength:1},
-		email: {type:"string", minLength:1},
+		email: {type:"string", minLength:1, pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}"},
 		appVersion: {type:["string", "number"], minLength:1},
 		runtime: {type:"string", minLength:1}
 	}
