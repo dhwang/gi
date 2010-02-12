@@ -105,6 +105,7 @@ dojo.addOnLoad(function(){
 	dojo.connect(dojo.byId("save-button"), "onclick", function(e){
 		dojo.stopEvent(e);
 		dojo.io.iframe.send({
+			method:"POST",
 			form:"upload-form",
 			url:"Showcase/" + (selectedItem.id || "") + "?http-Accept=text/html&pintura-auth=" + dojo.cookie("pintura-auth"),
 			timeout: 10000,
@@ -175,9 +176,10 @@ dojo.addOnLoad(function(){
 		var runtime = runtimes[path];
 		delete runtimes[path];
 		var children = select.childNodes;
-		dojo.forEach(select.childNodes, function(element){
+		dojo.some(select.childNodes, function(element){
 			if(element.value == runtime.path){
 				select.removeChild(element);
+				return true;
 			}
 		});
 	}
