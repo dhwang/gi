@@ -30,7 +30,7 @@
   <!-- jsx3.gui.Dialog -->
   <record jsxid="jsx3.gui.Dialog.close" jsxtext="Cerrar"/>
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="Alternar visualización"/>
-  <record jsxid="jsx3.gui.Dialog.max" jsxtext="Alternar maximización"/>
+  <record jsxid="jsx3.gui.Dialog.max" jsxtext="Maximización"/>
   <record jsxid="jsx3.gui.Dialog.restore" jsxtext="Restaurar"/>
 
 </data>

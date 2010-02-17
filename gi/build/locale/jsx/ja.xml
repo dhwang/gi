@@ -31,5 +31,5 @@
   <record jsxid="jsx3.gui.Dialog.close" jsxtext="閉じる"/>
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="トグル表示"/>
   <record jsxid="jsx3.gui.Dialog.max" jsxtext="トグルを最大化しました"/>
-
+  <record jsxid="jsx3.gui.Dialog.restore" jsxtext="修復"/>
 </data>

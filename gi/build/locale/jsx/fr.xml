@@ -18,8 +18,8 @@
 
   <!-- jsx3.gui.BlockX -->
   <record jsxid="jsx3.gui.BlockX.loading" jsxtext="Chargement de XSL en cours..."/>
-  <record jsxid="jsx3.gui.BlockX.timeout" jsxtext="Temporisation XSL"/>
-  <record jsxid="jsx3.gui.BlockX.error" jsxtext="Erreur XSL"/>
+  <record jsxid="jsx3.gui.BlockX.timeout" jsxtext="Temps limite dépassé lors du chargement de XSL"/>
+  <record jsxid="jsx3.gui.BlockX.error" jsxtext="Erreur lors du chargement de XSL"/>
 
   <!-- jsx3.xml.Cacheable -->
   <record jsxid="jsx3.xml.Cacheable.loading" jsxtext="Chargement {0} en cours..."/>

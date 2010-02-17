@@ -29,7 +29,6 @@
   <!-- jsx3.gui.Dialog -->
   <record jsxid="jsx3.gui.Dialog.close" jsxtext="Закрыть"/>
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="Переключить отображение"/>
-  <record jsxid="jsx3.gui.Dialog.max" jsxtext="Переключить размер окна"/>
+  <record jsxid="jsx3.gui.Dialog.max" jsxtext="Развернуть"/>
   <record jsxid="jsx3.gui.Dialog.restore" jsxtext="Свернуть в окно"/>
- 
 </data>

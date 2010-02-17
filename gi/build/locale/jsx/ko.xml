@@ -31,7 +31,7 @@
   <!-- jsx3.gui.Dialog -->
   <record jsxid="jsx3.gui.Dialog.close" jsxtext="닫기"/>
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="토글 표시"/>
-  <record jsxid="jsx3.gui.Dialog.max" jsxtext="토글 최대화"/>
+  <record jsxid="jsx3.gui.Dialog.max" jsxtext="최대화"/>
   <record jsxid="jsx3.gui.Dialog.restore" jsxtext="원래 크기로 복구"/>
 
 </data>

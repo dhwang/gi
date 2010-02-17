@@ -30,7 +30,7 @@
   <!-- jsx3.gui.Dialog -->
   <record jsxid="jsx3.gui.Dialog.close" jsxtext="Fechar"/>
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="Exibição do toggle"/>
-  <record jsxid="jsx3.gui.Dialog.max" jsxtext="Aumentar o toggle"/>
+  <record jsxid="jsx3.gui.Dialog.max" jsxtext="Aumentar"/>
   <record jsxid="jsx3.gui.Dialog.restore" jsxtext="Restaurar"/>
  
 </data>

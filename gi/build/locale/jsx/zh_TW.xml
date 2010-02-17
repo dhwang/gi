@@ -14,7 +14,7 @@
   <record jsxid="jsx3.gui.Menu.noData" jsxtext="- 沒有資料 -"/>
 
   <!-- jsx3.gui.Matrix -->
-  <record jsxid="jsx3.gui.Matrix.seek" jsxtext="觀看{2}中的{0}至{1}行"/>
+  <record jsxid="jsx3.gui.Matrix.seek" jsxtext="查看第{0}行 至{1}行, 共{2}行"/>
 
   <!-- jsx3.gui.BlockX -->
   <record jsxid="jsx3.gui.BlockX.loading" jsxtext="正在裝載 XSL…"/>
@@ -22,15 +22,15 @@
   <record jsxid="jsx3.gui.BlockX.error" jsxtext="XSL 執行錯誤"/>
 
   <!-- jsx3.xml.Cacheable -->
-  <record jsxid="jsx3.xml.Cacheable.loading" jsxtext="正在裝載{0}…"/>
-  <record jsxid="jsx3.xml.Cacheable.timeout" jsxtext="裝載{0}時超時"/>
-  <record jsxid="jsx3.xml.Cacheable.error" jsxtext="裝載{0}時出現錯誤"/>
+  <record jsxid="jsx3.xml.Cacheable.loading" jsxtext="正在裝載 {0}…"/>
+  <record jsxid="jsx3.xml.Cacheable.timeout" jsxtext="裝載 {0} 時超時"/>
+  <record jsxid="jsx3.xml.Cacheable.error" jsxtext="裝載 {0} 時出現錯誤"/>
   <record jsxid="jsx3.xml.Cacheable.data" jsxtext="資料"/>
 
   <!-- jsx3.gui.Dialog -->
   <record jsxid="jsx3.gui.Dialog.close" jsxtext="關閉"/>
   <record jsxid="jsx3.gui.Dialog.min" jsxtext="切換顯示"/>
-  <record jsxid="jsx3.gui.Dialog.max" jsxtext="切換最大化"/>
+  <record jsxid="jsx3.gui.Dialog.max" jsxtext="切換到最大化"/>
   <record jsxid="jsx3.gui.Dialog.restore" jsxtext="還原"/>
 </data>
 
