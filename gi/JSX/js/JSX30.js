@@ -228,20 +228,13 @@ window['jsx_main'] = function() {
         //  4. ""
         var localeString = jsx3.System ? jsx3.System.getLocale().toString() :
             (window.navigator.userLanguage || window.navigator.language || "");
-
+        // http://www.ietf.org/rfc/rfc3066.txt specifies "-" as the seprator, convert to "_" for our use    
+        localeString = localeString.replace(/^(\w*)-(\w*)$/, function(str, ll, cc) {
+         return ll+"_"+cc.toUpperCase();
+        });
         // See if the first (language+country) locale is defined.
         var firstLocale = objBundle[localeString];
         if (firstLocale) localeBundles.push(firstLocale);
-
-        // if dash is used convert to underscore
-        var indexDash = localeString.indexOf("-"); // Mozilla and IE use - as seperator in navigator language
-        if (indexDash > 0) {
-          var ll = localeString.substring(0, indexDash);
-          var country = localeString.substring(indexDash+1).toUpperCase(); // country is upper case.
-          var trueLocale = objBundle[ll + '_' + country];
-          if (trueLocale)
-            localeBundles.push(trueLocale);
-        }
 
         // See if the second (language only) locale is defined.
         var index = localeString.indexOf("_");
