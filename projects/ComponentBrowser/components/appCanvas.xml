@@ -322,7 +322,7 @@ componentView.subscribe(jsx3.gui.Interactive.AFTER_RESIZE_VIEW, function() {
               <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown"/>
             </object>
             <object type="jsx3.gui.Block">
-              <variants jsxoverflow="1"/>
+              <variants jsxoverflow="2"/>
               <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"/>
               <object type="jsx3.gui.TabbedPane">
                 <variants selectedIndex="2" jsxselectedindex="0" jsxshowtabs="0"/>
@@ -388,7 +388,7 @@ componentView.subscribe(jsx3.gui.Interactive.AFTER_RESIZE_VIEW, function() {
                   <strings jsxname="component_tab" jsxtext="Tab 3" jsxbgcolor="#e8e8f5"/>
                   <events jsxshow="tibco.ce.onComponentViewChanged(componentView, viewSourceShowButton);"/>
                   <object type="jsx3.gui.Block">
-                    <variants jsxoverflow="1" jsxrelativeposition="1"/>
+                    <variants jsxoverflow="2" jsxrelativeposition="1"/>
                     <strings jsxname="componentView" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility=""/>
                     <object type="jsx3.gui.Block">
                       <variants jsxoverflow="1"/>

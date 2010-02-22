@@ -423,11 +423,10 @@ jsx3.Package.definePackage("tibco.ce", function(ce){
   };
 
   ce.onComponentViewChanged = function(container, button) {
-    var contDim = container.getClientDimensions();
     var btnDim = button.getDimensions();
     button.setDimensions(
-      contDim.parentwidth - btnDim[2],
-      contDim.parentheight - btnDim[3],
+      container.getRendered().offsetWidth - 2 - btnDim[2],
+      container.getRendered().offsetHeight - 2 - btnDim[3],
       null,
       null,
       true
