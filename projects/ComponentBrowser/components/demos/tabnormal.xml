@@ -34,7 +34,6 @@ this.onTipChange = function(tab, strValue) {
 };
 
 tabheight.setValue(tabpane.getTabHeight());
-activeindex.setValue(tabpane.getSelectedIndex());
 
 width1.setValue(tab1.getWidth());
 text1.setValue(tab1.getText());
@@ -128,7 +127,7 @@ tip3.setValue(tab3.getTip());
         </object>
         <object type="jsx3.gui.TextBox">
           <variants jsxheight="18"/>
-          <strings jsxname="activeindex" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <strings jsxname="activeindex" jsxmargin="0 0 4 0" jsxwidth="50%" jsxvalue="0"/>
           <events jsxchange="root.onActiveIndexChange(strVALUE);"/>
         </object>
 
