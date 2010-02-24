@@ -4,6 +4,62 @@
   <description><![CDATA[This demonstrates a layout divided into columns.]]></description>
   <onBeforeDeserialize/>
   <onAfterDeserialize><![CDATA[
+var randomColor = function(){
+  var hue = Math.round(Math.random() * 359);
+  saturation = 0.8;
+  value = 0.8;
+  
+  var r, g, b;
+  var hTemp=hue/60, i=Math.floor(hTemp), f=hTemp-i;
+  var p=value*(1-saturation);
+  var q=value*(1-(saturation*f));
+  var t=value*(1-(saturation*(1-f)));
+  switch(i){
+    case 0:{ r=value, g=t, b=p; break; }
+    case 1:{ r=q, g=value, b=p; break; }
+    case 2:{ r=p, g=value, b=t; break; }
+    case 3:{ r=p, g=q, b=value; break; }
+    case 4:{ r=t, g=p, b=value; break; }
+    case 5:{ r=value, g=p, b=q; break; }
+  }
+
+  return 'rgb(' + Math.round(r*255) + ',' + Math.round(b*255) + ',' + Math.round(g*255) + ')';
+};
+var paneCounter = 2;
+this.addColumn = function(){
+  paneCounter++;
+
+  var pane = new jsx3.gui.Block('pane' + paneCounter);
+  pane.setDynamicProperty('jsxborder', '@Outset');
+
+  var rowText = layout.getCols() + ',100';
+  layout.setCols(rowText, true);
+  layout.setChild(pane);
+  layout.repaint();
+
+  pane.setBackgroundColor(randomColor(), true);
+
+  columns.setValue(rowText);
+  removeButton.setEnabled(jsx3.gui.Form.STATEENABLED, true);
+};
+this.removeColumn = function(){
+  if(paneCounter == 2){
+    return;
+  }
+
+  var rowText = layout.getCols().split(',');
+  rowText.pop();
+  rowText = rowText.join(',');
+
+  layout.removeChild(paneCounter-1);
+  layout.setCols(rowText, true);
+  columns.setValue(rowText);
+
+  paneCounter--;
+  if(paneCounter == 2){
+    removeButton.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
+  }
+};
 this.onColumnsChange = function(strValue) {
   layout.setCols(strValue, true);
 };
@@ -57,8 +113,18 @@ columns.setValue(layout.getCols());
         </object>
         <object type="jsx3.gui.TextBox">
           <variants jsxheight="18"/>
-          <strings jsxname="columns" jsxmargin="0 0 4 0" jsxwidth="50%"/>
+          <strings jsxname="columns" jsxmargin="0 0 4 0" jsxwidth="50%" jsxvalue="100,*"/>
           <events jsxchange="root.onColumnsChange(strVALUE);"/>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18"/>
+          <strings jsxname="addButton" jsxtext="Add a column" jsxmargin="0 4 0 0"/>
+          <events jsxexecute="root.addColumn();"/>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18"/>
+          <strings jsxname="removeButton" jsxtext="Remove a column" jsxmargin="0 4 0 0" jsxenabled="0"/>
+          <events jsxexecute="root.removeColumn();"/>
         </object>
       </object>
     </object>
