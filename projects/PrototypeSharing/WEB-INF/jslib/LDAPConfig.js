@@ -44,7 +44,6 @@ var LDAPConfig = exports.LDAPConfig = Class({
 			authEnv.put(javax.naming.Context.PROVIDER_URL, ldapURL);
 			authEnv.put(javax.naming.Context.SECURITY_AUTHENTICATION, "simple");
 			authEnv.put(javax.naming.Context.SECURITY_PRINCIPAL, dn);
-			print("password" + password);
 			authEnv.put(javax.naming.Context.SECURITY_CREDENTIALS, password);
 			return new javax.naming.directory.InitialDirContext(authEnv);
 		},
@@ -71,12 +70,10 @@ var LDAPConfig = exports.LDAPConfig = Class({
 			var groups = []
 			while(results.hasMore()){
 				var sr = results.next();
-				print("sr: ", sr);
 				var g = {};
 				var attrs = sr.getAttributes();
 				g.members = [];
 				this.groupAttributes.forEach(function(p){
-					print("Getting Attribute: ", p);
 					if (p==this.groupMemberAttribute){
 						var mems = attrs.get(p).getAll();
 						while(mems.hasMore()){

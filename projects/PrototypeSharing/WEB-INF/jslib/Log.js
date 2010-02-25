@@ -33,11 +33,20 @@ var LogClass = model.Model("Log", logStore,
 				this.user = auth.currentUser.uid;
 				if(this.sendEmail){
 					//TODO: get the email address from this.user
-					var userEmail = this.user + "@dojotoolkit.org";
 					var component = PrototypeClass.get(this.prototype_id);
+					var context = LDAPConfig.getContext();
+					var attr = LDAPConfig.getAllAttributes(LDAPConfig.getUserDN(component.user), context);
+					// copy over all the ldap props, except pass
+					var user = {};
+					while (attr.hasMoreElements()){
+						var element = attr.nextElement();
+						var name = element.getID();
+						var val = element.get();
+					}
+					print("sending email to " + user.mail);
 					email.send(
 						{
-							recipient: userEmail,
+							recipient: user.mail,
 							subject: "Component " + component.name + " was " + this.action,
 							message: "Component " + component.name + " was " + this.action +
 								this.action == "Accepted" ?
