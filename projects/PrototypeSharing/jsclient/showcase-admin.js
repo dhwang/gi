@@ -143,12 +143,12 @@ dojo.addOnLoad(function(){
 		dojo.stopEvent(e);
 		var confirmed = confirm("Are you sure you want to remove the runtime path " + dojo.byId("runtime-location-description").value + "?");
 		if(confirmed){
-			removeRuntimeOption(select.value);
 	        dojo.xhrDelete({
-                url: "GIRuntime/" + runtimes[dojo.byId("runtime-location-description").value].id,
+                url: "GIRuntime/" + runtimes[select.value].id,
 	        	headers:{"Accept":"application/json"},
                 handleAs: "json"
 	        });
+			removeRuntimeOption(select.value);
 		}
 	});
 	dojo.connect(dojo.byId("login"), "onclick", login);
