@@ -66,7 +66,7 @@ show_root_node.setValue(tree.getRoot());
         </object>
         <object type="jsx3.gui.Label">
           <variants jsxrelativeposition="1" jsxoverflow="3"/>
-          <strings jsxname="formLabel" jsxtext="Show Root Node" jsxfor="show_root_node" jsxwidth="50%" jsxfontweight="bold"/>
+          <strings jsxname="formLabel" jsxtext="Show Root" jsxfor="show_root_node" jsxwidth="50%" jsxfontweight="bold"/>
         </object>
         <object type="jsx3.gui.CheckBox">
           <variants jsxheight="18" jsxrelativeposition="1" jsxdefaultchecked="0" jsxchecked="0"/>
