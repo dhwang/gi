@@ -113,7 +113,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
   NativeForm_prototype.setMultipart = function(bMulti) {
     this.jsxmulti = bMulti;
     var objGUI = this._getRenderedForm();
-    if (objGUI) objGUI.setAttribute("encoding", bMulti ? NativeForm.ENCTYPE_MULTIPART : NativeForm.ENCTYPE_NORMAL);
+    if (objGUI) objGUI.setAttribute("enctype", bMulti ? NativeForm.ENCTYPE_MULTIPART : NativeForm.ENCTYPE_NORMAL);
   };
   
   /**
@@ -300,7 +300,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
     var b1 = this.getBoxProfile(true);
     b1.setAttributes(' id="' + strId + '"' + this.renderHandler("submit", "_ebSubmit") +
         ' action="' + this.getUriResolver().resolveURI(this.jsxaction) + '" method="' + this.jsxmethod +
-        '" encoding="' + (this.jsxmulti ? NativeForm.ENCTYPE_MULTIPART : NativeForm.ENCTYPE_NORMAL) +
+        '" enctype="' + (this.jsxmulti ? NativeForm.ENCTYPE_MULTIPART : NativeForm.ENCTYPE_NORMAL) +
         '" target="' + this._targetIntToString(this.jsxtarget) + '"' +
         this.paintIndex() + this.paintTip() + ' class="' + this.paintClassName() + '" ' + strProps);
     b1.setStyles(styles);
