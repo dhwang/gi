@@ -5,7 +5,7 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize/>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="162" jsxheight="85" jsxzindex="5000" jsxwindowstate="1" jsxleft="236" jsxtop="310"/>
+    <variants jsxwidth="300" jsxheight="100" jsxzindex="5000" jsxwindowstate="1" jsxleft="236" jsxtop="310"/>
     <strings jsxname="dlgClosingPriceDialog"/>
     <dynamics jsxbgcolor="@Solid Medium"/>
     <object type="jsx3.gui.WindowBar">

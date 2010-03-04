@@ -1,9 +1,12 @@
-<serialization jsxversion="3.4" xmlns="urn:tibco.com/v3.0">
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.4">
   <name><![CDATA[Sample App Template]]></name>
   <icon/>
   <description><![CDATA[Basic template for sample applications.  Contains a top block for descriptions, and a bottom block for the sample app.]]></description>
   <onBeforeDeserialize/>
-  <onAfterDeserialize/>
+  <onAfterDeserialize><![CDATA[// INIT
+eg.wsdl3.init();
+
+]]></onAfterDeserialize>
   <object type="jsx3.gui.LayoutGrid">
     <variants jsxrepeat="2" jsxsizearray="['280','*']" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" jsxbestguess="0" jsxorientation="0"/>
     <strings jsxname="lytMainLayout" jsxwidth="100%" jsxheight="100%" jsxrows="200,*"/>
@@ -22,7 +25,7 @@
         <strings jsxname="lytAppLayout" jsxwidth="100%" jsxheight="100%" jsxrows="50,*"/>
         <dynamics jsxbgcolor="@Solid Light" jsxborder="@Outset"/>
         <object type="jsx3.gui.Block">
-          <variants jsxoverflow="2"/>
+          <variants jsxoverflow="2" jsxloadtype="1"/>
           <strings jsxname="blkInputPane" jsxwidth="100%" jsxheight="100%"/>
           <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Disabled" jsxpadding="@8Pixel"/>
           <object type="jsx3.gui.Block">
@@ -31,7 +34,7 @@
           </object>
           <object type="jsx3.gui.TextBox">
             <variants jsxheight="18" jsxrelativeposition="0" jsxleft="210" jsxtop="4" jsxwidth="200"/>
-            <strings jsxname="txtSymbolInput" jsxmargin="margin-right:4px;" jsxvalue="CSCO,YHOO,SUNW,TIBX"/>
+            <strings jsxname="txtSymbolInput" jsxmargin="margin-right:4px;" jsxvalue="CSCO,YHOO,GOOG,TIBX"/>
           </object>
           <object type="jsx3.gui.Block">
             <variants jsxheight="18" jsxrelativeposition="0" jsxleft="170" jsxtop="24"/>
@@ -58,7 +61,7 @@
           </object>
         </object>
         <object type="jsx3.gui.Block">
-          <variants/>
+          <variants jsxloadtype="1"/>
           <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
           <object type="jsx3.gui.Matrix">
             <variants jsxpagingmodel="0" jsxselectionmodel="1" jsxresize="1" jsxreorder="0" jsxheaderheight="20" jsxrowheight="0" jsxscalewidth="0"/>

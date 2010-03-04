@@ -2,28 +2,19 @@ jsx3.lang.Package.definePackage(
   "eg.wsdl3",                //the full name of the package to create
   function(wsdl3) {          //name the argument of this function
 
+  wsdl3.qService;
 
+   
    /**
     * Executes the first service mapping and subscribes functions to events.
     * Call this method to begin the service call (eg.wsdl3.callGetHistoricalQuotes();)
     */  
     //call this method to begin the service call (eg.service.callGetHistoricalQuotes();)
+
     wsdl3.callGetHistoricalQuotes = function() {
-      var objService = eg.wsdl3.APP.loadResource("sampleGetHistoricalQuotes_xml");
+      wsdl3.qService.setMode(eg.wsdl3.APP.getJSXByName("radLive").getSelected());
 
-      // set run mode with live data or static reponse      
-      objService.setMode(eg.wsdl3.APP.getJSXByName("radLive").getSelected());
-      objService.setInboundURL('messages/sampleResponse.xml');
-      objService.setOperationName("GetHistoricalQuotes");
-      objService.setEndpointURL(eg.wsdl3.proxy.convertURI(objService.getEndpointURL()));
-
-	  objService.compile();
-      //subscribe and call
-      objService.subscribe(jsx3.net.Service.ON_SUCCESS, wsdl3.onGetHistoricalQuotesSuccess);
-      objService.subscribe(jsx3.net.Service.ON_ERROR, wsdl3.onGetHistoricalQuotesError);
-      objService.subscribe(jsx3.net.Service.ON_INVALID, wsdl3.onGetHistoricalQuotesInvalid);
-
-      objService.doCall();
+      wsdl3.qService.doCall();
     };
 
     /**
@@ -76,28 +67,28 @@ jsx3.lang.Package.definePackage(
       objEvent.target.getServer().alert("Invalid","The following message node just failed validation:\n\n" + objEvent.message);
     };
 
+    wsdl3.dlgTop=100;
+    wsdl3.dlgLeft=0;
    /**
     * Executes the second service mapping and subscribes functions to events.
     */
     wsdl3.callGetLastClosingPrice = function() {
-      var objService = eg.wsdl3.APP.loadResource("sampleGetLastClosingPrice_xml");
-      objService.setOperation("GetLastClosingPrice");
-      objService.setEndpointURL(eg.wsdl3.proxy.convertURI(objService.getEndpointURL()));
 
       // Support for Static mode
-      objService.setMode(eg.wsdl3.APP.getJSXByName("radLive").getSelected());
+      wsdl3.lService.setMode(eg.wsdl3.APP.getJSXByName("radLive").getSelected());
 
       // moved out from onBeforeSend -- modified for 34sample
-var dialog = eg.wsdl3.APP.getBodyBlock().load("components/dialogClosingPrice.xml",true); 
-dialog.setWidth(300,false);
-dialog.setHeight(100,true);
-dialog.getCaptionBar().setText(eg.wsdl3.getComplexValue(),true);
+      var caption = "Today's closing price for: ";
+      var root = eg.wsdl3.APP.getBodyBlock();
 
-      //subscribe and call
-      objService.subscribe(jsx3.net.Service.ON_SUCCESS, wsdl3.onGetLastClosingPriceSuccess);
-      objService.subscribe(jsx3.net.Service.ON_ERROR, wsdl3.onGetLastClosingPriceError);
-      objService.subscribe(jsx3.net.Service.ON_INVALID, wsdl3.onGetLastClosingPriceInvalid);
-      objService.doCall();
+      var dialog = root.loadXML(wsdl3.APP.getCache().getDocument("dialogClosingPrice_xml"),false);
+      wsdl3.dlgTop+=10;
+      wsdl3.dlgLeft+=10;
+      dialog.setTop(wsdl3.dlgTop).setLeft(wsdl3.dlgLeft);
+      dialog.getCaptionBar().setText(caption + eg.wsdl3.getComplexValue(),true);
+      root.paintChild(dialog);
+
+      wsdl3.lService.doCall();
     };
     
   /**
@@ -135,15 +126,42 @@ dialog.getCaptionBar().setText(eg.wsdl3.getComplexValue(),true);
    * @returns {String} the selected stock symbol.
    */
   wsdl3.getComplexValue = function() {
-    var caption = "Today's closing price for: ";
+
     var objList = wsdl3.APP.getJSXByName("mtxResultsList");
     var objRecord = objList.getRecord(objList.getValue());
     var securityNode;
     if (objRecord.Security)
         securityNode = objRecord.Security;
-    return  caption + securityNode;
+    return  securityNode;
   };
 
+   wsdl3.init = function () {
+      wsdl3.dlgDoc = eg.wsdl3.APP.getCache().getOrOpenAsync(eg.wsdl3.APP.resolveURI("components/dialogClosingPrice.xml"), "dialogClosingPrice_xml");
+      var objService = eg.wsdl3.APP.loadResource("sampleGetHistoricalQuotes_xml");
+
+      // set run mode with live data or static reponse      
+      objService.setInboundURL('messages/sampleResponse.xml');
+      objService.setOperationName("GetHistoricalQuotes");
+      objService.setEndpointURL(eg.wsdl3.proxy.convertURI(objService.getEndpointURL()));
+
+      objService.compile();
+      //subscribe and call
+      objService.subscribe(jsx3.net.Service.ON_SUCCESS, eg.wsdl3.onGetHistoricalQuotesSuccess);
+      objService.subscribe(jsx3.net.Service.ON_ERROR, eg.wsdl3.onGetHistoricalQuotesError);
+      objService.subscribe(jsx3.net.Service.ON_INVALID, eg.wsdl3.onGetHistoricalQuotesInvalid);
+       wsdl3.qService = objService;
+       
+      var objService2 = eg.wsdl3.APP.loadResource("sampleGetLastClosingPrice_xml");
+      objService2.setOperation("GetLastClosingPrice");
+      objService2.setEndpointURL(eg.wsdl3.proxy.convertURI(objService.getEndpointURL()));
+
+      //subscribe and call
+      objService2.subscribe(jsx3.net.Service.ON_SUCCESS, wsdl3.onGetLastClosingPriceSuccess);
+      objService2.subscribe(jsx3.net.Service.ON_ERROR, wsdl3.onGetLastClosingPriceError);
+      objService2.subscribe(jsx3.net.Service.ON_INVALID, wsdl3.onGetLastClosingPriceInvalid);
+      wsdl3.lService = objService2;
+   };
 
   }
 );
+
