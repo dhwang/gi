@@ -48,7 +48,7 @@ objJSX._attributeExec = function() {
   var name = nameField.getValue();
   var value = valueField.getValue();
 
-  if (name && value && /^[_A-Za-z]\w*(\:[_A-Za-z]\w*)?$/.test(name)) {
+  if (name && value && jsxattribute_name._regex.test(name)) {
     this.getPlugIn().onAttributeAdd(name, value);
     nameField.setValue("");
     valueField.setValue("");
@@ -57,7 +57,7 @@ objJSX._attributeExec = function() {
 };
 
 objJSX.onPaletteLoaded = function() {
-  jsxattribute_name._regex = /^[_A-Za-z]\w*(\:([_A-Za-z]\w*)?)?$/;
+  jsxattribute_name._regex = /^[_A-Za-z\-][\w\-]*(\:([_A-Za-z\-][\w\-]*)?)?$/;
   jsxattribute_value._regex = /^[^"]*$/;
 
   jsxattribute_value.validateKey = function(strValue) {
