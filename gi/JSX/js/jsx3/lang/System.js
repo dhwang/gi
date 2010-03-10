@@ -274,7 +274,7 @@ jsx3.Class.defineClass("jsx3.lang.System", null, null, function(System, System_p
    */
   System.getVersion = function() {
     var v = "@build.gi.version@_@build.gi.buildno@";
-    return v.match(/\d/) ? v : "3.9.0"; // fallback for uncompiled version
+    return v.match(/\d/) ? v : "3.9.1"; // fallback for uncompiled version
   };
 
 });
