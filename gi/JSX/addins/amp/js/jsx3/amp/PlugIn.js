@@ -518,6 +518,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.PlugIn", null, [jsx3.util.EventDispatcher,
    * @param strRsrcId {String | jsx3.amp.Resource}
    * @param objParent {jsx3.app.Model} the GUI component into which to load the resource.
    * @param bPaint {boolean} whether to paint the loaded resource (default is <code>true</code>).
+   * @return {jsx3.app.Model} the loaded component.
    */
   PlugIn_prototype.loadRsrcComponent = function(strRsrcId, objParent, bPaint) {
     if (!objParent)
