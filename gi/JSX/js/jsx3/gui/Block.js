@@ -1262,7 +1262,6 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
   Block_prototype.paintBlockDisplay = function() {
     //treat blocks more like containers and other controls as inline elements. if a width is defined, treat as a true block not, inline block
     if (jsx3.util.strEmpty(this.getDisplay()) || this.getDisplay() == "block") {
-      var b1 = this.getBoxProfile();
       if(this.getWidth() == "100%") {
         return "display:block;";
       } else {
