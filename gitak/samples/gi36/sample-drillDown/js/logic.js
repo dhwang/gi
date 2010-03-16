@@ -13,8 +13,8 @@ jsx3.lang.Package.definePackage(
       // remove the flag to fetch*/   
       objRecordNode.removeAttribute("lazy");    
 
-      // request the new content, use the ID for the toggled record as the request id  
-      var objHttp = new jsx3.net.Request(strRecordId);    
+      // request the new content, Do not set the parameter id, it leaks.  
+      var objHttp = new jsx3.net.Request();    
 
       var strURL = eg.sampledrillDown.APP.resolveURI(URL_BASE + strRecordId + ".xml");   
 

@@ -42,7 +42,7 @@ jsx3.lang.Package.definePackage("eg.wsdl3.proxy", function(proxy) {
      * @param strPass {String} The password for authentication. This parameter is ignored if the user parameter is null ("") or missing.
      */
     proxy.openRequest = function(METHOD, strURL, strAsyncId, strUser, strPass) {
-        var objRequest = new jsx3.net.Request(strAsyncId);
+        var objRequest = new jsx3.net.Request();
         objRequest.open(METHOD, proxy.convertURI(strURL), strAsyncId != null, strUser, strPass);
         return objRequest;
     };

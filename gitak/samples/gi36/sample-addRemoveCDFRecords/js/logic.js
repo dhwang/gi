@@ -4,53 +4,79 @@
 jsx3.lang.Package.definePackage(
                "eg.addRemoveCDF",  // full package name
                 function(addRemoveCDF) {  // argument in function is a short package, good to use in this file only.
-
  
-
-     /* Application Server object which is by default the project namespace  (see Project -> Project settings -> Namespace) */      
+  /* Application Server object which is by default the project namespace  (see Project -> Project settings -> Namespace) */      
    addRemoveCDF.APP;
 
-  
+   addRemoveCDF.newjsxid;
 
+  /* Format handler will display price above 200 in red and price under 10 in green.
+   * Note, since format handler is defined in javascript depending on the browser this can be faster or slower than
+   * value template.
+   */
+    addRemoveCDF.formatValue  = function(objDiv, strCDFKey, objMatrix, objMatrixColumn, intRowNumber, objServer) {
+
+     var strValue = objMatrixColumn.getValueForRecord(strCDFKey) ;
+     if (!strValue) return; // nothing there
+     
+     var mf = new jsx3.util.MessageFormat("{0,number,currency}");
+      objDiv.innerHTML = mf.format(strValue);
+
+      if (strValue < 200) {
+        if (strValue < 10)
+            objDiv.style.color="green";
+        else
+            objDiv.style.color="black";
+        }
+      else
+        objDiv.style.color="red";
+    }
+
+  addRemoveCDF.resetTextBox = function (objJSX) {
+     var objServer = objJSX.getServer();
+     objServer.getJSXByName("dpkrDateInput").setValue();
+     objServer.getJSXByName("txtSecurityInput").setValue();
+     objServer.getJSXByName("txtOpenInput").setValue();
+     objServer.getJSXByName("txtHighInput").setValue();
+  }
   /**
    * Dynamically add data from user input text boxes into CDF Document and repaint view i.e grid.
    *     
    */
    addRemoveCDF.loadList = function (objJSX) {
+
      // List grid view
      var objServer = objJSX.getServer();
      var listView = objServer.getJSXByName("mtxUpdatableTable");   
-     
-      
-     var objRecord = new Object(); // new CDF record obj
+     var objRecord = {}; // new CDF record obj
      objRecord.jsxid = jsx3.CDF.getKey();
 
      //read user input
-     objRecord.Date = objServer.getJSXByName("dpkrDateInput").getValue();
+    var date = objServer.getJSXByName("dpkrDateInput").getDate();
+     objRecord.Date = (date) ? date : new Date();
      objRecord.Security = objServer.getJSXByName("txtSecurityInput").getValue();
      objRecord.Open = objServer.getJSXByName("txtOpenInput").getValue();
      objRecord.High = objServer.getJSXByName("txtHighInput").getValue();
      listView.insertRecord(objRecord, null, true);   
+     this.resetTextBox(objJSX);
    };
 
   /**
    * Adds a record to the table.
    */
   addRemoveCDF.doAddNewRecord= function (objJSX, strRecordId) {
-     // List grid view
-     var listView = objJSX.getServer().getJSXByName("mtxEditableTable");   
-     
-     var objRecord = new Object(); // new CDF record obj
-     objRecord.jsxid = jsx3.CDF.getKey();
+     // menu context parent is Grid list view
+     var listView = objJSX.getContextParent();   
+     var objRecord = {};// new CDF record obj
+
+     this.newjsxid = objRecord.jsxid = jsx3.CDF.getKey();
 
      //read user input
      objRecord.Date = ""
      objRecord.Security = ""
      objRecord.Open = ""
      objRecord.High = ""
-     listView.insertRecord(objRecord, null, true);   
-     //listView.setSortPath("jsxid");
-     //listView.repaint();
+     listView.insertRecord(objRecord, objJSX.getContextRecordId(), true);   
   }
 
   /**

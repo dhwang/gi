@@ -61,8 +61,8 @@ function(manipulateCDF) {          //name the argument of this function
       var selectedRECORDS = objSOURCE.getSelectedNodes();
       // Gets all records if none is selected
       if (!selectedRECORDS.hasNext()){
-        var objXML =  manipulateCDF.getServer().getCache().getDocument("cachedSource");
-        var selectedRECORDS = objXML.selectNodes("//data/*")
+        var objXML = objSOURCE.getXML();
+        var selectedRECORDS = objXML.selectNodes("//data/*");
       }
       while (selectedRECORDS.hasNext()){
         objNode = selectedRECORDS.next();
@@ -72,6 +72,8 @@ function(manipulateCDF) {          //name the argument of this function
         resultXY = manipulateCDF.doCalculateXY(xint,yint,manipulateCDF.fXYType)
         // Sets the value for column Z
         objNode.setAttribute("jsxIntXY",resultXY);
+        // update original record view
+        objSOURCE.redrawRecord(objNode.getAttribute("jsxid"), jsx3.xml.CDF.UPDATE);
         // Clones and add the selected record in newly created new CDF document
         objRoot.appendChild(objNode.cloneNode(true));
         // Applies the select function to y and previous y result
@@ -91,11 +93,7 @@ function(manipulateCDF) {          //name the argument of this function
 
       // Adds the document to the cache
       manipulateCDF.getServer().getCache().setDocument("cachedFiltered",objFiltered);
-
-      // Repaints the original list
-      objSOURCE.repaint()
-      var listFiltered = manipulateCDF.getServer().getJSXByName("listFiltered");
-      listFiltered.repaint();
+      manipulateCDF.getServer().getJSXByName("listFiltered").repaintData();
       manipulateCDF.repaintXMLBlocks()
       // deselect lists and menus
       manipulateCDF.resetRecordSelection(objSOURCE);
@@ -138,10 +136,11 @@ function(manipulateCDF) {          //name the argument of this function
     objRecordNode.setAttribute("jsxfX",intX);
     objRecordNode.setAttribute("jsxfY",intY);
     objRecordNode.setAttribute("jsxfZ",intZ);
-    objSOURCE.repaint();
+    objSOURCE.insertRecordNode(objRecordNode, null, true);
    }
 
    manipulateCDF.resetRecordSelection = function(listOBJ){
+    if (!listOBJ) listOBJ = manipulateCDF.getServer().getJSXByName("srcList");
      listOBJ.deselectAllRecords()
    }
 
@@ -162,14 +161,15 @@ function(manipulateCDF) {          //name the argument of this function
       blockXfiltered.setDisplay(jsx3.gui.Block.DISPLAYNONE ,false);
       blockXmodified.setDisplay(jsx3.gui.Block.DISPLAYBLOCK,false);
     }
-    blockXmodified.repaint();
-    blockXfiltered.repaint();
+    //blockXmodified.repaint();
+    //blockXfiltered.repaint();
+    blockXfiltered.getParent().repaint();
     return false
    }
 
-    manipulateCDF.onRadioSelected = function(){
-    setTimeout( function() { manipulateCDF.repaintXMLBlocks() } , 200);
-    }
+   manipulateCDF.onRadioSelected = function(){
+     setTimeout( function() { manipulateCDF.repaintXMLBlocks() } , 200);
+   }
 
     manipulateCDF.onlyOne = []; // only one of these should exist.
 /**

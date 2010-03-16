@@ -21,47 +21,39 @@
   <record jsxid="includes" type="array">
     <record jsxid="0" type="map">
       <record jsxid="id" type="string">appCanvas_component</record>
-      <record jsxid="owner" type="string">application</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="onLoad" type="boolean">false</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/appCanvas.xml</record>
     </record>
     <record jsxid="1" type="map">
       <record jsxid="id" type="string">logic_js</record>
-      <record jsxid="owner" type="string">application</record>
       <record jsxid="type" type="string">script</record>
-      <record jsxid="onLoad" type="boolean">true</record>
+      <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">js/logic.js</record>
     </record>
     <record jsxid="2" type="map">
       <record jsxid="id" type="string">sourceList_xml</record>
       <record jsxid="type" type="string">xml</record>
-      <record jsxid="owner" type="string">application</record>
-      <record jsxid="onLoad" type="string"></record>
-      <record jsxid="required" type="boolean">true</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">xml/sourceList.xml</record>
     </record>
     <record jsxid="3" type="map">
-      <record jsxid="id" type="string">listXSLT_xsl</record>
-      <record jsxid="type" type="string">xsl</record>
-      <record jsxid="owner" type="string">application</record>
-      <record jsxid="onLoad" type="string"></record>
-      <record jsxid="required" type="boolean">true</record>
-      <record jsxid="src" type="string">xsl/listXSLT.xsl</record>
-    </record>
-    <record jsxid="4" type="map">
       <record jsxid="id" type="string">resultChart_xml</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="owner" type="string">application</record>
-      <record jsxid="onLoad" type="boolean">false</record>
-      <record jsxid="required" type="boolean">true</record>
+      <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/resultChart.xml</record>
     </record>
-    <record jsxid="5" type="map">
+    <record jsxid="4" type="map">
       <record jsxid="id" type="string">dlgHelp_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/dlgHelp.xml</record>
+    </record>
+    <record jsxid="5" type="map">
+      <record jsxid="id" type="string">menuCDF_xml</record>
+      <record jsxid="type" type="string">xml</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">xml/menuCDF.xml</record>
     </record>
   </record>
   <record jsxid="watermark" type="string">right</record>
