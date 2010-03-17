@@ -113,43 +113,101 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>assertElementPresent</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344845_jsx_2602176.1</td>
+      <td>JsxMatrixCellId=mtxEditableTable.ORCL.1</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>clickJsxCellMask</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344845_jsx_2602176.1</td>
+      <td>JsxMatrixCellId=mtxEditableTable.ORCL.1</td>
       <td>10/10/2006</td>
     </tr>
     <tr>
       <td>clickJsxCellMask</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344845_jsx_2602176.2</td>
+      <td>JsxMatrixCellId=mtxEditableTable.ORCL.2</td>
       <td>XYZX</td>
     </tr>
     <tr>
       <td>clickJsxCellMask</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344845_jsx_2602176.3</td>
+      <td>JsxMatrixCellId=mtxEditableTable.ORCL.3</td>
       <td>2</td>
     </tr>
     <tr>
       <td>clickJsxCellMask</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344845_jsx_2602176.4</td>
+      <td>JsxMatrixCellId=mtxEditableTable.ORCL.4</td>
       <td>3</td>
     </tr>
     <tr>
       <td>assertText</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344845_jsx_2602176.2</td>
+      <td>JsxMatrixCellId=mtxEditableTable.ORCL.2</td>
       <td>XYZX</td>
     </tr>
      <tr>
       <td>clickJsxCellMask</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344875_jsx_48127198.0</td>
+      <td>JsxMatrixCellId=mtxEditableTable.WEBM.0</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>assertElementNotPresent</td>
-      <td>JsxMatrixCellId=mtxEditableTable.1122585344875_jsx_48127198.0</td>
+      <td>JsxMatrixCellId=mtxEditableTable.WEBM.0</td>
       <td>&nbsp;</td>
+    </tr>
+    <!-- run this when splitter bar locator is fixed
+    <tr>
+      <td>dragJsxTo</td>
+      <td>gi=spltAppPaneSplitter,bar</td>
+      <td>0,50</td>
+    </tr>
+    -->
+    <tr>
+      <td>rightClickJsxElement</td>
+      <td>JsxMatrixRowText=mtxEditableTable,*TIBX*</td>
+      <td>&nbsp</td>
+    </tr>
+    <!-- do not use additional command on JsxMenuWindowId as it causes the shown menu to close in GI 3.4-->
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>JsxMenuWindowId=1</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>clickJsxMenuItem</td>
+      <td>JsxMenuItemId=mnuAddRowMenu,1</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>storeEval</td>
+      <td>selenium.browserbot.getCurrentWindow().eg.addRemoveCDF.newjsxid</td>
+      <td>newid</td>
+    </tr>
+    <tr>
+      <td>echo</td>
+      <td>${newid}</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>clickJsxCellMask</td>
+      <td>JsxMatrixCellId=mtxEditableTable.${newid}.1</td>
+      <td>3/16/2010</td>
+    </tr>
+    <tr>
+      <td>clickJsxCellMask</td>
+      <td>JsxMatrixCellId=mtxEditableTable.${newid}.2</td>
+      <td>NEW</td>
+    </tr>
+    <tr>
+      <td>clickJsxCellMask</td>
+      <td>JsxMatrixCellId=mtxEditableTable.${newid}.3</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>clickJsxCellMask</td>
+      <td>JsxMatrixCellId=mtxEditableTable.${newid}.4</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>JsxMatrixCellId=mtxEditableTable.${newid}.2</td>
+      <td>NEW</td>
     </tr>
      
     <!-- assert list row length = +1 -->
