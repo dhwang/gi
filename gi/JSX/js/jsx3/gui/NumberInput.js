@@ -57,7 +57,7 @@ jsx3.Class.defineClass("jsx3.gui.NumberInput", jsx3.gui.TextBox, null, function(
       } catch (e) {
         jsx3.util.Logger.getLogger("jsx3.gui").warn(
             jsx3._msg("gui.ni.fmt", this.getFormat(), this), jsx3.NativeError.wrap(e));
-        this._jsxdateformat = NumberFormat.getInstance(null, this._getLocale());
+        this._jsxformat = NumberFormat.getInstance(null, this._getLocale());
       }
     }
 

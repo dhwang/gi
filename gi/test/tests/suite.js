@@ -56,6 +56,6 @@ function suite() {
           "jsx3/util/t_messageformat.js"],
       
       /* GUI suite */
-      ["jsx3/gui/t_layoutgrid.js"]
+      ["jsx3/gui/t_layoutgrid.js", "jsx3/gui/t_numberinput.js"]
   );
 }
