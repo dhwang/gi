@@ -364,7 +364,10 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
   /** @private */
   DatePicker_prototype._ebChange = function(objEvent, objGUI) {
     if (objGUI.value == "") {
-      this.setDate(null);
+      var currentDate = this.getDate();
+      // text input change vetoable also
+      if (!currentDate || this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:currentDate, newDATE:null, _gipp:1}) !== false)
+        this.setDate(null);
     } else {
       var inputValue = objGUI.value;
       var evtRet = this.doEvent(Interactive.INPUT, {objEVENT:objEvent, strINPUT:inputValue});
@@ -390,9 +393,12 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
           return;
         }
       }
+      
+      var oldVal = this.getDate();
+      var noChange = (oldVal == newDate || (oldVal && newDate && oldVal.getTime() == newDate.getTime()));
 
       // text input change vetoable also
-      if (this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:this.getDate(), newDATE:newDate, _gipp:1}) !== false)
+      if (noChange || this.doEvent(Interactive.CHANGE, {objEVENT:objEvent, oldDATE:oldVal, newDATE:newDate, _gipp:1}) !== false)
         this.setDate(newDate);
     }
   };
