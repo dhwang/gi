@@ -16,6 +16,10 @@
       jsxtip="The jsxid attribute of the CDF record whose child records are rendered as the entries in the select. If provided, only the direct children of the record are rendered. If this attribute is not provided, all descendants of the root data element are rendered."/>
   <record jsxid="jsxcasesensitive"
       jsxtip="If equal to 1, the type-ahead feature of this combo control is case-sensitive."/>
+  <record jsxid="lc"
+      jsxtip="Overrides the default localized list of lowercase characters used if this combo control is not case sensitive. Before a comparison all lowercase characters are converted to their corresponding uppercase character."/>
+  <record jsxid="uc"
+      jsxtip="Overrides the default localized list of uppercase characters used if this combo control is not case sensitive."/>
   <record jsxid="jsxnocheck"
       jsxtip="If equal to 1, no check is displayed next to the selected record in the dropdown."/>
   <record jsxid="jsx_img_resolve"

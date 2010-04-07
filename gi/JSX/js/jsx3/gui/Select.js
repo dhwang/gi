@@ -555,6 +555,8 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       objP.jsxtabindex = (this.getIndex()) ? this.getIndex() : 0;
       objP.jsxselectedimage = Select.SELECTEDIMAGE;
       objP.jsxselectedimagealt = this._getLocaleProp("sel", Select);
+      objP.lc = this._getLocaleProp("jsx3.lc");
+      objP.uc = this._getLocaleProp("jsx3.uc");
       objP.jsxtransparentimage = jsx3.gui.Block.SPACE;
       objP.jsxdragtype = "JSX_GENERIC";
       objP.jsxid = this.getId();

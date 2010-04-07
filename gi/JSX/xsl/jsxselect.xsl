@@ -17,8 +17,8 @@
   <xsl:param name="attrimg">jsximg</xsl:param>
   <xsl:param name="attrimgalt">jsximgalt</xsl:param>
 
-  <xsl:variable name="upperCase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
-  <xsl:variable name="lowerCase" select="'abcdefghijklmnopqrstuvwxyz'"/>
+  <xsl:param name="lc">abcdefghijklmnopqrstuvwxyz</xsl:param>
+  <xsl:param name="uc">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:param>
   <xsl:param name="jsxtabindex">0</xsl:param>
   <xsl:param name="jsxselectedimage"></xsl:param>
   <xsl:param name="jsxselectedimagealt"></xsl:param>
@@ -120,8 +120,8 @@
         <xsl:otherwise><xsl:value-of select="@*[name() = $attrid]"/></xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:if test="(not($jsxcasesensitive = 1) and starts-with(translate($mytext, $lowerCase, $upperCase), translate($jsxtext, $lowerCase, $upperCase)))
-        or (starts-with($mytext, $jsxtext))">
+    <xsl:if test="(not($jsxcasesensitive = 1) and starts-with(translate($mytext, $lc, $uc), translate($jsxtext, $lc, $uc)))
+        or ($jsxcasesensitive = 1 and starts-with($mytext, $jsxtext))">
       <div jsxtype="Option" tabindex="{$jsxtabindex}" id="{$jsxid}_{@*[name() = $attrid]}"
         jsxid="{@*[name() = $attrid]}" title="{@*[name() = $attrtip]}" class="jsx30select_{$jsxmode}_option {@*[name() = $attrclass]}">
         <xsl:if test="@*[name() = $attrstyle]">

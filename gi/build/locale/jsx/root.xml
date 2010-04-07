@@ -21,6 +21,10 @@
   <record jsxid="time.sep.sec-milli" jsxtext="."/>
   <record jsxid="time.sep.ampm" jsxtext=" "/>
 
+  <!-- when doing case-insensitive comparison, transform lc to uc -->
+  <record jsxid="jsx3.lc" jsxtext="abcdefghijklmnopqrstuvwxyz"/>
+  <record jsxid="jsx3.uc" jsxtext="ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+  
   <!-- Localize the other GUI controls -->
   <!-- jsx3.gui.Select -->
   <record jsxid="jsx3.gui.Select.defaultText" jsxtext="- Select -"/>

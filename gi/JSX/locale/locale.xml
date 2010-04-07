@@ -27,6 +27,9 @@
     <record jsxid="time.sep.sec-milli" jsxtext="."/>
     <record jsxid="time.sep.ampm" jsxtext=" "/>
 
+    <record jsxid="jsx3.lc" jsxtext="abcdefghijklmnopqrstuvwxyz"/>
+    <record jsxid="jsx3.uc" jsxtext="ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+
     <record jsxid="jsx3.gui.Select.defaultText" jsxtext="- Select -"/>
     <record jsxid="jsx3.gui.Select.dataUnavailable" jsxtext="- Data Unavailable -"/>
     <record jsxid="jsx3.gui.Select.noMatch" jsxtext="- No Match Found -"/>
