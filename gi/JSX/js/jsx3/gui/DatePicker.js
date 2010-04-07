@@ -308,19 +308,24 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
   /** @private @jsxobf-clobber */
   DatePicker_prototype._incrementYear = function(nudge) {
     var date = DatePicker._newDate(this._jsxShownYear+nudge, this._jsxShownMonth, 1);
-    this._jsxShownYear = date.getFullYear();
-    this._jsxShownMonth = date.getMonth();
-    this._repaintCalendar();
-    this._focusIncrementor(true, nudge > 0);
+    this._increment(date, true, nudge > 0);
   };
 
   /** @private @jsxobf-clobber */
   DatePicker_prototype._incrementMonth = function(nudge) {
     var date = DatePicker._newDate(this._jsxShownYear, this._jsxShownMonth+nudge, 1);
-    this._jsxShownYear = date.getFullYear();
-    this._jsxShownMonth = date.getMonth();
-    this._repaintCalendar();
-    this._focusIncrementor(false, nudge > 0);
+    this._increment(date, false, nudge > 0);
+  };
+  
+  /** @private @jsxobf-clobber */
+  DatePicker_prototype._increment = function(objNewDate, bYear, bUp) {
+    var oldDate = DatePicker._newDate(this._jsxShownYear, this._jsxShownMonth, 1);
+    if (this.doEvent("jsxchangemonth", {oldDATE:oldDate, newDATE:objNewDate}) !== false) {
+      this._jsxShownYear = objNewDate.getFullYear();
+      this._jsxShownMonth = objNewDate.getMonth();
+      this._repaintCalendar();
+      this._focusIncrementor(false, bUp);
+    }
   };
 
   /** @private @jsxobf-clobber */
@@ -749,7 +754,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     var nextMonthDate = nextMonth.getDate();
     var today = new Date();
     var index = this.paintIndex();
-    var clickEvent = this.renderHandler(Event.CLICK, "_onDateSelected");
+    var normalClickEvent = this.renderHandler(Event.CLICK, "_onDateSelected");
 
     var i = 0;
     while (i <= lastDate) {
@@ -788,7 +793,8 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
           }
         }
 
-        var bLastDay = j == 6 && i > lastDate;
+        var bLastDay = j == 6 && i > lastDate, 
+            bAllow = this.allowDate(tdYear, tdMonth, tdDate);
 
         if (this.jsxyear == tdYear && this.jsxmonth == tdMonth && this.jsxdate == tdDate)
           tdClass = "selected";
@@ -801,10 +807,17 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
           tdOverClass += " today";
         }
 
+        var overEvt = "", clickEvent = "";
+        if (bAllow) {
+          clickEvent = normalClickEvent;
+          overEvt = ' onmouseover="this.className=\'' + tdOverClass + '\'" onmouseout="this.className=\'' + tdClass + '\'"';
+        } else {
+          tdClass += " disallowed";
+        }
+        
         strHTML.push('<td id="' + id + '_' + tdYear + '-' + tdMonth + '-' + tdDate + '"' +
             (bLastDay ? ' tabreturn="true"' : '') +
-            index + ' class="' + tdClass + '" onmouseover="this.className=\'' + tdOverClass +
-            '\'" onmouseout="this.className=\'' + tdClass + '\'"' + clickEvent + '>' +
+            index + ' class="' + tdClass + '"' + overEvt + clickEvent + '>' +
             tdDate + '</td>');
       }
       strHTML.push('</tr>');
@@ -812,6 +825,21 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
 
     strHTML.push('</table>');
     return strHTML.join("");
+  };
+
+  /**
+   * This method can be overridden on an instance of a DatePicker to control which dates are selectable in the
+   * calendar popup. Any dates for which this method returns false will not be selectable in the popup. This default
+   * implementation always returns <code>true</code>.
+   * 
+   * @param y {int} the full year
+   * @param m {int} the month (0-11)
+   * @param d {int} the day of the month
+   * @return {boolean}
+   * @since 3.9.1
+   */
+  DatePicker_prototype.allowDate = function(y, m, d) {
+    return true;
   };
 
   /** @private @jsxobf-clobber */

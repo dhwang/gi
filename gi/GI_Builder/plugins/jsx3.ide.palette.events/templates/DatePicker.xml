@@ -14,6 +14,14 @@
     <record jsxid="newDATE" type="Date" jsxtext="the new value."/>
   </record>
 
+  <record jsxid="jsxchangemonth" jsxtext="Change Month"
+      jsxtip="Fires when the user changes the month in the calendar popup. Canceling this event prevents the change from occurring."
+      vetoable="1">
+    <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
+    <record jsxid="oldDATE" type="Date" jsxtext="the old year and month."/>
+    <record jsxid="newDATE" type="Date" jsxtext="the new year and month."/>
+  </record>
+
   <record jsxid="jsxinput" jsxtext="Input"
       jsxtip="Fires after the user types text in the date field and before the change is committed. Canceling this event prevents committing the input."
       vetoable="1">

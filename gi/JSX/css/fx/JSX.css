@@ -1048,6 +1048,9 @@ table.jsx3_dp_month td.selected {
   background-color: #FFCC00;
   text-align: right;
 }
+table.jsx3_dp_month td.disallowed {
+  color: #AAAAAA; background-color: #E5E5E5; cursor: default;
+}
 table.jsx3_dp_month td.prev {
   background-color: #CCCCCC; color: #666666;
   text-align: right;
