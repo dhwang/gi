@@ -228,12 +228,28 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     if (date != null) {
       return this._getDateFormat().format(date);
     } else {
-      var format = this.getFormat();
-      if (typeof(format) == "number")
-        return DateFormat.getDateInstance(format, this._getLocale());
-      else
-        return this.getFormat();
+      var label = this.getNullLabel();
+      return label != null ? label : this._getDateFormat().toString();
     }
+  };
+
+  /**
+   * Returns the text label to show in this date picker when no date is selected. If this method returns null then 
+   * the string representation of the date format is used by default.
+   * @return {String}
+   * @since 3.9.1
+   */
+  DatePicker_prototype.getNullLabel = function() {
+    return this.jsxnulllabel;
+  };
+
+  /**
+   * Sets the text label to show in this date picker when no date is selected. This label should not be parsable by
+   * the date format of this control. 
+   * @param label {String}
+   */
+  DatePicker_prototype.setNullLabel = function(label) {
+    this.jsxnulllabel = label;
   };
 
   /**
