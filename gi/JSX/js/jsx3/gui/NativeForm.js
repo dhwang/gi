@@ -133,13 +133,13 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
     var objGUI = this._getRenderedForm();
     if (objGUI) objGUI.setAttribute("target", this._targetIntToString(intTarget));
 
-    var iframe = this._getIframe();
+    var iframe = this._getIframeElm();
     var bIframe = this._isIframe();
 
     if (iframe && !bIframe) {
       iframe.parentNode.removeChild(iframe);
     } else if (!iframe && bIframe) {
-      jsx3.html.insertAdjacentHTML("beforeEnd", this._paintIframe());
+      jsx3.html.insertAdjacentHTML(objGUI, "beforeEnd", this._paintIframe());
     }
   };
 
@@ -191,14 +191,20 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
     if (objGUI) objGUI.reset();
   };
 
+  /** @private @jsxobf-clobber */
   NativeForm_prototype._getIframe = function() {
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
     try {
       return this.eval(this.getId() + "_iframe");
     } catch(e) {}
 /* @JSC */ } else {
-    return this.getDocument().getElementById(this.getId() + "_iframe");
+    return this_getIframeElm();
 /* @JSC */ }
+  };
+  
+  /** @private @jsxobf-clobber */
+  NativeForm_prototype._getIframeElm = function() {
+    return this.getDocument().getElementById(this.getId() + "_iframe");
   };
 
   /** @private @jsxobf-clobber */
