@@ -12,6 +12,7 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
 
   var Event = jsx3.gui.Event;
   var Interactive = jsx3.gui.Interactive;
+  var html = jsx3.html;
 
   /**
    * {int} texbox type 0
@@ -683,6 +684,39 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
     jsx3.gui.shakeStyles(this.getRendered(), {backgroundColor: "#FFFF66"});
   };
 
+  /**
+   * Returns the current selection of this text box.
+   * @return {Array<int>} <code>[startIndex, endIndex]</code>
+   * @since 3.9.1
+   */
+  TextBox_prototype.getSelection = function() {
+    var objGUI = this.getRendered();
+    if (objGUI) {
+      var sel = html.getSelection(objGUI);
+      return [sel.getStartIndex(), sel.getEndIndex()];
+    }
+    return [0, 0];
+  };
+
+  /**
+   * Sets the current selection of this text box. Pass no parameters to select the entire text.
+   * @param intStart {int} the start index
+   * @param intEnd {int} the end index
+   * @since 3.9.1
+   */
+  TextBox_prototype.setSelection = function(intStart, intEnd) {
+    var objGUI = this.getRendered();
+    if (objGUI) {
+      if (arguments.length == 0) {
+        intStart = 0;
+        intEnd = objGUI.value.length;
+      }
+      
+      var sel = html.getSelection(objGUI);
+      sel.setRange(intStart, intEnd)
+    }
+  };
+
 /* @JSC :: begin DEP */
 
   /**
@@ -742,7 +776,7 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
 
       if (!bCancel && bArrow) {
         var input = this.getRendered(e);
-        var sel = jsx3.html.getSelection(input);
+        var sel = html.getSelection(input);
         var value = input.value;
         var bPre = kc == Event.KEY_ARROW_LEFT || kc == Event.KEY_ARROW_UP;
 
