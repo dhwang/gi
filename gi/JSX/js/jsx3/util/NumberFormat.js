@@ -314,8 +314,9 @@ jsx3.Class.defineClass('jsx3.util.NumberFormat', null, null, function(NumberForm
     if (s == props.get('number.infinity'))
       return neg ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
 
+    s = s.replace(/\s/g, " ");
     // remove grouping separators
-    var groupingSymbol = this._getGrouping(currency);
+    var groupingSymbol = this._getGrouping(currency).replace(/\s/g, " ");
     if (groupingSymbol) {
       var groupIndex = -1;
       while ((groupIndex = s.indexOf(groupingSymbol)) >= 0) {
@@ -332,7 +333,7 @@ jsx3.Class.defineClass('jsx3.util.NumberFormat', null, null, function(NumberForm
 */
 
     // replace decimal
-    var decimalSymbol = this._getDecimal(currency);
+    var decimalSymbol = this._getDecimal(currency).replace(/\s/g, " ");
     if (decimalSymbol != ".") {
       var decIndex = s.indexOf(decimalSymbol);
       if (decIndex >= 0) {
@@ -349,9 +350,7 @@ jsx3.Class.defineClass('jsx3.util.NumberFormat', null, null, function(NumberForm
   /** @private @jsxobf-clobber */
   NumberFormat_prototype._getGrouping = function(bCur) {
     var props = this._getProps();
-    return bCur ?
-       (props.get('number.currency.grouping') || props.get('number.grouping')) :
-        props.get('number.grouping');
+    return (bCur && props.get('number.currency.grouping')) || props.get('number.grouping') || "";
   };
 
   /** @private @jsxobf-clobber */

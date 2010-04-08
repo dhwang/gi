@@ -266,4 +266,10 @@ gi.test.jsunit.defineTests("jsx3.util.NumberFormat", function(t, jsunit) {
     jsunit.assertEquals("4", -100, f.parse("(-100)"));
   };
 
+  // http://www.generalinterface.org/bugs/browse/GI-882
+  t.testSpaceEquivalence = function() {
+    var f = new jsx3.util.NumberFormat("#,##0.##", jsx3.util.Locale.valueOf("fr"));
+    jsunit.assertEquals(1234.55, f.parse("1 234,55"));
+  };
+
 });
