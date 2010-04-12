@@ -314,9 +314,10 @@ jsx3.Class.defineClass('jsx3.util.NumberFormat', null, null, function(NumberForm
     if (s == props.get('number.infinity'))
       return neg ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
 
-    s = s.replace(/\s/g, " ");
+    var regex = /[\s\u00a0]/g; // Safari 3 incorrectly fails to match nbsp to \s
+    s = s.replace(regex, " ");
     // remove grouping separators
-    var groupingSymbol = this._getGrouping(currency).replace(/\s/g, " ");
+    var groupingSymbol = this._getGrouping(currency).replace(regex, " ");
     if (groupingSymbol) {
       var groupIndex = -1;
       while ((groupIndex = s.indexOf(groupingSymbol)) >= 0) {
@@ -333,7 +334,7 @@ jsx3.Class.defineClass('jsx3.util.NumberFormat', null, null, function(NumberForm
 */
 
     // replace decimal
-    var decimalSymbol = this._getDecimal(currency).replace(/\s/g, " ");
+    var decimalSymbol = this._getDecimal(currency).replace(regex, " ");
     if (decimalSymbol != ".") {
       var decIndex = s.indexOf(decimalSymbol);
       if (decIndex >= 0) {
