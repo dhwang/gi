@@ -6,7 +6,7 @@
 <data jsxid="jsxroot">
 
   <record jsxid="jsxdata" jsxtext="Response" always="1"
-      jsxtip="Fires after this object is removed from the DOM.">
+      jsxtip="Fires when the form receives a response, error or timeout from the server.">
     <record jsxid="this" type="$class$" jsxtext="the object that publishes this event."/>
     <record jsxid="type" type="String" jsxtext="the event type: load, error or timeout."/>
   </record>
