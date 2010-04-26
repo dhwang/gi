@@ -287,7 +287,7 @@ jsx3.Class.defineClass("jsx3.chart.Axis", jsx3.chart.ChartComponent, null, funct
    * Note that passing a function reference to this method will prevent the value from being persisted if this
    * object is serialized.
    * @param labelFunction {String | Function} the new value for labelFunction, a function with the signature
-   *     <code>function(value : Number|String) : String</code>.
+   *     <code>function(value : Number|String, index : int) : String</code>.
    */
   Axis_prototype.setLabelFunction = function( labelFunction ) {
     chart.setReferenceField(this, "labelFunction", labelFunction);
@@ -752,7 +752,7 @@ jsx3.Class.defineClass("jsx3.chart.Axis", jsx3.chart.ChartComponent, null, funct
   Axis_prototype._getLabelForTick = function(index) {
     var value = this.getValueForTick(index);
     var funct = this.getLabelFunction();
-    return funct != null ? funct.apply(this, [value]) : (value != null ? value.toString() : "");
+    return funct != null ? funct.apply(this, [value, index]) : (value != null ? value.toString() : "");
   };
 
   /**
