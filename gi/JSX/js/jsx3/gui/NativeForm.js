@@ -198,7 +198,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
       return this.eval(this.getId() + "_iframe");
     } catch(e) {}
 /* @JSC */ } else {
-    return this_getIframeElm();
+    return this._getIframeElm();
 /* @JSC */ }
   };
   
