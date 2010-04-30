@@ -463,6 +463,8 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var bOpen = this._isOpen(objEvent);
     
     if (!bOpen) {
+      delete this._jsxcheckonblur;
+
       if (objNode != null) {
           this._doSelectRecord(objEvent, this._cdfav(objNode, "id"));
       } else if (strText != this.jsxvalue) {
@@ -474,6 +476,12 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
           this.redrawRecord(this.jsxvalue);
         }
       }
+    } else {
+      // In the case that the combo drop down is open, we don't do a change event here because focus may be going
+      // to the drop down. But, we need to make sure that when the drop down closes, we come back here and possibly
+      // fire a change event. 
+      /* @jsxobf-clobber */
+      this._jsxcheckonblur = 1;
     }
   };
 
@@ -669,7 +677,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this.hide(false);
 
       // force the doBlur event handler if the combo box was NOT focused
-      if (this._jsxfocusedgui && this.getType() == Select.TYPECOMBO) {
+      if (this._jsxcheckonblur || (this._jsxfocusedgui && this.getType() == Select.TYPECOMBO)) {
         var objGUI = this._getInputElement();
         if (objGUI)
           this._doBlurCombo(objEvent, objGUI);
@@ -976,7 +984,6 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
   /**
    * selects the record and fires the SELECT event; updates the MODEL, DATAMODEL, and VIEW. returns a ref to self to facilitate method chaining
    * @param strRecordId {String} id for the record that will be the 'selected' item
-   * @return {jsx3.gui.Select} this object.
    * @private
    * @jsxobf-clobber
    */
