@@ -388,9 +388,9 @@
     <xsl:param name="jsx_cell_width"/>
     <xsl:param name="jsx_row_number">0</xsl:param>
     <xsl:param name="jsx_style" select="@*[name() = $attrstyle]"/>
-
+	
     <table cellpadding="0" cellspacing="0" class="jsx30matrix_rowtable" jsxindent="{($jsx_descendant_index -1) * $jsx_indent}">
-      <xsl:attribute name="style">position:relative;margin-left:<xsl:value-of select="($jsx_descendant_index -1) * $jsx_indent"/>px;height:16px;</xsl:attribute>
+      <xsl:attribute name="style">width:<xsl:value-of select="$jsx_cell_width - (($jsx_descendant_index -1) * $jsx_indent)"/>px;position:relative;margin-left:<xsl:value-of select="($jsx_descendant_index -1) * $jsx_indent"/>px;height:16px;</xsl:attribute>
       <tr style="{$jsx_style}">
         <xsl:if test="@*[name() = $attrclass]">
           <xsl:attribute name="class"><xsl:value-of select="@*[name() = $attrclass]"/></xsl:attribute>
