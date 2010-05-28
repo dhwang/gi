@@ -24,7 +24,7 @@
       <object type="jsx3.gui.Button">
         <variants jsxindex="0" jsxheight="18"/>
         <strings jsxname="button" jsxtext="Load One Stack Item" jsxmargin="margin-right:8px;"/>
-        <events jsxexecute="eg.effAdopt.loadOneItem();"/>
+        <events jsxexecute="eg.effAdopt.loadOneItem(this);"/>
       </object>
       <object type="jsx3.gui.Button">
         <variants jsxindex="0" jsxheight="18"/>
