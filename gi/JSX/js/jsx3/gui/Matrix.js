@@ -1553,8 +1553,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (!objPrecedeChild) return;
 
     //attempt the insertBefore
-    var bSuccess = bAppend?
-                   this.adoptChild(objMoveChild,true):
+    var bSuccess = bAppend ?
+                   (this.adoptChild(objMoveChild,true) || 1) :
                    this.insertBefore(objMoveChild,objPrecedeChild,true);
 
     //fire the reorder event
