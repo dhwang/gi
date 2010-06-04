@@ -42,7 +42,7 @@
         </xsl:for-each>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:for-each select="descendant::*[$attrchildren='*' or name()=$attrchildren]">
+        <xsl:for-each select="*[$attrchildren='*' or name()=$attrchildren]">
           <xsl:sort select="@*[name()=$jsxsortpath]" data-type="{$jsxsorttype}" order="{$jsxsortdirection}"/>
           <xsl:apply-templates select="."/>
         </xsl:for-each>
