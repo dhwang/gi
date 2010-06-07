@@ -1,8 +1,8 @@
 /*
- * Modified by Darren Hwang © 2009
+ * Modified by Darren Hwang ï¿½ 2009
  * General Interface Test Automation Kit (GITAK) 0.8.1, 0.9.1, 1.0
  */
- 
+
 /*
 * Copyright 2004 ThoughtWorks, Inc
 *
@@ -28,7 +28,7 @@ var htmlTestRunner;
 var HtmlTestRunner = classCreate();
 objectExtend(HtmlTestRunner.prototype, {
     initialize: function() {
-        this.metrics = new Metrics();
+        this.metrics = new GIMetrics(); // GITAK
         this.controlPanel = new HtmlTestRunnerControlPanel();
         this.testFailed = false;
         this.currentTest = null;
@@ -151,7 +151,7 @@ objectExtend(HtmlTestRunner.prototype, {
         //storedVars = new Object(); // GITAK, alter storedVars to be global and available across test cases. Don't reset here.
         storedVars.nbsp = String.fromCharCode(160);
         storedVars.space = ' ';
-        this.currentTest = new HtmlRunnerTestLoop(testFrame.getCurrentTestCase(), this.metrics, this.commandFactory);
+        this.currentTest = new GIRunnerTestLoop(testFrame.getCurrentTestCase(), this.metrics, this.commandFactory);
         currentTest = this.currentTest;
         this.currentTest.start();
     },
@@ -775,9 +775,9 @@ objectExtend(SeleniumTestResult.prototype, {
                 form.createHiddenField(key, value);
             }
         }
-
+			
         form.createHiddenField("selenium.version", Selenium.version);
-        form.createHiddenField("selenium.revision", Selenium.revision);
+			form.createHiddenField("selenium.revision", Selenium.revision);
 
         form.createHiddenField("result", this.suiteFailed ? "failed" : "passed");
 
@@ -790,10 +790,10 @@ objectExtend(SeleniumTestResult.prototype, {
 
         // GITAK -- move numTestTotal and suite to the front.
         form.createHiddenField("numTestTotal", this.suiteTable.rows.length-1);
-        if (selenium.jsxversion) {
-          form.createHiddenField("jsxVersion", selenium.jsxversion);
-        }
-        form.createHiddenField("userAgent", navigator.userAgent);
+		if (selenium.jsxversion) {
+			form.createHiddenField("jsxVersion", selenium.jsxversion);
+		}
+		form.createHiddenField("userAgent", navigator.userAgent);
         // end GITAK
         // Add HTML for the suite itself
         form.createHiddenField("suite", this.suiteTable.parentNode.innerHTML);
@@ -810,26 +810,26 @@ objectExtend(SeleniumTestResult.prototype, {
             }
         }
 
-        // GITAK create report for failed tests named failed.1, failed.2 etc.
+		// GITAK create report for failed tests named failed.1, failed.2 etc.
         for (var i = 0;  i < this.metrics.failedTests.length; i++) {
-          var failedTest = this.metrics.failedTests[i];
-          form.createHiddenField("failed." + i, failedTest);
+                var failedTest = this.metrics.failedTests[i];
+                form.createHiddenField("failed." + i, failedTest);
         }
-        // GITAK create report for passed tests named passed.1, passed.2 etc.
+		// GITAK create report for passed tests named passed.1, passed.2 etc.
         for (var i = 0;  i < this.metrics.passedTests.length; i++) {
-          var passedTest = this.metrics.passedTests[i];
-          form.createHiddenField("passed." + i, passedTest);
+                var passedTest = this.metrics.passedTests[i];
+                form.createHiddenField("passed." + i, passedTest);
         }
 
         var serializedVars = ["{\n"];
         for (var name in storedVars) { // post as part of results all the 
-           LOG.debug("stored[" + name + "]=" + storedVars[name] );
+		   LOG.debug("stored[" + name + "]=" + storedVars[name] );
            serializedVars.push('"'+name+'":"'+storedVars[name]+'",');
-        }
+		}
         serializedVars.push("}\n");
         var logVars = serializedVars.join("\n");
-        form.createHiddenField("storedVars", logVars);
-        
+	    form.createHiddenField("storedVars", logVars);
+		
         var logMessages = [];
         while (LOG.pendingMessages.length > 0) {
             var msg = LOG.pendingMessages.shift();
@@ -911,7 +911,7 @@ objectExtend(SeleniumTestResult.prototype, {
         for (var i = 0;  i < this.metrics.failedTests.length; i++) {
             scriptFile.WriteLine("<tr class=\"status_failed\">\n<td>"+ i +"</td>\n<td>" + inputs["failed." + i] + "</td>\n</tr>");
         }
-        scriptFile.WriteLine("</table><table id=\"passed_tests\">");
+		scriptFile.WriteLine("</table><table id=\"passed_tests\">");
         for (var i = 0;  i < this.metrics.passedTests.length; i++) {
             scriptFile.WriteLine("<tr class=\"status_passed\">\n<td>"+ i +"&nbsp;</td>\n<td>" + inputs["passed." + i] + "</td>\n</tr>");
         }
@@ -1087,7 +1087,7 @@ objectExtend(Metrics.prototype, {
         this.currentTime = null;
     },
 
-    // Add the failed test to the list/array --gitak
+        // Add the failed test to the list/array --gitak
     addFailedTest: function (objTest) {
         this.failedTests.push(objTest);
     },
@@ -1164,6 +1164,9 @@ objectExtend(HtmlRunnerTestLoop.prototype, {
 
         this.currentRow = null;
         this.currentRowIndex = 0;
+
+        this.cmdStartTime = 0;
+        this.cmdEndTime = 0;
 
         // used for selenium tests in javascript
         this.currentItem = null;
@@ -1313,6 +1316,192 @@ objectExtend(HtmlRunnerTestLoop.prototype, {
 
         }
     }
+
+});
+// GI metrics with passed and failed tests stats
+var GIMetrics = classCreate();
+objectExtend(GIMetrics.prototype, {
+    initialize: function() {
+        // Add a list of failed test to be reported --gitak
+        this.failedTests = [];
+        this.passedTests = [];
+        // The number of tests run
+        this.numTestPasses = 0;
+        // The number of tests that have failed
+        this.numTestFailures = 0;
+        // The number of commands which have passed
+        this.numCommandPasses = 0;
+        // The number of commands which have failed
+        this.numCommandFailures = 0;
+        // The number of commands which have caused errors (element not found)
+        this.numCommandErrors = 0;
+        // The time that the test was started.
+        this.startTime = null;
+        // The current time.
+        this.currentTime = null;
+    },
+
+        // Add the failed test to the list/array --gitak
+    addFailedTest: function (objTest) {
+        this.failedTests.push(objTest);
+    },
+
+    addPassedTest: function (objTest) {
+        this.passedTests.push(objTest);
+    },
+
+    printMetrics: function() {
+        setText(sel$('commandPasses'), this.numCommandPasses);
+        setText(sel$('commandFailures'), this.numCommandFailures);
+        setText(sel$('commandErrors'), this.numCommandErrors);
+        setText(sel$('testRuns'), this.numTestPasses + this.numTestFailures);
+        setText(sel$('testFailures'), this.numTestFailures);
+
+        this.currentTime = new Date().getTime();
+
+        var timeDiff = this.currentTime - this.startTime;
+        var totalSecs = Math.floor(timeDiff / 1000);
+
+        var minutes = Math.floor(totalSecs / 60);
+        var seconds = totalSecs % 60;
+
+        setText(sel$('elapsedTime'), this._pad(minutes) + ":" + this._pad(seconds));
+    },
+
+// Puts a leading 0 on num if it is less than 10
+    _pad: function(num) {
+        return (num > 9) ? num : "0" + num;
+    },
+
+    resetMetrics: function() {
+        delete this.failedTests;
+        delete this.passedTests;
+        this.failedTests = [];
+        this.passedTests = [];
+        this.numTestPasses = 0;
+        this.numTestFailures = 0;
+        this.numCommandPasses = 0;
+        this.numCommandFailures = 0;
+        this.numCommandErrors = 0;
+        this.startTime = new Date().getTime();
+    }
+
+});
+
+// GITAK override HtmlRunnerTestLoop methods
+var GIRunnerTestLoop = classCreate();
+objectExtend(GIRunnerTestLoop.prototype, HtmlRunnerTestLoop.prototype);
+objectExtend(GIRunnerTestLoop.prototype, {
+
+    commandStarted : function() {
+	// command selected, not run yet
+        sel$('pauseTest').disabled = false;
+        this.currentRow.select();
+        this.metrics.printMetrics();
+        this.cmdStartTime = new Date();
+        // Actually won't start until currentTest.resume() -- GITAK
+        // PageBus.publish('GITAK.TESTRUNNER.commandstarted', { time:cmdStartTime });
+    },
+    commandComplete : function(result) {
+        // record command complete time
+        this.cmdEndTime = new Date();
+        LOG.debug('cmdCompelete =' + this.cmdEndTime.getTime());
+        this.lastCommand = this.currentCommand;
+        this._checkExpectedFailure(result);
+        if (result.failed) {
+            this.metrics.numCommandFailures += 1;
+            this._recordFailure(result.failureMessage);
+            this.failedMessage = result.failureMessage;  // last failed message
+            this.lastFailedCommand = this.currentCommand;  // last failed command
+        } else if (result.passed) {
+            this.metrics.numCommandPasses += 1;
+            this.currentRow.markPassed();
+        } else {
+            this.currentRow.markDone();
+        }
+        var com = this.currentCommand.command;
+        // Display time taken for open and waitFor commands -- GITAK
+       //PageBus.publish('GITAK.TESTRUNNER.commandstarted', { time:cmdEndTime });
+        if (com == 'open' || /^waitFor/.test(com) || /^jsxwait/.test(com) ){
+            var elapsed = this.cmdEndTime - this.cmdStartTime;
+            var delay = this.getCommandInterval();
+            if (delay) elapsed = elapsed - delay; // substract interval or pause time
+            this.currentRow.setMessage('elapsed ' + elapsed +' ms');
+        }
+    },
+
+    commandError : function(errorMessage) {
+        var tempResult = {};
+        tempResult.passed = false;
+        tempResult.failed = true;
+        tempResult.error = true;
+        tempResult.failureMessage = errorMessage;
+        this._checkExpectedFailure(tempResult);
+        if (tempResult.passed) {
+            this.currentRow.markDone();
+            return true;
+        }
+        errorMessage = tempResult.failureMessage;
+        this.metrics.numCommandErrors += 1;
+        this._recordFailure(errorMessage);
+        this.failedMessage = errorMessage; // last failed message
+        this.lastFailedCommand = this.currentCommand;  // last failed command
+    },
+
+    testComplete : function() {
+        sel$('pauseTest').disabled = true;
+        sel$('stepTest').disabled = true;
+        if (htmlTestRunner.testFailed) {
+            this.htmlTestCase.markFailed();
+            this.metrics.numTestFailures += 1;
+        } else {
+            this.htmlTestCase.markPassed();
+            this.metrics.numTestPasses += 1;
+        }
+
+        this.metrics.printMetrics();
+        this._recordMetrics(); // GITAK test metrics
+        // var testRes = { setName :   getText(this.htmlTestCase.headerRow.trElement),
+       // suiteName : getText(htmlTestRunner.getTestSuite().titleRow.trElement),
+        // metric : this.metrics };
+        // PageBus.publish('GITAK.recordMetrics', testRes );
+        
+        // Reset key pressed setting from one test case to the next
+        selenium.browserbot.controlKeyDown = false; 
+        selenium.browserbot.altKeyDown = false;
+        selenium.browserbot.shiftKeyDown = false
+        selenium.browserbot.metaKeyDown = false
+        selenium.jsxNamespace = null;
+        
+        window.setTimeout(function() {
+            htmlTestRunner.runNextTest();
+        }, 1);
+    },
+
+
+   _recordMetrics : function () {
+       // Adding failed test string for reporting -- gitak
+     LOG.info('record result...');
+     this.currentSetName = getText(this.htmlTestCase.headerRow.trElement);
+     this.currentSetDesc = getText(this.htmlTestCase.caption);
+     LOG.info("description text = " + this.currentSetDesc);
+     this.currentSuiteName = getText(htmlTestRunner.getTestSuite().titleRow.trElement);
+     // Suite Name and Set Name cannot contain ":" character
+     var currentTestName = this.currentSuiteName + ":" + this.currentSetName + ":" + this.currentSetDesc;
+     if (!this.failedMessage) {
+            LOG.info('PASSED: ' + currentTestName);
+            this.metrics.addPassedTest(currentTestName);
+     } else {
+           var cmd = (this.lastFailedCommand) ? this.lastFailedCommand : this.currentCommand;
+           var strFailedTest = currentTestName + "|"
+                   //+ this.currentCaseName + "|"
+                   + cmd.command + "|" + cmd.target + "|"
+                   + cmd.value + "|" + this.failedMessage;
+           LOG.info('FAILED: ' + strFailedTest);
+           this.metrics.addFailedTest(strFailedTest);
+
+     }
+   }
 
 });
 
