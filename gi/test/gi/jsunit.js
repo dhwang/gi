@@ -156,7 +156,7 @@ gi.test.jsunit._init = function(jsunit) {
       document.getElementsByTagName("body")[0].appendChild(objGUI);
     }
 
-    return new jsx3.app.Server(this.resolveURI(strPath), objGUI, false, objEnv);
+    return new jsx3.app.Server(this.resolveURI(strPath), objGUI, bGUI, objEnv);
   };
 
   jsunit.TestSuite.prototype.asyncCallback = function(fctTest) {
@@ -313,7 +313,7 @@ gi.test.jsunit._init = function(jsunit) {
       return function() {
         jsunit._lastTearDown = null;
         
-        fctSetUp();
+        if (fctSetUp) fctSetUp();
         fctTest();
 
         if (fctTearDown) {
