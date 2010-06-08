@@ -83,7 +83,9 @@ jsx3.Class.defineClass("jsx3.gui.Column", jsx3.gui.Block, null, function(Column,
    */
   Column.IMG_DESCENDING = jsx3.resolveURI("jsx:///images/list/sort_desc.gif");
 
-  jsx3.html.loadImages(Column.IMG_ASCENDING, Column.IMG_DESCENDING);
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
+        jsx3.html.loadImages(Column.IMG_ASCENDING, Column.IMG_DESCENDING);
+  /* @JSC */  }
 
   /** @private @jsxobf-clobber */
   Column.DEFAULTTEXT = "&#160;";

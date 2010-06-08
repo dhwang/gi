@@ -33,8 +33,10 @@ jsx3.Class.defineClass("jsx3.gui.Splitter", jsx3.gui.Block, null, function(Split
   /** @private @jsxobf-clobber */
   Splitter.HSPLITIMAGE = "jsx:///images/splitter/h.gif";
 
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   jsx3.html.loadImages(Splitter.VSPLITIMAGE, Splitter.HSPLITIMAGE);
-
+  /* @JSC */ }
+    
   /** @private @jsxobf-clobber */
   Splitter.DRAGCOLOR = "#2050df";
 

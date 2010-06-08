@@ -64,8 +64,10 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
   /** @private @jsxobf-clobber */
   DatePicker.IMAGE_OPEN = jsx3.resolveURI("jsx:///images/jsxdatepicker/open.gif");
 
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   jsx3.html.loadImages(DatePicker.IMAGE_NEXT, DatePicker.IMAGE_PREVIOUS, DatePicker.IMAGE_OPEN);
-
+  /* @JSC */ }
+    
   /** {String} @private */
   DatePicker_prototype.jsxformat = null;
   /** {int} @private */

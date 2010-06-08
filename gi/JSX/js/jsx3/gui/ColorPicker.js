@@ -62,9 +62,10 @@ jsx3.Class.defineClass("jsx3.gui.ColorPicker", jsx3.gui.Block, [jsx3.gui.Form],
     _3_v: jsx3.resolveURI(imagePrefix + "brightness-v.png")
   };
 
+/* @JSC */ if (jsx3.CLASS_LOADER.IE6) {        
   for (var f in ColorPicker._IMAGES)
     html.loadImages(ColorPicker._IMAGES[f]);
-  
+/* @JSC */ }
   /**
    * The instance initializer.
    * @param strName {String} 

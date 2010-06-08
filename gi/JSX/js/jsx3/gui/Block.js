@@ -172,8 +172,9 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
    */
   Block.SPACE = jsx3.resolveURI("jsx:///images/spc.gif");
 
-  jsx3.html.loadImages(Block.SPACE);
-
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
+    jsx3.html.loadImages(Block.SPACE);
+  /* @JSC */ }
   /**
    * instance initializer
    * @param strName {String} unique name distinguishing this object from all other JSX GUI objects in the JSX application

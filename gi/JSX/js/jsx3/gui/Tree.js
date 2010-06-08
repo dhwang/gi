@@ -100,9 +100,11 @@ jsx3.Class.defineClass("jsx3.gui.Tree", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
 
 /* @JSC :: end */
 
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   html.loadImages(Tree.ICONMINUS, Tree.ICONPLUS, Tree.ICON, Tree.SELECTEDIMAGE, "jsx:///images/tree/over.gif",
       Tree.INSERT_BEFORE_IMG, Tree.APPEND_IMG);
-
+  /* @JSC */ }
+    
   /**
    * {String} #8CAEDF (default)
    * @deprecated  Use CSS instead.

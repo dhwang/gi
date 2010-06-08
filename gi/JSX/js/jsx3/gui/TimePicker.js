@@ -28,8 +28,10 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
   /** @package */
   TimePicker.SPINNER_DOWN = jsx3.resolveURI("jsx:///images/jsxtimepicker/spin_down.gif");
 
+/* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   jsx3.html.loadImages(TimePicker.SPINNER_UP, TimePicker.SPINNER_DOWN);
-
+/* @JSC */ }
+    
   /** @private @jsxobf-clobber */
   TimePicker._PAD2 = new jsx3.util.NumberFormat("00");
   /** @private @jsxobf-clobber */

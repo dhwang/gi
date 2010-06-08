@@ -69,9 +69,11 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
   /** @private @jxsobf-clobber */
   ToolbarButton.BORDERCOLOR = "#9B9BB7";
 
+/* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   jsx3.html.loadImages(ToolbarButton.IMAGEDOWN, ToolbarButton.IMAGEON, ToolbarButton.IMAGEOVER,
       ToolbarButton.DEFAULTIMAGE);
-
+/* @JSC */ }
+    
   /** {jsx3.gui.HotKey} @private @jsxobf-clobber */
   ToolbarButton_prototype._jsxhotkey = null;
 

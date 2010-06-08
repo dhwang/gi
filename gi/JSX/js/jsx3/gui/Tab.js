@@ -60,8 +60,10 @@ jsx3.Class.defineClass("jsx3.gui.Tab", jsx3.gui.Block, null, function(Tab, Tab_p
    */
   Tab.INACTIVEBEVEL = jsx3.resolveURI("jsx:///images/tab/off.gif");
 
+/* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   jsx3.html.loadImages(Tab.DEFAULTBEVELIMAGE, Tab.ACTIVEBEVEL, Tab.INACTIVEBEVEL);
-
+/* @JSC */ }
+    
   /**
    * {String} #e8e8f5
    */

@@ -117,9 +117,11 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
   /** @private @jsxobf-clobber */
   Menu._IMAGEON = jsx3.resolveURI("jsx:///images/tbb/on.gif");
 
+/* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   html.loadImages("jsx:///images/menu/bg.gif", Menu._IMAGEDOWNMENU, Menu._IMAGEOFFMENU, Menu._IMAGEONMENU,
       Menu._IMAGEOVERMENU, Menu._IMAGESELECTED, Menu._IMAGEOVER, Menu._IMAGESUBMENU, Menu._IMAGEDOWN, Menu._IMAGEON);
-
+/* JSC */ }
+    
   /** @private @jsxobf-clobber */
   Menu.BORDERCOLOR = "#9B9BB7";
 

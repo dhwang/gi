@@ -94,8 +94,10 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    */
   Select.SELECTEDIMAGE = jsx3.resolveURI("jsx:///images/select/selected.gif");
 
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   html.loadImages(Select.ARROWICON, Select.OVERIMAGE, Select.SELECTEDIMAGE);
-
+  /* @JSC */}
+    
 /* @JSC :: begin DEP */
 
   /**

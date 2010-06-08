@@ -40,8 +40,9 @@ jsx3.Class.defineClass("jsx3.gui.Grid", jsx3.gui.List, null, function(Grid, Grid
    */
   Grid.DEFAULTBACKGROUNDHEAD = "background-image:url(" + jsx3.resolveURI("jsx:///images/list/header.gif") + ");";
 
-  jsx3.html.loadImages("jsx:///images/grid/select.gif", "jsx:///images/list/grid.gif", "jsx:///images/list/header.gif");
-
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
+    jsx3.html.loadImages("jsx:///images/grid/select.gif", "jsx:///images/list/grid.gif", "jsx:///images/list/header.gif");
+  /* @jSC */ }
   /**
    * {String} #c8cfd8
    */

@@ -38,8 +38,9 @@ jsx3.Class.defineClass("jsx3.gui.List", jsx3.gui.Block, [jsx3.gui.Form, jsx3.xml
    */
   List.DEFAULTBACKGROUNDHEAD = "background-image:url(" + jsx3.resolveURI("jsx:///images/list/header.gif") + ");";
 
+  /* @JSC */ if (jsx3.CLASS_LOADER.IE6) {
   html.loadImages("jsx:///images/list/select.gif", "jsx:///images/list/header.gif");
-
+  /* @JSC */ }
   /**
    * {String} #F3F2F4
    */
