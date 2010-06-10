@@ -15,13 +15,14 @@ Browsers and Platforms
   General Interface Test Automation Kit runs on the following 
   browsers and platforms. 
 
-  Internet Explorer 7.0 and 6.0.x for:  
+  Internet Explorer 8.0, 7.0 and 6.0.x for:  
     Microsoft Windows (x86)
       Windows 2003 Server
-      Windows XP Professional SP1 and SP2
+      Windows XP Professional SP1 SP2 and SP3
       Windows Vista
+      Windows 7
 
-  Firefox 2.0 and 1.5.x for:
+  Firefox 3.x, 2.0 and 1.5.x for:
     Linux (x86)
       Red Hat Enterprise Linux 3
       Red Hat Enterprise Linux 4
@@ -32,15 +33,16 @@ Browsers and Platforms
       Mac OS X (PowerPC) 10.3 and later
     Microsoft Windows (x86)
       Windows 2003 Server
-      Windows XP Professional SP1 and SP2
+      Windows XP Professional SP1 SP2 and SP3
       Windows Vista
+      Windows 7
 
 ======================================================================
 Minimum Disk Space and Memory Requirements
 
   Free disk space: 10MB
 
-  Memory: 512MB RAM
+  Memory: 1024MB RAM
 
 ======================================================================
 Software Requirements
@@ -48,33 +50,15 @@ Software Requirements
     Any of these releases of General Interface 3.8 and later
 
 
-
   Third-party Software:
 
-    Selenium 0.8.2 (included in installation)
+    Selenium (included in installation)
        Note that this is not a full Selenium distribution. JsUnit, 
        Dojo, and cssQuery libraries have been removed. You may obtain 
-       the full distribution of Selenium from http://www.openqa.org.
+       the full distribution of Selenium from http://www.seleniumhq.org.
      
 ======================================================================
 GeneralInterface.org
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   Have questions about the software?  
   Need to report a bug?  
