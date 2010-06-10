@@ -1433,14 +1433,15 @@ Selenium.prototype.doTypeJsxKeys = function(locator, text) {
  */
  LOG.debug("doTypeJsxKeys " + locator + " with " + text);
  var element = this.browserbot.findElement(locator);
+ triggerEvent(element, 'focus', false);
  // on IE, typeKeys does not input the text yet on FX doing both enters the text twice.
- if (!browserVersion.isFirefox)
+ if (browserVersion.isIE)
 	this.doType(locator, text);
 // Select the current text in the input box, so that typekeys replace current content.
  element.select();
  this.doTypeKeys(locator, text);
  this.element = element;
- jsx3.sleep( function () { this.element.blur(); triggerEvent(this.element, 'blur', false); }, "blur", this, true);
+ setTimeout( function () { triggerEvent(element, 'blur', false); }, 100);
 
 }
 Selenium.prototype.doTypeJsxTextbox = function(locator, text) {
@@ -2164,10 +2165,6 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
   var jsxobj = null;
 
   var type = eval(jsxtype); // is this jsxtype loaded?
-  if (jsxtype.match(/^jsx3/) && typeof(type) == "undefined") {
-    jsx3.require(jsxtype);
-    type = eval(jsxtype);
-  }
   
   if (jsx3 && type) {
     selenium.jsxversion = jsx3.getVersion();
@@ -3884,7 +3881,7 @@ IncludeCommand.prototype.injectIncludeTestrows = function(includeCmdRow, testDoc
             // remove < td>
             newText = newText.replace(/<\s*td[^>]*>/ig,"");
             //Lance: remove </tbody>
-            newText = newText.replace(/<\/*tbody*>|<br>/ig,"");
+            newText = newText.replace(/<\/\s*tbody*>|<br>/ig,"");
             // split on </td>
             var testCols = newText.split(/<\/\s*td[^>]*>/i);
             // first element is empty -> j=1
@@ -3959,11 +3956,6 @@ IncludeCommand.getIncludeDocumentBySynchronRequest = function(includeUri) {
      *
      * selenium-dependency: uses extended String from htmlutils
      *
-     * TODO - use a URL object for parameter and url handling instead of custom regexes
-     *  //there is discussion about getting rid of prototype.js in developer forum.
-     *  //the ajax impl in xmlutils.js is not active by default in 0.8.0 due to no script-tag in TestRunner.html
-     *  //TODO use Ajax from prototype like this:
-     *  var sjaxRequest = new Ajax.Request(url, {asynchronous:false});
      *
      * @param includeUri URI to the include-document (document has to be from the same domain)
      * @return XMLHttp requester after receiving the response
@@ -3977,7 +3969,6 @@ IncludeCommand.getIncludeDocumentBySynchronRequest = function(includeUri) {
     requester.open("GET", url, false); // synchron mode ! (we don't want selenium to go ahead)
     requester.send(null);
 
-    //if ( requester.status != 200 && requester.status !== 0 ) {
     if (!this.responseIsSuccess(requester.status)) {
         throw new Error("Error while fetching " + url + " server response has status = " + requester.status + ", " + requester.statusText );
     }
@@ -4002,7 +3993,7 @@ IncludeCommand.prepareUrl = function(includeUrl) {
 };
 
 IncludeCommand.newXMLHttpRequest = function() {
-    // TODO -- should be replaced by impl. in prototype.js or xmlextras.js?
+    // Cannot use prototype.js or xmlxtras.js because we want IE to use ActiveX
     var requester = 0;
     var exception = '';
     // see http://developer.apple.com/internet/webcontent/xmlhttpreq.html

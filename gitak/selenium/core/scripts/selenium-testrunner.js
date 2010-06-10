@@ -128,6 +128,9 @@ objectExtend(HtmlTestRunner.prototype, {
     },
 
     startTestSuite: function() {
+        storedVars = new Object(); // GITAK reset only for each TestSuite
+        storedVars.nbsp = String.fromCharCode(160);
+        storedVars.space = ' ';
         this.controlPanel.reset();
         this.metrics.resetMetrics();
         this.getTestSuite().reset();
@@ -149,8 +152,6 @@ objectExtend(HtmlTestRunner.prototype, {
         //todo: move testFailed and storedVars to TestCase
         this.testFailed = false;
         //storedVars = new Object(); // GITAK, alter storedVars to be global and available across test cases. Don't reset here.
-        storedVars.nbsp = String.fromCharCode(160);
-        storedVars.space = ' ';
         this.currentTest = new GIRunnerTestLoop(testFrame.getCurrentTestCase(), this.metrics, this.commandFactory);
         currentTest = this.currentTest;
         this.currentTest.start();
@@ -821,13 +822,12 @@ objectExtend(SeleniumTestResult.prototype, {
                 form.createHiddenField("passed." + i, passedTest);
         }
 
-        var serializedVars = ["{\n"];
+        var serializedVars = [];
         for (var name in storedVars) { // post as part of results all the 
-		   LOG.debug("stored[" + name + "]=" + storedVars[name] );
-           serializedVars.push('"'+name+'":"'+storedVars[name]+'",');
+		   //LOG.debug("stored[" + name + "]=" + storedVars[name] );
+           serializedVars.push('"'+name+'"::"'+storedVars[name]+'"');
 		}
-        serializedVars.push("}\n");
-        var logVars = serializedVars.join("\n");
+        var logVars = serializedVars.join(",");
 	    form.createHiddenField("storedVars", logVars);
 		
         var logMessages = [];
@@ -1398,9 +1398,8 @@ objectExtend(GIRunnerTestLoop.prototype, {
         sel$('pauseTest').disabled = false;
         this.currentRow.select();
         this.metrics.printMetrics();
-        this.cmdStartTime = new Date();
         // Actually won't start until currentTest.resume() -- GITAK
-        // PageBus.publish('GITAK.TESTRUNNER.commandstarted', { time:cmdStartTime });
+        this.cmdStartTime = new Date();
     },
     commandComplete : function(result) {
         // record command complete time
@@ -1481,20 +1480,18 @@ objectExtend(GIRunnerTestLoop.prototype, {
 
    _recordMetrics : function () {
        // Adding failed test string for reporting -- gitak
-     LOG.info('record result...');
      this.currentSetName = getText(this.htmlTestCase.headerRow.trElement);
      this.currentSetDesc = getText(this.htmlTestCase.caption);
      LOG.info("description text = " + this.currentSetDesc);
      this.currentSuiteName = getText(htmlTestRunner.getTestSuite().titleRow.trElement);
      // Suite Name and Set Name cannot contain ":" character
-     var currentTestName = this.currentSuiteName + ":" + this.currentSetName + ":" + this.currentSetDesc;
+     var currentTestName = this.currentSuiteName + "::" + this.currentSetName + "::" + this.currentSetDesc;
      if (!this.failedMessage) {
             LOG.info('PASSED: ' + currentTestName);
             this.metrics.addPassedTest(currentTestName);
      } else {
            var cmd = (this.lastFailedCommand) ? this.lastFailedCommand : this.currentCommand;
            var strFailedTest = currentTestName + "|"
-                   //+ this.currentCaseName + "|"
                    + cmd.command + "|" + cmd.target + "|"
                    + cmd.value + "|" + this.failedMessage;
            LOG.info('FAILED: ' + strFailedTest);

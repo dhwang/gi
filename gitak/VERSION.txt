@@ -1,1 +1,1 @@
-GITAK 1.0b1
+GITAK 1.0b2

@@ -85,9 +85,9 @@ public class SeleniumHTMLRunnerResultsHandler implements HttpHandler {
                 numCommandFailures, numCommandErrors, suite, userAgent, testTables, logString, globalVars, jsxVersion);
         // GITAK database reporting
         DatabaseTestResults dbresults = new DatabaseTestResults(seleniumVersion, seleniumRevision,
-                result, totalTime, numTestTotal,
-                numTestPasses, numTestFailures, numCommandPasses, numCommandFailures,
-                numCommandErrors, testTables, testFailed, testPassed);
+                totalTime, numTestTotal, numTestPasses, numTestFailures,
+                //numCommandPasses, numCommandFailures, numCommandErrors, testTables,
+                testFailed, testPassed);
         dbresults.write();
 
         for (Iterator<HTMLResultsListener> i = listeners.iterator(); i.hasNext();) {

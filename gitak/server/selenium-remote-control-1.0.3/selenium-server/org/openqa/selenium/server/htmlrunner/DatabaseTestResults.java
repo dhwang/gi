@@ -51,13 +51,18 @@ public class DatabaseTestResults {
     private final Date runTime;
 
     static Connection ctn;
+    private String productName;
+    private String productBuild;
+    private String runtimePlatform;
+    private String productVersion;
+    private String dbCategory;
 
     public DatabaseTestResults(String postedSeleniumVersion, String postedSeleniumRevision,
-                               String postedResult, String postedTotalTime,
+                               String postedTotalTime,
                                String postedNumTestTotal, String postedNumTestPasses,
-                               String postedNumTestFailures, String postedNumCommandPasses,
-                               String postedNumCommandFailures, String postedNumCommandErrors,
-                               List<String> postedTestTables,
+                               String postedNumTestFailures,
+                               // String postedNumCommandPasses, String postedNumCommandFailures, String postedNumCommandErrors,
+                               //List<String> postedTestTables,
                                List<String> postedTestFailed,
                                List<String> postedTestPassed
                                ) {
@@ -71,31 +76,20 @@ public class DatabaseTestResults {
         testPassed = postedTestPassed;
         seleniumVersion = postedSeleniumVersion;
         seleniumRevision = postedSeleniumRevision;
+        productName = System.getProperty("product.name", "gi");
+        productVersion = System.getProperty("product.version", "1.0.0");
+        productBuild = System.getProperty("product.build", "1.0.0V1");
+        runtimePlatform = System.getProperty("gitak.system", System.getProperty("os.name") + "-" + System.getProperty("os.version"));
+        dbCategory = System.getProperty("database.category", "functional");
         // This property is set by the -htmlSuite option 4th parameter
         String filename = System.getProperty("htmlSuite.resultFilePath");
         // After the last slash should be the filename
         int lastslash = filename.lastIndexOf("/") > 0 ? filename.lastIndexOf("/"): filename.lastIndexOf("\\");
         if (lastslash > 0)
             filename = filename.substring(lastslash+1);
-        logUrl = System.getProperty("product.name", "gi") + "/" + System.getProperty("product.build", "BUILD") + "/" + System.getProperty("gitak.system", "PLATFORM") +
-                "/" + filename;
+        logUrl =  productName + "/" +  productBuild + "/" + runtimePlatform + "/" + filename;
         timestamp = String.valueOf(new Date().getTime());
         runTime = new Date();
-        if (this.getDbReportOption()) {
-            try {
-            log.info("Writing result to database...");
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-
-            String uid = System.getProperty("database.username");
-            String passwd = System.getProperty("database.password");
-            String url = System.getProperty("database.url");
-            ctn = DriverManager.getConnection(url, uid, passwd);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                log.error( e.getMessage() );
-            }
-        }
     }
 
     public long getTotalTime() {
@@ -161,8 +155,6 @@ public class DatabaseTestResults {
         MessageFormat mf = new MessageFormat("insert into tsi_tests_tc_desc(PRODUCT_NAME, CATEGORY, CASE_ID, SET_NAME, VARIANT_SEQ, CASE_DESC) values(''{0}'', ''{1}'', ''{2}'', ''{3}'', 1, ''{4}'')");
 
         String desc;
-        String productName = System.getProperty("product.name", "gi");
-        String category = System.getProperty("database.category", "functional");
         
         desc = description.replace('\u0000', ' ');
         desc = desc.replace('"', '^');
@@ -177,7 +169,7 @@ public class DatabaseTestResults {
            desc = desc.substring(start,desc.length()) + "...";
         }
 
-        Object[] caseRecord = {productName, category, caseId, setName, desc};
+        Object[] caseRecord = {productName, dbCategory, caseId, setName, desc};
         return mf.format(caseRecord);
     }
 
@@ -212,13 +204,37 @@ public class DatabaseTestResults {
         return p.split(result);
     }
 
+    private void connectDatabase() {
+        try {
+            log.info("Writing result to database...");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+
+            String uid = System.getProperty("database.username");
+            String passwd = System.getProperty("database.password");
+            String url = System.getProperty("database.url");
+            ctn = DriverManager.getConnection(url, uid, passwd);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            log.error(e);
+        }
+    }
+
+    private void closeDatabase() {
+        try { // close connection when done.
+            ctn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error(e);
+        }
+    }
+
     public void write() throws IOException {
        // insert Database TestSuiteName
         String setname = "";// TODO - implement suite.getName()?
-        String runId = getRunId();
+        String runId = productName.toUpperCase() + timestamp;
         String bTcDesc = System.getProperty("database.tc_desc", "false");
         String username= System.getProperty("gitak.username", System.getProperty("user.name"));
-        String platform = System.getProperty("gitak.system", System.getProperty("os.name") + "-" + System.getProperty("os.version"));
         String hostname= System.getProperty("gitak.hostname");
         if (hostname == null) {
             try {
@@ -230,7 +246,7 @@ public class DatabaseTestResults {
         }
 
         if (this.getDbReportOption()) {
-           String gitakVersion = this.seleniumVersion;
+           this.connectDatabase();
 
            String sqlstmt = "INSERT INTO tsi_tests_run(RUN_ID, HOSTNAME, PLATFORM, USER_NAME, " +
                 "START_TIME, END_TIME, PRODUCT_NAME, PRODUCT_VERSION, PRODUCT_BUILD, CATEGORY, STATUS, " +
@@ -238,26 +254,26 @@ public class DatabaseTestResults {
                 "NOTE, T_TESTS_VERSION) VALUES(" +
                 "'"  + runId +
                 "', '" + hostname +
-                "', '" + platform +
+                "', '" + runtimePlatform +
                 "', '"+ username + "', " +
                 //"to_date('" + formatDateTime(runTime) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
                 " SYSDATE," +
                 // "to_date('" + formatDateTime(null) + "', 'yyyy/mm/dd-hh24:mi:ss'), " +
                 " SYSDATE," +
-                " '" + System.getProperty("product.name", "gi") +       // PDMS predefine product acronym
-                "', '" +  System.getProperty("product.version", "0.0") + // Version id like 3.5.1.7
-                "', '" + System.getProperty("product.build", "BUILD") +    // Top level label, use full version id like 3.5.1V7
-                "', '"+ System.getProperty("database.category", "functional") + // -Ddatabase.category=ui for PDMS UI test category
+                " '" + productName +       // PDMS predefine product acronym
+                "', '" + productVersion  + // Version id like 3.5.1.7
+                "', '" + productBuild +    // Top level label, use full version id like 3.5.1V7
+                "', '"+ dbCategory + // -Ddatabase.category=ui for PDMS UI test category
                 "', 'COMPLETED', " + 
-                numTestTotal + ", " + numTestPasses+ ", "+  numTestFailures +", 0, 0, '"+ logUrl +"', null, '"+ gitakVersion +"' )";
+                numTestTotal + ", " + numTestPasses+ ", "+  numTestFailures +", 0, 0, '"+ logUrl +"', null, '"+ this.seleniumVersion +"' )";
             qaSqlExecute(sqlstmt);
 
 
             if (testPassed.size() > 0) {
-                String[] split= splitTestString(testPassed.get(0), ":");
+                String[] split= splitTestString(testPassed.get(0), "::");
                 setname = split[0];
             } else if (testFailed.size() > 0) {
-                String[] split= splitTestString(testFailed.get(0), ":");
+                String[] split= splitTestString(testFailed.get(0), "::");
                 setname = split[0];
             }
             if (setname.length() > 27) {
@@ -272,73 +288,55 @@ public class DatabaseTestResults {
             qaSqlExecute(sqlset);
 
 
-
-        for (int i = 0; i < testFailed.size(); i++) {
-            String tfail = testFailed.get(i).replace("\u00a0", "&nbsp;");
-            // parse failed test string and insert to Database
-            String[] values = splitTestString(tfail, "\\|");
-            if (values.length > 0) {
-               //System.out.println(values[0]);
-               //System.out.println(values[1]);
-
-               String[] names = splitTestString(values[0], ":");
-               String testSet = names[0];
-               String testCase = names[1];
-               if (bTcDesc.equals("true") && names.length > 2) {
-                String testDesc = names[2];
-                log.info("Test Desc -->" + testDesc);
-                String descStmt = this.createSqlTestCaseDescription(testSet, testCase, testDesc);
-                    qaSqlExecute(descStmt);
-               }
-               qaSqlExecute(this.createSqlTestCaseStatement(runId, testSet, testCase, false, tfail));
+            for (String aTestFailed : testFailed) {
+                String tfail = aTestFailed.replace("\u00a0", "&nbsp;");
+                // parse failed test string and insert to Database
+                String[] values = splitTestString(tfail, "\\|");
+                if (values.length > 0) {
+                    String[] names = splitTestString(values[0], "::");
+                    String testSet = names[0];
+                    String testCase = names[1];
+                    if (bTcDesc.equals("true") && names.length > 2) {
+                        String testDesc = names[2];
+                        log.info("Test Desc -->" + testDesc);
+                        String descStmt = this.createSqlTestCaseDescription(testSet, testCase, testDesc);
+                        qaSqlExecute(descStmt);
+                    }
+                    qaSqlExecute(this.createSqlTestCaseStatement(runId, testSet, testCase, false, tfail));
+                }
             }
-        }
 
-        for (int i = 0; i < testPassed.size(); i++) {
-            String tpass = testPassed.get(i).replace("\u00a0", "&nbsp;");
-            String[] names = splitTestString(tpass, ":");
-            String testSet = names[0];
-            String testCase = names[1];
-            if (bTcDesc.equals("true") && names.length > 2) {
-              String testDesc = names[2];
-              log.info("Test Desc -->" + testDesc);
-              String descStmt = this.createSqlTestCaseDescription(testSet, testCase, testDesc);
-              qaSqlExecute(descStmt);
-            }  
-            String stmt= this.createSqlTestCaseStatement(runId, testSet, testCase, true, null);
+            for (String aTestPassed : testPassed) {
+                String tpass = aTestPassed.replace("\u00a0", "&nbsp;");
+                String[] names = splitTestString(tpass, "::");
+                String testSet = names[0];
+                String testCase = names[1];
+                if (bTcDesc.equals("true") && names.length > 2) {
+                    String testDesc = names[2];
+                    log.info("Test Desc -->" + testDesc);
+                    String descStmt = this.createSqlTestCaseDescription(testSet, testCase, testDesc);
+                    qaSqlExecute(descStmt);
+                }
+                String stmt = this.createSqlTestCaseStatement(runId, testSet, testCase, true, null);
 
-            qaSqlExecute(stmt);
-        }
+                qaSqlExecute(stmt);
+            }
         // Update runtime with actual elapsed time from posted result
         runTime.setTime(runTime.getTime() + this.getTotalTime());
 
         // Updating test set/suite to close
         String updateSet = "update tsi_tests_set set seq_no=0, owner=''{0}'', end_time=to_date(''{1}'',''yyyy/mm/dd-hh24:mi:ss'')," +
         " num_tc_passed={2}, num_tc_failed={3} where run_id=''{4}'' and set_name=''{5}''";  // update ? log_url=''
-        Object[] setVal = {username, formatDateTime(runTime), numTestPasses, numTestFailures, getRunId(), setname };
-        //if (this.getDbReportOption())
-          qaSqlExecute(MessageFormat.format(updateSet, setVal));
+        Object[] setVal = {username, formatDateTime(runTime), numTestPasses, numTestFailures, runId, setname };
+        qaSqlExecute(MessageFormat.format(updateSet, setVal));
 
         // Updating test run to close
         String updateRun = "update tsi_tests_run set end_time=to_date(''{0}'',''yyyy/mm/dd-hh24:mi:ss''), status=''COMPLETED''," +
         " NUM_TC_PASSED={1}, NUM_TC_FAILED={2} where run_id = ''{3}''";
-        Object[] runVal = {formatDateTime(runTime), numTestPasses, numTestFailures, getRunId()};
-        //if (this.getDbReportOption())
-           qaSqlExecute(MessageFormat.format(updateRun, runVal));
+        Object[] runVal = {formatDateTime(runTime), numTestPasses, numTestFailures, runId};
+        qaSqlExecute(MessageFormat.format(updateRun, runVal));
 
-        try { // close connection when done.
-            ctn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        closeDatabase();
       } // if this.getDbReportOption
     }
-
-    private String getRunId() {
-        //String user_run_id = System.getProperty("gitak.runid");
-        String runid = System.getProperty("product.name", "GITAK").toUpperCase();
-        //System.out.println(runid + timestamp);
-        return runid + timestamp;
-    }
-
 }

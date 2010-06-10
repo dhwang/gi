@@ -113,7 +113,7 @@ public class HTMLTestResults {
     private static final String SUITE_HTML = "<tr>\n<td><a name=\"{0}\">{1}</a><br/>{2}</td>\n<td>&nbsp;</td>\n</tr>";
     
     private final List<String> testTables;
-    
+
     public HTMLTestResults(String postedSeleniumVersion, String postedSeleniumRevision, 
             String postedResult, String postedTotalTime, 
             String postedNumTestTotal, String postedNumTestPasses, String postedNumTestFailures,
@@ -242,13 +242,13 @@ public class HTMLTestResults {
         if (storedVars != null) {
             String[] vars = storedVars.split(",");
             if (vars.length > 0)
-            for (int i=0; i < vars.length; i++) {
-                String[] namevalue = vars[i].split(":");
-                if (namevalue.length > 1) {
-                  String value = escapeXML(namevalue[1]);
-                  out.write("<tr><td>" + namevalue[0] + "</td><td>" + value + "</td></tr>");
+                for (String var : vars) {
+                    String[] nv = var.split("::");
+                    if (nv.length > 1) {
+                        String value = escapeXML(nv[1]) + " ";
+                        out.write("<tr><td>" + nv[0] + "</td><td>" + value + "</td></tr>");
+                    }
                 }
-            }
         }
         out.write("</table>"); // End storedvars table
 
