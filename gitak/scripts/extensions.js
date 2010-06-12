@@ -3982,7 +3982,7 @@ IncludeCommand.prepareUrl = function(includeUrl) {
 
     var prepareUrl;
     // htmlSuite mode of SRC? TODO is there a better way to decide whether in SRC mode?
-    if (window.location.href.indexOf("selenium-server") >= 0) {
+    if (htmlTestRunner.controlPanel.getBaseUrl() != null) {
         LOG.debug(IncludeCommand.LOG_PREFIX + "we seem to run in SRC, do we?");
         preparedUrl = absolutify(includeUrl, htmlTestRunner.controlPanel.getTestSuiteName());
     } else {

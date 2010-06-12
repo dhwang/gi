@@ -99,7 +99,7 @@ public class HTABrowserLauncher implements BrowserLauncher {
             }
             f.copyFile(selRunnerSrc, selRunnerDest);
             f.copyFile(testRunnerSrc, testRunnerDest);
-            writeSessionExtensionJs(coreDir);
+            //writeSessionExtensionJs(coreDir);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
