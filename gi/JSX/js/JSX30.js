@@ -1509,10 +1509,12 @@ window['jsx_main'] = function() {
         if (p.length > 0) {
           this.loadJSFile(p[0], function() {
             var objClass = jsx3.Class.forName(strClass);
-            if (objClass == null)
-              Logger.GLOBAL.error(jsx3._msg("boot.class_undef", p[i], strClass));
-            else if (cb)
+            if (objClass == null) {
+              if (LOG)
+                LOG.error(jsx3._msg("boot.class_undef", p[0], strClass));
+            } else {
               cb(objClass);
+            }
           });
         } else {
           throw new jsx3.Exception(jsx3._msg("boot.class_err", strClass));

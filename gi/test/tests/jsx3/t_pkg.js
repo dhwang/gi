@@ -131,7 +131,7 @@ gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
   t.testRequire1 = function() {
     if (jsx3.app && jsx3.app.UserSettings) delete jsx3.app.UserSettings;
 
-    if (jsx3.util)
+    if (jsx3.app)
       jsunit.assertUndefined(jsx3.app.UserSettings);
 
     jsx3.require("jsx3.app.UserSettings");
@@ -181,5 +181,37 @@ gi.test.jsunit.defineTests("jsx3", function(t, jsunit) {
     }));
   };
   t.testRequire2._async = true;
+
+  t.testRequireAsync = function() {
+    if (jsx3.net && jsx3.net.Form) delete jsx3.net.Form;
+
+    if (jsx3.net)
+      jsunit.assertUndefined(jsx3.net.Form);
+
+    jsx3.requireAsync("jsx3.net.Form").when(t.asyncCallback(function() {
+      jsunit.assertNotUndefined(jsx3.net.Form);
+      jsunit.assertInstanceOf(jsx3.net.Form.jsxclass, jsx3.lang.Class);
+    }));
+  };
+  t.testRequireAsync._async = true;
+
+  t.testRequireAsyncBadPackage = function() {
+    jsunit.assertThrows(function() {
+      jsx3.requireAsync("jsx3.notapackage.Class");
+    });
+  };
+
+  t.testRequireAsyncBadClass = function() {
+    jsunit.assertUndefined(jsx3.util.NotAClass);
+
+    jsx3.requireAsync("jsx3.util.NotAClass").when(t.asyncCallback(function() {
+      jsunit.assertTrue("Should not execute this callback.", false);
+    }));
+
+    window.setTimeout(t.asyncCallback(function() {
+      jsunit.assertUndefined(jsx3.util.NotAClass);
+    }), 1000);
+  };
+  t.testRequireAsyncBadClass._async = true;
 
 });

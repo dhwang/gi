@@ -269,8 +269,13 @@ jsx3.Package.definePackage("jsx3", function() {
    * Loads a class or classes asynchronously. If multiple classes are specified they are loaded serially rather
    * than in parallel. This method does not resolve dependencies, i.e. if the class to load contains a call to
    * <code>jsx3.require</code> that class will be loaded synchronously.
+   * <p/>
+   * Note that if <code>strClass</code> does not correspond to an file on the classpath or if the
+   * corresponding file does not actualy define a class whose name is <code>strClass</code>, this async function
+   * will never complete and no callbacks will be executed.
    *
    * @param strClass {String...} the fully-qualified names of the classes to load.
+   * @throws {jsx3.Exception} if the package of <code>strClass</code> is not registered as a system, add-in or application classpath.
    * @since 3.9
    */
   jsx3.requireAsync = jsx3.$Y(function(cb) {
