@@ -905,7 +905,7 @@ objectExtend(URLConfiguration.prototype, {
     },
 
     _getQueryParameter: function(searchKey) {
-        var str = this.queryString
+        var str = this.queryString;
         if (str == null) return null;
         var clauses = str.split('&');
         for (var i = 0; i < clauses.length; i++) {
