@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2010, TIBCO Software Inc.
+ * Copyright (c) 2001-2009, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -553,7 +553,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       //since table layout is fixed, the table itself must be resized
       var objTable = objRow.parentNode;
       if (objTable.tagName.toLowerCase() != "table") objTable = objTable.parentNode;
-      var intDiff = intViewPaneWidth - parseInt(objTable.style.width);
+      //var intDiff = intViewPaneWidth - parseInt(objTable.style.width);
       objTable.style.width = intViewPaneWidth + "px";
 
       for (var j=0;j<objRow.childNodes.length;j++) {
@@ -1128,6 +1128,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (objVP) {
       //repaintData always retains scroll position where possible
       var intTop = this.getScrollTop();
+      var intLeft = this.getScrollLeft();
 
       //depending upon the paging model, paint the data and the masks
       var strDataRows = '';
@@ -1164,7 +1165,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       }
 
       //reposition the scrollbar based on the new data that will have been painted
-      jsx3.sleep(function() {this._updateScrollOnPaint(intTop);},null,this);
+      jsx3.sleep(function() {this._updateScrollOnPaint(intTop,intLeft);},null,this);
     }
 
 /* @JSC :: begin BENCH */
@@ -1177,7 +1178,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
    * @private
    * @jsxobf-clobber
    */
-  Matrix_prototype._updateScrollOnPaint = function(intTop) {
+  Matrix_prototype._updateScrollOnPaint = function(intTop,intLeft) {
     //always recalculate the scrollbars (they're only explicit when in paging mode)
     var objViewPane = this._getViewPane();
     if (intTop == null) intTop = this.getScrollTop();
@@ -1187,6 +1188,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     } else {
       this.setScrollTop(intTop);
     }
+    this.setScrollLeft(intLeft ? intLeft : 0);
     this._updateScrollHeight(objViewPane);
   };
 
@@ -1244,6 +1246,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     }
   };
 
+
   /**
    * Returns the HTML required to draw the on-screen resize anchors
    * @private
@@ -1274,14 +1277,14 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this._jsxstartleft = intLeft;
 
       //the resize needs to be constrained (top:0)
-      var intViewPortWidth = this._getViewPortWidth();
-      var intDiff = this._getViewPaneWidth() - intViewPortWidth;
+      var viewPortWidth = this._getViewPortWidth();
+      var viewPaneWidth = this._getViewPaneWidth();
       var objMtx = this;
       var intScrollLeft = this.getScrollLeft();
       Interactive._beginMoveConstrained(objEvent,objGhost,function(x,y) {
-        if(intDiff > 0) {
+        if(viewPaneWidth > 0) {
           //use a multiplier (the ratio of the full width per the visible width) to amplify the horizontal scroll position
-          var addX = parseInt((x / intViewPortWidth) * intDiff);
+          var addX = parseInt(((x - intScrollLeft) / viewPortWidth) * viewPaneWidth);
           objMtx.setScrollLeft(addX);
           x = x + addX - intScrollLeft;
         }
@@ -1329,10 +1332,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     html.removeNode(objGhost);
 
     //get the index of the column being moved (resolve the display index (view) to the dom index (model))
-    var objChildren = this.getDescendantsOfType(Painted, true);
+    //var objChildren = this.getDescendantsOfType(Painted, true);
     var objDisplayedChildren = this._getDisplayedChildren();
     var objMovedChild = objDisplayedChildren[this._getActiveColumnIndex()];
-    var objMoveIndex = jsx3.util.arrIndexOf(objChildren, objMovedChild);
+    //var objMoveIndex = jsx3.util.arrIndexOf(objChildren, objMovedChild);
 
     if (intGhostLeft == this._jsxstartleft) {
       //first validate that the matrix instance even supports sorting at all
@@ -1346,7 +1349,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
         for (var i=0;i<objDisplayedChildren.length;i++) {
           if (intLeft >= intGhostLeft) {
             var objPrecededChild = objDisplayedChildren[i];
-            var objPrecedeIndex = jsx3.util.arrIndexOf(objChildren, objPrecededChild);
+            //var objPrecedeIndex = jsx3.util.arrIndexOf(objChildren, objPrecededChild);
             this._reorderColumns(objEvent.event,objMovedChild,objPrecededChild);
             return;
           }
@@ -1396,7 +1399,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       this._resetPaintQueue();
 
       //get the proposed sort path, sort type, and sort direction
-      var intRealIndex = jsx3.util.arrIndexOf(this.getDescendantsOfType(Painted, true), objSortChild);
+      //var intRealIndex = jsx3.util.arrIndexOf(this.getDescendantsOfType(Painted, true), objSortChild);
       var strSortPath = this._getSortPath(objSortChild);
       var strSortType = this._getSortType(objSortChild);
 
@@ -1552,10 +1555,16 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (intPIndex < intFIndex) objPrecedeChild = this._getDisplayedChildren()[intFIndex];
     if (!objPrecedeChild) return;
 
+    var intTop = this.getScrollTop();
+    var intLeft = this.getScrollLeft();
+
     //attempt the insertBefore
-    var bSuccess = bAppend ?
-                   (this.adoptChild(objMoveChild,true) || 1) :
+    var bSuccess = bAppend?
+                   this.adoptChild(objMoveChild,true):
                    this.insertBefore(objMoveChild,objPrecedeChild,true);
+
+    //reposition the scrollbar based on the new data that will have been painted
+    jsx3.sleep(function() {this._updateScrollOnPaint(intTop,intLeft);},null,this);
 
     //fire the reorder event
     if (bSuccess) {
@@ -5760,8 +5769,9 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     if (objViewPane.parentNode.parentNode.childNodes[3].style.display == "none") {
       this.setScrollLeft(0);
     } else if(this.getScaleWidth() != 1) {
-      var intDiff = objViewPane.offsetWidth - objViewPane.parentNode.parentNode.offsetWidth;
       var intLeft = this.getScrollLeft();
+      // objViewPane could have no dimension when matrix has no data.
+      var intDiff = (!objViewPane.offsetWidth) ? intLeft : objViewPane.offsetWidth - objViewPane.parentNode.parentNode.offsetWidth;
       if(intLeft > intDiff)
         this.setScrollLeft(intDiff);
     }
