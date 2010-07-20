@@ -409,6 +409,7 @@ body#com-atlassian-confluence.gi div.gi-body .spacetree {
 
 body#com-atlassian-confluence.gi #footer {
   background: transparent;
+  position: relative;
 }
 
 body#com-atlassian-confluence.gi #footer p.license, body#com-atlassian-confluence.gi #footer p.license a {
@@ -579,7 +580,6 @@ body#com-atlassian-confluence.gi .gibooknav {
 }
 
 body#com-atlassian-confluence.gi .gibooknavtop {
-  margin-top: -6px;
   margin-bottom: 20px;
 }
 
