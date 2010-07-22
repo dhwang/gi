@@ -1280,12 +1280,16 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var viewPortWidth = this._getViewPortWidth();
       var viewPaneWidth = this._getViewPaneWidth();
       var objMtx = this;
-      var hasHScroll = (objMtx.getRendered().childNodes[3].style.display != "none");
+      var hScroll = objMtx.getRendered().childNodes[3];
+      var hasHScroll = (hScroll.style.display != "none");
       var intScrollLeft = this.getScrollLeft();
+      var xMax = hScroll.scrollWidth - hScroll.clientWidth;
       Interactive._beginMoveConstrained(objEvent,objGhost,function(x,y) {
         if(viewPaneWidth > 0 && hasHScroll) {
           //use a multiplier (the ratio of the full width per the visible width) to amplify the horizontal scroll position
           var addX = parseInt(((x - intScrollLeft) / viewPortWidth) * viewPaneWidth);
+          // addX should never be bigger than max scroll left
+          addX = (addX > xMax) ? xMax : addX;
           objMtx.setScrollLeft(addX);
           x = x + addX - intScrollLeft;
         }
