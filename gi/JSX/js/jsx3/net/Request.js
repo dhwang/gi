@@ -84,13 +84,20 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     }
 
     this._request.onreadystatechange = new Function();
-/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
-    this._request.onerror = null;
-/* @JSC */ }
 
     //call the native abotr
     this._request.abort();
     return this;
+  };
+  
+  /** @private @jsxobf-clobber */
+  Request_prototype._getNativeAttr = function(attr, args) {
+    try {
+      var v = this._request[attr];
+      return args != null ? v.apply(this._request, args) : v;
+    } catch (e) {
+      this._status = 13030; // From Firefox documentation
+    }
   };
 
   /**
@@ -98,7 +105,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getAllResponseHeaders = function() {
-    return this._request.getAllResponseHeaders();
+    return this._getNativeAttr("getAllResponseHeaders", []);
   };
 
   /**
@@ -107,7 +114,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getResponseHeader = function(strName) {
-    return this._request.getResponseHeader(strName);
+    return this._getNativeAttr("getResponseHeader", [strName]);
   };
 
   /**
@@ -115,19 +122,43 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getStatusText = function() {
-    return this._request.statusText;
+    return this._getNativeAttr("statusText");
   };
 
   /**
-   * Gets the HTTP response code (e.g. 200, 404, 500, etc).
+   * Gets the HTTP response status code (e.g. 200, 404, 500, etc). The following code checks for a request error 
+   * condition.
+   * <pre>
+   * r.send();
+   * 
+   * if (r.getStatus() >= 200 && r.getStatus() < 400) {
+   *   jsx3.log("success");
+   * } else {
+   *   jsx3.log("failed with status " + r.getStatus());
+   * }
+   * </pre>
+   * <p/>
+   * The native object that this <code>Request</code> wraps may have a status code that is not a valid HTTP code 
+   * (200-599). This is especially true if an HTTP server was not involved in the request like, for example, if
+   * the resource was loaded from the <code>file:///</code> scheme or if a network error occurred while contacting the
+   * HTTP server. Moreover, the various supported browsers may have different status values for the same conditions. 
+   * <p/>
+   * This method attempts to constrain the possible status values that it returns. So, instead of returning 0 
+   * (usually a success on the <code>file:////</code> scheme), it returns 200. When running in Safari certain  
+   * status values known to be error conditions are returned as 400. If the native object's status is greater than 
+   * 599 then this method makes no attempt to convert it. Such values should probably be interpreted as error 
+   * conditions. When in doubt consult the documentation for the host browser. 
+   * 
    * @return {int}
    */
   Request_prototype.getStatus = function() {
-    var s = this._status != null ? this._status : this._request.status;
+    var s = this._status;
+    if (s == null)
+      s = this._getNativeAttr("status");
 
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
     // HACK: http://bugs.webkit.org/show_bug.cgi?id=14831
-    if (s < 0 || s == 112 || s >= 600) s = Request.STATUS_ERROR;
+    if (s < 0 || s == 112) s = Request.STATUS_ERROR;
 /* @JSC */ }
     
     return s == 0 ? Request.STATUS_OK : s;
@@ -432,11 +463,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
           }
         };
 
-/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
-        this._request.onerror = jsx3.$F(this._onHttpError).bind(this);
-/* @JSC */ }
-
-         if (!isNaN(intTimeout) && intTimeout > 0) {
+        if (!isNaN(intTimeout) && intTimeout > 0) {
           //set timeout to fire if the response doesn't happen in time
           this._timeoutto = window.setTimeout(function() {
 /* @JSC :: begin BENCH */
@@ -474,28 +501,12 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
     }
 
     this._request.onreadystatechange = new Function();
-/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
-    this._request.onerror = null;
+/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
+    this.getStatusText(); // will throw a caught exception if network error
 /* @JSC */ }
 
     this.publish({subject:Request.EVENT_ON_RESPONSE});
   };
-
-/* @JSC */ if (!jsx3.CLASS_LOADER.IE) {
-  /** @private @jsxobf-clobber */
-  Request_prototype._onHttpError = function() {
-    try {
-      // Accessing the request object here may throw an error
-      this._status = this._request.status;
-    } catch (e) {
-      // So here I clear out the request so that no other errors are thrown
-      this._status = Request.STATUS_ERROR;
-      this._request = {};
-    }
-
-    this.publish({subject:Request.EVENT_ON_RESPONSE});
-  };
-/* @JSC */ }
 
   Request_prototype.toString = function() {
     return this.jsxsuper() + " " + this._method + " " + this.getStatus() + " " + this._url;

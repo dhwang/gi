@@ -150,7 +150,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
     //instance the transport (xmlhttp)
     var objRequest = new jsx3.net.Request();
-    objRequest.subscribe(jsx3.HttpRequest.EVENT_ON_RESPONSE, this, "onResponse");
+    objRequest.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, this, "onResponse");
     this.setRequest(objRequest);
   };
 
@@ -715,7 +715,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
   };
 
   /**
-   * Sets the jsx3.net.HttpRequest instance that performs the transaction with the remote service (the transport object for the message).
+   * Sets the jsx3.net.Request instance that performs the transaction with the remote service (the transport object for the message).
    * @param objHTTP    {jsx3.net.Request}
    * @private
    */
@@ -2037,9 +2037,8 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
     //check if this is a real socket or in test mode
     if (objRequest instanceof jsx3.net.Request) {
-      //get the response values
-      this.responseheaders = objRequest.getAllResponseHeaders();
-
+      var bError = false;
+      
       //send the httpcontrol objects info to the system out
       this.status = objRequest.getStatus();
       this.statusText = objRequest.getStatusText();
@@ -2049,10 +2048,9 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       //check the http status code to see if the server actually responded
       if (this.status != 200 && this.status != 202) {
         //WSDL specification states that 200 and 202 are the 'success' status codes
-        var bError = true;
         Service._log(2,"The call to the operation, '" + this.getOperationName() + "', hosted at '" + objRequest.getURL() + "' has returned an error (HTTP Status Code: '" + this.status + "').\nDescription: " + this.statusText);
-      } else {
-        var bError = false;
+        this.onError();
+        return;
       }
 
       //get the response document
@@ -2063,11 +2061,13 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
           objXML = Service.JSON2XML(strJSON);
           if(!objXML) {
             Service._log(2,"The static JSON string did not return a valid JSON object when evaluated. The inbound filter (e.g., doInboundFilter()) as well as the inbound mappings (e.g., doInboundMap()) will not be executed.");
+            this.onError();
             return;
           }
         } catch (e) {
           var objError = jsx3.lang.NativeError.wrap(e);
           Service._log(2,"The static JSON string did not return a valid JSON object when evaluated. The inbound filter (e.g., doInboundFilter()) as well as the inbound mappings (e.g., doInboundMap()) will not be executed.\nDescription:" + objError.getMessage());
+          this.onError();
           return;
         }
       } else {
@@ -2104,7 +2104,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       this.setInboundDocument(objXML);
       this.status = 200;
       this.statusText = "Executing in Static mode, using service message proxy, '" + this.getInboundURL() + "'.";
-      var bError = this.getStatus() != 200 && this.getStatus != 202;
+      bError = this.getStatus() != 200 && this.getStatus != 202;
     }
 
     //validate that the MEP is not one-way; if it is, send logging message
