@@ -131,7 +131,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * <pre>
    * r.send();
    * 
-   * if (r.getStatus() >= 200 && r.getStatus() < 400) {
+   * if (r.getStatus() &gt;= 200 &amp;&amp; r.getStatus() &lt; 400) {
    *   jsx3.log("success");
    * } else {
    *   jsx3.log("failed with status " + r.getStatus());
