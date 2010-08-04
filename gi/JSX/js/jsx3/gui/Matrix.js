@@ -2384,7 +2384,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       //reset the autoappend row back to its null state
       var _jis = {jsxid:"jsxautorow"};
       this.insertRecord(_jis,null,false);
-      this.redrawRecord("jsxautorow", jsx3.xml.CDF.UPDATE);
+      this.redrawRecord("jsxautorow", jsx3.xml.CDF.INSERT);
       this.deleteRecord("jsxautorow",false);
     }
   };
