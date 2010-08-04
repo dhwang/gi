@@ -116,7 +116,7 @@ jsx3.Class.defineClass("jsx3.gui.TextBox", jsx3.gui.Block, [jsx3.gui.Form], func
   TextBox.VALIDATION[TextBox.VALIDATIONNONE] = /[\s\S]*/;
   TextBox.VALIDATION[TextBox.VALIDATIONSSN] = /^\d{3}-\d{2}-\d{4}$/;
   TextBox.VALIDATION[TextBox.VALIDATIONPHONE] = /^[0-9\-\(\) ]+$/;
-  TextBox.VALIDATION[TextBox.VALIDATIONEMAIL] = /([a-zA-Z0-9_~\-\.]+)@([a-zA-Z0-9]+)\.[a-zA-Z0-9]{2,}/;
+  TextBox.VALIDATION[TextBox.VALIDATIONEMAIL] = /^([a-zA-Z0-9_~\-\.]+)@([a-zA-Z0-9\-]+\.){1,}[a-zA-Z0-9]{2,}$/;
   TextBox.VALIDATION[TextBox.VALIDATIONNUMBER] = /^\d+$/;
   TextBox.VALIDATION[TextBox.VALIDATIONLETTER] = /^[a-zA-Z ,-\.]+$/;
   TextBox.VALIDATION[TextBox.VALIDATIONUSZIP] = /^\d{5}(-\d{4})?$/;
