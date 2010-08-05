@@ -297,10 +297,13 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
     r.send(null, 2000);
 
-    var onDone = t.asyncCallback(function() {});
+    var onDone = t.asyncCallback(function() {
+	 jsunit.debug("onDoneAbort + " + r.getStatus());
+	 });
 
     window.setTimeout(function() {
       r.abort();
+      jsunit.debug("status = " + r.getStatus() );
     }, 1000);
     window.setTimeout(function() {
       onDone();
@@ -308,6 +311,42 @@ gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
   };
   t.testAbort._async = true;
   t.testAbort._skip_unless = "NETWORK";
+
+  
+  t.testNetworkError = function() {
+    var r = new jsx3.net.Request();
+    r.open("GET", jsunit.HTTP_BASE + "/timeout.cgi", true);
+
+    r.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE, t.asyncCallback(function(objEvent) {
+      jsunit.assert("abort script do not trigger response: " + r, true);
+	  }));
+
+    r.subscribe(jsx3.net.Request.EVENT_ON_TIMEOUT, t.asyncCallback(function(objEvent) {
+      jsunit.assert("Crash script will trigger response before timeout: " + r, false);
+    }));
+
+	r.send(null, 2500);
+	  
+    var onDone = t.asyncCallback(function() {
+	 jsunit.debug("onDoneAbort + " + r.getStatus());
+	 });
+
+    window.setTimeout(function() {
+      r.getNative().abort();
+	  //r.getAllResponseHeaders();
+	  jsunit.debug("13030 --> " + r.getStatus() + " status text =" + r.getStatusText() ); 
+      jsunit.assertEquals(13030, r.getStatus());
+      jsunit.assertNull(r.getAllResponseHeaders());
+      jsunit.assertNull(r.getResponseHeader("Date"));
+      jsunit.assertNull(r.getStatusText());
+    }, 700);
+    window.setTimeout(function() {
+      onDone();
+    }, 1500);
+
+  };
+  t.testNetworkError._async = true;
+  t.testNetworkError._skip_unless = "NETWORK";
 
   t.testRequestHeader = function() {
     var r = new jsx3.net.Request();

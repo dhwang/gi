@@ -97,6 +97,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
       return args != null ? v.apply(this._request, args) : v;
     } catch (e) {
       this._status = 13030; // From Firefox documentation
+      return null;
     }
   };
 

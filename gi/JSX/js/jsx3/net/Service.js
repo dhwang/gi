@@ -2034,6 +2034,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
    */
   Service_prototype.onResponse = function(objEvent) {
     var objRequest = objEvent.target;
+    var objXML;
 
     //check if this is a real socket or in test mode
     if (objRequest instanceof jsx3.net.Request) {
@@ -2054,7 +2055,6 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       }
 
       //get the response document
-      var objXML;
       if(this._isJSON("O")) {
         var strJSON = objRequest.getResponseText();
         try {
@@ -2084,18 +2084,19 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       }
     } else {
       //get the response document
-      var objXML;
       if(this._isJSON("O")) {
         var strJSON = objRequest.getResponseText();
         try {
           objXML = Service.JSON2XML(strJSON);
           if(!objXML) {
             Service._log(2,"The static JSON string did not return a valid JSON object when evaluated. The inbound filter (e.g., doInboundFilter()) as well as the inbound mappings (e.g., doInboundMap()) will not be executed.");
+            this.onError();
             return;
           }
         } catch (e) {
           var objError = jsx3.lang.NativeError.wrap(e);
           Service._log(2,"The static JSON string did not return a valid JSON object when evaluated. The inbound filter (e.g., doInboundFilter()) as well as the inbound mappings (e.g., doInboundMap()) will not be executed.\nDescription:" + objError.getMessage());
+          this.onError();
           return;
         }
       } else {
@@ -2104,7 +2105,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       this.setInboundDocument(objXML);
       this.status = 200;
       this.statusText = "Executing in Static mode, using service message proxy, '" + this.getInboundURL() + "'.";
-      bError = this.getStatus() != 200 && this.getStatus != 202;
+      bError = this.getStatus() != 200 && this.getStatus() != 202;
     }
 
     //validate that the MEP is not one-way; if it is, send logging message
