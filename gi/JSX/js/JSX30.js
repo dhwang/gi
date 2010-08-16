@@ -2549,7 +2549,8 @@ window['jsx_main'] = function() {
     for (var i = 0; i < allScripts.length; i++) {
       var oneScript = allScripts[i];
       var src = oneScript.getAttribute("src");
-      if (!oneScript.getAttribute("jsxloaded") && src && src.indexOf(jsx3.MAIN_SCRIPT) >= 0) {
+      if (!oneScript.getAttribute("jsxloaded") && src && 
+          (src.indexOf(jsx3.MAIN_SCRIPT) >= 0 || unescape(src).indexOf(jsx3.MAIN_SCRIPT) >= 0)) {
         bStart = loadScript(oneScript) || bStart;
       }
     }
