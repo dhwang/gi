@@ -3,7 +3,7 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
-// @jsxobf-clobber-shared  _jsxevents _jsxtempdynamic _jsxdynamic _jsxloading _applyId
+// @jsxobf-clobber-shared  _jsxevents _jsxtempdynamic _jsxdynamic _jsxloading _applyId _varNameIndex
 /**
  * The abstract base class that defines the JSX DOM. Instances of this class exist as nodes in a tree, each with
  * a single parent and multiple children. This class includes all the methods for querying and manipulating the DOM's
@@ -1001,6 +1001,15 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
   Model_prototype.onDestroy = function(objParent) {
     // This method should be overridden by classes with an on-screen view represented by a TD object.
     //always remove the on-screen instance for this object (assuming it's been painted already)
+    this._removeFromLoadContext();
+  };
+  
+  /** @private @jsxobf-clobber */
+  Model_prototype._removeFromLoadContext = function() {
+    var name = this.getName();
+    var loadContext = this._jsxloadcontext;
+    if (loadContext && loadContext._varNameIndex[name] == this)
+      delete loadContext._varNameIndex[name];
   };
 
   /**
@@ -1036,6 +1045,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
    */
   Model_prototype.setName = function(strName) {
     if (strName != null) {
+      this._removeFromLoadContext();
+
       // update name and add object reference via new name
       var oldName = this.jsxname;
       this.jsxname = strName;
@@ -1562,7 +1573,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     var i = objXML.selectNodeIterator(serPath + "jsx1:object | " + serPath + "jsx1:objects/jsx1:object | /jsx1:object");
     var objToInsert = [];
 
-    var loadContext = {uri:strSourceURL, resolver:objResolver, nameIndex:{}, varNameIndex:{}};
+    var loadContext = {uri:strSourceURL, resolver:objResolver, _varNameIndex:{}};
 
     while (i.hasNext()) {
       //get node descriptor in the XML serializatoin file and deserialize the node as a child of 'this' object
@@ -1723,9 +1734,8 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
 
     var strName = objInstance.getName();
     if (strName) {
-      loadContext.nameIndex[strName] = objInstance;
       if (jsx3.util.isName(strName)) // only put names that are valid variable names into this index
-        loadContext.varNameIndex[strName] = objInstance;
+        loadContext._varNameIndex[strName] = objInstance;
     }
 
     //recurse to bind children
@@ -1878,7 +1888,7 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
     if (onAfter) {
       try {
         var loadContext = this._jsxloadcontext;
-        var objContext = loadContext ? jsx3.$O(loadContext.varNameIndex).clone() : {};
+        var objContext = loadContext ? jsx3.$O(loadContext._varNameIndex).clone() : {};
         objContext.objJSX = this;
         this.eval(onAfter, objContext);
       } catch (e) {

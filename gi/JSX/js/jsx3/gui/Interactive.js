@@ -3,7 +3,7 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
-// @jsxobf-clobber-shared  _jsxloadcontext
+// @jsxobf-clobber-shared  _jsxloadcontext _varNameIndex
 
 jsx3.require("jsx3.gui.HotKey");
 
@@ -339,7 +339,7 @@ jsx3.Class.defineInterface("jsx3.gui.Interactive", null, function(Interactive, I
   Interactive_prototype._getEvtContext = function(objContext) {
     var loadContext = this._jsxloadcontext;
     if (loadContext)
-      objContext = jsx3.$O(loadContext.varNameIndex).clone().extend(objContext);
+      objContext = jsx3.$O(loadContext._varNameIndex).clone().extend(objContext);
     return objContext;
   };
 
