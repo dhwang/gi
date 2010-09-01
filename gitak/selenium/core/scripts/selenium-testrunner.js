@@ -128,9 +128,18 @@ objectExtend(HtmlTestRunner.prototype, {
     },
 
     startTestSuite: function() {
-        storedVars = new Object(); // GITAK reset only for each TestSuite
+	    // save the GITAK globals
+	    var GI = storedVars.GI;
+		var APP = storedVars.APP;
+		var TESTS = storedVars.TESTS;
+		// GITAK reset only for each TestSuite
+        storedVars = new Object(); 
         storedVars.nbsp = String.fromCharCode(160);
         storedVars.space = ' ';
+		// restore GITAK globals
+	    storedVars.GI = GI;
+		storedVars.APP = APP;
+		storedVars.TESTS = TESTS;
         this.controlPanel.reset();
         this.metrics.resetMetrics();
         this.getTestSuite().reset();
