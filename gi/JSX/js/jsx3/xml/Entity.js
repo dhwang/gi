@@ -203,10 +203,14 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
   };
 
   /**
-   * replaces the child @objEntityOld with @objEntityNew and returns a handle to @objEntityOld; requires that both child entities be of type jsx3.xml.Entity.TYPEELEMENT; requires that this object also be of TYPEELEMENT; returns null if all conditions are not met
-   * @param objEntityNew {jsx3.xml.Entity} jsx3.xml.Entity object (the new one to add)
-   * @param objEntityOld {jsx3.xml.Entity} jsx3.xml.Entity object (the old one to remove)
-   * @return {jsx3.xml.Entity} jsx3.xml.Entity instance or null
+   * Replaces a child element of this element, <code>objEntityOld</code> with another element, <code>objEntityNew</code> 
+   * and returns <code>objEntityOld</code>. Both children must be XML element nodes. <code>objEntityOld</code> must
+   * be an existing child node of this node. 
+   * 
+   * @param objEntityNew {jsx3.xml.Entity} the element to add.
+   * @param objEntityOld {jsx3.xml.Entity} the child element to replace.
+   * @return {jsx3.xml.Entity} the replaced element or <code>null</code> if the replacement did not occur because one
+   *    or more of the parameters was invalid. 
    */
   Entity_prototype.replaceNode = function(objEntityNew, objEntityOld) {
     var e = objEntityNew._entity;
@@ -215,19 +219,19 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
     if (docChange) e = this._entity.ownerDocument.importNode(e, true);
 /* @JSC */ }
 
-    if (this._nodeType == 1 && objEntityOld._nodeType == 1 && objEntityNew._nodeType == 1) {
-      if (objEntityOld.getParent() != null && objEntityOld.getParent().equals(this) && objEntityOld.getParent() != null && objEntityOld.getParent().equals(this)) {
-        var retVal = (new Entity(this._entity.replaceChild(e, objEntityOld._entity)));
+    if (this._nodeType == 1 && objEntityOld._nodeType == 1 && objEntityNew._nodeType == 1 && 
+          this.equals(objEntityOld.getParent())) {
+      var retVal = (new Entity(this._entity.replaceChild(e, objEntityOld._entity)));
 
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF || jsx3.CLASS_LOADER.FX) {
-        if (docChange && objEntityNew._entity.parentNode)
-          objEntityNew._entity.parentNode.removeChild(objEntityNew._entity);
-        objEntityNew._entity = e;
+      if (docChange && objEntityNew._entity.parentNode)
+        objEntityNew._entity.parentNode.removeChild(objEntityNew._entity);
+      objEntityNew._entity = e;
 /* @JSC */ }
 
-        return retVal;
-      }
+      return retVal;
     }
+    
     return null;
   };
 
@@ -438,7 +442,7 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
    */
   Entity_prototype.equals = function(objEntity) {
     //make sure acutal parent according to native relationships
-    return (objEntity._entity == this._entity);
+    return objEntity != null && objEntity._entity == this._entity;
   };
 
   /**

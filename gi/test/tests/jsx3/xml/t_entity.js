@@ -345,6 +345,7 @@ gi.test.jsunit.defineTests("jsx3.xml.Entity", function(t, jsunit) {
   t.testEquals = function() {
     var d = new jsx3.xml.Document().loadXML('<data><r1/></data>');
     jsunit.assertTrue(d.getFirstChild().equals(d.getChildNodes().get(0)));
+    jsunit.assertFalse(d.getFirstChild().equals(null));
   };
 
   t.testSelectSingleNode = function() {
