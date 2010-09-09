@@ -1045,8 +1045,6 @@ jsx3.Class.defineClass("jsx3.app.Model", null, [jsx3.util.EventDispatcher], func
    */
   Model_prototype.setName = function(strName) {
     if (strName != null) {
-      this._removeFromLoadContext();
-
       // update name and add object reference via new name
       var oldName = this.jsxname;
       this.jsxname = strName;
