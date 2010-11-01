@@ -5755,7 +5755,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
     //adjust scrolltop if not in pagin mode
     if (this.getPagingModel() != Matrix.PAGING_PAGED) {
-      var b1fa = this.getBoxProfile().getChildProfile(2).getChildProfile(0);
+      var b1fa = this.getBoxProfile(true).getChildProfile(2).getChildProfile(0);
       b1fa.recalculate({height:objViewPane.offsetHeight + this.getHeaderHeight(Matrix.DEFAULT_HEADER_HEIGHT)},objViewPane.parentNode.parentNode.childNodes[2].childNodes[0],null);
 
       //when adjusting scroll position the model and view can get out of synch.  check here.  If so, use the view (which is accurate) to update the model.
