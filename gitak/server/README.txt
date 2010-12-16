@@ -1,6 +1,6 @@
 ======================================================================
 General Interface Test Automation Kit Server
- with Selenium Remote Control 0.9.2
+ with Selenium Remote Control 
 
 ======================================================================
 Introduction
@@ -31,7 +31,7 @@ Getting started
   
   - Where %CPATH% is classpath that includes selenium-server.jar. 
   - The first parameter of -htmlSuite is the browser, 
-	o Specify "*iexplore" for Internet Explorer (6/7) and "*firefox" for Firefox (1.5/2.0).
+	o Specify "*iexplore" for Internet Explorer (6/7) and "*firefox" for Firefox.
 	o Specify the remote webserver root URL for %WEBSERVER%, like "http://test.example.com"
 	o Specify the local HTML suite path for %SUITEPATH%, like "c:\workspace\tests\TestSuite.html"
 	o Specify the result log file path for %RESUILTPATH%, like "c:\workspace\tests\runlog.html"
