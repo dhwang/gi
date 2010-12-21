@@ -2384,8 +2384,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       //reset the autoappend row back to its null state
       var _jis = {jsxid:"jsxautorow"};
       this.insertRecord(_jis,null,false);
-      this.redrawRecord("jsxautorow", jsx3.xml.CDF.INSERT);
-      this.deleteRecord("jsxautorow",false);
+      this.redrawRecord("jsxautorow", jsx3.xml.CDF.UPDATE);
+      //this.deleteRecord("jsxautorow",false);
     }
   };
 
@@ -3095,11 +3095,11 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var objNode = objGUI;
     var objLast = null;
 
-    while (objNode.getAttribute("jsxtype") != "record") {
+    while (objNode && objNode.getAttribute("jsxtype") != "record") {
       objLast = objNode;
       objNode = objNode.parentNode;
 
-      if (!objNode.tagName || objNode.tagName.toLowerCase() == "body" || objNode.id == this.getId())
+      if (!objNode || !objNode.tagName || objNode.tagName.toLowerCase() == "body" || objNode.id == this.getId())
         return null;
     }
 
