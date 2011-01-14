@@ -24,7 +24,7 @@ Copyright 2006-2009 TIBCO Software Inc.
     <tr>
       <td rowspan="1" colspan="3">Test Setup Procedures</td>
     </tr>
-
+    <!-- Split http://localhost/gitak from URL http://localhost/gitak/selenium/core/TestRunner.html -->
     <tr>
       <td>storeEval</td>
       <td>document.location.href.split("/selenium/core")[0];</td>
@@ -35,14 +35,15 @@ Copyright 2006-2009 TIBCO Software Inc.
       <td>${GITAKPATH}</td>
       <td></td>
     </tr>
-    <!--tr>
-      <td>store</td>
-      <td>${GITAKPATH}/../gi/dist</td>
-      <td>GIPATH</td>
-    </tr-->
     <tr>
       <td>store</td>
-      <td>${GITAKPATH}/../gi/dist/gi</td>
+	  <!-- if GITAK is @ http://localhost/gitak GI is @ http://localhost/gi/dist/gi -->
+	  <!-- if GITAK is @ file:///C:/src/trunk/gitak GI is @ file:///C:/src/trunk/gi/dist/gi -->
+      <!-- <td>${GITAKPATH}/../gi/dist/gi</td> -->
+	  <!-- if GITAK is @ http://localhost/gitak GI is @ http://localhost/gi -->
+      <!-- <td>/gi-3.9-dojo</td> --> 
+      <!--<td>/C:/tibco/gi/gi-3.9-debug</td>-->
+	  <td>${GITAKPATH}/../gi/dist/gi</td>
       <td>GIPATH</td>
     </tr>
     <tr>
