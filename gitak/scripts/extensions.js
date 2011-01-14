@@ -4062,11 +4062,15 @@ Selenium.prototype.doInclude = function(fileName, timeout) {
 Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
   // process special json value
   for (var f in value) {
-    if (typeof(value[f]) == "string") {
-      if (match = value[f].match(/^JSX\((.*)\)$/))
+    var vf = value[f];
+    if (typeof(vf) == "string") {
+      if (match = vf.match(/^JSX\((.*)\)$/))
         value[f] = this.browserbot.findJsxObject(match[1]);
       else if (match = value[f].match(/^XML\((.*)\)$/))
         value[f] = (new jsx3.xml.Document()).loadXML(match[1]);
+      else if (vf.match(/^new Date/)) {
+	    value[f] = eval(vf);
+	  }
     }
   }
 
@@ -4080,7 +4084,8 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
 	  ctx.objEVENT.currentTarget = 1;
 	  ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
 	}
-
+	LOG.info("action " + strAction + " ctx=" + ctx);
+	
 	if (objTarget.replayEvent) {
 	  objTarget.replayEvent(ctx);
 	} else {
@@ -4093,12 +4098,6 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
 	  }
 	}
 }
-/* standard way of adding command
-Selenium.prototype.doJsxchange = function (locator, value) {
-    var objJSX = this.browserbot.findByJsxSelector(locator.split(/=/)[1]);
-    this._doRecorderAction('jsxchange', objJSX, value);
-}
-*/
 /*
 * _doJsxAction : dispatch recorder commands 
 */
