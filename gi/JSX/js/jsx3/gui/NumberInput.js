@@ -75,6 +75,8 @@ jsx3.Class.defineClass("jsx3.gui.NumberInput", jsx3.gui.TextBox, null, function(
   };
 
   NumberInput_prototype._ebMouseWheel = function(objEvent, objGUI) {
+    if (this.getReadonly()) return;
+    
     var wd = objEvent.getWheelDelta();
 
     if (wd != 0) {
