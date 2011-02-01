@@ -373,7 +373,7 @@ jsx3.Class.defineClass('jsx3.util.NumberFormat', null, null, function(NumberForm
     var log = Math.log(number) * jsx3.LOG10E;
     
     if (! isFinite(log)) {
-      if (number == 0) return [[0], 0];
+      if (number == 0) return [[0], 1];
       throw new jsx3.Exception();
     }
 

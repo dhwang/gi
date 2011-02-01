@@ -272,4 +272,10 @@ gi.test.jsunit.defineTests("jsx3.util.NumberFormat", function(t, jsunit) {
     jsunit.assertEquals(1234.55, f.parse("1 234,55"));
   };
 
+  // http://www.generalinterface.org/bugs/browse/GI-920
+  t.testNumberFormatZero = function() {
+    var f = jsx3.util.NumberFormat.getNumberInstance();
+    jsunit.assertEquals("0", f.format(0));
+  };
+
 });
