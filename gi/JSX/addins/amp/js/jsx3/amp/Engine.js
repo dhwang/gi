@@ -578,17 +578,15 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
     }).bind(this));
 
     // Wire inline event subscribers
-    this._regSubscriptions(p, objElm, true);
+    this._regSubscriptions(p, objElm);
 
     p.onRegister();
     this.publish({subject:Engine.REGISTER, plugin:p});
   };
 
   /** @private @jsxobf-clobber */
-  Engine_prototype._regSubscriptions = function(plugIn, objElm, bPre) {
-    var query = bPre ? "[not(@handler)]" : "[@handler]";
-
-    for (var i = objElm.selectNodeIterator("amp:subscribe" + query, amp.getXmlNS(objElm)); i.hasNext(); ) {
+  Engine_prototype._regSubscriptions = function(plugIn, objElm) {
+    for (var i = objElm.selectNodeIterator("amp:subscribe", amp.getXmlNS(objElm)); i.hasNext(); ) {
       var n = i.next();
       var eventIds = n.getAttribute("event").split(/\s+/g);
       var handlerName = n.getAttribute("handler");
@@ -917,8 +915,6 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
       // gc
       delete this._pgdata[objPlugIn.getId()];
       delete this._pgrsrc[objPlugIn.getId()];
-
-      this._regSubscriptions(objPlugIn, data, false);
 
       objPlugIn.getBindableProps().each(function(e) {
         objPlugIn.updateBindable(e);
