@@ -396,13 +396,19 @@ jsx3.Class.defineClass("jsx3.html.Tag", null, null, function(Tag, Tag_prototype)
   Tag_prototype.paintToBuffer = function(buffer, index) {
     var children = this._children;
     var outer = jsx3.html.getOuterHTML(this._native);
-
-    outer = outer.replace(/^<(\w+(\:\w+)?)\b/, function(m, $1) { return "<" + $1.toLowerCase(); });
-    // BUG: this may mess up some attributes with "=" characters in them
-    outer = outer.replace(/\b([_a-zA-Z]\w*)=([^\s"]+) /g, '$1="$2" '); // put quotes around all attributes!
+    var nodeName = "";
+    
+    if (jsx3.vector._IE8) {
+      outer = outer.replace(/^<\?import .*?\/>/, "");
+      nodeName = jsx3.vector.TAGNS + ":" + this._native.nodeName;
+    } else {
+      outer = outer.replace(/^<(\w+(\:\w+)?)\b/, function(m, $1) { nodeName = $1; return "<" + nodeName.toLowerCase(); });
+      // BUG: this may mess up some attributes with "=" characters in them
+      outer = outer.replace(/\b([_a-zA-Z]\w*)=([^\s"]+) /g, '$1="$2" '); // put quotes around all attributes!
+    }
 
     var closeIndex = outer.lastIndexOf("</");
-    if (closeIndex >= 0 && outer.substring(closeIndex).indexOf(this._native.nodeName) != 2)
+    if (closeIndex >= 0 && outer.substring(closeIndex).indexOf(nodeName) != 2)
       closeIndex = -1;
 
     if (children != null && children.length > 0) {
@@ -412,7 +418,7 @@ jsx3.Class.defineClass("jsx3.html.Tag", null, null, function(Tag, Tag_prototype)
         close = outer.substring(closeIndex);
       } else {
         open = outer;
-        close = "</" + this._native.nodeName.toLowerCase() + ">";
+        close = "</" + nodeName.toLowerCase() + ">";
       }
 
       buffer[index++] = open;

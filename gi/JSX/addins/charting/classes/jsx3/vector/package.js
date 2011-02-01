@@ -18,6 +18,14 @@ jsx3.Package.definePackage("jsx3.vector", function(vector){
 
 /* @JSC */ if (jsx3.CLASS_LOADER.VML) {
 
+  try {
+    // Ref: http://ajaxian.com/archives/the-vml-changes-in-ie-8
+    if (document.documentMode >= 8) {
+      document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', "#default#VML");
+      vector._IE8 = 1;
+    }
+  } catch (e) {}
+    
   vector.TAGNS = "v";
   /* @jsxobf-clobber */
   vector._EVT = "event";
