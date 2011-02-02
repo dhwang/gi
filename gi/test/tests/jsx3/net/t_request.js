@@ -5,7 +5,7 @@
 
 gi.test.jsunit.defineTests("jsx3.net.Request", function(t, jsunit) {
 
-  jsunit.require("jsx3.net.Request");
+  jsunit.require("jsx3.net.Request", "jsx3.xml.Document");
 
   t.testGetXml = function() {
     var r = new jsx3.net.Request();

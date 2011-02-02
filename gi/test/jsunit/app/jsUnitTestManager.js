@@ -402,6 +402,8 @@ jsUnitTestManager.prototype.executeTestFunction = function (functionName)
   }
 
   if (this.containerTestFrame.asyncTestWaiting) {
+    window.debug("... waiting for async test to finish (" + (excep != null) + ")");
+    
     if (excep) {
       this._finishTestFunction(excep, timeBefore);
       this.containerTestFrame.asyncTestWaiting = false;
@@ -435,6 +437,7 @@ jsUnitTestManager.prototype._pollAsync = function() {
     return;
   }
 
+  window.debug("... async test has finished");
   window.clearInterval(this.asyncTimeout);
 
   this.asyncWaiting = false;
