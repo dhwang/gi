@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2010, TIBCO Software Inc.
+ * Copyright (c) 2001-2011, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -481,6 +481,19 @@ jsx3.Class.defineClass("jsx3.gui.Event", null, null, function(Event, Event_proto
     var log = Event._getLog();
     if (log != null && log.isLoggable(Logger.TRACE))
       log.trace("Handling event: " + e.getType() + ".");
+
+    if (e.getType() == Event.RESIZE) {
+      var w = document.body.offsetWidth,
+          h = document.body.offsetHeight;
+
+      if (w === Event._lastResizeW && h === Event._lastResizeH)
+        return;
+
+      /* @jsxobf-clobber */
+      Event._lastResizeW = w;
+      /* @jsxobf-clobber */
+      Event._lastResizeH = h;
+    }
 
     var objEDEvent = {subject:e.getType(), target:Event, event:e};
     Event._publish(objEDEvent);
