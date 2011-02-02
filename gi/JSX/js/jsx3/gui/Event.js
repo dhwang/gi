@@ -802,7 +802,7 @@ jsx3.Class.defineClass("jsx3.gui.Event", null, null, function(Event, Event_proto
     var d = this._event().wheelDelta;
     var wd = d > 0 ? Math.ceil(d / 120) : Math.floor(d / 120);
 /* @JSC */ } else {
-    var wd = -1 * this._event().detail/3;
+    var wd = -1 * Math.ceil(this._event().detail/3);
 /* @JSC */ }
     return wd;
   };
