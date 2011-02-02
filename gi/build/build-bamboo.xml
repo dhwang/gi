@@ -23,6 +23,9 @@
   <property name="tests.selenium-env" value="IE6 on Windows, IE7 on Windows, Firefox2 on Windows, Firefox3 on Windows, Safari3 on Windows, Safari4 on Windows, Chrome1 on Windows, Firefox on Linux"/>
   <property name="tests.selenium-threads" value="4"/>
   <property name="tests.selenium-reset" value="true"/>
+  
+  <property name="grid.reset-cmd" value="/srv/selenium-grid/javad_restart_environment.sh"/>
+  <property name="grid.reset-cmd-dir" value="/srv/selenium-grid"/>
 
   <property name="project.dir" value=".."/>
   <property name="temp.svninfo" value="svninfo.tmp"/>
@@ -192,7 +195,7 @@
       <equals arg1="true" arg2="${tests.selenium-reset}"/>
       <then>
         <echo>Resetting the Selenium grid...</echo>
-        <exec executable="/srv/selenium-grid/restart_test_environment.sh" dir="/srv/selenium-grid"/>
+        <exec executable="${grid.reset-cmd}" dir="${grid.reset-cmd-dir}"/>
       </then>
     </if>
 
