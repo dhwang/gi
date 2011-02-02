@@ -36,7 +36,7 @@
     <record jsxid="jsxnulllabel" jsxtext="Null Label"
         eval="0"
         jsxtip="The label to show in this DatePicker when its value is null."
-        docgetter="getNullLabel" docsetter="setNullLabel"
+        docgetter="getDefaultText" docsetter="setDefaultText"
         docdefault="The string representation of the date format of this DatePicker."
         jsxmask="jsxtext"/>
   </record>

@@ -230,7 +230,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     if (date != null) {
       return this._getDateFormat().format(date);
     } else {
-      var label = this.getNullLabel();
+      var label = this.getDefaultText();
       return label != null ? label : this._getDateFormat().toString();
     }
   };
@@ -241,7 +241,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
    * @return {String}
    * @since 3.9.1
    */
-  DatePicker_prototype.getNullLabel = function() {
+  DatePicker_prototype.getDefaultText = function() {
     return this.jsxnulllabel;
   };
 
@@ -250,7 +250,7 @@ jsx3.Class.defineClass("jsx3.gui.DatePicker", jsx3.gui.Block, [jsx3.gui.Form], f
    * the date format of this control. 
    * @param label {String}
    */
-  DatePicker_prototype.setNullLabel = function(label) {
+  DatePicker_prototype.setDefaultText = function(label) {
     this.jsxnulllabel = label;
   };
 
