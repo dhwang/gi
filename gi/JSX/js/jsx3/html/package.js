@@ -630,6 +630,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
   html.getRelativePosition = function(objRoot, objGUI) {
     //initialize
+    objRoot = (!objRoot) ? objGUI.ownerDocument.getElementsByTagName("body")[0] : objRoot;
     var objDimension = {W:objGUI.offsetWidth, H:objGUI.offsetHeight};
     var intLeft = objGUI.scrollLeft;
     var intTop = objGUI.scrollTop;
