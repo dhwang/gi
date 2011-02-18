@@ -1843,7 +1843,7 @@ Selenium.prototype.doDragJsxToJsx = function(locator, locator2) {
         if (current == dest) return current;
         if (Math.abs(current - dest) < mouseSpeed) return dest;
         return (current < dest) ? current + mouseSpeed : current - mouseSpeed;
-     }
+     };
      while ((clientX != clientFinishX) || (clientY != clientFinishY)) {
         clientX = move(clientX, clientFinishX);
         clientY = move(clientY, clientFinishY);
@@ -4239,18 +4239,6 @@ PageBot.prototype.replaceJsxText = function(jsxelement, text, jsxobj)
    }
 
 }
-
-/* You must obtain cssQuery-p.js library from openqa.org and update TestRunner.html (and/or hta) */
-PageBot.prototype.locateElementByCss = function(locator, document) {
-    try {
-        var elements = cssQuery(locator, document);
-        if (elements.length != 0)
-            return elements[0];
-    } catch (ex) {
-        throw new SeleniumError("cssQuery not available in GITAK. Obtain the library from openqa.org and update TestRunner.html(and/or HTA)");
-    }
-    return null;
-};
 
 // Original -- $Id: includeCommand.js 166 2006-12-11 22:03:45Z rob $
 /* Modified by Darren Hwang, 2007 */

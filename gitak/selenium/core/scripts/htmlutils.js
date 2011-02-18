@@ -1221,7 +1221,9 @@ function eval_xpath(xpath, inDocument, opts)
  */
 function eval_css(locator, inDocument)
 {
-    return cssQuery(locator, inDocument);
+ var results = [];
+ window.Sizzle(locator, inDocument, results);
+ return results;
 }
 
 /**
