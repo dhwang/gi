@@ -558,35 +558,36 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
 
   /**
-   * returns the position of a screen element relative to another screen element.
-   * @param objRoot {object} the screen element relative to which to judge the position of <code>objGUI</code>
-   * @param objGUI {object} the screen element whose position to judge relative to <code>objRoot</code>
-   * @return {object} object with the properties: L, T, W, H (corresponding to left, top width, height)
+   * Returns the position of a screen element relative to another screen element.
+   * @param objRoot {HTMLElement} the screen element relative to which to judge the position of <code>objGUI</code>. 
+   *    This parameter may be <code>null</code> in which case the document body will be used. 
+   * @param objGUI {HTMLElement} the screen element whose position to judge relative to <code>objRoot</code>. This 
+   *    parameter is required.  
+   * @return {object} object with the properties: L, T, W, H (corresponding to left, top width, height).
    * @package
    */
   html.getRelativePosition = function(objRoot, objGUI) {
-    if (objGUI) {
-      var objBody = objGUI.ownerDocument.getElementsByTagName("body")[0];
-      if (!objRoot) objRoot = objBody;
+    var objBody = objGUI.ownerDocument.getElementsByTagName("body")[0];
+    objRoot = objRoot || objBody;
 
-      var myLeft = 0;
-      var myTop = 0;
-      if (objRoot != objGUI) {
-        var box = objGUI.getBoundingClientRect();
-        myLeft = box.left + objRoot.scrollLeft;
-        myTop = box.top + objRoot.scrollTop;
+    var myLeft = 0;
+    var myTop = 0;
+    if (objRoot != objGUI) {
+      var box = objGUI.getBoundingClientRect();
+      myLeft = box.left + objRoot.scrollLeft;
+      myTop = box.top + objRoot.scrollTop;
 
-        if (objRoot != objBody) {
-          var tmpPos = html.getRelativePosition(null, objRoot);
-          myLeft = myLeft - tmpPos.L;
-          myTop = myTop - tmpPos.T;
-        } else {
-          myTop -= objGUI.ownerDocument.body.scrollTop;
-          myLeft -= objGUI.ownerDocument.body.scrollLeft;
-        }
+      if (objRoot != objBody) {
+        var tmpPos = html.getRelativePosition(null, objRoot);
+        myLeft = myLeft - tmpPos.L;
+        myTop = myTop - tmpPos.T;
+      } else {
+        myTop -= objGUI.ownerDocument.body.scrollTop;
+        myLeft -= objGUI.ownerDocument.body.scrollLeft;
       }
-      return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight};
     }
+    
+    return {L:myLeft,T:myTop,W:objGUI.offsetWidth,H:objGUI.offsetHeight};
   };
 
 /* @JSC */ } else if (jsx3.CLASS_LOADER.FX) {
@@ -600,7 +601,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   };
 
   html.getRelativePosition = function(objRoot, objGUI) {
-    if(objRoot == null) objRoot = objGUI.ownerDocument.getElementsByTagName("body")[0];
+    objRoot = objRoot || objGUI.ownerDocument.getElementsByTagName("body")[0];
     var doc = objGUI.ownerDocument;
     var box, vpBox, myLeft, myTop;
 
@@ -630,7 +631,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
   html.getRelativePosition = function(objRoot, objGUI) {
     //initialize
-    objRoot = (!objRoot) ? objGUI.ownerDocument.getElementsByTagName("body")[0] : objRoot;
+    objRoot = objRoot || objGUI.ownerDocument.getElementsByTagName("body")[0];
     var objDimension = {W:objGUI.offsetWidth, H:objGUI.offsetHeight};
     var intLeft = objGUI.scrollLeft;
     var intTop = objGUI.scrollTop;
