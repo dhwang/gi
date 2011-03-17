@@ -1068,7 +1068,7 @@ window['jsx_main'] = function() {
         ie6:["ie6", ["IE","IE6","VML"], "allow", 6],
         ie7:["ie7", ["IE","IE7","VML"], "allow", 7],
         ie8:["ie7", ["IE","IE8","VML"], "allow", 8],
-        ie9:["ie7", ["IE","IE9","VML"], 0, 9],
+        ie9:["ie7", ["IE","IE9","SVG"], 0, 9],
         fx1_5:["fx", ["FX","SVG","GKO"], "allow", 1.5],
         fx2:["fx", ["FX","FX2","SVG","GKO"], "allow", 2],
         fx3:["fx", ["FX","FX3","SVG","GKO"], "allow", 3],
