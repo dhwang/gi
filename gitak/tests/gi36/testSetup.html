@@ -25,27 +25,35 @@ Copyright 2006-2009 TIBCO Software Inc.
       <td rowspan="1" colspan="3">Test Setup Procedures</td>
     </tr>
     <!-- Split http://localhost/gitak from URL http://localhost/gitak/selenium/core/TestRunner.html -->
+	  <!-- if GITAK is @ http://localhost/gitak GI is @ http://localhost/gi/dist/gi , local custom build-->
+	  <!-- if GITAK is @ file:///C:/src/trunk/gitak GI is @ file:///C:/src/trunk/gi/dist/gi -->
     <tr>
       <td>storeEval</td>
       <td>document.location.href.split("/selenium/core")[0];</td>
       <td>GITAKPATH</td>
     </tr>
-     <tr>
+<!-- 
+    <tr>
+      <td>store</td>
+      <td>http://localhost/gitak</td>
+      <td>GITAKPATH</td>
+    </tr> -->
+    <tr>
       <td>echo</td>
       <td>${GITAKPATH}</td>
       <td></td>
     </tr>
-    <tr>
+     <tr>
       <td>store</td>
-	  <!-- if GITAK is @ http://localhost/gitak GI is @ http://localhost/gi/dist/gi -->
-	  <!-- if GITAK is @ file:///C:/src/trunk/gitak GI is @ file:///C:/src/trunk/gi/dist/gi -->
-      <!-- <td>${GITAKPATH}/../gi/dist/gi</td> -->
-	  <!-- if GITAK is @ http://localhost/gitak GI is @ http://localhost/gi -->
-      <!-- <td>/gi-3.9-dojo</td> --> 
-      <!--<td>/C:/tibco/gi/gi-3.9-debug</td>-->
-	  <td>${GITAKPATH}/../gi/dist/gi</td>
+      <td>${GITAKPATH}/../gi/dist/gi</td>  
       <td>GIPATH</td>
     </tr>
+<!--  
+     <tr>
+      <td>store</td>
+      <td>http://localhost/gi/dist/gi</td> 
+      <td>GIPATH</td>
+    </tr> -->
     <tr>
       <td>store</td>
       <td>${GITAKPATH}/samples/gi36</td>

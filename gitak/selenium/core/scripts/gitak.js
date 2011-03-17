@@ -2589,9 +2589,15 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
     var jsxwin = jsx3.GO(name);
   }
   
-  if (jsxwin && (jsxwin instanceof jsx3.gui.Window) ) {
-    this.browserbot.jsxroot = PageBot.JSXWINDOWS;
-    this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
+  if (jsxwin && (jsxwin instanceof jsx3.gui.Window) ) {    
+    try {
+      this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
+      this.browserbot.jsxroot = PageBot.JSXWINDOWS;
+    } catch(e) {
+      e.description  = "selectJsxWindow : " + e + ". Popup blocked?";
+      LOG.error(e);
+      throw e;
+    }
   }
   LOG.debug("browserbot.jsxroot=" + this.browserbot.jsxroot);
 }
