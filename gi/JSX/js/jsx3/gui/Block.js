@@ -96,13 +96,13 @@ jsx3.Class.defineClass("jsx3.gui.Block", jsx3.gui.Painted, [jsx3.gui.Interactive
   Block.DISPLAYNONE = "none";
 
   /**
-   * {String} [empty string] (default)
+   * {String}
    * @final @jsxobf-final
    */
   Block.VISIBILITYVISIBLE = "visible";
 
   /**
-   * {String} hidden
+   * {String}
    * @final @jsxobf-final
    */
   Block.VISIBILITYHIDDEN = "hidden";
