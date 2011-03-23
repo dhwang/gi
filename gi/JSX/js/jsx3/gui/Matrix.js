@@ -1564,8 +1564,8 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
     var intLeft = this.getScrollLeft();
 
     //attempt the insertBefore
-    var bSuccess = bAppend?
-                   this.adoptChild(objMoveChild,true):
+    var bSuccess = bAppend ?
+                   (this.adoptChild(objMoveChild,true) || 1) :
                    this.insertBefore(objMoveChild,objPrecedeChild,true);
 
     //reposition the scrollbar based on the new data that will have been painted
