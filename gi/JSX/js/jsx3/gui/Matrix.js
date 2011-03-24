@@ -2385,7 +2385,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var _jis = {jsxid:"jsxautorow"};
       this.insertRecord(_jis,null,false);
       this.redrawRecord("jsxautorow", jsx3.xml.CDF.UPDATE);
-      //this.deleteRecord("jsxautorow",false);
+      this.deleteRecord("jsxautorow",false);
     }
   };
 
@@ -6516,6 +6516,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
   /* @jsxobf-clobber */
   Matrix_prototype._doFormatRow = function(objTR,strRecordId) {
+    if (!objTR) return;
     //perform the 2-pass, using the formthandler (if it exists)
     var objKids = this._getDisplayedChildren();
     for (var i=0;i<objKids.length;i++) {
@@ -6562,6 +6563,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
   /* @jsxobf-clobber */
   Matrix_prototype._updateTR = function(objTR,strRecordId) {
+    if (!objTR) return;
     //update a TR and all TD children with generated XHTML
     var objEntity = this._getTR(strRecordId);
     Matrix.convertXMLToDOM(objEntity,objTR,false);
