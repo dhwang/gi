@@ -30,7 +30,7 @@ window['jsx_main'] = function() {
     // Apple WebKit (Safari) v3-4
     this.sf = agt.indexOf('applewebkit') >= 0;
     if (this.sf) {
-      if (agt.indexOf('chrome/' >= 0)) {
+      if (agt.indexOf('chrome/') >= 0) {
         this.gc1 = true;
       } else {
         var vers = this._getVersionAfter('version/');
@@ -1068,14 +1068,14 @@ window['jsx_main'] = function() {
         ie6:["ie6", ["IE","IE6","VML"], "allow", 6],
         ie7:["ie7", ["IE","IE7","VML"], "allow", 7],
         ie8:["ie7", ["IE","IE8","VML"], "allow", 8],
-        ie9:["ie7", ["IE","IE9","SVG"], 0, 9],
-        fx1_5:["fx", ["FX","SVG","GKO"], "allow", 1.5],
-        fx2:["fx", ["FX","FX2","SVG","GKO"], "allow", 2],
+        ie9:["ie7", ["IE","IE9","SVG"], "allow", 9],
+        fx1_5:["fx", ["FX","SVG","GKO"], 0, 1.5],
+        fx2:["fx", ["FX","FX2","SVG","GKO"], 0, 2],
         fx3:["fx", ["FX","FX3","SVG","GKO"], "allow", 3],
-        fx4:["fx", ["FX","FX4","SVG","GKO"], 0, 4],
+        fx4:["fx", ["FX","FX4","SVG","GKO"], "allow", 4],
         gc1:["saf", ["SAF","SAF3","SVG","KON","GOG"], "allow", 3],
         sf3:["saf", ["SAF","SAF3","SVG","KON"], "allow", 3],
-        sf4:["saf", ["SAF","SAF4","SVG","KON"], 0, 4],
+        sf4:["saf", ["SAF","SAF4","SVG","KON"], "allow", 4],
         op9:["ie", ["OPERA"], 0, 9],
         op10:["ie", ["OPERA"], 0, 10],
         ie:["ie", ["IE","IE6","VML"]],
