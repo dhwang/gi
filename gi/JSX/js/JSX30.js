@@ -50,7 +50,8 @@ window['jsx_main'] = function() {
     // Microsoft Internet Explorer v6-8
     this.ie = agt.indexOf("msie") >= 0 && !this.op;
     if (this.ie) {
-      var vers = this._getVersionAfter('msie ');
+      var vers = document.documentMode;
+      if (isNaN(vers) || vers < 6) vers = 6;
       this.ie6 = vers >= 6 && vers < 7;
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
