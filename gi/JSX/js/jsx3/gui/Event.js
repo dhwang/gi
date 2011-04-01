@@ -1004,7 +1004,7 @@ jsx3.Class.defineClass("jsx3.gui.Event", null, null, function(Event, Event_proto
     var type = this.getType();
     if (type == Event.MOUSEDOWN || type == Event.MOUSEUP) {
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
-      return e.button == 1;
+      return e.button == (document.documentMode >= 9 ? 0 : 1);
 /* @JSC */ } else {
       return e.button == 0;
 /* @JSC */ }
