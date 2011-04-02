@@ -124,6 +124,64 @@ gi.test.jsunit.defineTests("jsx3.net.Service", function(t, jsunit) {
     jsunit.assertEquals(8, b.size());
   };
 
+  var onGetHistoricalQuotesSuccess = function(objEvent) {
+      var req = objEvent.target.getRequest();
+      var myStatus = "" + req.getStatus();
+	  var uri = new jsx3.net.URI(req.getURL());
+      //var responseXML = objEvent.target.getInboundDocument();
+	  jsunit.assertEquals(myStatus, uri.getQueryParam("status") );     
+      jsunit.debug("Success","The service call was successful.");
+    };
+
+   var onGetHistoricalQuotesError = function(objEvent) {
+      var req = objEvent.target.getRequest();
+      var myStatus = "" + req.getStatus();
+	  var uri = new jsx3.net.URI(req.getURL());
+	  
+      jsunit.debug("Error",uri.getQueryParam("status") + "<- req. The service call failed. The HTTP Status code is: " + myStatus);
+	  jsunit.assertEquals(myStatus, uri.getQueryParam("status") );
+    };
+
+  var onGetHistoricalQuotesInvalid = function(objEvent) {
+      jsunit.debug("Invalid","The following message node just failed validation:\n\n" + objEvent.message);
+    };
+
+   t.testRequestService = function() {
+    //init the service and set the inbound document
+    var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
+    s.setMode(1);
+    s.setNamespace(t._server);
+    s.setEndpointURL(jsunit.HTTP_BASE + "/webservice.php?status=200");
+    s.setOperationName("GetHistoricalQuotes");
+    //subscribe
+    s.subscribe(jsx3.net.Service.ON_SUCCESS, t.asyncCallback(onGetHistoricalQuotesSuccess));
+    s.subscribe(jsx3.net.Service.ON_ERROR, t.asyncCallback(onGetHistoricalQuotesError));
+    s.subscribe(jsx3.net.Service.ON_INVALID, t.asyncCallback(onGetHistoricalQuotesInvalid));
+
+    s.doCall();
+    
+  };
+  t.testRequestService._async = true;
+  t.testRequestService._skip_unless = "NETWORK";
+
+  t.testRequestServiceFail = function() {
+    //init the service and set the inbound document
+    var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
+    s.setMode(1);
+    s.setNamespace(t._server);
+    s.setEndpointURL(jsunit.HTTP_BASE + "/webservice.php?status=500");
+    s.setOperationName("GetHistoricalQuotes");
+    //subscribe
+    s.subscribe(jsx3.net.Service.ON_SUCCESS, t.asyncCallback(onGetHistoricalQuotesSuccess));
+    s.subscribe(jsx3.net.Service.ON_ERROR, t.asyncCallback(onGetHistoricalQuotesError));
+    s.subscribe(jsx3.net.Service.ON_INVALID, t.asyncCallback(onGetHistoricalQuotesInvalid));
+
+    s.doCall();
+    
+  };
+  t.testRequestServiceFail._async = true;
+  t.testRequestServiceFail._skip_unless = "NETWORK";
+
   t.testDoInboundMapCompiled = function() {
     //tests recursive (named templates) for creating CDF (inbound message mapping) using XSLT (compiled mode)
     //loads a sample CDF document. This will represent the server's response (arbitrary XML which happens to be CDF)
