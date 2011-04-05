@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2010, TIBCO Software Inc.
+ * Copyright (c) 2001-2011, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 jsx3.require("jsx3.gui.Block","jsx3.xml.Cacheable");

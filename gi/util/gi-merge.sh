@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # General Interface - BSD License
-# Copyright (c) 2006-2010, TIBCO Software Inc.
+# Copyright (c) 2006-2011, TIBCO Software Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without

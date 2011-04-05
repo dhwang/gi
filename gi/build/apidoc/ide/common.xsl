@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2001-2010, TIBCO Software Inc.
+  ~ Copyright (c) 2001-2011, TIBCO Software Inc.
   ~ Use, modification, and distribution subject to terms of license.
   -->
 
@@ -125,7 +125,7 @@
   <xsl:template match="*" mode="footer">
     <!--<hr/>-->
     <div class="copyright">
-      <xsl:value-of disable-output-escaping="yes">Copyright &amp;copy; 2001-2010, TIBCO Software Inc.</xsl:value-of>
+      <xsl:value-of disable-output-escaping="yes">Copyright &amp;copy; 2001-2011, TIBCO Software Inc.</xsl:value-of>
     </div>
   </xsl:template>
 

@@ -1,7 +1,7 @@
 
 
 /*
-Copyright 2006-2010 TIBCO Software, Inc
+Copyright 2006-2011 TIBCO Software Inc
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -2093,15 +2093,9 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
     var jsxwin = jsx3.GO(name);
   }
   
-  if (jsxwin && (jsxwin instanceof jsx3.gui.Window) ) {    
-    try {
-      this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
-      this.browserbot.jsxroot = PageBot.JSXWINDOWS;
-    } catch(e) {
-      e.description  = "selectJsxWindow : " + e + ". Popup blocked?";
-      LOG.error(e);
-      throw e;
-    }
+  if (jsxwin && (jsxwin instanceof jsx3.gui.Window) ) {
+    this.browserbot.jsxroot = PageBot.JSXWINDOWS;
+    this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
   }
   LOG.debug("browserbot.jsxroot=" + this.browserbot.jsxroot);
 }
