@@ -50,17 +50,18 @@ window['jsx_main'] = function() {
     // Microsoft Internet Explorer v6-8
     this.ie = agt.indexOf("msie") >= 0 && !this.op;
     if (this.ie) {
-      var vers = Math.max(6, document.documentMode || this._getVersionAfter('msie '));
+      var vers = this._getVersionAfter('msie ');
       this.ie6 = vers >= 6 && vers < 7;
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
       this.ie9 = vers >= 9;
+      this.ie9s = vers >= 9 && document.documentMode >= 9;
     }
   };
 
   /* @jsxobf-clobber */
   BrowserDetect._ORDER = [
-      "ie9", "ie8", "ie7", "ie6",
+      "ie9s", "ie9", "ie8", "ie7", "ie6",
       "fx4", "fx3", "fx2", "fx1_5",
       "gc1", "sf4", "sf3",
       "op10", "op9",
@@ -1068,7 +1069,8 @@ window['jsx_main'] = function() {
         ie6:["ie6", ["IE","IE6","VML"], "allow", 6],
         ie7:["ie7", ["IE","IE7","VML"], "allow", 7],
         ie8:["ie7", ["IE","IE8","VML"], "allow", 8],
-        ie9:["ie7", ["IE","IE9","SVG"], "allow", 9],
+        ie9:["ie7", ["IE","IE9","VML"], "allow", 9],
+        ie9s:["ie7", ["IE","IE9","SVG"], "allow", 9],
         fx1_5:["fx", ["FX","SVG","GKO"], 0, 1.5],
         fx2:["fx", ["FX","FX2","SVG","GKO"], 0, 2],
         fx3:["fx", ["FX","FX3","SVG","GKO"], "allow", 3],
