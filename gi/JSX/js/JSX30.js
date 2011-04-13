@@ -2502,7 +2502,7 @@ window['jsx_main'] = function() {
   };
 
   /* The attributes of the <script> tag that HTML reserves. */
-  var scriptAttributes = {id:true, space:true, type:true, charset:true, defer:true, src:true, language:true};
+  var scriptAttributes = {id:1, space:1, type:1, charset:1, defer:1, src:1, language:1, onload:1};
 
   var loadScript = function(objScript) {
 //    jsx3._logIt("found script: " + objScript.src);
