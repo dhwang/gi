@@ -724,11 +724,14 @@ table.jsx30menu_0_kct td.keycode {
   float: left;
 }
 #JSX .jsx30checkbox input {
-  margin: -4px 0px 0px -4px; /* Looks bad in IE8 XHTML mode */
+  margin: -4px 0px 0px -4px;
   padding: 0px;
   left: 0px;
   top: 2px;
   position: absolute;
+}
+#JSX.ie8s .jsx30checkbox input {
+  margin: 0px;
 }
 #JSX .jsx30checkbox_partial {
   background-color: #333333;
@@ -746,11 +749,14 @@ table.jsx30menu_0_kct td.keycode {
   float: left;
 }
 #JSX .jsx30radio input {
-  margin: -5px 0px 0px -5px; /* Looks bad in IE8 XHTML mode */
+  margin: -5px 0px 0px -5px;
   padding: 0px;
   left: 1px;
   top: 3px;
   position: absolute;
+}
+#JSX.ie8s .jsx30radio input {
+  margin: 0px;
 }
 
 /* jsx3.gui.Dialog */

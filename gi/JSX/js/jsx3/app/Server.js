@@ -543,6 +543,8 @@ jsx3.Class.defineClass("jsx3.app.Server", null, [jsx3.util.EventDispatcher, jsx3
           strLeft + strTop + strWidth + strHeight + '"></div>';
       objGUI = objGUI.lastChild;
 
+      objGUI.className = jsx3.CLASS_LOADER.getCssClass();
+
       //initialize the box profile for root (this is how the box profiling is first initiated); basically pass the drawspace that root should live within
       this.JSXROOT.syncBoxProfileSync({left:0,top:0,parentwidth:objGUI.clientWidth,parentheight:objGUI.clientHeight});
 

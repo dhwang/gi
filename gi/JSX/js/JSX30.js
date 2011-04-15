@@ -1164,6 +1164,13 @@ window['jsx_main'] = function() {
         return ClassLoader._BROWSERS[this._type][3] || Number(0);
       };
 
+      ClassLoader_prototype.getCssClass = function() {
+        var t = this.getType();
+        if (this.IE && document.documentMode >= 8)
+          t += " ie8s";
+        return t;
+      };
+
       /** @private @jsxobf-clobber */
       ClassLoader_prototype._start = function() {
         if (this._jobManager) return;
