@@ -580,7 +580,7 @@ function triggerLeftMouseEvent(element, eventType, canBubble, objPos) {
 		// event.button is used with the onmousedown, onmouseup, and onmousemove events.
     //    For other events, it defaults to 0 regardless.
         if (eventType == 'mousedown' || eventType == 'mouseup')
-            evt.button = 1; // IE uses concept of button mask 0=none 1=left 2=right 3=left+right 4=middle.
+            evt.button = (document.documentMode >= 9 ? 0 : 1); // IE uses concept of button mask 0=none 1=left 2=right 3=left+right 4=middle.
         else
             evt.button = 0; // GI specific. Use button 0 regardless of IE defaults.
 			
