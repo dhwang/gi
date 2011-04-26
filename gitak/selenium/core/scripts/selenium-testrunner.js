@@ -559,7 +559,9 @@ objectExtend(HtmlTestSuiteRow.prototype, {
         this.testFrame = testFrame;
         this.htmlTestSuite = htmlTestSuite;
         this.link = trElement.getElementsByTagName("a")[0];
-        this.link.onclick = fnBindAsEventListener(this._onClick, this);
+		if (this.link) {
+          this.link.onclick = fnBindAsEventListener(this._onClick, this);
+		}
     },
 
     reset: function() {

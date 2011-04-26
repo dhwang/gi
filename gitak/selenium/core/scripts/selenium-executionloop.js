@@ -124,7 +124,7 @@ TestLoop.prototype = {
             return this.commandError(msg);
         } else {
             LOG.error(e.message);
-            return this.commandError(e.message);
+            return this.commandError("Not SeExecption" + e.message);
         }
     },
 
