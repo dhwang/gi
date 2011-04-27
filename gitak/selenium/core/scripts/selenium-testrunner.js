@@ -448,7 +448,7 @@ var AbstractResultAwareRow = classCreate();
 objectExtend(AbstractResultAwareRow.prototype, {
 
     initialize: function(trElement) {
-        this.trElement = trElement;
+        this.trElement = unwrapNode(trElement);
     },
 
     setStatus: function(status) {
@@ -558,7 +558,7 @@ objectExtend(HtmlTestSuiteRow.prototype, {
         this.trElement = trElement;
         this.testFrame = testFrame;
         this.htmlTestSuite = htmlTestSuite;
-        this.link = trElement.getElementsByTagName("a")[0];
+        this.link = unwrapNode(trElement.getElementsByTagName("a")[0]);
 		if (this.link) {
           this.link.onclick = fnBindAsEventListener(this._onClick, this);
 		}

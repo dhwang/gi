@@ -14,26 +14,61 @@
  *  limitations under the License.
  *
  */
-
 // This script contains a badly-organised collection of miscellaneous
 // functions that really better homes.
 
 function classCreate() {
     return function() {
       this.initialize.apply(this, arguments);
-    }
+    };
 }
 
 function objectExtend(destination, source) {
-  for (var property in source) {
+  var property;
+  for (property in source) {
     destination[property] = source[property];
   }
   return destination;
 }
 
+
+ // from se 2.0
+function unwrapNode(thing) {
+  if (!thing || thing == null) {
+    return thing;
+  }
+
+  // If we've already unwrapped the object, don't unwrap it again.
+  // TODO(simon): see whether XPCWrapper->IsSecurityWrapper is available in JS
+  if (thing.__fxdriver_unwrapped) {
+    return thing;
+  }
+
+  if (thing['wrappedJSObject']) {
+    thing.wrappedJSObject.__fxdriver_unwrapped = true;
+    return thing.wrappedJSObject;
+  }
+
+  // unwrap is not available on older branches (3.5 and 3.6) - Bug 533596
+  try {
+    var isWrapper = (thing == XPCNativeWrapper(thing));
+    if (isWrapper) {
+      var unwrapped = XPCNativeWrapper.unwrap(thing);
+      var toReturn = !!unwrapped ? unwrapped : thing;
+      toReturn.__fxdriver_unwrapped = true;
+      return toReturn;
+    }
+  } catch(e) {
+    // Unwrapping will fail for JS literals - numbers, for example. Catch
+    // the exception and proceed, it will eventually be returned as-is.
+  }
+
+  return thing;
+};
+
 function sel$() {
-  var results = [], element;
-  for (var i = 0; i < arguments.length; i++) {
+  var results = [], element, i;
+  for (i = 0; i < arguments.length; i++) {
     element = arguments[i];
     if (typeof element == 'string')
       element = document.getElementById(element);
@@ -1282,7 +1317,11 @@ function eval_locator(locator, inDocument, opt_contextNode)
             results.push(element);
         }
     }
-    
+
+    // Unwrap each of the elements in the result
+    for (var i = 0; i < results.length; i++) {
+      results[i] = unwrapNode(results[i]);
+    }    
     return results;
 }
 
@@ -1625,4 +1664,3 @@ parseUri.options = {
         loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
     }
 };
-

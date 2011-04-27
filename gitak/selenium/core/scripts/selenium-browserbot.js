@@ -556,9 +556,14 @@ BrowserBot.prototype.getCurrentPage = function() {
     return this;
 };
 
-BrowserBot.prototype.modifyWindowToRecordPopUpDialogs = function(windowToModify, browserBot) {
+BrowserBot.prototype.modifyWindowToRecordPopUpDialogs = function(originalWindow, browserBot) {
     var self = this;
-
+    // Apparently, Firefox 4 makes it possible to unwrap an object to find that
+    // there's nothing in it. -- from se 2.0
+    var windowToModify = unwrapNode(originalWindow);
+    if (!windowToModify) {
+      windowToModify = originalWindow;
+    }
     windowToModify.seleniumAlert = windowToModify.alert;
 
     windowToModify.alert = function(alert) {
@@ -1033,14 +1038,14 @@ BrowserBot.prototype.getCurrentWindow = function(doNotModify) {
     if (this.proxyInjectionMode) {
         return window;
     }
-    var testWindow = this.currentWindow;
+    var testWindow = unwrapNode(this.currentWindow);
     if (!doNotModify) {
         this._modifyWindow(testWindow);
         LOG.debug("getCurrentWindow newPageLoaded = false");
         this.newPageLoaded = false;
     }
     testWindow = this._handleClosedSubFrame(testWindow, doNotModify);
-    return testWindow;
+    return unwrapNode(testWindow);
 };
 
 /**
@@ -1146,7 +1151,7 @@ BrowserBot.prototype._registerAllLocatorFunctions = function() {
 }
 
 BrowserBot.prototype.getDocument = function() {
-    return this.getCurrentWindow().document;
+    return unwrapNode(this.getCurrentWindow().document);
 }
 
 BrowserBot.prototype.getTitle = function() {
@@ -1288,7 +1293,8 @@ BrowserBot.prototype.findElementOrNull = function(locator, win) {
         win = this.getCurrentWindow();
     }
     var element = this.findElementRecursive(locator.type, locator.string, win.document, win);
-
+    element = unwrapNode(element); // se 2.0
+	
     if (element != null) {
         return this.browserbot.highlight(element);
     }
@@ -1300,7 +1306,7 @@ BrowserBot.prototype.findElementOrNull = function(locator, win) {
 BrowserBot.prototype.findElement = function(locator, win) {
     var element = this.findElementOrNull(locator, win);
     if (element == null) throw new SeleniumError("Element " + locator + " not found");
-    return element;
+    return unwrapNode(element);
 }
 
 /**
