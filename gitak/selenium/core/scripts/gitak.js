@@ -2580,7 +2580,7 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
   }
   
   var appServer = this._jsxappname; // set by jsxopen
-  var win = this.getCurrentWindow();
+  var win = this.browserbot.getCurrentWindow();
   if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
     appServer = eval("win."+selenium.jsxNamespace); 
  
