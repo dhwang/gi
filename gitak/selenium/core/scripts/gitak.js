@@ -743,14 +743,14 @@ Selenium.prototype.doJsxopen = function (url) {
     this.browserbot.openLocation(url);
     LOG.debug('open jsx url=' + url);
     
-    var w = this.browserbot.getCurrentWindow();
+    var w = selenium.browserbot.getCurrentWindow();
     var self = this;
     var isJsxLoaded = function () {      
       if ( self.isPageLoaded || self.browserbot.isNewPageLoaded()) {
         self.isPageLoaded = true;
         if (w.jsx3) {
 		  window.top.jsx3 = w.jsx3;
-          var jsx3 = w.jsx3;		 
+          //var jsx3 = w.jsx3;		 
           var apps = null;
           if (jsx3.lang && jsx3.lang.System && jsx3.lang.System.getAllApps)
             apps = jsx3.lang.System.getAllApps();
@@ -758,7 +758,7 @@ Selenium.prototype.doJsxopen = function (url) {
             apps = jsx3.app.Server.allServers();
 
           if (apps && apps.length > 0) {
-            var app = apps[0];
+            var app = apps[apps.length-1];
             var jsxbody = app.getJSXByName("JSXBODY");
             var isJsxBodyLoaded = ( jsxbody && jsxbody.getChild(0) && jsxbody.getChild(0).getRendered() ) ;
             LOG.debug("isJsxBodyLoaded check :"+ isJsxBodyLoaded); // can only check for the first application block
@@ -2224,7 +2224,7 @@ Selenium.prototype.getJsxTypeCount = function(strNameType) {
  // TODO -- is this useful? or just for one case type.
  var appServer;
  if (selenium.jsxNamespace) { // handle app server with dot notation like "eg.portletA.APP"  
-    appServer = eval("selenium.topWindow."+selenium.jsxNamespace); 
+    appServer = this.getCurrentWindow()[selenium.jsxNamespace]; 
  }
  // Use rootblock to count the server alerts also.
  var rootblock = (appServer) ? appServer.getRootBlock() : jsx3.GO("JSXROOT");   
@@ -2580,7 +2580,7 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
   }
   
   var appServer = this._jsxappname; // set by jsxopen
-  var win = this.browserbot.topWindow;
+  var win = this.getCurrentWindow();
   if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
     appServer = eval("win."+selenium.jsxNamespace); 
  
@@ -2612,8 +2612,8 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
  */
  jsxname = stripQuotes(jsxname);
   var appServer = selenium._jsxappname; // set by jsxopen
-  if (!jsx3) {
   var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {
   window.top.jsx3 = appWindow.jsx3
   }
   var jsxobj = null;
@@ -2664,8 +2664,8 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
   jsxname = stripQuotes(jsxname);
   jsxname = jsxname.trim();
   var appServer = selenium._jsxappname; // set by jsxopen
-  if (!jsx3) {
   var appWindow = this.getCurrentWindow(); // topWindow should be renamed app under test window, autWindow.
+  if (!window.top.jsx3) {
   window.top.jsx3 = appWindow.jsx3;
   }
   
@@ -2717,8 +2717,8 @@ PageBot.prototype.findByJsxText = function(text, inWindow) {
  text = stripQuotes(text);
   var appServer = selenium._jsxappname; // set by jsxopen
   LOG.debug('findByJsxText =' + text  );
-  if (!jsx3) {  
   var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {  
   window.top.jsx3 = appWindow.jsx3;
   }
 
@@ -2760,8 +2760,8 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
  */
  text = stripQuotes(text);
   var appServer = selenium._jsxappname; // set by jsxopen
-  if (!jsx3) {  
   var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {  
   window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3;
   }
@@ -2805,8 +2805,8 @@ PageBot.prototype.findByJsxValue = function(value, inWindow) {
  value = stripQuotes(value);
   var appServer = selenium._jsxappname; // set by jsxopen
   LOG.debug('findByJsxValue='+ jsxtype );
-  if (!jsx3) {  
   var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {  
   window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3;
   }
@@ -2854,8 +2854,8 @@ PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
  var ExpTypeAny = /^\.([^\[]+)(\[(\d+)\])?/i;
  var ExpProperty = /^\[@(.*)\]/;
  LOG.debug('findByJsxDom='+  dompath);
- if (!jsx3) { 
  var appWindow = this.getCurrentWindow();
+ if (!window.top.jsx3) { 
  window.top.jsx3 = null;
  window.top.jsx3 = appWindow.jsx3;
  }
@@ -2958,8 +2958,8 @@ PageBot.prototype.findByJsxSelector = function (s, inWindow) {
  *  @return JSX object
  */
   var appServer = selenium._jsxappname; // jsxopen
-  if (!jsx3) {
   var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {
   window.top.jsx3 = appWindow.jsx3;
   }
   var objRoot = null;
