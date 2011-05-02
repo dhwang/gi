@@ -6786,8 +6786,10 @@ jsx3.Class.defineClass("jsx3.gui.Matrix.MessageFormat", jsx3.gui.Matrix.ColumnFo
         var loc = objServer.getLocale(); // setLocale should publish locale change event.
         if (loc != this._format._locale) // Need to pick up new locale if it changed since this instance was created.
           this._format.setLocale(loc);
+          
+        try { strValue = this._format.format(strValue); } catch (e) {}
 
-        objDiv.innerHTML = this._format.format(strValue);
+        objDiv.innerHTML = strValue;
       } catch (e) {
         jsx3.util.Logger.GLOBAL.error(this._format, jsx3.NativeError.wrap(e));
       }
