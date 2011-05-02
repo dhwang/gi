@@ -6606,8 +6606,7 @@ jsx3.Class.defineClass("jsx3.gui.Matrix", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
 
       //note that these are not all events, but rather those events that are/may be implemented by the matrix control
       if (strName.match(re)) {
-        //attach the event
-        html.addEventListener(objDOM, strName.toLowerCase(), strValue);
+        objDOM.setAttribute("on" + strName, strValue);
       } else if (strName == "class") {
         objDOM.className = strValue;
       } else if (strName == "style") {
