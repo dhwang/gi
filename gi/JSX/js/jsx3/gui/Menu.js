@@ -199,7 +199,7 @@ jsx3.Class.defineClass("jsx3.gui.Menu", jsx3.gui.Block, [jsx3.xml.Cacheable, jsx
   };
 
   /**
-   * enables a menu item with the given id by removing its 'jsxselected'; this ID is the jsxid attribute on the record adhereing to the JSX Common Data Format (CDF);
+   * enables a menu item with the given id by removing its 'jsxdisabled'; this ID is the jsxid attribute on the record adhereing to the JSX Common Data Format (CDF);
    * @param strRecordId {String} the jsxid property on the record node corresponding to the menu item to be enabled
    * @param bEnabled {boolean} if false then disable the item
    * @return {jsx3.gui.Menu} this object.
