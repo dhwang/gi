@@ -1,7 +1,7 @@
 
 
 /*
-Copyright 2006-2011 TIBCO Software Inc
+Copyright 2006-2011 TIBCO Software, Inc
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ function triggerLeftMouseEvent(element, eventType, canBubble, objPos) {
 		// event.button is used with the onmousedown, onmouseup, and onmousemove events.
     //    For other events, it defaults to 0 regardless.
         if (eventType == 'mousedown' || eventType == 'mouseup')
-            evt.button = (document.documentMode >= 9 ? 0 : 1); // IE<9 uses concept of button mask 0=none 1=left 2=right 3=left+right 4=middle.
+            evt.button = (document.documentMode >= 9 ? 0 : 1); // IE uses concept of button mask 0=none 1=left 2=right 3=left+right 4=middle.
         else
             evt.button = 0; // GI specific. Use button 0 regardless of IE defaults.
 			
@@ -247,13 +247,14 @@ Selenium.prototype.doJsxopen = function (url) {
     this.browserbot.openLocation(url);
     LOG.debug('open jsx url=' + url);
     
-    var w = this.browserbot.getCurrentWindow();
+    var w = selenium.browserbot.getCurrentWindow();
     var self = this;
     var isJsxLoaded = function () {      
       if ( self.isPageLoaded || self.browserbot.isNewPageLoaded()) {
         self.isPageLoaded = true;
         if (w.jsx3) {
-          var jsx3 = w.jsx3;
+		  window.top.jsx3 = w.jsx3;
+          //var jsx3 = w.jsx3;		 
           var apps = null;
           if (jsx3.lang && jsx3.lang.System && jsx3.lang.System.getAllApps)
             apps = jsx3.lang.System.getAllApps();
@@ -261,7 +262,7 @@ Selenium.prototype.doJsxopen = function (url) {
             apps = jsx3.app.Server.allServers();
 
           if (apps && apps.length > 0) {
-            var app = apps[0];
+            var app = apps[apps.length-1];
             var jsxbody = app.getJSXByName("JSXBODY");
             var isJsxBodyLoaded = ( jsxbody && jsxbody.getChild(0) && jsxbody.getChild(0).getRendered() ) ;
             LOG.debug("isJsxBodyLoaded check :"+ isJsxBodyLoaded); // can only check for the first application block
@@ -1347,7 +1348,7 @@ Selenium.prototype.doDragJsxToJsx = function(locator, locator2) {
         if (current == dest) return current;
         if (Math.abs(current - dest) < mouseSpeed) return dest;
         return (current < dest) ? current + mouseSpeed : current - mouseSpeed;
-     }
+     };
      while ((clientX != clientFinishX) || (clientY != clientFinishY)) {
         clientX = move(clientX, clientFinishX);
         clientY = move(clientY, clientFinishY);
@@ -1727,7 +1728,7 @@ Selenium.prototype.getJsxTypeCount = function(strNameType) {
  // TODO -- is this useful? or just for one case type.
  var appServer;
  if (selenium.jsxNamespace) { // handle app server with dot notation like "eg.portletA.APP"  
-    appServer = eval("selenium.topWindow."+selenium.jsxNamespace); 
+    appServer = this.getCurrentWindow()[selenium.jsxNamespace]; 
  }
  // Use rootblock to count the server alerts also.
  var rootblock = (appServer) ? appServer.getRootBlock() : jsx3.GO("JSXROOT");   
@@ -2083,7 +2084,7 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
   }
   
   var appServer = this._jsxappname; // set by jsxopen
-  var win = this.browserbot.topWindow;
+  var win = this.browserbot.getCurrentWindow();
   if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
     appServer = eval("win."+selenium.jsxNamespace); 
  
@@ -2093,9 +2094,15 @@ Selenium.prototype.doSelectJsxWindow = function (name) {
     var jsxwin = jsx3.GO(name);
   }
   
-  if (jsxwin && (jsxwin instanceof jsx3.gui.Window) ) {
-    this.browserbot.jsxroot = PageBot.JSXWINDOWS;
-    this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
+  if (jsxwin && (jsxwin instanceof jsx3.gui.Window) ) {    
+    try {
+      this.browserbot.selectWindow(jsxwin.getId().replace(/\./g,""));
+      this.browserbot.jsxroot = PageBot.JSXWINDOWS;
+    } catch(e) {
+      e.description  = "selectJsxWindow : " + e + ". Popup blocked?";
+      LOG.error(e);
+      throw e;
+    }
   }
   LOG.debug("browserbot.jsxroot=" + this.browserbot.jsxroot);
 }
@@ -2109,8 +2116,10 @@ PageBot.prototype.findByJsxName = function(jsxname, inWindow) {
  */
  jsxname = stripQuotes(jsxname);
   var appServer = selenium._jsxappname; // set by jsxopen
-  var appWindow = this.topWindow;
+  var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {
   window.top.jsx3 = appWindow.jsx3
+  }
   var jsxobj = null;
 
    if (jsx3) {
@@ -2159,8 +2168,10 @@ PageBot.prototype.findByJsxNameAndType = function(jsxname, jsxtype, inWindow) {
   jsxname = stripQuotes(jsxname);
   jsxname = jsxname.trim();
   var appServer = selenium._jsxappname; // set by jsxopen
-  var appWindow = this.topWindow; // topWindow should be renamed app under test window, autWindow.
+  var appWindow = this.getCurrentWindow(); // topWindow should be renamed app under test window, autWindow.
+  if (!window.top.jsx3) {
   window.top.jsx3 = appWindow.jsx3;
+  }
   
   var jsxobj = null;
 
@@ -2210,8 +2221,10 @@ PageBot.prototype.findByJsxText = function(text, inWindow) {
  text = stripQuotes(text);
   var appServer = selenium._jsxappname; // set by jsxopen
   LOG.debug('findByJsxText =' + text  );
-  var appWindow = this.topWindow;
+  var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {  
   window.top.jsx3 = appWindow.jsx3;
+  }
 
   var jsxobj = null;
 
@@ -2251,10 +2264,12 @@ PageBot.prototype.findByJsxTextAndType = function(text, jsxtype) {
  */
  text = stripQuotes(text);
   var appServer = selenium._jsxappname; // set by jsxopen
-  var appWindow = this.topWindow;
+  var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {  
   window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3;
-
+  }
+  
   var jsxobj = null;
   var JsxNamespace = selenium.jsxNamespace;
   var type = eval(jsxtype); // is this jsxtype loaded?
@@ -2294,9 +2309,11 @@ PageBot.prototype.findByJsxValue = function(value, inWindow) {
  value = stripQuotes(value);
   var appServer = selenium._jsxappname; // set by jsxopen
   LOG.debug('findByJsxValue='+ jsxtype );
-  var appWindow = this.topWindow;
+  var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {  
   window.top.jsx3 = null;
   window.top.jsx3 = appWindow.jsx3;
+  }
 
   var jsxobj = null;
 
@@ -2341,9 +2358,11 @@ PageBot.prototype.findByJsxDom = function (dompath, inWindow) {
  var ExpTypeAny = /^\.([^\[]+)(\[(\d+)\])?/i;
  var ExpProperty = /^\[@(.*)\]/;
  LOG.debug('findByJsxDom='+  dompath);
- var appWindow = this.topWindow;
+ var appWindow = this.getCurrentWindow();
+ if (!window.top.jsx3) { 
  window.top.jsx3 = null;
  window.top.jsx3 = appWindow.jsx3;
+ }
  
  var appServer = selenium._jsxappname; // set by jsxopen
  if (selenium.jsxNamespace) // handle app server with dot notation like "eg.portletA.APP"  
@@ -2443,8 +2462,10 @@ PageBot.prototype.findByJsxSelector = function (s, inWindow) {
  *  @return JSX object
  */
   var appServer = selenium._jsxappname; // jsxopen
-  var appWindow = this.topWindow;
+  var appWindow = this.getCurrentWindow();
+  if (!window.top.jsx3) {
   window.top.jsx3 = appWindow.jsx3;
+  }
   var objRoot = null;
   var objJSX = null;
   
@@ -4072,8 +4093,8 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
 	  ctx.objEVENT.currentTarget = 1;
 	  ctx.objEVENT = jsx3.gui.Event.wrap(ctx.objEVENT);
 	}
-	LOG.info("action " + strAction + " ctx=" + ctx);
-	
+    LOG.info("action " + strAction + " ctx=" + ctx);
+
 	if (objTarget.replayEvent) {
 	  objTarget.replayEvent(ctx);
 	} else {
@@ -4082,6 +4103,7 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
       LOG.debug("replay function =" + fct);
       fct.apply(objTarget, [ctx]);
 	  } else {
+	  LOG.info("doEvent " + strAction + " ctx=" + ctx);
       objTarget.doEvent(strAction, ctx);
 	  }
 	}
@@ -4196,14 +4218,10 @@ CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateB
 CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
   // Convert into a jsxwait_blah(target, value) function.
   return function(target, value) {
-    try {
-      if (value && value !== "") value =  eval("var tmp = " + value + "; tmp");
-    } catch (e) {
-      LOG.error("Bad action value: " + value);
-    }
       var terminationCondition = function () {
         try {
-          return predicateBlock(target, value).isTrue;
+          if (value != null && value !== "") value = stripQuotes(value);
+		  return predicateBlock(target, value).isTrue;
         } catch (e) {
           // Treat exceptions as meaning the condition is not yet met.
           // Useful, for example, for waitForValue when the element has
@@ -4235,7 +4253,7 @@ CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
       // make into wait commands     
       var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
       var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
-      this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
+      this.registerAction("jsxwait_" + baseName, waitForActionBlock, false, true);
     }
   }
 }
@@ -4447,7 +4465,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   recorder._getReplayFunction = function(objTarget, strAction) {
     var c = objTarget.getClass();
     var fct = null;
-
+    LOG.debug("strAction = " + strAction);
     while (c && !fct) {
       LOG.debug('_REPLAY[' + c.getName() + ']');
       var struct = recorder._REPLAY[c.getName()];
@@ -4456,7 +4474,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
 
       c = c.getSuperClass();
     }
-
+    
     return fct;
   };
 
@@ -4464,10 +4482,11 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   recorder._VERBS = {
     jsxdo_exists: function(locator) {
       var o = selenium.browserbot.findJsxObject(locator);
-      if (o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1")
+      if (o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1") {
         return true;
-      else
+       } else {
         return false;
+	   }
 	},
     jsxget_value: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);

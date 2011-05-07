@@ -1780,7 +1780,7 @@ Selenium.prototype.doDragJsxTo = function(locator, movementsString) {
         if (current == dest) return current;
         if (Math.abs(current - dest) < mouseSpeed) return dest;
         return (current < dest) ? current + mouseSpeed : current - mouseSpeed;
-    }
+    };
 
   _triggerMouseEvent(element, 'mousedown', true, clientStartX, clientStartY);
   _triggerMouseEvent(element, 'mousemove', true, clientStartX, clientStartY);
@@ -4715,14 +4715,10 @@ CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateB
 CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
   // Convert into a jsxwait_blah(target, value) function.
   return function(target, value) {
-    try {
-      if (value && value !== "") value =  eval("var tmp = " + value + "; tmp");
-    } catch (e) {
-      LOG.error("Bad action value: " + value);
-    }
       var terminationCondition = function () {
         try {
-          return predicateBlock(target, value).isTrue;
+          if (value != null && value !== "") value = stripQuotes(value);
+		  return predicateBlock(target, value).isTrue;
         } catch (e) {
           // Treat exceptions as meaning the condition is not yet met.
           // Useful, for example, for waitForValue when the element has
@@ -4754,7 +4750,7 @@ CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
       // make into wait commands     
       var waitForActionMethod = this._jsxwaitActionForPredicate(predicateBlock);
       var waitForActionBlock = fnBind(waitForActionMethod, seleniumApi);
-      this.registerAction("jsxwait_" + baseName, waitForActionBlock, true, true);
+      this.registerAction("jsxwait_" + baseName, waitForActionBlock, false, true);
     }
   }
 }
@@ -4983,10 +4979,11 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   recorder._VERBS = {
     jsxdo_exists: function(locator) {
       var o = selenium.browserbot.findJsxObject(locator);
-      if (o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1")
+      if (o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1") {
         return true;
-      else
+       } else {
         return false;
+	   }
 	},
     jsxget_value: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);
