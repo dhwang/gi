@@ -109,7 +109,7 @@ tr:hover {
             </tr>
             <tr>
                 <td >
-                    assertJsxButtonPresent
+                    isJsxButtonPresent
                     </td>
                 <td>
                     <pre>| [assert/verify/waitFor]JsxButtonPresent | Button jsxtext/jsxname | |</pre></td>
@@ -120,7 +120,7 @@ tr:hover {
             </tr>
             <tr>
                 <td>
-                    assertJsxMenuWindowPresent</td>
+                    isJsxMenuWindowPresent</td>
                 <td>
                     <pre>| [assert/verify/waitFor]JsxSelectWindowPresent | Heavyweight Window Id | |</pre>
                 </td>
@@ -129,7 +129,7 @@ tr:hover {
             </tr>
             <tr>
                 <td>
-                    assertJsxSelectWindowPresent</td>
+                    isJsxSelectWindowPresent</td>
                 <td>
                     <pre>| [assert/verify/waitFor]JsxMenuWindowPresent | | |</pre>
                 </td>
@@ -138,7 +138,7 @@ tr:hover {
             </tr>
             <tr>
                 <td>
-                    assertJsxPresent</td>
+                    isJsxPresent</td>
                 <td>
                     <pre>| [assert/verify/waitFor]JsxPresent | jsxname/locator | |<pre></td>
                 <td>
@@ -153,7 +153,7 @@ tr:hover {
             </tr>
             <tr>
                 <td>
-                    assertJsxValueEqual</td>
+                    isJsxValueEqual</td>
                 <td>
                     <pre>| [assert/verify/waitFor]JsxValueEqual | jsxname | expected value | </pre></td>
                 <td>
@@ -161,11 +161,133 @@ tr:hover {
             </tr>
             <tr>
                 <td>
-                    assertJsxTextEqual</td>
+                    isJsxTextEqual</td>
                 <td>
                     <pre>| [assert/verify/waitFor]JsxTextEqual | jsxname | expected text |</pre></td>
                 <td>
                      assert that object of jsxname has text equal to given expected text</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxRecordIndex</td>
+                <td>
+                    <pre>| get/assert/verify/waitFor/store]JsxRecordIndex | jsxname,[id|text] |  |</pre>
+                </td>
+                <td>
+                     Return a record row index with a jsxname,id or jsxname,text&nbsp;
+                     <br />
+                     All Get methods also exist in get/assert/verify/waitFor/store forms.</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxTypeCount</td>
+                <td>
+                    <pre>| getJsxOfType| jsxtype | |</pre>
+                </td>
+                <td>
+                     Return an object count with a jsxtype. </td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxOfType</td>
+                <td>
+                    <pre>| getJsxOfType| jsxtype | |</pre>
+                </td>
+                <td>
+                     Get all objects of given jsxtype</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxElementName</td>
+                <td>
+                    <pre>| getJsxElementName | locator | |</pre>
+                </td>
+                <td>
+                     Get the jsxname of a located element</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxByName</td>
+                <td>
+                    <pre>| getJsxByName | jsxname | | </pre>
+                </td>
+                <td>
+                     Get the object of given jsname</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxByText</td>
+                <td>
+                    <pre>| getJsxByText | jsxtext | | </pre>
+                </td>
+                <td>
+                     Get the object of given jsxtext</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxSelectedIndex</td>
+                <td>
+                    <pre>| getJsxSelectedIndex | locator | |</pre>
+                </td>
+                <td>
+                     Get the index of the selected item from a Matrix or Tree locator</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxSelectedIds</td>
+                <td>
+                    <pre>| getJsxSelectedIds | locator | | </pre>
+                </td>
+                <td>
+                     Get all the IDs of the selected items from a Matrix or Tree locator</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxSelectedId</td>
+                <td>
+                    <pre>| getJsxSelectedId | locator | | </pre>
+                </td>
+                <td>
+                     Same as above but just one item</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxXmlDocument</td>
+                <td>
+                    <pre>| getJsxXmlDocument | locator</pre>
+                </td>
+                <td>
+                     Get the XML document of a CDF control</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxText</td>
+                <td>
+                    <pre>| getJsxText | locator | |</pre>
+                </td>
+                <td>
+                     Get the jsxtext of object matching the locator</td>
+            </tr>
+        
+            <tr>
+                <td>
+                    getJsxValue</td>
+                <td>
+                    <pre>| getJsxValue | locator | |</pre>
+                </td>
+                <td>
+                     Get the jsxvalue of object matching the locator</td>
             </tr>
         
         </tbody>

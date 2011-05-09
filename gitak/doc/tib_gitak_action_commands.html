@@ -57,6 +57,16 @@ tr:hover {
                 <td style="font-weight: bold">
                     Description&nbsp;</td>
             </tr>
+            <tr>
+                <td>
+                    openjsx</td>
+                <td>
+                    <pre>| openjsx | URL | timeout |</pre>
+                </td>
+                <td>
+                    Open a GI application launch page, will wait for application to finish loading 
+                    by default.</td>
+            </tr>
         <tr >
             <td>
                 setInterval</td>
@@ -81,6 +91,15 @@ tr:hover {
                 <td>clickJsxCellMask</td>
                 <td>
                     <pre>| clickJsxCellMask | JsxMatrixCell[Id/Index] | value |</pre></td>
+                <td>
+                    Action - do the applicable action depending on the cell mask with given value. For
+                    exmple, type value in textbox, pick date in datepicker, etc.
+                </td>
+            </tr>
+            <tr>
+                <td>actionJsxCellMask</td>
+                <td>
+                    &nbsp;</td>
                 <td>
                     Action - do the applicable action depending on the cell mask with given value. For
                     exmple, type value in textbox, pick date in datepicker, etc.
@@ -204,25 +223,6 @@ tr:hover {
                     if this command fails then use control specific extension (like "clickJsxMenu")
                     command.</td>
          </tr>
-            <tr>
-                <td>
-                    clickJsxGridDelete</td>
-                <td>
-                    <pre>| clickJsxGridDelete | JsxGridCell=jsxname.record_jsxid.cell_index | |</pre></td>
-                <td>
-                    Action - click on a grid delete column cell. Cell identified by grid jsxname, record
-                    jsxid, and cell index. <b>NOTE</b> You must use this action to click on a delete
-                    column cell.&nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                    clickJsxListHeader</td>
-                <td>
-                    <pre>| clickJsxListHeader | JsxListHeaderIndex=jsxname,columnIndex |</pre>
-                </td>
-                <td>
-                    Action - click on a list column's header cell with given List jsxname and column index</td>
-            </tr>
             <tr>
                 <td>
                     clickJsxMatrixHeader</td>
