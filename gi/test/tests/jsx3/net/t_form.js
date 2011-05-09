@@ -439,7 +439,7 @@ gi.test.jsunit.defineTests("jsx3.net.Form", function(t, jsunit) {
     f.setField("field", "value");
 
     f.subscribe("*", t.asyncCallback(function(objEvent) {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE && f.getResponseText() ) {
         var xml = f.getResponseXML();
         var rec = xml.selectSingleNode("//record[@jsxid='field']");
         jsunit.assertNotNullOrUndef(rec);
