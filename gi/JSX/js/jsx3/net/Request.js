@@ -91,10 +91,11 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
   };
   
   /** @private @jsxobf-clobber */
-  Request_prototype._getNativeAttr = function(attr, args) {
+  Request_prototype._getNativeAttr = function(attr, type, arg1) {
     try {
-      var v = this._request[attr];
-      return args != null ? v.apply(this._request, args) : v;
+      return type == 1 ? this._request[attr]() :
+             type == 2 ? this._request[attr](arg1) :
+                         this._request[attr];
     } catch (e) {
       this._status = 13030; // From Firefox documentation
       return null;
@@ -106,7 +107,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getAllResponseHeaders = function() {
-    return this._getNativeAttr("getAllResponseHeaders", []);
+    return this._getNativeAttr("getAllResponseHeaders", 1);
   };
 
   /**
@@ -115,7 +116,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
    * @return {String}
    */
   Request_prototype.getResponseHeader = function(strName) {
-    return this._getNativeAttr("getResponseHeader", [strName]);
+    return this._getNativeAttr("getResponseHeader", 2, strName);
   };
 
   /**
@@ -610,7 +611,7 @@ jsx3.Class.defineClass("jsx3.net.Request.XD", jsx3.net.Request, null, function(X
     },
 
     getAllResponseHeaders: function() {
-      return [];
+      return "";
     },
 
     getResponseHeader: function() {
