@@ -123,7 +123,57 @@ gi.test.jsunit.defineTests("jsx3.net.Service", function(t, jsunit) {
     b = d.selectNodes("//record[@jsxid]");
     jsunit.assertEquals(8, b.size());
   };
+  
+  t.testRequestJSON = function() {
+    var Service = jsx3.net.Service;
+    
+    //init the service and set the inbound document
+    var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
+    s.setMode(1);
+    s.setNamespace(t._server);
+    s.setEndpointURL(jsunit.HTTP_BASE + "/webservice.php?status=200&json=true");
+    s.setOperationName("");
+    
+    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], t.asyncCallback(function(objEvent) {
+      if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
+        var req = objEvent.target.getRequest();
+        jsunit.assertEquals(200, req.getStatus());
+        jsunit.assertNotNull("Response text converts to XML doc.", s.getInboundDocument());
+      } else {
+        jsunit.assert("Should not receive this event from service: " + objEvent.subject, false);
+      }
+    }));
 
+    s.doCall();
+  };
+  t.testRequestJSON._async = true;
+  t.testRequestJSON._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
+
+  t.testRequestJSONfault = function() {
+    var Service = jsx3.net.Service;
+    
+    //init the service and set the inbound document
+    var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
+    s.setMode(1);
+    s.setNamespace(t._server);
+    s.setEndpointURL(jsunit.HTTP_BASE + "/webservice.php?status=503&json=true");
+    s.setOperationName("");
+    
+    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], t.asyncCallback(function(objEvent) {
+      if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
+        var req = objEvent.target.getRequest();
+        jsunit.assertEquals(503, req.getStatus());
+        jsunit.assertNull(s.getInboundDocument());
+      } else {
+        jsunit.assert("Should not receive this event from service: " + objEvent.subject, false);
+      }
+    }));
+
+    s.doCall();
+  };
+  t.testRequestJSONfault._async = true;
+  t.testRequestJSONfault._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
+  
   t.testRequestService = function() {
     var Service = jsx3.net.Service;
     
@@ -139,14 +189,14 @@ gi.test.jsunit.defineTests("jsx3.net.Service", function(t, jsunit) {
         var req = objEvent.target.getRequest();
         jsunit.assertEquals(200, req.getStatus());
       } else {
-        t.fail("Should not receive this event from service: " + objEvent.subject);
+        jsunit.assert("Should not receive this event from service: " + objEvent.subject, false);
       }
     }));
 
     s.doCall();
   };
   t.testRequestService._async = true;
-  t.testRequestService._skip_unless = "NETWORK";
+  t.testRequestService._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
 
   t.testRequestServiceFail = function() {
     var Service = jsx3.net.Service;
@@ -170,7 +220,7 @@ gi.test.jsunit.defineTests("jsx3.net.Service", function(t, jsunit) {
     s.doCall();
   };
   t.testRequestServiceFail._async = true;
-  t.testRequestServiceFail._skip_unless = "NETWORK";
+  t.testRequestServiceFail._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
 
   t.testDoInboundMapCompiled = function() {
     //tests recursive (named templates) for creating CDF (inbound message mapping) using XSLT (compiled mode)
