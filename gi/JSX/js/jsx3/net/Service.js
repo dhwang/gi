@@ -2035,11 +2035,10 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
   Service_prototype.onResponse = function(objEvent) {
     var objRequest = objEvent.target;
     var objXML;
+    var bError = false;
 
     //check if this is a real socket or in test mode
-    if (objRequest instanceof jsx3.net.Request) {
-      var bError = false;
-      
+    if (objRequest instanceof jsx3.net.Request) {      
       //send the httpcontrol objects info to the system out
       this.status = objRequest.getStatus();
       this.statusText = objRequest.getStatusText();
@@ -2050,8 +2049,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       if (this.status != 200 && this.status != 202) {
         //WSDL specification states that 200 and 202 are the 'success' status codes
         Service._log(2,"The call to the operation, '" + this.getOperationName() + "', hosted at '" + objRequest.getURL() + "' has returned an error (HTTP Status Code: '" + this.status + "').\nDescription: " + this.statusText);
-        this.onError();
-        return;
+        bError = true;
       }
 
       //get the response document
