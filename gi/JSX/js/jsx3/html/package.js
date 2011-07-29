@@ -41,6 +41,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
   html._UNSEL = ' unselectable="on"';
   html._CLPSE = 'overflow:hidden;';
+  html._useOpacity = (typeof document.createElement("div").style.opacity != 'undefined');
 /* @JSC */ } else if (jsx3.CLASS_LOADER.SAF) {
   html._UNSEL = '';
   html._CLPSE = 'overflow:hidden;font-size:0px;';
@@ -553,7 +554,10 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
    * @package
    */
   html.getCSSOpacity = function(dblPct) {
-    return "filter:alpha(opacity=" + ((isNaN(dblPct)) ? dblPct:dblPct*100)+ ");";
+    if (html._useOpacity) 
+      return "opacity:" + dblPct + ";";
+    else
+      return "filter:alpha(opacity=" + ((isNaN(dblPct)) ? dblPct:dblPct*100)+ ");";
   };
 
 

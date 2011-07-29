@@ -576,7 +576,7 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
 
     //paint the image/icon box
     var b1a = b1.getChildProfile(0);
-    b1a.setStyles(((strImage != null) ? "background-image:url(" + strImage + ");" : ""));
+    b1a.setStyles(((strImage != null) ? "background-image:url(" + strImage + ");" + strFilter : ""));
     b1a.setAttributes("class='jsx30toolbarbutton_img'" + jsx3.html._UNSEL);
 
     //paint the label/caption box
