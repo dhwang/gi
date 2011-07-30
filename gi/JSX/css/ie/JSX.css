@@ -114,6 +114,7 @@ v\:* {
   font-size: 10px;
   cursor: not-allowed;
   filter: alpha(opacity=50);
+  opacity: 0.5;
   margin-right: -2px;
 }
 .jsx30menu_2_item, .jsx30menu_2_itemdis { width: 1px; }
@@ -189,6 +190,7 @@ table.jsx30menu_2_kct td.keycode, table.jsx30menu_2x_kct td.keycode {
   white-space: nowrap;
   cursor: not-allowed;
   filter: alpha(opacity=50);
+  opacity: .5;
 }
 .jsx30menu_0_div {
   position: relative;
