@@ -572,7 +572,7 @@ jsx3.Class.defineClass("jsx3.gui.ToolbarButton", jsx3.gui.Block, [jsx3.gui.Form]
     //paint the outer-most box
     var b1 = this.getBoxProfile(true);
     b1.setAttributes("id='" + this.getId() + "' " + this.paintIndex() + this.paintTip() + this.paintLabel() + strEvents + " class='jsx30toolbarbutton'" + strAttributes);
-    b1.setStyles(this.paintCursor(true) + strBGImage + strVisibility + strDisplay + strFilter + this.paintZIndex() + this.paintCSSOverride());
+    b1.setStyles(this.paintCursor(true) + strBGImage + strVisibility + strDisplay + this.paintZIndex() + this.paintCSSOverride());
 
     //paint the image/icon box
     var b1a = b1.getChildProfile(0);

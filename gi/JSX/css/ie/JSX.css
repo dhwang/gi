@@ -23,6 +23,7 @@ v\:* {
   font-family:Verdana;
   font-size:10px;
   padding:2px;
+  opacity: 0.7;
   filter: alpha(opacity=70);
   white-space:nowrap;
 }
@@ -87,6 +88,7 @@ v\:* {
   border: solid 1px #9898a5;
   border-left-color: #b8b8c5;
   border-top-color: #b8b8c5;
+  opacity: 0.95;
   filter: alpha(opacity=95);
 }
 .jsx30menu_2_list {
@@ -113,9 +115,12 @@ v\:* {
   font-family: Verdana, sans-serif;
   font-size: 10px;
   cursor: not-allowed;
-  filter: alpha(opacity=50);
-  opacity: 0.5;
+  color: #999999;
   margin-right: -2px;
+}
+.jsx30menu_2_itemdis img, .jsx30menu_2x_itemdis img {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
 }
 .jsx30menu_2_item, .jsx30menu_2_itemdis { width: 1px; }
 .jsx30menu_2x_item, .jsx30menu_2x_itemdis { width: 100%; }
@@ -168,6 +173,7 @@ table.jsx30menu_2_kct td.keycode, table.jsx30menu_2x_kct td.keycode {
   border: solid 1px #9898a5;
   border-left-color: #b8b8c5;
   border-top-color: #b8b8c5;
+  opacity: 0.95;
   filter: alpha(opacity=95);
 }
 .jsx30menu_0_item {
@@ -189,8 +195,14 @@ table.jsx30menu_2_kct td.keycode, table.jsx30menu_2x_kct td.keycode {
   padding-top: 4px;
   white-space: nowrap;
   cursor: not-allowed;
+  color: #999999;
+}
+.jsx30menu_0_itemdis td {
+  color: #999999;
+}
+.jsx30menu_0_itemdis img {
+  opacity: 0.5;
   filter: alpha(opacity=50);
-  opacity: .5;
 }
 .jsx30menu_0_div {
   position: relative;
@@ -250,6 +262,7 @@ table.jsx30menu_0_kct td.keycode {
   visibility: hidden;
   background-position: center center;
   background-repeat: no-repeat;
+  opacity: 0.85;
   filter: alpha(opacity=85);
   border: solid 1px #9898a5;
   padding: 0px; margin: 0px;
@@ -272,6 +285,7 @@ table.jsx30menu_0_kct td.keycode {
   cursor: row-resize;
   overflow: hidden;
   z-index: 10;
+  opacity: 0.7;
   filter: alpha(opacity=70);
   background-repeat: no-repeat;
   background-position: center 1px;
@@ -284,6 +298,7 @@ table.jsx30menu_0_kct td.keycode {
   cursor: col-resize;
   overflow: hidden;
   z-index: 10;
+  opacity: 0.7;
   filter: alpha(opacity=70);
   background-repeat: no-repeat;
   background-position: center center;
@@ -358,6 +373,7 @@ table.jsx30menu_0_kct td.keycode {
   border: solid 1px #9898a5;
   font-family: Verdana, sans-serif;
   font-size: 10px;
+  opacity: 0.95;
   filter: alpha(opacity=95);
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
 }
@@ -382,6 +398,7 @@ table.jsx30menu_0_kct td.keycode {
   border-left-color: #b8b8c5;
   border-top-color: #b8b8c5;
   background-color: #ffffff;
+  opacity: 0.95;
   filter: alpha(opacity=95);
 }
 .jsx30select_option, .jsx30select_0_option {
@@ -624,6 +641,7 @@ table.jsx30menu_0_kct td.keycode {
   padding: 3px;
   padding-left: 4px;
   padding-right: 8px;
+  opacity: 0.7;
   filter: alpha(opacity=70);
   width: 100px;
   height: 20px;
@@ -647,6 +665,7 @@ table.jsx30menu_0_kct td.keycode {
   position: absolute;
   top: 0px;
   height: 100%;
+  opacity: 0.7;
   filter: alpha(opacity=70);
 }
 #JSX .jsx30list_r1 {
@@ -778,10 +797,12 @@ table.jsx30menu_0_kct td.keycode {
 #JSX div.jsx30dialog_modal {
   width: 100%;
   height: 100%;
+  opacity: 0.50;
   filter: alpha(opacity=50);
   background-color: #FFFFFF;
 }
 .jsx30dialog_mask {
+  opacity: 0.25;
   filter: alpha(opacity=25);
   background-color: #6090dd;
   border: 1px dashed #000033;
@@ -832,6 +853,7 @@ div.jsx30matrix_dragicon
         left:0px;
         top:0px;
         z-index:10;
+        opacity: 0.6;
         filter:alpha(opacity=60);
         color:#000000;
         background-color:#c8c8c8;
@@ -848,6 +870,7 @@ div.jsx30matrix_dragicon
         padding-right:19px;
         display:none;
         white-space:nowrap;
+        opacity: 0.75;
         filter:alpha(opacity=75);
 }
 #JSX span.jsx30matrix_scroll_info
@@ -870,6 +893,7 @@ div.jsx30matrix_dragicon
 }
 #JSX div.jsx30matrix_resize_bar
 {
+        opacity: 0.60;
         filter:alpha(opacity=60);
         position:absolute;
         left:-6px;
@@ -948,10 +972,12 @@ div.jsx30matrix_dragicon
   overflow: hidden;
 }
 #JSX span.jsx30slider div.handle {
+  opacity: 1;
   filter: alpha(opacity=100);
   cursor: pointer;
 }
 #JSX span.jsx30slider div.handle_disabled {
+  opacity: 0.5;
   filter: alpha(opacity=50);
 }
 
