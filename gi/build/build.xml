@@ -486,7 +486,8 @@
         file="${dist.dir}/JSX/js/JSX30.js"
         bundle="${build.boot.bundle}"
         token="/* BOOT BUNDLE */{}"
-        locales="${build.boot.locales}"/>
+        locales="${build.boot.locales}"
+        classpath="${tmp.dir}"/>
     
     <delete dir="${tmp.dir}"/>    
   </target>

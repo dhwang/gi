@@ -46,6 +46,7 @@ public class ResourceInjector {
   private SortedSet<Locale> locales;
   private String bundleResource;
   private boolean strict = false;
+  private ClassLoader classLoader = ResourceInjector.class.getClassLoader();
 
   /**
    * Performs the injection. Modifies the contents of the <code>textFile</code> property to inject the resources
@@ -235,5 +236,14 @@ public class ResourceInjector {
    */
   public void setStrict(boolean strict) {
     this.strict = strict;
+  }
+
+  /**
+   * Sets the class loader with which the resource bundle will be loaded. Defaults to the class loader that loaded
+   * the ResourceInjector class. 
+   * @param classLoader
+   */
+  public void setClassLoader(ClassLoader classLoader) {
+    this.classLoader = classLoader;
   }
 }
