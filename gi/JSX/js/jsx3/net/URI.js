@@ -27,6 +27,8 @@ jsx3.Class.defineClass("jsx3.net.URI", null, null, function(URI, URI_prototype) 
 
   /** @private @jsxobf-clobber */
   URI._SCHEME_REGEX = new RegExp("^[" + URI.ALPHA + "][\\-\\.\\+" + URI.ALPHA + "]*\\:");
+  /** @private @jsxobf-clobber */
+  URI._PORT_REGEX = /:(\d+)$/;
 
   /** @private @jsxobf-clobber */
   URI_prototype._source = null;
@@ -173,9 +175,9 @@ jsx3.Class.defineClass("jsx3.net.URI", null, null, function(URI, URI_prototype) 
           this._userinfo = URI.decode(host.substring(0, index));
           host = host.substring(index+1);
         }
-        if ((index = host.indexOf(":")) >= 0) {
-          this._port = parseInt(host.substring(index+1));
-          host = host.substring(0, index);
+        if (URI._PORT_REGEX.test(host)) {
+          this._port = parseInt(RegExp.$1);
+          host = host.substring(0, host.length - RegExp.lastMatch.length);
         }
       }
       

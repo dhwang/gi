@@ -30,6 +30,14 @@ gi.test.jsunit.defineTests("jsx3.net.URI", function(t, jsunit) {
     jsunit.assertNull((new jsx3.net.URI("/file.txt").getHost()));
   };
 
+  t.testIPv6 = function() {
+    jsunit.assertEquals("[1080:0:0:0:8:800:200C:4171]", (new jsx3.net.URI("http://[1080:0:0:0:8:800:200C:4171]/path/file.html").getHost()));
+    jsunit.assertEquals("[::192.9.5.5]", (new jsx3.net.URI("//user@[::192.9.5.5]/path/").getHost()));
+    jsunit.assertNull((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getPort()));
+    jsunit.assertEquals("[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]", (new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getHost()));
+    jsunit.assertEquals(8080, (new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getPort()));
+  };
+
   t.testPath = function() {
     jsunit.assertEquals("/path/file.html", (new jsx3.net.URI("http://www.domain.com/path/file.html").getPath()));
     jsunit.assertEquals("/file.txt", (new jsx3.net.URI("/file.txt").getPath()));
