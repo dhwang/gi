@@ -6,7 +6,7 @@
 <data>
 
   <!-- jsx3.gui.Select -->
-  <record jsxid="jsx3.gui.Select.defaultText" jsxtext="- Selecionar -"/>
+  <record jsxid="jsx3.gui.Select.defaultText" jsxtext="- Selecione -"/>
   <record jsxid="jsx3.gui.Select.dataUnavailable" jsxtext="- Registro não disponível -"/>
   <record jsxid="jsx3.gui.Select.noMatch" jsxtext="- Não encontrado detalhes da identidade do dado -"/>
 
