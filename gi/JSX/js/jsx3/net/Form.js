@@ -482,7 +482,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
 
     try {
       try {
-        if (window.netscape && netscape.security)
+        if (window.netscape && netscape.security && netscape.security.hasOwnProperty())
           netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
       } catch (e) {
       }

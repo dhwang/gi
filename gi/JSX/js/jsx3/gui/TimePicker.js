@@ -454,9 +454,10 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     if(this.jsxshowsecs && this.jsxshowmillis) myLeft += strWidth3 + strWidth1;
 
     //am/pm field
-    o = {tagname: "input[text]", empty: true, boxtype: "box", left:myLeft, top:0, padding:"1 1 0 0", width:strWidth25, height:b1a.getClientHeight() , border:"solid 0px;solid 0px;solid 0px;solid 0px"};
+    var strApPm = this.jsxhours != null ? this._getLocaleProp("time.ampm")[this.jsxhours < 12 ? 0 : 1] : "";
+    o = {tagname: "input[text]", empty: true, boxtype: "box", left:myLeft, top:0, padding:"1 1 0 0", width:strWidth1*strApPm.length, height:b1a.getClientHeight() , border:"solid 0px;solid 0px;solid 0px;solid 0px"};
     b1a.addChildProfile(new jsx3.gui.Painted.Box(o));
-    if (!this.is24Hour()) myLeft += strWidth25;
+    if (!this.is24Hour()) myLeft += (strWidth1*strApPm.length);
 
     //spinner field
     o = {tagname: "span", boxtype: "box", left:myLeft, top:0, padding:"0", width: 12, height:b1a.getClientHeight(), border:"solid 0px;solid 0px;solid 0px;solid 1px #d8d8e5"};
@@ -546,8 +547,9 @@ jsx3.Class.defineClass("jsx3.gui.TimePicker", jsx3.gui.Block, [jsx3.gui.Form], f
     if (! this.is24Hour()) {
       var strApPm = this.jsxhours != null ? this._getLocaleProp("time.ampm")[this.jsxhours < 12 ? 0 : 1] : "";
       var b24h = b1a.getChildProfile(4);
-      b24h.setAttributes(inputAttrs + ' jsxfield="ampm" size="2" maxlength="2" value="'+strApPm+'"');
+      b24h.setAttributes(inputAttrs + ' jsxfield="ampm" size="4" maxlength="4" value="'+strApPm+'"');
       b24h.setStyles(inputStyles);
+      
       fieldsHTML += '<div style="' + sepStyle + 'position:absolute;left:' + myLeft + 'px;">' + this._getLocaleProp("time.sep.ampm") + '</div>';
       fieldsHTML += b24h.paint().join("");
     }

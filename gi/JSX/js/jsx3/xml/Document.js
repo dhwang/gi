@@ -531,6 +531,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
 
   Document_prototype.cloneDocument = function() {
     try {
+     if (window.netscape && netscape.security && netscape.security.hasOwnProperty())
       netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
     } catch (e) {;}
 

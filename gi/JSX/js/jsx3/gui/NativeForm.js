@@ -397,7 +397,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
     if (!iframe) return null;
 
     try {
-      if (window.netscape && netscape.security)
+      if (window.netscape && netscape.security && netscape.security.hasOwnProperty())
         netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
     } catch (e) {
     }
@@ -419,7 +419,7 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
     if (!iframe) return null;
 
     try {
-      if (window.netscape && netscape.security)
+      if (window.netscape && netscape.security && netscape.security.hasOwnProperty())
         netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
     } catch (e) {
     }

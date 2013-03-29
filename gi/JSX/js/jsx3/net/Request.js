@@ -310,7 +310,7 @@ jsx3.Class.defineClass("jsx3.net.Request", null, [jsx3.util.EventDispatcher], fu
 
 /* @JSC */ if (! jsx3.CLASS_LOADER.IE) {
       try {
-        if (window.netscape && netscape.security)
+        if (window.netscape && netscape.security && netscape.security.hasOwnProperty())
           netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserRead');
       } catch (e) {
         Request._log(5, jsx3._msg("req.netsc", jsx3.NativeError.wrap(e)));
