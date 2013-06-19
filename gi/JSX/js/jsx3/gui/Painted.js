@@ -1623,7 +1623,7 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Box", jsx3.lang.Object, null, function(
     var type = this._expl.type;
     var mode = html.getMode();
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
-    var val = ((type == "text" || type == "password" || this._expl.tagname == "textarea" || this._expl.tagname == "td") && mode == html.MODE_FF_QUIRKS) ?
+    var val = ((type == "text" || type == "password" || this._expl.tagname == "textarea"  ) && mode == html.MODE_FF_QUIRKS) ?
         this._expl.width : this._expl.clientwidth;
 /* @JSC */ } else {
     var val = mode == html.MODE_IE_QUIRKS ||
