@@ -989,10 +989,11 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Box", jsx3.lang.Object, null, function(
   /** @private @jsxobf-clobber */
   Box._CSS_FIXES = ["", "display:inline-block;", "", "display:inline-block;"];
 /* @JSC */ } else if (jsx3.CLASS_LOADER.IE) {
-  /** @private @jsxobf-clobber */
     if (html.getMode() == html.MODE_FF_QUIRKS) // IE10 quirks (not IE10 in IE5 quirks) simulates Firefox quirks
+    /** @private @jsxobf-clobber */
       Box._CSS_FIXES = ["", "display:inline-block;", "display:inline-block;", ""];
     else
+    /** @private @jsxobf-clobber */
       Box._CSS_FIXES = ["", "", "display:inline-block;", ""];
 /* @JSC */ } else {
   if (jsx3.CLASS_LOADER.FX && jsx3.CLASS_LOADER.getVersion() >= 3)
