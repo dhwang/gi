@@ -265,9 +265,10 @@ jsx3.Class.defineClass("jsx3.gui.CheckBox", jsx3.gui.Block, [jsx3.gui.Form], fun
     o.tagname = "label";
     o.boxtype = "inline";
     o.top = 2;
+    o.left = 18;
     o.parentheight = b1.getClientHeight();
-    o.height = 18; //change to 100%
-    o.padding = "0 0 0 18";
+    o.height = 16; //change to 100%
+    o.margin = "0 18 0 0";
     var b1c = new jsx3.gui.Painted.Box(o);
     b1.addChildProfile(b1c);
 
