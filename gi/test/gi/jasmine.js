@@ -14,9 +14,9 @@ if (!gi.test.jasmine) gi.test.jasmine = new Object();
 gi.test.jasmine._init = function(jasmine) {
 
   jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
-  jasmine.JSX_BASE = "../../";
+  jasmine.JSX_BASE = "../";
   jasmine.JSX_JS_BASE = jasmine.JSX_BASE + "JSX/js/";
-  jasmine.TEST_BASE = "%2E%2E/tests/";
+  jasmine.TEST_BASE = "%2E%2E/test/tests/jasmine/";
   jasmine.HTTP_BASE = jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../server";
   
   //jasmine._PENDING_SUITES = [];
@@ -150,30 +150,6 @@ gi.test.jasmine._init = function(jasmine) {
     return new jsx3.app.Server(this.resolveURI(strPath), objGUI, bGUI, objEnv);
   };
 
-  jasmine.TestSuite.prototype.asyncCallback = function(fctTest) {
-    return function() {
-      if (eval("typeof(asyncTestWaiting) == 'undefined' || asyncTestWaiting !== true")) {
-        var msg = "Executing async callback before async waiting: " + fctTest;
-        if (jasmine.INTERACTIVE) {
-          window.alert(msg);
-        } else {
-          throw new Error(msg);
-        }
-      }
-
-      try {
-        fctTest.apply(this, arguments);
-      } catch (e) {
-        eval("asyncTestException = e;");
-      }
-
-      if (jasmine._lastTearDown)
-        jasmine._lastTearDown();
-
-      eval("asyncTestWaiting = false;");
-    };
-  };
-
   jasmine.TestSuite.prototype._prefix = null;
   jasmine.TestSuite.prototype._path = null;
 
@@ -253,7 +229,6 @@ gi.test.jasmine._init = function(jasmine) {
 
       jasmine[String(window.location.protocol).replace(/\W/g, "")] = true;
 
-      jasmine._definePendingTests();
     }
 
     if (jasmine._waiting && jasmine._waiting.length > 0) {
@@ -278,7 +253,7 @@ gi.test.jasmine._init = function(jasmine) {
         jasmine._waiting = [];
         window.setTimeout(function() {
           jasmine.debug("Setting status to complete (A).");
-          jasmine._testLoaded();
+          jasmine.onLoaded();
         }, 0);
       }
     } else {
@@ -286,7 +261,7 @@ gi.test.jasmine._init = function(jasmine) {
 
       window.setTimeout(function() {
         jasmine.debug("Setting status to complete (B).");
-        jasmine._testLoaded();
+        jasmine.onLoaded();
       }, 0);
     }
   };
@@ -316,6 +291,9 @@ gi.test.jasmine._init = function(jasmine) {
     }
   };
 
+  jasmine.onLoaded = function() {
+    // publish loaded event
+  };
   // Assertion functions
   // TODO - add custom Jasmine matcher here
 

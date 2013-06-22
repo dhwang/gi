@@ -13,6 +13,7 @@
   <script type="text/javascript" src="jasmine/jasmine-html.js"></script>
   <script type="text/javascript" src="gi/jasmine.js"></script>
 
+  <script type="text/javascript" src="tests/jasmine/jsx3/app/server.js"></script>
   <script type="text/javascript">
     (function() {
       var jasmineEnv = jasmine.getEnv();
@@ -30,12 +31,18 @@
 
       var currentWindowOnload = window.onload;
 
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
+      var _jasmine = gi.test.jasmine;
+      _jasmine.onLoaded = function () {
         execJasmine();
       };
+      _jasmine.loadGI();
+
+      //window.onload = function() {
+      //  if (currentWindowOnload) {
+      //    currentWindowOnload();
+      //  }
+      //  execJasmine();
+      //};
 
       function execJasmine() {
         jasmineEnv.execute();
