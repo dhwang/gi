@@ -9,6 +9,10 @@ describe("jsx3.app.Server", function() {
 
   it("should be able to find the Namespace of jsx3.app.Server", function() {
     var s = _server = t.newServer("data/server1.xml", ".");
+
+    expect(s.getEnv("namespace")).toBe("gi.test.App1");
+    expect(s).toEqual(gi.test.App1);
+
   });
 
   afterEach(function() {
