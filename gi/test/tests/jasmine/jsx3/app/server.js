@@ -28,6 +28,13 @@ describe("jsx3.app.Server", function() {
     expect(s.getEnv("TestKey")).toBe("testvalue");// case insensitive
   });
 
+  it ("should show that environment key is case insensitive", function() {
+    var s = t._server = t.newServer("data/server1.xml", ".", null, {TestKey:"testvalue"}); // Case "TestKey"
+
+    expect(s.getEnv("testkey")).toBe("testvalue"); // case insensitive
+    expect(s.getEnv("TestKey")).toBe("testvalue");
+  });
+
   afterEach(function() {
     if (t._server) {
      t._server.destroy();
