@@ -4,16 +4,17 @@
 */
 
 describe("jsx3.app.Server", function() {
-  var _jasmine = gi.test.jasmine;
-  _jasmine.require("jsx3.app.Server", "jsx3.System");
-  var _server, t = new _jasmine.TestSuite("jsx3.app.Server");
+  var _jasmine_test = gi.test.jasmine;
+  _jasmine_test.require("jsx3.app.Server", "jsx3.System");
+  var t = new _jasmine_test.TestSuite("jsx3.app.Server");
 
 
   beforeEach(function () {
+    t._server = null;
   });
 
   it("should be able to find the app.server namespace.", function() {
-    var s = _server = t.newServer("data/server1.xml", ".");
+    var s = t._server = t.newServer("data/server1.xml", ".");
 
     expect(s.getEnv("namespace")).toBe("gi.test.App1");
     expect(s).toEqual(gi.test.App1); // gi.test.App1 is available globally
@@ -21,15 +22,17 @@ describe("jsx3.app.Server", function() {
   });
 
   it("should retrieve the environment value stored in app.server.", function () {
-    var s = _server = t.newServer("data/server1.xml", ".", null, {testkey:"testvalue"});
+    var s = t._server = t.newServer("data/server1.xml", ".", null, {testkey:"testvalue"});
 
     expect(s.getEnv("testkey")).toBe("testvalue");
     expect(s.getEnv("TestKey")).toBe("testvalue");// case insensitive
   });
 
   afterEach(function() {
-    _server.destroy();
-    delete _server;
+    if (t._server) {
+     t._server.destroy();
+     delete t._server;
+    }
   });
 });
 
