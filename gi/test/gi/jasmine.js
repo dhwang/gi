@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2011, TIBCO Software Inc.
+ * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 
@@ -75,7 +75,7 @@ gi.test.jasmine._init = function(jasmine) {
   };
 
   jasmine.loadScript = function(strSrc, fctDone, objAttr) {
-    jasmine.debug("Loading " + strSrc);
+    if (console) console.debug("Loading " + strSrc);
     // instance a new DOM element
     var element = document.createElement("script");
     element.src = strSrc;
@@ -173,7 +173,7 @@ gi.test.jasmine._init = function(jasmine) {
    *
    */
   jasmine.require = function(strClass1) {
-    jasmine.debug("Requiring " + strClass1 + "...");
+    if (console) console.debug("Requiring " + strClass1 + "...");
 
     var bFirst = jasmine._waiting == null;
     if (bFirst)
@@ -213,7 +213,7 @@ gi.test.jasmine._init = function(jasmine) {
       } catch (e) {}
     }
 
-//    jasmine.debug("Loaded " + strSrc + ". Still waiting for [" + jasmine._waiting + "]");
+//    if (console) console.debug("Loaded " + strSrc + ". Still waiting for [" + jasmine._waiting + "]");
 
     if (jasmine._jsxbaseclasses == null) {
       jasmine._jsxbaseclasses = jsx3.lang.ClassLoader.SYSTEM_SCRIPTS.concat();
@@ -241,7 +241,7 @@ gi.test.jasmine._init = function(jasmine) {
       } else {
         for (i = 0; i < jasmine._waiting.length; i++) {
           try {
-            jasmine.debug("Requiring class " + jasmine._waiting[i] + "...");
+            if (console) console.debug("Requiring class " + jasmine._waiting[i] + "...");
             jsx3.require(jasmine._waiting[i]);
           } catch (e) {
             jasmine.warn("Could not load class " + jasmine._waiting[i] + ": " + e);
@@ -252,7 +252,7 @@ gi.test.jasmine._init = function(jasmine) {
 
         jasmine._waiting = [];
         window.setTimeout(function() {
-          jasmine.debug("Setting status to complete (A).");
+          if (console) console.debug("Setting status to complete (A).");
           jasmine.onLoaded();
         }, 0);
       }
@@ -260,7 +260,7 @@ gi.test.jasmine._init = function(jasmine) {
       jasmine._loadJsxIncludes();
 
       window.setTimeout(function() {
-        jasmine.debug("Setting status to complete (B).");
+        if (console) console.debug("Setting status to complete (B).");
         jasmine.onLoaded();
       }, 0);
     }
