@@ -297,6 +297,26 @@ gi.test.jasmine._init = function(jasmine) {
   // Assertion functions
   // TODO - add custom Jasmine matcher here
 
+  jasmine.assertInstanceOf = function(expected) {
+    var objArg = this.actual;
+    var fctConstructor = typeof(expected) == "string" ? eval(expected) : expected;
+
+    if (typeof(fctConstructor) != "function")
+      return false;
+
+    return objArg instanceof fctConstructor || (objArg && objArg.instanceOf && objArg.instanceOf(fctConstructor));
+  };
+
+  jasmine.assertTypeOf = function(expected) {
+    var var1 = this.actual;
+
+    return typeof(var1) == expected;
+  };
+
+  jasmine.matchers = {
+    toBeInstanceOf: jasmine.assertInstanceOf,
+    toBeTypeOf: jasmine.assertTypeOf
+  };
   // Logging functions
 
   /**

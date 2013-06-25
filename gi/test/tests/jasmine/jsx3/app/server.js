@@ -5,11 +5,12 @@
 
 describe("jsx3.app.Server", function() {
   var _jasmine_test = gi.test.jasmine;
-  _jasmine_test.require("jsx3.app.Server", "jsx3.System");
+  _jasmine_test.require("jsx3.app.Server");
   var t = new _jasmine_test.TestSuite("jsx3.app.Server");
 
 
   beforeEach(function () {
+    this.addMatchers(gi.test.jasmine.matchers);
     t._server = null;
   });
 
@@ -18,7 +19,8 @@ describe("jsx3.app.Server", function() {
 
     expect(s.getEnv("namespace")).toBe("gi.test.App1");
     expect(s).toEqual(gi.test.App1); // gi.test.App1 is available globally
-
+    expect(s).toBeInstanceOf("jsx3.app.Server");
+    expect(s).toBeTypeOf("object");
   });
 
   it("should retrieve the environment value stored in app.server.", function () {
