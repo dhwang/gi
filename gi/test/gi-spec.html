@@ -12,10 +12,9 @@
   <script type="text/javascript" src="jasmine/jasmine.js"></script>
   <script type="text/javascript" src="jasmine/jasmine-html.js"></script>
   <script type="text/javascript" src="gi/jasmine.js"></script>
-
-  <script type="text/javascript" src="tests/jasmine/jsx3/app/server.js"></script>
   <script type="text/javascript">
-    (function() {
+
+   var loadJasmine = (function() {
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
 
@@ -29,21 +28,24 @@
         return htmlReporter.specFilter(spec);
       };
 
-      var _jasmine = gi.test.jasmine;
-      _jasmine.onLoaded = function () {
+      var gi_test = gi.test.jasmine;
+
+      gi_test.onLoaded = function () {
         execJasmine();
       };
-      _jasmine.loadGI();
+      gi_test.loadGI();
 
       function execJasmine() {
         jasmineEnv.execute();
       }
-    })();
-    
+    });
+
+    gi.test.jasmine.loadScript("tests/jasmine/suite.js", loadJasmine);
   </script>
 
 </head>
 
 <body>
+
 </body>
 </html>

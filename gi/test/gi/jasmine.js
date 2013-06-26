@@ -16,7 +16,7 @@ gi.test.jasmine._init = function(jasmine) {
   jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
   jasmine.JSX_BASE = "../";
   jasmine.JSX_JS_BASE = jasmine.JSX_BASE + "JSX/js/";
-  jasmine.TEST_BASE = "%2E%2E/test/tests/jasmine/";
+  jasmine.TEST_BASE = "tests/jasmine/";
   jasmine.HTTP_BASE = jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../server";
   
   //jasmine._PENDING_SUITES = [];
@@ -60,18 +60,9 @@ gi.test.jasmine._init = function(jasmine) {
     return params;
   };
 
-  /**
-   *
-   */
-
-  jasmine._addJsTests = function(objSuite, strTest1) {
-    for (var i = 1; i < arguments.length; i++) {
-      var arg = arguments[i];
-      if (!(arg instanceof Array)) arg = [arg];
-      for (var j = 0; j < arg.length; j++)
-        arg[j] = jasmine.TEST_BASE + arg[j];
-      objSuite.addTestPage("../gi/test-js.html?extjs=" + arg.join(","));
-    }
+  jasmine.loadTestSpecs = function(specs) {
+    for (var i = 0; i < specs.length; i++)
+      jasmine.loadScript(jasmine.TEST_BASE + specs[i]);
   };
 
   jasmine.loadScript = function(strSrc, fctDone, objAttr) {
@@ -295,7 +286,7 @@ gi.test.jasmine._init = function(jasmine) {
     // publish loaded event
   };
   // Assertion functions
-  // TODO - add custom Jasmine matcher here
+  // add custom Jasmine matcher here
 
   jasmine.assertInstanceOf = function(expected) {
     var objArg = this.actual;
