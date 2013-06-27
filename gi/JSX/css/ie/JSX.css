@@ -455,7 +455,11 @@ table.jsx30menu_0_kct td.keycode {
   cursor: default;
   white-space: nowrap;
 }
-.jsx30select_2_option, .jsx30select_2x_option, .jsx30select_1_option {
+.jsx30select_1_option {
+  height: 16px;
+  width: auto;
+}
+.jsx30select_2_option, .jsx30select_2x_option {
   height: 16px;
   padding: 3px 0px 0px 0px;
 }
@@ -479,7 +483,7 @@ table.jsx30menu_0_kct td.keycode {
   vertical-align: top;
 }
 .jsx30select_0_option > span {
-  position:relative; padding:0px 0px 0px 4px; overflow:hidden; height:16px;
+  position:relative; padding:0px 4px 0px 4px; overflow:hidden; height:16px;
 }
 .jsx30select_1_option > span {
   position:relative; padding:2px 0px 0px 4px; margin: 0px; white-space:nowrap; height:16px;

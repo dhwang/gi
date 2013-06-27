@@ -636,7 +636,7 @@ jsx3.Class.defineClass("jsx3.gui.Select", jsx3.gui.Block, [jsx3.gui.Form, jsx3.x
       var divContent = hwGUI.childNodes[0].childNodes[0];
       var contentWidth = Math.max(divContent.offsetWidth - 2, divContent.clientWidth) + "px";
 
-/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+/* @JSC */ if (jsx3.CLASS_LOADER.IE && html.getMode() == 2 ) {
       // HACK: size content and all item divs (needed for IE XHTML mode)
       for (var i = 0; i < divContent.childNodes.length; i++) {
         var c = divContent.childNodes[i];
