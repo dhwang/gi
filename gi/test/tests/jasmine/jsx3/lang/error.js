@@ -57,7 +57,7 @@
 		}
 		if (ex != null) {
 			expect(ex.getFileName()).not.toBeNull();
-			expect(ex.getFileName()).not.toBeDefined();
+			//expect(ex.getFileName()).not.toBeDefined();
 		}
 	});
 	
