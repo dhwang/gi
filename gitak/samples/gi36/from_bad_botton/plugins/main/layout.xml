@@ -1,0 +1,60 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name/>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize><![CDATA[this.setWizardState = function(bOn) {
+    button.setEnabled(!bOn, true);
+}]]></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"/>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxpadding="10"/>
+    <object type="jsx3.gui.Button">
+      <variants jsxindex="0" jsxheight="18"/>
+      <strings jsxname="button" jsxtext="Launch Wizard" jsxmargin="0 4 0 0"/>
+      <events jsxexecute="block.getPlugIn().launch();"/>
+    </object>
+    <object type="tibco.uxcore.gui.Form">
+      <variants jsxoverflow="1" cleaned="true" showGlobalErrors="1" confirmEditsOnLoseFocus="0" toggleEditModeOnLoseFocus="0" disableEditMode="0" notDirtyWhenNotDisplayed="0"/>
+      <strings jsxname="form" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" text="" titletext="[Form Title]" instructionstext="[Instructions Text]"/>
+      <object type="tibco.uxcore.gui.FormPanel">
+        <variants jsxoverflow="1" cleaned="true" jsxopen="1"/>
+        <strings jsxname="formPanel" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" text=""/>
+        <object type="tibco.uxcore.gui.FormColumn">
+          <variants jsxoverflow="1" cleaned="true"/>
+          <strings jsxname="formColumn" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" text=""/>
+          <object type="tibco.uxcore.gui.FormRow">
+            <variants jsxoverflow="1" cleaned="true"/>
+            <strings jsxname="searchRow" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" text="" doFloat="left"/>
+            <object type="tibco.uxcore.gui.TextBoxWithButtonFormField">
+              <variants jsxindex="0" cleaned="true" jsxtype="0" isrequired="0" hideoptionalstring="0" hiderequiredstring="0" jsxenabled="1"/>
+              <strings jsxname="queryTextFF" jsxtitledisplay=""/>
+              <events jsxbuttonclicked="" jsxkeyup=""/>
+              <object type="tibco.uxcore.gui.ImageButton">
+                <variants jsxheight="18" jsxprefetch="1" jsxwidth="20" jsxtype="0" jsxstate="0"/>
+                <strings jsxname="btnSearch" affordance="0 0 0 0" jsxpadding="0" jsxmargin="2"  jsximage="http://localhost/GITAKE/samples/gi36/UXCore/plugins/tibco.uxcore.common/images/matrix/info.gif" jsxdownimage="1" jsxonimage="1" jsxoverimage=""/>
+                <events jsxexecute=""/>
+              </object>
+            </object>
+            <object type="tibco.uxcore.gui.FormField">
+              <variants jsxindex="0" cleaned="true" isrequired="0" hideoptionalstring="0" hiderequiredstring="0" jsxenabled="1"/>
+              <strings jsxname="linkFF" jsxtitledisplay=""/>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="tibco.uxcore.gui.FormButton">
+        <variants jsxindex="0" jsxprefetch="1" jsxtype="0" jsxstate="0" focusstyle="1" wastab="false" wasshift="false" jsxenabled="0"/>
+        <strings jsxname="saveButton" jsxtext="Save" jsximage="1" jsxoverimage="1" jsxdownimage="1" jsxonimage="1"/>
+        <dynamics/>
+        <events jsxexecute="this.getParent().doSave();"/>
+      </object>
+      <object type="tibco.uxcore.gui.FormButton">
+        <variants jsxindex="0" jsxprefetch="1" jsxtype="0" jsxstate="0" focusstyle="1" wastab="false" wasshift="false" jsxenabled="0"/>
+        <strings jsxname="revertButton" jsxtext="Revert" jsximage="1" jsxoverimage="1" jsxdownimage="1" jsxonimage="1"/>
+        <dynamics/>
+        <events jsxexecute="this.getParent().doRevert();"/>
+      </object>
+    </object>
+  </object>
+</serialization>
