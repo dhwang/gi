@@ -11,17 +11,17 @@ if (!window.gi) window.gi = new Object();
 if (!gi.test) gi.test = new Object();
 if (!gi.test.jasmine) gi.test.jasmine = new Object();
 
-gi.test.jasmine._init = function(jasmine) {
+gi.test.jasmine._init = function(_jasmine) {
 
-  jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
-  jasmine.JSX_BASE = "../";
-  jasmine.JSX_JS_BASE = jasmine.JSX_BASE + "JSX/js/";
-  jasmine.TEST_BASE = "tests/jasmine/";
-  jasmine.HTTP_BASE = jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../server";
+  _jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
+  _jasmine.JSX_BASE = "../";
+  _jasmine.JSX_JS_BASE = _jasmine.JSX_BASE + "JSX/js/";
+  _jasmine.TEST_BASE = "tests/jasmine/";
+  _jasmine.HTTP_BASE = _jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../server";
   
   //jasmine._PENDING_SUITES = [];
 
-  jasmine.decodeURI = function(strText) {
+  _jasmine.decodeURI = function(strText) {
     if (strText == null) return null;
     if (strText.indexOf("%") < 0) return strText;
 
@@ -47,7 +47,7 @@ gi.test.jasmine._init = function(jasmine) {
     return decoded.join("");
   };
 
-  jasmine.getQueryParams = function(strURL) {
+  _jasmine.getQueryParams = function(strURL) {
     var params = {};
     var index = strURL.indexOf("?");
     if (index < 0) return params;
@@ -55,17 +55,17 @@ gi.test.jasmine._init = function(jasmine) {
     var pairs = query.split(/&/g);
     for (var i = 0; i < pairs.length; i++) {
       var nv = pairs[i].split("=", 2);
-      params[jasmine.decodeURI(nv[0])] = jasmine.decodeURI(nv[1]);
+      params[_jasmine.decodeURI(nv[0])] = _jasmine.decodeURI(nv[1]);
     }
     return params;
   };
 
-  jasmine.loadTestSpecs = function(specs) {
+  _jasmine.loadTestSpecs = function(specs) {
     for (var i = 0; i < specs.length; i++)
-      jasmine.loadScript(jasmine.TEST_BASE + specs[i]);
+      _jasmine.loadScript(_jasmine.TEST_BASE + specs[i]);
   };
 
-  jasmine.loadScript = function(strSrc, fctDone, objAttr) {
+  _jasmine.loadScript = function(strSrc, fctDone, objAttr) {
     if (console) console.debug("Loading " + strSrc);
     // instance a new DOM element
     var element = document.createElement("script");
@@ -97,28 +97,28 @@ gi.test.jasmine._init = function(jasmine) {
     document.getElementsByTagName("head")[0].appendChild(element);
   };
 
-  jasmine.loadGI = function() {
-    jasmine.loadScript(jasmine.JSX_JS_BASE + "JSX30.js", jasmine._doneLoadingJSX30,
+  _jasmine.loadGI = function() {
+    _jasmine.loadScript(_jasmine.JSX_JS_BASE + "JSX30.js", _jasmine._doneLoadingJSX30,
         {jsxappempty:"true"});
   };
 
-  jasmine.TestSuite = function(strPrefix) {
+  _jasmine.TestSuite = function(strPrefix) {
     var tokens = strPrefix.split(/\W/);
     this._prefix = tokens.join("_");
     tokens.pop();
     this._path = tokens.join("/") + "/";
   };
 
-  jasmine.TestSuite.prototype.getPrefix = function() {
+  _jasmine.TestSuite.prototype.getPrefix = function() {
     return this._prefix;
   };
 
-  jasmine.TestSuite.prototype.resolveURI = function(strPath) {
-    var path = jasmine.TEST_BASE + this._path + strPath;
-    return jasmine.decodeURI(path);
+  _jasmine.TestSuite.prototype.resolveURI = function(strPath) {
+    var path = _jasmine.TEST_BASE + this._path + strPath;
+    return _jasmine.decodeURI(path);
   };
 
-  jasmine.TestSuite.prototype.newServer = function(strConfig, strPath, bGUI, objEnv) {
+  _jasmine.TestSuite.prototype.newServer = function(strConfig, strPath, bGUI, objEnv) {
     var doc = null;
     if (strConfig) {
       doc = (new jsx3.xml.Document()).load(this.resolveURI(strConfig));
@@ -141,13 +141,13 @@ gi.test.jasmine._init = function(jasmine) {
     return new jsx3.app.Server(this.resolveURI(strPath), objGUI, bGUI, objEnv);
   };
 
-  jasmine.TestSuite.prototype._prefix = null;
-  jasmine.TestSuite.prototype._path = null;
+  _jasmine.TestSuite.prototype._prefix = null;
+  _jasmine.TestSuite.prototype._path = null;
 
   /**
    *
    */
-  jasmine.makeTestFunction = function(fctBody, arg1) {
+  _jasmine.makeTestFunction = function(fctBody, arg1) {
     var a = [];
     for (var i = 1; i < arguments.length; i++)
       a[i-1] = arguments[i];
@@ -157,107 +157,105 @@ gi.test.jasmine._init = function(jasmine) {
     };
   };
 
-  jasmine._tests = [];
-
 
   /**
    *
    */
-  jasmine.require = function(strClass1) {
+  _jasmine.require = function(strClass1) {
     if (console) console.debug("Requiring " + strClass1 + "...");
 
-    var bFirst = jasmine._waiting == null;
+    var bFirst = _jasmine._waiting == null;
     if (bFirst)
-      jasmine._waiting = [];
+      _jasmine._waiting = [];
 
     for (var i = 0; i < arguments.length; i++) {
       try {
         if (eval(arguments[i]) == null) {
-          jasmine._waiting.push(arguments[i]);
+          _jasmine._waiting.push(arguments[i]);
         }
       } catch (e) {
-        jasmine._waiting.push(arguments[i]);
+        _jasmine._waiting.push(arguments[i]);
       }
     }
 
   };
 
-  jasmine._doneLoadingJSX30 = function(strSrc) {
-    if (strSrc == jasmine.JSX_JS_BASE + "JSX30.js") {
+  _jasmine._doneLoadingJSX30 = function(strSrc) {
+    if (strSrc == _jasmine.JSX_JS_BASE + "JSX30.js") {
       // Copy CLASS_LOADER browser tokens into jasmine
       var tokens = ["IE", "IE7", "MOZ", "FX", "SAF", "GOG", "KON", "SVG", "VML"];
       for (var i = 0; i < tokens.length; i++)
-        jasmine[tokens[i]] = jsx3.CLASS_LOADER[tokens[i]];
+        _jasmine[tokens[i]] = jsx3.CLASS_LOADER[tokens[i]];
 
       // Copy any URL parameters into JSX environment
-      var params = jasmine.getQueryParams(window.location.search);
+      var params = _jasmine.getQueryParams(window.location.search);
       for (var p in params)
         jsx3.setEnv(p, params[p]);
     }
 
-    jasmine._tryLoadLogger();
+    _jasmine._tryLoadLogger();
 
-    for (i = 0; jasmine._waiting && i < jasmine._waiting.length; i++) {
+    for (i = 0; _jasmine._waiting && i < _jasmine._waiting.length; i++) {
       try {
-        if (eval(jasmine._waiting[i]) != null)
-          jasmine._waiting.splice(i--, 1);
+        if (eval(_jasmine._waiting[i]) != null)
+          _jasmine._waiting.splice(i--, 1);
       } catch (e) {}
     }
 
 //    if (console) console.debug("Loaded " + strSrc + ". Still waiting for [" + jasmine._waiting + "]");
 
-    if (jasmine._jsxbaseclasses == null) {
-      jasmine._jsxbaseclasses = jsx3.lang.ClassLoader.SYSTEM_SCRIPTS.concat();
+    if (_jasmine._jsxbaseclasses == null) {
+      _jasmine._jsxbaseclasses = jsx3.lang.ClassLoader.SYSTEM_SCRIPTS.concat();
 
-      jasmine.BUILD = jasmine._jsxbaseclasses.length <= 2;
-      jasmine.SOURCE = !jasmine.BUILD;
-      jasmine.DEP = typeof(jsx3.ABSOLUTEPATH) == "string";
-      jasmine.NODEP = !jasmine.DEP;
-      jasmine.INTERACTIVE = jsx3.getEnv("jsxtestinter") == "1";
-      jasmine.NOINTERACTIVE = !jasmine.INTERACTIVE;
-      jasmine.NETWORK = true;
-      jasmine.NONETWORK = !jasmine.NETWORK;
+      _jasmine.BUILD = _jasmine._jsxbaseclasses.length <= 2;
+      _jasmine.SOURCE = !_jasmine.BUILD;
+      _jasmine.DEP = typeof(jsx3.ABSOLUTEPATH) == "string";
+      _jasmine.NODEP = !_jasmine.DEP;
+      _jasmine.INTERACTIVE = jsx3.getEnv("jsxtestinter") == "1";
+      _jasmine.NOINTERACTIVE = !_jasmine.INTERACTIVE;
+      _jasmine.NETWORK = true;
+      _jasmine.NONETWORK = !_jasmine.NETWORK;
 
-      jasmine[String(window.location.protocol).replace(/\W/g, "")] = true;
+      _jasmine[String(window.location.protocol).replace(/\W/g, "")] = true;
 
     }
 
-    if (jasmine._waiting && jasmine._waiting.length > 0) {
-      if (jasmine._jsxbaseclasses.length > 0) {
-        var nextPath = jasmine._jsxbaseclasses.shift();
+    if (_jasmine._waiting && _jasmine._waiting.length > 0) {
+      if (_jasmine._jsxbaseclasses.length > 0) {
+        var nextPath = _jasmine._jsxbaseclasses.shift();
         // HACK: without timeout was causing stack overflow on Safari
         window.setTimeout(function() {
-          jasmine.loadScript(jsx3.CLASS_LOADER.resolvePath(jasmine.JSX_JS_BASE + nextPath), jasmine._doneLoadingJSX30);
+          _jasmine.loadScript(jsx3.CLASS_LOADER.resolvePath(_jasmine.JSX_JS_BASE + nextPath), _jasmine._doneLoadingJSX30);
         }, 0);
       } else {
-        for (i = 0; i < jasmine._waiting.length; i++) {
+        for (i = 0; i < _jasmine._waiting.length; i++) {
           try {
-            if (console) console.debug("Requiring class " + jasmine._waiting[i] + "...");
-            jsx3.require(jasmine._waiting[i]);
+            if (console) console.debug("Requiring class " + _jasmine._waiting[i] + "...");
+            jsx3.require(_jasmine._waiting[i]);
           } catch (e) {
-            jasmine.warn("Could not load class " + jasmine._waiting[i] + ": " + e);
+            _jasmine.warn("Could not load class " + _jasmine._waiting[i] + ": " + e);
           }
         }
 
-        jasmine._loadJsxIncludes();
+        _jasmine._loadJsxIncludes();
 
-        jasmine._waiting = [];
+        _jasmine._waiting = [];
         window.setTimeout(function() {
           if (console) console.debug("Setting status to complete (A).");
-          jasmine.onLoaded();
+          _jasmine.onLoaded();
         }, 0);
       }
     } else {
-      jasmine._loadJsxIncludes();
+      _jasmine._loadJsxIncludes();
 
       window.setTimeout(function() {
         if (console) console.debug("Setting status to complete (B).");
-        jasmine.onLoaded();
+        _jasmine.onLoaded();
       }, 0);
     }
   };
 
-  jasmine._tryLoadLogger = function() {
+  _jasmine._tryLoadLogger = function() {
     if (!this._loggerinit && jsx3.util && jsx3.util.Logger) {
       this._loggerinit = true;
       var h = new jsx3.util.Logger.FormatHandler("jasmine");
@@ -274,21 +272,21 @@ gi.test.jasmine._init = function(jasmine) {
     }
   };
 
-  jasmine._loadJsxIncludes = function() {
+  _jasmine._loadJsxIncludes = function() {
     // NOTE: this depends on unpublished API of the GI class loader
     if (jsx3.app && jsx3.app.PropsBundle && jsx3.System) {
-      jsx3.app.PropsBundle.getProps(jasmine.JSX_BASE + "JSX/locale/messages.xml", null, jsx3.getSystemCache());
-      jsx3.app.PropsBundle.getProps(jasmine.JSX_BASE + "JSX/locale/locale.xml", null, jsx3.getSystemCache());
+      jsx3.app.PropsBundle.getProps(_jasmine.JSX_BASE + "JSX/locale/messages.xml", null, jsx3.getSystemCache());
+      jsx3.app.PropsBundle.getProps(_jasmine.JSX_BASE + "JSX/locale/locale.xml", null, jsx3.getSystemCache());
     }
   };
 
-  jasmine.onLoaded = function() {
+  _jasmine.onLoaded = function() {
     // publish loaded event
   };
   // Assertion functions
   // add custom Jasmine matcher here
 
-  jasmine.assertInstanceOf = function(expected) {
+  _jasmine.assertInstanceOf = function(expected) {
     var objArg = this.actual;
     var fctConstructor = typeof(expected) == "string" ? eval(expected) : expected;
 
@@ -298,22 +296,33 @@ gi.test.jasmine._init = function(jasmine) {
     return objArg instanceof fctConstructor || (objArg && objArg.instanceOf && objArg.instanceOf(fctConstructor));
   };
 
-  jasmine.assertTypeOf = function(expected) {
+  _jasmine.assertTypeOf = function(expected) {
     var var1 = this.actual;
 
     return typeof(var1) == expected;
   };
 
-  jasmine.matchers = {
-    toBeInstanceOf: jasmine.assertInstanceOf,
-    toBeTypeOf: jasmine.assertTypeOf
+  _jasmine.assertEquals = function(var1) {
+    var var2 = this.actual;
+
+    if (var1 != null && typeof(var1) == "object" && typeof(var1.equals) == "function") {
+      return var1.equals(var2);
+    } else {
+      return var1 === var2;
+    }
+  };
+
+  _jasmine.matchers = {
+    toBeInstanceOf: _jasmine.assertInstanceOf,
+    toBeTypeOf: _jasmine.assertTypeOf,
+    toEquals: _jasmine.assertEquals
   };
   // Logging functions
 
   /**
    *
    */
-  jasmine.log = function() {
+  _jasmine.log = function() {
     if (window.log) log.apply(null, arguments);
     if (window.console) try { window.console.log.apply(window.console, arguments); } catch (e) {}
   };
@@ -321,7 +330,7 @@ gi.test.jasmine._init = function(jasmine) {
   /**
    *
    */
-  jasmine.warn = function() {
+  _jasmine.warn = function() {
     if (window.warn) warn.apply(null, arguments);
     if (window.console) try { window.console.warn.apply(window.console, arguments); } catch (e) {}
   };
@@ -329,7 +338,7 @@ gi.test.jasmine._init = function(jasmine) {
   /**
    *
    */
-  jasmine.inform = function() {
+  _jasmine.inform = function() {
     if (window.inform) inform.apply(null, arguments);
     if (window.console) try { window.console.info.apply(window.console, arguments); } catch (e) {}
   };
@@ -337,7 +346,7 @@ gi.test.jasmine._init = function(jasmine) {
   /**
    *
    */
-  jasmine.debug = function() {
+  _jasmine.debug = function() {
     if (window.debug) debug.apply(null, arguments);
     if (window.console) try { window.console.debug.apply(window.console, arguments); } catch (e) {}
   };
