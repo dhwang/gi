@@ -302,13 +302,13 @@ gi.test.jasmine._init = function(_jasmine) {
     return typeof(var1) == expected;
   };
 
-  _jasmine.assertEquals = function(var1) {
-    var var2 = this.actual;
+  _jasmine.assertEquals = function(expected) {
+    var actual = this.actual;
 
-    if (var1 != null && typeof(var1) == "object" && typeof(var1.equals) == "function") {
-      return var1.equals(var2);
+    if (expected != null && typeof(expected) == "object" && typeof(expected.equals) == "function") {
+      return expected.equals(actual);
     } else {
-      return var1 === var2;
+      return this.env.equals_(actual, expected);
     }
   };
 
