@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2011, TIBCO Software Inc.
+ * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
  
@@ -12,13 +12,13 @@
 		this.addMatchers(gi.test.jasmine.matchers);
 	});
 	
-	it("testDefined", function(){
+	it("should be able to instantiate AOP", function(){
 		expect(jsx3).not.toBeNull();
 		expect(jsx3.lang).not.toBeNull();
 		expect(jsx3.lang.AOP).not.toBeNull();
 	});
 	
-	it("testBefore", function(){
+	it("should be able to insert before function call logic", function(){
 		var c1 = false, c2 = false;
 		jsx3.lang.Class.defineClass("test.AOP", null,null ,function(C,P){
 			P.m = function(a,b,c){
@@ -48,7 +48,7 @@
 		delete test.AOP;
 	});
 	
-	it("testAfter", function(){
+	it("should be able to insert after function call logic", function(){
 		var c1 = false, c2 = false;
 		expect(test.AOP).not.toBeDefined();
 		jsx3.lang.Class.defineClass("test.AOP", null, null, function(C,P){
@@ -81,7 +81,7 @@
 		delete test.AOP;
 	});
 	
-	it("testAround", function(){
+	it("should be able to around the function", function(){
 		jsx3.lang.Class.defineClass("test.AOP",null, null, function(C, P){
 			P.m = function(a, b){
 				expect(a).toEqual(1);
@@ -105,7 +105,7 @@
 		delete test.C1;
 	});
 	
-	it("testSubclass", function(){
+	it("should be able to create a new pointcut and remove a pointcut.", function(){
 		var c1 = false, c2 = false, c3 = false;
     
 		jsx3.lang.Class.defineClass("test.C1", null, null, function(C, P){

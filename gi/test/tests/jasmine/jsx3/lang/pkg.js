@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2011, TIBCO Software Inc.
+ * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 describe("jsx3.lang", function(){
@@ -11,7 +11,7 @@ describe("jsx3.lang", function(){
 		this.addMatchers(gi.test.jasmine.matchers);
 	});
 	
-	it("test getCaller", function(){
+	it("should be able to getCaller", function(){
 		var a = function() {
 			return jsx3.lang.getCaller();
 		};
@@ -21,7 +21,7 @@ describe("jsx3.lang", function(){
 		expect(c).toEqual(c());
 	});
 	
-	it("test getCallerUp", function(){
+	it("should be able to getCallerUp", function(){
 		var a = function() {
 			return jsx3.lang.getCaller(1);
 		};
@@ -32,7 +32,7 @@ describe("jsx3.lang", function(){
 		expect(c).toEqual(c());
 	});
 	
-	it("test getStack", function(){
+	it("should be able to getStack", function(){
 		var a = function() {
 			return jsx3.lang.getStack();
 		};
@@ -45,7 +45,7 @@ describe("jsx3.lang", function(){
 		expect(stack[1]).toEqual(c);
 	});
 	
-	it("test getStackUp", function(){
+	it("should be able to getStackUp", function(){
 		var a = function() {
 		return jsx3.lang.getStack(-1);
 		};

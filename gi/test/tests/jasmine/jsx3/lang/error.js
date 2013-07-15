@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2011, TIBCO Software Inc.
+ * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
  
@@ -12,7 +12,7 @@
 		this.addMatchers(gi.test.jasmine.matchers);
 	});
 	
-	it("test initErrorCapture", function(){
+	it("should be able to initialize error trapping mechanism", function(){
 		var ex = null;
 		expect(ex).toBe(null);
 		try{
@@ -23,7 +23,7 @@
 		expect(ex).not.toBeNull();
 	});
 	
-	it("test wrap", function(){
+	it("should be able to wraps a native browser exception in an instance of NativeError.", function(){
 		var ex = null;
 		try{
 			var b = jasmine.not.defined.at.all;
@@ -47,7 +47,7 @@
 		expect(wrapped.getMessage()).toEqual("123");
 	});
 	
-	it("test getFileName", function(){
+	it("should be able to return the URL of the Javascript include where this error was raised.", function(){
 		var ex = null;
 		try {
 			var b = jasmine.not.defined.at.all;
@@ -56,20 +56,22 @@
 			expect(ex).toBeInstanceOf(jsx3.lang.Exception);
 		}
 		if (ex != null) {
+			expect(ex.getFileName().match("error.js")).not.toBeNull();
 			expect(ex.getFileName()).not.toBeNull();
-			//expect(ex.getFileName()).not.toBeDefined();
 		}
 	});
 	
-	it("test getLineNumber", function(){
+	it("should be able to return the line number in the javascript include where this error was raised.", function(){
 		var ex = null;
 		try {
-			var b = jasmine.not.defined.at.all;
+			var b = jasmine.fun();
 		}catch (e) {
 			ex = jsx3.lang.NativeError.wrap(e);
 		}
 		if(ex){
 			expect(ex.getLineNumber()).not.toBeNull()
+			expect(ex.getLineNumber()).toEqual(67);
 		}
 	});
+	
 });	

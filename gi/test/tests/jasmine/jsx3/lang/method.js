@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2011, TIBCO Software Inc.
+ * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
  
@@ -19,13 +19,13 @@
 		});
 	});
 	
-	it("test Defined", function(){
+	it("should be defined", function(){
 		expect(jsx3).not.toBeNull();
 		expect(jsx3.lang).not.toBeNull();
 		expect(jsx3.lang.Method).not.toBeNull();
 	});
 	
-	it("test New", function(){
+	it("should be able create a new function ", function(){
 		expect(function(){
 			return new jsx3.lang.Method();
 		}).toThrow();
@@ -35,7 +35,7 @@
 		expect(test.jsx3Method.prototype.function1.jsxmethod).toBeInstanceOf(jsx3.lang.Method);
 	});
 	
-	it("test name", function(){
+	it("should be able to return the name of the method.", function(){
 		expect(test.jsx3Method.prototype.function1.jsxmethod.getName()).toEqual("function1");
 	});
 	
@@ -49,21 +49,21 @@
 		expect(params[2]).toEqual("arg3");
 	});
 	
-	it("test getDeclaringClass", function(){
+	it("should be able to return the class that defined this method.", function(){
 		var m = test.jsx3Method.prototype.function1.jsxmethod;
 		var jclass = m.getDeclaringClass();
 		expect(jclass).toEqual(test.jsx3Method.jsxclass);
 		expect(m.isPackageMethod()).toBeFalsy();
 	});
 	
-	it("test isStatic", function(){
+	it("should return wheather this method is static", function(){
 		var m1 = test.jsx3Method.prototype.function1.jsxmethod;
 		var m2 = test.jsx3Method.staticFunction.jsxmethod;
 		expect(m1.isStatic()).toBeFalsy();
 		expect(m2.isStatic()).toBeTruthy();
 	});
 	
-	it("test isAbstract", function(){
+	it("should return wheather this method is abstract.", function(){
 		var m = test.jsx3Method.prototype.abstractFunction.jsxmethod;
 		expect(test.jsx3Method.prototype.function1.jsxmethod.isAbstract()).toBeFalsy();
 		expect(test.jsx3Method.staticFunction.jsxmethod.isAbstract()).toBeFalsy();
@@ -78,12 +78,12 @@
 		}).toThrow();
 	});
 	
-	it("test getFunction", function(){
+	it("should be able to return the native javascript function of this menthod", function(){
 		expect(test.jsx3Method.prototype.function1.jsxmethod.getFunction()).toEqual(test.jsx3Method.prototype.function1);
 		expect(test.jsx3Method.staticFunction.jsxmethod.getFunction()).toEqual(test.jsx3Method.staticFunction);
 	});
 	
-	it("test call", function(){
+	it("should be able call on the native function", function(){
 		var o = new test.jsx3Method();
 		o.value = 10;
 		var m = test.jsx3Method.prototype.function1.jsxmethod;

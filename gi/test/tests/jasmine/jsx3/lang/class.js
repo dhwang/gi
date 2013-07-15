@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2011, TIBCO Software Inc.
+ * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
  
@@ -12,7 +12,7 @@
 		this.addMatchers(gi.test.jasmine.matchers);
 	});
 	
-	it("it should be setUp", function(){
+	it("should be able to setUp", function(){
 		jsx3.lang.Class.defineClass("test.jsx3ClassSuper", null, 
 		null, function(C, P){
 			P.init = function(){};
@@ -51,23 +51,23 @@
 		});
 	});
 	
-	it("testDefined", function(){
+	it("should be able to defined", function(){
 		expect(jsx3);
 		expect(jsx3.lang);
 		expect(jsx3.lang.Class);
 	});
 	
-	it("testForName", function(){
+	it("should be able to retrieve an instance of jsx3.Class for a fully-qualified class name", function(){
 		expect(jsx3.lang.Class.forName("test.jsx3Class")).toEqual(test.jsx3Class.jsxclass);
 		expect(jsx3.lang.Class.forName("test.jsx3Class.foo")).toBeNull();
 	});
 	
-	it("testName", function(){
+	it("should be able to return the fully-qualified name.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		expect(c.getName()).toEqual("test.jsx3Class")
 	});
 	
-	it("testGetPackage", function() {
+	it("should be able to return a packgae name of this class.", function() {
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		expect(c.getPackage()).toBeNull();
 		expect(c.getPackageName()).toEqual("test");
@@ -77,7 +77,7 @@
 		expect(jsx3.lang.Package.forName("test")).toEqual(c.getPackage());
 	});
 	
-	it("testGetConstructor", function(){
+	it("should be able to return the constructor function", function(){
 		var o = new  test.jsx3Class(22);
 		expect(o).not.toBeNull();
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
@@ -85,7 +85,7 @@
 		expect(c.getConstructor()).toEqual(test.jsx3Class);
 	});
 	
-	it("testIsInterface", function(){
+	it("should be able return this class was defined as an interface.", function(){
 		expect(jsx3.lang.Class.forName("test.jsx3Class").isInterface()).toBeFalsy();
 		expect(jsx3.lang.Class.forName("test.jsx3ClassSuper").isInterface()).toBeFalsy();
 		expect(jsx3.lang.Class.forName("test.jsx3ClassInterface").isInterface()).toBeTruthy();
@@ -101,7 +101,7 @@
 		}).toThrow();
 	});
 	
-	it("test newInstance", function(){
+	it("should be able tocreate a new instance of this class by invoking the class constructor", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		var o = c.newInstance(5);
 		expect(o).not.toBeNull();
@@ -109,7 +109,7 @@
 		expect(o.getValue()).toEqual(5);
 	});
 	
-	it("test isInstance", function(){
+	it("should able to return whether an object is an instance of this class.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		var o = new test.jsx3Class(22);
 		expect(c.isInstance(o)).toBeTruthy();
@@ -122,7 +122,7 @@
 		expect(test.jsx3ClassInterface.jsxclass.isInstance(o)).toBeTruthy();
 	});
 	
-	it("test isAssignableFrom", function(){
+	it("should be able to return whether this class is the same as or is a superclass or superinterface or parameter objClass.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		expect(c.isAssignableFrom(c));
 		expect(function(){
@@ -138,7 +138,7 @@
 		expect(test.jsx3ClassInterface.jsxclass.isAssignableFrom(test.jsx3ClassSuper.jsxclass)).toBeFalsy();
 	});
 	
-	it("test Mixin", function(){
+	it("should be able to copy all the instance methods in this class into an instance.", function(){
 		var o = new Object();
 		expect(o.getValue).not.toBeDefined();
 		var c = test.jsx3Class.jsxclass;
@@ -157,7 +157,7 @@
 		
 	});
 	
-	it("test Bless", function(){
+	it("should be able to create a new instance of this class and populates its properties with the properties of the obj parameter.", function(){
 		var c = test.jsx3Class.jsxclass;
 		var m ={f1:"v1", f2:"v2", fct:function(){}};
 		var o = c.bless(m);
@@ -208,7 +208,7 @@
 		expect(f[0]).toEqual("iField");
 	});
 	
-	it("test getters and setters", function(){
+	it("should return the mutator method of this class's bean property strProp.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		expect(test.jsx3Class.prototype.getValue.jsxmethod).toEqual(c.getGetter("value"));
 		expect(test.jsx3Class.prototype.setValue.jsxmethod).toEqual(c.getSetter("value"));
@@ -237,6 +237,7 @@
 			var interfaces = c.getInterfaces();
 			expect(test.jsx3ClassInterface2.jsxclass).toEqual(interfaces[0]);
 		}catch(e){
+			//
 		}
 		finally{
 			delete test.jsx3ClassInterface2;
@@ -244,7 +245,7 @@
 		}
 	});
 	
-	it("test getClasses", function(){
+	it("should return an array of all the class defined in this class.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		var classes = c.getClasses();
 		expect(classes.length).toEqual(1);
@@ -265,20 +266,6 @@
 		var o = new test.jsx3Class();
 		expect(o.getX()).toEqual("x1");
 		expect(o.getY()).toEqual("y2");
-	});
-	
-	afterEach(function(){
-		/*if(test.jsx3Class){
-			delete test.jsx3Class.Inner.jsxclass;
-			delete test.jsx3Class.Inner;
-			delete test.jsx3ClassSuper.jsxclass;
-			delete test.jsx3ClassSuper;
-			delete test.jsx3ClassInterface.jsxclass;
-			delete test.jsx3ClassInterface;
-			delete test.jsx3Class.jsxclass;
-			delete test.jsx3Class;
-			delete test.jsxpackage;
-		}*/
 	});
 	
  });

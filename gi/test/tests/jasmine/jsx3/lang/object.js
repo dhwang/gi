@@ -11,7 +11,7 @@
 		this.addMatchers(gi.test.jasmine.matchers);
 	});
 	
-	it("test Defined", function(){
+	it("should be defined", function(){
 		expect(jsx3).not.toBeNull();
 		expect(jsx3.lang).not.toBeNull();
 		expect(jsx3.lang.Object).not.toBeNull();
