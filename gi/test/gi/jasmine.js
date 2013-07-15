@@ -17,7 +17,7 @@ gi.test.jasmine._init = function(_jasmine) {
   _jasmine.JSX_BASE = "../";
   _jasmine.JSX_JS_BASE = _jasmine.JSX_BASE + "JSX/js/";
   _jasmine.TEST_BASE = "tests/jasmine/";
-  _jasmine.HTTP_BASE = _jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../server";
+  _jasmine.HTTP_BASE = _jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../test/server";
   
   //jasmine._PENDING_SUITES = [];
 
