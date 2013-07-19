@@ -518,13 +518,13 @@ gi.test.jsunit._init = function(jsunit) {
     var var1=nonCommentArg(1, 2, arguments);
     var var2=nonCommentArg(2, 2, arguments);
 
-  if (!var1.length || !var2.length) return false; // (not arrays)
-  if (var1.lenth == var2.length) {
-    for (i in var1) {
-      assertEquals(var1[i],var2[i]);
+    if (!var1.length || !var2.length) return false; // (not arrays)
+    if (var1.length == var2.length) {
+      for (var i in var1) {
+        assertEquals(var1[i],var2[i]);
+      }
     }
-  }
-  }
+  };
   /**
    *
    */

@@ -11,15 +11,101 @@ if (!window.gi) window.gi = new Object();
 if (!gi.test) gi.test = new Object();
 if (!gi.test.jasmine) gi.test.jasmine = new Object();
 
+  /* Browser detection, the result of which is setting the strPath variable. */
+  var BrowserDetect = function() {
+    var vers, agt = this.agt = navigator.userAgent.toLowerCase();
+
+    this.gk = agt.indexOf('gecko') >= 0;
+
+    // Mozilla Firefox v1.5-4
+    this.fx = this.gk && (agt.indexOf('firefox') >= 0 || agt.indexOf('granparadiso') >= 0);
+    if (this.fx) {
+      vers = this._getVersionAfter('firefox/') || this._getVersionAfter('granparadiso/');
+      this.fx1_5 = vers >= 1.5 && vers < 2;
+      this.fx2 = vers >= 2 && vers < 3;
+      this.fx3 = vers >= 3 && vers < 4;
+      this.fx4 = vers >= 4;
+    }
+
+    // Apple WebKit (Safari) v3-4
+    this.sf = agt.indexOf('applewebkit') >= 0;
+    if (this.sf) {
+      if (agt.indexOf('chrome/') >= 0) {
+        this.gc1 = true;
+      } else {
+        vers = this._getVersionAfter('version/');
+        this.sf3 = vers >= 3 && vers < 4;
+        this.sf4 = vers >= 4;
+      }
+    }
+
+    // Opera v9-10
+    this.op = agt.indexOf("opera") >= 0;
+    if (this.op) {
+      vers = this._getVersionAfter('opera/') || this._getVersionAfter('opera ');
+      this.op9 = vers >= 9 && vers < 10;
+      this.op10 = vers >= 10;
+    }
+
+    // Microsoft Internet Explorer v6-8
+    this.ie = agt.indexOf("msie") >= 0 && !this.op;
+    if (this.ie) {
+      vers = this._getVersionAfter('msie ');
+      this.ie6 = vers >= 6 && vers < 7;
+      this.ie7 = vers >= 7 && vers < 8;
+      this.ie8 = vers >= 8 && vers < 9;
+      this.ie9 = vers >= 9;
+      this.ie9s = vers >= 9 && document.documentMode >= 9;
+    }
+  };
+
+  /* @jsxobf-clobber */
+  BrowserDetect._ORDER = [
+      "ie9s", "ie9", "ie8", "ie7", "ie6",
+      "fx4", "fx3", "fx2", "fx1_5",
+      "gc1", "sf4", "sf3",
+      "op10", "op9",
+      "ie", "fx", "sf", "op", "gk"
+  ];
+
+  /* @jsxobf-clobber */
+  BrowserDetect.prototype._getVersionAfter = function(strToken) {
+    var index = this.agt.indexOf(strToken);
+    return index >= 0 ? parseFloat(this.agt.substring(index+strToken.length)) : 0;
+  };
+
+  BrowserDetect.prototype.getType = function() {
+    for (var i = 0; i < BrowserDetect._ORDER.length; i++)
+      if (this[BrowserDetect._ORDER[i]])
+        return BrowserDetect._ORDER[i];
+    return "xx";
+  };
+
 gi.test.jasmine._init = function(_jasmine) {
+  var _BROWSERS = {
+    ie7:["IE","IE7","VML"],
+    ie8:["IE","IE8","VML"],
+    ie9:["IE","IE9","VML"],
+    ie9s:["IE","IE9","SVG"],
+    fx1_5:["FX","SVG","GKO"],
+    fx2:["FX","FX2","SVG","GKO"],
+    fx3:["FX","FX3","SVG","GKO"],
+    fx4:["FX","FX4","SVG","GKO"],
+    gc1:["SAF","SAF4","SVG","KON","GOG"],
+    sf3:["SAF","SAF3","SVG","KON"],
+    sf4:["SAF","SAF4","SVG","KON"]
+  };
 
   _jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
   _jasmine.JSX_BASE = "../";
   _jasmine.JSX_JS_BASE = _jasmine.JSX_BASE + "JSX/js/";
   _jasmine.TEST_BASE = "tests/jasmine/";
   _jasmine.HTTP_BASE = _jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../test/server";
-  
-  //jasmine._PENDING_SUITES = [];
+  var _browser = _jasmine._type = (new BrowserDetect()).getType();
+
+  var defines = _BROWSERS[_browser];
+  for (var i = 0; i < defines.length; i++)
+    _jasmine[defines[i]] = true; // so that jsx3.CLASS_LOADER.IE, etc are defined for precompiler
 
   _jasmine.decodeURI = function(strText) {
     if (strText == null) return null;
@@ -66,7 +152,7 @@ gi.test.jasmine._init = function(_jasmine) {
   };
 
   _jasmine.loadScript = function(strSrc, fctDone, objAttr) {
-    if (console) console.debug("Loading " + strSrc);
+    if (console) console.log("Loading " + strSrc);
     // instance a new DOM element
     var element = document.createElement("script");
     element.src = strSrc;
@@ -162,7 +248,7 @@ gi.test.jasmine._init = function(_jasmine) {
    *
    */
   _jasmine.require = function(strClass1) {
-    if (console) console.debug("Requiring " + strClass1 + "...");
+    if (console) console.log("Requiring " + strClass1 + "...");
 
     var bFirst = _jasmine._waiting == null;
     if (bFirst)
@@ -202,7 +288,7 @@ gi.test.jasmine._init = function(_jasmine) {
       } catch (e) {}
     }
 
-//    if (console) console.debug("Loaded " + strSrc + ". Still waiting for [" + jasmine._waiting + "]");
+//    if (console) console.log("Loaded " + strSrc + ". Still waiting for [" + jasmine._waiting + "]");
 
     if (_jasmine._jsxbaseclasses == null) {
       _jasmine._jsxbaseclasses = jsx3.lang.ClassLoader.SYSTEM_SCRIPTS.concat();
@@ -230,7 +316,7 @@ gi.test.jasmine._init = function(_jasmine) {
       } else {
         for (i = 0; i < _jasmine._waiting.length; i++) {
           try {
-            if (console) console.debug("Requiring class " + _jasmine._waiting[i] + "...");
+            if (console) console.log("Requiring class " + _jasmine._waiting[i] + "...");
             jsx3.require(_jasmine._waiting[i]);
           } catch (e) {
             _jasmine.warn("Could not load class " + _jasmine._waiting[i] + ": " + e);
@@ -241,7 +327,7 @@ gi.test.jasmine._init = function(_jasmine) {
 
         _jasmine._waiting = [];
         window.setTimeout(function() {
-          if (console) console.debug("Setting status to complete (A).");
+          if (console) console.log("Setting status to complete (A).");
           _jasmine.onLoaded();
         }, 0);
       }
@@ -249,7 +335,7 @@ gi.test.jasmine._init = function(_jasmine) {
       _jasmine._loadJsxIncludes();
 
       window.setTimeout(function() {
-        if (console) console.debug("Setting status to complete (B).");
+        if (console) console.log("Setting status to complete (B).");
         _jasmine.onLoaded();
       }, 0);
     }
@@ -348,7 +434,7 @@ gi.test.jasmine._init = function(_jasmine) {
    */
   _jasmine.debug = function() {
     if (window.debug) debug.apply(null, arguments);
-    if (window.console) try { window.console.debug.apply(window.console, arguments); } catch (e) {}
+    if (window.console) try { window.console.log.apply(window.console, arguments); } catch (e) {}
   };
 
 };
