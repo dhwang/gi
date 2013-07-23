@@ -1,0 +1,15 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.9">
+  <name/>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"/>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%"/>
+  <object type="my.Button">
+    <variants jsxheight="18" jsxwidth="40"/>
+    <strings jsxname="mybutton" border=""/>
+  </object>
+  </object>
+</serialization>
