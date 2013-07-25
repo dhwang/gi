@@ -33,16 +33,16 @@ describe("jsx3.xml.Processor", function () {
     '</xsl:attribute></doc></xsl:template>' + xslSuffix;
   t._unless = "NODEP";
 
-  it("testDefined", function () {
+  it("should be able to instantiate new instance of jsx3.xml.Processor", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Processor")).not.toBeNull();
   });
 
-  it("testEmptyConstructor", function () {
+  it("should test if a new instance of jsx3.app.Processor is created", function () {
     var p = new jsx3.xml.Processor();
     expect(p.hasError()).toBeFalsy();
   });
 
-  it("testEmptyProcess", function () {
+  it("should throw error while performing XSLT merge and set error property of this processor", function () {
     var p = new jsx3.xml.Processor();
     var func = function () {
       p.transform();
@@ -50,7 +50,7 @@ describe("jsx3.xml.Processor", function () {
     expect(func).toThrow();
   });
 
-  it("testTransform", function () {
+  it("should be able to perform XSLT merge successfully", function () {
     var p = new jsx3.xml.Processor((new jsx3.xml.Document()).loadXML(src1), (new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
@@ -67,7 +67,7 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toBe('<doc id="r1"/>');
   });
 
-  it("testTransformObject", function () {
+  it("should perform an XSLT merge and form a valid result tree as a result of the transformation", function () {
     var p = new jsx3.xml.Processor((new jsx3.xml.Document()).loadXML(src1), (new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transformToObject();
     expect(p.hasError()).toBeFalsy();
@@ -76,7 +76,7 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
   });
 
-  it("testSetXml", function () {
+  it("should set the XML and XSL that should be transformed.", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans1));
@@ -86,7 +86,7 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toBe('<doc id="r1"/>');
   });
 
-  it("testErrorNoTrans", function () {
+  it("should test if XSLT merge was performed successfully", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML("<html/>"));
@@ -95,7 +95,7 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toBeNull();
   });
 
-  it("testParam", function () {
+  it("should set reference to Params that should be passed to the processor", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans2));
@@ -105,7 +105,7 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toBe('<doc id="2"/>');
   });
 
-  it("testParamDefault", function () {
+  it("should set reference to Params that should be passed to the processor", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans2));
@@ -114,7 +114,7 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toBe('<doc id="1"/>');
   });
 
-  it("testParamConstructor", function () {
+  it("should test the Param being passed to the processor", function () {
     var xml = (new jsx3.xml.Document()).loadXML(src1);
     var xsl = (new jsx3.xml.Document()).loadXML(trans2);
     var p = new jsx3.xml.Processor(xml, xsl, {p1: 3});
