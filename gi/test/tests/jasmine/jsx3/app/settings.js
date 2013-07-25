@@ -2,6 +2,7 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
+
 describe("jsx3.app.Settings", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Settings");
@@ -12,38 +13,38 @@ describe("jsx3.app.Settings", function () {
     t._server = null;
   });
 
-  it("testNew", function () {
+  it("should be able to instantiate new instance of jsx3.app.Settings", function () {
     var s = new jsx3.app.Settings();
     expect(s).toBeInstanceOf(jsx3.app.Settings);
   });
 
-  it("testEmpty", function () {
+  it("should return undefined for a non stored setting value", function () {
     var s = new jsx3.app.Settings();
     expect(s.get("foo")).toBeUndefined();
   });
 
-  it("testGetNumber", function () {
+  it("should return a stored setting value of type number from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("number");
     expect(v).toBeTypeOf("number");
     expect(v).toEqual(123);
   });
 
-  it("testGetNaN", function () {
+  it("should return a stored setting value of type number and value illegal number from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("numberNaN");
     expect(v).toBeTypeOf("number");
     expect(isNaN(v)).toBeTruthy();
   });
 
-  it("testGetString", function () {
+  it("should return a stored setting value of type string from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("string");
     expect(v).toBeTypeOf("string");
     expect(v).toEqual("aString");
   });
 
-  it("testGetBoolean", function () {
+  it("should return a stored setting value of type boolean from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("boolean");
     expect(v).toBeTypeOf("boolean");
@@ -53,13 +54,13 @@ describe("jsx3.app.Settings", function () {
     expect(v).toEqual(false);
   });
 
-  it("testGetNull", function () {
+  it("should return a stored setting value of type null from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("null");
     expect(v).toBeNull();
   });
 
-  it("testGetArray", function () {
+  it("should return a stored setting value of type array from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("anArray");
     expect(v).toBeInstanceOf(Array);
@@ -69,7 +70,7 @@ describe("jsx3.app.Settings", function () {
     expect(v[2]).toEqual("three");
   });
 
-  it("testGetMap", function () {
+  it("should return a stored setting value of type object from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("anObject");
     expect(v).not.toBeUndefined();
@@ -90,7 +91,7 @@ describe("jsx3.app.Settings", function () {
     expect(v).toBeUndefined();
   });
 
-  it("testRemove", function () {
+  it("should remove a stored setting value from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.remove("number");
     expect(s.get("number")).toBeUndefined();
@@ -103,7 +104,7 @@ describe("jsx3.app.Settings", function () {
     expect(v.string2).toBeUndefined();
   });
 
-  it("testRemoveCache", function () {
+  it("should remove a stored setting value from the loaded xml", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.get("number");
     s.remove("number");
@@ -118,7 +119,7 @@ describe("jsx3.app.Settings", function () {
     expect(v.string2).toBeUndefined();
   });
 
-  it("testSetNumber", function () {
+  it("should set a stored setting value of type Number", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.set("newNumber", 1979);
     var v = s.get("newNumber");
@@ -139,7 +140,7 @@ describe("jsx3.app.Settings", function () {
     expect(v).toEqual(1979);
   });
 
-  it("testSetString", function () {
+  it("should set a stored setting value of type String", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.set("newString", "2010");
     var v = s.get("newString");
