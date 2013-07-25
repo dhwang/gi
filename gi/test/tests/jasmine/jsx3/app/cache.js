@@ -12,7 +12,7 @@ describe("jsx3.app.Cache", function () {
     this.addMatchers(gi.test.jasmine.matchers);
   });
 
-  it("testNew", function () {
+  it("should be able to instantiate new instance of jsx3.app.Cache", function () {
     var c = new jsx3.app.Cache();
     expect(c).toBeInstanceOf(jsx3.app.Cache);
   });
@@ -22,7 +22,7 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBe(null);
   });
 
-  it("testSetRetrieve", function () {
+  it("should store the document object in this cache under id 'docId'", function () {
     var c = new jsx3.app.Cache();
     var doc = new jsx3.xml.Document();
     expect(c.getDocument("docId")).toBe(null);
@@ -31,7 +31,7 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId2")).toBe(null);
   });
 
-  it("testGetTimestamp", function () {
+  it("should return the timestamp from when the document stored under id 'docId' was stored in this cache", function () {
     var c = new jsx3.app.Cache();
     var doc = new jsx3.xml.Document();
     var t1 = new Date();
@@ -48,7 +48,7 @@ describe("jsx3.app.Cache", function () {
     expect(ts <= t3.getTime()).toBeTruthy();
   });
 
-  it("testOverwrite", function () {
+  it("should be able to overwrite the document stored in this cache under id 'docId'", function () {
     var c = new jsx3.app.Cache();
     var doc1 = new jsx3.xml.Document();
     var doc2 = new jsx3.xml.Document();
@@ -60,7 +60,7 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBe(null);
   });
 
-  it("testClearById", function () {
+  it("should be able to remove the document stored in this cache under id strId", function () {
     var c = new jsx3.app.Cache();
     var doc1 = new jsx3.xml.Document();
     c.setDocument("docId", doc1);
@@ -70,7 +70,7 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBe(null);
   });
 
-  it("testOpenDocument1", function () {
+  it("should synchronously load the xml document, store it in this cache, and return the loaded document", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc1 = c.openDocument(url, "docId");
@@ -102,7 +102,7 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBeInstanceOf(jsx3.xml.CDF.Document);
   });
 
-  it("testOpenAsync1", function () {
+  it("should asynchronously load an xml document and store it in this cache", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc = c.getOrOpenAsync(url, "docId");
@@ -113,7 +113,7 @@ describe("jsx3.app.Cache", function () {
     expect(doc.getNodeName()).toEqual("loading");
   });
 
-  it("testOpenAsync2", function () {
+  it("should asynchronously load an xml document and store it in this cache", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     c.getOrOpenAsync(url, "docId");
@@ -184,7 +184,7 @@ describe("jsx3.app.Cache", function () {
     });
   });
 
-  it("testKeys", function () {
+  it("should return  a list of all the keys in this cache instance with the specified index", function () {
     var c = new jsx3.app.Cache();
     var keys = c.keys();
     var doc = new jsx3.xml.Document();
@@ -204,7 +204,7 @@ describe("jsx3.app.Cache", function () {
   });
 
 
-  it("testHierarchy", function () {
+  it("should test the hierarchy of the documents stored in the cache with the specified ids after setting and clearing the same", function () {
     var c1 = new jsx3.app.Cache();
     var c2 = new jsx3.app.Cache();
     var doc1 = new jsx3.xml.Document();
@@ -222,7 +222,7 @@ describe("jsx3.app.Cache", function () {
     expect(c1.getDocument("docId2")).toBeNull();
   });
 
-  it("testEvents", function () {
+  it("should test the storing and removal of the document in this cache under id 'docId'", function () {
     var c = new jsx3.app.Cache();
     var eventCount = 0;
     c.subscribe(jsx3.app.Cache.CHANGE, function () {
@@ -239,7 +239,7 @@ describe("jsx3.app.Cache", function () {
     expect(4).toEqual(eventCount);
   });
 
-  it("testGetOrOpen", function () {
+  it("should retrieve a document from this cache or,if this cache contains no such document,load the document synchronously and return it", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc1 = c.getOrOpenDocument(url, "docId");
@@ -249,7 +249,7 @@ describe("jsx3.app.Cache", function () {
     expect(doc1).toBe(c.getOrOpenDocument("nowhere", "docId"));
   });
 
-  it("testDestroy", function () {
+  it("should remove all references to documents contained in this cache", function () {
     var c = new jsx3.app.Cache();
     var doc = new jsx3.xml.Document();
     c.setDocument("docId", doc);
@@ -260,7 +260,7 @@ describe("jsx3.app.Cache", function () {
     expect(func).toThrow();
   });
 
-  it("testClearByTimestamp", function () {
+  it("should remove all documents placed in this cache before the timestamp specified", function () {
     var c = new jsx3.app.Cache();
     var doc = new jsx3.xml.Document();
     var t1 = new Date();
@@ -272,7 +272,7 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBeNull();
   });
 
-  it("testAsyncAbortClear", function () {
+  it("should asynchronously load an xml document and store it in this cache", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var evtCount = 0;
