@@ -2,23 +2,26 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
+
 describe("jsx3.app.Properties", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Properties", "jsx3.util.List", "jsx3.app.PropsBundle", "jsx3.util.Locale", "jsx3.app.Cache");
   var t = new _jasmine_test.TestSuite("jsx3.app.Properties");
+
 
   beforeEach(function () {
     this.addMatchers(gi.test.jasmine.matchers);
     t._server = null;
   });
 
-  it("test New Check", function () {
+
+  it("should be able to instantiate new instance of jsx3.app.Properties", function () {
     var p = new jsx3.app.Properties();
     expect(p).toBeInstanceOf(jsx3.app.Properties);
 
   });
 
-  it("testGetSet", function () {
+  it("should return the value of a property for a particular key and also be able to set a property in this repository in the global space", function () {
     var p = new jsx3.app.Properties();
     expect(p.get("key")).toBeUndefined();
     p.set("key", "value");
@@ -27,7 +30,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key")).toBeUndefined();
   });
 
-  it("testNull", function () {
+  it("should remove a property from this repository", function () {
     var p = new jsx3.app.Properties();
     expect(p.get("key")).toBeUndefined();
     p.set("key", null);
@@ -40,7 +43,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key")).toBeUndefined();
   });
 
-  it("testKeys", function () {
+  it("should set a property and return a list of all the property keys contained in this repository", function () {
     var p = new jsx3.app.Properties();
     p.set("key1", "value1");
     p.set("key2", "value2");
@@ -56,7 +59,7 @@ describe("jsx3.app.Properties", function () {
     expect(l.contains("key3")).toBeFalsy();
   });
 
-  it("testContainsKey", function () {
+  it("should return whether this property repository contains a particular property", function () {
     var p = new jsx3.app.Properties();
     p.set("key1", "value1");
     p.set("key2", "value2");
@@ -69,7 +72,7 @@ describe("jsx3.app.Properties", function () {
     expect(p2.containsKey("key3")).toBeTruthy();
   });
 
-  it("testParentsGet", function () {
+  it("should be able to add a parent property repository to this repository", function () {
     var p = new jsx3.app.Properties();
     p.set("key1", "value1");
     var p2 = new jsx3.app.Properties();
@@ -94,7 +97,7 @@ describe("jsx3.app.Properties", function () {
     expect(p2.get("key2")).toEqual("value3");
   });
 
-  it("testParentsRemove", function () {
+  it("should be able to remove a property repository from the set of parent repositories", function () {
     var p = new jsx3.app.Properties();
     var p2 = new jsx3.app.Properties();
     p2.set("key2", "value2");
@@ -104,7 +107,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key2")).toBeUndefined();
   });
 
-  it("testGrandparentSet", function () {
+  it("should be able to add multiple parent property to this repository and also remove the same", function () {
     var p1 = new jsx3.app.Properties();
     var p2 = new jsx3.app.Properties();
     var p3 = new jsx3.app.Properties();
@@ -165,7 +168,7 @@ describe("jsx3.app.Properties", function () {
     expect(p3.get("key1")).toBeUndefined();
   });
 
-  it("testGrandparentRemove", function () {
+  it("should be able to add parent properties and remove a property repository from the set of parent repositories", function () {
     var p1 = new jsx3.app.Properties();
     var p2 = new jsx3.app.Properties();
     var p3 = new jsx3.app.Properties();
@@ -177,7 +180,7 @@ describe("jsx3.app.Properties", function () {
     expect(p1.get("key2")).toBeUndefined();
   });
 
-  it("testGrandparentRemoveAll", function () {
+  it("should be able to add parent properties and remove all parent property repositories", function () {
     var p1 = new jsx3.app.Properties();
     var p2 = new jsx3.app.Properties();
     var p3 = new jsx3.app.Properties();
@@ -200,7 +203,7 @@ describe("jsx3.app.Properties", function () {
 
   });
 
-  it("testParentsPrecedence", function () {
+  it("should be able to add multiple parent property repository to this repository and check their precendence", function () {
     var p = new jsx3.app.Properties();
     var p1 = new jsx3.app.Properties();
     p1.set("key1", "value1");
@@ -216,7 +219,7 @@ describe("jsx3.app.Properties", function () {
   });
 
 
-  it("testLoadXml", function () {
+  it("should be able to load a set of dynamic properties from an XML document into this repository", function () {
     var d = (new jsx3.xml.Document()).load(t.resolveURI("data/props1.xml"));
     var p = new jsx3.app.Properties();
     p.loadXML(d);
