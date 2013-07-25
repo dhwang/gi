@@ -35,7 +35,7 @@ describe("jsx3.xml.Template", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Template")).not.toBeNull();
   });
 
-  it("testTransform", function () {
+  it("should be able to perform an XSLT merge", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transform((new jsx3.xml.Document()).loadXML(src1));
     expect(p.hasError()).toBeFalsy();
@@ -43,7 +43,7 @@ describe("jsx3.xml.Template", function () {
     expect(d).toBe('<doc id="r1"/>');
   });
 
-  it("testReset", function () {
+  it("should be able to perform an XSLT merge", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans2));
     p.setParam("p1", "2");
     var xml = (new jsx3.xml.Document()).loadXML(src1);
@@ -57,14 +57,14 @@ describe("jsx3.xml.Template", function () {
     expect(d.selectSingleNode("//doc/@id").getValue()).toEqual('1');
   });
 
-  it("testEmptyConstructor", function () {
+  it("should be able to instantiate new instance of jsx3.xml.Template", function () {
     var func = function () {
       return new jsx3.xml.Template();
     };
     expect(func).toThrow();
   });
 
-  it("testBadTemplate", function () {
+  it("should throw an error for a malformed xml passes as parameter to template object", function () {
     var template = new jsx3.xml.Document().loadXML("<unclosed");
     var func = function () {
       return new jsx3.xml.Template(template);
@@ -81,7 +81,7 @@ describe("jsx3.xml.Template", function () {
     expect(d).toBe('<doc id="r1"/>');
   });
 
-  it("testTransformObject", function () {
+  it("should perform an XSLT merge", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transformToObject((new jsx3.xml.Document()).loadXML(src1));
     expect(d).toBeInstanceOf(jsx3.xml.Document);
@@ -90,12 +90,12 @@ describe("jsx3.xml.Template", function () {
     expect(d).toMatch(/^<doc id="r1"\s*\/>$/)
   });
 
-  it("testErrorNoTrans", function () {
+  it("should throw an error for a malformed xml object", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML("<html/>"));
     expect(p.hasError()).toBeTruthy();
   });
 
-  it("testParam", function () {
+  it("should set the object params which is then used for the transformation", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans2));
     p.setParams({p1: "2"});
     var d = p.transform((new jsx3.xml.Document()).loadXML(src1));
