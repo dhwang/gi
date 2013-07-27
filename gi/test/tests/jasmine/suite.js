@@ -12,7 +12,7 @@ var specs = [
   "jsx3/lang/exception.js", "jsx3/lang/error.js",
 
   /* URI and URI resolver suite */
-  ["jsx3/net/uri.js", "jsx3/net/uriresolver.js"],
+  "jsx3/net/uri.js", "jsx3/net/uriresolver.js",
 
   /* App suite */
   "jsx3/app/cache.js", "jsx3/app/properties.js","jsx3/app/dom.js","jsx3/app/settings.js", "jsx3/app/server.js",

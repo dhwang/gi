@@ -8,8 +8,6 @@ describe("jsx3.xml.Document", function () {
   var t = new _jasmine_test.TestSuite("jsx3.xml.Document");
 
   beforeEach(function () {
-
-    t._server = null;
   });
 
   it("should check if plain javascript object/namespace 'jsx3.xml.Document' exists", function () {
@@ -143,49 +141,49 @@ describe("jsx3.xml.Document", function () {
   it("should get error on attempt to load non existent testy1.xml asynchronously", function () {
     var d = new jsx3.xml.Document();
     d.setAsync(true);
-    var flag,value;
-    flag = false;
-    value = 0;
+    var target = null;
     d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
       expect(objEvent.target.hasError()).toBeFalsy();
+      target = objEvent.target;
+      flag = true;
+    }, 500);
+    d.subscribe(jsx3.xml.Document.ON_ERROR, function (objEvent) {
+      expect(objEvent.target.hasError()).toBeTruthy();
+      target = objEvent.target;
       flag = true;
     }, 500);
     d.load(t.resolveURI("data/testy1.xml"));
+
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return target != null;
+    }, "target should be set by one of the Document.ON_RESPONSE or Document.ON_ERROR", 750);
+
     runs(function () {
-      flag = false;
-      value = 0;
-      d.subscribe(jsx3.xml.Document.ON_ERROR, function (objEvent) {
-        expect(objEvent.target.hasError()).toBeTruthy();
-        flag = true;
-      }, 500);
+     expect(target.hasError()).toBeTruthy();
     });
   });
 
   it("should get error when loading malformed xml file asynchronously", function () {
-    var d = new jsx3.xml.Document();
+    var target = null, d = new jsx3.xml.Document();
     d.setAsync(true);
-    flag = false;
-    value = 0;
     d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
       expect(objEvent.target.hasError()).toBeFalsy();
-      flag = true;
+      target = objEvent.target;
     }, 500);
+    d.subscribe(jsx3.xml.Document.ON_ERROR, function (objEvent) {
+      expect(objEvent.target.hasError()).toBeTruthy();
+      target = objEvent.target;
+    }, 500);
+
     d.load(t.resolveURI("data/bad.xml"));
+
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return target != null;
+    }, "target should be set by one of the Document.ON_RESPONSE or Document.ON_ERROR", 750);
+
     runs(function () {
-      flag = false;
-      value = 0;
-      d.subscribe(jsx3.xml.Document.ON_ERROR, function (objEvent) {
-        expect(objEvent.target.hasError()).toBeTruthy();
-        flag = true;
-      }, 500);
+      expect(target).not.toBeNull();
+      expect(target.hasError()).toBeTruthy();
     });
   });
 
@@ -318,7 +316,7 @@ describe("jsx3.xml.Document", function () {
 
   it("should get error when loading from malformed xml string literal.", function () {
     var d = new jsx3.xml.Document();
-    d.loadXML("<data><record/></data");
+    d.loadXML("<data><record/></data"); // malformed xml is intentional
     expect(d.hasError()).toBeTruthy();
     d.loadXML("<data><record/></data>");
     expect(d.hasError()).toBeFalsy();
@@ -329,7 +327,7 @@ describe("jsx3.xml.Document", function () {
     var src = "<data><record/></data>";
     d.loadXML(src);
     expect(src).toEqual(d.toString());
-    d.loadXML("<data><record/></data");
+    d.loadXML("<data><record/></data"); // malformed xml is intentional
     expect(d.hasError()).toBeTruthy();
     expect(d.toString().indexOf(d.getError().description) >= 0).toBeTruthy();
   });
@@ -453,10 +451,6 @@ describe("jsx3.xml.Document", function () {
   });
 
   afterEach(function () {
-    if (t._server) {
-      t._server.destroy();
-      delete t._server;
-    }
   });
 });
 
