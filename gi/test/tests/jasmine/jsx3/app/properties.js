@@ -10,8 +10,6 @@ describe("jsx3.app.Properties", function () {
 
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
-    t._server = null;
   });
 
 
@@ -37,7 +35,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key")).toBe(null);
     var func = function () {
       return p.set("key", t._undefined);
-    }
+    };
     expect(func).toThrow();
     p.remove("key");
     expect(p.get("key")).toBeUndefined();
@@ -367,7 +365,7 @@ describe("jsx3.app.Properties", function () {
     jsx3.app.PropsBundle.clearCache();
     var func = function () {
       jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("de"));
-    }
+    };
     expect(func).toThrow();
   });
 
@@ -378,10 +376,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key2")).toEqual("key2_default");
     expect(p.get("key3")).toEqual("key3_default");
   });
+
   afterEach(function () {
-    if (t._server) {
-      t._server.destroy();
-      delete t._server;
-    }
   });
 });

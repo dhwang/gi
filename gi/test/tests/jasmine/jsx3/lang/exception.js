@@ -9,7 +9,7 @@
 	var t = new _jasmine_test.TestSuite("jsx3.lang.Exception");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 	});
 	
 	it("should be able to return the cause of the exception", function(){

@@ -8,7 +8,7 @@ describe("jsx3.lang.Package", function(){
 	var t = new _jasmine_test.TestSuite("jsx3.lang.Package");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 		jsx3.lang.Package.definePackage("test.pckg", function(P) {
 			P.aField = 1;
 			//P.sMethod = function(){return "static Method";}

@@ -9,7 +9,6 @@ describe("jsx3.app.Cache", function () {
   var t = new _jasmine_test.TestSuite("jsx3.app.Cache");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
   });
 
   it("should be able to instantiate new instance of jsx3.app.Cache", function () {

@@ -9,7 +9,7 @@ describe("jsx3.net.Service", function () {
   var ACTION = jasmine.HTTP_BASE + "/formdata.cgi";
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
     t._server = null;
     var s = t._server = t.newServer("data/server1.xml", ".");
   });

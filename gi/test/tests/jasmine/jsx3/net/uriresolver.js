@@ -8,7 +8,7 @@ describe("jsx3.net.URIResolver is an interface specifying the methods necessary 
   _jasmine_test.require("jsx3.net.URIResolver.jsxclass", "jsx3.app.Browser");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
   });
 
   it("should resolve the URI  against the base context of this resolver.", function () {

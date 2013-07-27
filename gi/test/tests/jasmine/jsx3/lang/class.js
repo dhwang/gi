@@ -9,7 +9,7 @@
 	var t = new _jasmine_test.TestSuite("jsx3.lang.Class");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 	});
 	
 	it("should be able to setUp", function(){

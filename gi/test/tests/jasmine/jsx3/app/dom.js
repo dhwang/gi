@@ -8,7 +8,6 @@ describe("jsx3.app.DOM", function () {
   var t = new _jasmine_test.TestSuite("jsx3.app.DOM");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
   });
 
   it("should create a new unique system id", function () {

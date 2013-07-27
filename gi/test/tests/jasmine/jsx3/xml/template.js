@@ -8,7 +8,7 @@ describe("jsx3.xml.Template", function () {
   var t = new _jasmine_test.TestSuite("jsx3.xml.Template");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
   });
 
   var xslPrefix = '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +

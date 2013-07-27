@@ -8,7 +8,7 @@ describe("jsx3.lang", function(){
 	var t = new _jasmine_test.TestSuite("jsx3.lang");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 	});
 	
 	it("should be able to getCaller", function(){

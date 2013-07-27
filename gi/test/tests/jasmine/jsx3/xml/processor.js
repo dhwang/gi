@@ -8,7 +8,7 @@ describe("jsx3.xml.Processor", function () {
   var t = new _jasmine_test.TestSuite("jsx3.xml.Processor");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
     t._server = null;
   });
 

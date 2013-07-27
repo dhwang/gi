@@ -9,7 +9,6 @@ describe("jsx3.app.Server", function () {
   var t = new _jasmine_test.TestSuite("jsx3.app.Server");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
     t._server = null;
   });
 

@@ -9,7 +9,7 @@ describe("jsx3.net.Form", function () {
   var ACTION = jasmine.HTTP_BASE + "/formdata.cgi";
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
     t._server = null;
   });
 

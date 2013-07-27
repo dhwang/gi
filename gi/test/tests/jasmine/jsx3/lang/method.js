@@ -9,7 +9,7 @@
 	var t = new _jasmine_test.TestSuite("jsx3.lang.Method");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 		jsx3.lang.Class.defineClass("test.jsx3Method", null, null, function(C, P){
 			P.init = function() {};
 			P.function1 = function(arg1, arg2, arg3) { return this.getValue() + arg1 + arg2; };

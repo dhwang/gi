@@ -8,7 +8,7 @@ describe("jsx3.net.URI", function () {
   var t = new _jasmine_test.TestSuite("jsx3.net.URI");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
   });
 
   it("testAuthority", function () {

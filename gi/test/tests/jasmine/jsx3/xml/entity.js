@@ -8,7 +8,7 @@ describe("jsx3.xml.Entity", function () {
   var t = new _jasmine_test.TestSuite("jsx3.xml.Entity");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
   });
 
   it("should test if entity class is defined", function () {

@@ -8,7 +8,7 @@
 	var t = new _jasmine_test.TestSuite("jsx3.lang.Object");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 	});
 	
 	it("should be defined", function(){

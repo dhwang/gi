@@ -9,7 +9,7 @@
 	var t = new _jasmine_test.TestSuite("jsx3.lang.NativeError");
 	
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
+
 	});
 	
 	it("should be able to initialize error trapping mechanism", function(){

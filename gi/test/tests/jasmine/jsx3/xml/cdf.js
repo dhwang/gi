@@ -12,7 +12,7 @@ describe("jsx3.xml.CDF", function () {
   };
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
+
   });
 
   it("should be able to instantiate new instance of jsx3.app.CDF", function () {

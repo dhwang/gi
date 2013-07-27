@@ -14,7 +14,6 @@ describe("jsx3.xml.Cacheable", function () {
       function (CacheCDFTest, CacheCDFTest_prototype) {
     });
     t._server = t.newServer(null, "JSXAPPS/testCacheableServer", false, {namespace: "testCacheableServer"});
-    this.addMatchers(gi.test.jasmine.matchers);
   });
 
   it("should have an instance of testCacheableServer initialized", function () {
@@ -24,7 +23,7 @@ describe("jsx3.xml.Cacheable", function () {
   });
 
   it("should have the gi.test.CacheTest Class defined", function () {
-    expect(gi.test.CacheTest).not.toBeUndefined()
+    expect(gi.test.CacheTest).not.toBeUndefined();
     expect(gi.test.CacheTest.jsxclass).toBeInstanceOf(jsx3.lang.Class);
     expect(jsx3.xml.Cacheable.jsxclass.isAssignableFrom(gi.test.CacheTest.jsxclass)).toBeTruthy()
   });
@@ -33,21 +32,21 @@ describe("jsx3.xml.Cacheable", function () {
     var c = new gi.test.CacheTest();
     var id = c.getXMLId();
     expect(id).toBeTypeOf("string");
-    expect(id.length > 0).toBeTruthy()
+    expect(id.length > 0).toBeTruthy();
     c.setXMLId("myxmlid");
     expect(c.getXMLId()).toEqual("myxmlid")
   });
 
   it("should set the xml string of the cache object and also return the same", function () {
     var c = new gi.test.CacheTest();
-    expect(c.getXMLString()).toBeUndefined()
+    expect(c.getXMLString()).toBeUndefined();
     c.setXMLString("<xml/>");
     expect(c.getXMLString()).toEqual("<xml/>");
   });
 
   it("should set the xml url of the cache object and also return the same", function () {
     var c = new gi.test.CacheTest();
-    expect(c.getXMLURL()).toBeUndefined()
+    expect(c.getXMLURL()).toBeUndefined();
     c.setXMLURL("doc.xml");
     expect(c.getXMLURL()).toEqual("doc.xml")
   });
@@ -56,8 +55,8 @@ describe("jsx3.xml.Cacheable", function () {
     var c = new gi.test.CacheTest();
     t._server.getBodyBlock().setChild(c);
     var x = c.getXML();
-    expect(x).toBeInstanceOf(jsx3.xml._document);
-    expect(x.getNodeName()).toEqual("data")
+    expect(x).toBeInstanceOf(jsx3.xml.Document);
+    expect(x.getNodeName()).toEqual("data");
     expect(x.getChildNodes().size()).toEqual(0);
   });
 
@@ -76,9 +75,9 @@ describe("jsx3.xml.Cacheable", function () {
     t._server.getBodyBlock().setChild(c);
     c.setXMLString('<data><record jsxid="1"/><record jsxid="2"/></data>');
     var x = c.getXML();
-    expect(x.getNodeName()).toEqual("data")
+    expect(x.getNodeName()).toEqual("data");
     expect(x.getChildNodes().size()).toEqual(2);
-    expect(x.selectSingleNode("//record[@jsxid='2']")).not.toBeNull()
+    expect(x.selectSingleNode("//record[@jsxid='2']")).not.toBeNull();
     expect(x.selectSingleNode("//record[@jsxid='2']")).not.toBeUndefined()
   });
 
@@ -87,9 +86,9 @@ describe("jsx3.xml.Cacheable", function () {
     t._server.getBodyBlock().setChild(c);
     c.setXMLURL(t.resolveURI("data/cdf1.xml"));
     var x = c.getXML();
-    expect(x.getNodeName()).toEqual("data")
+    expect(x.getNodeName()).toEqual("data");
     expect(x.getChildNodes().size()).toEqual(5);
-    expect(x.selectSingleNode("//record[@jsxid='4']")).not.toBeNull()
+    expect(x.selectSingleNode("//record[@jsxid='4']")).not.toBeNull();
     expect(x.selectSingleNode("//record[@jsxid='4']")).not.toBeUndefined()
   });
 
@@ -404,7 +403,7 @@ describe("jsx3.xml.Cacheable", function () {
     var x = new jsx3.xml.Document().loadXML("<object><field/></object>");
     c.setXMLTransformers(t.resolveURI("data/trans.xsl"));
     x = c.setSourceXML(x);
-    expect(x.getNodeName()).toEqual("data")
+    expect(x.getNodeName()).toEqual("data");
     expect(x.getChildNodes().get(0).getNodeName()).toEqual("record")
   });
 

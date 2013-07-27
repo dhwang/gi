@@ -8,7 +8,6 @@ describe("jsx3.app.Model", function () {
   var t = new _jasmine_test.TestSuite("jsx3.app.Model");
 
   beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
   });
 
   it("should deserialize the file and append the deserialized objects as children of this DOM node", function () {
