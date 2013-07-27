@@ -6,7 +6,7 @@ describe("jsx3.net.Form", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.net.Form");
   var t = new _jasmine_test.TestSuite("jsx3.net.Form");
-  var ACTION = jasmine.HTTP_BASE + "/formdata.cgi";
+  var ACTION = _jasmine_test.HTTP_BASE + "/formdata.cgi";
 
   beforeEach(function () {
 
@@ -361,52 +361,34 @@ describe("jsx3.net.Form", function () {
   });
 
   it("testTimeout", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jasmine.HTTP_BASE + "/timeout.cgi", false);
+    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
-    var objEvent = {};
-    var flag, value;
-    flag = false;
-    value = 0;
-    f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (evt) {
-      flag = true;
-      objEvent = evt;
+    var target;
+
+    f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
+      expect(objEvent).not.toBeDefined();
     }, 500);
-    f.send(null, 500);
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
-    runs(function () {
-      //expect(objEvent.subject).toEqual("docId");
-      //expect(objEvent.action).toEqual(jsx3.app.Cache.CHANGE);
-      expect(objEvent.target).toEqual(f);
-      var objDoc = objEvent.target.getDocument("docId");
-      expect(objDoc).toBeInstanceOf(jsx3.xml.Document);
-      //expect(objDoc.getError()).toBeUndefined()
-      expect(objDoc.hasError()).toBeFalsy();
-      expect(objDoc.getNodeName()).toEqual("data");
-    });
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
-    f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (evt) {
-      flag = true;
-      objEvent = evt;
+    f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, function (objEvent) {
+      expect(objEvent).not.toBeDefined();
     }, 500);
+    f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, function (objEvent) {
+      target = objEvent.target;
+    }, 500);
+
     f.send(null, 500);
+
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return target != null;
+    }, "target is set by Timeout event", 750);
+
     runs(function () {
-      expect("Timed out form should not fire a response: " + objEvent).toBeFalsy()
+      expect(target).toBeDefined();
     });
   });
   //t.testTimeout._skip_unless = "NETWORK";
 
   it("testAbort", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jasmine.HTTP_BASE + "/timeout.cgi", false);
+    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
     var objEvent;
     var flag, value;
@@ -431,13 +413,11 @@ describe("jsx3.net.Form", function () {
       onDone();
     }, 300);
   });
-  // t.testAbort._async = true;
-  //t.testAbort._skip_unless = "NETWORK";
 
   /* Will just get back the 404 error page rather than any sort of status...
 
    t.testBadUrl = function() {
-   var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, jsunit.HTTP_BASE + "/404.cgi", false);
+   var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/404.cgi", false);
    f.setField("field", "value");
 
    f.subscribe("*", t.asyncCallback(function(objEvent) {
