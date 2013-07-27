@@ -249,17 +249,17 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getAttribute("a1")).toBeNull();
   });
 
-  it("testGetParent", function () {
+  it("has method getParent that should return the parent node of a non root node.", function () {
     var d = new jsx3.xml.Document().loadXML('<data><record/></data>');
     expect(d.getParent()).toBeNull();
-    expect(d.getChildNodes().get(0).getParent()).toEqual(d);
+    expect(d.getChildNodes().get(0).getParent()).toEquals(d);
   });
 
   it("should return the document that owns the entity", function () {
     var d = new jsx3.xml.Document().loadXML('<data><record/></data>');
     var n = d.getChildNodes().get(0);
-    expect(d.getOwnerDocument()).toEqual(d);
-    expect(n.getOwnerDocument()).toEqual(d);
+    expect(d.getOwnerDocument()).toEquals(d);
+    expect(n.getOwnerDocument()).toEquals(d);
   });
 
   it("testGetChildNodes", function () {
@@ -272,7 +272,7 @@ describe("jsx3.xml.Entity", function () {
     expect(c.get(2).getNodeName()).toEqual("r3");
   });
 
-  it("testGetChildNodesText", function () {
+  it("should be able to find TYPETEXT entity child node", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/>   <r2/></data>');
     var c = d.getChildNodes();
     expect(c.size()).toEqual(2);
@@ -284,7 +284,7 @@ describe("jsx3.xml.Entity", function () {
     expect(c.get(2).getNodeName()).toEqual("r2");
   });
 
-  it("should determine if the iterator iterates over the child nodes of the loaded xml to fetch correct node names.", function () {
+  it("should be able to obtain an iterator, iterate through the child nodes and verify its node name.", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/><r3/></data>');
     var i = d.getChildIterator();
     expect(i.hasNext()).toBeTruthy();
@@ -296,7 +296,7 @@ describe("jsx3.xml.Entity", function () {
     expect(i.hasNext()).toBeFalsy();
   });
 
-  it("should determine if the iterator iterates over the child nodes of the loaded xml to fetch correct node attributes.", function () {
+  it("should be able to obtain an iterator, iterate over the child nodes, and check for correct node attributes.", function () {
     var d = new jsx3.xml.Document().loadXML('<record jsxid="1" jsxtext="Service 1" serviceProvider="Svc Prov 1" identification="TO_FILL" status="INACTIVE" ad=" xcxcxc"><record jsxid="jsx_lf" interactID="1" jsxtext="Interact1" interactivity="Interact1"><record jsxid="jsx_lg" text="ddfd" url="fdff" advertising=" xcxcxc"/></record><record jsxid="jsx_lh" interactID="6" jsxtext="gg" interactivity="gg"/><record jsxid="jsx_li" constraintTypeID="4" jsxtext="contentType" constraintsType="contentType"><record jsxid="jsx_lj" constraintID="7" jsxtext="movies" value="movies"/><record jsxid="jsx_lk" constraintID="6" jsxtext="news" value="news"/><record jsxid="jsx_ll" constraintID="5" jsxtext="sport" value="sport"/></record><record jsxid="jsx_lm" constraintTypeID="3" jsxtext="Channel" constraintsType="Channel"><record jsxid="jsx_ln" constraintID="4" jsxtext="fr2" value="fr2"/><record jsxid="jsx_lo" constraintID="3" jsxtext="tf1" value="tf1"/></record></record>');
     var i = d.getChildIterator();
     expect(i.hasNext()).toBeTruthy();
@@ -305,22 +305,24 @@ describe("jsx3.xml.Entity", function () {
     expect(i.next().getAttribute('jsxid')).toEqual("jsx_lh");
     expect(i.hasNext()).toBeTruthy();
     expect(i.next().getAttribute('jsxid')).toEqual("jsx_li");
+    expect(i.hasNext()).toBeTruthy();
+    expect(i.next().getAttribute('jsxid')).toEqual("jsx_lm");
     expect(i.hasNext()).toBeFalsy();
   });
 
-  it("should return the first child node of the document", function () {
+  it("getFirstChild() method returns the first child node.", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/><r3/></data>');
     expect(d.getFirstChild().getNodeName()).toEqual("r1");
     expect(d.getFirstChild().getFirstChild()).toBeNull();
   });
 
-  it("should return the last child node of the document", function () {
+  it("getLastChild method returns the last child node", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/><r3/></data>');
     expect(d.getLastChild().getNodeName()).toEqual("r3");
     expect(d.getLastChild().getLastChild()).toBeNull();
   });
 
-  it("should return the previous nodes at the same level as that of child nodes", function () {
+  it("getPreviousSibling() returns the previous node at the same level", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/><r3/></data>');
     var r1 = d.getChildNodes().get(0);
     var r2 = d.getChildNodes().get(1);
@@ -328,7 +330,7 @@ describe("jsx3.xml.Entity", function () {
     expect(r2.getPreviousSibling()).toEqual(r1);
   });
 
-  it("should return the next nodes at the same level as that of child nodes", function () {
+  it("getNextSibling() returns the next node at the same level", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/><r3/></data>');
     var r2 = d.getChildNodes().get(1);
     var r3 = d.getChildNodes().get(2);
@@ -390,8 +392,6 @@ describe("jsx3.xml.Entity", function () {
   it("testSelectNamespaceImplicit", function () {
     var d = new jsx3.xml.Document().loadXML('<data xmlns:ns="uri"><r a="1"/><ns:r a="2"/></data>');
     var n = d.selectSingleNode("//ns:r");
-    expect(n).not.toBeNull()
-    expect(n).not.toBeUndefined()
     expect(n).not.toBeNull();
     expect(n).not.toBeUndefined();
     expect(n.getAttribute("a")).toEqual("2");
