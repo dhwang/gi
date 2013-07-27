@@ -441,3 +441,9 @@ gi.test.jasmine._init = function(_jasmine) {
 
 gi.test.jasmine._init(gi.test.jasmine);
 delete gi.test.jasmine._init;
+
+// Automatically add GI matchers, so you don't need to do this everytime in beforeEach()
+if (jasmine && jasmine.Matchers) {
+  for (var method in gi.test.jasmine.matchers)
+     jasmine.Matchers.prototype[method] = gi.test.jasmine.matchers[method];
+}
