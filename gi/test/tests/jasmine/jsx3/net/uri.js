@@ -7,11 +7,8 @@ describe("jsx3.net.URI", function () {
   _jasmine_test.require("jsx3.net.URI.jsxclass");
   var t = new _jasmine_test.TestSuite("jsx3.net.URI");
 
-  beforeEach(function () {
 
-  });
-
-  it("testAuthority", function () {
+  it("should be able to retrieve the authority part of an URI.", function () {
     expect("www.domain.com").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getAuthority()));
     expect("user@domain.com").toEqual((new jsx3.net.URI("//user@domain.com/path/").getAuthority()));
     expect("domain.com:666").toEqual((new jsx3.net.URI("torrent://domain.com:666/").getAuthority()));
@@ -19,14 +16,14 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("file:/file.txt").getAuthority())).toBeNull();
   });
 
-  it("testFragment", function () {
+  it("should be able to retrieve the hash fragment of an URI.", function () {
     expect("fragment").toEqual((new jsx3.net.URI("scheme:ssp#fragment").getFragment()));
     expect("fragment").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html#fragment").getFragment()));
     expect("").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html#").getFragment()));
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getFragment())).toBeNull();
   });
 
-  it("testHost", function () {
+  it("should be able to retrieve the domain of an URI.", function () {
     expect("www.domain.com").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getHost()));
     expect("domain.com").toEqual((new jsx3.net.URI("//user@domain.com/path/").getHost()));
     expect((new jsx3.net.URI("scheme:ssp#fragment").getHost())).toBeNull();
@@ -34,7 +31,7 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("/file.txt").getHost())).toBeNull();
   });
 
-  it("testIPv6", function () {
+  it("should be able to parse an IPV6 URI.", function () {
     expect("[1080:0:0:0:8:800:200C:4171]").toEqual((new jsx3.net.URI("http://[1080:0:0:0:8:800:200C:4171]/path/file.html").getHost()));
     expect("[::192.9.5.5]").toEqual((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getHost()));
     expect((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getPort())).toBeNull();
@@ -42,7 +39,7 @@ describe("jsx3.net.URI", function () {
     expect(8080).toEqual((new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getPort()));
   });
 
-  it("testPath", function () {
+  it("should be able to retrieve the path of the URI.", function () {
     expect("/path/file.html").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getPath()));
     expect("/file.txt").toEqual((new jsx3.net.URI("/file.txt").getPath()));
     expect("/file.txt").toEqual((new jsx3.net.URI("/file.txt#fragment").getPath()));
@@ -50,21 +47,20 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("scheme:ssp#fragment").getPath())).toBeNull();
   });
 
-  it("testPort", function () {
+  it("should be able to retrieve the port number of an URI", function () {
     expect(666).toEqual((new jsx3.net.URI("torrent://domain.com:666/").getPort()));
     expect(80).toEqual((new jsx3.net.URI("//user@domain.com:80/path/").getPort()));
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getPort())).toBeNull();
   });
 
-  it("testQuery", function () {
+  it("should be able to retrieve the query portion of an URI", function () {
     expect("query").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getQuery()));
-    expect((new jsx3.net.URI("scheme:ssp?query").getQuery())).toBeNull();
-    ; // illegal
+    expect((new jsx3.net.URI("scheme:ssp?query").getQuery())).toBeNull(); // illegal
     expect("query").toEqual((new jsx3.net.URI("/file.txt?query").getQuery()));
     expect("query").toEqual((new jsx3.net.URI("/file.txt?query#fragment").getQuery()));
   });
 
-  it("testScheme", function () {
+  it("should be able to determine the URI protocol scheme.", function () {
     expect("scheme").toEqual((new jsx3.net.URI("scheme:ssp#fragment").getScheme()));
     expect("http").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getScheme()));
     expect("C").toEqual((new jsx3.net.URI("C:/file.txt").getScheme()));
@@ -73,19 +69,19 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("//user@domain.com:80/path/").getScheme())).toBeNull();
   });
 
-  it("testSchemeSpecificPart", function () {
+  it("should be able to retrieve specific prt of an URI scheme", function () {
     expect("ssp").toEqual((new jsx3.net.URI("scheme:ssp#fragment").getSchemeSpecificPart()));
     expect("//www.domain.com/path/file.html").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getSchemeSpecificPart()));
     expect("/file.txt?query").toEqual((new jsx3.net.URI("/file.txt?query").getSchemeSpecificPart()));
   });
 
-  it("testUserInfo", function () {
+  it("should be able to retrieve the User Info of an URI", function () {
     expect("user").toEqual((new jsx3.net.URI("//user@domain.com:80/path/").getUserInfo()));
     expect((new jsx3.net.URI("/file.txt?query").getUserInfo())).toBeNull();
     expect("").toEqual((new jsx3.net.URI("scheme://@host/path").getUserInfo()));
   });
 
-  it("testQueryParam", function () {
+  it("should be able to retrieve a query parameter by name using getQueryParam(name).", function () {
     var u = new jsx3.net.URI("/path?q1&q2=v2&q3=v3#fragment");
     expect(true).toEqual(u.getQueryParam("q1"));
     expect("v2").toEqual(u.getQueryParam("q2"));
@@ -95,7 +91,7 @@ describe("jsx3.net.URI", function () {
     expect(u.getQueryParam("q1")).toBeNull();
   });
 
-  it("testQueryParams", function () {
+  it("shdould be able to parse query paramters into a json object using getQueryParams()", function () {
     var u = new jsx3.net.URI("/path?q1&q2=v2&q3=v3#fragment");
     var p = u.getQueryParams();
     expect(p).toBeInstanceOf(Object);
@@ -162,7 +158,7 @@ describe("jsx3.net.URI", function () {
     var u = new jsx3.net.URI("http://www.domain.com/path/file.html");
     expect(u == u.normalize()).toBeTruthy();
 
-    expect("file1.txt").toEqual(new jsx3.net.URI("./file1.txt").normalize().toString());
+    expect(new jsx3.net.URI("./file1.txt").normalize().toString()).toEqual("file1.txt");
     expect("../file.txt").toEqual(new jsx3.net.URI("../file.txt").normalize().toString());
     expect("file2.txt").toEqual(new jsx3.net.URI("foo/../file2.txt").normalize().toString());
     expect("../file.txt").toEqual(new jsx3.net.URI("foo/../../file.txt").normalize().toString());
@@ -184,13 +180,13 @@ describe("jsx3.net.URI", function () {
   ];
 
   for (var i = 0; i < resolveTests.length; i++) {
-    var touple = resolveTests[i];
-    t["testResolve" + i] = gi.test.jasmine.makeTestFunction(function (u1, u2, u3) {
-      u1 = jsx3.net.URI.valueOf(u1);
-      u2 = jsx3.net.URI.valueOf(u2);
-      u3 = jsx3.net.URI.valueOf(u3);
-      expect(u3).toEqual(u1.resolve(u2));
-    }, touple[0], touple[1], touple[2]);
+    touple = resolveTests[i];
+    gi.test.jasmine.makeTestFunction(function () {
+      var u1 = jsx3.net.URI.valueOf(touple[0]);
+      var u2 = jsx3.net.URI.valueOf(touple[1]);
+      var u3 = jsx3.net.URI.valueOf(touple[2]);
+      expect(u1.resolve(u2)).toEqual(u3);
+    }, "Resolve URI "+ touple.join(" -> "));
   }
 
   var relativizeTests = [
@@ -209,12 +205,12 @@ describe("jsx3.net.URI", function () {
 
   for (var i = 0; i < relativizeTests.length; i++) {
     var touple = relativizeTests[i];
-    t["testRelativize" + i] = gi.test.jasmine.makeTestFunction(function (u1, u2, u3) {
-      u1 = jsx3.net.URI.valueOf(u1);
-      u2 = jsx3.net.URI.valueOf(u2);
-      u3 = jsx3.net.URI.valueOf(u3);
-      expect(u3).toEqual(u1.relativize(u2));
-    }, touple[0], touple[1], touple[2]);
+    gi.test.jasmine.makeTestFunction(function () {
+      var u1 = jsx3.net.URI.valueOf(touple[0]);
+      var u2 = jsx3.net.URI.valueOf(touple[1]);
+      var u3 = jsx3.net.URI.valueOf(touple[2]);
+      expect(u1.relativize(u2)).toEqual(u3);
+    }, "Relativize URI " + touple.join(" -> "));
   }
 
 });

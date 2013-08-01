@@ -238,9 +238,8 @@ gi.test.jasmine._init = function(_jasmine) {
     for (var i = 1; i < arguments.length; i++)
       a[i-1] = arguments[i];
 
-    return function() {
-      fctBody.apply(null, a);
-    };
+    return jasmine.getEnv().it(arg1, fctBody);
+
   };
 
 
