@@ -6,10 +6,8 @@ describe("jsx3.net.Service", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Server", "jsx3.net.Service");
   var t = new _jasmine_test.TestSuite("jsx3.net.Service");
-  var ACTION = jasmine.HTTP_BASE + "/formdata.cgi";
 
   beforeEach(function () {
-
     t._server = null;
     var s = t._server = t.newServer("data/server1.xml", ".");
   });
@@ -22,7 +20,7 @@ describe("jsx3.net.Service", function () {
 
   it("should ensure static data stored in the rules file is accessible", function () {
     var s = t._service;
-    expect(s.getServer()).toBeInstanceOf(jsx3.app.Server)
+    expect(s.getServer()).toBeInstanceOf(jsx3.app.Server);
     expect("ReturnCityState").toEqual(s.getOperation());
     expect("http://test.example.com").toEqual(s.getEndpointURL());
     expect("GET").toEqual(s.getMethod());
@@ -104,6 +102,7 @@ describe("jsx3.net.Service", function () {
     expect(b.size()).toEqual(8);
   });
 
+  //if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
   it("testRequestJSON", function () {
     var Service = jsx3.net.Service;
     //init the service and set the inbound document
@@ -136,7 +135,7 @@ describe("jsx3.net.Service", function () {
     });
   });
 
-  // t.testRequestJSON._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
+  if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
   it("testRequestJSONfault", function () {
     var Service = jsx3.net.Service;
     //init the service and set the inbound document
@@ -145,31 +144,30 @@ describe("jsx3.net.Service", function () {
     s.setNamespace(t._server);
     s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=503&json=true");
     s.setOperationName("");
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
-    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (evt) {
-      objEvent = evt;
-      flag = true;
-    }, 500);
-    s.doCall();
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 800);
-    runs(function () {
-      if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
-        var req = objEvent.target.getRequest();
-        expect(503).toEqual(req.getStatus());
-        expect(s.getInboundDocument()).toBeNull();
+    var req;
+
+    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
+      _jasmine_test.debug(objEvent);
+      if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
+        req = objEvent.target.getRequest();
       } else {
         expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
       }
     });
+
+    s.doCall();
+    waitsFor(function () {
+      return req != null;
+    }, "service request object should be valid.", 800);
+
+    runs(function () {
+      expect(503).toEqual(req.getStatus());
+      expect(s.getInboundDocument()).toBeNull();
+    });
   });
 
-  // t.testRequestJSONfault._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
+
+  if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
   it("testRequestService", function () {
     var Service = jsx3.net.Service;
     //init the service and set the inbound document
@@ -194,15 +192,14 @@ describe("jsx3.net.Service", function () {
     runs(function () {
       if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
         var req = objEvent.target.getRequest();
-        expect(200).toEqual(req.getStatus());
+        expect(200).toEqual(req.getStatus())
       } else {
         expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
       }
     });
   });
 
-  //t.testRequestService._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
-
+  if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
   it("testRequestServiceFail", function () {
     var Service = jsx3.net.Service;
     //init the service and set the inbound document
@@ -289,6 +286,7 @@ describe("jsx3.net.Service", function () {
     expect(b).not.toBeNull();
     expect(b).not.toBeUndefined();
   });
+
   afterEach(function () {
     if (t._server) {
       t._server.destroy();
