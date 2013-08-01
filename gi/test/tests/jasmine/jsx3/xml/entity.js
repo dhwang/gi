@@ -73,7 +73,7 @@ describe("jsx3.xml.Entity", function () {
   it("should create a new node and return the XML (as String) for this node and any descendants", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var ne = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "el:element", "http://namespace");
-    expect(ne.getXML()).toEqual("<el:element xmlns:el=\"http://namespace\"/>")
+    expect(ne.getXML()).toEqual("<el:element xmlns:el=\"http://namespace\"/>");
   });
 
   it("should create a new node and return reference to the new node wrapped in a jsx3.xml.Entity instance of type jsx3.xml.Entity.TYPETEXT", function () {
@@ -91,7 +91,7 @@ describe("jsx3.xml.Entity", function () {
   it("should create a new node and return reference to the new node wrapped in a jsx3.xml.Entity instance of type jsx3.xml.Entity.TYPECOMMENT", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nc = d.createNode(jsx3.xml.Entity.TYPECOMMENT, "comment");
-    expect(nc.getValue()).toEqual("comment")
+    expect(nc.getValue()).toEqual("comment");
   });
 
   it("testGetNodeType", function () {
@@ -105,7 +105,7 @@ describe("jsx3.xml.Entity", function () {
     var d = new jsx3.xml.Document().loadXML('<data att="val"/>');
     expect(d.getNodeName()).toEqual("data");
     d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.example.com"/>');
-    expect(d.getNodeName()).toEqual("foo:data")
+    expect(d.getNodeName()).toEqual("foo:data");
   });
 
   it("testGetNamespaceUri1", function () {
@@ -232,12 +232,12 @@ describe("jsx3.xml.Entity", function () {
     var a = d.getAttributeNames();
     expect(a.length).toEqual(2);
     expect(a[0]).toEqual("a1");
-    expect(a[01]).toEqual("a2");
+    expect(a[1]).toEqual("a2");
   });
 
   it("testRemoveAttribute", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1"/>');
-    expect(d.getAttribute("a1")).toEqual("v1")
+    expect(d.getAttribute("a1")).toEqual("v1");
     d.removeAttribute("a1");
     expect(d.getAttribute("a1")).toBeNull();
   });
@@ -490,13 +490,13 @@ describe("jsx3.xml.Entity", function () {
   it("testToStringCdata", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nd = d.createNode(jsx3.xml.Entity.TYPECDATA, "cdata");
-    expect(nd.toString()).toEqual("<![CDATA[cdata]]>")
+    expect(nd.toString()).toEqual("<![CDATA[cdata]]>");
   });
 
   it("testToStringComment", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nc = d.createNode(jsx3.xml.Entity.TYPECOMMENT, " comment ");
-    expect(nc.toString()).toEqual("<!-- comment -->")
+    expect(nc.toString()).toEqual("<!-- comment -->");
   });
 
   it("testSetValue", function () {
@@ -552,7 +552,7 @@ describe("jsx3.xml.Entity", function () {
     d2.replaceNode(d1.getChildNodes().get(0), d2.getChildNodes().get(0));
     expect(d1.getChildNodes().size()).toEqual(0);
     expect(d2.getChildNodes().size()).toEqual(1);
-    expect(d2.getChildNodes().get(0).getNodeName()).toEqual("a")
+    expect(d2.getChildNodes().get(0).getNodeName()).toEqual("a");
   });
 
   it("testInterDoc5", function () {
