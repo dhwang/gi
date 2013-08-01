@@ -25,7 +25,19 @@ var specs = [
 
   /* Server suite */
     "jsx3/app/model.js", "jsx3/xml/cacheable.js",
-    "jsx3/net/service.js", "jsx3/net/form.js"
+    "jsx3/net/service.js", "jsx3/net/form.js",
+	
+	/* package jsx.util */
+		"jsx3/util/dateformat.js",
+	
+	/* package jsx3.gui */
+		"jsx3/gui/layoutgrid.js","jsx3/gui/nativeform.js","jsx3/gui/numberinput.js",
+			
+	/* ext.js */
+		"jsx3/ext.js",
+
+  /* package.js */
+    "jsx3/pkg.js"
 ];
 
 gi.test.jasmine.loadTestSpecs(specs);
