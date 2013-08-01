@@ -8,15 +8,10 @@ describe("jsx3.net.Form", function () {
   var t = new _jasmine_test.TestSuite("jsx3.net.Form");
   var ACTION = _jasmine_test.HTTP_BASE + "/formdata.cgi";
 
-  beforeEach(function () {
-
-    t._server = null;
-  });
-
   it("should return the HTTP method of this form.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     try {
-      expect(jsx3.net.Form.METHOD_POST).toEqual(f.getMethod());
+      expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_POST);
     } finally {
       f.destroy();
     }
@@ -43,9 +38,9 @@ describe("jsx3.net.Form", function () {
   it("should set the method of this form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, "", false);
     try {
-      expect(jsx3.net.Form.METHOD_POST).toEqual(f.getMethod())
+      expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_POST);
       f.setMethod(jsx3.net.Form.METHOD_GET);
-      expect(jsx3.net.Form.METHOD_GET).toEqual(f.getMethod())
+      expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_GET);
     } finally {
       f.destroy();
     }
@@ -142,7 +137,7 @@ describe("jsx3.net.Form", function () {
     var value = "   value   ";
     try {
       f.setField("field", value);
-      expect(f.getField("field")).toEqual(value)
+      expect(f.getField("field")).toEqual(value);
     } finally {
       f.destroy();
     }
@@ -153,7 +148,7 @@ describe("jsx3.net.Form", function () {
     var value = "\tvalue\t\t";
     try {
       f.setField("field", value);
-      expect(f.getField("field")).toEqual(value)
+      expect(f.getField("field")).toEqual(value);
     } finally {
       f.destroy();
     }
@@ -164,7 +159,7 @@ describe("jsx3.net.Form", function () {
     var value = "\nvalue\n\n";
     try {
       f.setField("field", value);
-      expect(f.getField("field").replace(/\r\n/g, "\n")).toEqual(value)
+      expect(f.getField("field").replace(/\r\n/g, "\n")).toEqual(value);
     } finally {
       f.destroy();
     }
@@ -175,7 +170,7 @@ describe("jsx3.net.Form", function () {
     var value = "\r\nvalue\r\n\r\n";
     try {
       f.setField("field", value);
-      expect(f.getField("field").replace(/\r\n/g, "\n")).toEqual("\nvalue\n\n")
+      expect(f.getField("field").replace(/\r\n/g, "\n")).toEqual("\nvalue\n\n");
     } finally {
       f.destroy();
     }
@@ -186,7 +181,7 @@ describe("jsx3.net.Form", function () {
     var value = "\u3CC4";
     try {
       f.setField("field", value);
-      expect(f.getField("field")).toEqual(value)
+      expect(f.getField("field")).toEqual(value);
     } finally {
       f.destroy();
     }
@@ -196,7 +191,7 @@ describe("jsx3.net.Form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "", false);
     try {
       f.setField("field", "value1", true);
-      expect(f.getField("field")).toEqual("value1")
+      expect(f.getField("field")).toEqual("value1");
       f.removeField("field");
       expect(f.getField("field")).toBeNull();
     } finally {
@@ -230,7 +225,7 @@ describe("jsx3.net.Form", function () {
   it("should create a new form and initialize it from the HTML representation of a GET form", function () {
     var f = new jsx3.net.Form.newFromFragment('<form action="#"></form>');
     try {
-      expect(jsx3.net.Form.METHOD_GET).toEqual(f.getMethod())
+      expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_GET);
     } finally {
       f.destroy();
     }
@@ -239,7 +234,7 @@ describe("jsx3.net.Form", function () {
   it("should create a new form and initialize it from the HTML representation of a POST form", function () {
     var f = new jsx3.net.Form.newFromFragment('<form method="POST" action="#"></form>');
     try {
-      expect(jsx3.net.Form.METHOD_POST).toEqual(f.getMethod())
+      expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_POST);
     } finally {
       f.destroy();
     }
@@ -337,7 +332,7 @@ describe("jsx3.net.Form", function () {
       expect(fields[0]).toEqual("field1");
       expect(fields[1]).toEqual("field2");
       f.removeField("field1");
-      var fields = f.getFields();
+      fields = f.getFields();
       expect(fields.length).toEqual(1);
       expect(fields[0]).toEqual("field2");
     } finally {
@@ -353,14 +348,14 @@ describe("jsx3.net.Form", function () {
       expect(fields.length).toEqual(1);
       expect(fields[0]).toEqual("file");
       f.removeField("file");
-      var fields = f.getFields();
+      fields = f.getFields();
       expect(fields.length).toEqual(0);
     } finally {
       f.destroy();
     }
   });
 
-  it("testTimeout", function () {
+  it("request can timeout and receive a Form.EVENT_ON_TIMEOUT event.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
     var target;
@@ -387,165 +382,137 @@ describe("jsx3.net.Form", function () {
   });
   //t.testTimeout._skip_unless = "NETWORK";
 
-  it("testAbort", function () {
+  it("should receive no event object when Form.abort() is called before response is received.", function () {
+    var abort = null, objEvent = null;
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
+
+    var onDone = function() {
+      abort = "called";
+    };
+
     f.subscribe("*", function (evt) {
-      flag = true;
       objEvent = evt;
     }, 500);
     f.send(null, 5000);
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
-    runs(function () {
-      expect("Aborted form should not fire an event: " + objEvent.subject + " " + objEvent.target).toBeFalsy()
+
+    runs(function() {
+      window.setTimeout(function () {
+        abort = "called";
+        f.abort();
+      }, 100);
+      window.setTimeout(function () {
+        onDone();
+      }, 300);
     });
-    window.setTimeout(function () {
-      f.abort();
-    }, 100);
-    window.setTimeout(function () {
-      onDone();
-    }, 300);
+
+    waitsFor(function () {
+      return abort == "called";
+    }, "The Value should be incremented", 750);
+
+    runs(function () {
+      expect(objEvent).toBeNull();
+      //"Aborted form should not fire an event: "
+      //expect( objEvent.subject + " " + objEvent.target).toBeFalsy();
+    });
   });
 
-  /* Will just get back the 404 error page rather than any sort of status...
 
-   t.testBadUrl = function() {
-   var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/404.cgi", false);
-   f.setField("field", "value");
-
-   f.subscribe("*", t.asyncCallback(function(objEvent) {
-   if (objEvent.subject != jsx3.net.Form.EVENT_ON_ERROR) {
-   jsunit.assert("Form to bad URL should only fire an error event: " + objEvent.subject + " " + f.getResponseText(), false);
-   } else {
-   }
-   }));
-
-   f.send();
-   };
-   t.testBadUrl._async = true;
-   t.testBadUrl._skip_unless = "NETWORK";
-   */
-  it("testSendSimple", function () {
+  it("should be able to send and receive using Form.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     f.setField("field", "value");
-    var flag, value;
-    flag = false;
-    value = 0;
-    f.subscribe("*", function (evt) {
-      flag = true;
-      objEvent = evt;
+    var rec = null;
+    f.subscribe("*", function (objEvent) {
+      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+        var xml = f.getResponseXML();
+        rec = xml.selectSingleNode("//record[@jsxid='field']");
+      } else {
+        this.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+      }
     }, 500);
     f.send();
+
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return rec != null;
+    }, "record of jsxid 'field' should be defined", 1750);
 
     runs(function () {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE && f.getResponseText()) {
-        var xml = f.getResponseXML();
-        var rec = xml.selectSingleNode("//record[@jsxid='field']");
-        expect(rec).not.toBeNull()
-        expect(rec).not.toBeUndefined()
-        expect(rec.getValue()).toEqual("value")
-      } else {
-        expect("Form should only fire response event: " + objEvent.subject + " " + objEvent.message).toBeFalsy()
-      }
+      expect(rec).not.toBeUndefined();
+      expect(rec.getValue()).toEqual("value");
     });
   });
   //t.testSendSimple._skip_unless = "NETWORK";
 
-  it("testReceiveText", function () {
+  it("should be able to send and receive text content.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
-    var evt = {};
-    var flag, value;
-    flag = false;
-    value = 0;
+    var text = null;
     f.subscribe("*", function (objEvent) {
-      flag = true;
-      evt = objEvent;
+      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+        text = f.getResponseText();
+      }
     }, 500);
     f.send();
+
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return text != null;
+    }, "text value should have been received", 750);
+
     runs(function () {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-        var text = f.getResponseText();
-        expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy()
-      }
+      expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy();
     });
   });
   //t.testReceiveText._skip_unless = "NETWORK";
 
-  it("testSendWhiteSpace", function () {
+  it("should be able to preserve white space posted and received.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     var value = " \t value\n\n";
     f.setField("field", value);
-    var evt = {};
-    var flag, value;
-    flag = false;
-    value = 0;
-    f.subscribe("*", function (objEvent) {
-      flag = true;
-      evt = objEvent;
-    }, 500);
-    f.send();
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+    var rec = null;
 
-    runs(function () {
+    f.subscribe("*", function (objEvent) {
       if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
         var xml = f.getResponseXML();
-        var rec = xml.selectSingleNode("//record[@jsxid='field']");
-        expect(rec).not.toBeNull();
-        expect(rec).not.toBeUndefined();
-        expect(rec.getValue().replace(/\r\n/g)).toEqual(value);
+        rec = xml.selectSingleNode("//record[@jsxid='field']");
       }
+    }, 500);
+    f.send();
+
+    waitsFor(function () {
+      return rec != null;
+    }, "target should be defined", 750);
+
+    runs(function () {
+      expect(rec).not.toBeNull();
+      expect(rec).not.toBeUndefined();
+      expect(rec.getValue().replace(/\r\n/g,"")).toEqual(value);
     });
 
   });
-  //t.testSendWhiteSpace._async = true;
-  //t.testSendWhiteSpace._skip_unless = "NETWORK";
-  it("testSendXml", function () {
+
+  it("should be able to send and receive XML content.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     var value1 = "<some>&xml &lt;";
     f.setField("field1", value1);
-    var evt = {};
-    var flag, value;
-    flag = false;
-    value = 0;
+    var xml, rec = null;
+
     f.subscribe("*", function (objEvent) {
-      evt = objEvent;
-      flag = true;
+      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+        xml = f.getResponseXML();
+        rec = xml.selectSingleNode("//record[@jsxid='field1']");
+      }
     }, 500);
     f.send();
+
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return rec != null;
+    }, "record[@jsxid='field1'] is not null", 750);
 
     runs(function () {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-        var xml = f.getResponseXML();
-        var rec = xml.selectSingleNode("//record[@jsxid='field1']");
-        expect(rec).not.toBeNull();
-        expect(rec).not.toBeUndefined();
-        expect(rec.getValue()).toEqual(value1);
-      }
+      expect(rec).not.toBeNull();
+      expect(rec).not.toBeUndefined();
+      expect(rec.getValue()).toEqual(value1);
     });
   });
-  //t.testSendXml._async = true;
   //t.testSendXml._skip_unless = "NETWORK";
 
   /* Can't get this one to work between the browser and our server...
