@@ -404,53 +404,34 @@ describe("jsx3.xml.Document", function () {
    * exposed when deployed over HTTP.  ... can't actually get this to fail on 3.3.0_v1.
    */
 
-  it("testAsyncOrdering", function () {
+  it("should reveal an issue with synchronous request issued after an asynchronous document on IE.", function () {
     var order = [];
     var js = "";
-    runs(function () {
-      flag = false;
-      value = 0;
-      expect(js.indexOf("nothingSpecial") >= 0).toBeTruthy();
-      expect(order.length).toEqual(1);
-      expect(order[0]).toEqual("request");
-      //expect(order[1]).toEqual("document");
-    });
     var d1 = new jsx3.xml.Document();
     d1.setAsync(true);
-    runs(function () {
-      flag = false;
-      value = 0;
-      expect(js.indexOf("nothingSpecial") >= 0).toBeTruthy();
-      expect(order.length).toEqual(1);
-      expect(order[0]).toEqual("request");
-      // expect(order[1]).toEqual("document");
-    });
-    var objEvent;
-    runs(function () {
-      flag = false;
-      value = 0;
-      d1.subscribe(jsx3.xml.Document.ON_RESPONSE, function (evt) {
-        objEvent = evt;
+    d1.subscribe(jsx3.xml.Document.ON_RESPONSE, function (evt) {
         order.push("document");
-        if (order.length == 2) {
-          expect(js.indexOf("nothingSpecial") >= 0).toBeTruthy();
-          expect(order.length).toEqual(2);
-          expect(order[0]).toEqual("request");
-          // expect(order[1]).toEqual("document");
-        }
-
-      }, 500);
     });
     d1.load(t.resolveURI("data/test1.xml"), 1000);
+
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/test.js"), false);
     r.send();
     js = r.getResponseText();
     order.push("request");
-    if (order.length == 2) callback();
+
+    waitsFor(function() {
+      return order.length >= 2;
+    });
+
+    runs(function () {
+      expect(js.indexOf("nothingSpecial") >= 0).toBeTruthy();
+      expect(order.length).toEqual(2);
+      expect(order[0]).toEqual("request");
+      expect(order[1]).toEqual("document");
+    });
+
   });
 
-  afterEach(function () {
-  });
 });
 
