@@ -2,11 +2,10 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
- describe("jsx3.util.DateFormate", function(){
+ describe("jsx3.util.DateFormat", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.util.DateFormat", "jsx3.util.Locale", "jsx3.lang.System");
-	var t = new _jasmine_test.TestSuite("jsx3.util.DateFormate");
-	
+
 	beforeEach(function(){
 		this.addMatchers(gi.test.jasmine.matchers);
 	});
@@ -45,7 +44,7 @@
 	
 	it("should fail to instantiate a DateFormat without specifying a format string", function(){
 		expect(function(){
-			return new jsx3.util.DateFormat()
+			return new jsx3.util.DateFormat();
 		}).toThrow();
 	});
 	
@@ -294,7 +293,6 @@
 		var d, s = "02 29 2008";
 
 		d = mf.parse(s);
-		console.info(d.getMonth())
 		expect(d.getMonth()).toEqual(1);
 		expect(d.getDate()).toEqual(29);
 		expect(d.getFullYear()).toEqual(2008);
