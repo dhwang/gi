@@ -6,11 +6,7 @@ describe("ext - Javascript extended functions", function(){
 
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.$Y", "jsx3.jsxpackage", "jsx3.util.jsxpackage", "jsx3.util.EventDispatcher");
-	
-	beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
-  });
-	
+
 	describe("jsx3.$Object, jsx3.$O - javascript extended Object", function(){
 		
 		it("$O.extend() should copy all properties of existing object to new object", function(){
@@ -100,7 +96,7 @@ describe("ext - Javascript extended functions", function(){
 			var a = jsx3.$A([1, 2, 3, 4, 5]);
 			a.remove(3);
 			expect(a.length).toEqual(4);
-			a.remove("2")
+			a.remove("2");
 			expect(a.length).toEqual(4);
 		});
 	
@@ -202,7 +198,7 @@ describe("ext - Javascript extended functions", function(){
 	
 		it("sleep() method would place all jobs in a queue", function(){
 			var f = jsx3.$Y(function(cb){
-				jsx3.sleep(function(){	cb.done(1); })
+				jsx3.sleep(function(){	cb.done(1); });
 			});
 			var rv = f();
 			expect(function(){
@@ -217,9 +213,9 @@ describe("ext - Javascript extended functions", function(){
 			var rv =f();
 			rv.when(function(){
 				expect(rv.rv()).toEqual(1);
-			})
+			});
 			
-		})
+		});
 	
 		it("should create and return an async return value that completes when this and rv have complete", function(){
 			var ct = 0;
@@ -229,7 +225,7 @@ describe("ext - Javascript extended functions", function(){
 					expect( ct == 0 || ct ==1).toBeTruthy();
 					ct++;
 					cb.done();
-				})
+				});
 			});
 		
 			var f2 = jsx3.$Y(function(cb){
@@ -237,7 +233,7 @@ describe("ext - Javascript extended functions", function(){
 					expect( ct == 0 || ct ==1).toBeTruthy();
 					ct++;
 					cb.done();
-				})
+				});
 			});
 		
 			var rv1;
@@ -245,7 +241,7 @@ describe("ext - Javascript extended functions", function(){
       runs(function(){
         rv1 = f1();
         rv2 = f2();
-      })
+      });
       waitsFor(function(){
         return true;
       },"rv1 and rv2 should be completes",1000);
@@ -253,7 +249,7 @@ describe("ext - Javascript extended functions", function(){
 			runs(function(){
 				rv1.and(rv2).when(function(){
 					expect(ct).toEqual(2);
-				})
+				});
 			});
 		});
 	
@@ -270,7 +266,7 @@ describe("ext - Javascript extended functions", function(){
         f2 = jsx3.$Y(function(cb){
 				jsx3.sleep(function(){
 					f1().when(cb);
-				})
+				});
 			});
         rv = f2();
       });
@@ -282,8 +278,8 @@ describe("ext - Javascript extended functions", function(){
 			runs(function(){
         rv.when(function(){
 					expect(rv.rv()).toEqual(1);
-				})
-			})
+				});
+			});
 		});
 	
 		it("create and return an async return value that completes when this or rv have complete", function(){
@@ -294,14 +290,14 @@ describe("ext - Javascript extended functions", function(){
 					expect(0 == ct || 1 == ct).toBeTruthy();
 					ct ++;
 					cb.done();
-				})
-			})
+				});
+			});
 		
 			var f2 = jsx3.$Y(function(cb){
 				jsx3.sleep(function(){
 					expect(0 == ct || 1 == ct).toBeTruthy();
 					ct ++;
-					cb.done()
+					cb.done();
 				});
 			});
 		
@@ -310,7 +306,7 @@ describe("ext - Javascript extended functions", function(){
 			runs(function(){
 				rv1.or(rv2).when(function(){
 					expect(ct).toEqual(1);
-				})
+				});
 			});
 		});
 	
@@ -318,7 +314,7 @@ describe("ext - Javascript extended functions", function(){
 			var f1 = jsx3.$Y(function(cb){
 				jsx3.sleep(function(){
 					cb.done(1);
-				})
+				});
 			});
 			var f2 = jsx3.$Y(function(cb){
 				var a = cb.args()[0];
@@ -329,27 +325,27 @@ describe("ext - Javascript extended functions", function(){
 			runs(function(){
 				rv.when(function(){
 					expect(rv.rv()).toEqual(2);
-				})
-			})
+				});
+			});
 		});
 	
 		it("should be able to async with return", function(){
 			var f1 = jsx3.$Y(function(cb){
 				jsx3.sleep(function(){
 					cb.done(1);
-				})
+				});
 			});
 		
 			var f2 = jsx3.$Y(function(cb){
 				return f1();
-			})
+			});
 		
 			var rv = f2();
 			runs(function(){
 				rv.when(function(){
 					expect(rv.rv()).toEqual(1);
-				})
-			})
+				});
+			});
 		});
 	});
 	
@@ -357,7 +353,7 @@ describe("ext - Javascript extended functions", function(){
 		it("should return an async wrapper of a sync method which haven't argument", function(){
 			var f = function(){
 				return 1;
-			}
+			};
 		
 			var rv = jsx3.$Z(f)();
 			expect(rv.rv()).toEqual(1);
@@ -366,7 +362,7 @@ describe("ext - Javascript extended functions", function(){
 		it("should return an async wrapper of a sync method: 2", function(){
 			var f = function(n){
 				return n*2;
-			}
+			};
 		
 			var rv = jsx3.$Z(f)(5);
 			expect(rv.rv()).toEqual(10);
@@ -376,8 +372,8 @@ describe("ext - Javascript extended functions", function(){
 			var arg1 = jsx3.$Y(function(cb){
 				jsx3.sleep(function(){
 					cb.done(10);
-				})
-			})
+				});
+			});
       var f = function(n){
 				return n*2;
 			};
@@ -390,7 +386,7 @@ describe("ext - Javascript extended functions", function(){
 			runs(function(){
 				rv.when(function(){
 					expect(rv.rv()).toEqual(20);
-				})
+				});
 			});
 		});
 	
@@ -402,14 +398,14 @@ describe("ext - Javascript extended functions", function(){
 						run:function(a){
 							return a;
 						}
-					})
-				})
+					});
+				});
 			});
 	
 			var arg1 = jsx3.$Y(function(cb){
 				jsx3.sleep(function(){
 					cb.done(10);
-				})
+				});
 			});
 
       var rv;
@@ -422,8 +418,8 @@ describe("ext - Javascript extended functions", function(){
       
       runs(function(){
         rv.when(function(){
-          expect(rv.rv()).toEqual(10)
-        })
+          expect(rv.rv()).toEqual(10);
+        });
       });
       
 		});
@@ -431,7 +427,7 @@ describe("ext - Javascript extended functions", function(){
 		it("should be able to access 'this' in the context of the passed argument object", function(){
 			var f = function(){
 				return this.k + 1;
-			}
+			};
 		
 			var rv = jsx3.$Z(f).apply({k:10});
 		
