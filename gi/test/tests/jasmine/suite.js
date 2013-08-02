@@ -4,6 +4,8 @@
  */
 
 var specs = [
+  "jsx3/ext.js", "jsx3/pkg.js",
+
   /* Reflection and metadata suite */
   "jsx3/lang/pkg.js", "jsx3/lang/object.js", "jsx3/lang/method.js", "jsx3/lang/class.js",
   "jsx3/lang/package.js", "jsx3/lang/aop.js",
@@ -26,18 +28,14 @@ var specs = [
   /* Server suite */
     "jsx3/app/model.js", "jsx3/xml/cacheable.js",
     "jsx3/net/service.js", "jsx3/net/form.js",
-	
-	/* package jsx.util */
-		"jsx3/util/dateformat.js",
-	
-	/* package jsx3.gui */
-		"jsx3/gui/layoutgrid.js","jsx3/gui/nativeform.js","jsx3/gui/numberinput.js",
-			
-	/* ext.js */
-		"jsx3/ext.js",
 
-  /* package.js */
-    "jsx3/pkg.js"
+  /* Localization suite */
+  "jsx3/util/dateformat.js",
+  /*"jsx3/util/locale.js", "jsx3/util/numberformat.js","jsx3/util/messageformat.js",*/
+
+  /* GUI suite */
+  "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js"
+
 ];
 
 gi.test.jasmine.loadTestSpecs(specs);
