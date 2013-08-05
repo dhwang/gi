@@ -7,9 +7,6 @@ describe("jsx3.xml.Document", function () {
   _jasmine_test.require("jsx3.xml.Document", "jsx3.net.Request");
   var t = new _jasmine_test.TestSuite("jsx3.xml.Document");
 
-  beforeEach(function () {
-  });
-
   it("should check if plain javascript object/namespace 'jsx3.xml.Document' exists", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Document")).not.toBeNull();
     expect(jsx3.lang.Class.forName("jsx3.xml.Document")).not.toBeUndefined();
@@ -108,23 +105,20 @@ describe("jsx3.xml.Document", function () {
   it("should load document asynchronously", function () {
     var d = new jsx3.xml.Document();
     d.setAsync(true);
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
-    d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (evt) {
-      objEvent = evt;
-      flag = true;
+    var evt = {};
+    d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
+      evt = objEvent;
     }, 500);
-    d.load(t.resolveURI("data/test1.xml"));
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 800);
     runs(function () {
-      expect(d).toEqual(objEvent.target);
-      expect(objEvent.target.hasError()).toBeFalsy();
-      expect("data").toEqual(d.getNodeName());
+      d.load(t.resolveURI("data/test1.xml"));
+    });
+    waitsFor(function () {
+      return evt.target != null;
+    }, "wait until there's a real objevent.target", 5000);
+    runs(function () {
+      expect(evt.target).toEqual(d);
+      expect(evt.target.hasError()).toBeFalsy();
+      expect(d.getNodeName()).toEqual("data");
     });
   });
 
@@ -145,21 +139,19 @@ describe("jsx3.xml.Document", function () {
     d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
       expect(objEvent.target.hasError()).toBeFalsy();
       target = objEvent.target;
-      flag = true;
     }, 500);
     d.subscribe(jsx3.xml.Document.ON_ERROR, function (objEvent) {
       expect(objEvent.target.hasError()).toBeTruthy();
       target = objEvent.target;
-      flag = true;
     }, 500);
-    d.load(t.resolveURI("data/testy1.xml"));
-
+    runs(function () {
+      d.load(t.resolveURI("data/testy1.xml"));
+    });
     waitsFor(function () {
       return target != null;
     }, "target should be set by one of the Document.ON_RESPONSE or Document.ON_ERROR", 750);
-
     runs(function () {
-     expect(target.hasError()).toBeTruthy();
+      expect(target.hasError()).toBeTruthy();
     });
   });
 
@@ -174,42 +166,48 @@ describe("jsx3.xml.Document", function () {
       expect(objEvent.target.hasError()).toBeTruthy();
       target = objEvent.target;
     }, 500);
-
-    d.load(t.resolveURI("data/bad.xml"));
-
+    runs(function () {
+      d.load(t.resolveURI("data/bad.xml"));
+    });
     waitsFor(function () {
       return target != null;
     }, "target should be set by one of the Document.ON_RESPONSE or Document.ON_ERROR", 750);
-
     runs(function () {
       expect(target).not.toBeNull();
       expect(target.hasError()).toBeTruthy();
     });
   });
 
-  it("should test if timeout occurs when subscribing to event calls asynchronously", function () {
+  it("should receive no event object when Form.abort() is called before response is received", function () {
+    var abort = null, objEvent = null;
     var d = new jsx3.xml.Document();
     d.setAsync(true);
-    var flag, value;
-    flag = false;
-    value = 0;
     var evtCount = 0;
-    runs(function () {
-      d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
-        evtCount++;
-        flag = true;
-      }, 500);
+    var evt = {};
+    var onDone = function() {
+      abort = "called";
+    };
+    d.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
+      evtCount++;
+      evt = objEvent;
+    }, 500);
+
+    runs(function() {
+      window.setTimeout(function () {
+        abort = "called";
+        d.abort();
+      }, 100);
+      window.setTimeout(function () {
+        onDone();
+      }, 300);
     });
+    waitsFor(function () {
+      return abort == "called";
+    }, "The Value should be incremented", 750);
     runs(function () {
-      flag = false;
-      value = 0;
-      setTimeout(function () {
-        expect(evtCount).toEqual(0);
-        expect(d.hasError()).toBeFalsy();
-      }, 2000);
+      expect(evtCount).toEqual(0);
+      expect(d.hasError()).toBeFalsy();
     });
-    d.load(t.resolveURI("data/test1.xml"));
-    d.abort();
   });
 
   it("should correctly load the xml form a file synchronously", function () {
@@ -298,7 +296,7 @@ describe("jsx3.xml.Document", function () {
     var url = t.resolveURI("data/test1.xml");
     var d = new jsx3.xml.Document();
     d.load(url);
-    expect(url).toEqual(d.getSourceURL());
+    expect(d.getSourceURL()).toEqual(url);
     d.load("nowhere.xml");
     expect(d.getSourceURL()).toEqual("nowhere.xml");
     d.loadXML("<data/>");
@@ -326,7 +324,7 @@ describe("jsx3.xml.Document", function () {
     var d = new jsx3.xml.Document();
     var src = "<data><record/></data>";
     d.loadXML(src);
-    expect(src).toEqual(d.toString());
+    expect(d.toString()).toEqual(src);
     d.loadXML("<data><record/></data"); // malformed xml is intentional
     expect(d.hasError()).toBeTruthy();
     expect(d.toString().indexOf(d.getError().description) >= 0).toBeTruthy();
@@ -337,9 +335,9 @@ describe("jsx3.xml.Document", function () {
     var src = "<data><record/></data>";
     d.loadXML(src);
     var d2 = d.cloneDocument();
-    expect(src).toEqual(d.toString());
+    expect(d.toString()).toEqual(src);
     expect(d).not.toEqual(d2);
-    expect(src).toEqual(d2.toString());
+    expect(d2.toString()).toEqual(src);
   });
 
   it("should be able to tell you if the document is going to be loaded asynchronously or not", function () {
@@ -410,28 +408,23 @@ describe("jsx3.xml.Document", function () {
     var d1 = new jsx3.xml.Document();
     d1.setAsync(true);
     d1.subscribe(jsx3.xml.Document.ON_RESPONSE, function (evt) {
-        order.push("document");
+      order.push("document");
     });
     d1.load(t.resolveURI("data/test1.xml"), 1000);
-
     var r = new jsx3.net.Request();
     r.open("GET", t.resolveURI("data/test.js"), false);
     r.send();
     js = r.getResponseText();
     order.push("request");
-
-    waitsFor(function() {
+    waitsFor(function () {
       return order.length >= 2;
     });
-
     runs(function () {
       expect(js.indexOf("nothingSpecial") >= 0).toBeTruthy();
       expect(order.length).toEqual(2);
       expect(order[0]).toEqual("request");
       expect(order[1]).toEqual("document");
     });
-
   });
-
 });
 
