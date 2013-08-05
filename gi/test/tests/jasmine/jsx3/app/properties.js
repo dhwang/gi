@@ -8,15 +8,9 @@ describe("jsx3.app.Properties", function () {
   _jasmine_test.require("jsx3.app.Properties", "jsx3.util.List", "jsx3.app.PropsBundle", "jsx3.util.Locale", "jsx3.app.Cache");
   var t = new _jasmine_test.TestSuite("jsx3.app.Properties");
 
-
-  beforeEach(function () {
-  });
-
-
   it("should be able to instantiate new instance of jsx3.app.Properties", function () {
     var p = new jsx3.app.Properties();
     expect(p).toBeInstanceOf(jsx3.app.Properties);
-
   });
 
   it("should return the value of a property for a particular key and also be able to set a property in this repository in the global space", function () {
@@ -125,7 +119,7 @@ describe("jsx3.app.Properties", function () {
 
   });
 
-  it("testGrandparentSetPrec", function () {
+  it("should add a parent property repository to this repository,set and remove key values and check key values", function () {
     var p1 = new jsx3.app.Properties();
     var p2 = new jsx3.app.Properties();
     var p3 = new jsx3.app.Properties();
@@ -277,7 +271,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key1")).toEqual("value1");
   });
 
-  it("testLocaleLocale", function () {
+  it("should return the locale for which this properties object was created", function () {
     jsx3.app.PropsBundle.clearCache();
     var l1 = new jsx3.util.Locale();
     var l2 = new jsx3.util.Locale("en");
@@ -377,6 +371,4 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key3")).toEqual("key3_default");
   });
 
-  afterEach(function () {
-  });
 });

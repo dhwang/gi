@@ -8,9 +8,6 @@ describe("jsx3.app.Cache", function () {
   _jasmine_test.require("jsx3.app.Cache", "jsx3.xml.Document", "jsx3.xml.CDF", "jsx3.util.List");
   var t = new _jasmine_test.TestSuite("jsx3.app.Cache");
 
-  beforeEach(function () {
-  });
-
   it("should be able to instantiate new instance of jsx3.app.Cache", function () {
     var c = new jsx3.app.Cache();
     expect(c).toBeInstanceOf(jsx3.app.Cache);
@@ -26,7 +23,7 @@ describe("jsx3.app.Cache", function () {
     var doc = new jsx3.xml.Document();
     expect(c.getDocument("docId")).toBe(null);
     c.setDocument("docId", doc);
-    expect(doc).toEqual(c.getDocument("docId"));
+    expect(c.getDocument("docId")).toEqual(doc);
     expect(c.getDocument("docId2")).toBe(null);
   });
 
@@ -52,9 +49,9 @@ describe("jsx3.app.Cache", function () {
     var doc1 = new jsx3.xml.Document();
     var doc2 = new jsx3.xml.Document();
     c.setDocument("docId", doc1);
-    expect(doc1).toEqual(c.getDocument("docId"));
+    expect(c.getDocument("docId")).toEqual(doc1);
     c.setDocument("docId", doc2);
-    expect(doc2).toEqual(c.getDocument("docId"));
+    expect(c.getDocument("docId")).toEqual(doc2);
     c.clearById("docId");
     expect(c.getDocument("docId")).toBe(null);
   });
@@ -63,7 +60,7 @@ describe("jsx3.app.Cache", function () {
     var c = new jsx3.app.Cache();
     var doc1 = new jsx3.xml.Document();
     c.setDocument("docId", doc1);
-    expect(doc1).toEqual(c.getDocument("docId"));
+    expect(c.getDocument("docId")).toEqual(doc1);
     var retVal = c.clearById("docId");
     expect(doc1).toEqual(retVal);
     expect(c.getDocument("docId")).toBe(null);
@@ -75,10 +72,10 @@ describe("jsx3.app.Cache", function () {
     var doc1 = c.openDocument(url, "docId");
     expect(doc1).toBeInstanceOf(jsx3.xml.Document);
     expect(doc1.hasError()).toBeFalsy();
-    expect(doc1).toEqual(c.getDocument("docId"));
+    expect(c.getDocument("docId")).toEqual(doc1);
   });
 
-  it("testOpenDocument2", function () {
+  it("should load documents synchronously from the same xml,store in cache objects and make sure that those document objects are not equal", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc1 = c.openDocument(url, "docId");
@@ -86,14 +83,14 @@ describe("jsx3.app.Cache", function () {
     expect(doc1 === doc2).toBeFalsy();
   });
 
-  it("testOpenDocument3", function () {
+  it("should test if the document stored in this cache is equal to other document ", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc1 = c.openDocument(url);
-    expect(doc1).toEqual(c.getDocument(url));
+    expect(c.getDocument(url)).toEqual(doc1);
   });
 
-  it("testOpenDocument4", function () {
+  it("should test if document stored in cache under id ''docid' is an instance of jsx3.xml.CDF.Document", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc1 = c.openDocument(url, "docId", jsx3.xml.CDF.Document.jsxclass);
@@ -112,28 +109,22 @@ describe("jsx3.app.Cache", function () {
     expect(doc.getNodeName()).toEqual("loading");
   });
 
-  it("should asynchronously load an xml document and store it in this cache", function () {
+  it("should asynchronously load an xml document and store it in this cache 1", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     c.getOrOpenAsync(url, "docId");
-    var objEvent;
-    runs(function () {
-      flag = false;
-      value = 0;
-      c.subscribe("docId", function (evt) {
-        flag = true;
-        objEvent = evt;
-      }, 500);
-    });
+    var evt = {};
+    c.subscribe("docId", function (objEvent) {
+      evt = objEvent;
+    }, 500);
     waitsFor(function () {
-      value++;
-      return flag;
+      return evt.target != null;
     }, "The Value should be incremented", 750);
     runs(function () {
-      expect(objEvent.subject).toEqual("docId");
-      expect(objEvent.action).toEqual(jsx3.app.Cache.CHANGE);
-      expect(objEvent.target).toEqual(c);
-      var objDoc = objEvent.target.getDocument("docId");
+      expect(evt.subject).toEqual("docId");
+      expect(evt.action).toEqual(jsx3.app.Cache.CHANGE);
+      expect(evt.target).toEqual(c);
+      var objDoc = evt.target.getDocument("docId");
       expect(objDoc).toBeInstanceOf(jsx3.xml.Document);
       //expect(objDoc.getError()).toBeUndefined()
       expect(objDoc.hasError()).toBeFalsy();
@@ -141,7 +132,7 @@ describe("jsx3.app.Cache", function () {
     });
   });
 
-  it("testOpenAsync3", function () {
+  it("should asynchronously load an xml document and store it in this cache 2", function () {
     var c = new jsx3.app.Cache();
     var url1 = t.resolveURI("data/props1.xml");
     var url2 = t.resolveURI("data/props2.xml");
@@ -153,28 +144,22 @@ describe("jsx3.app.Cache", function () {
     expect(d).toEqual(doc);
   });
 
-  it("testOpenAsync4", function () {
+  it("should asynchronously load an xml document and store it in this cache 3", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1_foo.xml");
     c.getOrOpenAsync(url, "docId");
-    var objEvent;
-    runs(function () {
-      flag = false;
-      value = 0;
-      c.subscribe("docId", function (evt) {
-        flag = true;
-        objEvent = evt;
-      }, 500);
-    });
+    var evt = {};
+    c.subscribe("docId", function (objEvent) {
+      evt = objEvent;
+    }, 500);
     waitsFor(function () {
-      value++;
-      return flag;
+      return evt.target != null;
     }, "The Value should be incremented", 750);
     runs(function () {
-      expect(objEvent.subject).toEqual("docId");
-      expect(objEvent.action).toEqual(jsx3.app.Cache.CHANGE);
-      expect(objEvent.target).toEqual(c);
-      var objDoc = objEvent.target.getDocument("docId");
+      expect(evt.subject).toEqual("docId");
+      expect(evt.action).toEqual(jsx3.app.Cache.CHANGE);
+      expect(evt.target).toEqual(c);
+      var objDoc = evt.target.getDocument("docId");
       expect(objDoc).toBeInstanceOf(jsx3.xml.Document);
       expect(objDoc).not.toBeUndefined();
       expect(objDoc).not.toEqual(null);
@@ -211,12 +196,12 @@ describe("jsx3.app.Cache", function () {
     c1.addParent(c2);
     c1.setDocument("docId1", doc1);
     c2.setDocument("docId2", doc2);
-    expect(doc1).toEqual(c1.getDocument("docId1"));
-    expect(doc2).toEqual(c1.getDocument("docId2"));
-    expect(doc2).toEqual(c2.getDocument("docId2"));
+    expect(c1.getDocument("docId1")).toEqual(doc1);
+    expect(c1.getDocument("docId2")).toEqual(doc2);
+    expect(c2.getDocument("docId2")).toEqual(doc2);
     expect(c2.getDocument("docId1")).toBeNull();
     c1.clearById("docId2");
-    expect(doc2).toEqual(c1.getDocument("docId2"));
+    expect(c1.getDocument("docId2")).toEqual(doc2);
     c2.clearById("docId2");
     expect(c1.getDocument("docId2")).toBeNull();
   });
@@ -229,13 +214,13 @@ describe("jsx3.app.Cache", function () {
     });
     var doc = new jsx3.xml.Document();
     c.setDocument("docId", doc);
-    expect(1).toEqual(eventCount);
+    expect(eventCount).toEqual(1);
     c.setDocument("docId", doc);
-    expect(2).toEqual(eventCount);
+    expect(eventCount).toEqual(2);
     c.clearById("docId");
-    expect(3).toEqual(eventCount);
+    expect(eventCount).toEqual(3);
     doc = c.openDocument(t.resolveURI("data/props1.xml"), "docId");
-    expect(4).toEqual(eventCount);
+    expect(eventCount).toEqual(4);
   });
 
   it("should retrieve a document from this cache or,if this cache contains no such document,load the document synchronously and return it", function () {
@@ -244,8 +229,8 @@ describe("jsx3.app.Cache", function () {
     var doc1 = c.getOrOpenDocument(url, "docId");
     expect(doc1).toBeInstanceOf(jsx3.xml.Document);
     expect(doc1.hasError()).toBeFalsy();
-    expect(doc1).toBe(c.getOrOpenDocument(url, "docId"));
-    expect(doc1).toBe(c.getOrOpenDocument("nowhere", "docId"));
+    expect(c.getOrOpenDocument(url, "docId")).toBe(doc1);
+    expect(c.getOrOpenDocument("nowhere", "docId")).toBe(doc1);
   });
 
   it("should remove all references to documents contained in this cache", function () {
@@ -266,7 +251,7 @@ describe("jsx3.app.Cache", function () {
     c.setDocument("docId", doc);
     var t2 = new Date();
     c.clearByTimestamp(t1);
-    expect(doc).toEqual(c.getDocument("docId"));
+    expect(c.getDocument("docId")).toEqual(doc);
     c.clearByTimestamp(t2.getTime() + 1);
     expect(c.getDocument("docId")).toBeNull();
   });
@@ -274,20 +259,33 @@ describe("jsx3.app.Cache", function () {
   it("should asynchronously load an xml document and store it in this cache", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
+    var abort = null, objEvent = null;
     var evtCount = 0;
+    var evt = {};
+    var onDone = function () {
+      abort = "called";
+    };
     c.subscribe("docId", function (objEvent) {
       if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
         evtCount++;
+      evt = objEvent;
     });
     c.getOrOpenAsync(url, "docId");
     c.clearById("docId");
-
     runs(function () {
-      flag = false;
-      value = 0;
-      setTimeout(function () {
-        expect(evtCount).toEqual(0);
-      }, 2000);
+      window.setTimeout(function () {
+        abort = "called";
+        c.abort();
+      }, 100);
+      window.setTimeout(function () {
+        onDone();
+      }, 300);
+    });
+    waitsFor(function () {
+      return abort == "called";
+    }, "The Value should be incremented", 750);
+    runs(function () {
+      expect(evtCount).toEqual(0);
     });
   });
 
@@ -295,21 +293,35 @@ describe("jsx3.app.Cache", function () {
     var c = new jsx3.app.Cache();
     var url1 = t.resolveURI("data/props1.xml");
     var url2 = t.resolveURI("data/props2.xml");
+    var abort = null, objEvent = null;
     var evtCount = 0;
+    var evt = {};
+    var onDone = function () {
+      abort = "called";
+    };
     c.subscribe("docId", function (objEvent) {
       if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
         evtCount++;
+      evt = objEvent;
     });
     c.getOrOpenAsync(url1, "docId");
     c.clearById("docId");
     c.getOrOpenAsync(url2, "docId");
     runs(function () {
-      flag = false;
-      value = 0;
-      setTimeout(function () {
-        expect(evtCount).toEqual(1);
-        expect(c.getDocument("docId").selectSingleNode("//record").getAttribute("jsxtext")).toEqual("valueA");
-      }, 2000);
+      window.setTimeout(function () {
+        abort = "called";
+        c.abort();
+      }, 100);
+      window.setTimeout(function () {
+        onDone();
+      }, 300);
+    });
+    waitsFor(function () {
+      return abort == "called";
+    }, "The Value should be incremented", 750);
+    runs(function () {
+      expect(evtCount).toEqual(1);
+      expect(c.getDocument("docId").selectSingleNode("//record").getAttribute("jsxtext")).toEqual("valueA");
     });
   });
 });

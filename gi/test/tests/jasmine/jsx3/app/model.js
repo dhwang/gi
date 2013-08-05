@@ -7,9 +7,6 @@ describe("jsx3.app.Model", function () {
   _jasmine_test.require("jsx3.app.Model", "jsx3.gui.Painted");
   var t = new _jasmine_test.TestSuite("jsx3.app.Model");
 
-  beforeEach(function () {
-  });
-
   it("should deserialize the file and append the deserialized objects as children of this DOM node", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
@@ -21,7 +18,6 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     var c1 = root.getChild(0);
     expect(c1).toBeInstanceOf(jsx3.app.Model);
-    expect("child1").toEqual(c1.getName());
     expect(root.getChild("11")).toBeUndefined();
   });
 
@@ -30,7 +26,7 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     var c1 = root.getChild("child1");
     expect(c1).toBeInstanceOf(jsx3.app.Model);
-    expect("child1").toEqual(c1.getName());
+    expect(c1.getName()).toEqual("child1");
     expect(root.getChild("childX")).toBeUndefined();
     expect(root.getChild("0")).toBeUndefined();
   });
@@ -40,18 +36,18 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     var children = root.getChildren();
     for (var i = 0; i < children.length; i++)
-      expect(i).toEqual(children[i].getChildIndex());
+      expect(children[i].getChildIndex()).toEqual(i);
   });
 
   it("should return the zero-based index for this DOM node in relation to its siblings.", function () {
     var o = new jsx3.app.Model("abandoned");
-    expect(-1).toEqual(o.getChildIndex());
+    expect(o.getChildIndex()).toEqual(-1);
   });
 
   it("should return the first child of this DOM Node", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
-    expect("child1").toEqual(root.getFirstChild().getName());
+    expect(root.getFirstChild().getName()).toEqual("child1");
     expect(root.getChildren()[0]).toEqual(root.getFirstChild());
     expect(root.getChildren()[0].getLastChild()).toBeNull();
   });
@@ -59,7 +55,7 @@ describe("jsx3.app.Model", function () {
   it("should return the last child of this DOM Node", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
-    expect("lastChild").toEqual(root.getLastChild().getName());
+    expect(root.getLastChild().getName()).toEqual("lastChild");
     expect(root.getChildren()[root.getChildren().length - 1]).toEqual(root.getLastChild());
     expect(root.getChildren()[0].getLastChild()).toBeNull();
   });
@@ -69,7 +65,7 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     expect(root.getNextSibling()).toBeNull();
     var children = root.getChildren();
-    expect(children[1]).toEqual(children[0].getNextSibling());
+    expect(children[0].getNextSibling()).toEqual(children[1]);
     expect(children[children.length - 1].getNextSibling()).toBeNull();
   });
 
@@ -78,7 +74,7 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     expect(root.getPreviousSibling()).toBeNull();
     var children = root.getChildren();
-    expect(children[0]).toEqual(children[1].getPreviousSibling());
+    expect(children[1].getPreviousSibling()).toEqual(children[0]);
     expect(children[0].getPreviousSibling()).toBeNull();
   });
 
@@ -87,24 +83,24 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     var children = root.getChildren();
     expect(children).toBeInstanceOf(Array);
-    expect(4).toEqual(children.length);
+    expect(children.length).toEqual(4);
     var grandchildren = children[0].getChildren();
     expect(grandchildren).toBeInstanceOf(Array);
-    expect(0).toEqual(grandchildren.length);
+    expect(grandchildren.length).toEqual(0);
   });
 
   it("testGetChildren2", function () {
     var o = new jsx3.app.Model("abandoned");
     var children = o.getChildren();
     expect(children).toBeInstanceOf(Array);
-    expect(0).toEqual(children.length);
+    expect(children.length).toEqual(0);
   });
 
   it("should return the parent DOM node of this object", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var children = root.getChildren();
-    expect(root).toEqual(children[0].getParent());
+    expect(children[0].getParent()).toEqual(root);
   });
 
   it("testGetParent2", function () {
@@ -115,28 +111,28 @@ describe("jsx3.app.Model", function () {
   it("should return the namespace that distinguishes this object's server (owner) from other server instances", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
-    expect(s.getEnv("namespace")).toEqual(root.getNS());
-    expect(s.getEnv("namespace")).toEqual(root.getChild(0).getNS());
+    expect(root.getNS()).toEqual(s.getEnv("namespace"));
+    expect(root.getChild(0).getNS()).toEqual(s.getEnv("namespace"));
   });
 
   it("should return  one of the meta data values stored at the top of the serialization file that this object was loaded from", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
-    expect("Component 1").toEqual(root.getMetaValue("name"));
-    expect("icon.gif").toEqual(root.getMetaValue("icon"));
-    expect("Component Description").toEqual(root.getMetaValue("description"));
+    expect(root.getMetaValue("name")).toEqual("Component 1");
+    expect(root.getMetaValue("icon")).toEqual("icon.gif");
+    expect(root.getMetaValue("description")).toEqual("Component Description");
     var func = function () {
       root.getMetaValue("foobar");
     };
     expect(func).toThrow();
-    expect("").toEqual(root.getChild(0).getMetaValue("name"));
+    expect(root.getChild(0).getMetaValue("name")).toEqual("");
   });
 
   it("testVariants", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
-    expect(1).toEqual(root.v1);
-    expect(2).toEqual(root.v2);
+    expect(root.v1).toEqual(1);
+    expect(root.v2).toEqual(2);
     expect(root.s3).toBeUndefined();
   });
 
@@ -145,16 +141,16 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     var a = root.a1;
     expect(a).toBeInstanceOf(Array);
-    expect(4).toEqual(a.length);
-    expect(1).toEqual(a[0]);
-    expect(4).toEqual(a[3]);
+    expect(a.length).toEqual(4);
+    expect(a[0]).toEqual(1);
+    expect(a[3]).toEqual(4);
   });
 
   it("testStrings", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
-    expect("1").toEqual(root.s1);
-    expect("2").toEqual(root.s2);
+    expect(root.s1).toEqual("1");
+    expect(root.s2).toEqual("2");
     expect(root.s3).toBeUndefined();
   });
 
@@ -164,8 +160,8 @@ describe("jsx3.app.Model", function () {
     var match = root.findDescendants(function (x) {
       return x.getName() == "nestedChild";
     });
-    expect("nestedChild").toEqual(match.getName());
-    expect(3).toEqual(match.f1);
+    expect(match.getName()).toEqual("nestedChild");
+    expect(match.f1).toEqual(3);
   });
 
   it("should find all DOM nodes descending from this DOM node and returns an array of matches", function () {
@@ -174,8 +170,8 @@ describe("jsx3.app.Model", function () {
     var matches = root.findDescendants(function (x) {
       return x.getName() == "nestedChild";
     }, null, true);
-    expect("nestedChild").toEqual(matches[0].getName());
-    expect("nestedChild").toEqual(matches[1].getName());
+    expect(matches[0].getName()).toEqual("nestedChild");
+    expect(matches[1].getName()).toEqual("nestedChild");
     expect(matches[0]).not.toEqual(matches[1]);
   });
 
@@ -185,11 +181,11 @@ describe("jsx3.app.Model", function () {
     var match1 = root.findDescendants(function (x) {
       return x.f1 == 3;
     });
-    expect("10").toEqual(match1.getName());
+    expect(match1.getName()).toEqual("10");
     var match2 = root.findDescendants(function (x) {
       return x.f1 == 3;
     }, true);
-    expect("nestedChild").toEqual(match2.getName());
+    expect(match2.getName()).toEqual("nestedChild");
   });
 
   it("should search direct children of the DOM Nodes descending from this DOM node", function () {
@@ -198,8 +194,8 @@ describe("jsx3.app.Model", function () {
     var matches = root.findDescendants(function (x) {
       return x.f1 == 3;
     }, null, true, true);
-    expect(1).toEqual(matches.length);
-    expect("10").toEqual(matches[0].getName());
+    expect(matches.length).toEqual(1);
+    expect(matches[0].getName()).toEqual("10");
   });
 
   it("should find all DOM nodes including self node descending from this DOM node", function () {
@@ -208,12 +204,11 @@ describe("jsx3.app.Model", function () {
     var match1 = root.findDescendants(function (x) {
       return true;
     }, false, false, false, true);
-    expect("root").toEqual(match1.getName());
-
+    expect(match1.getName()).toEqual("root");
     var match2 = root.findDescendants(function (x) {
       return true;
     }, false, false, false, false);
-    expect("child1").toEqual(match2.getName());
+    expect(match2.getName()).toEqual("child1");
   });
 
   it("should return the first ancestor ", function () {
@@ -233,83 +228,83 @@ describe("jsx3.app.Model", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child1");
-    expect(1).toEqual(match1.length);
+    expect(match1.length).toEqual(1);
     var match2 = root.selectDescendants("#nestedChild");
-    expect(2).toEqual(match2.length);
+    expect(match2.length).toEqual(2);
     var match3 = root.selectDescendants("#none");
-    expect(0).toEqual(match3.length);
+    expect(match3.length).toEqual(0);
   });
 
   it("testSelectDescendant", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child2 #child2");
-    expect(1).toEqual(match1.length);
-    expect(2).toEqual(match1[0].f1);
+    expect(match1.length).toEqual(1);
+    expect(match1[0].f1).toEqual(2);
     var match2 = root.selectDescendants("#child2 #lastChild");
-    expect(0).toEqual(match2.length);
+    expect(match2.length).toEqual(0);
     var match3 = root.selectDescendants("#none #child2");
-    expect(0).toEqual(match3.length);
+    expect(match3.length).toEqual(0);
     // Test the optimized code for selecting from root
     var match4 = s.getRootBlock().selectDescendants("#none #child2");
-    expect(0).toEqual(match4.length);
+    expect(match4.length).toEqual(0);
   });
 
   it("should select objects from the DOM matching immediate children of objects matching A that match B (A >B)", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#root > #lastChild");
-    expect(1).toEqual(match1.length);
+    expect(match1.length).toEqual(1);
     var match2 = root.selectDescendants("#root > #nestedChild");
-    expect(0).toEqual(match2.length);
+    expect(match2.length).toEqual(0);
   });
 
   it("should select objects from the DOM matching any object(*)", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child2 *");
-    expect(3).toEqual(match1.length);
+    expect(match1.length).toEqual(3);
   });
 
   it("should select objects from the DOM matching objects that are their parents' first and last children and matching objects whose child index is equal to n", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#root > :first");
-    expect(1).toEqual(match1.length);
+    expect(match1.length).toEqual(1);
     expect("child1").toEqual(match1[0].getName());
     var match2 = root.selectDescendants("#root > :last");
-    expect(1).toEqual(match2.length);
+    expect(match2.length).toEqual(1);
     expect("lastChild").toEqual(match2[0].getName());
     var match3 = root.selectDescendants("#root > :nth(1)");
-    expect(1).toEqual(match3.length);
-    expect("child2").toEqual(match3[0].getName());
+    expect(match3.length).toEqual(1);
+    expect(match3[0].getName()).toEqual("child2");
   });
 
   it("should select objects from the DOM matching objects that are instances of the class or interface jsx3.app.Model", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#root > jsx3_app_Model");
-    expect(3).toEqual(match1.length);
+    expect(match1.length).toEqual(3);
     var match2 = root.selectDescendants("#root > :instanceof(jsx3.app.Model)");
-    expect(4).toEqual(match2.length);
+    expect(match2.length).toEqual(4);
   });
 
   it("should select objects from the DOM that matches objects whose value for field f1 equals value", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("[f1=3]");
-    expect(2).toEqual(match1.length);
+    expect(match1.length).toEqual(2);
   });
 
   it("should select objects from the DOM that matches objects whose return value for method getName() equals value", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("[getName()=lastChild]");
-    expect(1).toEqual(match1.length);
-    expect("lastChild").toEqual(match1[0].getName());
+    expect(match1.length).toEqual(1);
+    expect(match1[0].getName()).toEqual("lastChild");
     var match2 = root.selectDescendants('[getName()="lastChild"]');
-    expect(1).toEqual(match2.length);
-    expect("lastChild").toEqual(match2[0].getName());
+    expect(match2.length).toEqual(1);
+    expect(match2[0].getName()).toEqual("lastChild");
   });
 
   it("should return the first ancestor with the given name.", function () {
@@ -320,7 +315,7 @@ describe("jsx3.app.Model", function () {
     var a = o.getAncestorOfName("child2");
     expect(a).not.toBeNull();
     expect(a).not.toBeUndefined();
-    expect(2).toEqual(a.f1);
+    expect(a.f1).toEqual(2);
     a = o.getAncestorOfName("root");
     expect(root).toEqual(a);
     a = o.getAncestorOfName("foobar");
@@ -331,20 +326,20 @@ describe("jsx3.app.Model", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var o = root.getChild(1).getChild(0).getChild(0);
-    expect("nestedChild").toEqual(o.getName());
+    expect(o.getName()).toEqual("nestedChild");
     var a = o.getAncestorOfType(jsx3.app.Model);
     expect(a).not.toBeNull();
     expect(a).not.toBeUndefined();
     expect(a.f1).toEqual(2);
     o = root.getChild(1).getChild(0);
     a = o.getAncestorOfType(jsx3.gui.Painted);
-    expect(1).toEqual(a.f1);
+    expect(a.f1).toEqual(1);
     a = o.getAncestorOfType(jsx3.app.Model);
-    expect(1).toEqual(a.f1);
+    expect(a.f1).toEqual(1);
     o = root.getChild(1);
-    expect(root).toEqual(a.getAncestorOfType(jsx3.app.Model));
-    expect(root).toEqual(a.getAncestorOfType("jsx3.app.Model"));
-    expect(root).toEqual(a.getAncestorOfType(jsx3.app.Model.jsxclass));
+    expect(a.getAncestorOfType(jsx3.app.Model)).toEqual(root);
+    expect(a.getAncestorOfType("jsx3.app.Model")).toEqual(root);
+    expect(a.getAncestorOfType(jsx3.app.Model.jsxclass)).toEqual(root);
     var func = function () {
       a.getAncestorOfType("foobar");
     };
@@ -358,7 +353,7 @@ describe("jsx3.app.Model", function () {
     var d = o.getDescendantOfName("nestedChild");
     expect(d).not.toBeNull();
     expect(d).not.toBeUndefined();
-    expect(3).toEqual(d.f1);
+    expect(d.f1).toEqual(3);
     expect(root.getDescendantOfName("foobar")).toBeNull();
   });
 
@@ -367,32 +362,32 @@ describe("jsx3.app.Model", function () {
     var root = s.getBodyBlock().load("data/comp1.xml");
     var o = root.getDescendantsOfType(jsx3.app.Model, true);
     expect(o).toBeInstanceOf(Array);
-    expect(4).toEqual(o.length);
+    expect(o.length).toEqual(4);
     expect(root.getChild(0)).toEqual(o[0]);
     o = root.getDescendantsOfType(jsx3.app.Model);
     expect(o).toBeInstanceOf(Array);
     expect(4 < o.length).toBeTruthy();
     o = root.getDescendantsOfType(jsx3.gui.Painted);
     expect(o).toBeInstanceOf(Array);
-    expect(1).toEqual(o.length);
-    expect(1).toEqual(o[0].f1);
+    expect(o.length).toEqual(1);
+    expect(o[0].f1).toEqual(1);
   });
 
   it("should append a child DOM node to this parent DOM node", function () {
     var parent = new jsx3.app.Model("m1");
     var child = new jsx3.app.Model("m2");
     parent.setChild(child);
-    expect(1).toEqual(parent.getChildren().length);
-    expect(child).toEqual(parent.getChildren()[0]);
+    expect(parent.getChildren().length).toEqual(1);
+    expect(parent.getChildren()[0]).toEqual(child);
   });
 
   it("should remove a DOM child from this object", function () {
     var parent = new jsx3.app.Model("m1");
     var child = new jsx3.app.Model("m2");
     parent.setChild(child);
-    expect(1).toEqual(parent.getChildren().length);
+    expect(parent.getChildren().length).toEqual(1);
     parent.removeChild(child)
-    expect(0).toEqual(parent.getChildren().length);
+    expect(parent.getChildren().length).toEqual(0);
   });
 
   it("should append a DOM node to this object after removing the node from its former parent reference", function () {
@@ -401,8 +396,8 @@ describe("jsx3.app.Model", function () {
     var child = new jsx3.app.Model("c1");
     p1.setChild(child);
     p2.adoptChild(child);
-    expect(0).toEqual(p1.getChildren().length);
-    expect(1).toEqual(p2.getChildren().length);
+    expect(p1.getChildren().length).toEqual(0);
+    expect(p2.getChildren().length).toEqual(1);
   });
 
   it("should create and returns an exact replica of the object", function () {
@@ -410,9 +405,9 @@ describe("jsx3.app.Model", function () {
     var child = new jsx3.app.Model("c1");
     parent.setChild(child);
     var clone = child.doClone();
-    expect(2).toEqual(parent.getChildren().length);
-    expect(child).toEqual(parent.getChildren()[0]);
-    expect(clone).toEqual(parent.getChildren()[1]);
+    expect(parent.getChildren().length).toEqual(2);
+    expect(parent.getChildren()[0]).toEqual(child);
+    expect(parent.getChildren()[1]).toEqual(clone);
   });
 
   it("should assign c2 as the previousSibling of c1", function () {
@@ -421,9 +416,9 @@ describe("jsx3.app.Model", function () {
     var c2 = new jsx3.app.Model("c2");
     parent.setChild(c1);
     parent.insertBefore(c2, c1, false);
-    expect(2).toEqual(parent.getChildren().length);
-    expect(c2).toEqual(parent.getChildren()[0]);
-    expect(c1).toEqual(parent.getChildren()[1]);
+    expect(parent.getChildren().length).toEqual(2);
+    expect(parent.getChildren()[0]).toEqual(c2);
+    expect(parent.getChildren()[1]).toEqual(c1);
   });
 
   it("should remove some or all children of this object", function () {
@@ -433,7 +428,7 @@ describe("jsx3.app.Model", function () {
     parent.setChild(c1);
     parent.setChild(c2);
     parent.removeChildren();
-    expect(0).toEqual(parent.getChildren().length);
+    expect(parent.getChildren().length).toEqual(0);
   });
 
 //  t.testGetFirstChildOfType = function() {

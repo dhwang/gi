@@ -22,7 +22,7 @@ describe("jsx3.app.DOM", function () {
   it("testGetNamespaceForId", function () {
     var ns = "nsx";
     var id = jsx3.app.DOM.newId(ns);
-    expect(ns).toEqual(jsx3.app.DOM.getNamespaceForId(id));
+    expect(jsx3.app.DOM.getNamespaceForId(id)).toEqual(ns);
   });
 
   it("should add a JSX object to this DOM and indexes it by its id and name", function () {
@@ -41,8 +41,8 @@ describe("jsx3.app.DOM", function () {
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m);
-    expect(m).toEqual(d.get(m._jsxid))
-    expect(m).toEqual(d.getById(m._jsxid));
+    expect(d.get(m._jsxid)).toEqual(m)
+    expect(d.getById(m._jsxid)).toEqual(m);
     expect(d.get(jsx3.app.DOM.newId("ns1"))).toBeNull();
     expect(d.getById("anyOldId")).toBeUndefined();
   });
@@ -52,8 +52,8 @@ describe("jsx3.app.DOM", function () {
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m);
-    expect(m).toEqual(d.get("name"))
-    expect(m).toEqual(d.getByName("name"));
+    expect(d.get("name")).toEqual(m)
+    expect(d.getByName("name")).toEqual(m);
     expect(d.get("aname")).toBeNull();
     expect(d.getByName("aname")).toBeNull();
   });
@@ -79,7 +79,7 @@ describe("jsx3.app.DOM", function () {
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m);
-    expect(m).toEqual(d.get(m._jsxid));
+    expect(d.get(m._jsxid)).toEqual(m);
     d.remove(m);
     expect(d.get(m._jsxid)).toBeNull();
   });
@@ -95,7 +95,7 @@ describe("jsx3.app.DOM", function () {
     var m = d.get("name");
     expect(m1.equals(m) || m2.equals(m)).toBeTruthy();
     d.remove(m1);
-    expect(m2).toEqual(d.get("name"));
+    expect(d.get("name")).toEqual(m2);
   });
 
   it("should test if  the name index is updated appropriately after changing the name of a contained DOM node", function () {
@@ -103,11 +103,11 @@ describe("jsx3.app.DOM", function () {
     var m1 = new jsx3.app.Model("name");
     m1._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m1);
-    expect(m1).toEqual(d.get("name"));
+    expect(d.get("name")).toEqual(m1);
     m1.setName("name2");
     d.onNameChange(m1, "name");
     expect(d.get("name")).toBeUndefined();
-    expect(m1).toEqual(d.get("name2"));
+    expect(d.get("name2")).toEqual(m1);
   });
 
   it("should publish an event object with names properties", function () {
@@ -119,10 +119,10 @@ describe("jsx3.app.DOM", function () {
       eventType = objEvent.type;
     });
     d.onChange(jsx3.app.DOM.TYPEADD);
-    expect(1).toEqual(eventCount);
+    expect(eventCount).toEqual(1);
     expect(jsx3.app.DOM.TYPEADD).toEqual(eventType);
     d.onChange(jsx3.app.DOM.TYPEREMOVE);
-    expect(2).toEqual(eventCount);
+    expect(eventCount).toEqual(2);
     expect(jsx3.app.DOM.TYPEREMOVE).toEqual(eventType);
   });
 });
