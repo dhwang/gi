@@ -21,9 +21,9 @@ describe("jsx3.net.Service", function () {
   it("should ensure static data stored in the rules file is accessible", function () {
     var s = t._service;
     expect(s.getServer()).toBeInstanceOf(jsx3.app.Server);
-    expect("ReturnCityState").toEqual(s.getOperation());
-    expect("http://test.example.com").toEqual(s.getEndpointURL());
-    expect("GET").toEqual(s.getMethod());
+    expect(s.getOperation()).toEqual("ReturnCityState");
+    expect(s.getEndpointURL()).toEqual("http://test.example.com");
+    expect(s.getMethod()).toEqual("GET");
   });
 
   it("should get message using soap envelope,test message stub exists and that message was appended to correct stub location", function () {
@@ -102,134 +102,116 @@ describe("jsx3.net.Service", function () {
     expect(b.size()).toEqual(8);
   });
 
-  //if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
-  it("testRequestJSON", function () {
-    var Service = jsx3.net.Service;
-    //init the service and set the inbound document
-    var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
-    s.setMode(1);
-    s.setNamespace(t._server);
-    s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=200&json=true");
-    s.setOperationName("");
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
-    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (evt) {
-      objEvent = evt;
-      flag = true;
-    }, 500);
-    s.doCall();
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 800);
-    runs(function () {
-      if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
-        var req = objEvent.target.getRequest();
-        expect(200).toEqual(req.getStatus());
+  if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
+    it("testRequestJSON", function () {
+      var Service = jsx3.net.Service;
+      //init the service and set the inbound document
+      var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
+      s.setMode(1);
+      s.setNamespace(t._server);
+      s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=200&json=true");
+      s.setOperationName("");
+      var req;
+      s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
+        _jasmine_test.debug(objEvent);
+        if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
+          req = objEvent.target.getRequest();
+        } else {
+          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+        }
+      });
+      s.doCall();
+      waitsFor(function () {
+        return req != null;
+      }, "service request object should be valid.", 800);
+      runs(function () {
+        expect(req.getStatus()).toEqual(200);
         expect("Response text converts to XML doc.", s.getInboundDocument()).not.toBeNull();
-      } else {
-        expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
-      }
+      });
     });
-  });
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
-  it("testRequestJSONfault", function () {
-    var Service = jsx3.net.Service;
-    //init the service and set the inbound document
-    var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
-    s.setMode(1);
-    s.setNamespace(t._server);
-    s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=503&json=true");
-    s.setOperationName("");
-    var req;
-
-    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
-      _jasmine_test.debug(objEvent);
-      if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
-        req = objEvent.target.getRequest();
-      } else {
-        expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
-      }
+    it("testRequestJSONfault", function () {
+      var Service = jsx3.net.Service;
+      //init the service and set the inbound document
+      var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
+      s.setMode(1);
+      s.setNamespace(t._server);
+      s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=503&json=true");
+      s.setOperationName("");
+      var req;
+      s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
+        _jasmine_test.debug(objEvent);
+        if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
+          req = objEvent.target.getRequest();
+        } else {
+          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+        }
+      });
+      s.doCall();
+      waitsFor(function () {
+        return req != null;
+      }, "service request object should be valid.", 800);
+      runs(function () {
+        expect(req.getStatus()).toEqual(200);
+        expect(s.getInboundDocument()).toBeNull();
+      });
     });
 
-    s.doCall();
-    waitsFor(function () {
-      return req != null;
-    }, "service request object should be valid.", 800);
 
-    runs(function () {
-      expect(503).toEqual(req.getStatus());
-      expect(s.getInboundDocument()).toBeNull();
+  if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
+    it("testRequestService", function () {
+      var Service = jsx3.net.Service;
+      //init the service and set the inbound document
+      var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
+      s.setMode(1);
+      s.setNamespace(t._server);
+      s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=200");
+      s.setOperationName("GetHistoricalQuotes");
+      var req;
+      s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
+        _jasmine_test.debug(objEvent);
+        if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
+          req = objEvent.target.getRequest();
+        } else {
+          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+        }
+      });
+      s.doCall();
+      waitsFor(function () {
+        return req != null;
+      }, "service request object should be valid.", 800);
+      runs(function () {
+        expect(req.getStatus()).toEqual(200);
+      });
     });
-  });
-
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
-  it("testRequestService", function () {
-    var Service = jsx3.net.Service;
-    //init the service and set the inbound document
-    var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
-    s.setMode(1);
-    s.setNamespace(t._server);
-    s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=200");
-    s.setOperationName("GetHistoricalQuotes");
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
-    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (evt) {
-      objEvent = evt;
-      flag = true;
-    }, 500);
-    s.doCall();
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 800);
-    runs(function () {
-      if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
-        var req = objEvent.target.getRequest();
-        expect(200).toEqual(req.getStatus())
-      } else {
-        expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
-      }
+    it("testRequestServiceFail", function () {
+      var Service = jsx3.net.Service;
+      //init the service and set the inbound document
+      var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
+      s.setMode(1);
+      s.setNamespace(t._server);
+      s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=500");
+      s.setOperationName("GetHistoricalQuotes");
+      var req;
+      s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
+        _jasmine_test.debug(objEvent);
+        if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
+          req = objEvent.target.getRequest();
+        } else {
+          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+        }
+      });
+      s.doCall();
+      waitsFor(function () {
+        return req != null;
+      }, "service request object should be valid.", 800);
+      runs(function () {
+        expect(req.getStatus()).toEqual(200);
+      });
     });
-  });
-
-  if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
-  it("testRequestServiceFail", function () {
-    var Service = jsx3.net.Service;
-    //init the service and set the inbound document
-    var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
-    s.setMode(1);
-    s.setNamespace(t._server);
-    s.setEndpointURL(gi.test.jasmine.HTTP_BASE + "/webservice.php?status=500");
-    s.setOperationName("GetHistoricalQuotes");
-    var objEvent;
-    var flag, value;
-    flag = false;
-    value = 0;
-    s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (evt) {
-      objEvent = evt;
-      flag = true;
-    }, 500);
-    s.doCall();
-    waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 800);
-    runs(function () {
-      if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
-        var req = objEvent.target.getRequest();
-        expect(500).toEqual(req.getStatus());
-      } else {
-        expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
-      }
-    });
-  });
   //t.testRequestServiceFail._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);
 
   it("should test recursive (named templates) for creating CDF (inbound message mapping) using XSLT (compiled mode)", function () {

@@ -7,85 +7,84 @@ describe("jsx3.net.URI", function () {
   _jasmine_test.require("jsx3.net.URI.jsxclass");
   var t = new _jasmine_test.TestSuite("jsx3.net.URI");
 
-
   it("should be able to retrieve the authority part of an URI.", function () {
-    expect("www.domain.com").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getAuthority()));
-    expect("user@domain.com").toEqual((new jsx3.net.URI("//user@domain.com/path/").getAuthority()));
-    expect("domain.com:666").toEqual((new jsx3.net.URI("torrent://domain.com:666/").getAuthority()));
-    expect("").toEqual((new jsx3.net.URI("file:///file.txt").getAuthority()));
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getAuthority())).toEqual("www.domain.com");
+    expect((new jsx3.net.URI("//user@domain.com/path/").getAuthority())).toEqual("user@domain.com");
+    expect((new jsx3.net.URI("torrent://domain.com:666/").getAuthority())).toEqual("domain.com:666");
+    expect((new jsx3.net.URI("file:///file.txt").getAuthority())).toEqual("");
     expect((new jsx3.net.URI("file:/file.txt").getAuthority())).toBeNull();
   });
 
   it("should be able to retrieve the hash fragment of an URI.", function () {
-    expect("fragment").toEqual((new jsx3.net.URI("scheme:ssp#fragment").getFragment()));
-    expect("fragment").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html#fragment").getFragment()));
-    expect("").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html#").getFragment()));
+    expect((new jsx3.net.URI("scheme:ssp#fragment").getFragment())).toEqual("fragment");
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html#fragment").getFragment())).toEqual("fragment");
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html#").getFragment())).toEqual("");
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getFragment())).toBeNull();
   });
 
   it("should be able to retrieve the domain of an URI.", function () {
-    expect("www.domain.com").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getHost()));
-    expect("domain.com").toEqual((new jsx3.net.URI("//user@domain.com/path/").getHost()));
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getHost())).toEqual("www.domain.com");
+    expect((new jsx3.net.URI("//user@domain.com/path/").getHost())).toEqual("domain.com");
     expect((new jsx3.net.URI("scheme:ssp#fragment").getHost())).toBeNull();
-    expect("").toEqual((new jsx3.net.URI("file:///file.txt").getHost()));
+    expect((new jsx3.net.URI("file:///file.txt").getHost())).toEqual("");
     expect((new jsx3.net.URI("/file.txt").getHost())).toBeNull();
   });
 
   it("should be able to parse an IPV6 URI.", function () {
-    expect("[1080:0:0:0:8:800:200C:4171]").toEqual((new jsx3.net.URI("http://[1080:0:0:0:8:800:200C:4171]/path/file.html").getHost()));
-    expect("[::192.9.5.5]").toEqual((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getHost()));
+    expect((new jsx3.net.URI("http://[1080:0:0:0:8:800:200C:4171]/path/file.html").getHost())).toEqual("[1080:0:0:0:8:800:200C:4171]");
+    expect((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getHost())).toEqual("[::192.9.5.5]");
     expect((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getPort())).toBeNull();
-    expect("[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]").toEqual((new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getHost()));
-    expect(8080).toEqual((new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getPort()));
+    expect((new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getHost())).toEqual("[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]");
+    expect((new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getPort())).toEqual(8080);
   });
 
   it("should be able to retrieve the path of the URI.", function () {
-    expect("/path/file.html").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getPath()));
-    expect("/file.txt").toEqual((new jsx3.net.URI("/file.txt").getPath()));
-    expect("/file.txt").toEqual((new jsx3.net.URI("/file.txt#fragment").getPath()));
-    expect("/file.txt").toEqual((new jsx3.net.URI("/file.txt?query").getPath()));
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getPath())).toEqual(("/path/file.html"));
+    expect((new jsx3.net.URI("/file.txt").getPath())).toEqual(("/file.txt"));
+    expect((new jsx3.net.URI("/file.txt#fragment").getPath())).toEqual(("/file.txt"));
+    expect((new jsx3.net.URI("/file.txt?query").getPath())).toEqual(("/file.txt"));
     expect((new jsx3.net.URI("scheme:ssp#fragment").getPath())).toBeNull();
   });
 
   it("should be able to retrieve the port number of an URI", function () {
-    expect(666).toEqual((new jsx3.net.URI("torrent://domain.com:666/").getPort()));
-    expect(80).toEqual((new jsx3.net.URI("//user@domain.com:80/path/").getPort()));
+    expect((new jsx3.net.URI("torrent://domain.com:666/").getPort())).toEqual(666);
+    expect((new jsx3.net.URI("//user@domain.com:80/path/").getPort())).toEqual(80);
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getPort())).toBeNull();
   });
 
   it("should be able to retrieve the query portion of an URI", function () {
-    expect("query").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getQuery()));
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getQuery())).toEqual("query");
     expect((new jsx3.net.URI("scheme:ssp?query").getQuery())).toBeNull(); // illegal
-    expect("query").toEqual((new jsx3.net.URI("/file.txt?query").getQuery()));
-    expect("query").toEqual((new jsx3.net.URI("/file.txt?query#fragment").getQuery()));
+    expect((new jsx3.net.URI("/file.txt?query").getQuery())).toEqual("query");
+    expect((new jsx3.net.URI("/file.txt?query#fragment").getQuery())).toEqual("query");
   });
 
   it("should be able to determine the URI protocol scheme.", function () {
-    expect("scheme").toEqual((new jsx3.net.URI("scheme:ssp#fragment").getScheme()));
-    expect("http").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getScheme()));
-    expect("C").toEqual((new jsx3.net.URI("C:/file.txt").getScheme()));
+    expect((new jsx3.net.URI("scheme:ssp#fragment").getScheme())).toEqual("scheme");
+    expect((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getScheme())).toEqual("http");
+    expect((new jsx3.net.URI("C:/file.txt").getScheme())).toEqual("C");
     expect((new jsx3.net.URI("./C:/file.txt").getScheme())).toBeNull();
     expect((new jsx3.net.URI("/file.txt?query").getScheme())).toBeNull();
     expect((new jsx3.net.URI("//user@domain.com:80/path/").getScheme())).toBeNull();
   });
 
   it("should be able to retrieve specific prt of an URI scheme", function () {
-    expect("ssp").toEqual((new jsx3.net.URI("scheme:ssp#fragment").getSchemeSpecificPart()));
+    expect((new jsx3.net.URI("scheme:ssp#fragment").getSchemeSpecificPart())).toEqual("ssp");
     expect("//www.domain.com/path/file.html").toEqual((new jsx3.net.URI("http://www.domain.com/path/file.html").getSchemeSpecificPart()));
-    expect("/file.txt?query").toEqual((new jsx3.net.URI("/file.txt?query").getSchemeSpecificPart()));
+    expect((new jsx3.net.URI("/file.txt?query").getSchemeSpecificPart())).toEqual("/file.txt?query");
   });
 
   it("should be able to retrieve the User Info of an URI", function () {
-    expect("user").toEqual((new jsx3.net.URI("//user@domain.com:80/path/").getUserInfo()));
+    expect((new jsx3.net.URI("//user@domain.com:80/path/").getUserInfo())).toEqual("user");
     expect((new jsx3.net.URI("/file.txt?query").getUserInfo())).toBeNull();
-    expect("").toEqual((new jsx3.net.URI("scheme://@host/path").getUserInfo()));
+    expect((new jsx3.net.URI("scheme://@host/path").getUserInfo())).toEqual("");
   });
 
   it("should be able to retrieve a query parameter by name using getQueryParam(name).", function () {
     var u = new jsx3.net.URI("/path?q1&q2=v2&q3=v3#fragment");
-    expect(true).toEqual(u.getQueryParam("q1"));
-    expect("v2").toEqual(u.getQueryParam("q2"));
-    expect("v3").toEqual(u.getQueryParam("q3"));
+    expect(u.getQueryParam("q1")).toEqual(true);
+    expect(u.getQueryParam("q2")).toEqual("v2");
+    expect(u.getQueryParam("q3")).toEqual("v3");
     expect(u.getQueryParam("q4")).toBeNull();
     u = new jsx3.net.URI("/path#fragment");
     expect(u.getQueryParam("q1")).toBeNull();
@@ -95,9 +94,9 @@ describe("jsx3.net.URI", function () {
     var u = new jsx3.net.URI("/path?q1&q2=v2&q3=v3#fragment");
     var p = u.getQueryParams();
     expect(p).toBeInstanceOf(Object);
-    expect(true).toEqual(p.q1);
-    expect("v2").toEqual(p.q2);
-    expect("v3").toEqual(p.q3);
+    expect(p.q1).toEqual(true);
+    expect(p.q2).toEqual("v2");
+    expect(p.q3).toEqual("v3");
     expect(p.q4).toBeUndefined();
   });
 
@@ -143,10 +142,10 @@ describe("jsx3.net.URI", function () {
   });
 
   it("testFromParts3", function () {
-    expect("scheme:ssp#fragment").toEqual(jsx3.net.URI.fromParts("scheme", "ssp", "fragment").toString());
-    expect("scheme:ssp#").toEqual(jsx3.net.URI.fromParts("scheme", "ssp", "").toString());
-    expect("scheme:ssp").toEqual(jsx3.net.URI.fromParts("scheme", "ssp", null).toString());
-    expect("ssp").toEqual(jsx3.net.URI.fromParts(null, "ssp", null).toString());
+    expect(jsx3.net.URI.fromParts("scheme", "ssp", "fragment").toString()).toEqual("scheme:ssp#fragment");
+    expect(jsx3.net.URI.fromParts("scheme", "ssp", "").toString()).toEqual("scheme:ssp#");
+    expect(jsx3.net.URI.fromParts("scheme", "ssp", null).toString()).toEqual("scheme:ssp");
+    expect(jsx3.net.URI.fromParts(null, "ssp", null).toString()).toEqual("ssp");
   });
 
   it("testFromParts7", function () {
@@ -159,12 +158,12 @@ describe("jsx3.net.URI", function () {
     expect(u == u.normalize()).toBeTruthy();
 
     expect(new jsx3.net.URI("./file1.txt").normalize().toString()).toEqual("file1.txt");
-    expect("../file.txt").toEqual(new jsx3.net.URI("../file.txt").normalize().toString());
-    expect("file2.txt").toEqual(new jsx3.net.URI("foo/../file2.txt").normalize().toString());
-    expect("../file.txt").toEqual(new jsx3.net.URI("foo/../../file.txt").normalize().toString());
-    expect("./C:/file1.txt").toEqual(new jsx3.net.URI("./C:/file1.txt").normalize().toString());
-    expect("./C:/file2.txt").toEqual(new jsx3.net.URI("foo/../C:/file2.txt").normalize().toString());
-    expect("file:///C:/file.txt").toEqual(new jsx3.net.URI("file:///C:/file.txt").normalize().toString());
+    expect(new jsx3.net.URI("../file.txt").normalize().toString()).toEqual("../file.txt");
+    expect(new jsx3.net.URI("foo/../file2.txt").normalize().toString()).toEqual("file2.txt");
+    expect(new jsx3.net.URI("foo/../../file.txt").normalize().toString()).toEqual("../file.txt");
+    expect(new jsx3.net.URI("./C:/file1.txt").normalize().toString()).toEqual("./C:/file1.txt");
+    expect(new jsx3.net.URI("foo/../C:/file2.txt").normalize().toString()).toEqual("./C:/file2.txt");
+    expect(new jsx3.net.URI("file:///C:/file.txt").normalize().toString()).toEqual("file:///C:/file.txt");
   });
 
   var resolveTests = [
@@ -186,7 +185,7 @@ describe("jsx3.net.URI", function () {
       var u2 = jsx3.net.URI.valueOf(touple[1]);
       var u3 = jsx3.net.URI.valueOf(touple[2]);
       expect(u1.resolve(u2)).toEqual(u3);
-    }, "Resolve URI "+ touple.join(" -> "));
+    }, "Resolve URI " + touple.join(" -> "));
   }
 
   var relativizeTests = [

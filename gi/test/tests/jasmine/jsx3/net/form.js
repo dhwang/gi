@@ -359,7 +359,6 @@ describe("jsx3.net.Form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
     var target;
-
     f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
       expect(objEvent).not.toBeDefined();
     }, 500);
@@ -369,13 +368,10 @@ describe("jsx3.net.Form", function () {
     f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, function (objEvent) {
       target = objEvent.target;
     }, 500);
-
     f.send(null, 500);
-
     waitsFor(function () {
       return target != null;
     }, "target is set by Timeout event", 750);
-
     runs(function () {
       expect(target).toBeDefined();
     });
@@ -386,16 +382,13 @@ describe("jsx3.net.Form", function () {
     var abort = null, objEvent = null;
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
-
     var onDone = function() {
       abort = "called";
     };
-
     f.subscribe("*", function (evt) {
       objEvent = evt;
     }, 500);
     f.send(null, 5000);
-
     runs(function() {
       window.setTimeout(function () {
         abort = "called";
@@ -405,11 +398,9 @@ describe("jsx3.net.Form", function () {
         onDone();
       }, 300);
     });
-
     waitsFor(function () {
       return abort == "called";
     }, "The Value should be incremented", 750);
-
     runs(function () {
       expect(objEvent).toBeNull();
       //"Aborted form should not fire an event: "
@@ -431,11 +422,9 @@ describe("jsx3.net.Form", function () {
       }
     }, 500);
     f.send();
-
     waitsFor(function () {
       return rec != null;
     }, "record of jsxid 'field' should be defined", 1750);
-
     runs(function () {
       expect(rec).not.toBeUndefined();
       expect(rec.getValue()).toEqual("value");
@@ -452,11 +441,9 @@ describe("jsx3.net.Form", function () {
       }
     }, 500);
     f.send();
-
     waitsFor(function () {
       return text != null;
     }, "text value should have been received", 750);
-
     runs(function () {
       expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy();
     });
@@ -468,7 +455,6 @@ describe("jsx3.net.Form", function () {
     var value = " \t value\n\n";
     f.setField("field", value);
     var rec = null;
-
     f.subscribe("*", function (objEvent) {
       if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
         var xml = f.getResponseXML();
@@ -476,17 +462,14 @@ describe("jsx3.net.Form", function () {
       }
     }, 500);
     f.send();
-
     waitsFor(function () {
       return rec != null;
     }, "target should be defined", 750);
-
     runs(function () {
       expect(rec).not.toBeNull();
       expect(rec).not.toBeUndefined();
       expect(rec.getValue().replace(/\r\n/g,"")).toEqual(value);
     });
-
   });
 
   it("should be able to send and receive XML content.", function () {
@@ -494,7 +477,6 @@ describe("jsx3.net.Form", function () {
     var value1 = "<some>&xml &lt;";
     f.setField("field1", value1);
     var xml, rec = null;
-
     f.subscribe("*", function (objEvent) {
       if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
         xml = f.getResponseXML();
@@ -502,11 +484,9 @@ describe("jsx3.net.Form", function () {
       }
     }, 500);
     f.send();
-
     waitsFor(function () {
       return rec != null;
     }, "record[@jsxid='field1'] is not null", 750);
-
     runs(function () {
       expect(rec).not.toBeNull();
       expect(rec).not.toBeUndefined();
