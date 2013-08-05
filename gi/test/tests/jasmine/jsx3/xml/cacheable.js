@@ -12,7 +12,7 @@ describe("jsx3.xml.Cacheable", function () {
     });
     jsx3.Class.defineClass("gi.test.CacheCDFTest", jsx3.app.Model, [jsx3.xml.Cacheable, jsx3.xml.CDF],
       function (CacheCDFTest, CacheCDFTest_prototype) {
-    });
+      });
     t._server = t.newServer(null, "JSXAPPS/testCacheableServer", false, {namespace: "testCacheableServer"});
   });
 
@@ -110,7 +110,7 @@ describe("jsx3.xml.Cacheable", function () {
     var cache = c.getServer().getCache();
     var x = new jsx3.xml.Document().loadXML("<data><record/></data>");
     cache.setDocument("myxmlid", x);
-    expect(x).toEqual(c.getXML());
+    expect(c.getXML()).toEqual(x);
   });
 
   it("Should create XML document from XML URL instead of XML String", function () {
@@ -130,7 +130,7 @@ describe("jsx3.xml.Cacheable", function () {
     var id = c.getXMLId();
     t._server.getBodyBlock().removeChild(c);
     var cache = t._server.getCache();
-    expect(x).toEqual(t._server.getCache().getDocument(id));
+    expect(t._server.getCache().getDocument(id)).toEqual(x);
   });
 
   it("should keep the shared resource XML and XSL document in cache even when the jsx3.app.Server is destroyed", function () {
@@ -218,21 +218,12 @@ describe("jsx3.xml.Cacheable", function () {
     c.setXMLTransformers("trans1");
     var trans = new jsx3.xml.Document().load(t.resolveURI("data/trans.xsl"));
     t._server.getCache().setDocument("trans1", trans);
-    var flag, value;
-    runs(function () {
-      flag = false;
-      value = 0;
-      c.subscribe("xmlbind", function () {
-        flag = true;
-      }, 500);
-      c.doTransform();
-    });
-
+    c.subscribe("xmlbind", function () {
+    }, 500);
+    c.doTransform();
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
-
+      return c.getXML().getNodeName() != "loading";   //wait until Transformation is complete
+    }, "The Transformation is complete", 750);
     runs(function () {
       var x = c.getXML();
       expect(x.getNodeName()).toEqual("data");
@@ -247,19 +238,12 @@ describe("jsx3.xml.Cacheable", function () {
     c.setXmlAsync(1);
     c.setXMLURL(t.resolveURI("data/noncdf.xml"));
     c.setXMLTransformers(t.resolveURI("data/trans.xsl"));
-    runs(function () {
-      flag = false;
-      value = 0;
-      c.subscribe("xmlbind", function () {
-        flag = true;
-
-      }, 500);
-      c.doTransform();
-    });
+    c.subscribe("xmlbind", function () {
+    }, 500);
+    c.doTransform();
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return c.getXML().getNodeName() != "loading";   //wait until Transformation is complete
+    }, "The Transformation is complete", 750);
     runs(function () {
       var x = c.getXML();
       expect(x.getNodeName()).toEqual("data");
@@ -283,26 +267,19 @@ describe("jsx3.xml.Cacheable", function () {
   });
 
   it("Should apply the XSLT transform and the XSL parameter properties on Asynchronously load XML", function () {
-   var c = new gi.test.CacheCDFTest();
+    var c = new gi.test.CacheCDFTest();
     t._server.getBodyBlock().setChild(c);
     c.setXmlAsync(1);
     c.setXMLURL(t.resolveURI("data/test3.xml"));
     var props = t._server.JSS;
     props.set("k1", "dv1");
     props.set("k2", "dv2");
-    var flag, value;
-    runs(function () {
-      flag = false;
-      value = 0;
-      c.subscribe("xmlbind", function () {
-        flag = true;
-      }, 500);
-      c.doTransform();
-    });
+    c.subscribe("xmlbind", function () {
+    }, 500);
+    c.doTransform();
     waitsFor(function () {
-      value++;
-      return flag;
-    }, "The Value should be incremented", 750);
+      return c.getXML().getNodeName() != "loading";   //wait until Transformation is complete
+    }, "The Transformation is complete", 750);
     runs(function () {
       var x = c.getXML();
       var r = x.selectSingleNode("//record");
@@ -312,7 +289,7 @@ describe("jsx3.xml.Cacheable", function () {
       expect(r.getAttribute("jsxtip")).toEqual("dv2")
     });
   });
-  //t.testPropReplaceAsync._async = true;
+
   it("should add a name/value pair to the list of parameters to pass to the XSL stylesheet during transformation", function () {
     var c = new gi.test.CacheTest();
     var o = c.getXSLParams();
@@ -385,7 +362,7 @@ describe("jsx3.xml.Cacheable", function () {
     expect(cache.getDocument(c.getXMLId())).toBeNull();
   });
 
-  it("testResetCacheXsl", function () {
+  it("should remove the XSL source document stored under the XSL ID of this object from the server cache", function () {
     var c = new gi.test.CacheTest();
     t._server.getBodyBlock().setChild(c);
     var cache = t._server.getCache();
