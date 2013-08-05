@@ -358,22 +358,21 @@ describe("jsx3.net.Form", function () {
   it("request can timeout and receive a Form.EVENT_ON_TIMEOUT event.", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
-    var target;
-    f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
-      expect(objEvent).not.toBeDefined();
+    var evt = {};
+    f.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
+      evt = objEvent;
     }, 500);
-    f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, function (objEvent) {
-      expect(objEvent).not.toBeDefined();
+    f.subscribe([ jsx3.xml.Document.ON_ERROR, jsx3.xml.Document.ON_TIMEOUT ], function (objEvent) {
+      evt = objEvent;
     }, 500);
-    f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, function (objEvent) {
-      target = objEvent.target;
-    }, 500);
-    f.send(null, 500);
-    waitsFor(function () {
-      return target != null;
-    }, "target is set by Timeout event", 750);
     runs(function () {
-      expect(target).toBeDefined();
+      f.send(null, 500);
+    });
+    waitsFor(function () {
+      return evt.target != null;
+    }, "wait until there's a real objevent.target", 5000);
+    runs(function () {
+      expect(evt.target).toBeDefined();
     });
   });
   //t.testTimeout._skip_unless = "NETWORK";
