@@ -11,10 +11,6 @@ describe("jsx3.xml.CDF", function () {
     return (new jsx3.xml.CDF.Document()).load(t.resolveURI(strURL));
   };
 
-  beforeEach(function () {
-
-  });
-
   it("should be able to instantiate new instance of jsx3.app.CDF", function () {
     var cdf = newCDF("data/cdf1.xml");
     expect(cdf.instanceOf(jsx3.xml.CDF)).toBeTruthy();
@@ -33,8 +29,8 @@ describe("jsx3.xml.CDF", function () {
     var cdf = newCDF("data/cdf1.xml");
     cdf.assignIds();
     var xml = cdf.getXML();
-    expect("2").toEqual(xml.selectSingleNode("//record[@jsxtext='B']").getAttribute("jsxid"));
-    expect("jsxroot").toEqual(xml.selectSingleNode("//data").getAttribute("jsxid"));
+    expect(xml.selectSingleNode("//record[@jsxtext='B']").getAttribute("jsxid")).toEqual("2");
+    expect(xml.selectSingleNode("//data").getAttribute("jsxid")).toEqual("jsxroot");
     expect(xml.selectSingleNode("//record[@jsxtext='C']").getAttribute("jsxid")).not.toBeNull();
     expect(xml.selectSingleNode("//record[@jsxtext='C']").getAttribute("jsxid")).not.toBeUndefined();
   });
@@ -61,7 +57,7 @@ describe("jsx3.xml.CDF", function () {
     expect(cdf.getRecord("-1")).toBeNull();
   });
 
-  it("testGetRecordNodeMutable", function () {
+  it("should return a record from the XML data source of this object", function () {
     var cdf = newCDF("data/cdf1.xml");
     var r = cdf.getRecordNode("5");
     r.setAttribute("n1", "v1");
@@ -77,7 +73,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r.getAttribute("jsxtext")).toEqual("F");
   });
 
-  it("testInsertRecord2", function () {
+  it("should insert a new record into the XML data source of this object that contains property/value pairs that define the attributes of the XML entity to create and a unique jsxid", function () {
     var cdf = newCDF("data/cdf1.xml");
     cdf.insertRecord({jsxid: "5a", jsxtext: "E - a"}, "5");
     var r = cdf.selectSingleNode("/data/record[@jsxid='5']/record");
@@ -87,7 +83,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r.getAttribute("jsxtext")).toEqual("E - a");
   });
 
-  it("testInsertRecord3", function () {
+  it("should insert a new record into the XML data source of this object that contains property/value pairs that define the attributes of the XML entity to create", function () {
     var cdf = newCDF("data/cdf1.xml");
     cdf.insertRecord({jsxid: "5", jsxtext: "E'"});
     var r = cdf.selectNodes("/data/record[@jsxid='5']");
@@ -103,7 +99,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r.getAttribute("jsxtext")).toEqual("D.1");
   });
 
-  it("testInsertRecordBefore2", function () {
+  it("Creates a new CDF record and inserts it into the CDF data source of this object, before the record identified by '_5_'", function () {
     var cdf = newCDF("data/cdf1.xml");
     cdf.insertRecordBefore({jsxid: "4.1", jsxtext: "D.1"}, "_5_");
     var r = cdf.selectSingleNode("//record[@jsxid='4.1']");
@@ -121,7 +117,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r.getAttribute("jsxtext")).toEqual("F");
   });
 
-  it("testInsertRecordNode2", function () {
+  it("should insert a new record into the XML data source of this object", function () {
     var cdf = newCDF("data/cdf1.xml");
     var func = function () {
       cdf.insertRecordNode({jsxid: "6", jsxtext: "F"});
@@ -209,7 +205,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r.a1).toEqual("{prop1}");
   });
 
-  it("testConvertProperties2", function () {
+  it("should convert all attributes in this CDF document that are property keys of the form {key} to the value of the property 2", function () {
     var cdf = newCDF("data/cdf1.xml");
     var props = new jsx3.app.Properties();
     props.set("prop1", "dvalue1");
@@ -227,7 +223,7 @@ describe("jsx3.xml.CDF", function () {
 //    // TODO: spoof redraw record and test that is is called correctly
 //  };
 
-  it("testDocNewDocument", function () {
+  it("should create a new XML document that represents an empty CDF document", function () {
     var cdf = jsx3.xml.CDF.Document.newDocument();
     expect(cdf).toBeInstanceOf(jsx3.xml.CDF.Document);
     expect(cdf.hasError()).toBeFalsy();
@@ -265,7 +261,5 @@ describe("jsx3.xml.CDF", function () {
     var arr = ids;
     expect(ids).toEqual(expIds);
   });
-
-
 });
 
