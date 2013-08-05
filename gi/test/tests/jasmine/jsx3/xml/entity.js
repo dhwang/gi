@@ -6,11 +6,7 @@ describe("jsx3.xml.Entity", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Entity", "jsx3.xml.Document");
   var t = new _jasmine_test.TestSuite("jsx3.xml.Entity");
-
-  beforeEach(function () {
-
-  });
-
+  
   it("should test if entity class is defined", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Entity")).not.toBeNull();
   });
@@ -94,21 +90,21 @@ describe("jsx3.xml.Entity", function () {
     expect(nc.getValue()).toEqual("comment");
   });
 
-  it("testGetNodeType", function () {
+  it("should return one of: jsx3.xml.Entity.TYPEELEMENT, jsx3.xml.Entity.TYPEATTRIBUTE, jsx3.xml.Entity.TYPETEXT, jsx3.xml.Entity.TYPECDATA", function () {
     var d = new jsx3.xml.Document().loadXML('<data att="val">poo</data>');
     expect(d.getNodeType()).toEqual(jsx3.xml.Entity.TYPEELEMENT);
     expect(d.getChildNodes(true).get(0).getNodeType()).toEqual(jsx3.xml.Entity.TYPETEXT);
     expect(d.getAttributeNode("att").getNodeType()).toEqual(jsx3.xml.Entity.TYPEATTRIBUTE);
   });
 
-  it("testGetNodeName", function () {
+  it("should return the name of the node as string (assuming this jsx3.xml.Entity instance is of type jsx3.xml.Entity.TYPEELEMENT or jsx3.xml.Entity.TYPEATTRIBUTE).", function () {
     var d = new jsx3.xml.Document().loadXML('<data att="val"/>');
     expect(d.getNodeName()).toEqual("data");
     d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="http://foo.example.com"/>');
     expect(d.getNodeName()).toEqual("foo:data");
   });
 
-  it("testGetNamespaceUri1", function () {
+  it("should return a string value for URI of the namespace for the given node;and null if no namespace exists", function () {
     var ns = "http://foo.example.com";
     var d = new jsx3.xml.Document().loadXML('<foo:data xmlns:foo="' + ns + '"><foo:record/><record/></foo:data>');
     expect(d.getNamespaceURI()).toEqual(ns);
@@ -116,7 +112,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getChildNodes().get(1).getNamespaceURI()).toEqual("");
   });
 
-  it("testGetNamespaceUri2", function () {
+  it("should return a string value for URI of the namespace for the given node;and null if no namespace exists 2", function () {
     var ns = "http://foo.example.com";
     var d = new jsx3.xml.Document().loadXML('<data xmlns="' + ns + '"><record/></data>');
     expect(d.getNamespaceURI()).toEqual(ns);
@@ -147,7 +143,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getChildNodes().get(1)).toEqual(n2);
   });
 
-  it("testInsertBefore", function () {
+  it("should assign n1 as the previousSibling of n2", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r2/></data>');
     var n1 = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "r1");
     var n2 = d.getChildNodes().get(0);
@@ -156,7 +152,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getChildNodes().get(1)).toEqual(n2);
   });
 
-  it("testReplaceNode", function () {
+  it("should replace the child n2 with n1 and returns a handle to n2", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r2/></data>');
     var n1 = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "r1");
     var n2 = d.getChildNodes().get(0);
@@ -165,7 +161,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getChildNodes().size()).toEqual(1);
   });
 
-  it("testRemoveChild", function () {
+  it("should remove a DOM child from this object", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/></data>');
     var n1 = d.getChildNodes().get(0);
     var n2 = d.getChildNodes().get(1);
@@ -174,13 +170,13 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getChildNodes().size()).toEqual(1);
   });
 
-  it("testRemoveChildren", function () {
+  it("should remove all the children of this object", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/></data>');
     d.removeChildren();
     expect(d.getChildNodes().size()).toEqual(0);
   });
 
-  it("testGetAttribute", function () {
+  it("should return the value for the custom attribute with the given name", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1" a2="v2"/>');
     expect(d.getAttribute("a1")).toEqual("v1");
     expect(d.getAttribute("n1")).toBeNull();
@@ -189,7 +185,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getAttribute("foo:a1")).toEqual("v1");
   });
 
-  it("testSetAttribute", function () {
+  it("should set a property on the object for which the HTML tag will be assigned the given name/value pair as a tag attribute", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1" a2="v2"/>');
     expect(d.getAttribute("a1")).toEqual("v1");
     d.setAttribute("a1", "v1d");
@@ -198,7 +194,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getAttribute("a1")).toBeNull();
   });
 
-  it("testGetAttributeNode", function () {
+  it("should return a jsx3.xml.Entity instance to the child attribute with the name", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1" a2="v2"/>');
     var n = d.getAttributeNode("a1");
     expect(n).toBeInstanceOf(jsx3.xml.Entity);
@@ -209,7 +205,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getAttributeNode("n1")).toBeUndefined();
   });
 
-  it("testSetAttributeNode", function () {
+  it("should set the attribute object as a child of the element", function () {
     var d = new jsx3.xml.Document().loadXML('<data/>');
     var n = d.createNode(jsx3.xml.Entity.TYPEATTRIBUTE, "a1");
     n.setValue("v1");
@@ -217,7 +213,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d.getAttribute("a1")).toEqual("v1");
   });
 
-  it("testGetAttributes", function () {
+  it("should return  zero or more JavaScript Objects with the following Properties: script, type, system", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1" a2="v2"/>');
     var a = d.getAttributes();
     expect(a).toBeInstanceOf(jsx3.util.List);
@@ -227,7 +223,7 @@ describe("jsx3.xml.Entity", function () {
     expect(a.get(0).getNodeType()).toEqual(jsx3.xml.Entity.TYPEATTRIBUTE);
   });
 
-  it("testGetAttributeNames", function () {
+  it("should return the names of all the attributes of this node", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1" a2="v2"/>');
     var a = d.getAttributeNames();
     expect(a.length).toEqual(2);
@@ -235,14 +231,14 @@ describe("jsx3.xml.Entity", function () {
     expect(a[1]).toEqual("a2");
   });
 
-  it("testRemoveAttribute", function () {
+  it("should remove  the specific custom property bound to this object", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1"/>');
     expect(d.getAttribute("a1")).toEqual("v1");
     d.removeAttribute("a1");
     expect(d.getAttribute("a1")).toBeNull();
   });
 
-  it("testRemoveAttributeNode", function () {
+  it("should remove  the attribute object as a child of the element", function () {
     var d = new jsx3.xml.Document().loadXML('<data a1="v1"/>');
     expect(d.getAttribute("a1")).toEqual("v1");
     d.removeAttributeNode(d.getAttributeNode("a1"));
@@ -262,7 +258,7 @@ describe("jsx3.xml.Entity", function () {
     expect(n.getOwnerDocument()).toEquals(d);
   });
 
-  it("testGetChildNodes", function () {
+  it("should return the child nodes of this entity", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r1/><r2/><r3/></data>');
     var c = d.getChildNodes();
     expect(c).toBeInstanceOf(jsx3.util.List);
@@ -377,7 +373,7 @@ describe("jsx3.xml.Entity", function () {
     expect(n.getAttribute("a")).toEqual("1");
   });
 
-  it("testSelectNamespaceObject", function () {
+  it("should return a single node selected by an XPath(the selection namespace) query executed on this node", function () {
     var d = new jsx3.xml.Document().loadXML('<data xmlns:ns="uri"><r a="1"/><ns:r a="2"/></data>');
     var n = d.selectSingleNode("//r");
     expect(n).not.toBeNull();
@@ -389,7 +385,7 @@ describe("jsx3.xml.Entity", function () {
     expect(n.getAttribute("a")).toEqual("2");
   });
 
-  it("testSelectNamespaceImplicit", function () {
+  it("should return a single node selected by an XPath(the selection namespace) query executed on this node 2", function () {
     var d = new jsx3.xml.Document().loadXML('<data xmlns:ns="uri"><r a="1"/><ns:r a="2"/></data>');
     var n = d.selectSingleNode("//ns:r");
     expect(n).not.toBeNull();
@@ -397,7 +393,7 @@ describe("jsx3.xml.Entity", function () {
     expect(n.getAttribute("a")).toEqual("2");
   });
 
-  it("testSelectNamespaceError", function () {
+  it("should return a single node selected by an XPath(the selection namespace) query executed on this node  and null if none exists", function () {
     var d = new jsx3.xml.Document().loadXML('<data xmlns:ns="uri"><r a="1"/><ns:r a="2"/></data>');
     var n = d.selectSingleNode("//foo:r");
     expect(n).toBeNull();
@@ -435,7 +431,7 @@ describe("jsx3.xml.Entity", function () {
     expect(b.selectSingleNode("//b")).not.toBeUndefined();
   });
 
-  it("testSelectIterator", function () {
+  it("should return a list of nodes selected by an XPath query executed on this node and iterate over them", function () {
     var d = new jsx3.xml.Document().loadXML('<data><r a="1"/><r a="2"/><r a="3"/></data>');
     var n = d.selectNodes("//r");
     var i = n.iterator();
@@ -460,7 +456,7 @@ describe("jsx3.xml.Entity", function () {
     expect(s).toMatch(/^<doc\s*\/>$/);
   });
 
-  it("testToString", function () {
+  it("should create a new root node on an empty document and add child to this list ", function () {
     var d = new jsx3.xml.Document();
     var n = d.createDocumentElement("data");
     n.appendChild(d.createNode(jsx3.xml.Entity.TYPEELEMENT, "record"));
@@ -468,38 +464,38 @@ describe("jsx3.xml.Entity", function () {
     expect(d.toString()).toMatch(/^<data><record\s*\/> \-\- a record <\/data>$/);
   });
 
-  it("testToStringElement", function () {
+  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPEELEMENT", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var ne = d.createNode(jsx3.xml.Entity.TYPEELEMENT, "e");
     expect(ne.toString()).toMatch(/^<e\s*\/>$/);
   });
 
-  it("testToStringAttribute", function () {
+  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPEELEMENT and also set its value ", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var na = d.createNode(jsx3.xml.Entity.TYPEATTRIBUTE, "a");
     na.setValue("v");
     expect(na.toString()).toEqual('a="v"');
   });
 
-  it("testToStringText", function () {
+  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPETEXT", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nt = d.createNode(jsx3.xml.Entity.TYPETEXT, "text");
     expect(nt.toString()).toEqual("text");
   });
 
-  it("testToStringCdata", function () {
+  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPECDATA", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nd = d.createNode(jsx3.xml.Entity.TYPECDATA, "cdata");
     expect(nd.toString()).toEqual("<![CDATA[cdata]]>");
   });
 
-  it("testToStringComment", function () {
+  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPECOMMENT", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var nc = d.createNode(jsx3.xml.Entity.TYPECOMMENT, " comment ");
     expect(nc.toString()).toEqual("<!-- comment -->");
   });
 
-  it("testSetValue", function () {
+  it("should set the value of this control", function () {
     //test entity
     var d = new jsx3.xml.Document().loadXML("<abc><a>b</a></abc>");
     d.setValue("b");
@@ -516,7 +512,7 @@ describe("jsx3.xml.Entity", function () {
     expect(!isFinite(eval(s))).toBeTruthy();
   });
 
-  it("testInterDoc1", function () {
+  it("should test the Child Nodes of the Loaded and Appended Xml string 1", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data></data>");
     expect(d1.getChildNodes().size()).toEqual(1);
@@ -526,7 +522,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().size()).toEqual(1);
   });
 
-  it("testInterDoc2", function () {
+  it("should load 2 XML Docs and append them and test their child Nodes", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data></data>");
     d2.appendChild(d1.getChildNodes().get(0).cloneNode(true));
@@ -534,7 +530,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().size()).toEqual(1);
   });
 
-  it("testInterDoc3", function () {
+  it("should load 2 XML Docs insert one before the other and test their child nodes", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data><b/></data>");
     expect(d1.getChildNodes().size()).toEqual(1);
@@ -546,7 +542,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().get(1).getNodeName()).toEqual("b");
   });
 
-  it("testInterDoc4", function () {
+  it("should load 2 XML Doc replace a Node of the second doc with the one specified and test their child nodes", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data><b/></data>");
     d2.replaceNode(d1.getChildNodes().get(0), d2.getChildNodes().get(0));
@@ -555,7 +551,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().get(0).getNodeName()).toEqual("a");
   });
 
-  it("testInterDoc5", function () {
+  it("should load two xml docs ,set and remove each of their attributes and test the same", function () {
     var d1 = new jsx3.xml.Document().loadXML('<data a="v"/>');
     var d2 = new jsx3.xml.Document().loadXML("<data/>");
     expect(d1.getAttribute("a")).toEqual("v");
@@ -567,7 +563,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getAttribute("a")).toEqual("v");
   });
 
-  it("testInterDoc6", function () {
+  it("should load 2 xml docs,append a new node to the second doc and test their childNodes and attributes", function () {
     var d1 = new jsx3.xml.Document().loadXML('<data><record/></data>');
     var d2 = new jsx3.xml.Document().loadXML("<data/>");
     var n = d1.getChildNodes().get(0);
@@ -581,7 +577,7 @@ describe("jsx3.xml.Entity", function () {
     expect(n.getChildNodes().get(0).getNodeName()).toEqual("record");
   });
 
-  it("testInterDoc7", function () {
+  it("should load 2 xml docs ,append one doc as a child of another and select the Nodes specified by XPATH query for this new document object", function () {
     var d1 = new jsx3.xml.Document().loadXML('<data/>');
     var d2 = new jsx3.xml.Document().loadXML('<data><r1/></data>');
     d1.appendChild(d2.selectSingleNode("//r1"));
