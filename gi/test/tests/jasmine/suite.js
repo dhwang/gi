@@ -30,8 +30,8 @@ var specs = [
     "jsx3/net/service.js", "jsx3/net/form.js",
 
   /* Localization suite */
-  "jsx3/util/dateformat.js",
-  /*"jsx3/util/locale.js", "jsx3/util/numberformat.js","jsx3/util/messageformat.js",*/
+    "jsx3/util/dateformat.js","jsx3/util/messageformat.js","jsx3/util/list.js","jsx3/util/pkg.js","jsx3/util/numberformat.js",
+    "jsx3/util/logger.js","jsx3/util/locale.js",
 
   /* GUI suite */
   "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js"
