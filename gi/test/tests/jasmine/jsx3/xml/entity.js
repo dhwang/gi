@@ -470,7 +470,7 @@ describe("jsx3.xml.Entity", function () {
     expect(ne.toString()).toMatch(/^<e\s*\/>$/);
   });
 
-  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPEELEMENT and also set its value ", function () {
+  it("should create a new Node for the Document object of type jsx3.xml.Entity.TYPEATTRIBUTE", function () {
     var d = new jsx3.xml.Document().loadXML("<data/>");
     var na = d.createNode(jsx3.xml.Entity.TYPEATTRIBUTE, "a");
     na.setValue("v");
@@ -495,16 +495,16 @@ describe("jsx3.xml.Entity", function () {
     expect(nc.toString()).toEqual("<!-- comment -->");
   });
 
-  it("should set the value of this control", function () {
+  it("should be able to set the text value of a node using Entity.setValue()", function () {
     //test entity
     var d = new jsx3.xml.Document().loadXML("<abc><a>b</a></abc>");
     d.setValue("b");
     expect("<abc>b</abc>").toEqual(d.toString());
-    // TODO: need to test attribute, cdata, comment and text types
+    // See above for test attribute, cdata, comment and text types
   });
 
   // -1#INF ... 1-7XM18V
-  it("testInfinity", function () {
+  it("should be able to set an Infinity attribute value -- see SR 1-7XM18V", function () {
     var x = new jsx3.xml.Document().loadXML("<r/>");
     x.setAttribute("v", Number.POSITIVE_INFINITY);
     var s = x.getAttribute("v");
@@ -512,7 +512,7 @@ describe("jsx3.xml.Entity", function () {
     expect(!isFinite(eval(s))).toBeTruthy();
   });
 
-  it("should test the Child Nodes of the Loaded and Appended Xml string 1", function () {
+  it("should be able to move nodes from one document to another", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data></data>");
     expect(d1.getChildNodes().size()).toEqual(1);
@@ -522,7 +522,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().size()).toEqual(1);
   });
 
-  it("should load 2 XML Docs and append them and test their child Nodes", function () {
+  it("should be able to copy nodes from one document to another by first cloning source nodes", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data></data>");
     d2.appendChild(d1.getChildNodes().get(0).cloneNode(true));
@@ -530,7 +530,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().size()).toEqual(1);
   });
 
-  it("should load 2 XML Docs insert one before the other and test their child nodes", function () {
+  it("should be able to move nodes from one document to another at specific location using insertBefore()", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data><b/></data>");
     expect(d1.getChildNodes().size()).toEqual(1);
@@ -542,7 +542,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().get(1).getNodeName()).toEqual("b");
   });
 
-  it("should load 2 XML Doc replace a Node of the second doc with the one specified and test their child nodes", function () {
+  it("should be able to move and replace a node from one document to another", function () {
     var d1 = new jsx3.xml.Document().loadXML("<data><a/></data>");
     var d2 = new jsx3.xml.Document().loadXML("<data><b/></data>");
     d2.replaceNode(d1.getChildNodes().get(0), d2.getChildNodes().get(0));
