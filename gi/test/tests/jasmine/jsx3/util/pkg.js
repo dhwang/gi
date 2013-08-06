@@ -52,7 +52,7 @@ describe("jsx3.util", function() {
     expect(jsx3.util.strTrim("\nfgh\n \n\n")).toEqual("fgh");
   });
 
-  it("should return s with the following four characters replaced by their escaped equivalent: & < > ". ", function() {
+  it("should return s with the following four characters replaced by their escaped equivalent: & < > .", function() {
     expect(jsx3.util.strEscapeHTML("abc")).toEqual("abc");
     expect(jsx3.util.strEscapeHTML('<t a="v"/>&#160;')).toEqual("&lt;t a=&quot;v&quot;/&gt;&amp;#160;");
   });

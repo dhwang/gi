@@ -5,7 +5,6 @@
  describe("jsx3.util.MessageFormat", function(){
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.util.MessageFormat", "jsx3.util.Locale", "jsx3.lang.System");
-  var t = new _jasmine_test.TestSuite("jsx3.util.MessageFormat");
   
   beforeEach(function(){
     var mf = new jsx3.util.MessageFormat("");
