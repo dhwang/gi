@@ -13,6 +13,9 @@ var specs = [
   /* Exception and error suite */
   "jsx3/lang/exception.js", "jsx3/lang/error.js",
 
+  /* Other utilities suite */
+  "jsx3/util/pkg.js", "jsx3/util/eventdispatcher.js", "jsx3/util/list.js",  "jsx3/util/logger.js",
+
   /* URI and URI resolver suite */
   "jsx3/net/uri.js", "jsx3/net/uriresolver.js",
 
@@ -30,8 +33,7 @@ var specs = [
     "jsx3/net/service.js", "jsx3/net/form.js",
 
   /* Localization suite */
-    "jsx3/util/dateformat.js","jsx3/util/messageformat.js","jsx3/util/list.js","jsx3/util/pkg.js","jsx3/util/numberformat.js",
-    "jsx3/util/logger.js","jsx3/util/locale.js",
+  "jsx3/util/dateformat.js", "jsx3/util/locale.js", "jsx3/util/numberformat.js", "jsx3/util/messageformat.js",
 
   /* GUI suite */
   "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js"
