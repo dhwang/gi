@@ -29,8 +29,8 @@ var specs = [
   "jsx3/xml/cdf.js", "jsx3/xml/processor.js","jsx3/xml/template.js",
 
   /* Server suite */
-    "jsx3/app/model.js", "jsx3/xml/cacheable.js",
-    "jsx3/net/service.js", "jsx3/net/form.js",
+  "jsx3/net/request.js","jsx3/app/model.js", "jsx3/xml/cacheable.js",
+  "jsx3/net/service.js", "jsx3/net/form.js",
 
   /* Localization suite */
   "jsx3/util/dateformat.js", "jsx3/util/locale.js", "jsx3/util/numberformat.js", "jsx3/util/messageformat.js",
@@ -41,4 +41,3 @@ var specs = [
 ];
 
 gi.test.jasmine.loadTestSpecs(specs);
-
