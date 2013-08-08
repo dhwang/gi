@@ -7,11 +7,7 @@
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.NativeError", "jsx3.util.jsxpackage");
 	var t = new _jasmine_test.TestSuite("jsx3.lang.NativeError");
-	
-	beforeEach(function(){
 
-	});
-	
 	it("should be able to initialize error trapping mechanism", function(){
 		var ex = null;
 		expect(ex).toBe(null);
@@ -46,7 +42,8 @@
 		wrapped = jsx3.lang.NativeError.wrap(123);
 		expect(wrapped.getMessage()).toEqual("123");
 	});
-	
+  
+	if (!_jasmine_test.IE && !_jasmine_test.SAF)
 	it("should be able to return the URL of the Javascript include where this error was raised.", function(){
 		var ex = null;
 		try {
@@ -61,6 +58,7 @@
 		}
 	});
 	
+  if (!_jasmine_test.IE && !_jasmine_test.SAF)
 	it("should be able to return the line number in the javascript include where this error was raised.", function(){
 		var ex = null;
 		try {
@@ -70,7 +68,7 @@
 		}
 		if(ex){
 			expect(ex.getLineNumber()).not.toBeNull()
-			expect(ex.getLineNumber()).toEqual(67);
+			expect(ex.getLineNumber()).toEqual(65);
 		}
 	});
 	
