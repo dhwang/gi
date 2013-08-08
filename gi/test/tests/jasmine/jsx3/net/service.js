@@ -103,7 +103,7 @@ describe("jsx3.net.Service", function () {
   });
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
-    it("testRequestJSON", function () {
+    it("should be able to send and receive JSON based web service", function () {
       var Service = jsx3.net.Service;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");

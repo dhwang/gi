@@ -100,7 +100,7 @@ describe("jsx3.net.URI", function () {
     expect(p.q4).toBeUndefined();
   });
 
-  it("testAbsolute", function () {
+  it("should test  whether the URI is considered absolute in the JSX system", function () {
     expect((new jsx3.net.URI("scheme:ssp#fragment").isAbsolute())).toBeTruthy();
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").isAbsolute())).toBeTruthy();
     expect((new jsx3.net.URI("mailto:user@domain.com").isAbsolute())).toBeTruthy();
@@ -109,7 +109,7 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("file.txt").isAbsolute())).toBeFalsy();
   });
 
-  it("testOpaque", function () {
+  it("should test whether the URI is considered opaque", function () {
     expect((new jsx3.net.URI("scheme:ssp#fragment").isOpaque())).toBeTruthy();
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").isOpaque())).toBeFalsy();
     expect((new jsx3.net.URI("mailto:user@domain.com").isOpaque())).toBeTruthy();
@@ -117,16 +117,13 @@ describe("jsx3.net.URI", function () {
   });
 
   it("testEquals", function () {
-
     var u = new jsx3.net.URI("http://www.domain.com/path/file.html");
     expect(u.equals(u)).toBeTruthy();
     expect(u.equals(null)).toBeFalsy();
     expect(u.equals(1)).toBeFalsy();
     expect(u.equals("http://www.domain.com/path/file.html")).toBeFalsy();
-
     expect(u.equals(new jsx3.net.URI("http://www.domain.com/path/file.html"))).toBeTruthy();
     expect(u.equals(new jsx3.net.URI("http://www.domain.com/path/%66ile.html"))).toBeTruthy();
-
     u = new jsx3.net.URI("/file.html?query#fragment");
     expect(u.equals(new jsx3.net.URI("/file.html?query#fragment"))).toBeTruthy();
     expect(u.equals(new jsx3.net.URI("/file.html?query2#fragment"))).toBeFalsy();
@@ -141,7 +138,7 @@ describe("jsx3.net.URI", function () {
     expect(u == jsx3.net.URI.valueOf(u)).toBeTruthy();
   });
 
-  it("testFromParts3", function () {
+  it("should test the fromParts() method with 3 arguments :URI scheme,user information and host", function () {
     expect(jsx3.net.URI.fromParts("scheme", "ssp", "fragment").toString()).toEqual("scheme:ssp#fragment");
     expect(jsx3.net.URI.fromParts("scheme", "ssp", "").toString()).toEqual("scheme:ssp#");
     expect(jsx3.net.URI.fromParts("scheme", "ssp", null).toString()).toEqual("scheme:ssp");

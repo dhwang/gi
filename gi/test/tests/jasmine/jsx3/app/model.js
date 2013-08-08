@@ -7,21 +7,25 @@ describe("jsx3.app.Model", function () {
   _jasmine_test.require("jsx3.app.Model", "jsx3.gui.Painted");
   var t = new _jasmine_test.TestSuite("jsx3.app.Model");
 
+  beforeEach(function () {
+  });
+
   it("should deserialize the file and append the deserialized objects as children of this DOM node", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     expect(root).toBeInstanceOf(jsx3.app.Model);
   });
 
-  it("should return the child DOM node of this node at the given Int", function () {
+  it("has method getChild(index) that will return the child node with the given index", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var c1 = root.getChild(0);
     expect(c1).toBeInstanceOf(jsx3.app.Model);
+
     expect(root.getChild("11")).toBeUndefined();
   });
 
-  it("should return the child DOM node of this node at the given string", function () {
+  it("has method getChild(name) that will return the child node with given name", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var c1 = root.getChild("child1");
@@ -31,7 +35,7 @@ describe("jsx3.app.Model", function () {
     expect(root.getChild("0")).toBeUndefined();
   });
 
-  it("should return an array containing all the child DOM nodes of this object", function () {
+  it("has method getChildren() that return an array containing all the child nodes", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var children = root.getChildren();
@@ -39,7 +43,7 @@ describe("jsx3.app.Model", function () {
       expect(children[i].getChildIndex()).toEqual(i);
   });
 
-  it("should return the zero-based index for this DOM node in relation to its siblings.", function () {
+  it("has method getChildIndex() that will return the zero-based index for this DOM node in relation to its siblings.", function () {
     var o = new jsx3.app.Model("abandoned");
     expect(o.getChildIndex()).toEqual(-1);
   });
@@ -89,7 +93,7 @@ describe("jsx3.app.Model", function () {
     expect(grandchildren.length).toEqual(0);
   });
 
-  it("testGetChildren2", function () {
+  it("getChildren() should return an empty array when there is no children", function () {
     var o = new jsx3.app.Model("abandoned");
     var children = o.getChildren();
     expect(children).toBeInstanceOf(Array);
@@ -103,7 +107,7 @@ describe("jsx3.app.Model", function () {
     expect(children[0].getParent()).toEqual(root);
   });
 
-  it("testGetParent2", function () {
+  it("getParent() should return null when there is no parent node", function () {
     var o = new jsx3.app.Model("abandoned");
     expect(o.getParent()).toBeNull();
   });
@@ -128,7 +132,7 @@ describe("jsx3.app.Model", function () {
     expect(root.getChild(0).getMetaValue("name")).toEqual("");
   });
 
-  it("testVariants", function () {
+  it("should process <variants> in serialization file as Number", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     expect(root.v1).toEqual(1);
@@ -136,7 +140,7 @@ describe("jsx3.app.Model", function () {
     expect(root.s3).toBeUndefined();
   });
 
-  it("testArrayVariants", function () {
+  it("should process variants with Array of Number", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var a = root.a1;
@@ -146,7 +150,7 @@ describe("jsx3.app.Model", function () {
     expect(a[3]).toEqual(4);
   });
 
-  it("testStrings", function () {
+  it("should process strings in serialization file as String", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     expect(root.s1).toEqual("1");
@@ -154,7 +158,7 @@ describe("jsx3.app.Model", function () {
     expect(root.s3).toBeUndefined();
   });
 
-  it("should find all DOM nodes descending from this DOM node that pass the given test function.", function () {
+  it("should find the first child node that is named 'nestedChild", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match = root.findDescendants(function (x) {
@@ -164,7 +168,7 @@ describe("jsx3.app.Model", function () {
     expect(match.f1).toEqual(3);
   });
 
-  it("should find all DOM nodes descending from this DOM node and returns an array of matches", function () {
+  it("should find all child nodes descending from this node and have name 'nestedChild'", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var matches = root.findDescendants(function (x) {
@@ -224,7 +228,7 @@ describe("jsx3.app.Model", function () {
     expect(root.getServer().getRootBlock()).toEqual(match2);
   });
 
-  it("should select objects from the DOM whose name equals ID specified with #", function () {
+  it("has selectDescendants '#jsxname' that will find child object using the specified #jsxname", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child1");
@@ -235,7 +239,7 @@ describe("jsx3.app.Model", function () {
     expect(match3.length).toEqual(0);
   });
 
-  it("testSelectDescendant", function () {
+  it("has method selecteDescentdant() to select objects from the dom using a css3-like selection syntax", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child2 #child2");
@@ -266,7 +270,7 @@ describe("jsx3.app.Model", function () {
     expect(match1.length).toEqual(3);
   });
 
-  it("should select objects from the DOM matching objects that are their parents' first and last children and matching objects whose child index is equal to n", function () {
+  it("should support pseudo selector :first, :last and nth(x) that returns first, last or nth(x) child node", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#root > :first");
@@ -421,7 +425,7 @@ describe("jsx3.app.Model", function () {
     expect(parent.getChildren()[1]).toEqual(c1);
   });
 
-  it("should remove some or all children of this object", function () {
+  it("should remove  all children of this object", function () {
     var parent = new jsx3.app.Model("p1");
     var c1 = new jsx3.app.Model("c1");
     var c2 = new jsx3.app.Model("c2");
