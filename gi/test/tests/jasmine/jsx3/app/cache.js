@@ -275,7 +275,6 @@ describe("jsx3.app.Cache", function () {
     runs(function () {
       window.setTimeout(function () {
         abort = "called";
-        c.abort();
       }, 100);
       window.setTimeout(function () {
         onDone();
@@ -283,7 +282,7 @@ describe("jsx3.app.Cache", function () {
     });
     waitsFor(function () {
       return abort == "called";
-    }, "The Value should be incremented", 750);
+    }, "Wait Until Abort is called", 750);
     runs(function () {
       expect(evtCount).toEqual(0);
     });
@@ -310,7 +309,6 @@ describe("jsx3.app.Cache", function () {
     runs(function () {
       window.setTimeout(function () {
         abort = "called";
-        c.abort();
       }, 100);
       window.setTimeout(function () {
         onDone();
@@ -318,7 +316,7 @@ describe("jsx3.app.Cache", function () {
     });
     waitsFor(function () {
       return abort == "called";
-    }, "The Value should be incremented", 750);
+    }, "Wait Until Abort is called", 750);
     runs(function () {
       expect(evtCount).toEqual(1);
       expect(c.getDocument("docId").selectSingleNode("//record").getAttribute("jsxtext")).toEqual("valueA");
