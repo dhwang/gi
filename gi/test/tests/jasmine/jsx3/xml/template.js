@@ -5,7 +5,7 @@
 describe("jsx3.xml.Template", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Template");
-  var t = new _jasmine_test.TestSuite("jsx3.xml.Template");
+  var t = new _jasmine_test.App("jsx3.xml.Template");
 
   var xslPrefix = '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +
     '<xsl:output method="xml" omit-xml-declaration="yes"/>';

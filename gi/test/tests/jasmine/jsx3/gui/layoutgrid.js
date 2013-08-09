@@ -2,24 +2,24 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
- describe("jsx3.gui.LayoutGrid", function(){
-	var _jasmine_test = gi.test.jasmine;
-	_jasmine_test.require("jsx3.gui.LayoutGrid");
-	
-	beforeEach(function () {
-        this.addMatchers(gi.test.jasmine.matchers);
-    });
-	
-	it("has method getCols() to get column string", function(){
-		var lg = new jsx3.gui.LayoutGrid();
-		lg.setCols("10,*");
-		expect(lg.getCols()).toEqual("10,*");
-	});
-	
-	it("has method getCols() to get column array", function(){
-		var lg = new jsx3.gui.LayoutGrid();
-		lg.setCols([10, "*"]);
-		expect(lg.getCols()).toEqual("10,*");
-	});
- 
- });
+describe("jsx3.gui.LayoutGrid", function(){
+  var _jasmine_test = gi.test.jasmine;
+  _jasmine_test.require("jsx3.gui.LayoutGrid");
+
+  beforeEach(function () {
+    this.addMatchers(gi.test.jasmine.matchers);
+  });
+
+  it("has method getCols() to get column string", function(){
+    var lg = new jsx3.gui.LayoutGrid();
+    lg.setCols("10,*");
+    expect(lg.getCols()).toEqual("10,*");
+  });
+
+  it("has method getCols() to get column array", function(){
+    var lg = new jsx3.gui.LayoutGrid();
+    lg.setCols([10, "*"]);
+    expect(lg.getCols()).toEqual("10,*");
+  });
+
+});

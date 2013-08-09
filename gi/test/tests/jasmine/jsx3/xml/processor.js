@@ -5,7 +5,7 @@
 describe("jsx3.xml.Processor", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Document", "jsx3.xml.Processor");
-  var t = new _jasmine_test.TestSuite("jsx3.xml.Processor");
+  var t = new _jasmine_test.App("jsx3.xml.Processor");
 
   beforeEach(function () {
 

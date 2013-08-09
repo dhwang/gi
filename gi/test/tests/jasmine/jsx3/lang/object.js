@@ -5,8 +5,7 @@
  describe("jsx3.lang.Object", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.Object","jsx3.lang.Class");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.Object");
-	
+
 	beforeEach(function(){
 
 	});
@@ -29,7 +28,7 @@
 		var o1 =new jsx3.lang.Object();
 		o1.toString = function(){
 			return "o";
-		}
+		};
 		
 		var o2 = new jsx3.lang.Object();
 		o2.toString = function(){

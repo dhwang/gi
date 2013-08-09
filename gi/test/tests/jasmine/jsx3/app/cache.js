@@ -6,7 +6,7 @@
 describe("jsx3.app.Cache", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Cache", "jsx3.xml.Document", "jsx3.xml.CDF", "jsx3.util.List");
-  var t = new _jasmine_test.TestSuite("jsx3.app.Cache");
+  var t = new _jasmine_test.App("jsx3.app.Cache");
 
   it("should be able to instantiate new instance of jsx3.app.Cache", function () {
     var c = new jsx3.app.Cache();

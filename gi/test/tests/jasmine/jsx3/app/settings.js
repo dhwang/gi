@@ -6,11 +6,7 @@
 describe("jsx3.app.Settings", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Settings");
-  var t = new _jasmine_test.TestSuite("jsx3.app.Settings");
-
-  beforeEach(function () {
-    t._server = null;
-  });
+  var t = new _jasmine_test.App("jsx3.app.Settings");
 
   it("should be able to instantiate new instance of jsx3.app.Settings", function () {
     var s = new jsx3.app.Settings();
@@ -148,12 +144,6 @@ describe("jsx3.app.Settings", function () {
     expect(s.get("newString").toString()).toEqual('2010');
   });
 
-  afterEach(function () {
-    if (t._server) {
-      t._server.destroy();
-      delete t._server;
-    }
-  });
 });
 
 

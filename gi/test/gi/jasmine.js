@@ -47,7 +47,7 @@ if (!gi.test.jasmine) gi.test.jasmine = new Object();
       this.op10 = vers >= 10;
     }
 
-    // Microsoft Internet Explorer v6-8
+    // Microsoft Internet Explorer v6-9+
     this.ie = agt.indexOf("msie") >= 0 && !this.op;
     if (this.ie) {
       vers = this._getVersionAfter('msie ');
@@ -81,7 +81,7 @@ if (!gi.test.jasmine) gi.test.jasmine = new Object();
     return "xx";
   };
 
-gi.test.jasmine._init = function(_jasmine) {
+gi.test.jasmine._init = function(_jasmine, undefined) {
   var _BROWSERS = {
     ie7:["IE","IE7","VML"],
     ie8:["IE","IE8","VML"],
@@ -188,23 +188,23 @@ gi.test.jasmine._init = function(_jasmine) {
         {jsxappempty:"true"});
   };
 
-  _jasmine.TestSuite = function(strPrefix) {
+  _jasmine.App = function(strPrefix) {
     var tokens = strPrefix.split(/\W/);
     this._prefix = tokens.join("_");
     tokens.pop();
     this._path = tokens.join("/") + "/";
   };
 
-  _jasmine.TestSuite.prototype.getPrefix = function() {
+  _jasmine.App.prototype.getPrefix = function() {
     return this._prefix;
   };
 
-  _jasmine.TestSuite.prototype.resolveURI = function(strPath) {
+  _jasmine.App.prototype.resolveURI = function(strPath) {
     var path = _jasmine.TEST_BASE + this._path + strPath;
     return _jasmine.decodeURI(path);
   };
 
-  _jasmine.TestSuite.prototype.newServer = function(strConfig, strPath, bGUI, objEnv) {
+  _jasmine.App.prototype.newServer = function(strConfig, strPath, bGUI, objEnv) {
     var doc = null;
     if (strConfig) {
       doc = (new jsx3.xml.Document()).load(this.resolveURI(strConfig));
@@ -227,19 +227,20 @@ gi.test.jasmine._init = function(_jasmine) {
     return new jsx3.app.Server(this.resolveURI(strPath), objGUI, bGUI, objEnv);
   };
 
-  _jasmine.TestSuite.prototype._prefix = null;
-  _jasmine.TestSuite.prototype._path = null;
+  _jasmine.App.prototype._prefix = null;
+  _jasmine.App.prototype._path = null;
+  _jasmine._undefined = undefined;
 
   /**
    *
    */
   _jasmine.makeTestFunction = function(fctBody, arg1) {
-    var a = [];
+    var a = [], jasmineEnv = jasmine.getEnv();
     for (var i = 1; i < arguments.length; i++)
       a[i-1] = arguments[i];
+    fctBody['args'] = a;
 
-    return jasmine.getEnv().it(arg1, fctBody);
-
+    return jasmineEnv.it(arg1, fctBody);
   };
 
 

@@ -6,12 +6,7 @@
  describe("jsx3.lang.Class", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.Class","jsx3.lang.Exception", "jsx3.util.jsxpackage", "jsx3.lang.Package");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.Class");
-	
-	beforeEach(function(){
 
-	});
-	
 	it("should be able to setUp", function(){
 		jsx3.lang.Class.defineClass("test.jsx3ClassSuper", null, 
 		null, function(C, P){

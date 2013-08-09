@@ -5,7 +5,7 @@
 describe("jsx3.net.Form", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.net.Form");
-  var t = new _jasmine_test.TestSuite("jsx3.net.Form");
+  var t = new _jasmine_test.App("jsx3.net.Form");
   var ACTION = _jasmine_test.HTTP_BASE + "/formdata.cgi";
 
   it("should return the HTTP method of this form.", function () {

@@ -5,8 +5,7 @@
 describe("jsx3.app.DOM", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.DOM", "jsx3.app.Model", "jsx3.util.List");
-  var t = new _jasmine_test.TestSuite("jsx3.app.DOM");
-
+  
   beforeEach(function () {
   });
 

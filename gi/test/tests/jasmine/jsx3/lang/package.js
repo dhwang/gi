@@ -5,8 +5,7 @@
 describe("jsx3.lang.Package", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.util.jsxpackage", "jsx3.lang.Package", "jsx3.util.List");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.Package");
-	
+
 	beforeEach(function(){
 
 		jsx3.lang.Package.definePackage("test.pckg", function(P) {

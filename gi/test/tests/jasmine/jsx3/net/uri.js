@@ -5,7 +5,6 @@
 describe("jsx3.net.URI", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.net.URI.jsxclass");
-  var t = new _jasmine_test.TestSuite("jsx3.net.URI");
 
   it("should be able to retrieve the authority part of an URI.", function () {
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getAuthority())).toEqual("www.domain.com");

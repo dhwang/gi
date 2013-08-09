@@ -6,12 +6,7 @@
  describe("jsx3.lang.Exception", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.Exception", "jsx3.util.jsxpackage");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.Exception");
-	
-	beforeEach(function(){
 
-	});
-	
 	it("should be able to return the cause of the exception", function(){
 		var c = new jsx3.lang.Exception();
 		var e = new jsx3.lang.Exception("test getCause", c);

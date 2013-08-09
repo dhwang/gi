@@ -5,7 +5,7 @@
 describe("jsx3.app.Model", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Model", "jsx3.gui.Painted");
-  var t = new _jasmine_test.TestSuite("jsx3.app.Model");
+  var t = new _jasmine_test.App("jsx3.app.Model");
 
   beforeEach(function () {
   });

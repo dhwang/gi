@@ -7,8 +7,7 @@ describe("jsx3.util.EventDispatcher", function() {
 
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.util.EventDispatcher");
-  var t = new _jasmine_test.TestSuite("jsx3.util.EventDispatcher");
-  
+
   var newED = function() {
     return jsx3.util.EventDispatcher.jsxclass.newInnerClass();
   };

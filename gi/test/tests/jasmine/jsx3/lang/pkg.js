@@ -5,7 +5,7 @@
 describe("jsx3.lang", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.getCaller");
-	var t = new _jasmine_test.TestSuite("jsx3.lang");
+	var t = new _jasmine_test.App("jsx3.lang");
 	
 	beforeEach(function(){
 

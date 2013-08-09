@@ -6,7 +6,7 @@
  describe("jsx3.gui.NativeForm", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.gui.NativeForm");
-	var t = new _jasmine_test.TestSuite("jsx3.gui.NativeForm");
+	var t = new _jasmine_test.App("jsx3.gui.NativeForm");
 	
 	beforeEach(function () {
     this.addMatchers(gi.test.jasmine.matchers);

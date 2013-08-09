@@ -6,7 +6,7 @@
 describe("jsx3.xml.CDF", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.CDF", "jsx3.xml.CDF.Document", "jsx3.app.Properties");
-  var t = new _jasmine_test.TestSuite("jsx3.xml.CDF");
+  var t = new _jasmine_test.App("jsx3.xml.CDF");
   var newCDF = function (strURL) {
     return (new jsx3.xml.CDF.Document()).load(t.resolveURI(strURL));
   };
@@ -219,9 +219,9 @@ describe("jsx3.xml.CDF", function () {
     expect(r.a4).toEqual("{prop4");
   });
 
-//  t.testRedrawRecord = function() {
+// testRedrawRecord = function() {
 //    // TODO: spoof redraw record and test that is is called correctly
-//  };
+// };
 
   it("should create a new XML document that represents an empty CDF document", function () {
     var cdf = jsx3.xml.CDF.Document.newDocument();

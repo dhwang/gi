@@ -5,7 +5,7 @@
 describe("jsx3.xml.Entity", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Entity", "jsx3.xml.Document");
-  var t = new _jasmine_test.TestSuite("jsx3.xml.Entity");
+  var t = new _jasmine_test.App("jsx3.xml.Entity");
   
   it("should test if entity class is defined", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Entity")).not.toBeNull();

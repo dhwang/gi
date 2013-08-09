@@ -5,7 +5,7 @@
 describe("jsx3.net.Service", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Server", "jsx3.net.Service");
-  var t = new _jasmine_test.TestSuite("jsx3.net.Service");
+  var t = new _jasmine_test.App("jsx3.net.Service");
 
   beforeEach(function () {
     t._server = null;
@@ -19,7 +19,7 @@ describe("jsx3.net.Service", function () {
   });
 
   it("should ensure static data stored in the rules file is accessible", function () {
-    var s = t._service;
+    var s = t._service = new jsx3.net.Service(t.resolveURI("data/rule1.xml"), "ReturnCityState");
     expect(s.getServer()).toBeInstanceOf(jsx3.app.Server);
     expect(s.getOperation()).toEqual("ReturnCityState");
     expect(s.getEndpointURL()).toEqual("http://test.example.com");
@@ -160,7 +160,7 @@ describe("jsx3.net.Service", function () {
 
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
-    it("testRequestService", function () {
+    it("should be able to invoke a WSDL/SOAP based service.", function () {
       var Service = jsx3.net.Service;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
@@ -187,7 +187,7 @@ describe("jsx3.net.Service", function () {
     });
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
-    it("testRequestServiceFail", function () {
+    it("should invoke a WSDL/SOAP service and handle any failure response", function () {
       var Service = jsx3.net.Service;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
@@ -209,7 +209,7 @@ describe("jsx3.net.Service", function () {
         return req != null;
       }, "service request object should be valid.", 800);
       runs(function () {
-        expect(req.getStatus()).toEqual(200);
+        expect(req.getStatus()).toEqual(500);
       });
     });
   //t.testRequestServiceFail._skip_unless = (jsunit.HTTP_BASE.indexOf("http") > 0);

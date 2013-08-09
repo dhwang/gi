@@ -6,7 +6,7 @@
 describe("jsx3.app.Properties", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Properties", "jsx3.util.List", "jsx3.app.PropsBundle", "jsx3.util.Locale", "jsx3.app.Cache");
-  var t = new _jasmine_test.TestSuite("jsx3.app.Properties");
+  var t = new _jasmine_test.App("jsx3.app.Properties");
 
   it("should be able to instantiate new instance of jsx3.app.Properties", function () {
     var p = new jsx3.app.Properties();

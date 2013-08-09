@@ -6,7 +6,7 @@
 describe("jsx3.app.Server", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.Server");
-  var t = new _jasmine_test.TestSuite("jsx3.app.Server");
+  var t = new _jasmine_test.App("jsx3.app.Server");
 
   beforeEach(function () {
     t._server = null;

@@ -6,8 +6,7 @@
  describe("jsx3.lang.AOP", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.AOP");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.AOP");
-	
+
 	beforeEach(function(){
 
 	});

@@ -5,8 +5,8 @@
  
   describe("jsx3.lang.NativeError", function(){
 	var _jasmine_test = gi.test.jasmine;
+
 	_jasmine_test.require("jsx3.lang.NativeError", "jsx3.util.jsxpackage");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.NativeError");
 
 	it("should be able to initialize error trapping mechanism", function(){
 		var ex = null;

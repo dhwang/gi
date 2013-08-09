@@ -5,7 +5,7 @@
 describe("jsx3.xml.Cacheable", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Cacheable", "jsx3.app.Server", "jsx3.app.Model");
-  var t = new _jasmine_test.TestSuite("jsx3.xml.Cacheable");
+  var t = new _jasmine_test.App("jsx3.xml.Cacheable");
 
   beforeEach(function () {
     jsx3.Class.defineClass("gi.test.CacheTest", jsx3.app.Model, [jsx3.xml.Cacheable], function (CacheTest, CacheTest_prototype) {
@@ -193,7 +193,7 @@ describe("jsx3.xml.Cacheable", function () {
     expect(x.getChildNodes().get(0).getNodeName()).toEqual("field");
   });
 
-  it("should set whether this object is bound to the XML document stored in the data cache", function () {
+  it("XML binding of Cache document does not trigger property replacement", function () {
     var c = new gi.test.CacheCDFTest();
     t._server.getBodyBlock().setChild(c);
     c.setXmlBind(1);

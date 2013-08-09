@@ -6,8 +6,7 @@
  describe("jsx3.lang.Method", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.Method","jsx3.lang.Class", "jsx3.lang.Exception", "jsx3.util.jsxpackage");
-	var t = new _jasmine_test.TestSuite("jsx3.lang.Method");
-	
+
 	beforeEach(function(){
 
 		jsx3.lang.Class.defineClass("test.jsx3Method", null, null, function(C, P){
