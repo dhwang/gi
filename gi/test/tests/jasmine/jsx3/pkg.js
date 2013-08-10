@@ -137,7 +137,7 @@ describe("jsx3 - Javascript extended functions", function(){
       jsx3.sleep(function() {
         secondExecuted = true;
       });
-      throw new Error();
+      throw new Error('first nested sleep');
     });
 
     waitsFor(function(){
@@ -155,7 +155,7 @@ describe("jsx3 - Javascript extended functions", function(){
 
     runs(function() { // this does not have to be in a runs(), just showing that it doesn't matter here.
       jsx3.sleep(function() {
-        throw new Error();
+        throw new Error('');
       });
       jsx3.sleep(function() {
         secondExecuted = true;
