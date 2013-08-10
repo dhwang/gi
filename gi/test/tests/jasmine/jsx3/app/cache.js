@@ -98,10 +98,11 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBeInstanceOf(jsx3.xml.CDF.Document);
   });
 
-  it("should asynchronously load an xml document and store it in this cache", function () {
+  it("should asynchronously load document and return valid loading in progress document before actual loading is complete", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     var doc = c.getOrOpenAsync(url, "docId");
+    // Document valid before async load is complete, with single node <loading>
     expect(doc).not.toBeUndefined();
     expect(doc).not.toEqual(null);
     expect(doc).toBeInstanceOf(jsx3.xml.Document);
@@ -109,7 +110,7 @@ describe("jsx3.app.Cache", function () {
     expect(doc.getNodeName()).toEqual("loading");
   });
 
-  it("should asynchronously load an xml document and store it in this cache 1", function () {
+  it("should asynchronously load an xml document and store it in Cache", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
     c.getOrOpenAsync(url, "docId");
@@ -119,32 +120,32 @@ describe("jsx3.app.Cache", function () {
     });
     waitsFor(function () {
       return evt.target != null;
-    }, "The Value should be incremented", 750);
+    }, "waiting for Cache load event 'docId'", 750);
     runs(function () {
       expect(evt.subject).toEqual("docId");
       expect(evt.action).toEqual(jsx3.app.Cache.CHANGE);
       expect(evt.target).toEqual(c);
       var objDoc = evt.target.getDocument("docId");
       expect(objDoc).toBeInstanceOf(jsx3.xml.Document);
-      //expect(objDoc.getError()).toBeUndefined()
+      expect(objDoc.getError().code).toEqual(0);
       expect(objDoc.hasError()).toBeFalsy();
       expect(objDoc.getNodeName()).toEqual("data");
     });
   });
 
-  it("should asynchronously load an xml document and store it in this cache 2", function () {
+  it("should be able to load one document asynchronously and another document synchronously", function () {
     var c = new jsx3.app.Cache();
     var url1 = t.resolveURI("data/props1.xml");
     var url2 = t.resolveURI("data/props2.xml");
     var d = c.openDocument(url1, "docId");
-    c.getOrOpenAsync(url2, "docId")
+    c.getOrOpenAsync(url2, "docId");
     var doc = c.getDocument("docId");
     expect(doc).not.toBeUndefined();
     expect(doc).not.toEqual(null);
-    expect(d).toEqual(doc);
+    expect(d).toEquals(doc);
   });
 
-  it("should asynchronously load an xml document and store it in this cache 3", function () {
+  it("should be able to return error document when asynchronously loading a malformed document", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1_foo.xml");
     c.getOrOpenAsync(url, "docId");
@@ -154,7 +155,7 @@ describe("jsx3.app.Cache", function () {
     }, 500);
     waitsFor(function () {
       return evt.target != null;
-    }, "The Value should be incremented", 750);
+    }, "waiting for Cache load event 'docId'", 750);
     runs(function () {
       expect(evt.subject).toEqual("docId");
       expect(evt.action).toEqual(jsx3.app.Cache.CHANGE);
@@ -178,13 +179,13 @@ describe("jsx3.app.Cache", function () {
     c.setDocument("strId2", doc);
     keys = jsx3.util.List.wrap(c.keys());
     expect(keys.size()).toEqual(2);
-    expect(keys.indexOf("strId1") >= 0).toBeTruthy()
-    expect(keys.indexOf("strId2") >= 0).toBeTruthy()
+    expect(keys.indexOf("strId1") >= 0).toBeTruthy();
+    expect(keys.indexOf("strId2") >= 0).toBeTruthy();
     c.clearById("strId1");
     keys = jsx3.util.List.wrap(c.keys());
     expect(keys.size()).toEqual(1);
-    expect(keys.indexOf("strId1") < 0).toBeTruthy()
-    expect(keys.indexOf("strId2") >= 0).toBeTruthy()
+    expect(keys.indexOf("strId1") < 0).toBeTruthy();
+    expect(keys.indexOf("strId2") >= 0).toBeTruthy();
   });
 
 
@@ -287,12 +288,10 @@ describe("jsx3.app.Cache", function () {
     var url1 = t.resolveURI("data/props1.xml");
     var url2 = t.resolveURI("data/props2.xml");
     var evtCount = 0;
-    var evt = {};
 
     c.subscribe("docId", function (objEvent) {
       if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
         evtCount++;
-      evt = objEvent;
     });
     c.getOrOpenAsync(url1, "docId");
     c.clearById("docId");
