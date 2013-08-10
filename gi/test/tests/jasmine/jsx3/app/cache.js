@@ -116,7 +116,7 @@ describe("jsx3.app.Cache", function () {
     var evt = {};
     c.subscribe("docId", function (objEvent) {
       evt = objEvent;
-    }, 500);
+    });
     waitsFor(function () {
       return evt.target != null;
     }, "The Value should be incremented", 750);
@@ -256,15 +256,11 @@ describe("jsx3.app.Cache", function () {
     expect(c.getDocument("docId")).toBeNull();
   });
 
-  it("should asynchronously load an xml document and store it in this cache", function () {
+  it("should have not loaded document into cache when aborted by clearById() call", function () {
     var c = new jsx3.app.Cache();
     var url = t.resolveURI("data/props1.xml");
-    var abort = null, objEvent = null;
-    var evtCount = 0;
-    var evt = {};
-    var onDone = function () {
-      abort = "called";
-    };
+    var abort = false,  evtCount = 0, evt = {};
+
     c.subscribe("docId", function (objEvent) {
       if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
         evtCount++;
@@ -274,30 +270,25 @@ describe("jsx3.app.Cache", function () {
     c.clearById("docId");
     runs(function () {
       window.setTimeout(function () {
-        abort = "called";
-      }, 100);
-      window.setTimeout(function () {
-        onDone();
-      }, 300);
+        abort = true;
+      }, 500);
     });
     waitsFor(function () {
-      return abort == "called";
-    }, "Wait Until Abort is called", 750);
+      return abort; // waited 300 msec
+    }, "waiting long enough to make sure 'docId' event has triggered or not", 750);
+
     runs(function () {
       expect(evtCount).toEqual(0);
     });
   });
 
-  it("testAsyncAbortClobber", function () {
+  it("should still load a second document into cache when the first is aborted by clearById() call", function () {
     var c = new jsx3.app.Cache();
     var url1 = t.resolveURI("data/props1.xml");
     var url2 = t.resolveURI("data/props2.xml");
-    var abort = null, objEvent = null;
     var evtCount = 0;
     var evt = {};
-    var onDone = function () {
-      abort = "called";
-    };
+
     c.subscribe("docId", function (objEvent) {
       if (objEvent.action != "remove" && c.getDocument("docId").getNamespaceURI() != jsx3.app.Cache.XSDNS)
         evtCount++;
@@ -306,17 +297,11 @@ describe("jsx3.app.Cache", function () {
     c.getOrOpenAsync(url1, "docId");
     c.clearById("docId");
     c.getOrOpenAsync(url2, "docId");
-    runs(function () {
-      window.setTimeout(function () {
-        abort = "called";
-      }, 100);
-      window.setTimeout(function () {
-        onDone();
-      }, 300);
-    });
+    // no need to use an abort timeout.
     waitsFor(function () {
-      return abort == "called";
-    }, "Wait Until Abort is called", 750);
+      return evtCount > 0;
+    }, "waiting for Cache 'docId' event to have triggered", 750);
+
     runs(function () {
       expect(evtCount).toEqual(1);
       expect(c.getDocument("docId").selectSingleNode("//record").getAttribute("jsxtext")).toEqual("valueA");
