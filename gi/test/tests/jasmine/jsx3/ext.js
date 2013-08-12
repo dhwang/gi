@@ -358,12 +358,19 @@ describe("ext - Javascript extended functions", function(){
       });
 
       var rv = f2();
+      var result;
       runs(function(){
         rv.when(function(){
+          result = rv.rv();
           expect(rv.rv()).toEqual(1);
         });
       });
+      
+      waitsFor(function(){
+        return result == 1;
+      },"the vaule should be true.",1000);
     });
+    
   });
 
   describe("$Z is an asynch wrapper around a synchronous method",function(){
@@ -398,7 +405,7 @@ describe("ext - Javascript extended functions", function(){
       waitsFor(function(){
         rv = jsx3.$Z(f)(arg1());
         return rv;
-      },"",1000);
+      },"the return value should be true",1000);
 
       runs(function(){
         rv.when(function(){
@@ -424,21 +431,20 @@ describe("ext - Javascript extended functions", function(){
           cb.done(10);
         });
       });
-
-      var rv;
-      runs(function(){
-        rv = jsx3.$Z("run", objThis())(arg1());
-      });
-      waitsFor(function(){
-        return true;
-      },"result will not be null", 1000);
-
+      var rv, result; 
+      rv = jsx3.$Z("run", objThis())(arg1());
+      
       runs(function(){
         rv.when(function(){
+          result = rv.rv();
           expect(rv.rv()).toEqual(10);
         });
       });
-
+      
+      waitsFor(function(){
+        return result == 10;
+      },"result will not be null", 1000);
+      
     });
 
     it("should be able to access 'this' in the context of the passed argument object", function(){
@@ -447,7 +453,6 @@ describe("ext - Javascript extended functions", function(){
       };
 
       var rv = jsx3.$Z(f).apply({k:10});
-
       expect(rv.rv()).toEqual(11);
     });
 
