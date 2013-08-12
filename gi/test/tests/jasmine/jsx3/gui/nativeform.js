@@ -9,7 +9,6 @@
 	var t = new _jasmine_test.App("jsx3.gui.NativeForm");
 	
 	beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
 		t._server = null;
   });
 	var ACTION = _jasmine_test.HTTP_BASE + "/formdata.cgi";

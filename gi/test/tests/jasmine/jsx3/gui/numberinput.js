@@ -6,10 +6,6 @@ describe("jsx3.gui.NumberInput", function(){
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.NumberInput");
 
-  beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
-  });
-
   it("has method parseValue() to parse input number", function(){
     var nin = new jsx3.gui.NumberInput();
     nin.setFormat("#,##0.00");

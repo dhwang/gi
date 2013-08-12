@@ -6,10 +6,6 @@ describe("jsx3.gui.LayoutGrid", function(){
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.LayoutGrid");
 
-  beforeEach(function () {
-    this.addMatchers(gi.test.jasmine.matchers);
-  });
-
   it("has method getCols() to get column string", function(){
     var lg = new jsx3.gui.LayoutGrid();
     lg.setCols("10,*");
