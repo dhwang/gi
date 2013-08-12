@@ -5,11 +5,6 @@
 describe("jsx3.lang", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.getCaller");
-	var t = new _jasmine_test.App("jsx3.lang");
-	
-	beforeEach(function(){
-
-	});
 	
 	it("should be able to getCaller", function(){
 		var a = function() {

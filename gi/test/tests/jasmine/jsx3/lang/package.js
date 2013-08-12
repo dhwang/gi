@@ -2,7 +2,7 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.lang.Package", function(){
+describe("jsx3.lang.Package; The Package class provides an introspectable API for JavaScript/JSX packages.", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.util.jsxpackage", "jsx3.lang.Package", "jsx3.util.List");
 

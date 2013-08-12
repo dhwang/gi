@@ -3,13 +3,9 @@
  * Use, modification, and distribution subject to terms of license.
  */
  
- describe("jsx3.lang.AOP", function(){
+ describe("jsx3.lang.AOP;The AOP class allows aspect oriented programming technique such as wrapping existing function in before call and after call code execution", function(){
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.lang.AOP");
-
-	beforeEach(function(){
-
-	});
 	
 	it("should be able to instantiate AOP", function(){
 		expect(jsx3).not.toBeNull();
@@ -63,7 +59,7 @@
 		jsx3.lang.AOP.pc("testAfter",{classes:"test.AOP", methods:"m"});
 		
 		jsx3.lang.AOP.after("testAfter", function(rv, a, b){
-			expect("Method should run before advice"+ c1).toBeTruthy();
+			expect(c1).toBeTruthy();
 			expect(a).toEqual(1);
 			expect(b).toEqual(2);
 			expect(rv).toEqual(10);
@@ -72,8 +68,8 @@
 		});
 		
 		var v = (new test.AOP()).m(1, 2);
-		expect("Method should have run"+ c1).toBeTruthy();
-		expect("Advice should have run"+ c2).toBeTruthy();
+		expect(c1).toBeTruthy();
+		expect(c2).toBeTruthy();
 		expect(v).toEqual(10);
 		
 		jsx3.lang.AOP.pcrem("testAfter");

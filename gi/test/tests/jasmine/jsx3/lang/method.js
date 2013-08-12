@@ -38,7 +38,7 @@
 		expect(test.jsx3Method.prototype.function1.jsxmethod.getName()).toEqual("function1");
 	});
 	
-	it("test Params", function(){
+	it("should be able to return the name of a paramether that this method takes.", function(){
 		var m = test.jsx3Method.prototype.function1.jsxmethod;
 		expect(m.getArity()).toEqual(3);
 		var params = m.getParameterNames();

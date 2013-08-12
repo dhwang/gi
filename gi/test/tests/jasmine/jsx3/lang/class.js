@@ -86,7 +86,7 @@
 		expect(jsx3.lang.Class.forName("test.jsx3ClassInterface").isInterface()).toBeTruthy();
 	});
 	
-	it("test Interface", function(){
+	it("should be able to create a interface", function(){
 		expect(function(){
 			var o= new test.jsx3ClassInterface();
 		}).toThrow();
@@ -163,7 +163,7 @@
 		expect(o.inited).not.toBeDefined();
 	});
 	
-	it("test newInnerClass", function(){
+	it("should be able to create a new instance of this class", function(){
 		var c =jsx3.lang.Class.forName("test.jsx3Class");
 		var o = c.newInnerClass(12);
 		expect(o).toBeInstanceOf(test.jsx3Class);
@@ -177,7 +177,7 @@
 		expect(o.value).toEqual(22);
 	});
 	
-	it("test staticMethods", function(){
+	it("should be able to return the array of static methods defined for this class", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3ClassSuper");
 		var m = c.getStaticMethods();
 		expect(m.length).toEqual(1);
@@ -189,14 +189,14 @@
 		expect(m.length).toEqual(0);
 	});
 	
-	it("test staticFields", function(){
+	it("should be able to return the array of static fields defined for this class.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		var f = c.getStaticFieldNames();
 		expect(f.length).toEqual(1);
 		expect(f[0]).toEqual("sField");
 	});
 	
-	it("test instanceFields", function(){
+	it("should return the array of instance fields defined for this class.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		var f = c.getInstanceFieldNames();
 		expect(f.length).toEqual(1);
@@ -213,7 +213,7 @@
 		expect(c.getSetter("foo")).toBeNull();
 	});
 	
-	it("test intefaces", function(){
+	it("has method getInterfaces() to get the array of interfaces that this class was defined to implement.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		try{
 			var o1 = new test.jsx3Class();
@@ -247,7 +247,7 @@
 		expect(test.jsx3Class.Inner.jsxclass).toEqual(classes[0]);
 	});
 	
-	it("test inheritance", function(){
+	it("has method getSuperClass() to get the super class of this class.", function(){
 		var c = jsx3.lang.Class.forName("test.jsx3Class");
 		expect(test.jsx3ClassSuper.jsxclass).toEqual(c.getSuperClass());
 		var interfaces = c.getInterfaces();
@@ -257,7 +257,7 @@
 		expect(test.jsx3ClassSuper.jsxclass.getSuperClass()).toEqual(jsx3.lang.Object.jsxclass);
 	});
 	
-	it("test JsxSuper", function(){
+	it("should be able to inhert the super class function.", function(){
 		var o = new test.jsx3Class();
 		expect(o.getX()).toEqual("x1");
 		expect(o.getY()).toEqual("y2");

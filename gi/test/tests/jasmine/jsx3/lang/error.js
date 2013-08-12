@@ -3,9 +3,8 @@
  * Use, modification, and distribution subject to terms of license.
  */
  
-  describe("jsx3.lang.NativeError", function(){
+  describe("jsx3.lang.NativeError;The NativeError class is used for wrap the browser-native exception.", function(){
 	var _jasmine_test = gi.test.jasmine;
-
 	_jasmine_test.require("jsx3.lang.NativeError", "jsx3.util.jsxpackage");
 
 	it("should be able to initialize error trapping mechanism", function(){
@@ -68,7 +67,7 @@
 		}
 		if(ex){
 			expect(ex.getLineNumber()).not.toBeNull()
-			expect(ex.getLineNumber()).toEqual(65);
+			expect(ex.getLineNumber()).toEqual(64);
 		}
 	});
 	

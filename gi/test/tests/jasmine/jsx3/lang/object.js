@@ -17,7 +17,7 @@
 		expect(jsx3.lang.Object).toBeInstanceOf(Function);
 	});
 	
-	it("test equals", function(){
+	it("has method equals() to return true those two objects are equals", function(){
 		var o = new jsx3.lang.Object();
 		expect(o.equals(o)).toBeTruthy();
 		expect(o.equals(1)).toBeFalsy();
@@ -38,12 +38,12 @@
 		expect(o1.equals("o")).toBeFalsy();
 	});
 	
-	it("test getClass", function(){
+	it("has method getClass() to return the class of this object.", function(){
 		var o = new jsx3.lang.Object();
 		expect(o.getClass()).toEqual(jsx3.lang.Object.jsxclass);
 	});
 	
-	it("test Clone", function(){
+	it("has method clone() to return a shallow copy of this object.", function(){
 		var o = new jsx3.lang.Object();
 		o.field = "value";
 		var o2 = o.clone();
@@ -52,7 +52,7 @@
 		expect(o2).toBeInstanceOf(jsx3.lang.Object);
 	});
 	
-	it("test instanceOf", function(){
+	it("has method instanceOf() to determines whether this object is an instance of the parameter one.", function(){
 		var o = new jsx3.lang.Object();
 		expect(o.instanceOf(jsx3.lang.Object)).toBeTruthy();
 		expect(o.instanceOf("jsx3.lang.Object")).toBeTruthy();
@@ -61,7 +61,7 @@
 		expect(o.instanceOf(jsx3.lang.Class)).toBeFalsy();
 	});
 	
-	it("test eval", function(){
+	it("has method eval() to evalute a javascript expression in the context of this object with a controlled local variable context.", function(){
 		var o = new jsx3.lang.Object();
 		o.field = "value";
 		expect(o.eval("this.field")).toEqual(o.field);
