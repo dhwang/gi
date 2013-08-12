@@ -7,7 +7,6 @@
 	_jasmine_test.require("jsx3.util.List");
 
 	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
 		expect(jsx3.lang.Class.forName("jsx3.util.List")).not.toBeNull();
 		expect(jsx3.util.List).toBeInstanceOf(Function);
 	});

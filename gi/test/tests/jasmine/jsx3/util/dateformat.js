@@ -6,10 +6,6 @@
 	var _jasmine_test = gi.test.jasmine;
 	_jasmine_test.require("jsx3.util.DateFormat", "jsx3.util.Locale", "jsx3.lang.System");
 
-	beforeEach(function(){
-		this.addMatchers(gi.test.jasmine.matchers);
-	});
-
 	it("should instantiate DateFormat object using factory method getDateInstance() and default locale", function(){
 		var lo = new jsx3.util.Locale("xx");
 		var df = jsx3.util.DateFormat.getDateInstance(null,lo);
