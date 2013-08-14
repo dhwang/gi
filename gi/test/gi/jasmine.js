@@ -101,11 +101,13 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
   _jasmine.JSX_JS_BASE = _jasmine.JSX_BASE + "JSX/js/";
   _jasmine.TEST_BASE = "tests/jasmine/";
   _jasmine.HTTP_BASE = _jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../test/server";
+  _jasmine.NETWORK = true;
+  _jasmine.NONETWORK = !_jasmine.NETWORK;
   var _browser = _jasmine._type = (new BrowserDetect()).getType();
 
   var defines = _BROWSERS[_browser];
   for (var i = 0; i < defines.length; i++)
-    _jasmine[defines[i]] = true; // so that jsx3.CLASS_LOADER.IE, etc are defined for precompiler
+    _jasmine[defines[i]] = true; // so that gi.test.jasmine.IE, etc are defined for precompiler
 
   _jasmine.decodeURI = function(strText) {
     if (strText == null) return null;
@@ -299,8 +301,6 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
       _jasmine.NODEP = !_jasmine.DEP;
       _jasmine.INTERACTIVE = jsx3.getEnv("jsxtestinter") == "1";
       _jasmine.NOINTERACTIVE = !_jasmine.INTERACTIVE;
-      _jasmine.NETWORK = true;
-      _jasmine.NONETWORK = !_jasmine.NETWORK;
 
       _jasmine[String(window.location.protocol).replace(/\W/g, "")] = true;
 
