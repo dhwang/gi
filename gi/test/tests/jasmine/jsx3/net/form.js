@@ -382,11 +382,11 @@ describe("jsx3.net.Form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
     var onDone = function() {
-      abort = "called";
+      abort = "done";
     };
     f.subscribe("*", function (evt) {
       objEvent = evt;
-    }, 500);
+    });
     f.send(null, 5000);
     runs(function() {
       window.setTimeout(function () {
@@ -408,18 +408,19 @@ describe("jsx3.net.Form", function () {
   });
 
 
-  it("should be able to send and receive using Form.", function () {
+  it("should be able to send and receive using Form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     f.setField("field", "value");
-    var rec = null;
+    var rec = null, spec = this;
     f.subscribe("*", function (objEvent) {
       if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
         var xml = f.getResponseXML();
         rec = xml.selectSingleNode("//record[@jsxid='field']");
       } else {
-        this.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+        f.abort();
+        spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
       }
-    }, 500);
+    });
     f.send();
     waitsFor(function () {
       return rec != null;
