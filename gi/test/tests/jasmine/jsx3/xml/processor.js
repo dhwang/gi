@@ -42,7 +42,7 @@ describe("jsx3.xml.Processor", function () {
     expect(p.hasError()).toBeFalsy();
   });
 
-  it("should throw error while performing XSLT merge and set error property of this processor", function () {
+  it("should throw error while performing empty processing", function () {
     var p = new jsx3.xml.Processor();
     var func = function () {
       p.transform();
@@ -50,24 +50,25 @@ describe("jsx3.xml.Processor", function () {
     expect(func).toThrow();
   });
 
-  it("should be able to perform XSLT merge successfully", function () {
+  it("should be able to perform XSLT transform of document node", function () {
     var p = new jsx3.xml.Processor((new jsx3.xml.Document()).loadXML(src1), (new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
     expect(d).toBeTypeOf("string");
-    expect(d).toBe('<doc id="r1"/>');
+    expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
+    _jasmine_test.debug(d.toString())
   });
 
-  it("testTransformEntity", function () {
+  it("should be able to perform XSLT transform an entity node", function () {
     var xml = (new jsx3.xml.Document()).loadXML(src1);
     var p = new jsx3.xml.Processor(xml.selectSingleNode("//record"), (new jsx3.xml.Document()).loadXML(trans4));
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
     expect(d).toBeTypeOf("string");
-    expect(d).toBe('<doc id="r1"/>');
+    expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
   });
 
-  it("should perform an XSLT merge and form a valid result tree as a result of the transformation", function () {
+  it("should be able to perform XSLT transform of document node into a new document object", function () {
     var p = new jsx3.xml.Processor((new jsx3.xml.Document()).loadXML(src1), (new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transformToObject();
     expect(p.hasError()).toBeFalsy();
@@ -76,17 +77,17 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
   });
 
-  it("should set the XML and XSL that should be transformed.", function () {
+  it("has method setXML and setXSL to set the XML and XSL to be used in the transform", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
     expect(d).toBeTypeOf("string");
-    expect(d).toBe('<doc id="r1"/>');
+    expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
   });
 
-  it("should test if XSLT merge was performed successfully", function () {
+  it("has method hasError() that will tell if the XSL/XML set is valid", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML("<html/>"));
@@ -95,35 +96,35 @@ describe("jsx3.xml.Processor", function () {
     expect(d).toBeNull();
   });
 
-  it("should set reference to Params that should be passed to the processor", function () {
+  it("has method setParams that sets Params to be used in the transform", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans2));
     p.setParams({p1: "2"});
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
-    expect(d).toBe('<doc id="2"/>');
+    expect(d).toMatch(/^<doc id="2"\s*\/>$/);
   });
 
-  it("should set reference to Params that should be passed to the processor", function () {
+  it("should use the default Params specified in the XSL for the transform", function () {
     var p = new jsx3.xml.Processor();
     p.setXML((new jsx3.xml.Document()).loadXML(src1));
     p.setXSL((new jsx3.xml.Document()).loadXML(trans2));
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
-    expect(d).toBe('<doc id="1"/>');
+    expect(d).toMatch(/^<doc id="1"\s*\/>$/);
   });
 
-  it("should test the Param being passed to the processor", function () {
+  it("should be able to specify the Params to be used as part of the constructor", function () {
     var xml = (new jsx3.xml.Document()).loadXML(src1);
     var xsl = (new jsx3.xml.Document()).loadXML(trans2);
     var p = new jsx3.xml.Processor(xml, xsl, {p1: 3});
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
-    expect(d).toBe('<doc id="3"/>');
+    expect(d).toMatch(/^<doc id="3"\s*\/>$/);
   });
 
-  it("testOutputEscaping", function () {
+  it("should be able to tell if DISABLE_OUTPUT_ESCAPING is supported", function () {
     var xml = (new jsx3.xml.Document()).loadXML(src1);
     var xsl = (new jsx3.xml.Document()).loadXML(trans3);
     var p = new jsx3.xml.Processor(xml, xsl, {p1: "&amp;"});
@@ -133,7 +134,7 @@ describe("jsx3.xml.Processor", function () {
   });
 
   if (!_jasmine_test.IE)
-  it("testModifyXsl", function () {
+  it("should be able to tell if XSL modification is allowed", function () {
     var xsl = new jsx3.xml.Document().loadXML(trans1);
     var xml = new jsx3.xml.Document().loadXML(src1);
     var d = xml.transformNode(xsl, null, true);
