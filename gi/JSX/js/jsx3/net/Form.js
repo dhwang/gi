@@ -352,12 +352,10 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
     /* @jsxobf-clobber */
     var tid = this._intervalId = window.setInterval(function() {
       try {
-        var doc = me._iframe.contentDocument || me._iframe.document;
-        me.responsePoll(++count < max, originalDoc !== doc);
+        var reloaded = (originalDoc !== me._iframe.document);
+        me.responsePoll(++count < max, reloaded);
       } catch(e) {
-        window.clearInterval(tid);
-        me._intervalId = null;
-        me.onResponseError(jsx3._msg("htfrm.sec", me, jsx3.NativeError.wrap(e)));
+        me.responsePoll(++count < max, true);
       }
     }, intPollInterval);
   };
