@@ -355,37 +355,44 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("request can timeout and receive a Form.EVENT_ON_TIMEOUT event.", function () {
+  it("should timeout and generate a ON_TIMEOUT event", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
-    var evt = {};
-    f.subscribe(jsx3.xml.Document.ON_RESPONSE, function (objEvent) {
+    var evt = {}, spec = this;
+    f.subscribe(jsx3.net.Form.ON_RESPONSE, function (objEvent) {
+      spec.fail("form should not fire reponse event: " + evt.subject + " " + evt.target);
+    });
+    f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, function (objEvent) {
+      spec.fail("form should not fire error event: " + evt.subject + " " + evt.target);
+    });
+    f.subscribe(jsx3.net.Form.ON_TIMEOUT, function (objEvent) {
       evt = objEvent;
-    }, 500);
-    f.subscribe([ jsx3.xml.Document.ON_ERROR, jsx3.xml.Document.ON_TIMEOUT ], function (objEvent) {
-      evt = objEvent;
-    }, 500);
+    });
     runs(function () {
       f.send(null, 500);
     });
+
     waitsFor(function () {
       return evt.target != null;
-    }, "wait until there's a real objevent.target", 5000);
+    }, "wait until there's a TIMEOUT event", 1000);
+
     runs(function () {
       expect(evt.target).toBeDefined();
+      expect(evt.subject).toEqual("timeout")
     });
+
   });
   //t.testTimeout._skip_unless = "NETWORK";
 
-  it("should receive no event object when Form.abort() is called before response is received.", function () {
-    var abort = null, objEvent = null;
+  it("should receive no event object when abort() is called before response is received", function () {
+    var abort = null, objEvent = null, spec = this;
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
     var onDone = function() {
-      abort = "done";
+      _jasmine_test.debug("form.abort() onDone " + f);
     };
     f.subscribe("*", function (evt) {
-      objEvent = evt;
+      spec.fail("Aborted form should not fire an event: " + evt.subject + " " + evt.target);
     });
     f.send(null, 5000);
     runs(function() {
@@ -399,11 +406,10 @@ describe("jsx3.net.Form", function () {
     });
     waitsFor(function () {
       return abort == "called";
-    }, "The Value should be incremented", 750);
+    }, "abort to be called", 750);
+
     runs(function () {
-      expect(objEvent).toBeNull();
-      //"Aborted form should not fire an event: "
-      //expect( objEvent.subject + " " + objEvent.target).toBeFalsy();
+      expect(abort).toBe("called");
     });
   });
 
@@ -432,7 +438,7 @@ describe("jsx3.net.Form", function () {
   });
   //t.testSendSimple._skip_unless = "NETWORK";
 
-  it("should be able to send and receive text content.", function () {
+  it("should be able to send and receive text content", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
     var text = null;
     f.subscribe("*", function (objEvent) {
@@ -472,7 +478,7 @@ describe("jsx3.net.Form", function () {
     });
   });
 
-  it("should be able to send and receive XML content.", function () {
+  it("should be able to send and receive XML content", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     var value1 = "<some>&xml &lt;";
     f.setField("field1", value1);

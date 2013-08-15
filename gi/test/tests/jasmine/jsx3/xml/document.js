@@ -59,7 +59,15 @@ describe("jsx3.xml.Document", function () {
    Returns the version number as specified in the XML declaration or "1.0" if the declaration is absent.
    String 	DOM 3 Removed in DOM 4
    */
-  var doc = (DOMParser) ? new DOMParser().parseFromString('<?xml version="1.0" encoding="UTF-8"><data></data>', "text/xml") : null;
+  var doc = function() {
+    var p;
+    if (DOMParser) {
+      p = new DOMParser();
+      return  p.parseFromString('<?xml version="1.0" encoding="UTF-8"><data></data>', "text/xml");
+    }
+    return null;
+  };
+
   if (!doc || (doc && doc.xmlVersion))
     it("should check the xml version of the loaded xml", function () {
       var d = new jsx3.xml.Document();
@@ -116,7 +124,7 @@ describe("jsx3.xml.Document", function () {
       return evt.target != null;
     }, "wait until there's a real objevent.target", 5000);
     runs(function () {
-      expect(evt.target).toEqual(d);
+      expect(evt.target).toEquals(d);
       expect(evt.target.hasError()).toBeFalsy();
       expect(d.getNodeName()).toEqual("data");
     });
@@ -248,7 +256,7 @@ describe("jsx3.xml.Document", function () {
       return evt.target != null;
     }, "wait until there's a real objevent.target", 5000);
     runs(function () {
-      expect(evt.target).toEqual(d);
+      expect(evt.target).toEquals(d);
       expect(evt.target.hasError()).toBeFalsy();
       expect(d.getNodeName()).toEqual("data");
     });
@@ -330,13 +338,13 @@ describe("jsx3.xml.Document", function () {
     expect(d.toString().indexOf(d.getError().description) >= 0).toBeTruthy();
   });
 
-  it("should be able to create a clone  from XML DOM ", function () {
+  it("should be able to create a clone from XML DOM ", function () {
     var d = new jsx3.xml.Document();
     var src = "<data><record/></data>";
     d.loadXML(src);
     var d2 = d.cloneDocument();
     expect(d.toString()).toEqual(src);
-    expect(d).not.toEqual(d2);
+    expect(d).not.toEquals(d2);
     expect(d2.toString()).toEqual(src);
   });
 
