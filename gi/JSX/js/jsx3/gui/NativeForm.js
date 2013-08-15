@@ -251,7 +251,12 @@ jsx3.Class.defineClass("jsx3.gui.NativeForm", jsx3.gui.Block, null, function(Nat
 
       /* @jsxobf-clobber */
       this._intervalId = window.setInterval(jsx3.$F(function() {
-        this._responsePoll(originalDoc !== this._getIframe().document);
+        try {
+          var reloaded = (originalDoc !== this._getIframe().document);
+          this._responsePoll(reloaded);
+        } catch (e) {
+          this._responsePoll(true);
+        }
       }).bind(this), 250);
 /* @JSC */ }
   };
