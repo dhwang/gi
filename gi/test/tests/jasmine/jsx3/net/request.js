@@ -331,7 +331,7 @@ describe("jsx3.net.Request", function () {
   //t.testAbort._skip_unless = "NETWORK";
 
   if (_jasmine_test.NETWORK)
-  it("should be able to detect network error 13030", function () {
+  it("should be able to detect network error", function () {
     var r = new jsx3.net.Request();
     var abort = null, spec = this;
 
@@ -349,31 +349,33 @@ describe("jsx3.net.Request", function () {
     }, "wait until response event is returned", 5000);
 
     var onDone = function () {
-      _jasmine_test.debug("onDoneAbort + " + r.getStatus());
+      abort = "done";
+      _jasmine_test.debug("network error test onDoneAbort + " + r);
     };
     runs(function () {
       window.setTimeout(function () {
         abort = "called";
         r.getNative().abort();
-      }, 100);
+      }, 300);
       window.setTimeout(function () {
         onDone();
-      }, 300);
+      }, 500);
     });
     waitsFor(function () {
       return abort == "called";
     }, "The Value should be incremented", 750);
 
     runs(function () {
-      if (_jasmine_test.FX && BrowserDetect._getVersionAfter('firefox/') < 10) {
-        // abort no longer causes network error.
+      if (_jasmine_test.IE) {
         expect(r.getStatusText()).toBeNull();
         expect(r.getStatus()).toEqual(13030);
+        expect(r.getAllResponseHeaders()).toBeNull();
+        expect(r.getResponseHeader("Date")).toBeNull();
       } else {
+        // Native abort no longer causes network error on Firefox/Webkit
+        expect(r.getStatus()).toEqual(200);
         expect(r.getStatusText()).toEqual("");
       }
-      expect(r.getAllResponseHeaders()).toBeNull();
-      expect(r.getResponseHeader("Date")).toBeNull();
     });
   });
   //t.testNetworkError._async = true;
