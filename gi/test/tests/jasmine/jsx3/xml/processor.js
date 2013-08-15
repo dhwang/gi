@@ -5,12 +5,6 @@
 describe("jsx3.xml.Processor", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Document", "jsx3.xml.Processor");
-  var t = new _jasmine_test.App("jsx3.xml.Processor");
-
-  beforeEach(function () {
-
-    t._server = null;
-  });
 
   var xslPrefix = '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +
     '<xsl:output method="xml" omit-xml-declaration="yes"/>';
@@ -31,9 +25,9 @@ describe("jsx3.xml.Processor", function () {
     '<xsl:template match="*"><doc><xsl:attribute name="id">' +
     '<xsl:value-of select="@jsxid"/>' +
     '</xsl:attribute></doc></xsl:template>' + xslSuffix;
-  t._unless = "NODEP";
+  //t._unless = "NODEP";
 
-  it("should be able to instantiate new instance of jsx3.xml.Processor", function () {
+  it("should be loaded and defined", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Processor")).not.toBeNull();
   });
 
@@ -55,8 +49,8 @@ describe("jsx3.xml.Processor", function () {
     var d = p.transform();
     expect(p.hasError()).toBeFalsy();
     expect(d).toBeTypeOf("string");
+    // IE10 adds a space before />
     expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
-    _jasmine_test.debug(d.toString())
   });
 
   it("should be able to perform XSLT transform an entity node", function () {

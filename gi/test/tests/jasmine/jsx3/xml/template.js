@@ -5,7 +5,6 @@
 describe("jsx3.xml.Template", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.xml.Template");
-  var t = new _jasmine_test.App("jsx3.xml.Template");
 
   var xslPrefix = '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">' +
     '<xsl:output method="xml" omit-xml-declaration="yes"/>';
@@ -27,19 +26,19 @@ describe("jsx3.xml.Template", function () {
     '<xsl:value-of select="@jsxid"/>' +
     '</xsl:attribute></doc></xsl:template>' + xslSuffix;
 
-  it("testDefined", function () {
+  it("should be loaded and defined", function () {
     expect(jsx3.lang.Class.forName("jsx3.xml.Template")).not.toBeNull();
   });
 
-  it("should be able to perform an XSLT merge", function () {
+  it("should be able to perform XSLT transform of document node into XML string result", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transform((new jsx3.xml.Document()).loadXML(src1));
     expect(p.hasError()).toBeFalsy();
     expect(d).toBeTypeOf("string");
-    expect(d).toBe('<doc id="r1"/>');
+    expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
   });
 
-  it("should be able to perform an XSLT merge", function () {
+  it("has method setParam that sets parameter to be used in the transform and reset to use default parameter", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans2));
     p.setParam("p1", "2");
     var xml = (new jsx3.xml.Document()).loadXML(src1);
@@ -53,14 +52,14 @@ describe("jsx3.xml.Template", function () {
     expect(d.selectSingleNode("//doc/@id").getValue()).toEqual('1');
   });
 
-  it("should be able to instantiate new instance of jsx3.xml.Template", function () {
+  it("should throw an exception when no transformation template is provided in the constructor", function () {
     var func = function () {
       return new jsx3.xml.Template();
     };
     expect(func).toThrow();
   });
 
-  it("should throw an error for a malformed xml passes as parameter to template object", function () {
+  it("should throw an exception when a bad transformation template is provided in the constructor", function () {
     var template = new jsx3.xml.Document().loadXML("<unclosed");
     var func = function () {
       return new jsx3.xml.Template(template);
@@ -68,45 +67,48 @@ describe("jsx3.xml.Template", function () {
     expect(func).toThrow();
   });
 
-  it("should perform an XSLT merge", function () {
+  it("should be able to perform XSLT transform an entity node", function () {
     var xml = (new jsx3.xml.Document()).loadXML(src1);
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans4));
     var d = p.transform(xml.selectSingleNode("//record"));
     expect(d).toBeTypeOf("string");
     expect(p.hasError()).toBeFalsy();
-    expect(d).toBe('<doc id="r1"/>');
+    expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
+//    expect(d).toBe('<doc id="r1"/>');
   });
 
-  it("should perform an XSLT merge", function () {
+  it("should be able to perform XSLT transform of document node", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans1));
     var d = p.transformToObject((new jsx3.xml.Document()).loadXML(src1));
     expect(d).toBeInstanceOf(jsx3.xml.Document);
     expect(d.getNodeName()).toEqual("doc");
     expect(p.hasError()).toBeFalsy();
-    expect(d).toMatch(/^<doc id="r1"\s*\/>$/)
+    expect(d).toMatch(/^<doc id="r1"\s*\/>$/);
   });
 
-  it("should throw an error for a malformed xml object", function () {
+  it("has method hasError() that returns true when there's a problem with the template", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML("<html/>"));
     expect(p.hasError()).toBeTruthy();
   });
 
-  it("should set the object params which is then used for the transformation", function () {
+  it("has method setParams that sets parameters to be used in the transform", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans2));
     p.setParams({p1: "2"});
     var d = p.transform((new jsx3.xml.Document()).loadXML(src1));
     expect(p.hasError()).toBeFalsy();
-    expect(d).toBe('<doc id="2"/>');
+    expect(d).toMatch(/^<doc id="2"\s*\/>$/);
+//    expect(d).toBe('<doc id="2"/>');
   });
 
-  it("testParamDefault", function () {
+  it("should use the default parameters specified in the XSL for the transform", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans2));
     var d = p.transform((new jsx3.xml.Document()).loadXML(src1));
     expect(p.hasError()).toBeFalsy();
-    expect(d).toBe('<doc id="1"/>');
+    expect(d).toMatch(/^<doc id="1"\s*\/>$/);
+//    expect(d).toBe('<doc id="1"/>');
   });
 
-  it("testOutputEscaping", function () {
+  it("should be able to tell if DISABLE_OUTPUT_ESCAPING is supported", function () {
     var p = new jsx3.xml.Template((new jsx3.xml.Document()).loadXML(trans3));
     p.setParams({p1: "&amp;"});
     var d = p.transform((new jsx3.xml.Document()).loadXML(src1));
@@ -115,7 +117,7 @@ describe("jsx3.xml.Template", function () {
   });
 
   if (!_jasmine_test.IE)
-  it("testModifyXsl", function () {
+  it("should be able to tell if XSL modification is allowed", function () {
     var xsl = new jsx3.xml.Document().loadXML(trans1);
     var temp = new jsx3.xml.Template(xsl);
     var xml = new jsx3.xml.Document().loadXML(src1);
