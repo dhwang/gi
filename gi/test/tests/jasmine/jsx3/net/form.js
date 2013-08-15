@@ -359,13 +359,13 @@ describe("jsx3.net.Form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
     f.setField("field", "value");
     var evt = {}, spec = this;
-    f.subscribe(jsx3.net.Form.ON_RESPONSE, function (objEvent) {
+    f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
       spec.fail("form should not fire reponse event: " + evt.subject + " " + evt.target);
     });
     f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, function (objEvent) {
       spec.fail("form should not fire error event: " + evt.subject + " " + evt.target);
     });
-    f.subscribe(jsx3.net.Form.ON_TIMEOUT, function (objEvent) {
+    f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, function (objEvent) {
       evt = objEvent;
     });
     runs(function () {
@@ -374,7 +374,7 @@ describe("jsx3.net.Form", function () {
 
     waitsFor(function () {
       return evt.target != null;
-    }, "wait until there's a TIMEOUT event", 1000);
+    }, "wait until there's a EVENT_ON_TIMEOUT", 1000);
 
     runs(function () {
       expect(evt.target).toBeDefined();
