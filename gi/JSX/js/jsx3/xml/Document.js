@@ -480,6 +480,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
   };
 
   /**
+   * @deprecated Removed from DOM4
    * @return {String}
    */
   Document_prototype.getXmlVersion = function() {
@@ -487,6 +488,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
   };
 
   /**
+   * @deprecated Removed from DOM4
    * @return {String}
    */
   Document_prototype.getXmlEncoding = function() {
@@ -494,6 +496,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
   };
 
   /**
+   * @deprecated Removed from DOM4
    * @return {boolean}
    */
   Document_prototype.getXmlStandalone = function() {
@@ -578,7 +581,7 @@ jsx3.Class.defineClass("jsx3.xml.Document", jsx3.xml.Entity, [jsx3.util.EventDis
    */
   Document_prototype.serialize = function(strVersion, strEncoding, bStandalone) {
     if (strVersion === true) strVersion = this.getXmlVersion() || "1.0";
-    if (strEncoding === true) strEncoding = this.getXmlEncoding();
+    if (strEncoding === true) strEncoding = this.getXmlEncoding() || "UTF-8";
 
     var clobberPI = strVersion || strEncoding || bStandalone;
 
