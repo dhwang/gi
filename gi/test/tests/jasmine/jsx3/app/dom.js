@@ -2,14 +2,11 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.app.DOM", function () {
+describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishes related event", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.DOM", "jsx3.app.Model", "jsx3.util.List");
-  
-  beforeEach(function () {
-  });
 
-  it("should create a new unique system id", function () {
+  it("should be able to create new unique system id using static method newId()", function () {
     var id1 = jsx3.app.DOM.newId("ns1");
     var id2 = jsx3.app.DOM.newId("ns1");
     var id3 = jsx3.app.DOM.newId("ns2");
@@ -18,13 +15,13 @@ describe("jsx3.app.DOM", function () {
     expect(id1).not.toEqual(id3);
   });
 
-  it("testGetNamespaceForId", function () {
+  it("has method getNamespaceForId() that returns the app namespace from given DOM ID", function () {
     var ns = "nsx";
     var id = jsx3.app.DOM.newId(ns);
     expect(jsx3.app.DOM.getNamespaceForId(id)).toEqual(ns);
   });
 
-  it("should add a JSX object to this DOM and indexes it by its id and name", function () {
+  it("has method destroy() that finalizes/deletes the DOM instance itself", function () {
     var d = new jsx3.app.DOM();
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
@@ -35,7 +32,7 @@ describe("jsx3.app.DOM", function () {
     expect(func).toThrow();
   });
 
-  it("should look up a DOM object contained in this DOM by id", function () {
+  it("has method getById() that returns a DOM node contained in this DOM by id", function () {
     var d = new jsx3.app.DOM();
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
@@ -46,7 +43,7 @@ describe("jsx3.app.DOM", function () {
     expect(d.getById("anyOldId")).toBeUndefined();
   });
 
-  it("should look up a DOM object contained in this DOM by name", function () {
+  it("has method getByName() that returns a DOM node contained in this DOM by name", function () {
     var d = new jsx3.app.DOM();
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
@@ -57,7 +54,7 @@ describe("jsx3.app.DOM", function () {
     expect(d.getByName("aname")).toBeNull();
   });
 
-  it("should return all the DOM nodes in this DOM with a name of 'name'", function () {
+  it("has method getAllByName() that returns all DOM nodes in this DOM with given name", function () {
     var d = new jsx3.app.DOM();
     var m1 = new jsx3.app.Model("name");
     m1._jsxid = jsx3.app.DOM.newId("ns1");
@@ -73,7 +70,7 @@ describe("jsx3.app.DOM", function () {
     expect(l.contains(m2)).toBeTruthy();
   });
 
-  it("testRemove1", function () {
+  it("should be able to add and remove a Model node into DOM registry", function () {
     var d = new jsx3.app.DOM();
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
@@ -83,7 +80,7 @@ describe("jsx3.app.DOM", function () {
     expect(d.get(m._jsxid)).toBeNull();
   });
 
-  it("testCollision", function () {
+  it("should be able to resolve DOM name collision", function () {
     var d = new jsx3.app.DOM();
     var m1 = new jsx3.app.Model("name");
     m1._jsxid = jsx3.app.DOM.newId("ns1");
@@ -97,16 +94,19 @@ describe("jsx3.app.DOM", function () {
     expect(d.get("name")).toEqual(m2);
   });
 
-  it("should test if  the name index is updated appropriately after changing the name of a contained DOM node", function () {
+  //Using Spy
+  it("should trigger onNameChange() to be called after changing the name of a contained DOM node", function () {
     var d = new jsx3.app.DOM();
     var m1 = new jsx3.app.Model("name");
     m1._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m1);
-    expect(d.get("name")).toEqual(m1);
+    expect(d.get("name")).toEquals(m1);
     m1.setName("name2");
+    spyOn(d, "onNameChange").andCallThrough();
     d.onNameChange(m1, "name");
+    expect(d.onNameChange).toHaveBeenCalled();
     expect(d.get("name")).toBeUndefined();
-    expect(d.get("name2")).toEqual(m1);
+    expect(d.get("name2")).toEquals(m1);
   });
 
   it("should publish an event object with names properties", function () {

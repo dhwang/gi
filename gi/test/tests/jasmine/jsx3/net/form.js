@@ -356,201 +356,185 @@ describe("jsx3.net.Form", function () {
   });
 
   if (_jasmine_test.NETWORK)
-  it("should timeout and generate a ON_TIMEOUT event", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
-    f.setField("field", "value");
-    var evt = {}, spec = this;
-    f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
-      spec.fail("Timeout form should not fire reponse event: " + objEvent.subject + " " + objEvent.target);
+    it("should timeout and generate a ON_TIMEOUT event", function () {
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
+      f.setField("field", "value");
+      var evt = {}, spec = this;
+      f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
+        spec.fail("Timeout form should not fire reponse event: " + objEvent.subject + " " + objEvent.target);
+      });
+      f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, function (objEvent) {
+        spec.fail("Timeout form should not fire error event: " + objEvent.subject + " " + objEvent.target);
+      });
+      // NOTE: it's EVENT_ON_TIMEOUT, not ON_TIMEOUT
+      f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, function (objEvent) {
+        evt = objEvent;
+      });
+      runs(function () {
+        f.send(null, 500);
+      });
+      waitsFor(function () {
+        return evt.target != null;
+      }, "timeout event to trigger", 5000);
+      runs(function () {
+        expect(evt.target).toBeDefined();
+        expect(evt.subject).toEqual("timeout")
+      });
     });
-    f.subscribe(jsx3.net.Form.EVENT_ON_ERROR, function (objEvent) {
-      spec.fail("Timeout form should not fire error event: " + objEvent.subject + " " + objEvent.target);
-    });
-    // NOTE: it's EVENT_ON_TIMEOUT, not ON_TIMEOUT
-    f.subscribe(jsx3.net.Form.EVENT_ON_TIMEOUT, function (objEvent) {
-      evt = objEvent;
-    });
-    runs(function () {
-      f.send(null, 500);
-    });
-
-    waitsFor(function () {
-      return evt.target != null;
-    }, "timeout event to trigger", 5000);
-
-    runs(function () {
-      expect(evt.target).toBeDefined();
-      expect(evt.subject).toEqual("timeout")
-    });
-  });
   //t.testTimeout._skip_unless = "NETWORK";
 
   if (_jasmine_test.NETWORK)
-  it("should receive no event object when abort() is called before response is received", function () {
-    var abort = null, objEvent = null, spec = this;
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
-    f.setField("field", "value");
-    var onDone = function() {
-      _jasmine_test.debug("form.abort() onDone " + f);
-    };
-    f.subscribe("*", function (evt) {
-      spec.fail("Aborted form should not fire an event: " + evt.subject + " " + evt.target);
+    it("should receive no event object when abort() is called before response is received", function () {
+      var abort = null, objEvent = null, spec = this;
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
+      f.setField("field", "value");
+      var onDone = function () {
+        _jasmine_test.debug("form.abort() onDone " + f);
+      };
+      f.subscribe("*", function (evt) {
+        spec.fail("Aborted form should not fire an event: " + evt.subject + " " + evt.target);
+      });
+      f.send(null, 5000);
+      runs(function () {
+        window.setTimeout(function () {
+          abort = "called";
+          f.abort();
+        }, 300);
+        window.setTimeout(function () {
+          onDone();
+        }, 500);
+      });
+      waitsFor(function () {
+        return abort == "called";
+      }, "abort to be called", 750);
+      runs(function () {
+        expect(abort).toBe("called");
+      });
     });
-    f.send(null, 5000);
-
-    runs(function() {
-      window.setTimeout(function () {
-        abort = "called";
-        f.abort();
-      }, 300);
-      window.setTimeout(function () {
-        onDone();
-      }, 500);
-    });
-
-    waitsFor(function () {
-      return abort == "called";
-    }, "abort to be called", 750);
-
-    runs(function () {
-      expect(abort).toBe("called");
-    });
-  });
 
   if (_jasmine_test.NETWORK)
-  it("should be able to send and receive using Form", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
-    f.setField("field", "value");
-    var rec = null, spec = this;
-    f.subscribe("*", function (objEvent) {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-        var xml = f.getResponseXML();
-        rec = xml.selectSingleNode("//record[@jsxid='field']");
-      } else {
-        spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
-      }
-    });
-    f.send();
+    it("should be able to send and receive using Form", function () {
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      f.setField("field", "value");
+      var rec = null, spec = this;
+      f.subscribe("*", function (objEvent) {
+        if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+          var xml = f.getResponseXML();
+          rec = xml.selectSingleNode("//record[@jsxid='field']");
+        } else {
+          spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+        }
+      });
+      f.send();
+      waitsFor(function () {
+        return rec != null;
+      }, "record of jsxid 'field' should be defined", 1750);
 
-    waitsFor(function () {
-      return rec != null;
-    }, "record of jsxid 'field' should be defined", 1750);
-
-    runs(function () {
-      expect(rec).not.toBeUndefined();
-      expect(rec.getValue()).toEqual("value");
+      runs(function () {
+        expect(rec).not.toBeUndefined();
+        expect(rec.getValue()).toEqual("value");
+      });
     });
-  });
   //t.testSendSimple._skip_unless = "NETWORK";
 
   if (_jasmine_test.NETWORK)
-  it("should be able to send and receive text content", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
-    var text = null, spec = this;
-    f.subscribe("*", function (objEvent) {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-        text = f.getResponseText();
-      } else {
-        spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
-      }
-    });
-    f.send();
+    it("should be able to send and receive text content", function () {
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
+      var text = null, spec = this;
+      f.subscribe("*", function (objEvent) {
+        if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+          text = f.getResponseText();
+        } else {
+          spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+        }
+      });
+      f.send();
+      waitsFor(function () {
+        return text != null;
+      }, "text value should have been received", 750);
 
-    waitsFor(function () {
-      return text != null;
-    }, "text value should have been received", 750);
-
-    runs(function () {
-      expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy();
+      runs(function () {
+        expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy();
+      });
     });
-  });
   //t.testReceiveText._skip_unless = "NETWORK";
 
   if (_jasmine_test.NETWORK)
-  it("should be able to preserve white space posted and received.", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
-    var value = " \t value\n\n";
-    f.setField("field", value);
-    var rec = null, spec = this;
-    f.subscribe("*", function (objEvent) {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-        var xml = f.getResponseXML();
-        rec = xml.selectSingleNode("//record[@jsxid='field']");
-      } else {
-        spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
-      }
-    });
-    f.send();
+    it("should be able to preserve white space posted and received.", function () {
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      var value = " \t value\n\n";
+      f.setField("field", value);
+      var rec = null, spec = this;
+      f.subscribe("*", function (objEvent) {
+        if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+          var xml = f.getResponseXML();
+          rec = xml.selectSingleNode("//record[@jsxid='field']");
+        } else {
+          spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+        }
+      });
+      f.send();
+      waitsFor(function () {
+        return rec != null;
+      }, "target should be defined", 750);
 
-    waitsFor(function () {
-      return rec != null;
-    }, "target should be defined", 750);
-
-    runs(function () {
-      expect(rec).not.toBeNull();
-      expect(rec).not.toBeUndefined();
-      expect(rec.getValue().replace(/\r\n/g,"")).toEqual(value);
+      runs(function () {
+        expect(rec).not.toBeNull();
+        expect(rec).not.toBeUndefined();
+        expect(rec.getValue().replace(/\r\n/g, "")).toEqual(value);
+      });
     });
-  });
 
   if (_jasmine_test.NETWORK)
-  it("should be able to send and receive XML content", function () {
-    var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
-    var value1 = "<some>&xml &lt;";
-    f.setField("field1", value1);
-    var rec = null, spec = this;
-    f.subscribe("*", function (objEvent) {
-      if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-        var xml = f.getResponseXML();
-        rec = xml.selectSingleNode("//record[@jsxid='field1']");
-      } else {
-        spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
-      }
+    it("should be able to send and receive XML content", function () {
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      var value1 = "<some>&xml &lt;";
+      f.setField("field1", value1);
+      var rec = null, spec = this;
+      f.subscribe("*", function (objEvent) {
+        if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+          var xml = f.getResponseXML();
+          rec = xml.selectSingleNode("//record[@jsxid='field1']");
+        } else {
+          spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+        }
+      });
+      f.send();
+      waitsFor(function () {
+        return rec != null;
+      }, "record[@jsxid='field1'] is not null", 750);
+      runs(function () {
+        expect(rec).not.toBeNull();
+        expect(rec).not.toBeUndefined();
+        expect(rec.getValue()).toEqual(value1);
+      });
     });
-    f.send();
-
-    waitsFor(function () {
-      return rec != null;
-    }, "record[@jsxid='field1'] is not null", 750);
-
-    runs(function () {
-      expect(rec).not.toBeNull();
-      expect(rec).not.toBeUndefined();
-      expect(rec.getValue()).toEqual(value1);
-    });
-  });
   //t.testSendXml._skip_unless = "NETWORK";
-
 
   //Can't get this one to work between all the browsers without Accept-Language=zh and our server...
   if (_jasmine_test.NETWORK)
-   xit("should be able to send and receive Utf8 content", function() {
-     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
-     var value1 = "\u3CC4", rec = null, spec = this;
-
-     f.setField("field1", value1);
-
-     f.subscribe("*", function(objEvent) {
-       if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
-         var xml = f.getResponseXML();
-         rec = xml.selectSingleNode("//record[@jsxid='field1']");
-       } else {
-         spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
-       }
-     });
-
-     f.send();
-
-     waitsFor(function() {
-       return rec != null;
-     }, "xml record received", 750);
-
-     runs(function() {
-       var recValue = rec.getValue();
-       expect(rec).not.toBeNull();
-       expect(recValue.replace(/&#(\d+);/g, function($0, $1) { return String.fromCharCode($1); })).toEquals(value1);
-     });
-   });
-
-
+    xit("should be able to send and receive Utf8 content", function () {
+      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      var value1 = "\u3CC4", rec = null, spec = this;
+      f.setField("field1", value1);
+      f.subscribe("*", function (objEvent) {
+        if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
+          var xml = f.getResponseXML();
+          rec = xml.selectSingleNode("//record[@jsxid='field1']");
+        } else {
+          spec.fail("Form should only fire response event: " + objEvent.subject + " " + objEvent.message);
+        }
+      });
+      f.send();
+      waitsFor(function () {
+        return rec != null;
+      }, "xml record received", 750);
+      runs(function () {
+        var recValue = rec.getValue();
+        expect(rec).not.toBeNull();
+        expect(recValue.replace(/&#(\d+);/g, function ($0, $1) {
+          return String.fromCharCode($1);
+        })).toEquals(value1);
+      });
+    });
 });
