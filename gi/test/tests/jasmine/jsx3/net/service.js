@@ -104,7 +104,7 @@ describe("jsx3.net.Service", function () {
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
     it("should be able to send and receive JSON based web service", function () {
-      var Service = jsx3.net.Service;
+      var Service = jsx3.net.Service, spec = this;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
       s.setMode(1);
@@ -117,7 +117,7 @@ describe("jsx3.net.Service", function () {
         if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
           req = objEvent.target.getRequest();
         } else {
-          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+          spec.fail("Should not receive this event from service: " + objEvent.subject);
         }
       });
       s.doCall();
@@ -131,8 +131,8 @@ describe("jsx3.net.Service", function () {
     });
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
-    it("testRequestJSONfault", function () {
-      var Service = jsx3.net.Service;
+    it("should be able to process fault response in JSON service request", function () {
+      var Service = jsx3.net.Service, spec = this;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/travel_map.xml"), "");
       s.setMode(1);
@@ -141,11 +141,10 @@ describe("jsx3.net.Service", function () {
       s.setOperationName("");
       var req;
       s.subscribe([Service.ON_SUCCESS, Service.ON_ERROR, Service.ON_TIMEOUT, Service.ON_INVALID], function (objEvent) {
-        _jasmine_test.debug(objEvent);
         if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
           req = objEvent.target.getRequest();
         } else {
-          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+          spec.fail("Should not receive this event from service: " + objEvent.subject);
         }
       });
       s.doCall();
@@ -153,15 +152,20 @@ describe("jsx3.net.Service", function () {
         return req != null;
       }, "service request object should be valid.", 800);
       runs(function () {
-        expect(req.getStatus()).toEqual(200);
-        expect(s.getInboundDocument()).toBeNull();
+        expect(req.getStatus()).toEqual(503);
+        expect(s.getStatus()).toEqual(503);
+        expect(s.getInboundDocument()).not.toBeNull();
+
+        var mappedid = s.getServer().getCache().keys()[0],
+            mappeddoc = s.getServer().getCache().getDocument(mappedid);
+        expect(mappeddoc).toBeInstanceOf(jsx3.xml.Document);
       });
     });
 
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") > 0)
     it("should be able to invoke a WSDL/SOAP based service.", function () {
-      var Service = jsx3.net.Service;
+      var Service = jsx3.net.Service, spec = this;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
       s.setMode(1);
@@ -174,7 +178,7 @@ describe("jsx3.net.Service", function () {
         if (objEvent.subject == jsx3.net.Service.ON_SUCCESS) {
           req = objEvent.target.getRequest();
         } else {
-          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+          spec.fail("Should not receive this event from service: " + objEvent.subject);
         }
       });
       s.doCall();
@@ -188,7 +192,7 @@ describe("jsx3.net.Service", function () {
 
   if (gi.test.jasmine.HTTP_BASE.indexOf("http") < 0)
     it("should invoke a WSDL/SOAP service and handle any failure response", function () {
-      var Service = jsx3.net.Service;
+      var Service = jsx3.net.Service, spec = this;
       //init the service and set the inbound document
       var s = t._service = new jsx3.net.Service(t.resolveURI("data/wsdl2rule.xml"), "");
       s.setMode(1);
@@ -201,7 +205,7 @@ describe("jsx3.net.Service", function () {
         if (objEvent.subject == jsx3.net.Service.ON_ERROR) {
           req = objEvent.target.getRequest();
         } else {
-          expect("Should not receive this event from service: " + objEvent.subject, false).toBeTruthy();
+          spec.fail("Should not receive this event from service: " + objEvent.subject);
         }
       });
       s.doCall();
