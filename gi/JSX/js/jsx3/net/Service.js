@@ -185,16 +185,17 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     } else {
       Service._log(2,"The XML document could not be converted to JSON, because it does not belong to the namespace, " + Service.json_namespace);
     }
+    return null;
   };
 
   Service._convertXML = function(objNode) {
     var myNS = objNode.getNamespaceURI();
     var strName = objNode.getAttribute("safename") || objNode.getBaseName();
-    var strBeg, strMid, strEnd;
+    var strBeg, strMid, strEnd, a, i;
     if(myNS == Service.json_namespace + "array" || myNS == Service.json_namespace + "array/literal") {
       strBeg = (myNS == Service.json_namespace + "array") ? '"' + strName + '":[' : '[';
-      var a = [];
-      for (var i = objNode.getChildIterator(); i.hasNext(); ) {
+      a = [];
+      for (i = objNode.getChildIterator(); i.hasNext(); ) {
         var objKid = i.next();
         for (var j = objKid.getChildIterator(); j.hasNext(); ) {
           var objGrandKid = j.next();
@@ -218,8 +219,8 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     } else {
       var bKids = objNode.getChildNodes().size() >= 1;
       strBeg = '"' + strName + '":' + (bKids ? '{' : '');
-      var a = [];
-      for (var i = objNode.getChildIterator(); i.hasNext(); )
+      a = [];
+      for (i = objNode.getChildIterator(); i.hasNext(); )
         a.push(Service._convertXML(i.next()));
       strMid = a.join(',');
       strEnd = bKids ? '}' : '';
@@ -260,21 +261,21 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
   
   //recursive function that drills down into a JSON object and creates an XML document
   Service._convertObject = function(objJ, objXML) {
-    var typ = typeof(objJ);
+    var typ = typeof(objJ), objItem, objParent, i;
     if(objJ == null) {
       typ = 'null';
       objJ = 'null';
     }
-   if(typ == "string" || typ == "number" || typ == "boolean" || typ == "null") {
+    if(typ == "string" || typ == "number" || typ == "boolean" || typ == "null") {
       //no label, just a literal
-      var objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,"val",Service.json_namespace + "simpletype/literal");
+      objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,"val",Service.json_namespace + "simpletype/literal");
       objXML.appendChild(objItem);
       objItem.setValue(objJ);
     } else if(jsx3.$A.is(objJ)) {
-      var objParent = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,"val",Service.json_namespace + "array/literal");
+      objParent = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,"val",Service.json_namespace + "array/literal");
       objXML.appendChild(objParent);
-      for(var i=0;i<objJ.length;i++) {
-        var objItem = objParent.createNode(jsx3.xml.Entity.TYPEELEMENT,"enum",Service.json_namespace + "enum");
+      for(i=0;i<objJ.length;i++) {
+        objItem = objParent.createNode(jsx3.xml.Entity.TYPEELEMENT,"enum",Service.json_namespace + "enum");
         objParent.appendChild(objItem);
         Service._convertObject(objJ[i],objItem);
       }
@@ -290,21 +291,21 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         }
         if(typ == "string" || typ == "number" || typ == "boolean" || typ == "null") {
           //simpletype types are identified using xml namespaces
-          var objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace + "simpletype");
+          objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace + "simpletype");
           objXML.appendChild(objItem);
           if(safename) objItem.setAttribute("safename",p,Service._ns["xml"]);
           objItem.setValue(vnt);
          } else if(jsx3.$A.is(vnt)) {
-          var objParent = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace + "array");
+          objParent = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace + "array");
           objXML.appendChild(objParent);
           if(safename) objParent.setAttribute("safename",p,Service._ns["xml"]);
-          for(var i=0;i<vnt.length;i++) {
-            var objItem = objParent.createNode(jsx3.xml.Entity.TYPEELEMENT,"enum",Service.json_namespace + "enum");
+          for(i=0;i<vnt.length;i++) {
+            objItem = objParent.createNode(jsx3.xml.Entity.TYPEELEMENT,"enum",Service.json_namespace + "enum");
             objParent.appendChild(objItem);
             Service._convertObject(vnt[i],objItem);
           }
         } else {
-          var objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace);
+          objItem = objXML.createNode(jsx3.xml.Entity.TYPEELEMENT,safename || p,Service.json_namespace);
           objXML.appendChild(objItem);
           if(safename) objItem.setAttribute("safename",p,Service._ns["xml"]);
           Service._convertObject(vnt,objItem);
@@ -342,6 +343,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
    */
   Service_prototype._getOutboundStubDocument = function() {
     if (this.jsxstubdocument instanceof jsx3.xml.Document) return this.jsxstubdocument;
+    return null;
   };
 
   /**
@@ -376,6 +378,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     } else {
       return this.jsxstuburl;
     }
+    return null;
   };
 
   /**
@@ -431,6 +434,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       Service._log(2,"When using the XML Mapping Utility, you must have at lease one GUI component open for edit within GI Builder. Otherwise, there is no server instance to to use as the server context. For now, the IDE context will be used.");
       return jsx3.IDE;
     }
+    return null;
   };
 
   /**
@@ -464,6 +468,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     } else {
       return this.jsxstubpath;
     }
+    return null;
   };
 
   /**
@@ -494,6 +499,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     } else {
       return this.jsxinboundurl;
     }
+    return null;
   };
 
   /**
@@ -601,6 +607,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       var objNode = objRules.selectSingleNode("//record[@opname='" + this.getOperationName() + "']");
       return (objNode) ? objNode : this.getRulesXML().selectSingleNode("//record[@type='T']");
     }
+    return null;
   };
 
   /**
@@ -783,7 +790,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       if (objNode) {
         var strURL = objNode.getAttribute("src");
       } else {
-        return;
+        return null;
       }
     }
     return (this.wsdl == null) ? (this.wsdl = jsx3.CACHE.openDocument(strURL)) : this.wsdl;
@@ -949,12 +956,14 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
               }}});
             }, null, this);
           } else {
-            Service._log(2, "The static response URL does not reference a valid file. The transaction has been cancelled.  Please make sure that the URL is correct (" + strStaticResponseUrl + ") and that it returns a valid JSON object:\n\t" + objStaticResponse.getError());            
+            Service._log(2, "The static response URL does not reference a valid file. The transaction has been cancelled.  Please make sure that the URL is correct (" + strStaticResponseUrl + ") and that it returns a valid JSON object:\n\t" + objStaticResponse.getError());
+            return false;
           }
         } else {
           var objStaticResponse = this.getServer().getCache().getOrOpenDocument(strStaticResponseUrl, strStaticResponseUrl);
           if (objStaticResponse.hasError()) {
             Service._log(2, "The static response URL does not reference a valid document. The transaction has been cancelled.  Please make sure that the URL is correct (" + strStaticResponseUrl + ") and that it returns a valid document:\n\t" + objStaticResponse.getError());
+            return false;
           } else {
             objStaticResponse = objStaticResponse.cloneDocument();
             //call response handler, passing the static response as if a remote server had just returned it; use sleep to break the call stack, since 'live' mode also does so
@@ -992,7 +1001,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
           objMessage = this.getServer().getCache().getOrOpenDocument(strStaticRequestUrl,strStaticRequestUrl);
           if (objMessage.hasError()) {
             Service._log(2,"The static request URL does not reference a valid document. The transaction has been cancelled.  Please make sure that the URL is correct (" + strStaticRequestUrl + ") and that it returns a valid document:\n\t" + objMessage.getError());
-            return;
+            return false;
           } else {
             objMessage = objMessage.cloneDocument();
           }
@@ -1000,7 +1009,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
           objMessage = this.getServiceMessage();
           if (this.getMethod().toUpperCase() == "POST" && !objMessage) {
             Service._log(4,"The request message could not be generated. The transaction has been cancelled");
-            return;
+            return false;
           }
         }
 
@@ -1041,6 +1050,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         }
       }
     }
+    return false;
   };
 
   /**
@@ -1214,11 +1224,11 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         objEnvelopeBody = objEnvelope.selectSingleNode(strPath,objEnvelope.getDeclaredNamespaces(objXMap));
         if (!objEnvelopeBody) {
           Service._log(2,"The stub path (typically the path to the SOAP Envelope Body) does not return a valid node (" + strPath + ").");
-          return;
+          return null;
         }
       } else {
         Service._log(2,"The outbound stub URL does not reference a valid document.  Please make sure that the URL is correct (" + strShellURL + ") and that it returns a valid document:\n\t" + objEnvelope.getError());
-        return;
+        return null;
       }
     }
 
@@ -1228,8 +1238,8 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     //query the message node for its counterpart in the original schema
     var objInputNodes = objInputNode.selectNodes("record");
     var objReturn;
-    for (var i=objInputNodes.iterator(); i.hasNext(); )
-      objReturn = this.doAddAndRecurse(objEnvelope,objEnvelopeBody,i.next(),MESSAGETYPE,true);
+    for (var j=objInputNodes.iterator(); j.hasNext(); )
+      objReturn = this.doAddAndRecurse(objEnvelope,objEnvelopeBody,j.next(),MESSAGETYPE,true);
 
 /* @JSC :: begin BENCH */
     t1.log("getServiceMessage");
@@ -1295,7 +1305,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     //set cancel flag (empty nodes are removed). ref to my for inner functions so they don't lose execution context
     var bCancel = false;
     var my = this;
-
+    var i;
     //inner functions available to evaluated code
     var enableReferencedRule = function(_objRuleNode) {
       //binds an attribute to a rule node so that it is skipped
@@ -1366,32 +1376,32 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     var objNS = (strMyURI) ? this.registerNamespace(strMyURI,_jsx_objMessage,bFirst || RULENODE.getAttribute("type") == "A") : {prefix:"",uri:null};
 
     //create a new node to add to the outbound  message, @_jsx_objMessage (1 is for type element, 2 is attribute)
-    var strText = RULENODE.getAttribute("jsxtext");
+    var bATT, MESSAGENODE, strText = RULENODE.getAttribute("jsxtext");
     if (RULENODE.getAttribute("type") == "A") {
       //attribute node
-      var bATT = true;
-      var MESSAGENODE = _jsx_objMessage.createNode(jsx3.xml.Entity.TYPEATTRIBUTE,objNS.prefix + ((objNS.prefix != "") ? ":" : "") + strText,objNS.uri);
+      bATT = true;
+      MESSAGENODE = _jsx_objMessage.createNode(jsx3.xml.Entity.TYPEATTRIBUTE,objNS.prefix + ((objNS.prefix != "") ? ":" : "") + strText,objNS.uri);
       _jsx_objMessageParent.setAttributeNode(MESSAGENODE);
     } else if (RULENODE.getAttribute("type") == "D") {
-      var bATT = false;
-      var MESSAGENODE = _jsx_objMessage.createNode(jsx3.xml.Entity.TYPECDATA);
+      bATT = false;
+      MESSAGENODE = _jsx_objMessage.createNode(jsx3.xml.Entity.TYPECDATA);
       _jsx_objMessageParent.appendChild(MESSAGENODE);
     } else {
-      var bATT = false;
+      bATT = false;
       //if no doc is passed, create here
       if (_jsx_objMessage) {
-        var MESSAGENODE = _jsx_objMessage.createNode(jsx3.xml.Entity.TYPEELEMENT,objNS.prefix + ((objNS.prefix != "") ? ":" : "") + strText,objNS.uri);
+        MESSAGENODE = _jsx_objMessage.createNode(jsx3.xml.Entity.TYPEELEMENT,objNS.prefix + ((objNS.prefix != "") ? ":" : "") + strText,objNS.uri);
         _jsx_objMessageParent.appendChild(MESSAGENODE);
       } else {
         //there is no document yet.  This must be the first pass AND no stub document is being used.  create here
         _jsx_objMessage = new jsx3.xml.Document();
-        var MESSAGENODE = _jsx_objMessage.createDocumentElement(objNS.prefix + ((objNS.prefix != "") ? ":" : "") + RULENODE.getAttribute("jsxtext"),objNS.uri);
+        MESSAGENODE = _jsx_objMessage.createDocumentElement(objNS.prefix + ((objNS.prefix != "") ? ":" : "") + RULENODE.getAttribute("jsxtext"),objNS.uri);
       }
 
       //if the wsdl declared a supported soap encoding version, add the extra type (xsi:type) info here
       //3.4 fix: need to look at both encoding details to know whether or not to implement
       //3.4 fix: query wrongly applied first available encoding, not encoding specific to the message type
-      var myEncodedNode = RULENODE.selectSingleNode("ancestor-or-self::record[(@type='I' or @type='O') and @soapuse='encoded' and @soapencstyle='" + Service._ns["SOAP-ENC"] + "']")
+      var myEncodedNode = RULENODE.selectSingleNode("ancestor-or-self::record[(@type='I' or @type='O') and @soapuse='encoded' and @soapencstyle='" + Service._ns["SOAP-ENC"] + "']");
       if (myEncodedNode != null && myEncodedNode != "") {
         var attValue;
         if ((attValue = RULENODE.getAttribute("datatype")) != null && attValue != "") {
@@ -1424,7 +1434,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     var _otempcontext, _otemprecords;
 
     //loop to apply the given map setting
-    for (var i = objMappings.iterator(); i.hasNext(); ) {
+    for (i = objMappings.iterator(); i.hasNext(); ) {
       //provide consistent alias for user to reference to get handle to the active CDF record
       var CDFCONTEXT = (this.CDFCONTEXT) ? this.CDFCONTEXT.context : null;
       var CDFRECORDS = (this.CDFCONTEXT) ? this.CDFCONTEXT.records : null;
@@ -1453,11 +1463,11 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         //the node is in the cache -- get handle to node
         var objOBJECTNAME = OBJECTNAME.split("::");
         var strXMLId = objOBJECTNAME[0];
-        var objServer = this.getServer();
+        var objServer = this.getServer(), objCacheDoc;
         if (objServer != null) {
-          var objCacheDoc = objServer.getCache().getDocument(strXMLId);
+          objCacheDoc = objServer.getCache().getDocument(strXMLId);
         } else {
-          var objCacheDoc = jsx3.CACHE.getDocument(strXMLId);
+          objCacheDoc = jsx3.CACHE.getDocument(strXMLId);
         }
 
         if (objCacheDoc != null) {
@@ -1504,7 +1514,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       } else if (OBJECTTYPE == "Script") {
         this.publish({subject:Service.ON_PROCESS_RULE,rule:RULENODE,action:"Map to Script",description:"this.eval(" + OBJECTNAME + ");",level:6});
         var oVal = {RULENODE:RULENODE,MESSAGENODE:MESSAGENODE,my:my,OBJECTNAME:OBJECTNAME,OBJECTTYPE:OBJECTTYPE,CDFCONTEXTPARENT:CDFCONTEXTPARENT,CDFCONTEXT:CDFCONTEXT,CDFRECORDS:CDFRECORDS,setCDFRecords:setCDFRecords,setCDFContext:setCDFContext,enableNamedRule:enableNamedRule,disableNamedRule:disableNamedRule,enableReferencedRule:enableReferencedRule,disableReferencedRule:disableReferencedRule,skipNamedRule:skipNamedRule/* <== deprecated*/,getNamedChild:getNamedChild,setValue:setValue,removeChild:removeChild};
-        var oReturn = this.eval(OBJECTNAME,oVal);
+        this.eval(OBJECTNAME,oVal);
       }
     } //==> end loop that applies the collection of mappings
 
@@ -1527,17 +1537,18 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     if (bCancel != true) this.validate(MESSAGENODE,RULENODE);
 
     //if the user has specified to use a conditional, evaluate here; don't generate the code for this branch
+    var CONDITIONAL = RULENODE.getAttribute("repeat");
     if (REPEAT == null) {
-      var CONDITIONAL = ((CONDITIONAL = RULENODE.getAttribute("repeat")) != null) ? CONDITIONAL : false;
+      CONDITIONAL = (CONDITIONAL != null) ? CONDITIONAL : false;
       REPEAT = this.eval(CONDITIONAL);
     }
 
     //Nodes in the Rules Tree don't always become nodes in the Message Tree as some rules are there as 'lattice' nodes to help organize
     //Whenever a message node is created, validate whether it is a lattice node or a child of a lattice node
+    var bLatticeNode = false;
     if (!bCancel && RULENODE.getAttribute("groupref") != "1" && RULENODE.getParent().getAttribute("groupref") == "1") {
       //The message node just created is currently  a child of a lattice node. Solve by traversing ancestors until a
       //concrete node (element) is found. Transfer the message node as a child of this concrete ancestor
-      var bLatticeNode = false;
       var objMsgParent = _jsx_objMessageParent;
       var objRuleParent = RULENODE.getParent();
       while (objRuleParent.getAttribute("groupref") == "1") {
@@ -1552,24 +1563,22 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       } else {
         objMsgParent.insertBefore(MESSAGENODE,myLatticeParent);
       }
-    } else if (RULENODE.getAttribute("groupref") == "1") {
-      //this node is a lattice node; set a flag that it should be removed
-      var bLatticeNode = true;
     } else {
-      //this is a regular node; process normally
-      var bLatticeNode = false;
+      //if this node is latice node; set a flag that it should be removed
+      //else this is a regular node; process normally
+      bLatticeNode = RULENODE.getAttribute("groupref") == "1";
     }
 
     //recurse to append descendant structures
     var objMyKids = RULENODE.selectNodes("record");
-    for (var i=objMyKids.iterator(); i.hasNext(); )
+    for (i=objMyKids.iterator(); i.hasNext(); )
       this.doAddAndRecurse(_jsx_objMessage,MESSAGENODE,i.next(),MESSAGETYPE,null);
 
     //this is where we need to reset the context for the CDF parent to be the previous parent before we repeat the template/rules branch
     if (bRecord && this.CDFCONTEXT) this.CDFCONTEXT = this.CDFCONTEXT.parentcontext;
 
     //update array data type for the array on completion of child iteration
-    var strMyURI = RULENODE.getAttribute("soaparray");
+    strMyURI = RULENODE.getAttribute("soaparray");
     if (strMyURI != null && strMyURI != "") {
       //register the namespace with the soap envelope before adding the array to ensure prefix exists
       objNS = this.registerNamespace(strMyURI,_jsx_objMessage,bFirst);
@@ -1581,7 +1590,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     //update array count if the node is an array (soap-enc)
     if (RULENODE.getAttribute("datatype") == "Array" && RULENODE.getAttribute("ttns") == "http://schemas.xmlsoap.org/soap/encoding/") {
       var objAtts = MESSAGENODE.getAttributes();
-      for (var i=objAtts.iterator(); i.hasNext(); ) {
+      for (i=objAtts.iterator(); i.hasNext(); ) {
         //TO DO: check agains the qname, (namespace URI)
         var objAtt = i.next();
         if (objAtt.getBaseName() == "arrayType") {
@@ -1617,6 +1626,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     for (var p in objHash) {
       if (objHash[p] == strValue) return p.toString();
     }
+    return null;
   };
 
   /**
@@ -1704,20 +1714,18 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
   /**
    * Maps a node within the application cache to a node value in the XML payload that is being passed between client and server; type casting does not occur
-   * @param objMapNode    {jsx3.xml.Entity) Parsed XML node object whose text content (as a primitive defined by 'nodeTypedValue' (INBOUND) and 'childNodes.get(0).nodeValue' (OUTBOUND)) will be updated; nodes of type 'attribute' will be mapped via the getAttribute() and setAttribute() methods, respectively.
+   * @param objMapNode    {jsx3.xml.Entity} Parsed XML node object whose text content (as a primitive defined by 'nodeTypedValue' (INBOUND) and 'childNodes.get(0).nodeValue' (OUTBOUND)) will be updated; nodes of type 'attribute' will be mapped via the getAttribute() and setAttribute() methods, respectively.
    * @param objAppNode    {jsx3.xml.Entity} Parsed XML node object from the client side XML cache
    * @param DATAFLOW      {String} One of two types: INBOUND or OUTBOUND
-   * @return             {String}
    * @private
    */
   Service_prototype.updateNode = function(objMapNode,objAppNode,DATAFLOW) {
+    var objSource = objAppNode;
+    var objDest = objMapNode;
     //get type of node (only att, entity, text and cdata are currently supported
     if (DATAFLOW == "INBOUND") {
-      var objSource = objMapNode;
-      var objDest = objAppNode;
-    } else {
-      var objSource = objAppNode;
-      var objDest = objMapNode;
+      objSource = objMapNode;
+      objDest = objAppNode;
     }
     var strValue = this.getNodeValue(objSource);
 
@@ -1750,7 +1758,6 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
    * @param objMapNode  {jsx3.xml.Entity} Parsed XML node object whose text content (as a primitive defined by 'nodeTypedValue' (INBOUND) and 'childNodes.get(0).nodeValue' (OUTBOUND)) will be updated; nodes of type 'attribute' will be mapped via the getAttribute() and setAttribute() methods, respectively.
    * @param objJSX      {jsx3.gui.Form} Galid JSX GUI object to map to the given node; one that implements the jsx3.gui.Form interface (such as a TextBox or Select)
    * @param DATAFLOW    {String} One of two types:  INBOUND or OUTBOUND
-   * @return          {String}
    * @private
    */
   Service_prototype.doMapAndUpdate = function(objMapNode,objJSX,DATAFLOW,objRuleNode) {
@@ -1858,11 +1865,11 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         //the node is in the cache -- get handle to node
         var objOBJECTNAME = OBJECTNAME.split("::");
         var strXMLId = objOBJECTNAME[0];
-        var objServer = this.getServer();
+        var objServer = this.getServer(), objCacheDoc;
         if (objServer != null) {
-          var objCacheDoc = objServer.getCache().getDocument(strXMLId);
+          objCacheDoc = objServer.getCache().getDocument(strXMLId);
         } else {
-          var objCacheDoc = jsx3.CACHE.getDocument(strXMLId);
+          objCacheDoc = jsx3.CACHE.getDocument(strXMLId);
         }
 
         if (objCacheDoc != null) {
@@ -1884,6 +1891,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       } else if (OBJECTTYPE == "CDF Document") {
         this.publish({subject:Service.ON_PROCESS_RULE,rule:RULENODE,action:"Map to CDF Document",description:((SERVERNS) ? "jsx3.getApp(\"" + SERVERNS + "\")" : "jsx3.CACHE") + ".setDocument(\"" + OBJECTNAME + "\",jsx3.xml.CDF.Document.newDocument());",level:6});
         //create a new document and place in the active cache for the active element
+        OBJECTNAME = OBJECTNAME || this.getUniqueId()+"_doc"; // make sure there's an name for the new document
         this.getCDFDocument(OBJECTNAME,"INBOUND",SERVERNS);
       } else if (OBJECTTYPE == "CDF Record") {
         this.publish({subject:Service.ON_PROCESS_RULE,rule:RULENODE,action:"Map to CDF Record",description:"this.CDFCONTEXT.context.createNode(jsx3.xml.Entity.TYPEELEMENT,\"record\");",level:6});
@@ -1924,8 +1932,8 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         if (objRuleChild.getAttribute("type") == "A") {
           var objNodeChildren = MESSAGENODE.getAttributes();
           INNER:
-          for (var j=objNodeChildren.iterator(); j.hasNext(); ) {
-            var objNodeChild = j.next();
+          for (var x=objNodeChildren.iterator(); x.hasNext(); ) {
+            var objNodeChild = x.next();
             if (objNodeChild.getBaseName() == strName) {
               this.doReadAndRecurse(objNodeChild, objRuleChild);
               break INNER;
@@ -1935,7 +1943,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
           //the abstract child will factor out its own generation by calling this message again with itself as the RULENODE
           this._doReadAndRecurse(objRuleChild,MESSAGENODE);
         } else {
-          var objNodeChildren = MESSAGENODE.selectNodes("*[local-name()='" + strName + "']");
+          objNodeChildren = MESSAGENODE.selectNodes("*[local-name()='" + strName + "']");
           for (var j=objNodeChildren.iterator(); j.hasNext(); )
             this.doReadAndRecurse(j.next(),objRuleChild);
         }
@@ -1972,6 +1980,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       if (strName == strMessageChildName)
         return objNodeChild;
     }
+    return null;
   };
 
   /**
@@ -2034,7 +2043,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
    */
   Service_prototype.onResponse = function(objEvent) {
     var objRequest = objEvent.target;
-    var objXML;
+    var objXML, strJSON, objError;
     var bError = false;
 
     //check if this is a real socket or in test mode
@@ -2054,7 +2063,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
       //get the response document
       if(this._isJSON("O")) {
-        var strJSON = objRequest.getResponseText();
+        strJSON = objRequest.getResponseText();
         try {
           objXML = Service.JSON2XML(strJSON);
           if(!objXML) {
@@ -2063,7 +2072,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
             return;
           }
         } catch (e) {
-          var objError = jsx3.lang.NativeError.wrap(e);
+          objError = jsx3.lang.NativeError.wrap(e);
           Service._log(2,"The static JSON string did not return a valid JSON object when evaluated. The inbound filter (e.g., doInboundFilter()) as well as the inbound mappings (e.g., doInboundMap()) will not be executed.\nDescription:" + objError.getMessage());
           this.onError();
           return;
@@ -2083,7 +2092,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     } else {
       //get the response document
       if(this._isJSON("O")) {
-        var strJSON = objRequest.getResponseText();
+        strJSON = objRequest.getResponseText();
         try {
           objXML = Service.JSON2XML(strJSON);
           if(!objXML) {
@@ -2092,7 +2101,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
             return;
           }
         } catch (e) {
-          var objError = jsx3.lang.NativeError.wrap(e);
+          objError = jsx3.lang.NativeError.wrap(e);
           Service._log(2,"The static JSON string did not return a valid JSON object when evaluated. The inbound filter (e.g., doInboundFilter()) as well as the inbound mappings (e.g., doInboundMap()) will not be executed.\nDescription:" + objError.getMessage());
           this.onError();
           return;
@@ -2136,13 +2145,13 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
   Service_prototype.getCDFDocument = function(strDocId,FLOW,serverNS) {
     //declare a defualt ref to the cache belonging to the main controller; if all else fails, use this cache instance
     //get the correct cache instance
-    var server = this.getServer();
+    var server = this.getServer(), objDocument;
     var CACHE = server != null ? server.getCache() : jsx3.CACHE;
 
     //we now have the cache instance (as object) and the ID of the document (as string) that we'll interact with; now either set/get depending upon FLOW
     if (FLOW == "OUTBOUND") {
       //the message is going out to the server, which means we'll be reading a CDF document that already exists
-      var objDocument = CACHE.getDocument(strDocId);
+      objDocument = CACHE.getDocument(strDocId);
       if (objDocument) {
         //populate object ref
         this.CDFCONTEXT = new Service.CdfContext(objDocument.getRootNode(),null,objDocument.getRootNode().selectNodes("record"));
@@ -2152,7 +2161,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       }
     } else {
       //bind the new document and set the cdf context node to begin adding information to
-      var objDocument = jsx3.xml.CDF.Document.newDocument();
+      objDocument = jsx3.xml.CDF.Document.newDocument();
       CACHE.setDocument(strDocId,objDocument);
       this.CDFCONTEXT = new Service.CdfContext(objDocument.getRootNode(),null);
       this._jsxallcdfs[strDocId] = CACHE;
@@ -2328,6 +2337,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
         return objAtts.get(i).getBaseName();
       }
     }
+    return null;
   };
 
   /**
@@ -2417,7 +2427,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     objDocument.loadXML(strXSLT);
     if (objDocument.hasError()) {
       Service._log(2,"The XSLT could not be compiled from the CXF source document:\n\t" + objDocument.getError());
-      return;
+      return null;
     } else {
       this._compiled = objDocument;
     }
@@ -2438,6 +2448,7 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
   Service_prototype._compile = function(objRuleNode,objStylesheet,bRoot) {
     //first register the namespace for this rule
     var objNS = this._registerCompilerNamespace(objRuleNode);
+    var strNodeName, strJsxId;
 
     //create the outer template
     if (bRoot) {
@@ -2445,17 +2456,17 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       objStylesheet.push('<xsl:template match="/">');
     } else {
       //this is a rule-specific template (modal)
-      var strPrefix = (objNS) ? (objNS.prefix + ":") : "";
-      var strNodeName = objRuleNode.getAttribute("jsxtext");
+      //var strPrefix = (objNS) ? (objNS.prefix + ":") : "";
+      strNodeName = objRuleNode.getAttribute("jsxtext");
       if (objRuleNode.getAttribute("type") == "A") strNodeName = "@" + strNodeName;
-      var strJsxId = objRuleNode.getAttribute("jsxid");
+      strJsxId = objRuleNode.getAttribute("jsxid");
       objStylesheet.push('<xsl:template match="*|@*" mode="x' + strJsxId + '">');
     }
 
     //create the CDF-specific nodes (record, data, and attributes)
     var objMappings = objRuleNode.selectNodes("mappings/record[@name='CDF Document' or @name='CDF Record' or @name='CDF Attribute']");
-    var nestedArray = [];
-    for (var i=objMappings.iterator(); i.hasNext(); ) {
+    var nestedArray = [], i;
+    for (i=objMappings.iterator(); i.hasNext(); ) {
       var objMapping = i.next();
       var strType = objMapping.getAttribute("name");
       var strValue = objMapping.getAttribute("value");
@@ -2471,9 +2482,9 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     }
 
     //generate the apply-template callouts to call the templates for the direct children
-    var objChildRules = objRuleNode.selectNodes("record");
-    for (var i=objChildRules.iterator(); i.hasNext(); ) {
-      var objChildRule = i.next();
+    var objChildRules = objRuleNode.selectNodes("record"), objChildRule;
+    for (i=objChildRules.iterator(); i.hasNext(); ) {
+      objChildRule = i.next();
 
       //if the current rule is really just a pointer pointing to the named rule to actually use, switch here
       var strSelectorName;
@@ -2489,14 +2500,14 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
       var childNS = this._registerCompilerNamespace(objChildRule);
       var strPrefix = (childNS) ? (childNS.prefix + ":") : "";
       if (bRoot) strPrefix = "//" + strPrefix;
-      var strNodeName = strSelectorName || objChildRule.getAttribute("jsxtext");
+      strNodeName = strSelectorName || objChildRule.getAttribute("jsxtext");
       if (objChildRule.getAttribute("type") == "A") strNodeName = "@" + strNodeName;
-      var strJsxId = objChildRule.getAttribute("jsxid");
+      strJsxId = objChildRule.getAttribute("jsxid");
       objStylesheet.push('<xsl:apply-templates select="' + strPrefix + strNodeName + '" mode="x' + strJsxId + '"/>');
     }
 
     //close out record and data nodes if any were created (these wrap the apply-templates)
-    for (var i=nestedArray.length-1;i>=0;i--)
+    for (i=nestedArray.length-1;i>=0;i--)
       objStylesheet.push(nestedArray[i]);
 
     //close out the template
@@ -2504,8 +2515,8 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
 
     //recurse to create descendant templates
     objChildRules = objRuleNode.selectNodes("record[not(mappings/record[@name='CDF Record' and @value and not(@value='')])]");
-    for (var i=objChildRules.iterator(); i.hasNext(); ) {
-      var objChildRule = i.next();
+    for (i=objChildRules.iterator(); i.hasNext(); ) {
+      objChildRule = i.next();
       this._compile(objChildRule,objStylesheet);
     }
   };
@@ -2530,8 +2541,8 @@ jsx3.Class.defineClass("jsx3.net.Service", null, [jsx3.util.EventDispatcher], fu
     var strTNS = objRuleNode.getAttribute("tns");
     if (strTNS == Service._ns["xml"]) {
       return;
-      this._compiler_ns[strTNS] = "xml";
-      return {prefix:"xml",namespace:strTNS};
+      //this._compiler_ns[strTNS] = "xml";
+      //return {prefix:"xml",namespace:strTNS};
     } else if (strTNS && (strTNS = jsx3.util.strTrim(String(strTNS))) != "") {
       if (!this._compiler_ns[strTNS]) {
         this._compiler_ns_sequence += 1;
