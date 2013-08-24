@@ -292,7 +292,7 @@ describe("jsx3.net.Request", function () {
     });
   //t.testTimeoutAsync._skip_unless = "NETWORK";
 
-  if (_jasmine_test.NETWORK)
+  if(_jasmine_test.NETWORK)
     it("should not get response event or timeout event on request abort", function () {
       var abort = null, spec = this;
       var r = new jsx3.net.Request();
@@ -366,11 +366,14 @@ describe("jsx3.net.Request", function () {
       }, "The Value should be incremented", 750);
 
       runs(function () {
-        if (_jasmine_test.FX && BrowserDetect._getVersionAfter('firefox/') < 10) {
-          // abort no longer causes network error
+        if (_jasmine_test.IE) {
           expect(r.getStatusText()).toBeNull();
           expect(r.getStatus()).toEqual(13030);
+          expect(r.getAllResponseHeaders()).toBeNull();
+          expect(r.getResponseHeader("Date")).toBeNull();
         } else {
+          // Native abort no longer causes network error on Firefox/Webkit
+          expect(r.getStatus()).toEqual(200);
           expect(r.getStatusText()).toEqual("");
         }
       });

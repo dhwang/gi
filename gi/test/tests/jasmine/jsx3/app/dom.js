@@ -2,7 +2,7 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishes related event", function () {
+describe("jsx3.app.DOM - Registers all DOM nodes in an instance of jsx3.app.Server and publishes related event", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.app.DOM", "jsx3.app.Model", "jsx3.util.List");
 
@@ -37,8 +37,8 @@ describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishe
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m);
-    expect(d.get(m._jsxid)).toEqual(m)
-    expect(d.getById(m._jsxid)).toEqual(m);
+    expect(d.get(m._jsxid)).toEquals(m);
+    expect(d.getById(m._jsxid)).toEquals(m);
     expect(d.get(jsx3.app.DOM.newId("ns1"))).toBeNull();
     expect(d.getById("anyOldId")).toBeUndefined();
   });
@@ -48,8 +48,8 @@ describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishe
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m);
-    expect(d.get("name")).toEqual(m)
-    expect(d.getByName("name")).toEqual(m);
+    expect(d.get("name")).toEquals(m);
+    expect(d.getByName("name")).toEquals(m);
     expect(d.get("aname")).toBeNull();
     expect(d.getByName("aname")).toBeNull();
   });
@@ -70,17 +70,17 @@ describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishe
     expect(l.contains(m2)).toBeTruthy();
   });
 
-  it("should be able to add and remove a Model node into DOM registry", function () {
+  it("has method remove() that will remove a Model node from a DOM registry", function () {
     var d = new jsx3.app.DOM();
     var m = new jsx3.app.Model("name");
     m._jsxid = jsx3.app.DOM.newId("ns1");
     d.add(m);
-    expect(d.get(m._jsxid)).toEqual(m);
+    expect(d.get(m._jsxid)).toEquals(m);
     d.remove(m);
     expect(d.get(m._jsxid)).toBeNull();
   });
 
-  it("should be able to resolve DOM name collision", function () {
+  it("should be able add and resolve DOM name collision", function () {
     var d = new jsx3.app.DOM();
     var m1 = new jsx3.app.Model("name");
     m1._jsxid = jsx3.app.DOM.newId("ns1");
@@ -91,7 +91,7 @@ describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishe
     var m = d.get("name");
     expect(m1.equals(m) || m2.equals(m)).toBeTruthy();
     d.remove(m1);
-    expect(d.get("name")).toEqual(m2);
+    expect(d.get("name")).toEquals(m2);
   });
 
   //Using Spy
@@ -109,7 +109,7 @@ describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishe
     expect(d.get("name2")).toEquals(m1);
   });
 
-  it("should publish an event object with names properties", function () {
+  it("should be able to subscribe to the DOM change event", function () {
     var d = new jsx3.app.DOM();
     var eventCount = 0;
     var eventType = null;
@@ -117,10 +117,11 @@ describe("Registers all DOM nodes in an instance of jsx3.app.Server and publishe
       eventCount++;
       eventType = objEvent.type;
     });
-    d.onChange(jsx3.app.DOM.TYPEADD);
+    d.onChange(jsx3.app.DOM.TYPEADD); // manually trigger TYPEADD change
     expect(eventCount).toEqual(1);
     expect(jsx3.app.DOM.TYPEADD).toEqual(eventType);
-    d.onChange(jsx3.app.DOM.TYPEREMOVE);
+
+    d.onChange(jsx3.app.DOM.TYPEREMOVE); // manually trigger TYPEREMOVE change
     expect(eventCount).toEqual(2);
     expect(jsx3.app.DOM.TYPEREMOVE).toEqual(eventType);
   });
