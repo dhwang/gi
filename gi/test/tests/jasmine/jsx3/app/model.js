@@ -82,7 +82,7 @@ describe("jsx3.app.Model", function () {
     expect(children[0].getPreviousSibling()).toBeNull();
   });
 
-  it("should return an array containing all the child DOM nodes of this object", function () {
+  it("has method getChildren() that should return an array containing all the child nodes", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var children = root.getChildren();
@@ -93,7 +93,7 @@ describe("jsx3.app.Model", function () {
     expect(grandchildren.length).toEqual(0);
   });
 
-  it("getChildren() should return an empty array when there is no children", function () {
+  it("has method getChildren() that should return an empty array when there is no children", function () {
     var o = new jsx3.app.Model("abandoned");
     var children = o.getChildren();
     expect(children).toBeInstanceOf(Array);
@@ -119,7 +119,7 @@ describe("jsx3.app.Model", function () {
     expect(root.getChild(0).getNS()).toEqual(s.getEnv("namespace"));
   });
 
-  it("should return  one of the meta data values stored at the top of the serialization file that this object was loaded from", function () {
+  it("has method getMetaValue() that retunrns the meta data values stored as part of the serialization file", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     expect(root.getMetaValue("name")).toEqual("Component 1");
@@ -158,7 +158,7 @@ describe("jsx3.app.Model", function () {
     expect(root.s3).toBeUndefined();
   });
 
-  it("should find the first child node that is named 'nestedChild", function () {
+  it("has method findDescendants() that should find first child node with a given name as filter", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match = root.findDescendants(function (x) {
@@ -215,7 +215,7 @@ describe("jsx3.app.Model", function () {
     expect(match2.getName()).toEqual("child1");
   });
 
-  it("should return the first ancestor ", function () {
+  it("has method findAncestor() that returns the first ancestor matching given filter function", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.findAncestor(function (x) {
@@ -228,7 +228,7 @@ describe("jsx3.app.Model", function () {
     expect(root.getServer().getRootBlock()).toEqual(match2);
   });
 
-  it("has selectDescendants '#jsxname' that will find child object using the specified #jsxname", function () {
+  it("has method selectDescendants() that will find child object using a CSS3-like #jsxname selector", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child1");
@@ -239,7 +239,7 @@ describe("jsx3.app.Model", function () {
     expect(match3.length).toEqual(0);
   });
 
-  it("has method selecteDescentdant() to select objects from the dom using a css3-like selection syntax", function () {
+  it("has method selecteDescentdant() to select objects from the dom using a CSS3-like selector", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#child2 #child2");
@@ -270,7 +270,7 @@ describe("jsx3.app.Model", function () {
     expect(match1.length).toEqual(3);
   });
 
-  it("should support pseudo selector :first, :last and nth(x) that returns first, last or nth(x) child node", function () {
+  it("should select using pseudo selector :first, :last and nth(x) that returns first, last or nth(x) child node", function () {
     var s = t._server = t.newServer("data/server1.xml", ".");
     var root = s.getBodyBlock().load("data/comp1.xml");
     var match1 = root.selectDescendants("#root > :first");
@@ -390,7 +390,7 @@ describe("jsx3.app.Model", function () {
     var child = new jsx3.app.Model("m2");
     parent.setChild(child);
     expect(parent.getChildren().length).toEqual(1);
-    parent.removeChild(child)
+    parent.removeChild(child);
     expect(parent.getChildren().length).toEqual(0);
   });
 

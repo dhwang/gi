@@ -18,11 +18,27 @@
 		var e = new jsx3.lang.Exception(m);
 		expect(e.getMessage()).toEqual(m);
 	});
-	
+
+  it("should be able to throw exception of this type", function() {
+    expect(function(){
+      throw new jsx3.lang.Exception("test exception");
+    }).toThrowException(jsx3.lang.Exception);
+
+    expect(function(){
+      throw new jsx3.lang.Exception("test exception");
+    }).toThrowException(jsx3.lang.Object);
+
+    expect(function(){
+      throw new jsx3.lang.Exception("test exception");
+    }).toThrowException(Object);
+
+  });
+
 	it("should be able to return the complete call stack from when exception was instantiated as an array of function", function(){
-		var a = function(){throw new jsx3.lang.Exception("test getStack");}
+		var a = function(){throw new jsx3.lang.Exception("test getStack");};
 		var b = function(){ a(); };
 		var c = function(){ b();};
+    var e;
 		try{
 			c();
 		}catch(ex){
@@ -31,7 +47,7 @@
 		expect(e).toBeInstanceOf(jsx3.lang.Exception);
 		var s = e.getStack();
 		expect(s).toBeInstanceOf(Array);
-		expect(s.length>=4).toBeTruthy;
+		expect(s.length>=4).toBeTruthy();
 		expect(s[0]).toEqual(a);
 		expect(s[1]).toEqual(b);
 		expect(s[2]).toEqual(c);
@@ -42,7 +58,7 @@
 		expect(e).toBeInstanceOf(jsx3.lang.Exception);
 	});
 	
-	it("should be able to return a  string representation of the call stack.", function(){
+	it("should be able to return a string representation of the call stack.", function(){
 		var a = function(a,b,c) { throw new jsx3.lang.Exception("test exception"); };
 		function b(y,z) { a(); }
 		var c = function() { b(); };

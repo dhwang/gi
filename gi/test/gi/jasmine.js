@@ -56,12 +56,13 @@ if (!gi.test.jasmine) gi.test.jasmine = new Object();
       this.ie8 = vers >= 8 && vers < 9;
       this.ie9 = vers >= 9;
       this.ie9s = vers >= 9 && document.documentMode >= 9;
+      this.ie10 = vers >= 10;
     }
   };
 
   /* @jsxobf-clobber */
   BrowserDetect._ORDER = [
-      "ie9s", "ie9", "ie8", "ie7", "ie6",
+      "ie10", "ie9s", "ie9", "ie8", "ie7", "ie6",
       "fx4", "fx3", "fx2", "fx1_5",
       "gc1", "sf4", "sf3",
       "op10", "op9",
@@ -87,6 +88,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     ie8:["IE","IE8","VML"],
     ie9:["IE","IE9","VML"],
     ie9s:["IE","IE9","SVG"],
+    ie10:["IE","IE10","SVG"],
     fx1_5:["FX","SVG","GKO"],
     fx2:["FX","FX2","SVG","GKO"],
     fx3:["FX","FX3","SVG","GKO"],
@@ -398,10 +400,39 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     }
   };
 
+  _jasmine.assertThrows = function(expected) {
+    var result = false;
+    var exception;
+    if (typeof this.actual != 'function') {
+      throw new Error('Actual is not a function');
+    }
+    try {
+      this.actual();
+    } catch (e) {
+      exception = e;
+    }
+    if (exception) {
+      result = (expected && (exception instanceof expected));
+    }
+
+    var not = this.isNot ? "not " : "";
+
+    this.message = function() {
+      if (exception && (expected && !(exception instanceof expected))) {
+        return ["Expected function " + not + "to throw a ", (expected && expected.message ? expected.message || expected : "exception"), ", but it threw ", exception.message || exception].join('');
+      } else {
+        return "Expected function to throw an exception.";
+      }
+    };
+
+    return result;
+  };
+
   _jasmine.matchers = {
     toBeInstanceOf: _jasmine.assertInstanceOf,
     toBeTypeOf: _jasmine.assertTypeOf,
-    toEquals: _jasmine.assertEquals
+    toEquals: _jasmine.assertEquals,
+    toThrowException: _jasmine.assertThrows
   };
   // Logging functions
 
