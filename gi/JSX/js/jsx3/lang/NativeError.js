@@ -141,6 +141,8 @@ jsx3.Class.defineClass("jsx3.lang.NativeError", jsx3.lang.Exception, null, funct
       throw new jsx3.IllegalArgumentException("objError", objError);
     
     this._error = objError;
+    if (objError.stack)
+      this._stack_list = String(objError.stack).split(/\n/g);
     this.jsxsuper();
   };
 
@@ -157,6 +159,17 @@ jsx3.Class.defineClass("jsx3.lang.NativeError", jsx3.lang.Exception, null, funct
    * @return {String}
    */
   NativeError_prototype.getFileName = function() {
+    var filename = this._error.sourceURL || this._error.fileName;
+    if (!filename && this._stack_list) {
+      var chromeRegexp = /(.*)\((.*):(\d+):(\d+)\)*$/,
+        safRegexp = /^(.*)@(.*):(\d+)$/;
+      if (!this._fileName && chromeRegexp.exec(this._stack_list[1])) {
+        this._fileName = RegExp.$2;
+      } else if (safRegexp.exec(this._stack_list[0])) {
+        this._fileName = RegExp.$2;
+      }
+      return this._fileName;
+    }
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
     return this._error.sourceURL;
 /* @JSC */ } else {
@@ -169,10 +182,21 @@ jsx3.Class.defineClass("jsx3.lang.NativeError", jsx3.lang.Exception, null, funct
    * @return {int}
    */
   NativeError_prototype.getLineNumber = function() {
+    var line = this._error.line || this._error.lineNumber;
+    if (!line && this._stack_list) {
+      var chromeRegexp = /(.*)\((.*):(\d+):(\d+)\)*$/,
+        safRegexp = /^(.*)@(.*):(\d+)$/;
+      if (!this._lineNumber && chromeRegexp.exec(this._stack_list[1])) {
+        this._lineNumber = parseInt(RegExp.$3, 10);
+      } else if (safRegexp.exec(this._stack_list[0])) {
+        this._lineNumber = parseInt(RegExp.$3, 10);
+      }
+      return this._lineNumber;
+    }
 /* @JSC */ if (jsx3.CLASS_LOADER.SAF) {
     return this._error.line;
 /* @JSC */ } else {
-    return NativeError._convertLineNumber(this._error.lineNumber);
+    return NativeError._convertLineNumber(this._error.lineNumber || 0);
 /* @JSC */ }
   };
 
@@ -228,7 +252,7 @@ jsx3.Class.defineClass("jsx3.lang.NativeError", jsx3.lang.Exception, null, funct
       s += "\nCaused By:\n";
       for (var i = 0; i < lines.length; i++) {
         if (/^([^\(]*)\((.*)\)@(.*):(\d+)$/.exec(lines[i])) {
-          s += "    at " + (RegExp.$1 ? RegExp.$1 : "anonymous") + "(), line:" + RegExp.$4 + ", file:" + RegExp.$3 + "\n"; 
+          s += "    at " + (RegExp.$1 ? RegExp.$1 : "anonymous") + "(), line:" + RegExp.$4 + ", file:" + RegExp.$3 + "\n";
         } else {
           s += lines[i] + "\n";
         }
