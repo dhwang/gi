@@ -13,94 +13,7 @@
 		expect(jsx3.lang.AOP).not.toBeNull();
 	});
 	
-	it("should be able to insert before function call logic", function(){
-		var c1 = false, c2 = false;
-		jsx3.lang.Class.defineClass("test.AOP", null,null ,function(C,P){
-			P.m = function(a,b,c){
-				expect(c2).toBeTruthy();
-				expect(a).toEqual(1);
-				expect(b).toEqual(2);
-				expect(c).toEqual(3);
-				c1 = true;
-			}
-		});
-		
-		jsx3.lang.AOP.pc("testBefore", {classes:"test.AOP", methods:"m"});
-		jsx3.lang.AOP.before("testBefore",function(a, b, c){
-			expect(c1).toBeFalsy();
-			expect(a).toEqual(1);
-			expect(b).toEqual(2);
-			expect(c).toEqual(3);
-			c2 = true;
-		});
-		
-		(new test.AOP()).m(1,2,3);
-		
-		expect(c1).toBeTruthy();
-		expect(c2).toBeTruthy();
-		
-		jsx3.lang.AOP.pcrem("testBefore");
-		delete test.AOP;
-	});
-	
-	it("should be able to insert after function call logic", function(){
-		var c1 = false, c2 = false;
-		expect(test.AOP).not.toBeDefined();
-		jsx3.lang.Class.defineClass("test.AOP", null, null, function(C,P){
-			P.m = function(a, b){
-				expect(c2).toBeFalsy();
-				expect(a).toEqual(1);
-				expect(b).toEqual(2);
-				c1 = true;
-				return 10;
-			};
-		});
-		
-		jsx3.lang.AOP.pc("testAfter",{classes:"test.AOP", methods:"m"});
-		
-		jsx3.lang.AOP.after("testAfter", function(rv, a, b){
-			expect(c1).toBeTruthy();
-			expect(a).toEqual(1);
-			expect(b).toEqual(2);
-			expect(rv).toEqual(10);
-			c2 = true;
-			return 20;
-		});
-		
-		var v = (new test.AOP()).m(1, 2);
-		expect(c1).toBeTruthy();
-		expect(c2).toBeTruthy();
-		expect(v).toEqual(10);
-		
-		jsx3.lang.AOP.pcrem("testAfter");
-		delete test.AOP;
-	});
-	
-	it("should be able to around the function", function(){
-		jsx3.lang.Class.defineClass("test.AOP",null, null, function(C, P){
-			P.m = function(a, b){
-				expect(a).toEqual(1);
-				expect(b).toEqual(5);
-				return 10;
-			}
-		});
-		jsx3.lang.AOP.pc("testAround", {classes:"test.AOP", methods:"m"});
-		jsx3.lang.AOP.around("testAround", function(aop, a, b) {
-			expect(a).toEqual(1);
-			expect(b).toEqual(2);
-			var rv = aop.proceed(a, 5);
-			expect(rv).toEqual(10);
-			return 20;
-		});
-
-		var v = (new test.AOP()).m(1, 2);
-		expect(v).toEqual(20);
-		
-		jsx3.lang.AOP.pcrem("testAround");
-		delete test.C1;
-	});
-	
-	it("should be able to create a new pointcut and remove a pointcut.", function(){
+	it("has method pc() that creates a new pointcut", function(){
 		var c1 = false, c2 = false, c3 = false;
     
 		jsx3.lang.Class.defineClass("test.C1", null, null, function(C, P){
@@ -116,18 +29,91 @@
 		});
 		
 		jsx3.lang.AOP.pc("testSubclass", {classes:"test.C2", methods:"m"});
-		jsx3.lang.AOP.before("testSubclass", function() {
-			c3 = true;
-		});
-		
-		
-		(new test.C2()).m();
+    
+    (new test.C2()).m();
 		expect(c1).toBeFalsy();
 		expect(c2).toBeTruthy();
-		expect(c3).toBeTruthy();
 		
 		jsx3.lang.AOP.pcrem("testSubclass");
 		delete test.C1;
 		delete test.C2;
+	});
+  	
+	it("has method before() that add advice before any call to an instance method of a GI class", function(){
+		var c1 = false, c2 = false;
+		jsx3.lang.Class.defineClass("test.AOP", null,null ,function(C,P){
+			P.m = function(){
+				expect(c2).toBeTruthy();
+				c1 = true;
+			}
+		});
+   
+		jsx3.lang.AOP.pc("testBefore", {classes:"test.AOP", methods:"m"});
+		jsx3.lang.AOP.before("testBefore",function(){
+			expect(c1).toBeFalsy();
+			c2 = true;
+		});
+		
+		(new test.AOP()).m();
+		
+		expect(c1).toBeTruthy();
+		expect(c2).toBeTruthy();
+		
+		jsx3.lang.AOP.pcrem("testBefore");
+		delete test.AOP;
+	});
+	
+	it("has method after() that add advice after any call to an instance method of a GI class", function(){
+		var c1 = false, c2 = false;
+		expect(test.AOP).not.toBeDefined();
+		jsx3.lang.Class.defineClass("test.AOP", null, null, function(C,P){
+			P.m = function(){
+				expect(c2).toBeFalsy();
+				c1 = true;
+				return 10;
+			};
+		});
+		
+		jsx3.lang.AOP.pc("testAfter",{classes:"test.AOP", methods:"m"});
+		
+		jsx3.lang.AOP.after("testAfter", function(rv){
+			expect(c1).toBeTruthy();
+			expect(rv).toEqual(10);
+			c2 = true;
+			return 20;
+		});
+		
+		var v = (new test.AOP()).m();
+		expect(c1).toBeTruthy();
+		expect(c2).toBeTruthy();
+		expect(v).toEqual(10);
+		
+		jsx3.lang.AOP.pcrem("testAfter");
+		delete test.AOP;
+	});
+	
+	it("has method around() that add advice around any call to an instance method of a GI class", function(){
+		jsx3.lang.Class.defineClass("test.AOP",null, null, function(C, P){
+			P.m = function(a, b){
+				expect(a).toEqual(1);
+				expect(b).toEqual(5);
+				return 10;
+			}
+		});
+		jsx3.lang.AOP.pc("testAround", {classes:"test.AOP", methods:"m"});
+		jsx3.lang.AOP.around("testAround", function(aop, a, b) {
+			expect(a).toEqual(1);
+			expect(b).toEqual(2);
+			var rv = aop.proceed(a, 5);
+      //call an instance method
+			expect(rv).toEqual(10);
+			return 20;
+		});
+
+		var v = (new test.AOP()).m(1, 2);
+		expect(v).toEqual(20);
+		
+		jsx3.lang.AOP.pcrem("testAround");
+		delete test.C1;
 	});
  });
