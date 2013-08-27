@@ -13,7 +13,7 @@ describe("jsx3.app.Properties", function () {
     expect(p).toBeInstanceOf(jsx3.app.Properties);
   });
 
-  it("should return the value of a property for a particular key and also be able to set a property in this repository in the global space", function () {
+  it("has method get() and set() that allows setting and getting properties stored in the global space", function () {
     var p = new jsx3.app.Properties();
     expect(p.get("key")).toBeUndefined();
     p.set("key", "value");
@@ -22,7 +22,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key")).toBeUndefined();
   });
 
-  it("should remove a property from this repository", function () {
+  it("has method get() that returns null when explicitly set and undefined otherwise", function () {
     var p = new jsx3.app.Properties();
     expect(p.get("key")).toBeUndefined();
     p.set("key", null);

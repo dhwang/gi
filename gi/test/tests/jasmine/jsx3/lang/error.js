@@ -10,7 +10,7 @@ describe("jsx3.lang.NativeError - wraps the browser-native exception", function(
   it("should be able to create a new NativeError instance", function() {
     expect(function() {
       var e = new jsx3.lang.NativeError({});
-    }).toThrow();
+    }).toThrowException(jsx3.lang.IllegalArgumentException);
   });
 
   it("should be able to initialize error trapping mechanism", function(){

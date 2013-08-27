@@ -128,7 +128,7 @@ describe("jsx3.app.Model", function () {
     var func = function () {
       root.getMetaValue("foobar");
     };
-    expect(func).toThrow();
+    expect(func).toThrowException(jsx3.lang.Exception);
     expect(root.getChild(0).getMetaValue("name")).toEqual("");
   });
 
@@ -347,7 +347,7 @@ describe("jsx3.app.Model", function () {
     var func = function () {
       a.getAncestorOfType("foobar");
     };
-    expect(func).toThrow();
+    expect(func).toThrowException(jsx3.lang.Exception);
   });
 
   it("should find the first descendant of this DOM node with a the given name", function () {
