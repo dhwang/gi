@@ -6,7 +6,7 @@ describe("jsx3.net.URI", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.net.URI.jsxclass");
 
-  it("should be able to retrieve the authority part of an URI.", function () {
+  it("should be able to retrieve the authority part of an URI", function () {
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getAuthority())).toEqual("www.domain.com");
     expect((new jsx3.net.URI("//user@domain.com/path/").getAuthority())).toEqual("user@domain.com");
     expect((new jsx3.net.URI("torrent://domain.com:666/").getAuthority())).toEqual("domain.com:666");
@@ -14,14 +14,14 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("file:/file.txt").getAuthority())).toBeNull();
   });
 
-  it("should be able to retrieve the hash fragment of an URI.", function () {
+  it("should be able to retrieve the hash fragment of an URI", function () {
     expect((new jsx3.net.URI("scheme:ssp#fragment").getFragment())).toEqual("fragment");
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html#fragment").getFragment())).toEqual("fragment");
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html#").getFragment())).toEqual("");
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getFragment())).toBeNull();
   });
 
-  it("should be able to retrieve the domain of an URI.", function () {
+  it("should be able to retrieve the domain of an URI", function () {
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getHost())).toEqual("www.domain.com");
     expect((new jsx3.net.URI("//user@domain.com/path/").getHost())).toEqual("domain.com");
     expect((new jsx3.net.URI("scheme:ssp#fragment").getHost())).toBeNull();
@@ -29,7 +29,7 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("/file.txt").getHost())).toBeNull();
   });
 
-  it("should be able to parse an IPV6 URI.", function () {
+  it("should be able to parse an IPV6 URI", function () {
     expect((new jsx3.net.URI("http://[1080:0:0:0:8:800:200C:4171]/path/file.html").getHost())).toEqual("[1080:0:0:0:8:800:200C:4171]");
     expect((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getHost())).toEqual("[::192.9.5.5]");
     expect((new jsx3.net.URI("//user@[::192.9.5.5]/path/").getPort())).toBeNull();
@@ -37,7 +37,7 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:8080/").getPort())).toEqual(8080);
   });
 
-  it("should be able to retrieve the path of the URI.", function () {
+  it("should be able to retrieve the path of the URI", function () {
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html").getPath())).toEqual(("/path/file.html"));
     expect((new jsx3.net.URI("/file.txt").getPath())).toEqual(("/file.txt"));
     expect((new jsx3.net.URI("/file.txt#fragment").getPath())).toEqual(("/file.txt"));
@@ -58,7 +58,7 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("/file.txt?query#fragment").getQuery())).toEqual("query");
   });
 
-  it("should be able to determine the URI protocol scheme.", function () {
+  it("should be able to determine the URI protocol scheme", function () {
     expect((new jsx3.net.URI("scheme:ssp#fragment").getScheme())).toEqual("scheme");
     expect((new jsx3.net.URI("http://www.domain.com/path/file.html?query").getScheme())).toEqual("http");
     expect((new jsx3.net.URI("C:/file.txt").getScheme())).toEqual("C");
@@ -115,7 +115,7 @@ describe("jsx3.net.URI", function () {
     expect((new jsx3.net.URI("/path/file.txt").isOpaque())).toBeFalsy();
   });
 
-  it("testEquals", function () {
+  it("has method equals() that can compare two URI for equivalence", function () {
     var u = new jsx3.net.URI("http://www.domain.com/path/file.html");
     expect(u.equals(u)).toBeTruthy();
     expect(u.equals(null)).toBeFalsy();
@@ -129,7 +129,7 @@ describe("jsx3.net.URI", function () {
     expect(u.equals(new jsx3.net.URI("/file.html?query#fragment2"))).toBeFalsy();
   });
 
-  it("testValueOf", function () {
+  it("has method valueOf() that returns the string value of the URI", function () {
     var s = "http://www.domain.com/path/file.html";
     var u = jsx3.net.URI.valueOf(s);
     expect(u).toBeInstanceOf(jsx3.net.URI);
@@ -144,12 +144,12 @@ describe("jsx3.net.URI", function () {
     expect(jsx3.net.URI.fromParts(null, "ssp", null).toString()).toEqual("ssp");
   });
 
-  it("testFromParts7", function () {
+  it("has method fromParts() that can construct a new URI from 7 parts (scheme, user, host, port, path, query, fragment)", function () {
     expect("scheme://userInfo@host:81/path?query#fragment").toEqual(
       jsx3.net.URI.fromParts("scheme", "userInfo", "host", 81, "/path", "query", "fragment").toString());
   });
 
-  it("testNormalize", function () {
+  it("has method normalize() that will reduce an equivalent URI to a common form", function () {
     var u = new jsx3.net.URI("http://www.domain.com/path/file.html");
     expect(u == u.normalize()).toBeTruthy();
 
@@ -180,8 +180,8 @@ describe("jsx3.net.URI", function () {
       var u1 = jsx3.net.URI.valueOf(touple[0]);
       var u2 = jsx3.net.URI.valueOf(touple[1]);
       var u3 = jsx3.net.URI.valueOf(touple[2]);
-      expect(u1.resolve(u2)).toEqual(u3);
-    }, "Resolve URI " + touple.join(" -> "));
+      expect(u1.resolve(u2)).toEquals(u3);
+    }, 'resolve URI("' + touple[0] + '").resolve("' + touple[1] + '") = "' + touple[2] + '"');
   }
 
   var relativizeTests = [
@@ -205,7 +205,7 @@ describe("jsx3.net.URI", function () {
       var u2 = jsx3.net.URI.valueOf(touple[1]);
       var u3 = jsx3.net.URI.valueOf(touple[2]);
       expect(u1.relativize(u2)).toEqual(u3);
-    }, "Relativize URI " + touple.join(" -> "));
+    }, 'relativize URI("' + touple[0] + '").relativize("' + touple[1] + '") = "' + touple[2] + '"');
   }
 
 });

@@ -5,7 +5,8 @@
 
 describe("jsx3.app.Properties", function () {
   var _jasmine_test = gi.test.jasmine;
-  _jasmine_test.require("jsx3.app.Properties", "jsx3.util.List", "jsx3.app.PropsBundle", "jsx3.util.Locale", "jsx3.app.Cache");
+  _jasmine_test.require("jsx3.app.Properties", "jsx3.util.List",
+    "jsx3.app.PropsBundle", "jsx3.util.Locale", "jsx3.app.Cache");
   var t = new _jasmine_test.App("jsx3.app.Properties");
 
   it("should be able to instantiate new instance of jsx3.app.Properties", function () {
@@ -74,7 +75,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key2")).toEqual("value2");
   });
 
-  it("testParentsSet", function () {
+  it("should be able to add a parent property repository to this repository. Properties.get() consults all parents before returning", function () {
     var p = new jsx3.app.Properties();
     var p2 = new jsx3.app.Properties();
     p2.set("key2", "value2");
@@ -221,7 +222,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key4")).not.toBeDefined();
   });
 
-  it("testLoadEval", function () {
+  it("should be able to evaluate expressions in loaded properties where eval=1 is specified", function () {
     var d = (new jsx3.xml.Document()).load(t.resolveURI("data/props1.xml"));
     var p = new jsx3.app.Properties();
     p.loadXML(d);
@@ -229,7 +230,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("eval2")).toEqual("2n * 9");
   });
 
-  it("testSpaces1", function () {
+  it("should load properties into the default space", function () {
     var d1 = (new jsx3.xml.Document()).load(t.resolveURI("data/props1.xml"));
     var d2 = (new jsx3.xml.Document()).load(t.resolveURI("data/props2.xml"));
     var p = new jsx3.app.Properties();
@@ -241,7 +242,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key1")).toEqual("value1");
   });
 
-  it("testSpaces2", function () {
+  it("should load properties into the specified space or overwrite default", function () {
     var d1 = (new jsx3.xml.Document()).load(t.resolveURI("data/props1.xml"));
     var d2 = (new jsx3.xml.Document()).load(t.resolveURI("data/props2.xml"));
     var p = new jsx3.app.Properties();
@@ -257,7 +258,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key2")).toEqual("value2");
   });
 
-  it("testSpaces2", function () {
+  it("should load properties into the specified space", function () {
     var d1 = (new jsx3.xml.Document()).load(t.resolveURI("data/props1.xml"));
     var d2 = (new jsx3.xml.Document()).load(t.resolveURI("data/props2.xml"));
     var p = new jsx3.app.Properties();
@@ -270,6 +271,13 @@ describe("jsx3.app.Properties", function () {
     p.loadXML(d1, "space2");
     expect(p.get("key1")).toEqual("value1");
   });
+});
+
+describe("jsx3.app.PropsBundle", function () {
+  var _jasmine_test = gi.test.jasmine;
+  _jasmine_test.require("jsx3.app.Properties", "jsx3.util.List",
+    "jsx3.app.PropsBundle", "jsx3.util.Locale", "jsx3.app.Cache");
+  var t = new _jasmine_test.App("jsx3.app.Properties");
 
   it("should return the locale for which this properties object was created", function () {
     jsx3.app.PropsBundle.clearCache();
@@ -282,7 +290,7 @@ describe("jsx3.app.Properties", function () {
     expect(p2.getLocale()).toEqual(l2);
   });
 
-  it("testLocaleDefault", function () {
+  it("should be able to load locale properties of default Locale", function () {
     jsx3.app.PropsBundle.clearCache();
     var p = jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale());
     expect(p).toBeInstanceOf(jsx3.app.Properties);
@@ -291,7 +299,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key3")).toEqual("key3_default");
   });
 
-  it("testLocaleUnavailable", function () {
+  it("should be able to load locale properties of given Locale, even if it's unavailable", function () {
     jsx3.app.PropsBundle.clearCache();
     var p = jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("es"));
     expect(p).toBeInstanceOf(jsx3.app.Properties);
@@ -300,7 +308,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key3")).toEqual("key3_default");
   });
 
-  it("testLocaleFallThrough1", function () {
+  it("should be able to fall back to default locale properties", function () {
     jsx3.app.PropsBundle.clearCache();
     var p = jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("en"));
     expect(p).toBeInstanceOf(jsx3.app.Properties);
@@ -310,7 +318,7 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key4")).toEqual("key4_default");
   });
 
-  it("testLocaleFallThrough2", function () {
+  it("should be able to fall back to default locale properties of specific country", function () {
     jsx3.app.PropsBundle.clearCache();
     var p = jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("en", "US"));
     expect(p).toBeInstanceOf(jsx3.app.Properties);
@@ -320,14 +328,14 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key4")).toEqual("key4_default");
   });
 
-  it("testLocaleCache1", function () {
+  it("should be able to get locale properties from file", function () {
     jsx3.app.PropsBundle.clearCache();
     var p1 = jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("en"));
     var p2 = jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("en"));
     expect(p1).toEqual(p2);
   });
 
-  it("testLocaleCache2", function () {
+  it("should be able to get locale properties from file into Cache", function () {
     jsx3.app.PropsBundle.clearCache();
     var cache = new jsx3.app.Cache();
     var url = t.resolveURI("data/lprops.xml");
@@ -337,7 +345,7 @@ describe("jsx3.app.Properties", function () {
     expect(doc).toBeInstanceOf(jsx3.xml.Document);
   });
 
-  it("testSingleFile", function () {
+  it("should be able to load single locale properties file", function () {
     jsx3.app.PropsBundle.clearCache();
     var uri = t.resolveURI("data/lprops2.xml");
     var p = null;
@@ -355,15 +363,15 @@ describe("jsx3.app.Properties", function () {
     expect(p.get("key1")).toEqual("value_es_ES");
   });
 
-  it("testLocaleError", function () {
+  it("has method getProps() that should throw error when the specified locale properties cannot be loaded", function () {
     jsx3.app.PropsBundle.clearCache();
     var func = function () {
       jsx3.app.PropsBundle.getProps(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("de"));
     };
-    expect(func).toThrow();
+    expect(func).toThrowException(jsx3.lang.Exception);
   });
 
-  it("testLocalegetPropsFT", function () {
+  it("has method getPropsFT() that try to load the bundle for the root locale and if there is an error", function () {
     jsx3.app.PropsBundle.clearCache();
     var p = jsx3.app.PropsBundle.getPropsFT(t.resolveURI("data/lprops.xml"), new jsx3.util.Locale("de"));
     expect(p.get("key1")).toEqual("key1_default");
