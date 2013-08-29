@@ -11,7 +11,7 @@ describe("jsx3.util.Logger", function() {
   it("should be able to add a handler to this logger", function(){
     var logger = new jsx3.util.Logger();
     expect(logger).toBeInstanceOf(jsx3.util.Logger);
-    expect(logger._handler).not.toBeDefined()
+    expect(logger._handler).not.toBeDefined();
     var objHandler = jsx3.util.Logger.Handler;
     logger.addHandler(objHandler);
     expect(logger._handler).not.toBeNull();

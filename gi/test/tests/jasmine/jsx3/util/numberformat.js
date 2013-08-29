@@ -2,7 +2,7 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
- describe("jsx3.util.NumberFormat", function(){
+describe("jsx3.util.NumberFormat", function(){
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.util.NumberFormat");
 
@@ -16,18 +16,18 @@
     f = jsx3.util.NumberFormat.getPercentInstance();
     expect(f).toBeInstanceOf(jsx3.util.NumberFormat);
   });
-  
+
   it("should format NaN number as NaN", function(){
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.US);
     expect(f.format(Number.NaN)).toEqual("NaN");
   });
-  
+
   it("should be able to format infinity into the infinity sign", function(){
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.US);
     expect(f.format(Number.POSITIVE_INFINITY)).toEqual("\u221E");
     expect(f.format(Number.NEGATIVE_INFINITY)).toEqual("-\u221E");
   });
-  
+
   it("should has max int digit", function(){
     var f = new jsx3.util.NumberFormat("###0",jsx3.util.Locale.US);
     expect(f.format(1)).toEqual("1");
@@ -36,7 +36,7 @@
     expect(f.format(999)).toEqual("999");
     expect(f.format(10000)).toEqual("10000");
   });
-  
+
   it("format 0000 will keep number padded to 4 digit with 0.", function(){
     var f = new jsx3.util.NumberFormat("0000", jsx3.util.Locale.US);
     expect(f.format(1)).toEqual("0001");
@@ -45,7 +45,7 @@
     expect(f.format(4000)).toEqual("4000");
     expect(f.format(50000)).toEqual("50000");
   });
-  
+
   it("floating point number will have at least 1 digit before and after the decimal with format 0.0## ", function(){
     var f = new jsx3.util.NumberFormat("0.0##",jsx3.util.Locale.US);
     expect(f.format(1)).toEqual("1.0");
@@ -55,7 +55,7 @@
     expect(f.format(4.444)).toEqual("4.444");
     expect(f.format(5.5555)).toEqual("5.556");
   });
-  
+
   it("format 0.00## will format number to at least 2 digits after decimal", function(){
     var f = new jsx3.util.NumberFormat("0.00##", jsx3.util.Locale.US);
     expect(f.format(1)).toEqual("1.00");
@@ -63,9 +63,9 @@
     expect(f.format(3.333)).toEqual("3.333");
     expect(f.format(4.4444)).toEqual("4.4444");
     expect(f.format(5.55555)).toEqual("5.5556");
-    
+
   });
-  
+
   it("should be able to format percent.", function(){
     var f =new jsx3.util.NumberFormat("0%", jsx3.util.Locale.US);
     expect(f.format(0.01)).toEqual("1%");
@@ -74,14 +74,14 @@
     expect(f.format(.998)).toEqual("100%");
     expect(f.format(11)).toEqual("1100%");
   });
-  
+
   it("should be able to format currency", function(){
     var f = new jsx3.util.NumberFormat("$0.00", jsx3.util.Locale.US);
     expect(f.format(1)).toEqual("$1.00");
     expect(f.format(1.22)).toEqual("$1.22");
     expect(f.format(2.5)).toEqual("$2.50");
   });
-  
+
   it("should be able to add an arbitrary prefix character to a number format", function(){
     var f = new jsx3.util.NumberFormat("'#'0",jsx3.util.Locale.US);
     expect(f.format(0)).toEqual("#0");
@@ -91,7 +91,7 @@
     f = new jsx3.util.NumberFormat("''00", jsx3.util.Locale.US);
     expect(f.format(2)).toEqual("'02");
   });
-  
+
   it("should be able to format suffix", function(){
     var f = new jsx3.util.NumberFormat("0'.#'", jsx3.util.Locale.US);
     expect(f.format(1)).toEqual("1.#");
@@ -100,7 +100,7 @@
     f = new jsx3.util.NumberFormat("'-'0'-'", jsx3.util.Locale.US);
     expect(f.format(2)).toEqual("-2-");
   });
-  
+
   it("should be able to format negative",function() {
     var f = new jsx3.util.NumberFormat("0;(0)", jsx3.util.Locale.US);
     expect("1").toEqual(f.format(1));
@@ -112,7 +112,7 @@
     expect("-1").toEqual(f.format(1));
     expect("1").toEqual(f.format(-1));
   });
-  
+
   it("should be able to add grouping character with #,### ",function() {
     var f = new jsx3.util.NumberFormat("#,###", jsx3.util.Locale.US);
     expect("1").toEqual(f.format(1));
@@ -124,7 +124,7 @@
     f = new jsx3.util.NumberFormat("##,##.000", jsx3.util.Locale.US);
     expect("1,00.000").toEqual(f.format(100));
   });
-  
+
   it("should be able to format decimal place",function() {
     var f = new jsx3.util.NumberFormat("0", jsx3.util.Locale.US);
     expect("1").toEqual(f.format(1));
@@ -136,7 +136,7 @@
     expect("3").toEqual(f.format(3));
     expect("3.4").toEqual(f.format(3.4));
   });
-  
+
   it("should be able to format grouping Es",function() {
     var f = new jsx3.util.NumberFormat("#,###", jsx3.util.Locale.valueOf("es"));
     expect("100").toEqual(f.format(100));
@@ -144,14 +144,14 @@
     expect("1.000.000").toEqual(f.format(1000000));
     expect("1.001").toEqual(f.format(1000.5));
   });
-  
+
   it("should be able to format decimal place Es",function() {
     var f = new jsx3.util.NumberFormat("#,##0.#", jsx3.util.Locale.valueOf("es"));
     expect("3").toEqual(f.format(3));
     expect("3,4").toEqual(f.format(3.4));
     expect("3.000,4").toEqual(f.format(3000.4));
   });
-  
+
   it("should be able to format decimal ",function() {
     var nf = new jsx3.util.NumberFormat ('0.00');
     expect("99999.10").toEqual(nf.format(99999.10));
@@ -159,7 +159,7 @@
     expect("9999.10").toEqual(nf.format(9999.1));
     expect("89999999.10").toEqual(nf.format(89999999.10));
   });
-  
+
   it("should throw errors",function() {
     expect(function(){
       return new jsx3.util.NumberFormat();
@@ -174,12 +174,12 @@
       return new jsx3.util.NumberFormat("0.000,000");
     }).toThrow();
   });
-  
+
   it("should be able to parse NaN", function() {
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.US);
     expect(f.parse("NaN"));
   });
-  
+
   it("should be able to parse infinity", function(){
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.US);
     expect(f.parse("\u221E")).toEqual(Number.POSITIVE_INFINITY);
@@ -190,15 +190,15 @@
     expect(!isFinite(f.parse("-\u221E"))).toBeTruthy();
     expect(f.parse("-\u221E") < 0).toBeTruthy();
   });
-  
+
   it("should be able to parse negative", function(){
     var f = jsx3.util.NumberFormat.getNumberInstance(jsx3.util.Locale.US);
     expect(f.parse("-1")).toEqual(-1);
     expect(f.parse("-0")).toEqual(-0);
     expect(f.parse("1")).toEqual(1);
   });
-  
-  
+
+
   it("should be able to parse percent",function() {
     var f = new jsx3.util.NumberFormat("0%", jsx3.util.Locale.US);
     expect(f.parse("1%")).toEqual(.01);
@@ -278,5 +278,5 @@
     var f = jsx3.util.NumberFormat.getNumberInstance();
     expect(f.format(0)).toEqual("0");
   });
-  
- })
+
+})

@@ -4,9 +4,9 @@
  */
 
 describe("jsx3.util", function() {
-	var _jasmine_test = gi.test.jasmine;
-	_jasmine_test.require("jsx3.util.jsxpackage");
-	
+  var _jasmine_test = gi.test.jasmine;
+  _jasmine_test.require("jsx3.util.jsxpackage");
+
   it("should be able to calculate number a mod b",function() {
     expect(jsx3.util.numMod(1, 4)).toEqual(1);
     expect(jsx3.util.numMod(5, 4)).toEqual(1);
