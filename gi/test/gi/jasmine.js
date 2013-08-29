@@ -93,9 +93,9 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     fx2:["FX","FX2","SVG","GKO"],
     fx3:["FX","FX3","SVG","GKO"],
     fx4:["FX","FX4","SVG","GKO"],
-    gc1:["SAF","SAF4","SVG","KON","GOG"],
-    sf3:["SAF","SAF3","SVG","KON"],
-    sf4:["SAF","SAF4","SVG","KON"]
+    gc1:["SAF","SAF4","SVG","WBK","GOG"],
+    sf3:["SAF","SAF3","SVG","WBK"],
+    sf4:["SAF","SAF4","SVG","WBK"]
   };
 
   _jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
@@ -267,7 +267,6 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
         _jasmine._waiting.push(arguments[i]);
       }
     }
-
   };
 
   _jasmine._doneLoadingJSX30 = function(strSrc) {
@@ -284,15 +283,15 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     }
 
     _jasmine._tryLoadLogger();
-
-    for (i = 0; _jasmine._waiting && i < _jasmine._waiting.length; i++) {
+    var _waiting = _jasmine._waiting;
+    for (i = 0; _waiting && i < _waiting.length; i++) {
       try {
-        if (eval(_jasmine._waiting[i]) != null)
-          _jasmine._waiting.splice(i--, 1);
+        if (eval(_waiting[i]) != null)
+          _waiting.splice(i--, 1);
       } catch (e) {}
     }
 
-//    if (console) console.log("Loaded " + strSrc + ". Still waiting for [" + jasmine._waiting + "]");
+    //if (console) console.log("Loaded " + strSrc + ". Still waiting for [" + _jasmine._waiting + "]");
 
     if (_jasmine._jsxbaseclasses == null) {
       _jasmine._jsxbaseclasses = jsx3.lang.ClassLoader.SYSTEM_SCRIPTS.concat();
@@ -308,7 +307,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
 
     }
 
-    if (_jasmine._waiting && _jasmine._waiting.length > 0) {
+    if (_waiting && _waiting.length > 0) {
       if (_jasmine._jsxbaseclasses.length > 0) {
         var nextPath = _jasmine._jsxbaseclasses.shift();
         // HACK: without timeout was causing stack overflow on Safari
@@ -316,10 +315,10 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
           _jasmine.loadScript(jsx3.CLASS_LOADER.resolvePath(_jasmine.JSX_JS_BASE + nextPath), _jasmine._doneLoadingJSX30);
         }, 0);
       } else {
-        for (i = 0; i < _jasmine._waiting.length; i++) {
+        for (i = 0; i < _waiting.length; i++) {
           try {
-            if (console) console.log("Requiring class " + _jasmine._waiting[i] + "...");
-            jsx3.require(_jasmine._waiting[i]);
+            if (console) console.log("_doneLoadingJSX30 Requiring class " + _jasmine._waiting[i] + "...");
+            jsx3.require(_waiting[i]);
           } catch (e) {
             _jasmine.warn("Could not load class " + _jasmine._waiting[i] + ": " + e);
           }

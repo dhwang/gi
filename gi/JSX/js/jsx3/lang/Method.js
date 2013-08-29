@@ -31,6 +31,7 @@ window._jsxtmp = function(Method, Method_prototype) {
   Method_prototype._initParams = function() {
     if (Method._PARAMS.exec(this.getFunction().toString())) {
       var params = RegExp.$2;
+      params = params.replace(/\n*\/\*.*\*\//m, ""); // remove comment in code
       this._params = params ? params.split(/\s*,\s*/) : [];
     } else {
       this._params = [];
