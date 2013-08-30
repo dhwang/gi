@@ -106,7 +106,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r).toBeNull();
   });
 
-  it("should insert a new record into the XML data source of this object", function () {
+  it("should insert a new record node using a XML node object", function () {
     var cdf = newCDF("data/cdf1.xml");
     var e = cdf.createNode(jsx3.xml.Entity.TYPEELEMENT, "record");
     e.setAttribute("jsxid", "6");
@@ -117,7 +117,7 @@ describe("jsx3.xml.CDF", function () {
     expect(r.getAttribute("jsxtext")).toEqual("F");
   });
 
-  it("should insert a new record into the XML data source of this object", function () {
+  it("should fail to insert a new record node using a regular object", function () {
     var cdf = newCDF("data/cdf1.xml");
     var func = function () {
       cdf.insertRecordNode({jsxid: "6", jsxtext: "F"});
