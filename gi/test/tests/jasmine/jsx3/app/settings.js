@@ -65,7 +65,7 @@ describe("jsx3.app.Settings", function () {
     expect(v[2]).toEqual("three");
   });
 
-  it("should return a stored setting value of type object from the loaded xml", function () {
+  it("should return an object.property map", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("anObject");
     expect(v).not.toBeUndefined();
@@ -77,7 +77,7 @@ describe("jsx3.app.Settings", function () {
 
   });
 
-  it("testGetMapProp", function () {
+  it("should return a property of an object.property map", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     var v = s.get("anObject", "string1");
     expect(v).toBeTypeOf("string");
@@ -86,27 +86,29 @@ describe("jsx3.app.Settings", function () {
     expect(v).toBeUndefined();
   });
 
-  it("should remove a stored setting value from the loaded xml", function () {
+  it("should remove a property from a map object.property", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.remove("number");
     expect(s.get("number")).toBeUndefined();
+
     s.remove("anObject", "string2");
     var v = s.get("anObject");
-    expect(v).not.toBeUndefined();
-    expect(v).not.toEqual(null);
+    expect(v).not.toBeNull();
     expect(v).toBeTypeOf("object");
     expect(v.string1).toEqual("one");
     expect(v.string2).toBeUndefined();
   });
 
-  it("should remove a stored setting value from the loaded xml", function () {
+  it("should remove a property from a map object.property cache", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.get("number");
     s.remove("number");
+
     expect(s.get("number")).toBeUndefined();
     s.get("anObject");
     s.remove("anObject", "string2");
     var v = s.get("anObject");
+
     expect(v).not.toBeUndefined();
     expect(v).not.toEqual(null);
     expect(v).toBeTypeOf("object");
@@ -114,34 +116,34 @@ describe("jsx3.app.Settings", function () {
     expect(v.string2).toBeUndefined();
   });
 
-  it("should set a stored setting value of type Number", function () {
+  it("should set a setting value of type Number", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
+
     s.set("newNumber", 1979);
     var v = s.get("newNumber");
-    expect(s.getNode().toString()).toBeTypeOf("string");
+
     expect(v).toBeTypeOf("number");
-    expect(s.get("newNumber").toString()).toEqual('1979');
     expect(v).toEqual(1979);
   });
 
-  it("testSetNumberCache", function () {
+  it("should set a setting value cache of type Number", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
+
     s.get("newNumber");
     s.set("newNumber", 1979);
     var v = s.get("newNumber");
-    expect(s.getNode().toString()).toBeTypeOf("string");
+
     expect(v).toBeTypeOf("number");
-    expect(s.get("newNumber").toString()).toEqual('1979');
     expect(v).toEqual(1979);
   });
 
-  it("should set a stored setting value of type String", function () {
+  it("should set a setting value of type String", function () {
     var s = new jsx3.app.Settings(new jsx3.xml.Document().load(t.resolveURI("data/settings1.xml")));
     s.set("newString", "2010");
     var v = s.get("newString");
-    expect(s.getNode().toString()).toBeTypeOf("string");
+
     expect(v).toBeTypeOf("string");
-    expect(s.get("newString").toString()).toEqual('2010');
+    expect(v).toEqual("2010")
   });
 
 });

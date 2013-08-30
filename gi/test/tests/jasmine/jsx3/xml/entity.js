@@ -551,7 +551,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getChildNodes().get(0).getNodeName()).toEqual("a");
   });
 
-  it("should load two xml docs ,set and remove each of their attributes and test the same", function () {
+  it("should copy an attribute by getting from source, setting in target and remove form original doc", function () {
     var d1 = new jsx3.xml.Document().loadXML('<data a="v"/>');
     var d2 = new jsx3.xml.Document().loadXML("<data/>");
     expect(d1.getAttribute("a")).toEqual("v");
@@ -563,7 +563,7 @@ describe("jsx3.xml.Entity", function () {
     expect(d2.getAttribute("a")).toEqual("v");
   });
 
-  it("should load 2 xml docs,append a new node to the second doc and test their childNodes and attributes", function () {
+  it("should append a new node to the second doc and get their childNodes and attributes", function () {
     var d1 = new jsx3.xml.Document().loadXML('<data><record/></data>');
     var d2 = new jsx3.xml.Document().loadXML("<data/>");
     var n = d1.getChildNodes().get(0);
@@ -587,7 +587,7 @@ describe("jsx3.xml.Entity", function () {
   });
 
   // SEE: http://www.generalinterface.org/bugs/browse/GI-536
-  it("testEmptyNamespace", function () {
+  it("should be able to handle empty namespace, see bug GI-536", function () {
     var d, l;
     d = (new jsx3.xml.Document()).loadXML("<data/>");
     d.getRootNode().appendChild(d.createNode(jsx3.xml.Entity.TYPEELEMENT, 'record', ''));

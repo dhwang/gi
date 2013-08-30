@@ -25,7 +25,7 @@ describe("jsx3.xml.CDF", function () {
     expect(xml.selectNodes("//record").size() >= 5).toBeTruthy();
   });
 
-  it("testAssignIds", function () {
+  it("has method assignIds that will apply unique jsxid attribute to all record nodes", function () {
     var cdf = newCDF("data/cdf1.xml");
     cdf.assignIds();
     var xml = cdf.getXML();
@@ -156,7 +156,7 @@ describe("jsx3.xml.CDF", function () {
     cdf.deleteRecordProperty("2a", "jsxtext");
   });
 
-  it("testGetKey", function () {
+  it("has method getKey() that generates a unique key value", function () {
     var k1 = jsx3.xml.CDF.getKey();
     expect(k1).toBeTypeOf("string");
     var k2 = jsx3.xml.CDF.getKey();
@@ -237,14 +237,14 @@ describe("jsx3.xml.CDF", function () {
     expect(cdf.getRootNode().toString()).toEqual(clone.getRootNode().toString());
   });
 
-  it("testWrapDoc", function () {
+  it("should be able to wrap a Document as a CDF.Document", function () {
     var doc = (new jsx3.xml.Document()).load(t.resolveURI("data/cdf1.xml"));
     var cdf = jsx3.xml.CDF.Document.wrap(doc);
     expect(cdf).toBeInstanceOf(jsx3.xml.CDF.Document);
     expect(doc.toString()).toEqual(cdf.toString());
   });
 
-  it("testWrapDocMutable", function () {
+  it("should be able to mutate the wrapped CDF.Document nodes", function () {
     var doc = (new jsx3.xml.Document()).load(t.resolveURI("data/cdf1.xml"));
     var cdf = jsx3.xml.CDF.Document.wrap(doc);
     doc.selectSingleNode("//record[@jsxid='5']").setAttribute("n1", "v1");
@@ -258,7 +258,6 @@ describe("jsx3.xml.CDF", function () {
     expect(expIds[1]).toEqual(ids[1]);
     expect(expIds[3]).toEqual(ids[3]);
     expect(expIds[4]).toEqual(ids[4]);
-    var arr = ids;
     expect(ids).toEqual(expIds);
   });
 });
