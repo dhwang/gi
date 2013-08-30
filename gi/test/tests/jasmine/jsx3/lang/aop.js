@@ -13,7 +13,7 @@ describe("jsx3.lang.AOP;The AOP class allows aspect oriented programming techniq
 		expect(jsx3.lang.AOP).not.toBeNull();
 	});
 	
-	it("has method pc() that creates a new pointcut", function(){
+	it("has method before() to add an advice prior to an instance method", function(){
 		var c1 = false, c2 = false;
 		jsx3.lang.Class.defineClass("test.AOP", null,null ,function(C,P){
 			P.m = function(a,b,c){
@@ -43,7 +43,7 @@ describe("jsx3.lang.AOP;The AOP class allows aspect oriented programming techniq
 		delete test.AOP;
 	});
 	
-	it("has method after() that add advice after any call to an instance method of a GI class", function(){
+	it("has method after() that add advice after an instance method", function(){
 		var c1 = false, c2 = false;
 		expect(test.AOP).not.toBeDefined();
 		jsx3.lang.Class.defineClass("test.AOP", null, null, function(C,P){
@@ -76,7 +76,7 @@ describe("jsx3.lang.AOP;The AOP class allows aspect oriented programming techniq
 		delete test.AOP;
 	});
 	
-	it("has method around() that add advice around any call to an instance method of a GI class", function(){
+	it("has method around() that add advice around an instance method", function(){
 		jsx3.lang.Class.defineClass("test.AOP",null, null, function(C, P){
 			P.m = function(a, b){
 				expect(a).toEqual(1);
@@ -100,7 +100,7 @@ describe("jsx3.lang.AOP;The AOP class allows aspect oriented programming techniq
 		delete test.C1;
 	});
 	
-	it("should be able to create new point cut and before method before an inherited method", function(){
+	it("should be able to create a new point cut and add advice before an inherited method", function(){
 		var c1 = false, c2 = false, c3 = false;
     
 		jsx3.lang.Class.defineClass("test.C1", null, null, function(C, P){
