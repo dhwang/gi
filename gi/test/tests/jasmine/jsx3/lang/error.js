@@ -7,7 +7,7 @@ describe("jsx3.lang.NativeError - wraps the browser-native exception", function(
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.lang.NativeError", "jsx3.util.jsxpackage");
 
-  it("should be able to create a new NativeError instance", function() {
+  it("should throw an exception when constructor argument is not an Error", function() {
     expect(function() {
       var e = new jsx3.lang.NativeError({});
     }).toThrowException(jsx3.lang.IllegalArgumentException);
