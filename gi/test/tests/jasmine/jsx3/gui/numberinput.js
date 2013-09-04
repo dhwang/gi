@@ -12,7 +12,7 @@ describe("jsx3.gui.NumberInput", function(){
     expect(nin.parseValue("1,234.56")).toEqual(1234.56);
   });
 
-  it("has method formatValue() to format the value before displaying it in the onscreen input box.", function(){
+  it("has method formatValue() to format the value before displaying it in the onscreen input box", function(){
     var nin = new jsx3.gui.NumberInput();
     expect(nin.formatValue(1234.56)).toEqual("1,234.56");
   });
