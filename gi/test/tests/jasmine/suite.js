@@ -36,7 +36,7 @@ var specs = [
   "jsx3/util/dateformat.js", "jsx3/util/locale.js", "jsx3/util/numberformat.js", "jsx3/util/messageformat.js",
 
   /* GUI suite */
-  "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js"
+  "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js", "jsx3/gui/block.js"
 
 ];
 
