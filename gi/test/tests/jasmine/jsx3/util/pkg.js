@@ -104,7 +104,7 @@ describe("jsx3.util", function() {
     expect(jsx3.util.arrIndexOf(l, new Object())).toEqual(-1);
   });
 
-  it("should be able to compare Cersions", function() {
+  it("has method compareVersions() that can compare two version strings", function() {
     expect(jsx3.util.compareVersions("1", "1")).toEqual(0);
     expect(jsx3.util.compareVersions("1.1", "1.1")).toEqual(0);
     expect(jsx3.util.compareVersions("1.1", "1.1.0")).toEqual(0);
