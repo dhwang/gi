@@ -317,7 +317,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
       } else {
         for (i = 0; i < _waiting.length; i++) {
           try {
-            if (console) console.log("_doneLoadingJSX30 Requiring class " + _jasmine._waiting[i] + "...");
+            if (console) console.log("jsx3 requiring class " + _jasmine._waiting[i] + "...");
             jsx3.require(_waiting[i]);
           } catch (e) {
             _jasmine.warn("Could not load class " + _jasmine._waiting[i] + ": " + e);

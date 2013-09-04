@@ -5,7 +5,7 @@
 describe("jsx3.net.Form", function () {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.net.Form");
-  var t = new _jasmine_test.App("jsx3.net.Form");
+  var f, t = new _jasmine_test.App("jsx3.net.Form");
   var ACTION = _jasmine_test.HTTP_BASE + "/formdata.cgi";
 
   it("should return the HTTP method of this form.", function () {
@@ -357,7 +357,7 @@ describe("jsx3.net.Form", function () {
 
   if (_jasmine_test.NETWORK)
     it("should timeout and generate a ON_TIMEOUT event", function () {
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
       f.setField("field", "value");
       var evt = {}, spec = this;
       f.subscribe(jsx3.net.Form.EVENT_ON_RESPONSE, function (objEvent) {
@@ -386,7 +386,7 @@ describe("jsx3.net.Form", function () {
   if (_jasmine_test.NETWORK)
     it("should receive no event object when abort() is called before response is received", function () {
       var abort = null, objEvent = null, spec = this;
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, _jasmine_test.HTTP_BASE + "/timeout.cgi", false);
       f.setField("field", "value");
       var onDone = function () {
         _jasmine_test.debug("form.abort() onDone " + f);
@@ -414,7 +414,7 @@ describe("jsx3.net.Form", function () {
 
   if (_jasmine_test.NETWORK)
     it("should be able to send and receive using Form", function () {
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
       f.setField("field", "value");
       var rec = null, spec = this;
       f.subscribe("*", function (objEvent) {
@@ -439,7 +439,7 @@ describe("jsx3.net.Form", function () {
 
   if (_jasmine_test.NETWORK)
     it("should be able to send and receive text content", function () {
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, t.resolveURI("data/req.txt"), false);
       var text = null, spec = this;
       f.subscribe("*", function (objEvent) {
         if (objEvent.subject == jsx3.net.Form.EVENT_ON_RESPONSE) {
@@ -455,13 +455,14 @@ describe("jsx3.net.Form", function () {
 
       runs(function () {
         expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy();
+        f.destroy();
       });
     });
   //t.testReceiveText._skip_unless = "NETWORK";
 
   if (_jasmine_test.NETWORK)
     it("should be able to preserve white space posted and received.", function () {
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
       var value = " \t value\n\n";
       f.setField("field", value);
       var rec = null, spec = this;
@@ -487,7 +488,7 @@ describe("jsx3.net.Form", function () {
 
   if (_jasmine_test.NETWORK)
     it("should be able to send and receive XML content", function () {
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
       var value1 = "<some>&xml &lt;";
       f.setField("field1", value1);
       var rec = null, spec = this;
@@ -514,7 +515,7 @@ describe("jsx3.net.Form", function () {
   //Can't get this one to work between all the browsers without Accept-Language=zh and our server...
   if (_jasmine_test.NETWORK)
     xit("should be able to send and receive Utf8 content", function () {
-      var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
+      f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
       var value1 = "\u3CC4", rec = null, spec = this;
       f.setField("field1", value1);
       f.subscribe("*", function (objEvent) {
@@ -537,4 +538,10 @@ describe("jsx3.net.Form", function () {
         })).toEquals(value1);
       });
     });
+
+  afterEach(function () {
+    if (f) {
+      f.destroy();
+    }
+  })
 });

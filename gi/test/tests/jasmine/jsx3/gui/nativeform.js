@@ -52,7 +52,6 @@ describe("jsx3.gui.NativeForm", function(){
     form.setAction(form.getUriResolver().relativizeURI(ACTION, true));
     form.subscribe("jsxdata", function(){
       doc = form.getResponseXML();
-      _jasmine_test.debug(doc);
     });
     form.submit();
 
@@ -64,6 +63,7 @@ describe("jsx3.gui.NativeForm", function(){
       expect(doc.hasError()).toBeFalsy();
       expect(doc.getNodeName()).toEqual("data");
       expect(doc.selectSingleNode("record[@jsxid='select']").getValue()).toEqual("1");
+      form.reset();
     });
   });
 
