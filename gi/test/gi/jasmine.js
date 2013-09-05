@@ -54,7 +54,7 @@ if (!gi.test.jasmine) gi.test.jasmine = new Object();
       this.ie6 = vers >= 6 && vers < 7;
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
-      this.ie9 = vers >= 9;
+      this.ie9 = vers >= 9 && vers < 10;
       this.ie9s = vers >= 9 && document.documentMode >= 9;
       this.ie10 = vers >= 10;
     }
