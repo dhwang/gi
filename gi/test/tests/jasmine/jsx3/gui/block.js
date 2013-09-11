@@ -242,17 +242,26 @@ describe("jsx3.gui.Block", function(){
   });
     
   it("the width childNode should less than parentNode if the parentNode set padding or the childNode set border", function(){
-    expect(block2.getRendered().childNodes[1].firstChild.style.width).toBeLessThan(block2.getRendered().childNodes[1].style.width);
+     expect(block2.getRendered().childNodes[1].firstChild.style.width).toBeLessThan(block2.getRendered().childNodes[1].style.width);
      block2.getChild(1).setPadding("10,10,10,10",true);
-     block2.getChild(1).getChild(0)setBorder("border:none",true);
-    expect(block2.getRendered().childNodes[1].firstChild.offsetWidth+20).toEqual(block2.getRendered().childNodes[1].offsetWidth);    
-  });  
+     block2.getChild(1).getChild(0).setBorder("border:none",true);
+     block2.getChild(1).setBorder("border:none",true);
+     expect(block2.getRendered().childNodes[1].firstChild.offsetWidth+20).toEqual(block2.getRendered().childNodes[1].offsetWidth);     
+  }); 
 
   it("the height childNode should less than parentNode if the parentNode set padding or the childNode set border", function(){
-    expect(block2.getRendered().childNodes[1].firstChild.style.height).toBeLessThan(block2.getRendered().childNodes[1].style.height);
+     expect(block2.getRendered().childNodes[1].firstChild.style.height).toBeLessThan(block2.getRendered().childNodes[1].style.height);
      block2.getChild(1).setPadding("10,10,10,10",true);
-     block2.getChild(1).getChild(0)setBorder("border:none",true);
-    expect(block2.getRendered().childNodes[1].firstChild.offsetHeight+20).toEqual(block2.getRendered().childNodes[1].offsetHeight);    
-  });
-                                        
+     block2.getChild(1).getChild(0).setBorder("border:none",true);
+     block2.getChild(1).setBorder("border:none",true);
+     expect(block2.getRendered().childNodes[1].firstChild.offsetHeight+20).toEqual(block2.getRendered().childNodes[1].offsetHeight);    
+  });  
+  
+  it("test the range", function(){
+     block2.getChild(0).setMargin("0,10,10,10",true);
+     block2.getChild(1).setMargin("0,10,10,10",true);
+     block2.getChild(0).setBorder("border:none",true);
+     block2.getChild(1).setBorder("border:none",true);
+     expect(block2.getRendered().childNodes[0].offsetTop + block2.getRendered().childNodes[0].offsetHeight + 10).toEqual(block2.getRendered().childNodes[1].offsetTop);    
+  });                                           
 });
