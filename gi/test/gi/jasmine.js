@@ -197,6 +197,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     this._prefix = tokens.join("_");
     tokens.pop();
     this._path = tokens.join("/") + "/";
+    this._id = this.getPrefix()+document.body.childNodes.length;
   };
 
   _jasmine.App.prototype.getPrefix = function() {
@@ -225,12 +226,16 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     var objGUI = null;
     if (bGUI) {
       objGUI = document.createElement("div");
+      objGUI.setAttribute("id", this._id);
       document.getElementsByTagName("body")[0].appendChild(objGUI);
     }
 
     return new jsx3.app.Server(this.resolveURI(strPath), objGUI, bGUI, objEnv);
   };
 
+  _jasmine.App.prototype.destroy = function() {
+    document.body.removeChild(document.getElementById(this._id));
+  };
   _jasmine.App.prototype._prefix = null;
   _jasmine.App.prototype._path = null;
   _jasmine._undefined = undefined;
@@ -247,7 +252,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     return jasmineEnv.it(arg1, fctBody);
   };
 
-
+  _jasmine._required = {};
   /**
    *
    */
@@ -260,8 +265,10 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
 
     for (var i = 0; i < arguments.length; i++) {
       try {
-        if (eval(arguments[i]) == null) {
-          _jasmine._waiting.push(arguments[i]);
+        var name = arguments[i];
+        if (!_jasmine._required[name] &&eval(name) == null) {
+          _jasmine._waiting.push(name);
+          _jasmine._required[name] = true;
         }
       } catch (e) {
         _jasmine._waiting.push(arguments[i]);
