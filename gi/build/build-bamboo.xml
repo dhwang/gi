@@ -254,16 +254,31 @@
     </if>
 
     <exec executable="/usr/bin/curl" dir="." failonerror="true">
-    <arg value='-X' />
-    <arg value='POST' />
-    <arg value='https://saucelabs.com/rest/v1/generalinterface/js-tests' />
-    <arg value='-u' />
-    <arg value='generalinterface:96bb0bc4-a281-4157-8133-f2efb76099df' />
-    <arg value='-H' />
-    <arg value='Accept: application/json' />
-    <arg value='--data' />
-    <arg value='{"platforms": [["Windows 7", "firefox", "22"], ["Linux", "googlechrome", ""]], "url": "${tests.staging-url}/${randomDir}/test/gi-spec.html", "framework": "jasmine"}' />
+      <arg value='-X' />
+      <arg value='POST' />
+      <arg value='https://saucelabs.com/rest/v1/generalinterface/js-tests' />
+      <arg value='-u' />
+      <arg value='generalinterface:96bb0bc4-a281-4157-8133-f2efb76099df' />
+      <arg value='-d' />
+      <arg value='platforms=[["Windows 7", "firefox", "22"], ["OS X 10.8", "safari", "6"]]' />
+      <arg value="-d" />
+      <arg value='url="${tests.staging-url}/${randomDir}/test/gi-spec.html"' />
+      <arg value="-d" />
+      <arg value="framework=jasmine" />
     </exec>
+<!--
+    <exec executable="/usr/bin/curl" dir="." failonerror="true">
+      <arg value='-X' />
+      <arg value='POST' />
+      <arg value='https://saucelabs.com/rest/v1/generalinterface/js-tests' />
+      <arg value='-u' />
+      <arg value='generalinterface:96bb0bc4-a281-4157-8133-f2efb76099df' />
+      <arg value='-H' />
+      <arg value='Accept: application/json' />
+      <arg value='--data' />
+      <arg value='{"platforms": [["Windows 7", "firefox", "22"], ["Linux", "googlechrome", ""]], "url": "${tests.staging-url}/${randomDir}/test/gi-spec.html", "framework": "jasmine"}' />
+    </exec>
+-->
     <!-- Invoke Selenium hub -->
 <!--
  <testng
