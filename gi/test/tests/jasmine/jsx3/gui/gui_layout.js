@@ -154,9 +154,7 @@ describe("Second canvas",function(){
     	expect(diaLog.getRendered().style.height).toEqual("312px");
     	expect(diaLog.getRendered().style.position).toEqual("absolute");
     });
-
-
-
+    
     it("should clean up", function() {
       t._server2.destroy();
       t.destroy();
