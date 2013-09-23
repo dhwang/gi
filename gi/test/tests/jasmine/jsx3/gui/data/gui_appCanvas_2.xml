@@ -14,10 +14,9 @@
         <variants jsxoverflow="2"/>
         <strings jsxname="blkCanvas2BrandingPane" jsxwidth="100%" jsxheight="100%" jsxtextalign="right"/>
         <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"/>
-        <object type="jsx3.gui.Block">
-          <variants jsxoverflow="3" jsxrelativeposition="1"/>
-          <strings jsxname="imgLogo" jsxtagname="img"/>
-          <properties src="JSX/images/icons/logo_234_18.gif"/>
+        <object type="jsx3.gui.Image">
+          <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+          <strings jsxname="image" jsxsrc="jsx:///images/icons/logo_234_18.gif"></strings>
         </object>
       </object>
       <object type="jsx3.gui.Block">
