@@ -1,0 +1,130 @@
+﻿<!--
+Copyright 2006-2008 TIBCO Software Inc.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Test sample guiLayout</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<caption>Application screen layout GI components like blocks, layout, dialog, menus</caption>
+  <tbody>
+    <tr>
+      <td rowspan="1" colspan="3">Test LayoutGrid, dialog and menus<br>
+      </td>
+    </tr>
+      <!--tr>
+        <td>setInterval</td>
+        <td>100</td>
+        <td>&nbsp;</td>
+      </tr-->
+   <tr>
+      <td>include</td>
+      <td>testSetup.html</td>
+      <td>&nbsp;</td>
+    </tr>
+
+
+    <tr>
+      <td>jsxopen</td>
+      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-GUILayout</td>
+      <td>&nbsp;</td>
+    </tr>
+     <tr>
+       <td>waitForElementPresent</td>
+       <td>JsxButtonName=btnSelectCanvas1</td>
+       <td>5000</td>
+     </tr>    
+    <tr>
+      <td>click</td>
+      <td>JsxText=*Canvas 1*</td>
+      <td>&nbsp;</td>
+    </tr>      
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkContentPane').getChild(0).getName()</td>
+      <td>blkCanvas1RootPane</td>
+    </tr>
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getRows()</td>
+      <td>150,*,50</td>
+    </tr>
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('dlgCanvas1Dialog').getRendered().style.position</td>
+      <td>absolute</td>
+    </tr>  
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('dlgCanvas1Dialog').getRendered().style.zIndex</td>
+      <td>5001</td>
+    </tr> 
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkFloatingPane').getRendered().style.position</td>
+      <td>absolute</td>
+    </tr>      
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1MiddlePaneLayout').getCols()</td>
+      <td>100,*</td>
+    </tr>           
+    <tr>
+       <td>resizeJsxLayout</td>
+       <td>lytCanvas1Layout</td>
+       <td>100,*,50</td>
+     </tr> 
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getRows()</td>
+      <td>100,*,50</td>
+    </tr> 
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getChild(0).getRendered().offsetHeight</td>
+      <td>100</td>
+    </tr>   
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getChild(2).getRendered().offsetHeight</td>
+      <td>50</td>
+    </tr>             
+    <tr>
+      <td>click</td>
+      <td>JsxText=*Canvas 2*</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkContentPane').getChild(0).getName()</td>
+      <td>blkRootPane</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>JsxText=*Clear canvas*</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>assertEval</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkContentPane').getChildren().length</td>
+      <td>0</td>
+    </tr>                  
+  </tbody>
+
+</table>
+</body>
+</html>
