@@ -253,7 +253,7 @@ describe("jsx3.gui.Block", function(){
     });
 
     afterEach(function() {
-      if (t._server)
+      if (t._server2)
         t._server2.getBodyBlock().removeChildren();
     });
 
@@ -291,9 +291,12 @@ describe("jsx3.gui.Block", function(){
     it("test the range", function(){
       block2.getChild(0).setMargin("0,10,10,10",true);
       block2.getChild(1).setMargin("0,10,10,10",true);
+      block2.getChild(0).setPadding("0,0,0,0",true);
+      block2.getChild(1).setPadding("0,0,0,0",true);
       block2.getChild(0).setBorder("border:none",true);
       block2.getChild(1).setBorder("border:none",true);
-      //expect(block2.getAbsolutePosition().T + block2.getAbsolutePosition().H).toEqual(block2.getRendered().childNodes[1].offsetTop);
+      block2.getChild(0).updateGUI("display","block");
+      expect(block2.getRendered().childNodes[0].offsetTop + parseInt(block2.getRendered().childNodes[0].style.height)+10).toEqual(block2.getRendered().childNodes[1].offsetTop);
     });
 
     it("should clean up", function() {
@@ -302,4 +305,52 @@ describe("jsx3.gui.Block", function(){
       delete t._server2;
     });
   });
+  
+  
+  describe("check for GI-967", function () {
+    var block3;
+    var getBlock3 = function(s){
+      return s.getBodyBlock().loadAndCache("data/block3.xml").getChild(0);
+    };
+
+    beforeEach(function() {
+      t._server3 = (!t._server3) ? t.newServer("data/server4.xml", ".", true): t._server3;
+      block3 = getBlock3(t._server3); // reset the block to initial state every time.
+    });
+
+    afterEach(function() {
+      if (t._server3)
+        t._server3.getBodyBlock().removeChildren();
+    });
+
+    it("tow rows blocks", function(){
+      expect(block3.getChildren().length).toEqual(8);
+      expect(block3.getRendered().childNodes[0].offsetLeft).toEqual(block3.getRendered().childNodes[4].offsetLeft);
+      expect(block3.getRendered().childNodes[1].offsetLeft).toEqual(block3.getRendered().childNodes[5].offsetLeft);
+      expect(block3.getRendered().childNodes[2].offsetLeft).toEqual(block3.getRendered().childNodes[6].offsetLeft);
+      expect(block3.getRendered().childNodes[3].offsetLeft).toEqual(block3.getRendered().childNodes[7].offsetLeft);      
+    });
+    it("should not affect the position of blocks if change the content  of a block", function(){
+      block3.getChild(0).setText("test the content of block",true);
+      expect(block3.getRendered().childNodes[0].offsetLeft).toEqual(block3.getRendered().childNodes[4].offsetLeft);
+      expect(block3.getRendered().childNodes[1].offsetLeft).toEqual(block3.getRendered().childNodes[5].offsetLeft);
+      expect(block3.getRendered().childNodes[2].offsetLeft).toEqual(block3.getRendered().childNodes[6].offsetLeft);
+      expect(block3.getRendered().childNodes[3].offsetLeft).toEqual(block3.getRendered().childNodes[7].offsetLeft);                  
+    });
+    it("should be corresponded X axis if reset width of all blocks to the same width", function(){
+       block3.setWidth(250, true);
+      jsx3.$A(block3.getChildren()).each(function(e) {
+        e.setWidth(55, true);
+      });
+      expect(block3.getRendered().childNodes[0].offsetLeft).toEqual(block3.getRendered().childNodes[4].offsetLeft);
+      expect(block3.getRendered().childNodes[1].offsetLeft).toEqual(block3.getRendered().childNodes[5].offsetLeft);
+      expect(block3.getRendered().childNodes[2].offsetLeft).toEqual(block3.getRendered().childNodes[6].offsetLeft);
+      expect(block3.getRendered().childNodes[3].offsetLeft).toEqual(block3.getRendered().childNodes[7].offsetLeft);                  
+    });    
+    it("should clean up", function() {
+      t._server3.destroy();
+      t.destroy();
+      delete t._server3;
+    });
+  });  
 });
