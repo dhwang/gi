@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2008 TIBCO Software Inc.
+Copyright 2006-2013 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ This test excercise the table navigation locators : cellbyindex, cellbyid.
     </tr>
     <tr>
       <td>clickJsxElement</td>
-      <td>gi=tblTable,cellbyindex,1.2</td>
+      <td>gi=tblTable,cellbyindex,4.2</td>
       <td>&nbsp;</td>
      </tr>    
     <tr>
@@ -122,8 +122,39 @@ This test excercise the table navigation locators : cellbyindex, cellbyid.
       <td>echo</td>
       <td>${LASTJSXNAME}</td>
       <td>&nbsp;</td>
-     </tr>   
-     
+     </tr> 
+     <tr>
+      <td>storeElementWidth</td>
+      <td>gi=tblTable,column,0.1</td>
+      <td>firstHeadercellWidth</td>
+     </tr>
+     <tr>
+      <td>storeElementWidth</td>
+      <td>gi=tblTable,cellbyindex,0.0</td>
+      <td>firstColumn</td>
+     </tr>
+     <tr>
+      <td>assertEval</td>
+      <td>${firstColumn}</td>
+      <td>${firstHeadercellWidth}</td>
+     </tr>
+     <tr>
+      <td>storeElementWidth</td>
+      <td>gi=tblTable,column,2.1</td>
+      <td>thirdHeadercellWidth</td>
+     </tr>
+     <tr>
+      <td>storeElementWidth</td>
+      <td>gi=tblTable,cellbyindex,0.2</td>
+      <td>thirdColumn</td>
+     </tr>
+     <tr>
+      <td>assertEval</td>
+      <td>${thirdColumn}</td>s
+      <td>${thirdHeadercellWidth}</td>
+     </tr>
+      
+             
     <!-- assert list row length = +1 -->
     <!--tr>
       <td>jsxopen</td>
