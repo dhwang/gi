@@ -26,7 +26,7 @@ Copyright 2006-2008 TIBCO Software Inc.
 <caption>GI_bad_button</caption>
   <tbody>
     <tr>
-      <td rowspan="1" colspan="3">Test Button<br>
+      <td rowspan="1" colspan="3">Test Img Button<br>
       </td>
     </tr>
    <tr>
@@ -36,32 +36,42 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
 	<tr>
       <td>jsxopen</td>
-      <td>${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/GI_bad_button</td>
+      <td>${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/sample-tableImgButton</td>
       <td>&nbsp;</td>
+  </tr>
+  <tr>
+      <td>store</td>
+      <td>selenium.browserbot.findByJsxName("mybutton")</td>
+      <td>mybutton</td>
     </tr>
-<tr>
+   <tr>
+      <td>store</td>
+      <td>selenium.browserbot.findByJsxName("mybutton").getRendered().getElementsByTagName("span")[0]</td>
+      <td>img</td>
+    </tr>   
+  <tr>
     <td>assertEval</td>
-    <td>selenium.browserbot.findByJsxName("mybutton").jsxwidth</td>
+    <td>${mybutton}.jsxwidth</td>
     <td>40</td>
     </tr>
- <tr>
+  <tr>
     <td>assertEval</td>
-    <td>selenium.browserbot.findByJsxName("mybutton").jsxheight</td>
+    <td>${mybutton}.jsxheight</td>
     <td>18</td>
     </tr>
- <tr>
+  <tr>
     <td>assertEval</td>
-    <td>selenium.browserbot.findByJsxName("mybutton").getRendered().getElementsByTagName("span")[0].offsetWidth</td>
+    <td>${img}.offsetWidth</td>
     <td>16</td>
     </tr>
- <tr>
+  <tr>
     <td>assertEval</td>
-    <td>selenium.browserbot.findByJsxName("mybutton").getRendered().getElementsByTagName("span")[0].offsetHeight</td>
+    <td>${img}.offsetHeight</td>
     <td>14</td>
     </tr>     
- <tr>
+  <tr>
     <td>assertEval</td>
-    <td>selenium.browserbot.findByJsxName("mybutton").getRendered().getElementsByTagName("span")[0].style.display</td>
+    <td>${img}.style.display</td>
     <td>inline-block</td>
     </tr>          
   </tbody>
