@@ -52,35 +52,50 @@ Copyright 2006-2008 TIBCO Software Inc.
       <td>click</td>
       <td>JsxText=*Canvas 1*</td>
       <td>&nbsp;</td>
-    </tr>      
+    </tr>  
+    <tr>
+      <td>store</td>
+      <td>jsx3.GO('JSXBODY').getDescendantOfName</td>
+      <td>getObj</td>
+    </tr>   
+    <tr>
+      <td>store</td>
+      <td>${getObj}('blkContentPane')</td>
+      <td>blkContentPane</td>
+    </tr> 
+    <tr>
+      <td>store</td>
+      <td>${getObj}('lytCanvas1Layout')</td>
+      <td>lytCanvas1Layout</td>
+    </tr>                
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkContentPane').getChild(0).getName()</td>
+      <td>${blkContentPane}.getChild(0).getName()</td>
       <td>blkCanvas1RootPane</td>
     </tr>
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getRows()</td>
+      <td>${lytCanvas1Layout}.getRows()</td>
       <td>150,*,50</td>
     </tr>
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('dlgCanvas1Dialog').getRendered().style.position</td>
+      <td>${getObj}('dlgCanvas1Dialog').getRendered().style.position</td>
       <td>absolute</td>
     </tr>  
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('dlgCanvas1Dialog').getRendered().style.zIndex</td>
+      <td>${getObj}('dlgCanvas1Dialog').getRendered().style.zIndex</td>
       <td>5001</td>
     </tr> 
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkFloatingPane').getRendered().style.position</td>
+      <td>${getObj}('blkFloatingPane').getRendered().style.position</td>
       <td>absolute</td>
     </tr>      
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1MiddlePaneLayout').getCols()</td>
+      <td>${getObj}('lytCanvas1MiddlePaneLayout').getCols()</td>
       <td>100,*</td>
     </tr>           
     <tr>
@@ -90,17 +105,17 @@ Copyright 2006-2008 TIBCO Software Inc.
      </tr> 
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getRows()</td>
+      <td>${lytCanvas1Layout}.getRows()</td>
       <td>100,*,50</td>
     </tr> 
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getChild(0).getRendered().offsetHeight</td>
+      <td>${lytCanvas1Layout}.getChild(0).getRendered().offsetHeight</td>
       <td>100</td>
     </tr>   
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('lytCanvas1Layout').getChild(2).getRendered().offsetHeight</td>
+      <td>${lytCanvas1Layout}.getChild(2).getRendered().offsetHeight</td>
       <td>50</td>
     </tr>             
     <tr>
@@ -110,7 +125,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkContentPane').getChild(0).getName()</td>
+      <td>${blkContentPane}.getChild(0).getName()</td>
       <td>blkRootPane</td>
     </tr>
     <tr>
@@ -120,7 +135,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantOfName('blkContentPane').getChildren().length</td>
+      <td>${blkContentPane}.getChildren().length</td>
       <td>0</td>
     </tr>                  
   </tbody>
