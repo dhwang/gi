@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--
+Copyright 2006-2008 TIBCO Software Inc.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Test Matrix delete column</title>
+</head>
+<body>
+<table border="1">
+<caption>Matrix Delete Column test, make sure record deletion works with delete column. Should be tested over HTTPS.</caption>
+<tbody>   
+    <tr>
+      <td rowspan="1" colspan="3">Test Matrix delete column</td>
+    </tr>    
+   <tr>
+      <td>include</td>
+      <td>testSetup.html</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>jsxopen</td>
+      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/DiffDemo</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>waitForJsxButtonPresent</td>
+      <td>button</td>
+      <td>5000</td>
+    </tr>    
+    <tr>
+      <td>click</td>
+      <td>JsxButtonText=Set Sample Data</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>JsxButtonText=Update</td>  
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>JsxName=textarea1</td>
+      <td>5000</td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>JsxName=textarea2</td>
+      <td>5000</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>css=.new:nth(1)</td>
+      <td>Cesarem legato alacrem eorum.</td>
+    </tr>
+    <!-- <tr>
+      <td>store</td>
+      <td>css=td span:contains("Cesarem legato alacrem eorum.")</td>
+      <td>newObj</td>
+    </tr>
+    <tr>
+      <td>echo</td>
+      <td>${newObj}</td>
+      <td></td>
+    </tr>  --> 
+    <tr>
+      <td>assertText</td>
+      <td>css=.changed:nth(0)</td>
+      <td>Duis autem vel eum iriure dolor in hendrerit in vulputate velit</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>css=.changed:nth(1)</td>
+      <td>esse molestie consequat, vel illum dolore eu feugiat nulla</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>css=.changed:nth(2)</td>
+      <td>This is a different line, in hendrerit in vulputate velit</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>css=.changed:nth(3)</td>
+      <td>esse molestie consequat, more different stuff here, nulla</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>css=.old:nth(1)</td>
+      <td>Cesarem legato alacrem eorum.</td>
+    </tr>
+    <tr>
+      <td>typeJsxTextbox</td>
+      <td>JsxName=textarea1</td>
+      <td>line one
+      	line two
+      	line three</td>
+    </tr>
+    <tr>
+      <td>typeJsxTextbox</td>
+      <td>JsxName=textarea2</td>
+      <td>line one
+      	line two
+      	adding line
+      	line three</td>
+    </tr>
+    <tr>
+      <td>click</td>
+      <td>JsxButtonText=Update</td>  
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>assertText</td>
+      <td>css=.new:nth(0)</td>
+      <td>adding line</td>
+    </tr>
+
+  </tbody>
+
+</table>
+</body>
+</html>
