@@ -1543,7 +1543,6 @@ jsx3.Class.defineClass("jsx3.gui.Painted.Box", jsx3.lang.Object, null, function(
   /**
    * Returns an inline box that floats inline with existing content. This box can specify a width and height.
    * @param objProfile {Object} JavaScript object representing a class in a pseudo-compiled state that can be used by the box painter
-   * @return {String} DHTML
    */
   Box_prototype.addChildProfile = function(objProfile) {
     var c = this._children;
