@@ -1,0 +1,73 @@
+/* DIFF */
+
+
+.diff .difftitle, .contentDoc .subtitle {
+	margin: 0;
+	padding: 3px;
+	height: 13px;
+	border:0 ;
+        border-top: solid 1px #d6dcec;
+        border-bottom: solid 1px #a6acbc;
+	color: white;
+	background: #c6ccdc;
+	font-family: verdana, helvetica, arial, sans-serif;		
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 13px;
+}
+
+.oldContent, .newContent, .contentDoc {
+    background: #f8f8f8 url(../images/com/tibco/cep/util/diff/zebra.gif);
+}
+
+.diff .oldContent pre, .diff .newContent pre, .contentDoc th, .contentDoc tr {
+	margin: 0;
+	padding: 0;
+	border:0 ;
+	font-family: courier New,courier,monospace;
+        white-space: pre;
+        color: black;
+}
+
+.contentDoc table {
+	width: 100%;
+}
+.contentDoc pre, .contentDoc th, .contentDoc td {
+	white-space: pre;
+	padding: 0 4px;
+	margin: 0;
+        border: 0;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 17px;
+        text-align: left;
+}
+
+.diff .common, .diff .new, .diff .old, .diff .changed, .diff .pad, .diff .diffContent .title {
+	white-space: pre;
+	padding: 0 4px;
+	margin: 0;
+}
+
+.diff .common, .diff .common * {
+	background: white;
+}
+
+.diff .new, .diff .new *, .contentDoc .new, .contentDoc .new span, .actioncreated {
+	background: #e0ebff;
+}
+
+.diff .old, .diff .old *, .contentDoc .old , .contentDoc .old span, .actiondeleted {
+	background: #ffeee4;
+}
+
+.diff .changed, .diff .changed *, .actionchanged {
+	background: #e0f8e0;
+}
+
+.diff .pad {
+	background: #f8f8f8 url(../images/com/tibco/cep/util/diff/zebra.gif);
+        margin: -1px 0;
+        border-top: solid 1px #a6acbc;
+        border-bottom: solid 1px #d6dcec;
+}

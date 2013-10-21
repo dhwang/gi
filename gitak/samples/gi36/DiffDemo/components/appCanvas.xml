@@ -1,0 +1,94 @@
+<serialization xmlns="urn:tibco.com/v3.0" jsxversion="3.4">
+  <name/>
+  <icon/>
+  <description/>
+  <onBeforeDeserialize/>
+  <onAfterDeserialize/>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"/>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%"/>
+    <object type="jsx3.gui.Splitter">
+      <variants jsxorientation="1" jsxleft="0" jsxtop="0"/>
+      <strings jsxname="splitter (--)" jsxsubcontainer1pct="26.72%"/>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+        <dynamics jsxborder="@Inset"/>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+          <strings jsxname="layout (--)" jsxrows="35,*" jsxwidth="100%" jsxheight="100%" jsxbgcolor=""/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"/>
+            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+            <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Shadow" jsxpadding="@8Pixel"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxleft="8" jsxtop="11"/>
+              <strings jsxname="label" jsxtext="Diff inputs:" jsxfontweight="bold" jsxcolor="#fff" jsxdisplay=""/>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="80" jsxtop="8"/>
+              <strings jsxname="button" jsxtext="Set Sample Data" jsxmargin="0 4 0 4" jsxpadding="2 16 2 16" jsxdisplay=""/>
+              <events jsxexecute="window.DiffDemoCtrlr.populateSample(); "/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1"/>
+            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+            <dynamics jsxborder="@Outset"/>
+            <object type="jsx3.gui.LayoutGrid">
+              <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+              <strings jsxname="layout ( | )" jsxcols="*,*" jsxwidth="100%" jsxheight="100%"/>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"/>
+                <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+                <dynamics jsxborder="@Outset"/>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="1"/>
+                  <strings jsxname="textarea1" jsxmargin="0 4 0 0" jsxwidth="100%" jsxheight="100%" jsxvalue=""/>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="2"/>
+                <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+                <dynamics jsxborder="@Outset"/>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="1"/>
+                  <strings jsxname="textarea2" jsxmargin="0 4 0 0" jsxwidth="100%" jsxheight="100%" jsxvalue=""/>
+                </object>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"/>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+        <dynamics jsxborder="@Inset"/>
+        <object type="jsx3.gui.LayoutGrid">
+          <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"/>
+          <strings jsxname="layout (--)" jsxrows="35,*" jsxwidth="100%" jsxheight="100%" jsxbgcolor=""/>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"/>
+            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+            <dynamics jsxborder="@Outset" jsxbgcolor="@Solid Shadow" jsxpadding="@8Pixel"/>
+            <object type="jsx3.gui.Block">
+              <variants jsxrelativeposition="0" jsxoverflow="3" jsxtop="11" jsxleft="8"/>
+              <strings jsxname="label" jsxtext="Diff result:" jsxfontweight="bold" jsxcolor="#fff" jsxdisplay=""/>
+            </object>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxrelativeposition="0" jsxleft="80" jsxtop="8"/>
+              <strings jsxname="button" jsxtext="Update" jsxmargin="0 4 0 4" jsxpadding="2 16 2 16" jsxdisplay=""/>
+              <events jsxexecute="window.DiffDemoCtrlr.updateDiff(); "/>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="1"/>
+            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"/>
+            <dynamics jsxborder="@Outset"/>
+            <include src="components/diffView.xml" async="false"/>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>
