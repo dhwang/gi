@@ -5,7 +5,7 @@
 
 describe("jsx3.gui.Block", function(){
   var _jasmine_test = gi.test.jasmine;
-  _jasmine_test.require("jsx3.gui.Block","jsx3.html.DOM","jsx3.html.Style");
+  _jasmine_test.require("jsx3.gui.Block","jsx3.html.DOM","jsx3.html.Style","jsx3.xml.CDF", "jsx3.xml.CDF.Document", "jsx3.app.Properties");
   var t = new _jasmine_test.App("jsx3.gui.Block");
 
   describe("Member methods", function() {
@@ -77,11 +77,6 @@ describe("jsx3.gui.Block", function(){
 
     });
 
-    it("has method paintBackgroundColor() to renders valid CSS property value for the background", function(){
-      expect(block.paintBackgroundColor()).toEqual("background-color:#A29F9F;");
-      expect(block.getRendered().style.backgroundColor).toEqual("rgb(162, 159, 159)");
-    });
-
     it("has method setRelativePosition() to set if instance is relatively positioned on-screen", function(){
       block.setRelativePosition(jsx3.gui.Block.ABSOLUTE,true);
       expect(block.jsxrelativeposition).toEqual(jsx3.gui.Block.ABSOLUTE);
@@ -94,16 +89,10 @@ describe("jsx3.gui.Block", function(){
       expect(block.getRendered().style.backgroundRepeat).toEqual("no-repeat");
     });
 
-    it("should able to set and get valid css property value for the border", function(){
-      expect(block.getBorder()).toBeUndefined();
-      block.setBorder("border: solid 1px #000000",true);
-      expect(block.getRendered().style.border).toEqual("1px solid rgb(0, 0, 0)");
-    });
-
     it("should able to set and get valid css property value for color", function(){
       expect(block.getColor()).toBeUndefined();
-      block.setColor('rgb(255,0,0)',true);
-      expect(block.getRendered().style.color).toEqual("rgb(255, 0, 0)");
+      block.setColor('red',true);
+      expect(block.getRendered().style.color).toEqual("red");
     });
 
     it("should able to set and get the width property", function(){
@@ -114,7 +103,6 @@ describe("jsx3.gui.Block", function(){
     });
 
     it("should able to find an on-screen reference for the given block", function(){
-      //expect(block._findGUI()).toEqual(block.getRendered());
       expect(document.getElementById(block.getId())).toEqual(block.getRendered())
     });
 
@@ -226,6 +214,18 @@ describe("jsx3.gui.Block", function(){
       expect(block.getRendered().style.visibility).toEqual(jsx3.gui.Block.VISIBILITYHIDDEN);
     });
 
+    it("should able to set a property on the object that when the object is rendered on-screen", function(){
+      block.setAttribute('jsxheight','110');
+      expect(block.getAttribute('jsxheight')).toEqual('110');
+    });
+
+    it("should able to remove the specific custom property bound to this object", function(){
+      block.setAttribute('jsxheight','110');
+      expect(block.getAttribute('jsxheight')).toEqual('110');
+      block.removeAttribute('jsxheight');
+      expect(block.getAttribute('jsxheight')).toBeUndefined();
+    });  
+
     it("should clean up", function() {
       t._server.destroy();
       t.destroy();
@@ -291,10 +291,21 @@ describe("jsx3.gui.Block", function(){
       block2.getChild(0).updateGUI("display","block");
 
       var marginTop = 10,
-        child2top = block2.getRendered().childNodes[0].offsetTop + parseInt(block2.getRendered().childNodes[0].style.height) + marginTop,
-        block2Top = block2.getRendered().childNodes[1].offsetTop;
+      child2top = block2.getRendered().childNodes[0].offsetTop + parseInt(block2.getRendered().childNodes[0].style.height) + marginTop,
+      block2Top = block2.getRendered().childNodes[1].offsetTop;
 
       expect(child2top).toEqual(block2Top);
+    });
+
+    it("shuld able to get the absolute positioning of the object's on-screen view in relation to JSXROOT", function(){
+         expect(block2.getAbsolutePosition()).toBeInstanceOf(Object);
+         expect(block2.getAbsolutePosition().L).toEqual(0);
+         expect(block2.getAbsolutePosition().T).toEqual(0);
+         block2.setRelativePosition(jsx3.gui.Block.ABSOLUTE);
+         block2.setTop(25,true);
+         block2.setLeft(10,true);
+         expect(block2.getAbsolutePosition().L).toEqual(10);
+         expect(block2.getAbsolutePosition().T).toEqual(25);         
     });
 
     it("should clean up", function() {
@@ -353,5 +364,5 @@ describe("jsx3.gui.Block", function(){
       expect(t._server3.getBodyBlock().getRendered()).toBeNull();
       delete t._server3;
     });
-  });  
+  }); 
 });
