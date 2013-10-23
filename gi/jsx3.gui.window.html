@@ -8,9 +8,12 @@
     <title></title>
     <script type="text/javascript" language="JavaScript">
 function _jsx_onLoad() {
+  if(!window._jsxwindow){
+    window._jsxwindow = window.parent._childjsxwindow;
+  }
   var me = window;
 
-  window.opener.setTimeout(function(){
+  window.parent.setTimeout(function(){
     var doc = me.document;
     var openerDoc = me.opener ? me.opener.document : null;
     var objWindow = me._jsxwindow;
