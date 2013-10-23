@@ -26,6 +26,7 @@ jsx3.Package.definePackage("eg.windowswap", function(windowswap) {
 
       //and show the window if it isn'talready visible
       if (!w.isOpen()) {
+        window._childjsxwindow = w;
         w.open();
       }
       w.focus();
