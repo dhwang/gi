@@ -82,6 +82,7 @@ describe("jsx3.gui.Block", function(){
       expect(block.jsxrelativeposition).toEqual(jsx3.gui.Block.ABSOLUTE);
       expect(block.getRendered().style.position).toEqual("absolute");
     });
+
     it("should able to set and get valid css property value for the background", function(){
       expect(block.getBackground()).toBeUndefined();
       block.setBackground("background-repeat:no-repeat");
@@ -117,7 +118,7 @@ describe("jsx3.gui.Block", function(){
       expect(block.getZIndex()).toEqual(2);
     });
 
-    it("should able to set and get the named arrribute on the CDF record to which the block is mapped", function(){
+    it("should able to set and get the CDF ID to which the block is mapped", function(){
       expect(block.getCDFId()).toBeUndefined();
     });
 
@@ -138,7 +139,6 @@ describe("jsx3.gui.Block", function(){
       expect(block.getRendered().style.margin).toEqual("10px 0px 0px 10px");
     });
 
-    
     it("should able to set and get valid CSS property value for cursor", function(){
       expect(block.getCursor()).toBeUndefined();
       expect(block.getRendered().cursor).toBeUndefined();
@@ -226,12 +226,93 @@ describe("jsx3.gui.Block", function(){
       expect(block.getAttribute('jsxheight')).toBeUndefined();
     });  
 
+    it("should able to set and get the css font-size", function() {
+      expect(block.getFontSize()).toBeUndefined();
+      block.setFontSize(jsx3.gui.Block.DEFAULTFONTSIZE);
+      expect(block.getFontSize()).toEqual(10);
+      block.repaint();
+      expect(block.getFontSize()).toEqual(jsx3.gui.Block.DEFAULTFONTSIZE);
+      expect(block.getRendered().style.fontSize).toEqual('10px');
+    });
+
+    it("should able to set and get the css font-weight", function() {
+      var fontWeight = block.getFontWeight();
+      expect(fontWeight).toBeUndefined();
+      block.setFontWeight(jsx3.gui.Block.FONTBOLD);
+      fontWeight = block.getFontWeight();
+      expect(fontWeight).toEqual("bold");
+      block.repaint();
+      expect(block.getRendered().style.fontWeight).toEqual('bold');
+    });
+
+    it("should able set and get backgroundColor", function() {
+      var bgColor = block.getBackgroundColor();
+      expect(bgColor).toEqual('#A29F9F');
+      block.setBackgroundColor('#f00');
+      bgColor = block.getBackgroundColor();
+      expect(bgColor).toEqual('#f00');
+    });
+
+    it('should able to set and get valid css property value for the border', function() {
+      expect(block.getBorder()).toBeUndefined();
+      block.setBorder('border: solid 1px #000000',true);
+      expect(block.getBorder()).toEqual('border: solid 1px #000000');
+      expect(block.getRendered().style.border).toEqual('1px solid rgb(0, 0, 0)');
+    });
+
+    it("should able to set and get the height property", function() {
+      expect(block.getHeight()).toEqual(30);
+      block.setHeight(120,true);
+      expect(block.getHeight()).toEqual(120);
+      expect(block.getRendered().style.height).toEqual('120px');
+    });
+
+    it("should able to try to find an on-screen reference for the given block and update its css without forcing a repaint", function() {
+      block.updateGUI('padding','10px');
+      expect(block.getRendered().style.padding).toEqual('10px');
+    });
+
+    it("should able to set and get the named arrribute on the helper to which the block is mapped", function() {
+      expect(block.getHelpId()).toBeUndefined();
+      block.setHelpId('helper');
+      expect(block.getHelpId()).toEqual('helper');
+    });
+
+    it("should able to set and get text", function() {
+      var text = block.getText();
+      expect(text).toEqual('test block');
+      block.setText("hello world");
+      text = block.getText();
+      expect(text).toEqual("hello world");
+    });
+
+    it("should able to set and get text-align", function() {
+      var textAlign = block.getTextAlign();
+      expect(textAlign).toBeUndefined();
+      block.setTextAlign(jsx3.gui.Block.ALIGNLEFT);
+      textAlign = block.getTextAlign();
+      expect(textAlign).toEqual('left');
+      block.repaint();
+      expect(block.getRendered().style.textAlign).toEqual('left');
+    });
+
+    it("should able to set and get the named arrribute on the CDF record to which the block is mapped", function(){
+      expect(block.getCDFAttribute()).toBeUndefined();
+    });
+
+    it("should able to set and get the tooltip", function() {
+      var tooltip = block.getTip();
+      expect(tooltip).toBeUndefined();
+      block.setTip("tooltip");
+      tooltip = block.getTip();
+      expect(tooltip).toEqual('tooltip');
+    });
+
     it("should clean up", function() {
       t._server.destroy();
       t.destroy();
       delete t._server;
     });
-
   });
 
   describe("Rendering and layout", function () {
@@ -308,6 +389,20 @@ describe("jsx3.gui.Block", function(){
          expect(block2.getAbsolutePosition().T).toEqual(25);         
     });
 
+    it("should able to get the vertical distance between the blocks", function() {
+      block2.getChild(0).setBorder("border:none",true);
+      block2.getChild(1).setBorder("border:none",true);
+      block2.getChild(0).updateGUI('display','block')
+      expect(block2.getChild(0).getMargin()).toEqual('10');
+      expect(block2.getChild(0).getHeight()).toEqual(30);
+      var childMargin1 = block2.getChild(0).getHeight() + parseInt(block2.getChild(0).getMargin());
+      expect(childMargin1).toEqual(40);
+      var child2top = block2.getRendered().childNodes[1].offsetTop;
+      expect(child2top).toEqual(60);
+      var vDistance = child2top - childMargin1;
+      expect(vDistance).toEqual(20);
+    });
+
     it("should clean up", function() {
       t._server2.destroy();
       t.destroy();
@@ -315,7 +410,6 @@ describe("jsx3.gui.Block", function(){
       delete t._server2;
     });
   });
-  
   
   describe("Inline block layout should line up vertically, ref GI-967", function () {
     var block3;
@@ -340,6 +434,7 @@ describe("jsx3.gui.Block", function(){
       expect(block3.getRendered().childNodes[2].offsetLeft).toEqual(block3.getRendered().childNodes[6].offsetLeft);
       expect(block3.getRendered().childNodes[3].offsetLeft).toEqual(block3.getRendered().childNodes[7].offsetLeft);      
     });
+
     it("should not affect the position of blocks if change the content of a block", function(){
       block3.getChild(0).setText("test the content of block",true);
       expect(block3.getRendered().childNodes[0].offsetLeft).toEqual(block3.getRendered().childNodes[4].offsetLeft);
@@ -347,6 +442,7 @@ describe("jsx3.gui.Block", function(){
       expect(block3.getRendered().childNodes[2].offsetLeft).toEqual(block3.getRendered().childNodes[6].offsetLeft);
       expect(block3.getRendered().childNodes[3].offsetLeft).toEqual(block3.getRendered().childNodes[7].offsetLeft);                  
     });
+
     it("should be corresponded X axis if reset width of all blocks to the same width", function(){
        block3.setWidth(250, true);
       jsx3.$A(block3.getChildren()).each(function(e) {
@@ -356,7 +452,24 @@ describe("jsx3.gui.Block", function(){
       expect(block3.getRendered().childNodes[1].offsetLeft).toEqual(block3.getRendered().childNodes[5].offsetLeft);
       expect(block3.getRendered().childNodes[2].offsetLeft).toEqual(block3.getRendered().childNodes[6].offsetLeft);
       expect(block3.getRendered().childNodes[3].offsetLeft).toEqual(block3.getRendered().childNodes[7].offsetLeft);                  
-    });    
+    });  
+
+    it("should have the same width of all the blocks", function(){
+      expect(block3.getRendered().childNodes[1].style.width).toEqual('98px');
+      expect(block3.getRendered().childNodes[0].offsetWidth).toEqual(block3.getRendered().childNodes[4].offsetWidth);
+      expect(block3.getRendered().childNodes[1].offsetWidth).toEqual(block3.getRendered().childNodes[5].offsetWidth);
+      expect(block3.getRendered().childNodes[2].offsetWidth).toEqual(block3.getRendered().childNodes[6].offsetWidth);
+      expect(block3.getRendered().childNodes[3].offsetWidth).toEqual(block3.getRendered().childNodes[7].offsetWidth);      
+    });
+
+    it("should have the same height of all the blocks", function(){
+      expect(block3.getRendered().childNodes[1].style.height).toEqual('46px');
+      expect(block3.getRendered().childNodes[0].offsetHeight).toEqual(block3.getRendered().childNodes[4].offsetHeight);
+      expect(block3.getRendered().childNodes[1].offsetHeight).toEqual(block3.getRendered().childNodes[5].offsetHeight);
+      expect(block3.getRendered().childNodes[2].offsetHeight).toEqual(block3.getRendered().childNodes[6].offsetHeight);
+      expect(block3.getRendered().childNodes[3].offsetHeight).toEqual(block3.getRendered().childNodes[7].offsetHeight);      
+    })
+
     it("should clean up", function() {
       t._server3.destroy();
       t.destroy();
