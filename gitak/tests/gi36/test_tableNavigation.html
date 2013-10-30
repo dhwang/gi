@@ -100,7 +100,7 @@ This test excercise the table navigation locators : cellbyindex, cellbyid.
      </tr>    
     <tr>
       <td>click</td>
-      <td>gi=paneMatrix/tblTable,rowbyindex,0</td>
+      <td>gi=tblTable,rowbyindex,0</td>
       <td>&nbsp;</td>
      </tr>    
     <tr>
@@ -153,7 +153,16 @@ This test excercise the table navigation locators : cellbyindex, cellbyid.
       <td>${thirdColumn}</td>
       <td>${thirdHeadercellWidth}</td>
      </tr>
-      
+     <tr>
+      <td>click</td>
+      <td>gi=tblTable,column,1.1</td>
+      <td>&nbsp</td>
+     </tr>
+     <tr>
+      <td>assertText</td>
+      <td>gi=tblTable,cellbyindex,0.1</td>
+      <td>Argentina</td>
+     </tr>
              
     <!-- assert list row length = +1 -->
     <!--tr>
