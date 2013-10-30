@@ -45,6 +45,7 @@ describe("jsx3.gui.Select", function(){
      select.setValue(2);
      expect(select.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
   });  
+
   it("should able to map cdf ", function(){
     var cdf = newCDF("data/selectCdf.xml");
     var r = cdf.getRecord('c2');
@@ -52,6 +53,61 @@ describe("jsx3.gui.Select", function(){
     select.setValue('c2');
     select.repaint();
     expect(select.getText()).toEqual(r.jsxtext);
-  }); 
-        
+  });    
+
+  it("should able to set and get type", function() {
+    var Select = jsx3.gui.Select;
+    expect(select.getType()).toEqual(0);
+    select.setType(Select.TYPECOMBO);
+    expect(select.getType()).toEqual(1);
+  });
+
+  it("should able to set and get the value", function() {
+    expect(select.getValue()).toBeNull();
+    select.setValue('beijing');
+    expect(select.getValue()).toEqual("beijing");
+  });    
+
+  it("should able to set and get max length", function() {
+    expect(select.getMaxLength()).toBeNull();
+    select.setMaxLength(200);
+    expect(select.getMaxLength()).toEqual(200);
+    select.setMaxLength('-200px');
+    select.repaint();
+    expect(select.getMaxLength()).toBeNull();
+  });
+
+  it("should able to set and get default text", function() {
+    expect(select.getDefaultText()).toEqual("- Select -");
+    select.setDefaultText("-City-");
+    expect(select.getDefaultText()).toEqual("-City-");
+  });
+
+  it("should able to focus", function() {
+    var Select = jsx3.gui.Select;
+    select.setType(Select.TYPECOMBO);
+    select.repaint();
+    expect(select.focus().nodeName.toLowerCase()).toEqual('input');
+    expect(select.focus().className).toEqual('jsx30combo_text');
+  });
+
+  it("should able to get the XSL appropriate to the select type (either combo or select) if no custom XSLT is specified", function() {
+    expect(select.getXSL()._url).toEqual('../JSX/xsl/jsxselect.xsl');
+  });
+
+  it("should able to set and get the URL to use for the dropdown image", function() {
+    var strPath = select.getIcon();
+    expect(strPath).toBeUndefined();
+    select.setIcon("selected.gif");
+    select.repaint();
+    strPath = select.getIcon()._path;
+    expect(strPath).toEqual("tests/jasmine/jsx3/gui/selected.gif");
+  });
+
+  it("should clean up", function() {
+    t._server.destroy();
+    t.destroy();
+    expect(t._server.getBodyBlock().getRendered()).toBeNull();
+    delete t._server;
+  });
 });
