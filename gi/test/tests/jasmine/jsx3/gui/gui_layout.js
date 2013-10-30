@@ -4,14 +4,15 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
   var t = new _jasmine_test.App("jsx3.gui.LayoutGrid");
 
   describe("First canvas", function () {
-    var layout;
-    var getLayout = function(s){
-      return s.getBodyBlock().loadAndCache("data/gui_appCanvas_1.xml").getChild(0);
+    var layout,block;
+    var getBlock = function(s){
+      return s.getBodyBlock().loadAndCache("data/gui_appCanvas_1.xml");
     };
 
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server_gui_layout.xml", ".", true): t._server;
-      layout = getLayout(t._server); // reset the block to initial state every time.
+      block = getBlock(t._server); 
+      layout= block.getChild(0);
     });
 
     afterEach(function() {
@@ -75,12 +76,13 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
     	expect(rows).toEqual('5,2,3');
     });
 
+    /*
     it("should able to return array of true sizes (not what the developer specified in code, but what it evaluates to according to the browser",function(){
     	var lows=layout.getRows();
     	var sTruesize=(layout._getTrueSizeArray(lows)).join();
     	var truesize=sTruesize.replace(/\,0\,/,",*,");
     	expect(truesize).toEqual(lows);	
-    });
+    });*/
 
     it("should able to get the size of the canvas for a given child (the true drawspace)",function(){
     	var layChild=layout.getChild(1);
@@ -91,14 +93,83 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
     	expect(clientDimension.height).toEqual(layChild.getHeight());
     	expect(clientDimension.left).toEqual(layChild.getLeft());
     	expect(clientDimension.top).toEqual(layChild.getTop());
-    	
     });
+
+    //The following is the adding test
+
+   
+    // it("should have the padding property of the top area",function(){
+    // 	var topArea=layout.getChild(0);
+    // 	expect(topArea).toBeInstanceOf("jsx3.gui.Block");
+    // 	expect(topArea.getRendered().style.backgroundColor).toEqual("rgb(144, 238, 144)");
+    // 	topArea.repaint();
+    // 	alert(topArea);
+    // 	topArea.setPadding("8 8 8 8",true);
+    // 	expect(topArea.getPadding()).toEqual("8 8 8 8");
+    // 	expect(topArea.getRendered().style.padding).toEqual("8px 8px 8px 8px");
+    // });
+	
+	it("should have a block at left inside the second row for the navigation",function(){
+		var leftPane=layout.getChild(1).getChild(0).getChild(0);
+		expect(leftPane).toBeInstanceOf("jsx3.gui.Block");
+		expect(leftPane.getRendered().style.backgroundColor).toEqual("rgb(255, 192, 203)");
+		expect(leftPane.getRendered().style.width).toEqual("100px");
+	});
+
+	it("should have a block at right inside the second row for the main content",function(){
+		var rightPane=layout.getChild(1).getChild(0).getChild(1);
+		expect(rightPane).toBeInstanceOf("jsx3.gui.Block");
+		expect(rightPane.getWidth()).toEqual("100%");
+	});
+
+	it("should have a block in the third row for the copyright notice",function(){
+		expect(layout.getChild(2)).toBeInstanceOf("jsx3.gui.Block");
+		expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("rgb(173, 216, 230)");
+		expect(layout.getChild(2).getRendered().style.height).toEqual("50px");
+	});
+
+	it("should have a floating pane above others for the prompt message",function(){
+		var floatPane=block.getChild(1);
+		expect(floatPane).toBeInstanceOf("jsx3.gui.Block");
+		expect(floatPane.getRendered().style.position).toEqual("absolute");
+		expect(floatPane.getRendered().style.left).toEqual("60px");
+		expect(floatPane.getRendered().style.top).toEqual("290px");
+		expect(floatPane.getRendered().style.width).toEqual("180px");
+		expect(floatPane.getRendered().style.height).toEqual("150px");
+	});
+
+	it("should have a dialog width fixed T,L,W,H",function(){
+    	var dialog2=block.getChild(2);
+    	expect(dialog2).toBeInstanceOf("jsx3.gui.Dialog");
+    	expect(dialog2.getLeft()).toEqual(311);
+    	expect(dialog2.getRendered().style.left).toEqual("311px");
+    	expect(dialog2.getTop()).toEqual(213);
+    	expect(dialog2.getRendered().style.top).toEqual("213px");
+        expect(dialog2.getRendered().style.position).toEqual("absolute");    
+        dialog2.setWidth(350); 
+    	expect(dialog2.getWidth()).toEqual(350);
+        dialog2.setHeight(170); 
+    	expect(dialog2.getHeight()).toEqual(170);
+        dialog2.repaint();
+        expect(dialog2.getRendered().style.width).not.toEqual("350px");
+        expect(dialog2.getRendered().style.height).not.toEqual("170px");
+
+        dialog2.setBorder("0px solid"); 
+        dialog2.setBuffer("0");   
+        dialog2.repaint();
+
+        expect(dialog2.getRendered().style.width).toEqual("350px");
+        expect(dialog2.getRendered().style.height).toEqual("170px");
+    });
+
 
     it("should clean up", function() {
         t._server.destroy();
         t.destroy();
-        delete t._server;
+        expect(t._server.getBodyBlock().getRendered()).toBeNull();
+        delete t._server;       
     });
+
   }); 
 describe("Second canvas",function(){
      var layout2,block2,dialog;
@@ -108,7 +179,7 @@ describe("Second canvas",function(){
 
      beforeEach(function() {
       t._server2 = (!t._server2) ? t.newServer("data/server_gui_layout.xml", ".", true): t._server2;
-      block2 = getBlock2(t._server2); // reset the block to initial state every time.
+      block2 = getBlock2(t._server2); 
       layout2 = block2.getChild(0);
       dialog = block2.getChild(1);
     });
@@ -149,21 +220,19 @@ describe("Second canvas",function(){
     	expect(dialog.getRendered().style.left).toEqual("48px");
     	expect(dialog.getTop()).toEqual(126);
     	expect(dialog.getRendered().style.top).toEqual("126px");
-      expect(dialog.getRendered().style.position).toEqual("absolute");
-
-      // Dialog width and height contains dialog chrome(border + buffer area)
-      dialog.setWidth(450); // not painted yet
+      expect(dialog.getRendered().style.position).toEqual("absolute");    
+      dialog.setWidth(450); 
     	expect(dialog.getWidth()).toEqual(450);
-      dialog.setHeight(350); // not painted yet
+      dialog.setHeight(350); 
     	expect(dialog.getHeight()).toEqual(350);
       dialog.repaint();
 
-      // actual width height are different due to affordance given for dialog chrome
+      
       expect(dialog.getRendered().style.width).not.toEqual("450px");
       expect(dialog.getRendered().style.height).not.toEqual("350px");
 
-      dialog.setBorder("0px solid"); // remove border, 0px size
-      dialog.setBuffer("0");   // remove dialog buffer (contains the resize handle bar)
+      dialog.setBorder("0px solid"); 
+      dialog.setBuffer("0");   
       dialog.repaint();
 
       expect(dialog.getRendered().style.width).toEqual("450px");
@@ -173,7 +242,8 @@ describe("Second canvas",function(){
     it("should clean up", function() {
       t._server2.destroy();
       t.destroy();
-      delete t._server2;
+      expect(t._server2.getBodyBlock().getRendered()).toBeNull();
+      delete t._server2;     
     });
 
 	});
