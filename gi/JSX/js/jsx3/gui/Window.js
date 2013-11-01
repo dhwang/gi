@@ -164,6 +164,10 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
       );
 
       if (w != null) {
+        var me = this;
+        window._getjsxwindow = function(){
+          w["_jsxwindow"] = me;
+        };//only for IE10
         w["_jsxwindow"] = this;
         this._jsxwindow = w;
         this._jsxopener = window;
