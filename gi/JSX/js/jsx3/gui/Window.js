@@ -165,9 +165,11 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
 
       if (w != null) {
         var me = this;
-        window._getjsxwindow = function(){
+        /* @JSC */ if (jsx3.CLASS_LOADER.IE && jsx3.CLASS_LOADER.getVersion() > 8) {
+          window._getjsxwindow = function(){
           w["_jsxwindow"] = me;
-        };//only for IE10
+          };
+        /* @JSC */ }//IE9+ specific code
         w["_jsxwindow"] = this;
         this._jsxwindow = w;
         this._jsxopener = window;
@@ -412,13 +414,14 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
 
       // garbage collection
       this._jsxwindow.document.onkeydown = null;
-      for (var f in this._jsxwindow) {
-        try {
-          if(typeof(this._jsxwindow[f]) == "function" || typeof(this._jsxwindow[f]) == "object")
-            this._jsxwindow[f] = null;
-        } catch (e) {}
-      }
-
+      /* @JSC */ if (!(jsx3.CLASS_LOADER.IE && jsx3.CLASS_LOADER.getVersion() > 8)){// IE9+ specific code
+        for (var f in this._jsxwindow) {
+          try {
+            if(typeof(this._jsxwindow[f]) == "function" || typeof(this._jsxwindow[f]) == "object")
+              this._jsxwindow[f] = null;
+          } catch (e) {}
+        }
+      /* @JSC */ }
       if (this._jsxopener != null && !this._jsxopener.closed)
         this._jsxopener.focus();
 

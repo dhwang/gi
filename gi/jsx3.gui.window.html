@@ -9,10 +9,15 @@
     <script type="text/javascript" language="JavaScript">
 function _jsx_onLoad() {
   var me = window;
-  if(!me._jsxwindow){
-    window.opener._getjsxwindow();
-  }//for IE10
-  window.parent.setTimeout(function(){
+  if(document.documentMode >= 8){//IE9+ specific code
+    if(!me._jsxwindow){
+      window.opener._getjsxwindow();
+    }
+    var opener = window.top;
+  } else {
+    var opener = window.opener;
+  }
+  opener.setTimeout(function(){
     var doc = me.document;
     var openerDoc = me.opener ? me.opener.document : null;
     var objWindow = me._jsxwindow;
