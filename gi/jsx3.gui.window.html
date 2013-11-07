@@ -8,9 +8,12 @@
     <title></title>
     <script type="text/javascript" language="JavaScript">
 function _jsx_onLoad() {
+  var agt = navigator.userAgent.toLowerCase();
+  var op = agt.indexOf("opera") >= 0;
+  var ie = agt.indexOf("msie") >= 0 && !this.op;
   var me = window;
-  if(document.documentMode >= 8){//IE9+ specific code
-    if(!me._jsxwindow){
+  if( ie ){
+    if(!me._jsxwindow){//IE specific code
       window.opener._getjsxwindow();
     }
     var opener = window.top;

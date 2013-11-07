@@ -165,11 +165,11 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
 
       if (w != null) {
         var me = this;
-        /* @JSC */ if (jsx3.CLASS_LOADER.IE && jsx3.CLASS_LOADER.getVersion() > 8) {
+        /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
           window._getjsxwindow = function(){
           w["_jsxwindow"] = me;
           };
-        /* @JSC */ }//IE9+ specific code
+        /* @JSC */ }//IE specific code
         w["_jsxwindow"] = this;
         this._jsxwindow = w;
         this._jsxopener = window;
@@ -414,7 +414,7 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
 
       // garbage collection
       this._jsxwindow.document.onkeydown = null;
-      /* @JSC */ if (!(jsx3.CLASS_LOADER.IE && jsx3.CLASS_LOADER.getVersion() > 8)){// IE9+ specific code
+      /* @JSC */ if (!jsx3.CLASS_LOADER.IE){// IE specific code
         for (var f in this._jsxwindow) {
           try {
             if(typeof(this._jsxwindow[f]) == "function" || typeof(this._jsxwindow[f]) == "object")
