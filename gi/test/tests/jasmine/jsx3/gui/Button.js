@@ -11,7 +11,7 @@ describe("jsx3.gui.Button", function(){
 
   var getButton = function(s){
     var root = s.getBodyBlock().load("data/Button.xml");
-    return root.getChild(0).getDescendantOfName('button');
+    return root.getChild(0).getDescendantOfName('counterButton');
   };    
   beforeEach(function () {
     t._server = (!t._server) ? t.newServer("data/server_button.xml", ".", true): t._server;
@@ -36,6 +36,16 @@ describe("jsx3.gui.Button", function(){
   it("should able to get the value", function() {
     var value = button.getValue();
     expect(value).toEqual('[button text]');
+  });
+
+  it("should be able to trigger action when clicked", function() {
+    expect(button._clickCounter).toEqual(0);
+    button.doExecute();
+    expect(button._clickCounter).toEqual(1);
+    jsx3.gui.Event.dispatchMouseEvent(button.getRendered(),"click",{});
+    expect(button._clickCounter).toEqual(2);
+    button.getRendered().click();
+    expect(button._clickCounter).toEqual(3);
   });
 
   it("should clean up", function() {
