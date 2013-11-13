@@ -1,10 +1,11 @@
+/* place JavaScript code here */
 jsx3.lang.Package.definePackage(
   "eg.service",                //the full name of the package to create
   function(service) {          //name the argument of this function
 
     //call this method to begin the service call (eg.service.call();)
     service.call = function() {
-      var objService = testJASON.loadResource("testjson_xml");
+      var objService = testJASON.loadResource("resanswers_xml");
       objService.setOperation("");
 
       //subscribe
@@ -22,8 +23,8 @@ jsx3.lang.Package.definePackage(
     service.onSuccess = function(objEvent) {
       //var responseXML = objEvent.target.getInboundDocument();
       //objEvent.target.getServer().alert("Success","The service call was successful.");
-           objEvent.target.getServer().getJSXByName('matrix1').redrawRecord();
-           objEvent.target.getServer().getJSXByName('matrix1').repaint();
+      objEvent.target.getServer().getJSXByName('matrix1').redrawRecord();
+      objEvent.target.getServer().getJSXByName('matrix1').repaint();
     };
 
     service.onError = function(objEvent) {
@@ -37,4 +38,6 @@ jsx3.lang.Package.definePackage(
 
   }
 );
+
+
 
