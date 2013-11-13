@@ -41,17 +41,22 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr>
      <tr>
       <td>waitForJsxButtonPresent</td>
-      <td>Get Travel Info</td>
+      <td>Get Answer Info</td>
       <td>5000</td>
      </tr>
     <tr>
-      <td>click</td>
-      <td>gi=button/[@jsxtext='Get Travel Info']</td>
+      <td>assertElementNotPresent</td>
+      <td>gi=matrix1,rowbyindex,9</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>waitForTextPresent</td>
-      <td>RE069</td>
+      <td>click</td>
+      <td>gi=button/[@jsxtext='Get Answer Info']</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>waitForElementPresent</td>
+      <td>gi=matrix1,rowbyindex,9</td>
       <td>&nbsp;</td>
     </tr>
     
