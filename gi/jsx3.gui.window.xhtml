@@ -11,9 +11,19 @@
     <script type="text/javascript" language="JavaScript">
 //<![CDATA[
 function _jsx_onLoad() {
+var agt = navigator.userAgent.toLowerCase();
+  var op = agt.indexOf("opera") >= 0;
+  var ie = agt.indexOf("msie") >= 0 && !this.op;
   var me = window;
-
-  window.opener.setTimeout(function(){
+  if( ie ){
+    if(!me._jsxwindow){//IE specific code
+      window.opener._getjsxwindow();
+    }
+    var opener = window.top;
+  } else {
+    var opener = window.opener;
+  }
+  opener.setTimeout(function(){
     var doc = me.document;
     var openerDoc = me.opener ? me.opener.document : null;
     var objWindow = me._jsxwindow;
