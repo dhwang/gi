@@ -36,7 +36,9 @@ var specs = [
   "jsx3/util/dateformat.js", "jsx3/util/locale.js", "jsx3/util/numberformat.js", "jsx3/util/messageformat.js",
 
   /* GUI suite */
-  "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js", "jsx3/gui/block.js", "jsx3/gui/gui_layout.js", "jsx3/gui/select.js", "jsx3/gui/textbox.js"
+  "jsx3/gui/layoutgrid.js", "jsx3/gui/nativeform.js", "jsx3/gui/numberinput.js", 
+  "jsx3/gui/block.js", "jsx3/gui/gui_layout.js", "jsx3/gui/select.js", "jsx3/gui/textbox.js","jsx3/gui/CDF.js",
+  "jsx3/gui/Button.js","jsx3/gui/CheckBox.js","jsx3/gui/ColorPicker.js","jsx3/gui/DatePicker.js","jsx3/gui/Dialog.js"
 
 ];
 
