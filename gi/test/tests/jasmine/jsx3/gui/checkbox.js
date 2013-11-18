@@ -7,15 +7,19 @@ describe("jsx3.gui.CheckBox", function(){
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.CheckBox");
   var t = new _jasmine_test.App("jsx3.gui.CheckBox");
+  var checkBox;
   var CheckBox;
 
   var getCheckBox = function(s){
     var root = s.getBodyBlock().load("data/checkbox.xml");
-    return root.getChild(0).getDescendantOfName('checkbox');
+    return root.getChild(0).getServer().getJSXByName('checkbox');
   };    
   beforeEach(function () {
     t._server = (!t._server) ? t.newServer("data/server_checkbox.xml", ".", true): t._server;
-    CheckBox = getCheckBox(t._server);
+    checkBox = getCheckBox(t._server);
+    if(!CheckBox) {
+      CheckBox = jsx3.gui.CheckBox;
+    }
   });   
 
   afterEach(function() {
@@ -24,38 +28,46 @@ describe("jsx3.gui.CheckBox", function(){
   });   
 
   it("should be able to instance", function(){
-    expect(CheckBox).toBeInstanceOf(jsx3.gui.CheckBox);
+    expect(checkBox).toBeInstanceOf(CheckBox);
   });
 
   it("should able to do validate ", function(){
-     expect(CheckBox.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
-     CheckBox.setValue(2);
-     expect(CheckBox.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
+    checkBox.setRequired(jsx3.gui.Form.REQUIRED);
+    expect(checkBox.doValidate()).toEqual(0);
+    checkBox.setChecked(CheckBox.CHECKED);
+    expect(checkBox.doValidate()).toEqual(1);
   });
 
   it("should able to get and set the value", function() {
-    var value = CheckBox.getValue();
-    expect(value).toEqual(1);
-    CheckBox.setValue(0);
-    value = CheckBox.getValue();
-    expect(value).toEqual(0);
+    var value = checkBox.getValue();
+    expect(value).toEqual(CheckBox.UNCHECKED);
+    checkBox.setValue(1);
+    value = checkBox.getValue();
+    expect(value).toEqual(CheckBox.CHECKED);
   });
 
   it("should able to get and set current state of checkbox", function() {
-    var checked = CheckBox.getChecked();
-    expect(checked).toEqual(1);
-    CheckBox.setChecked(0);
-    checked = CheckBox.getChecked();
+    var checked = checkBox.getChecked();
     expect(checked).toEqual(0);
+    checkBox.setChecked(1);
+    checked = checkBox.getChecked();
+    expect(checked).toEqual(1);
   });
 
   it("should able to get and set the state of checkbox when it is first initialized", function() {
-    var checked = CheckBox.getDefaultChecked();
+    var checked = checkBox.getDefaultChecked();
     expect(checked).toEqual(0);
-    CheckBox.setDefaultChecked(1);
-    checked = CheckBox.getChecked();
+    checkBox.setDefaultChecked(1);
+    checkBox.repaint();
+    checked = checkBox.getDefaultChecked();
     expect(checked).toEqual(1);
   });  
+
+  it("should able to set the current state Partial of checkbox", function() {
+    expect(checkBox.getRendered().firstChild.childNodes[0].childNodes[1].style.visibility).toEqual('hidden');
+    checkBox.setChecked(2);
+    expect(checkBox.getRendered().firstChild.childNodes[0].childNodes[1].style.visibility).toEqual('visible');
+  });
 
   it("should clean up", function() {
     t._server.destroy();

@@ -112,7 +112,7 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
 	it("should have a block at left inside the second row for the navigation",function(){
 		var leftPane=layout.getChild(1).getChild(0).getChild(0);
 		expect(leftPane).toBeInstanceOf("jsx3.gui.Block");
-		expect(leftPane.getRendered().style.backgroundColor).toEqual("rgb(255, 192, 203)");
+		expect(leftPane.getRendered().style.backgroundColor).toEqual("pink");
 		expect(leftPane.getRendered().style.width).toEqual("100px");
 	});
 
@@ -124,7 +124,7 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
 
 	it("should have a block in the third row for the copyright notice",function(){
 		expect(layout.getChild(2)).toBeInstanceOf("jsx3.gui.Block");
-		expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("rgb(173, 216, 230)");
+		expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("lightblue");
 		expect(layout.getChild(2).getRendered().style.height).toEqual("50px");
 	});
 
@@ -145,14 +145,14 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
     	expect(dialog2.getRendered().style.left).toEqual("311px");
     	expect(dialog2.getTop()).toEqual(213);
     	expect(dialog2.getRendered().style.top).toEqual("213px");
-        expect(dialog2.getRendered().style.position).toEqual("absolute");    
-        dialog2.setWidth(350); 
+      expect(dialog2.getRendered().style.position).toEqual("absolute");    
+      dialog2.setWidth(350); 
     	expect(dialog2.getWidth()).toEqual(350);
-        dialog2.setHeight(170); 
+      dialog2.setHeight(170); 
     	expect(dialog2.getHeight()).toEqual(170);
-        dialog2.repaint();
-        expect(dialog2.getRendered().style.width).not.toEqual("350px");
-        expect(dialog2.getRendered().style.height).not.toEqual("170px");
+      dialog2.repaint();
+      expect(dialog2.getRendered().style.width).not.toEqual("350px");
+      expect(dialog2.getRendered().style.height).not.toEqual("170px");
 
         dialog2.setBorder("0px solid"); 
         dialog2.setBuffer("0");   

@@ -82,6 +82,11 @@ describe("jsx3.gui.Block", function(){
     it('should able to get and set the overflow property for the object', function() {
       var overflow = block.getOverflow();
       expect(overflow).toEqual(Block.OVERFLOWSCROLL);
+      block.setText('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      expect(block.getRendered().scrollTop).toEqual(0);
+      expect(block.getRendered().scrollLeft).toEqual(0);
+      expect(block.getRendered().scrollHeight).toEqual(30);
+      expect(block.getRendered().scrollWidth).toEqual(100);
       block.setOverflow(Block.OVERFLOWHIDDEN);
       var overflow = block.getOverflow();
       expect(overflow).toEqual(Block.OVERFLOWHIDDEN);
