@@ -33,7 +33,7 @@ describe("jsx3.lang.Exception", function(){
     
   });
   
-  it("should be able to return the complete call stack from when exception was instantiated as an array of function", function(){
+  var spec = it("should be able to return the complete call stack", function(){
     var a = function() { throw new jsx3.lang.Exception("test exception"); };
     var b = function() { a(); };
     var c = function() { b(); };
@@ -51,9 +51,13 @@ describe("jsx3.lang.Exception", function(){
     expect(s[0]).toEqual(a);
     expect(s[1]).toEqual(b);
     expect(s[2]).toEqual(c);
+    // The last stack element contains the function where this stack ends, but this causes infinite loop.
+    //runs( function ()  {
+    //  expect(s[4]).toEqual(spec);
+    //});
   });
   
-  it("should be able to create a special exception type to throw when the caller of a function doesn't pass arguments arrording to the method's contract", function(){
+  it("should throw IllegalArguementException when the caller of a function doesn't pass arguments arrording to the method's contract", function(){
     var e = new jsx3.lang.IllegalArgumentException("arg1", null);
     expect(e).toBeInstanceOf(jsx3.lang.Exception);
   });
