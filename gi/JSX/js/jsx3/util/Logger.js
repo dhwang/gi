@@ -1287,7 +1287,7 @@ jsx3.Class.defineClass('jsx3.util.Logger.ConsoleHandler', jsx3.util.Logger.Forma
       if (method) {
         try {
           // GI-808: IE8 doesn't define the console.debug() method, so default to console.log()
-          (console[method] || console.log)(this.format(objRecord));
+          (!console[method]) ? console.log(this.format(objRecord)) : console[method](this.format(objRecord));
         } catch (e) {}
       }
     }
