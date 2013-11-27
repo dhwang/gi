@@ -1,9 +1,9 @@
 <data>
   <record jsxid="version" type="string">1.0</record>
   <record jsxid="jsxversion" type="string">3.2</record>
-  <record jsxid="caption" type="string">Dialog</record>
+  <record jsxid="caption" type="string">dialog</record>
   <record jsxid="mode" type="boolean">true</record>
-  <record jsxid="namespace" type="string">Dialog</record>
+  <record jsxid="namespace" type="string">dialog</record>
   <record jsxid="cancelerror" type="boolean">true</record>
   <record jsxid="cancelrightclick" type="boolean">true</record>
   <record jsxid="left" type="number">0</record>
@@ -17,7 +17,7 @@
   <record jsxid="onload" type="string"><![CDATA[]]></record>
   <record jsxid="includes" type="array">
     <record jsxid="0" type="map">
-      <record jsxid="id" type="string">Dialog</record>
+      <record jsxid="id" type="string">dialog</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="src" type="string">data/dialog.xml</record>
     </record>

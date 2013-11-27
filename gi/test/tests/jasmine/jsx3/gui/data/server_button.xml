@@ -19,7 +19,7 @@
     <record jsxid="0" type="map">
       <record jsxid="id" type="string">button</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="src" type="string">data/Button.xml</record>
+      <record jsxid="src" type="string">data/button.xml</record>
     </record>
   </record>
 </data>
