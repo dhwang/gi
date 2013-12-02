@@ -1,0 +1,75 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layout ( | )" jsxcols="200,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxborder="@Outset"></dynamics>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"></variants>
+          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Beijing" jsxwidth="100%"></strings>
+          <dynamics jsxborder="@Inset"></dynamics>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18"></variants>
+          <strings jsxname="btnService" jsxtext="Search picture by jsx3.net.Service" jsxmargin="0 4 0 0" jsxkeycode="enter"></strings>
+          <events jsxexecute="eg.service.call();"></events>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18"></variants>
+          <strings jsxname="btnRequest" jsxtext="Search picture by jsx3.net.Request" jsxmargin="0 4 0 0"></strings>
+          <events jsxexecute="eg.request.send();"></events>
+        </object>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxheight="18"></variants>
+          <strings jsxname="textOwner" jsxmargin="0 4 0 0" jsxwidth="100%" jsxvalue=""></strings>
+        </object>
+        <object type="jsx3.gui.Button">
+          <variants jsxindex="0" jsxheight="18"></variants>
+          <strings jsxname="btnQuery" jsxtext="Search by owner" jsxmargin="0 4 0 0"></strings>
+          <events jsxexecute="eg.service.queryByOwner(this);"></events>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="Pane" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxborder="@Outset"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxrowheight="0" jsxresize="1" jsxxmlbind="1" jsxxmlasync="1"></variants>
+          <strings jsxname="matrix1" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxmlid="testjson_xml" jsxsortpath="jsxdate" jsxsorttype="number" jsxsortdirection="descending"></strings>
+          <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);" jsxspy="if(objCOLUMN.getPath() != 'Url') false; else { rec = this.getRecord(strRECORDID); '&lt;dt&gt;Summary&lt;/dt&gt;&lt;dl&gt;' + rec.Summary + ' &lt;/dl&gt; &lt;dt&gt; Author &lt;/dt&gt;&lt;dl&gt;' + rec.Author + '&lt;/dl&gt; &lt;a href=&quot;' + rec.Url + '&quot;&gt;' + rec.Url + '&lt;/a&gt;';}"></events>
+          <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="100"></variants>
+            <strings jsxname="imageColumn" jsxtext="Image" jsxvaluetemplate="@image" jsxpadding="3" jsxcellpadding="1" jsxpath="jsximg"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="textColumn" jsxwidth="100" jsxtext="Owner" jsxpadding="2" jsxcellpadding="3" jsxpath="owner"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants jsxwidth="153"></variants>
+            <strings jsxname="htmlColumn" jsxtext="Link" jsxpadding="2" jsxcellpadding="2" jsxpath="url" jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;   &lt;xsl:param name=&quot;jsx_row_number&quot;/&gt;   &lt;xsl:if test=&quot;@jsxcellstyle&quot;&gt;     &lt;xsl:attribute name=&quot;style&quot;&gt;       &lt;xsl:value-of select=&quot;@jsxcellstyle&quot;/&gt;     &lt;/xsl:attribute&gt;   &lt;/xsl:if&gt;    &lt;xsl:choose&gt;     &lt;xsl:when test=&quot;@url&quot;&gt;       &lt;xsl:element name=&quot;span&quot;&gt;         &lt;xsl:attribute name=&quot;style&quot;&gt;cursor:pointer;cursor:hand;text-decoration:underline;color:#346693&lt;/xsl:attribute&gt;         &lt;xsl:attribute name=&quot;onclick&quot;&gt;eg.service.showImage('           &lt;xsl:value-of select=&quot;@url&quot;/&gt;           ');&lt;/xsl:attribute&gt;         &lt;xsl:value-of select=&quot;@url&quot;/&gt;       &lt;/xsl:element&gt;     &lt;/xsl:when&gt;   &lt;/xsl:choose&gt;  &lt;/xsl:template&gt;" jsxformathandler="@unescape"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="textColumn" jsxwidth="100" jsxtext="Text" jsxpadding="2" jsxcellpadding="3" jsxpath="title"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>
