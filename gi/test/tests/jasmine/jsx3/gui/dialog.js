@@ -81,11 +81,9 @@ describe("jsx3.gui.Dialog", function(){
     });
 
     it("should abe to get an object handle to the jsx3.gui.WindowBar instance", function() {
-      expect(dialog.getCaptionBar()).toBeInstanceOf(jsx3.gui.WindowBar);
-      expect(dialog.getCaptionBar().getRendered().className).toEqual('jsx30windowbar');
-      expect(dialog.getCaptionBar().getDescendantOfName('btnMinimize')).toBeInstanceOf(jsx3.gui.ToolbarButton);
-      expect(dialog.getCaptionBar().getDescendantOfName('btnMaximize')).toBeInstanceOf(jsx3.gui.ToolbarButton);
-      expect(dialog.getCaptionBar().getDescendantOfName('btnClose')).toBeInstanceOf(jsx3.gui.ToolbarButton);
+      expect(dialog.getCaptionBar()).toBeDefined();
+      dialog.removeChild(0);
+      expect(dialog.getCaptionBar()).toBeNull();
     });
 
     it("should able to set and get the border that surrounds the dialog content", function() {
@@ -142,12 +140,12 @@ describe("jsx3.gui.Dialog", function(){
     });
 
     it("Closing dialog box should remove it from DOM", function() {
-      expect(dialog.getRendered().className).toEqual('jsx30dialog');
+      expect(dialog.getRendered()).not.toBeNull();
       dialog.doClose();
       expect(dialog.getRendered()).toBeNull();
     });
 
-    it("should able to set and get toggles the window's state between full-size and window-shaded", function() {
+    it("should able to toggle the window's state between full-size and window-shaded", function() {
       dialog.doToggleState();
       expect(dialog.getRendered().childNodes[1].style.display).toEqual('none');
       expect(dialog.getRendered().style.height).toEqual('26px');
@@ -162,11 +160,6 @@ describe("jsx3.gui.Dialog", function(){
       dialog.doMaximize(dialog.getDescendantOfName('btnMaximize'));
       maxButtonElm = dialog.selectDescendants('#btnMaximize')[0].getRendered().childNodes[0];
       expect(maxButtonElm.style.backgroundImage).toEqual('url("../JSX/images/dialog/restore.gif")');
-    });
-
-    it("should able to applie focus to the caption bar if the dialog has one", function() {
-      expect(dialog.getChild(0).focus().nodeName.toLowerCase()).toEqual('div');
-      expect(dialog.getChild(0).focus().className).toEqual('jsx30windowbar');
     });
 
     it("should be able to be moved to an absolute position on screen", function() {
@@ -188,33 +181,29 @@ describe("jsx3.gui.Dialog", function(){
     var dialog2;
     var getDialog2 = function(s){
       var root2 = s.getBodyBlock().load("data/dialog2.xml");
-      return root2.getChild(0);
-    };    
+      return root2;
+    }; 
+
     beforeEach(function () {
       t._server = (!t._server) ? t.newServer("data/server_dialog2.xml", ".", true): t._server;
       dialog2 = getDialog2(t._server);
       if(!Dialog) {
          Dialog = jsx3.gui.Dialog;
       }
-    });   
-
-    afterEach(function() {
-      if (t._server)
-        t._server.getBodyBlock().removeChildren();
-    });   
+    });    
 
     it("should be able to instance", function(){
       expect(dialog2).toBeInstanceOf(Dialog);
     });
-
-    it("should able to set and get toggles the window's state between full-size and window-shaded", function() {
+ 
+    it("should able to toggle the window's state between full-size and minimize without window bar", function() {
       dialog2.doToggleState();
       expect(dialog2.getRendered().style.height).toEqual('0px');
       dialog2.doToggleState();
       expect(dialog2.getRendered().style.height).toEqual('312px');
     });
 
-    it("should not have the window bar", function() {
+    it("should not have a window bar", function() {
       expect(dialog2.getCaptionBar()).toBeNull();
     });
 
@@ -226,12 +215,13 @@ describe("jsx3.gui.Dialog", function(){
     });
   });
 
-  describe("several dialog",function() {
+  describe("several dialogs",function() {
     var dialog3;
     var getDialog3 = function(s){
       var root3 = s.getBodyBlock().load("data/dialog3.xml");
       return root3.getChild(0);
-    };    
+    };  
+
     beforeEach(function () {
       t._server = (!t._server) ? t.newServer("data/server_dialog3.xml", ".", true): t._server;
       dialog3 = getDialog3(t._server);
@@ -252,6 +242,95 @@ describe("jsx3.gui.Dialog", function(){
     it("whether this dialog instance is the front-most dialog among all open dialogs", function() {
       expect(dialog3.isFront()).toBe(false);
       expect(dialog3.getNextSibling().isFront()).toBe(true);
+    });
+
+    it("should clean up", function() {
+      t._server.destroy();
+      t.destroy();
+      expect(t._server.getBodyBlock().getRendered()).toBeNull();
+      delete t._server;
+    });
+  });
+
+  describe("dialog with a task bar",function() {
+    var dialog4;
+    var getDialog4 = function(s){
+      var root4 = s.getBodyBlock().load("data/dialog4.xml");
+      return root4.getChild(0);
+    };    
+    beforeEach(function () {
+      t._server = (!t._server) ? t.newServer("data/server_dialog4.xml", ".", true): t._server;
+      dialog4 = getDialog4(t._server);
+      if(!Dialog) {
+         Dialog = jsx3.gui.Dialog;
+      }
+    });   
+
+    afterEach(function() {
+      if (t._server)
+        t._server.getBodyBlock().removeChildren();
+    });   
+
+    it("should be able to instance", function(){
+      expect(dialog4).toBeInstanceOf(Dialog);
+    });
+
+    it("should be able get object handle to the jsx3.gui.ToolbarButton instance that resides in the application task bar", function() {
+      expect(dialog4.getTaskButton()).not.toBeNull();
+      dialog4.getParent().removeChild(1);
+      expect(dialog4.getTaskButton()).toBeNull();
+    });
+
+    it("should be able to minimize to task bar when toggled with a task bar", function() {
+      dialog4.doToggleState();
+      expect(dialog4.getRendered().style.display).toEqual('none');
+      dialog4.getNextSibling().getRendered().firstChild.click();
+      expect(dialog4.getRendered().style.display).toEqual('');
+      dialog4.getNextSibling().getRendered().firstChild.click();
+      expect(dialog4.getRendered().style.display).toEqual('none');
+    });
+
+    it("should clean up", function() {
+      t._server.destroy();
+      t.destroy();
+      expect(t._server.getBodyBlock().getRendered()).toBeNull();
+      delete t._server;
+    });
+  });
+
+  describe("dialog with ok and close button",function() {
+    var dialog5;
+    var getDialog5 = function(s){
+      var root5 = s.getBodyBlock().load("data/dialog5.xml");
+      return root5;
+    };    
+    beforeEach(function () {
+      t._server = (!t._server) ? t.newServer("data/server_dialog5.xml", ".", true): t._server;
+      dialog5 = getDialog5(t._server);
+      if(!Dialog) {
+         Dialog = jsx3.gui.Dialog;
+      }
+    });   
+
+    afterEach(function() {
+      if (t._server)
+        t._server.getBodyBlock().removeChildren();
+    });   
+
+    it("should be able to instance", function(){
+      expect(dialog5).toBeInstanceOf(Dialog); 
+    });
+
+    it("Closing dialog box should remove it from DOM when click the close button", function() {
+      expect(dialog5.getRendered()).not.toBeNull();
+      dialog5.getServer().getJSXByName('buttonClose').doExecute();
+      expect(dialog5.getRendered()).toBeNull();
+    });
+
+    it("Closing dialog box should remove it from DOM when click the ok button", function() {
+      expect(dialog5.getRendered()).not.toBeNull();
+      dialog5.getServer().getJSXByName('buttonOK').doExecute();
+      expect(dialog5.getRendered()).toBeNull();
     });
 
     it("should clean up", function() {
