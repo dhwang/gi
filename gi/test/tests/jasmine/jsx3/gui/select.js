@@ -126,9 +126,9 @@ describe("jsx3.gui.Select", function() {
     it("should able to set and get the URL to use for the dropdown image", function() {
       var icon = select.getIcon();
       expect(icon).toBeUndefined();
-      select.setIcon('../JSX/images/icons/v.png');
+      select.setIcon('JSX/images/icons/v.png');
       select.repaint();
-      expect(select.getRendered().style.backgroundImage).toEqual('url("tests/jasmine/jsx3/JSX/images/icons/v.png")')
+      expect(select.getIcon().toString()).toEqual(select.getServer().resolveURI("JSX/images/icons/v.png").toString());
     });
 
     it("should clean up", function() {
@@ -183,7 +183,7 @@ describe("jsx3.gui.Select", function() {
       expect(select2.getMaxLength()).toBeNull();
     });
 
-    it("should abe to show and hide the list of options for this select box", function() {
+    it("should be able to show and hide the list of options for this select box", function() {
       select2.show();
       expect(document.getElementById('jsx30curvisibleoptions').className).toMatch(/jsx30heavy/);
       select2.hide();
