@@ -13,7 +13,8 @@
 function _jsx_onLoad() {
 var agt = navigator.userAgent.toLowerCase();
   var op = agt.indexOf("opera") >= 0;
-  var ie = agt.indexOf("msie") >= 0 && !this.op;
+  var trident = agt.match(/trident/i);
+  var ie = (agt.indexOf("msie") >= 0 && !this.op)||!!trident;
   var me = window;
   if( ie ){
     if(!me._jsxwindow){//IE specific code

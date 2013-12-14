@@ -48,20 +48,22 @@ window['jsx_main'] = function() {
     }
 
     // Microsoft Internet Explorer v6-8
-    this.ie = agt.indexOf("msie") >= 0 && !this.op;
+    var trident = agt.match(/trident/i);
+    this.ie = (agt.indexOf("msie") >= 0 && !this.op)||(!!trident);
     if (this.ie) {
-      var vers = this._getVersionAfter('msie ');
+      var vers = this._getVersionAfter('msie ')|| this._getVersionAfter("rv:");
       this.ie6 = vers >= 6 && vers < 7;
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
-      this.ie9 = vers >= 9;
-      this.ie9s = vers >= 9 && document.documentMode >= 9;
+      this.ie9 = vers >= 9 && vers < 10;
+      this.ie9s = vers >= 9 && document.documentMode >= 9 && vers<11;
+      this.ie11 = vers>=11;
     }
   };
 
   /* @jsxobf-clobber */
   BrowserDetect._ORDER = [
-      "ie9s", "ie9", "ie8", "ie7", "ie6",
+      "ie11","ie9s", "ie9", "ie8", "ie7", "ie6",
       "fx4", "fx3", "fx2", "fx1_5",
       "gc1", "sf4", "sf3",
       "op10", "op9",
@@ -1070,6 +1072,7 @@ window['jsx_main'] = function() {
         ie7:["ie7", ["IE","IE7","VML"], "allow", 7],
         ie8:["ie7", ["IE","IE8","VML"], "allow", 8],
         ie9:["ie7", ["IE","IE9","VML"], "allow", 9],
+        ie11:["ie7", ["IE","IE11","SVG"], "allow", 11],
         ie9s:["ie7", ["IE","IE9","SVG"], "allow", 9],
         fx1_5:["fx", ["FX","SVG","GKO"], 0, 1.5],
         fx2:["fx", ["FX","FX2","SVG","GKO"], 0, 2],
@@ -1597,7 +1600,7 @@ window['jsx_main'] = function() {
         element.setAttribute("type", 'text/javascript');
 
         // set up onload handler
-        if (jsx3.CLASS_LOADER.IE) {
+        if (jsx3.CLASS_LOADER.IE && !jsx3.CLASS_LOADER.IE11) {
           element.onreadystatechange = function() {
             var state = this.readyState;
             if (state == "loaded" || state == "interactive" || state == "complete") {
