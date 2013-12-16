@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2001-2011, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  --><data jsxid="jsxroot">
+  <record jsxid="a" jsximg="" jsxtext="Hong Kong"/>
+  <record jsxid="b" jsximg="" jsxtext="Tokyo"/>
+  <record jsxid="c" jsximg="" jsxtext="New York"/>
+  <record jsxid="d" jsximg="" jsxtext="Guangdong"/>
+  <record jsxid="a1" jsximg="" jsxtext="Paris"/>
+  <record jsxid="b1" jsximg="" jsxtext="London"/>
+  <record jsxid="c1" jsximg="" jsxtext="Sydney"/>
+  <record jsxid="d1" jsximg="" jsxtext="Moscow"/>
+  <record jsxid="a2" jsximg="" jsxtext="Milan"/>
+  <record jsxid="b2" jsximg="" jsxtext="Beijing"/>
+  <record jsxid="c2" jsximg="" jsxtext="Shanghai"/>
+  <record jsxid="d2" jsximg="" jsxtext="Roman"/>
+  <record jsxid="a3" jsximg="" jsxtext="Athens"/>
+  <record jsxid="b3" jsximg="" jsxtext="Cairo"/>
+</data>

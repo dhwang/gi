@@ -1,0 +1,222 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[CDF Mapping Container]]></name>
+  <icon><![CDATA[images/prototypes/container.gif]]></icon>
+  <description><![CDATA[Maps descendant form fields to records and attributes in a cached CDF document.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.CDF">
+    <variants></variants>
+    <strings jsxname="cdf" jsxwidth="100%" jsxheight="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA;  &lt;record jsxid=&quot;1&quot; first=&quot;Summer&quot; last=&quot;Jones&quot; password=&quot;123456&quot; phone=&quot;15101029050&quot; email=&quot;summerwang0915@gmail.com&quot; male=&quot;checked&quot; female=&quot;checked&quot; city=&quot;Hong Kong&quot; birth=&quot;Dec 10, 2013&quot; hobby=&quot;1&quot; /&gt;&#xA;&lt;/data&gt;"></strings>
+    <properties first="Summer123" last="Jones" password="123456" email="summerwang0915@gmail.com" city="Hong Kong" birth="Hong Kong" time="12:30 AM"></properties>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutRows" jsxrows="280,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxborder="@Outset"></dynamics>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="registerRoot" jsxwidth="100%" jsxheight="100%" jsxpadding="10 0 0 20" jsxcolor=""></strings>
+          <object type="jsx3.gui.NativeForm">
+            <variants></variants>
+            <strings jsxname="registerForm" jsxaction="#" jsxmethod="get" jsxmulti="0" jsxtarget="0"></strings>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxheight="230"></variants>
+              <strings jsxname="regInfo" jsxwidth="100%" jsxrelativeposition="1"></strings>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="firstName" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="First Name" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="18"></variants>
+                  <strings jsxname="regFirstName" jsxmargin="0 0 0 10" jsxcdfattribute="first" jsxvalue="Summer"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="lastName" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="Last Name" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="18"></variants>
+                  <strings jsxname="regLastName" jsxmargin="0 0 0 10" jsxcdfattribute="last" jsxvalue="Jones"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="passwod" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="password" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxtype="2" jsxheight="18"></variants>
+                  <strings jsxname="regPassword" jsxmargin="0 0 0 10" jsxcdfattribute="password" jsxvalue="123456"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="phone" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="phone" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="18"></variants>
+                  <strings jsxname="regPhone" jsxmargin="0 0 0 10" jsxcdfattribute="phone" jsxvalue="15101029050" jsxvalidationtype="phone" jsxvalidationexpression="^0?\\d{11}$"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="email" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="email" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.TextBox">
+                  <variants jsxheight="18"></variants>
+                  <strings jsxname="regEmail" jsxmargin="0 0 0 10" jsxcdfattribute="email" jsxvalidationtype="email" jsxvalue="summerwang0915@gmail.com" jsxvalidationexpression="[a-z]{5,8}@(hotmail\.com|msn\.com|[a-z]{3,8}\.(com|net|org))"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="sex" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="sex" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.RadioButton">
+                  <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"></variants>
+                  <strings jsxname="male" jsxtext="Male" jsxgroupname="group1" jsxmargin="0 0 0 20" jsxcdfattribute=""></strings>
+                </object>
+                <object type="jsx3.gui.RadioButton">
+                  <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"></variants>
+                  <strings jsxname="female" jsxtext="Female" jsxgroupname="group1" jsxmargin="0 0 0 10" jsxcdfattribute=""></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="city" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="city" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.Select">
+                  <variants jsxwidth="120" jsxheight="18" jsxxmlasync="1"></variants>
+                  <strings jsxname="regCity" jsxxmlurl="xml/city.xml" jsxmargin="0 0 0 10" jsxxml="" jsxcdfattribute="city" jsxvalue="Hong Kong"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="birth" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="birth" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.DatePicker">
+                  <variants jsxwidth="120" jsxrelativeposition="1" jsxheight="18" jsxyear="2013" jsxmonth="11" jsxdate="10"></variants>
+                  <strings jsxname="regBirth" jsxmargin="0 0 0 10" jsxcdfattribute="birth"></strings>
+                </object>
+              </object>
+              <object type="jsx3.gui.Block">
+                <variants jsxoverflow="1" jsxheight="25"></variants>
+                <strings jsxname="hobby" jsxwidth="100%" jsxrelativeposition="1"></strings>
+                <object type="jsx3.gui.Block">
+                  <variants jsxrelativeposition="1" jsxoverflow="3" jsxwidth="100"></variants>
+                  <strings jsxname="label" jsxtext="hobby" jsxtextalign="right"></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxchecked="0" jsxdefaultchecked="0"></variants>
+                  <strings jsxname="reading" jsxtext="Reading" jsxmargin="0 0 0 10" jsxborder="" jsxcdfattribute="reading"></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxchecked="1" jsxdefaultchecked="0"></variants>
+                  <strings jsxname="cooking" jsxtext="Cooking" jsxmargin="0 0 0 10" jsxcdfattribute="hobby"></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxchecked="0" jsxdefaultchecked="0"></variants>
+                  <strings jsxname="traveling" jsxtext="Travaling" jsxmargin="0 0 0 10"></strings>
+                </object>
+                <object type="jsx3.gui.CheckBox">
+                  <variants jsxheight="18" jsxdefaultchecked="0" jsxchecked="0"></variants>
+                  <strings jsxname="studying" jsxtext="Studing" jsxmargin="0 0 0 10"></strings>
+                </object>
+              </object>
+            </object>
+            <object type="jsx3.gui.Block">
+              <variants jsxoverflow="1" jsxwidth="200" jsxheight="30"></variants>
+              <strings jsxname="regSubmit" jsxrelativeposition="1" jsxpadding="" jsxmargin="0 0 0 110"></strings>
+              <object type="jsx3.gui.Button">
+                <variants jsxindex="0" jsxheight="18"></variants>
+                <strings jsxname="submit" jsxtext="submit" jsxmargin="0 4 0 0"></strings>
+                <events jsxexecute="eg.request.doSubmit(this);"></events>
+              </object>
+              <object type="jsx3.gui.Button">
+                <variants jsxindex="0" jsxheight="18" jsxenabled="1"></variants>
+                <strings jsxname="reset" jsxtext="reset" jsxmargin="0 4 0 0"></strings>
+                <events jsxexecute="eg.request.doReset(this);"></events>
+              </object>
+            </object>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1"></variants>
+        <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxborder="@Outset"></dynamics>
+        <object type="jsx3.gui.Matrix">
+          <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1"></variants>
+          <strings jsxname="mtxAddTable" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA;  &lt;record jsxid=&quot;1&quot; first=&quot;Summer&quot; last=&quot;Jones&quot; password=&quot;123456&quot; phone=&quot;15101029050&quot; email=&quot;summerwang0915@gmail.com&quot; male=&quot;checked&quot; female=&quot;checked&quot; city=&quot;Hong Kong&quot; birth=&quot;Dec 10, 2013&quot; hobby=&quot;1&quot; /&gt;&#xA;&lt;/data&gt;"></strings>
+          <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);"></events>
+          <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="firstName" jsxwidth="100" jsxtext="firstName" jsxpadding="2" jsxcellpadding="3" jsxpath="first"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="lastName" jsxwidth="100" jsxtext="lastName" jsxpadding="2" jsxcellpadding="3" jsxpath="last"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="password" jsxwidth="100" jsxtext="password" jsxpadding="2" jsxcellpadding="3" jsxpath="password"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="phone" jsxwidth="100" jsxtext="phone" jsxvaluetemplate="@empty" jsxpadding="2" jsxcellpadding="2" jsxpath="phone" jsxformathandler="@number,integer"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="email" jsxwidth="100" jsxtext="email" jsxpadding="2" jsxcellpadding="3" jsxpath="email"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="city" jsxwidth="100" jsxtext="city" jsxpadding="2" jsxcellpadding="3" jsxpath="city"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="birth" jsxwidth="100" jsxtext="birth" jsxpadding="2" jsxcellpadding="3" jsxpath="birth"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+          <object type="jsx3.gui.Matrix.Column">
+            <variants></variants>
+            <strings jsxname="hobby" jsxwidth="100" jsxtext="hobby" jsxpadding="2" jsxcellpadding="3" jsxpath="hobby"></strings>
+            <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>
