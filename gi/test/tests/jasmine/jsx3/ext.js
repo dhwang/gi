@@ -437,7 +437,7 @@ describe("ext - Javascript extended functions", function(){
       runs(function(){
         rv.when(function(){
           result = rv.rv();
-          expect(rv.rv()).toEqual(10);
+          expect(result).toEqual(10);
         });
       });
       
