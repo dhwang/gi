@@ -56,14 +56,16 @@ window['jsx_main'] = function() {
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
       this.ie9 = vers >= 9 && vers < 10;
-      this.ie9s = vers >= 9 && document.documentMode >= 9 && vers<11;
+      this.ie9s = this.ie9 && document.compatMode == "CSS1Compat";
+      //ie9 standard mode
+      this.ie10 = vers >=10 && vers < 11;
       this.ie11 = vers>=11;
     }
   };
 
   /* @jsxobf-clobber */
   BrowserDetect._ORDER = [
-      "ie11","ie9s", "ie9", "ie8", "ie7", "ie6",
+      "ie11","ie10","ie9s", "ie9", "ie8", "ie7", "ie6",
       "fx4", "fx3", "fx2", "fx1_5",
       "gc1", "sf4", "sf3",
       "op10", "op9",
@@ -1072,8 +1074,9 @@ window['jsx_main'] = function() {
         ie7:["ie7", ["IE","IE7","VML"], "allow", 7],
         ie8:["ie7", ["IE","IE8","VML"], "allow", 8],
         ie9:["ie7", ["IE","IE9","VML"], "allow", 9],
-        ie11:["ie7", ["IE","IE11","SVG"], "allow", 11],
         ie9s:["ie7", ["IE","IE9","SVG"], "allow", 9],
+        ie10:["ie7", ["IE","IE10","SVG"], "allow", 10],
+        ie11:["ie7", ["IE","IE11","SVG"], "allow", 11],
         fx1_5:["fx", ["FX","SVG","GKO"], 0, 1.5],
         fx2:["fx", ["FX","FX2","SVG","GKO"], 0, 2],
         fx3:["fx", ["FX","FX3","SVG","GKO"], "allow", 3],
