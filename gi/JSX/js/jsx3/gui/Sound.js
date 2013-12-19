@@ -103,7 +103,7 @@ jsx3.Class.defineClass('jsx3.gui.Sound', jsx3.gui.Painted, [jsx3.gui.Interactive
     if (this.VERSION == null) {
       try {
         this.VERSION = "Unknown Version";
-        if (window.ActiveXObject) {
+       if (window.ActiveXObject || window.ActiveXObject !== undefined) {
           this.ACTIVEX = new ActiveXObject("WMPlayer.OCX.7");
           this.VERSION = this.ACTIVEX.versionInfo;
         }

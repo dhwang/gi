@@ -45,7 +45,7 @@
     factory = new GearsFactory();
   } else {
     // IE
-    if (window.ActiveXObject) {
+    if (window.ActiveXObject || window.ActiveXObject !== undefined) {
       try {
         factory = new ActiveXObject('Gears.Factory');
         // privateSetGlobalObject is only required and supported on WinCE.
