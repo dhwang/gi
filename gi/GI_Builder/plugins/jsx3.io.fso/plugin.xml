@@ -12,7 +12,7 @@
 
   <method id="isAvailable"><![CDATA[
     try {
-      if (window.ActiveXObject) {
+      if (window.ActiveXObject || window.ActiveXObject !== undefined) {
         return new ActiveXObject("Scripting.FileSystemObject") != null;
       }
     } catch (e) {}
