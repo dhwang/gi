@@ -1,9 +1,9 @@
 <data>
   <record jsxid="version" type="string">1.0</record>
   <record jsxid="jsxversion" type="string">3.2</record>
-  <record jsxid="caption" type="string">DatePicker</record>
+  <record jsxid="caption" type="string">datePicker</record>
   <record jsxid="mode" type="boolean">true</record>
-  <record jsxid="namespace" type="string">DatePicker</record>
+  <record jsxid="namespace" type="string">datePicker</record>
   <record jsxid="cancelerror" type="boolean">true</record>
   <record jsxid="cancelrightclick" type="boolean">true</record>
   <record jsxid="left" type="number">0</record>
@@ -17,9 +17,9 @@
   <record jsxid="onload" type="string"><![CDATA[]]></record>
   <record jsxid="includes" type="array">
     <record jsxid="0" type="map">
-      <record jsxid="id" type="string">DatePicker</record>
+      <record jsxid="id" type="string">datePicker</record>
       <record jsxid="type" type="string">component</record>
-      <record jsxid="src" type="string">data/DatePicker.xml</record>
+      <record jsxid="src" type="string">data/datePicker.xml</record>
     </record>
   </record>
 </data>
