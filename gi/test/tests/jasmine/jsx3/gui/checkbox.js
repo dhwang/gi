@@ -10,22 +10,23 @@ describe("jsx3.gui.CheckBox", function(){
   var checkBox;
   var CheckBox;
 
-  var getCheckBox = function(s){
+  var getCheckBox = function(s) {
     var root = s.getBodyBlock().load("data/checkbox.xml");
-    return root.getChild(0).getServer().getJSXByName('checkbox');
-  };    
+    return root.getServer().getJSXByName('checkbox');
+  };
+
   beforeEach(function () {
     t._server = (!t._server) ? t.newServer("data/server_checkbox.xml", ".", true): t._server;
     checkBox = getCheckBox(t._server);
     if(!CheckBox) {
       CheckBox = jsx3.gui.CheckBox;
     }
-  });   
+  });
 
   afterEach(function() {
     if (t._server)
       t._server.getBodyBlock().removeChildren();
-  });   
+  });
 
   it("should be able to instance", function(){
     expect(checkBox).toBeInstanceOf(CheckBox);
@@ -37,11 +38,11 @@ describe("jsx3.gui.CheckBox", function(){
   });
 
   it("should able to do validate", function(){
-    expect(checkBox.doValidate()).toEqual(1);
+    expect(checkBox.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
     checkBox.setRequired(jsx3.gui.Form.REQUIRED);
-    expect(checkBox.doValidate()).toEqual(0);
+    expect(checkBox.doValidate()).toEqual(jsx3.gui.Form.STATEINVALID);
     checkBox.setChecked(CheckBox.CHECKED);
-    expect(checkBox.doValidate()).toEqual(1);
+    expect(checkBox.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
   });
 
   it("should able to get and set the value", function() {
@@ -66,12 +67,12 @@ describe("jsx3.gui.CheckBox", function(){
     checkBox.setDefaultChecked(CheckBox.CHECKED);
     checked = checkBox.getDefaultChecked();
     expect(checked).toEqual(CheckBox.CHECKED);
-  });  
+  });
 
   it("should able to set the current state Partial of checkbox", function() {
     var checkbox = {};
     checkbox.imgpartial = checkBox.getRendered().firstChild.childNodes[0].childNodes[1];
-    checkbox.ispartial = function() { return checkbox.imgpartial.style.visibility == "visible"; } 
+    checkbox.ispartial = function() { return checkbox.imgpartial.style.visibility == "visible"; }\
     expect(checkbox.ispartial()).toBeFalsy();
     checkBox.setChecked(CheckBox.PARTIAL);
     expect(checkbox.ispartial()).toBeTruthy();
@@ -98,7 +99,7 @@ describe("jsx3.gui.CheckBox", function(){
     checkBox.setFontWeight('bold');
     checkBox.repaint();
     expect(checkBox.getRendered().style.fontWeight).toEqual('bold');
-    checkBox.setColor('red',true);;
+    checkBox.setColor('red',true);
     expect(checkBox.getRendered().style.color).toEqual('red');
     checkBox.setBackgroundColor('#f00');
     checkBox.repaint();
@@ -107,7 +108,7 @@ describe("jsx3.gui.CheckBox", function(){
     expect(checkBox.getRendered().style.border).toEqual('3px inset rgb(0, 0, 0)');
   });
 
-  it("should be able to set and get the background color of this form control when it is disabled", function() {
+  it("should be able to set and get the color when it is disabled", function() {
     checkBox.setEnabled(jsx3.gui.Form.STATEDISABLED,true);
     expect(checkBox.getDisabledColor()).toBeUndefined();
     checkBox.setDisabledColor('#ff0000');

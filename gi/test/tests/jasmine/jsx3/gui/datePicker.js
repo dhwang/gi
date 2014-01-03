@@ -45,12 +45,12 @@ describe("jsx3.gui.DatePicker", function(){
   });
 
   it("should able to do validate", function(){
-    expect(datePicker.doValidate()).toEqual(1);
+    expect(datePicker.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
     datePicker.setRequired(jsx3.gui.Form.REQUIRED);
-    expect(datePicker.doValidate()).toEqual(0);
+    expect(datePicker.doValidate()).toEqual(jsx3.gui.Form.STATEINVALID);
     var d = new Date('January 6, 2013');
     datePicker.setDate(d);
-    expect(datePicker.doValidate()).toEqual(1);
+    expect(datePicker.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
   }); 
 
   it("should able to overridden on an instance of a DatePicker to control which dates are selectable in the calendar popup", function() {

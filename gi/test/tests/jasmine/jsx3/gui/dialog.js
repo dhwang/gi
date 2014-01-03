@@ -156,10 +156,18 @@ describe("jsx3.gui.Dialog", function(){
 
     it("should able to toggle the state of the dialog between 'maximized' and its 'initial state'", function() {
       var maxButtonElm = dialog.selectDescendants('#btnMaximize')[0].getRendered().childNodes[0];
-      expect(maxButtonElm.style.backgroundImage).toEqual('url("../JSX/images/dialog/max.gif")');
+      if(maxButtonElm.style.backgroundImage === 'url("../JSX/images/dialog/max.gif")') {
+        expect(maxButtonElm.style.backgroundImage).toEqual('url("../JSX/images/dialog/max.gif")');
+      } else if (maxButtonElm.style.backgroundImage === 'url(http://localhost/GI/JSX/images/dialog/max.gif)') {
+        expect(maxButtonElm.style.backgroundImage).toEqual('url(http://localhost/GI/JSX/images/dialog/max.gif)');
+      }
       dialog.doMaximize(dialog.getDescendantOfName('btnMaximize'));
       maxButtonElm = dialog.selectDescendants('#btnMaximize')[0].getRendered().childNodes[0];
-      expect(maxButtonElm.style.backgroundImage).toEqual('url("../JSX/images/dialog/restore.gif")');
+      if(maxButtonElm.style.backgroundImage === 'url("../JSX/images/dialog/restore.gif")') {
+        expect(maxButtonElm.style.backgroundImage).toEqual('url("../JSX/images/dialog/restore.gif")');
+      } else if (maxButtonElm.style.backgroundImage === 'url(http://localhost/GI/JSX/images/dialog/restore.gif)') {
+        expect(maxButtonElm.style.backgroundImage).toEqual('url(http://localhost/GI/JSX/images/dialog/restore.gif)');
+      }
     });
 
     it("should be able to be moved to an absolute position on screen", function() {

@@ -17,9 +17,9 @@ describe("jsx3.gui.Select", function() {
 
     var getSelect = function(s) {
       var root = s.getBodyBlock().load("data/form_components.xml");
-      return root.getChild(0).getServer().getJSXByName('select');
+      return root.getServer().getJSXByName('select');
     };
-    
+
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
       select = getSelect(t._server);
@@ -43,14 +43,19 @@ describe("jsx3.gui.Select", function() {
     });
 
     it("should able to set and get text", function() {
+      expect(select.getText()).toEqual('- Select -')
       select.setDefaultText("hello");
       expect(select.getText()).toEqual("hello");
     });
 
     it("should able to do validate", function() {
       expect(select.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
-      select.setValue(2);
-      expect(select.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
+      select.setRequired(jsx3.gui.Form.REQUIRED);
+      expect(select.doValidate()).toEqual(jsx3.gui.Form.STATEINVALID);
+      var cdf = newCDF("data/selectCdf.xml");
+      select.setSourceXML(cdf);
+      select.setValue('c2');
+      expect(select.doValidate()).toEqual(1);
     });
 
     it("should able to load new CDF document using setSourceXML() method", function() {
@@ -63,9 +68,9 @@ describe("jsx3.gui.Select", function() {
     });
 
     it("should able to set and get type", function() {
-      expect(select.getType()).toEqual(0);
+      expect(select.getType()).toEqual(Select.TYPESELECT);
       select.setType(Select.TYPECOMBO);
-      expect(select.getType()).toEqual(1);
+      expect(select.getType()).toEqual(Select.TYPECOMBO);
     });
 
     it("should able to set and get the value", function() {
@@ -74,16 +79,16 @@ describe("jsx3.gui.Select", function() {
       select.setSourceXML(cdf2);
       select.setValue('china');
       expect(select.getText()).toEqual(r2.jsxtext);
-      var r3= cdf2.getRecord('japan');
+      var r3 = cdf2.getRecord('japan');
       select.setValue('japan');
       expect(select.getText()).toEqual(r3.jsxtext);
-      var r4= cdf2.getRecord('Korea');
+      var r4 = cdf2.getRecord('Korea');
       select.setValue('Korea');
       expect(select.getText()).toEqual(r4.jsxtext);
-      var r5= cdf2.getRecord('French');
+      var r5 = cdf2.getRecord('French');
       select.setValue('French');
       expect(select.getText()).toEqual(r5.jsxtext);
-      var r6= cdf2.getRecord('German');
+      var r6 = cdf2.getRecord('German');
       select.setValue('German');
       expect(select.getText()).toEqual(r6.jsxtext);
     });
@@ -100,27 +105,32 @@ describe("jsx3.gui.Select", function() {
       expect(select.getDefaultText()).toEqual("-City-");
     });
 
-    it("should able to focus", function() {
-      expect(select.focus().nodeName.toLowerCase()).toEqual('span');
-      expect(select.focus().className).toEqual('jsx30select_select');
-    });
-
     it("should able to load new CDF XML", function() {
       var cdf3 = newCDF("data/countries.xml");
       select.setSourceXML(cdf3);
       select.repaint();
       select.show();
-      console.log(jsx3.html.getOuterHTML(select.getRendered()))
-      expect(document.getElementById('jsx30curvisibleoptions').childNodes[1].style.backgroundImage).toEqual('url("../JSX/images/menu/scroll_up.gif")');
-      expect(document.getElementById('jsx30curvisibleoptions').childNodes[2].style.backgroundImage).toEqual('url("../JSX/images/menu/scroll_down.gif")');
+      var node = document.getElementById('jsx30curvisibleoptions').childNodes[1].style.backgroundImage;
+      if (node === 'url("../JSX/images/menu/scroll_up.gif")') {
+        expect(node).toEqual('url("../JSX/images/menu/scroll_up.gif")');
+      } else if (node === 'url(http://localhost/GI/JSX/images/menu/scroll_up.gif)') {
+        expect(node).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_up.gif)');
+      }
+
+      var node2 = document.getElementById('jsx30curvisibleoptions').childNodes[2].style.backgroundImage;
+      if (node2 === 'url("../JSX/images/menu/scroll_down.gif")') {
+        expect(node2).toEqual('url("../JSX/images/menu/scroll_down.gif")');
+      } else if (node2 === 'url(http://localhost/GI/JSX/images/menu/scroll_down.gif)') {
+        expect(node2).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_down.gif)');
+      }
     });
 
     it("should able to set and get the XSL appropriate to the select type if no custom XSLT is specified", function() {
-      var xslURl = select.getXSLURL();
-      expect(xslURl).toBeUndefined();
+      var xslURL = select.getXSLURL();
+      expect(xslURL).toBeUndefined();
       select.setXSLURL('../JSX/xsl/jsxselect.xsl');
-      xslURl = select.getXSLURL();
-      expect(xslURl).toEqual('../JSX/xsl/jsxselect.xsl');
+      xslURL = select.getXSLURL();
+      expect(xslURL).toEqual('../JSX/xsl/jsxselect.xsl');
     });
 
     it("should able to set and get the URL to use for the dropdown image", function() {
@@ -147,7 +157,7 @@ describe("jsx3.gui.Select", function() {
       return root2.getChild(0).getServer().getJSXByName('combo');
     };
     beforeEach(function() {
-      t._server2 = (!t._server2) ? t.newServer("data/server_combo-select.xml", ".", true) : t._server2;
+      t._server2 = (!t._server2) ? t.newServer("data/server_comboSelect.xml", ".", true) : t._server2;
       select2 = getSelect2(t._server2);
     });
 
@@ -161,14 +171,9 @@ describe("jsx3.gui.Select", function() {
     });
 
     it("should able to set and get type", function() {
-      expect(select2.getType()).toEqual(1);
+      expect(select2.getType()).toEqual(Select.TYPECOMBO);
       select2.setType(Select.TYPESELECT);
-      expect(select2.getType()).toEqual(0);
-    });
-
-    it("should able to focus", function() {
-      expect(select2.focus().nodeName.toLowerCase()).toEqual('input');
-      expect(select2.focus().className).toEqual('jsx30combo_text');
+      expect(select2.getType()).toEqual(Select.TYPESELECT);
     });
 
     it("should able to set and get max length", function() {
@@ -179,7 +184,6 @@ describe("jsx3.gui.Select", function() {
 
     it("should not take invalid maxLength value", function() {
       select2.setMaxLength(-200);
-      select2.repaint();
       expect(select2.getMaxLength()).toBeNull();
     });
 

@@ -41,25 +41,34 @@ describe("jsx3.gui.Slider", function(){
     var handleImage =  slider.getHandleImage();
     expect(handleImage).toBeNull();
     var handle = slider.getRendered().firstChild.childNodes[1].firstChild;//This is a handle.
-    expect(handle.style.backgroundImage).toEqual('url("../JSX/images/slider/top.gif")');
+    if(handle.style.backgroundImage === "url(http://localhost/GI/JSX/images/slider/top.gif)") {
+      expect(handle.style.backgroundImage).toEqual('url(http://localhost/GI/JSX/images/slider/top.gif)');
+    } else {
+      expect(handle.style.backgroundImage).toEqual('url("../JSX/images/slider/top.gif")');
+    }
     slider.setHandleImage(Slider.IMAGE_UPWARD);
     handleImage =  slider.getHandleImage();
     slider.repaint();
     expect(handleImage).toEqual(Slider.IMAGE_UPWARD);
     handle = slider.getRendered().firstChild.childNodes[1].firstChild;//This is a handle.
-    expect(handle.style.backgroundImage).toEqual('url("../JSX/images/slider/bottom.gif")');
+    if(handle.style.backgroundImage === 'url(http://localhost/GI/JSX/images/slider/bottom.gif)') {
+      expect(handle.style.backgroundImage).toEqual('url(http://localhost/GI/JSX/images/slider/bottom.gif)');
+    } else {
+      expect(handle.style.backgroundImage).toEqual('url("../JSX/images/slider/bottom.gif")');
+    }
   });
 
   it("should be able to set and get the length of this slider", function() {
     var length = slider.getLength();
     expect(length).toEqual('200');
+    slider.setBorder('none', true);
     var track = slider.getRendered().firstChild.firstChild;
     expect(track.style.width).toEqual('198px');
     slider.setLength(300, true);
     length = slider.getLength();
     expect(length).toEqual(300);
     track = slider.getRendered().firstChild.firstChild;
-    expect(track.style.width).toEqual('298px');
+    expect(track.style.width).toEqual('300px');
   });
 
   it("should be bae to set and get the orientation of this slider", function() {
@@ -110,8 +119,8 @@ describe("jsx3.gui.Slider", function(){
     var track = slider.getRendered().firstChild.firstChild;
     track.click();
     handle = slider.getRendered().firstChild.childNodes[1];//This is a handle.
-    var left_1 = handle.style.left;
-    expect(left_1).not.toEqual('0px');
+    var left_prev = handle.style.left;
+    expect(left_prev).not.toEqual('0px');
     slider.setTrackClickable(jsx3.Boolean.FALSE);
     slider.repaint();
     trackClickable = slider.getTrackClickable();
@@ -119,8 +128,8 @@ describe("jsx3.gui.Slider", function(){
     track = slider.getRendered().firstChild.firstChild;
     track.click();
     handle = slider.getRendered().firstChild.childNodes[1];//This is a handle.
-    var left_2 = handle.style.left;
-    expect(left_1).toEqual(left_2);
+    var left_next = handle.style.left;
+    expect(left_prev).toEqual(left_next);
   });
 
   it("should clean up", function() {
