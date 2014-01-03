@@ -23,12 +23,12 @@ describe("jsx3.gui.Matrix", function(){
          Matrix = jsx3.gui.Matrix;
       }
 
-      // waitsFor(function() {
-      //   return document.getElementsByTagName('table')[1] != null;
-      // });
-      // runs(function() {
-      //   expect(document.getElementsByTagName('table')[1]).toBeDefined();
-      // });
+      waitsFor(function() {
+        return document.getElementsByTagName('table')[1] != null;
+      });
+      runs(function() {
+        expect(document.getElementsByTagName('table')[1]).toBeDefined();
+      });
     });   
 
     afterEach(function() {
@@ -94,15 +94,14 @@ describe("jsx3.gui.Matrix", function(){
     it("should able to set and get whether the list will render with sortable columns", function() {
       var canSort = matrix1.getCanSort();
       expect(canSort).toBeUndefined();
-      // var recordId = matrix1.getSortedIds();
-      // expect(recordId).toEqual(1);
-      // var recordId = matrix1.getSortedIds()[0];
-      // var recordId = matrix1.getSortedIds()[0];
-      // var jsxText = matrix1.getRecord(recordId).jsxtext;
-      // expect(jsxText).toEqual('United States');
-      // matrix1.getChild(1).getRendered().click();
-      // recordId = matrix1.getSortedIds()[0];
-      // jsxText = matrix1.getRecord(recordId).jsxtext;
+      var recordId = matrix1.getSortedIds();
+      var recordId = matrix1.getSortedIds()[0];
+      var jsxText = matrix1.getRecord(recordId).jsxtext;
+      expect(jsxText).toEqual('Afghanistan');
+      // matrix1.getRendered().getElementsByTagName('table')[0].tBodies[0].rows[0].childNodes[1].firstChild.click();
+      matrix1.getChild(1).getRendered().click();
+      recordId = matrix1.getSortedIds()[0];
+      jsxText = matrix1.getRecord(recordId).jsxtext;
       // expect(jsxText).toEqual('Afghanistan');
       matrix1.setCanSort(jsx3.Boolean.FALSE);
       matrix1.repaint();
@@ -226,11 +225,20 @@ describe("jsx3.gui.Matrix", function(){
     it("should able to set and get the row height", function() {
       var rowHeight = matrix1.getRowHeight();
       expect(rowHeight).toBeNull();
+      var row = document.getElementById(matrix1.getId()+'_jsx_US');
+      expect(row.firstChild.style.height).toEqual('16px')
       matrix1.setRowHeight(50,true);
+      matrix1.repaint()
       rowHeight = matrix1.getRowHeight();
       expect(rowHeight).toEqual(50);
-      var row = document.getElementById(matrix1.getId()+'_jsx_US');
-      expect(row).toEqual(1)
+      waitsFor(function() {
+        return matrix1.getRendered().getElementsByTagName('table')[1] != null;
+      });
+      runs(function() {
+        row = matrix1.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
+        expect(row.firstChild.style.height).toEqual("46px");
+      });
+      
     });
 
     it("should able to set snd get whether or not the column widths should be adjusted (decremented) such that all columns fit within the viewport", function() {
@@ -241,36 +249,73 @@ describe("jsx3.gui.Matrix", function(){
       expect(scaleWidth).toEqual(jsx3.Boolean.TRUE);
     });
 
-    // it("should able to set and get the horizontal scroll position of the list", function() {
-    //   var scrollLeft = matrix1.getScrollLeft();
-    //   expect(scrollLeft).toEqual(0);
-    //   matrix1.setScrollLeft(100);
-    //   scrollLeft = matrix1.getScrollLeft();
-    //   expect(scrollLeft).toEqual(0);
-    // });
+    it("should able to set and get the horizontal scroll position of the list", function() {
+      matrix1.getChild(0).setWidth(1000, true);
+      matrix1.getChild(1).setWidth(1000, true);
+      var scrollLeft = matrix1.getScrollLeft();
+      expect(scrollLeft).toEqual(0);
+      matrix1.setScrollLeft(100);
+      scrollLeft = matrix1.getScrollLeft();
+      expect(scrollLeft).toEqual(100);
+      expect(matrix1.getRendered().childNodes[3].scrollLeft).toEqual(100);
+    });
 
-    // it("should able to set and get the vertical scroll position", function() {
-    //   var scrollTop = matrix1.setScrollTop();
-    //   expect(scrollTop).toBeUndefined();
-    //   matrix1.setScrollTop(100);
-    //   scrollTop = matrix1.setScrollTop();
-    //   expect(scrollTop).toEqual(1);
-    // });
+    it("should able to set and get the vertical scroll position", function() {
+      matrix1.getAncestorOfName('block').setHeight(300, true);
+      var scrollTop = matrix1.getScrollTop();
+      expect(scrollTop).toEqual(0);
+      matrix1.setScrollTop(20);
+      scrollTop = matrix1.getScrollTop();
+      // expect(scrollTop).toEqual(20);
+      expect(matrix1.getRendered().childNodes[2].scrollTop).toEqual(20);
+    });
+
+    it("should abe to set and get the name of the CDF attribute to sort on", function() {
+      var sortPath =  matrix1.getSortPath();
+      expect(sortPath).toEqual('jsxtext');
+      matrix1.setSortPath('jsxid');
+      sortPath =  matrix1.getSortPath();
+      expect(sortPath).toEqual('jsxid');
+    });
 
     it("should able to set and get whether or not to supress display of the horizontal scrollbar", function() {
+      matrix1.getChild(0).setWidth(1000, true);
+      matrix1.getChild(1).setWidth(1000, true);
+      expect(matrix1.getRendered().childNodes[3].style.display).toEqual('block');
       var HScroller = matrix1.getSuppressHScroller();
       expect(HScroller).toBeNull();
       matrix1.setSuppressHScroller(jsx3.Boolean.TRUE);
+      matrix1.repaint();
       HScroller = matrix1.getSuppressHScroller();
       expect(HScroller).toEqual(jsx3.Boolean.TRUE);
+      expect(matrix1.getRendered().childNodes[3].style.display).toEqual('none');
     });
 
     it("should able to set and get whether or not to supress display of the vertical scrollbar", function() {
+      matrix1.getAncestorOfName('block').setHeight(300, true);
+      expect(matrix1.getRendered().childNodes[2].style.display).toEqual('');
       var VScroller = matrix1.getSuppressVScroller();
       expect(VScroller).toBeNull();
       matrix1.setSuppressVScroller(jsx3.Boolean.TRUE, true);
       VScroller = matrix1.getSuppressVScroller();
       expect(VScroller).toEqual(jsx3.Boolean.TRUE);
+      expect(matrix1.getRendered().childNodes[2].style.display).toEqual('none');
+    });
+
+    it("should be able to assign objMoveChild as the previousSibling of objPrecedeChild", function() {
+      var column1 = matrix1.getChild(0);
+      expect(column1.getName()).toEqual('mc2');
+      var column2 = matrix1.getChild(1);
+      matrix1.insertBefore(column2, column1, true);
+      column1 = matrix1.getChild(0);
+      expect(column1.getName()).toEqual('mc1');
+      column2 = matrix1.getChild(1);
+    });
+
+    it("should be able to insert a new property into an existing record with jsxid equal to strRecordId", function() {
+      expect(matrix1.getRecord("AG").prop).toBeUndefined();
+      matrix1.insertRecordProperty('AG','prop','val', true);
+      expect(matrix1.getRecord("AG").prop).toEqual('val');
     });
 
     it("should clean up", function() {
@@ -308,14 +353,14 @@ describe("jsx3.gui.Matrix", function(){
 
     it("should able to set and get the direction for the sorted column", function() {
       var sortDirection = matrix2.getSortDirection();
-      expect(sortDirection).toEqual(Matrix.SORT_DESCENDING);
+      expect(sortDirection).toEqual("descending");
       var recordId = matrix2.getSortedIds()[0];
       var jsxText = matrix2.getRecord(recordId).jsxtext;
       expect(jsxText).toEqual('Azerbaijan')
-      matrix2.setSortDirection(Matrix.SORT_ASCENDING);
+      matrix2.setSortDirection("ascending");
       matrix2.repaint();
       sortDirection = matrix2.getSortDirection();
-      expect(sortDirection).toEqual(Matrix.SORT_ASCENDING);
+      expect(sortDirection).toEqual("ascending");
       recordId = matrix2.getSortedIds()[0];
       jsxText = matrix2.getRecord(recordId).jsxtext;
       expect(jsxText).toEqual('Afghanistan');
@@ -325,7 +370,7 @@ describe("jsx3.gui.Matrix", function(){
       var recordId = matrix2.getSortedIds()[0];
       var jsxText = matrix2.getRecord(recordId).jsxtext;
       expect(jsxText).toEqual('Azerbaijan');
-      matrix2.doSort(Matrix.SORT_ASCENDING);
+      matrix2.doSort("ascending");
       recordId = matrix2.getSortedIds()[0];
       jsxText = matrix2.getRecord(recordId).jsxtext;
       expect(jsxText).toEqual('Afghanistan');
@@ -339,25 +384,17 @@ describe("jsx3.gui.Matrix", function(){
       expect(matrix2.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
     });
 
-    it("should abe to set and get the name of the CDF attribute to sort on", function() {
-      var sortPath =  matrix2.getSortPath()
-      expect(sortPath).toEqual('jsxtext');
-      matrix2.setSortPath('jsxid');
-      sortPath =  matrix2.getSortPath()
-      expect(sortPath).toEqual('jsxid');
-    });
-
     it("should able to set and get the data type to be used for sorting this list", function() {
       var sortType = matrix2.getSortType();
       expect(sortType).toEqual('text');
       matrix2.setSortType(Matrix.Column.TYPE_NUMBER);
       sortType = matrix2.getSortType();
-      expect(sortType).toEqual('number');
+      expect(sortType).toEqual(Matrix.Column.TYPE_NUMBER);
     });
 
     it("should clean up", function() {
       t._server.destroy();
-      t.destroy();
+      t.destroy();1
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
       delete t._server;
@@ -377,7 +414,7 @@ describe("jsx3.gui.Matrix", function(){
       if(!Matrix) {
          Matrix = jsx3.gui.Matrix;
       }
-    });   
+    });  
 
     afterEach(function() {
       if (t._server)
@@ -388,21 +425,24 @@ describe("jsx3.gui.Matrix", function(){
       expect(matrix3).toBeInstanceOf(Matrix);
     });
 
-    it("should able to get the jsxid(s) for the selected record(s)", function() {
-      var selectedIds = matrix3.getSelectedIds();
-      expect(selectedIds).toEqual([]);
-    });
-
-    it("should able to get the collection of selected records", function() {
-      expect(matrix3.getSelectedNodes()).toBeInstanceOf(jsx3.util.List);
-    });
-
     it("should able to set and get the CSS string to apply to a Row/Cell when it has focus", function() {
       var selectionBG = matrix3.getSelectionBG();
       expect(selectionBG).toBeNull();
-      matrix3.setSelectionBG('jsx:///images/matrix/select1.gif');
+      matrix3.setSelectionBG('jsx:///images/matrix/select.gif');
       selectionBG = matrix3.getSelectionBG();
-      expect(selectionBG).toEqual('jsx:///images/matrix/select1.gif');
+      expect(selectionBG).toEqual('jsx:///images/matrix/select.gif');
+      waitsFor(function() {
+        return matrix3.getRendered().getElementsByTagName('table')[1] != null;
+      });
+      runs(function() {
+        var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
+        selectRow.click();
+        if(selectRow.firstChild.style.backgroundImage = 'url(http://localhost/GI/JSX/images/matrix/select.gif)') {
+          expect(selectRow.firstChild.style.backgroundImage).toEqual('url(http://localhost/GI/JSX/images/matrix/select.gif)');
+        } else if (selectRow.firstChild.style.backgroundImage = 'url("http://localhost/GI/JSX/images/matrix/select.gif")') {
+          expect(selectRow.firstChild.style.backgroundImage).toEqual('url("http://localhost/GI/JSX/images/matrix/select.gif")');
+        }
+      });
     });
 
     it("should ale to set and get the selection mode", function() {
@@ -411,14 +451,22 @@ describe("jsx3.gui.Matrix", function(){
       matrix3.setSelectionModel(Matrix.SELECTION_UNSELECTABLE);
       selectionModel = matrix3.getSelectionModel();
       expect(selectionModel).toEqual(Matrix.SELECTION_UNSELECTABLE);
+      waitsFor(function() {
+        return matrix3.getRendered().getElementsByTagName('table')[1] != null;
+      });
+      runs(function() {
+        var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
+        selectRow.click();
+        expect(selectRow.firstChild.style.backgroundImage).toEqual('');
+      });
     });
 
     it("should able to set and get the value of this matrix", function() {
       var value = matrix3.getValue();
       expect(value).toEqual([]);
-      matrix3.setValue('AG');
+      matrix3.setValue(['AG', 'AB']);
       value = matrix3.getValue();
-      expect(value).toEqual([ 'AG' ]);
+      expect(value).toEqual([ 'AG', 'AB' ]);
     });
 
     it("should clean up", function() {
@@ -494,8 +542,6 @@ describe("jsx3.gui.Matrix", function(){
       delete t._server;
     });
   });
-
-
 
   describe("matrix_tree", function() {
     var matrix5;
