@@ -29,18 +29,18 @@ var specs = [
   "jsx3/xml/cdf.js", "jsx3/xml/processor.js","jsx3/xml/template.js",
 
   /* Server suite */
-  // "jsx3/net/request.js",
+  "jsx3/net/request.js",
   "jsx3/app/model.js", "jsx3/xml/cacheable.js",
-  // "jsx3/net/service.js", "jsx3/net/form.js",
+  "jsx3/net/service.js", "jsx3/net/form.js",
 
   /* Localization suite */
   "jsx3/util/dateformat.js", "jsx3/util/locale.js", "jsx3/util/numberformat.js", "jsx3/util/messageformat.js",
 
   /* GUI suite */
-  // "jsx3/gui/nativeform.js", 
+  "jsx3/gui/nativeform.js", 
   "jsx3/gui/layoutgrid.js", "jsx3/gui/numberinput.js", 
   "jsx3/gui/block.js", "jsx3/gui/gui_layout.js", "jsx3/gui/select.js", "jsx3/gui/textbox.js","jsx3/gui/CDF.js",
-  "jsx3/gui/Button.js","jsx3/gui/CheckBox.js","jsx3/gui/ColorPicker.js","jsx3/gui/DatePicker.js","jsx3/gui/Dialog.js"，
+  "jsx3/gui/Button.js","jsx3/gui/CheckBox.js","jsx3/gui/ColorPicker.js","jsx3/gui/DatePicker.js","jsx3/gui/Dialog.js",
   "jsx3/gui/TimePicker.js", "jsx3/gui/RadioButton.js", "jsx3/gui/Slider.js", "jsx3/gui/Matrix.js"
 
 ];
