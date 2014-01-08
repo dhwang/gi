@@ -49,6 +49,7 @@ describe("jsx3.gui.CheckBox", function(){
     var value = checkBox.getValue();
     expect(value).toEqual(CheckBox.UNCHECKED);
     checkBox.setValue(CheckBox.CHECKED);
+    checkBox.repaint();
     value = checkBox.getValue();
     expect(value).toEqual(CheckBox.CHECKED);
   });
@@ -57,8 +58,11 @@ describe("jsx3.gui.CheckBox", function(){
     var checked = checkBox.getChecked();
     expect(checked).toEqual(CheckBox.UNCHECKED);
     checkBox.setChecked(CheckBox.CHECKED);
+    checkBox.repaint();
     checked = checkBox.getChecked();
     expect(checked).toEqual(CheckBox.CHECKED);
+    var input = checkBox.getRendered().firstChild.firstChild.firstChild;
+    expect(input.getAttribute('checked')).toEqual('checked');
   });
 
   it("should able to get and set the state of checkbox when it is first initialized", function() {
@@ -72,7 +76,7 @@ describe("jsx3.gui.CheckBox", function(){
   it("should able to set the current state Partial of checkbox", function() {
     var checkbox = {};
     checkbox.imgpartial = checkBox.getRendered().firstChild.childNodes[0].childNodes[1];
-    checkbox.ispartial = function() { return checkbox.imgpartial.style.visibility == "visible"; }\
+    checkbox.ispartial = function() { return checkbox.imgpartial.style.visibility == "visible"; }
     expect(checkbox.ispartial()).toBeFalsy();
     checkBox.setChecked(CheckBox.PARTIAL);
     expect(checkbox.ispartial()).toBeTruthy();
@@ -84,56 +88,15 @@ describe("jsx3.gui.CheckBox", function(){
     expect(checkBox.getValue()).toEqual(0);
   });
 
-  it("should be able to display different styled checkBoxs", function() {
-    checkBox.setFontName("Verdana,Arial,sans-serif");
-    checkBox.repaint();
-    var fontFamily = checkBox.getRendered().style.fontFamily;
-    if(fontFamily === "Verdana, Arial, sans-serif") {
-      expect(fontFamily).toEqual("Verdana, Arial, sans-serif");
-    } else if(fontFamily === "Verdana,Arial,sans-serif") {
-      expect(fontFamily).toEqual("Verdana,Arial,sans-serif");
-    }
-    checkBox.setFontSize(18);
-    checkBox.repaint();
-    expect(checkBox.getRendered().style.fontSize).toEqual('18px');
-    checkBox.setFontWeight('bold');
-    checkBox.repaint();
-    expect(checkBox.getRendered().style.fontWeight).toEqual('bold');
-    checkBox.setColor('red',true);
-    expect(checkBox.getRendered().style.color).toEqual('red');
-    checkBox.setBackgroundColor('#f00');
-    checkBox.repaint();
-    expect(checkBox.getRendered().style.backgroundColor).toEqual('rgb(255, 0, 0)');
-    checkBox.setBorder('border: inset 3px #000000',true);
-    expect(checkBox.getRendered().style.border).toEqual('3px inset rgb(0, 0, 0)');
-  });
-
-  it("should be able to set and get the color when it is disabled", function() {
-    checkBox.setEnabled(jsx3.gui.Form.STATEDISABLED,true);
-    expect(checkBox.getDisabledColor()).toBeUndefined();
-    checkBox.setDisabledColor('#ff0000');
-    checkBox.repaint();
-    expect(checkBox.getDisabledColor()).toEqual('#ff0000');
-    expect(checkBox.getRendered().style.color).toEqual('rgb(255, 0, 0)');
-  });
-
-  it("should be able to set and get the background color of this form control when it is disabled", function() {
-    checkBox.setEnabled(jsx3.gui.Form.STATEDISABLED,true);
-    expect(checkBox.getDisabledBackgroundColor()).toBeUndefined();
-    checkBox.setDisabledBackgroundColor('#0000ff');
-    checkBox.repaint();
-    expect(checkBox.getDisabledBackgroundColor()).toEqual('#0000ff');
-    expect(checkBox.getRendered().style.backgroundColor).toEqual('rgb(0, 0, 255)');
-  });
-
-
   it("The label is offset over the input checkbox by using padding on IE", function() {
     var label = checkBox.getRendered().firstChild.childNodes[1];
     var span = label.parentNode.parentNode;
-    label.click();
-    expect(checkBox.getChecked()).toEqual(CheckBox.UNCHECKED);
-    span.click();
-    expect(checkBox.getChecked()).toEqual(CheckBox.CHECKED);
+    if(window.navigator.userAgent.indexOf('MSIE') > -1) {
+      label.click();
+      expect(checkBox.getChecked()).toEqual(CheckBox.UNCHECKED);
+      span.click();
+      expect(checkBox.getChecked()).toEqual(CheckBox.CHECKED);
+    }
   });
 
   it("should clean up", function() {

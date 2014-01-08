@@ -31,7 +31,6 @@ describe("jsx3.gui.Block", function() {
 
     it("should be able to instance", function() {
       expect(block).toBeInstanceOf(Block);
-      expect(block).toBeInstanceOf(jsx3.gui.Painted);
     });
 
     it("should be able to paint", function() {
@@ -40,16 +39,14 @@ describe("jsx3.gui.Block", function() {
     });
 
     it("should able to set and get the CSS display", function() {
-      block.setDisplay(Block.DISPLAYNONE);
-      block.repaint();
+      block.setDisplay(Block.DISPLAYNONE, true);
       var display = block.getDisplay();
       expect(display).toEqual(Block.DISPLAYNONE);
       expect(block.getRendered().style.display).toEqual('none');
     });
 
     it("should not take invalid display value", function() {
-      block.setDisplay('hidden');
-      block.repaint();
+      block.setDisplay('hidden', true);
       var display = block.getDisplay();
       expect(display).toEqual('hidden');
       expect(block.getRendered().style.display).toEqual('inline-block');
@@ -92,8 +89,10 @@ describe("jsx3.gui.Block", function() {
       expect(block.getRendered().scrollHeight).toEqual(30);
       expect(block.getRendered().scrollWidth).toEqual(100);
       block.setOverflow(Block.OVERFLOWHIDDEN);
+      block.repaint();
       var overflow = block.getOverflow();
       expect(overflow).toEqual(Block.OVERFLOWHIDDEN);
+      expect(block.getRendered().style.overflow).toEqual('hidden');
     });
 
     it("should not take invalid overflow value", function() {
@@ -106,12 +105,12 @@ describe("jsx3.gui.Block", function() {
 
     it("has method showMask() to display a 'blocking mask' inside the block to stop user interactions with content within the block", function() {
       block.showMask();
-      expect(block.getRendered().style.zIndex || 0).toBeLessThan(block.getRendered().childNodes[1].style.zIndex);
+      expect(block.getRendered().style.zIndex).toBeLessThan(block.getRendered().childNodes[1].style.zIndex);
     });
 
     it("has method hideMask() to remove the blocking mask inside the block to stop user interactions with existing content", function() {
       block.showMask();
-      expect(block.getRendered().style.zIndex || 0).toBeLessThan(block.getRendered().childNodes[1].style.zIndex);
+      expect(block.getRendered().style.zIndex).toBeLessThan(block.getRendered().childNodes[1].style.zIndex);
       block.hideMask();
       expect(block.getRendered().childNodes[1]).toBeUndefined();
     });
@@ -133,7 +132,7 @@ describe("jsx3.gui.Block", function() {
       expect(block.getBackground()).toBeUndefined();
       block.setBackground("background-repeat:no-repeat");
       block.repaint();
-      expect(block.getBackground()).toBe('background-repeat:no-repeat');
+      expect(block.getBackground()).toEqual('background-repeat:no-repeat');
       expect(block.getRendered().style.backgroundRepeat).toEqual("no-repeat");
     });
 
@@ -180,8 +179,8 @@ describe("jsx3.gui.Block", function() {
     });
 
     it("should not take the invalid updateGUI value", function() {
-      block.updateGUI("margin", "9");
-      expect(block.getRendered().style.margin).toEqual("");
+      block.updateGUI("margin", "9px");
+      expect(block.getRendered().style.margin).toEqual("9px");
     });
 
     it("should able to set and get the css z-index property", function() {
@@ -241,7 +240,6 @@ describe("jsx3.gui.Block", function() {
 
     it("should able to set and get CSS property value(s) for a padding", function() {
       expect(block.getPadding()).toBeUndefined();
-      expect(block.getRendered().style.padding).toEqual("");
       block.setPadding("10 0 0 10", true);
       expect(block.getPadding()).toEqual("10 0 0 10");
       expect(block.getRendered().style.padding).toEqual("10px 0px 0px 10px");
@@ -258,8 +256,8 @@ describe("jsx3.gui.Block", function() {
       expect(block.getRendered().style.margin).toEqual("");
       block.setCSSOverride("margin:10px");
       block.repaint();
-      expect(block.getRendered().style.margin).toEqual("10px");
       expect(block.getCSSOverride()).toEqual("margin:10px");
+      expect(block.getRendered().style.margin).toEqual("10px");
     });
 
     it("should not take invalid override value", function() {
@@ -372,8 +370,7 @@ describe("jsx3.gui.Block", function() {
     it("should able set and get backgroundColor", function() {
       var bgColor = block.getBackgroundColor();
       expect(bgColor).toEqual('#A29F9F');
-      block.setBackgroundColor('#f00');
-      block.repaint();
+      block.setBackgroundColor('#f00', true);
       bgColor = block.getBackgroundColor();
       expect(bgColor).toEqual('#f00');
       expect(block.getRendered().style.backgroundColor).toEqual('rgb(255, 0, 0)');
@@ -398,9 +395,9 @@ describe("jsx3.gui.Block", function() {
       block.setBorder('solid1 1px #ff0000', true);
       expect(block.getBorder()).toEqual('solid1 1px #ff0000');
       if (block.getRendered().style.border === '0px none') {
-        expect(block.getRendered().style.border).toEqual('0px none')
+        expect(block.getRendered().style.border).toEqual('0px none');
       } else if (block.getRendered().style.border === '0px currentColor') {
-        expect(block.getRendered().style.border).toEqual('0px currentColor')
+        expect(block.getRendered().style.border).toEqual('0px currentColor');
       }
     });
 
@@ -423,6 +420,11 @@ describe("jsx3.gui.Block", function() {
       block.setText("hello world");
       text = block.getText();
       expect(text).toEqual("hello world");
+      if(typeof block.getRendered().innerText === 'function') {
+        expect(block.getRendered().innerText).toEqual('test block');
+      } else {
+        expect(block.getRendered().textContent).toEqual('test block');
+      }
     });
 
     it("should able to set and get text-align", function() {
@@ -475,7 +477,6 @@ describe("jsx3.gui.Block", function() {
 
     it("should be able to instance", function() {
       expect(block2).toBeInstanceOf(Block);
-      expect(block2).toBeInstanceOf(jsx3.gui.Painted);
     });
 
     it("should able to have nested block within another block", function() {

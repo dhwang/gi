@@ -171,6 +171,7 @@ describe("jsx3.gui.Dialog", function(){
     });
 
     it("should be able to be moved to an absolute position on screen", function() {
+      expect(dialog.getAbsolutePosition().L).toEqual(100);
       dialog.setLeft(100,true);
       expect(dialog.getAbsolutePosition().L).toEqual(100);
       dialog.setTop(100,true);

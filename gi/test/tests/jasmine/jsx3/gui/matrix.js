@@ -437,11 +437,12 @@ describe("jsx3.gui.Matrix", function(){
       runs(function() {
         var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
         selectRow.click();
-        if(selectRow.firstChild.style.backgroundImage = 'url(http://localhost/GI/JSX/images/matrix/select.gif)') {
-          expect(selectRow.firstChild.style.backgroundImage).toEqual('url(http://localhost/GI/JSX/images/matrix/select.gif)');
-        } else if (selectRow.firstChild.style.backgroundImage = 'url("http://localhost/GI/JSX/images/matrix/select.gif")') {
-          expect(selectRow.firstChild.style.backgroundImage).toEqual('url("http://localhost/GI/JSX/images/matrix/select.gif")');
-        }
+        var rowBg = selectRow.firstChild.style.backgroundImage;
+        if(rowBg === 'url("../JSX/images/matrix/select.gif")') {
+          expect(rowBg).toEqual('url("../JSX/images/matrix/select.gif")');
+        } else if( rowBg === 'url(http://localhost/GI/JSX/images/matrix/select.gif)') {
+          expect(rowBg).toEqual('url(http://localhost/GI/JSX/images/matrix/select.gif)');
+        } 
       });
     });
 

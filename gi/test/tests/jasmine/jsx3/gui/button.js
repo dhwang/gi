@@ -39,11 +39,10 @@ describe("jsx3.gui.Button", function() {
     value = button.getValue();
     expect(value).toEqual('test');
     expect(button.getText()).toEqual('test');
-    // button.setText('#$%膧膩膫膬膭');
+    // button.setText('@#%$¢ÃË');
     // value = button.getValue();
-    // expect(value).toEqual('#$%膧膩膫膬膭');
-    // expect(button.getText()).toEqual('#$%膧膩膫膬膭');
-
+    // expect(value).toEqual('@#%$¢ÃË');
+    // expect(button.getText()).toEqual('@#%$¢ÃË');
   });
 
   it("should be able to trigger action when clicked", function() {
@@ -58,7 +57,7 @@ describe("jsx3.gui.Button", function() {
 
   it('should be able to be disabled', function() {
     button.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
-    expect(/onclick|onkeydown/.test(button.getRendered())).toBe(false));
+    expect(/onclick|onkeydown/.test(button.getRendered())).toBe(false);
   });
 
   it("should be able to display different styled buttons", function() {

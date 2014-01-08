@@ -110,18 +110,18 @@ describe("jsx3.gui.Select", function() {
       select.setSourceXML(cdf3);
       select.repaint();
       select.show();
-      var node = document.getElementById('jsx30curvisibleoptions').childNodes[1].style.backgroundImage;
-      if (node === 'url("../JSX/images/menu/scroll_up.gif")') {
-        expect(node).toEqual('url("../JSX/images/menu/scroll_up.gif")');
-      } else if (node === 'url(http://localhost/GI/JSX/images/menu/scroll_up.gif)') {
-        expect(node).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_up.gif)');
+      var scroll_up = document.getElementById('jsx30curvisibleoptions').childNodes[1].style.backgroundImage;
+      if (scroll_up === 'url("../JSX/images/menu/scroll_up.gif")') {
+        expect(scroll_up).toEqual('url("../JSX/images/menu/scroll_up.gif")');
+      } else if (scroll_up === 'url(http://localhost/GI/JSX/images/menu/scroll_up.gif)') {
+        expect(scroll_up).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_up.gif)');
       }
 
-      var node2 = document.getElementById('jsx30curvisibleoptions').childNodes[2].style.backgroundImage;
-      if (node2 === 'url("../JSX/images/menu/scroll_down.gif")') {
-        expect(node2).toEqual('url("../JSX/images/menu/scroll_down.gif")');
-      } else if (node2 === 'url(http://localhost/GI/JSX/images/menu/scroll_down.gif)') {
-        expect(node2).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_down.gif)');
+      var scroll_down = document.getElementById('jsx30curvisibleoptions').childNodes[2].style.backgroundImage;
+      if (scroll_down === 'url("../JSX/images/menu/scroll_down.gif")') {
+        expect(scroll_down).toEqual('url("../JSX/images/menu/scroll_down.gif")');
+      } else if (scroll_down === 'url(http://localhost/GI/JSX/images/menu/scroll_down.gif)') {
+        expect(scroll_down).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_down.gif)');
       }
     });
 
