@@ -43,7 +43,7 @@ describe("jsx3.gui.Select", function() {
     });
 
     it("should able to set and get text", function() {
-      expect(select.getText()).toEqual('- Select -')
+      expect(select.getText()).toEqual('- Select -');
       select.setDefaultText("hello");
       expect(select.getText()).toEqual("hello");
     });
@@ -55,13 +55,13 @@ describe("jsx3.gui.Select", function() {
       var cdf = newCDF("data/selectCdf.xml");
       select.setSourceXML(cdf);
       select.setValue('c2');
-      expect(select.doValidate()).toEqual(1);
+      expect(select.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
     });
 
     it("should able to load new CDF document using setSourceXML() method", function() {
       var cdf = newCDF("data/selectCdf.xml");
       var r = cdf.getRecord('c2');
-      expect(select.getText()).toEqual('- Select -')
+      expect(select.getText()).toEqual('- Select -');
       select.setSourceXML(cdf);
       select.setValue('c2');
       expect(select.getText()).toEqual(r.jsxtext);
@@ -69,8 +69,14 @@ describe("jsx3.gui.Select", function() {
 
     it("should able to set and get type", function() {
       expect(select.getType()).toEqual(Select.TYPESELECT);
+      expect(select.getText()).toEqual('- Select -');
       select.setType(Select.TYPECOMBO);
+      select.repaint();
       expect(select.getType()).toEqual(Select.TYPECOMBO);
+      expect(select.getText()).toEqual('');
+      select.show();
+      var showText = document.querySelector('.jsx30select_option').firstChild;
+      expect(showText.innerText || showText.textContent).toEqual('- No Match Found -');
     });
 
     it("should able to set and get the value", function() {
@@ -102,27 +108,29 @@ describe("jsx3.gui.Select", function() {
     it("should able to set and get default text", function() {
       expect(select.getDefaultText()).toEqual("- Select -");
       select.setDefaultText("-City-");
+      select.repaint();
       expect(select.getDefaultText()).toEqual("-City-");
+      var selectText = select.getRendered().childNodes[0].innerText || select.getRendered().childNodes[0].textContent;
+      expect(selectText).toEqual('-City-');
     });
 
     it("should able to load new CDF XML", function() {
       var cdf3 = newCDF("data/countries.xml");
       select.setSourceXML(cdf3);
       select.repaint();
-      select.show();
-      var scroll_up = document.getElementById('jsx30curvisibleoptions').childNodes[1].style.backgroundImage;
-      if (scroll_up === 'url("../JSX/images/menu/scroll_up.gif")') {
-        expect(scroll_up).toEqual('url("../JSX/images/menu/scroll_up.gif")');
-      } else if (scroll_up === 'url(http://localhost/GI/JSX/images/menu/scroll_up.gif)') {
-        expect(scroll_up).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_up.gif)');
-      }
-
-      var scroll_down = document.getElementById('jsx30curvisibleoptions').childNodes[2].style.backgroundImage;
-      if (scroll_down === 'url("../JSX/images/menu/scroll_down.gif")') {
-        expect(scroll_down).toEqual('url("../JSX/images/menu/scroll_down.gif")');
-      } else if (scroll_down === 'url(http://localhost/GI/JSX/images/menu/scroll_down.gif)') {
-        expect(scroll_down).toEqual('url(http://localhost/GI/JSX/images/menu/scroll_down.gif)');
-      }
+      runs(function() {
+        select.show();
+      });
+      waitsFor(function() {
+        return document.getElementById('jsx30curvisibleoptions').childNodes[1] != null;
+        return document.getElementById('jsx30curvisibleoptions').childNodes[2] != null;
+      });
+      runs(function() {
+        var scroll_up = document.getElementById('jsx30curvisibleoptions').childNodes[1].style.backgroundImage;
+        expect(scroll_up).toMatch(/JSX\/images\/menu\/scroll_up.gif/);
+        var scroll_down = document.getElementById('jsx30curvisibleoptions').childNodes[2].style.backgroundImage;
+        expect(scroll_down).toMatch(/JSX\/images\/menu\/scroll_down.gif/);
+      });
     });
 
     it("should able to set and get the XSL appropriate to the select type if no custom XSLT is specified", function() {
@@ -136,9 +144,9 @@ describe("jsx3.gui.Select", function() {
     it("should able to set and get the URL to use for the dropdown image", function() {
       var icon = select.getIcon();
       expect(icon).toBeUndefined();
-      select.setIcon('JSX/images/icons/v.png');
+      select.setIcon('jsx:///images/select/arrow.gif');
       select.repaint();
-      expect(select.getIcon().toString()).toEqual(select.getServer().resolveURI("JSX/images/icons/v.png").toString());
+      expect(select.getIcon().toString()).toEqual(select.getServer().resolveURI("JSX/images/select/arrow.gif").toString());
     });
 
     it("should clean up", function() {
@@ -174,6 +182,9 @@ describe("jsx3.gui.Select", function() {
       expect(select2.getType()).toEqual(Select.TYPECOMBO);
       select2.setType(Select.TYPESELECT);
       expect(select2.getType()).toEqual(Select.TYPESELECT);
+      select2.show();
+      var showText = document.querySelector('.jsx30select_option').firstChild;
+      expect(showText.innerText || showText.textContent).toEqual('- Data Unavailable -');
     });
 
     it("should able to set and get max length", function() {

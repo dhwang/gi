@@ -42,48 +42,38 @@ describe("jsx3.gui.Slider", function(){
     expect(handleImage).toBeNull();
     var handle = slider.getRendered().firstChild.childNodes[1].firstChild;//This is a handle.
     var handleBg = handle.style.backgroundImage;
-    if(handleBg === 'url("../JSX/images/slider/top.gif")') {
-      expect(handleBg).toEqual('url("../JSX/images/slider/top.gif")');   
-    } else if(handleBg === 'url(http://localhost/GI/JSX/images/slider/top.gif)') {
-      expect(handleBg).toEqual('url(http://localhost/GI/JSX/images/slider/top.gif)');
-    }
+    expect(handleBg).toMatch(/JSX\/images\/slider\/top.gif/);
     slider.setHandleImage(Slider.IMAGE_UPWARD);
     handleImage =  slider.getHandleImage();
     slider.repaint();
     expect(handleImage).toEqual(Slider.IMAGE_UPWARD);
     handle = slider.getRendered().firstChild.childNodes[1].firstChild;//This is a handle.
     var handleBg = handle.style.backgroundImage;
-    if(handleBg === 'url("../JSX/images/slider/bottom.gif")') {
-      expect(handleBg).toEqual('url("../JSX/images/slider/bottom.gif")');   
-    } else if(handleBg === 'url(http://localhost/GI/JSX/images/slider/bottom.gif)') {
-      expect(handleBg).toEqual('url(http://localhost/GI/JSX/images/slider/bottom.gif)');
-    }
+    expect(handleBg).toMatch(/JSX\/images\/slider\/bottom.gif/);
   });
 
   it("should be able to set and get the length of this slider", function() {
     var length = slider.getLength();
     expect(length).toEqual('200');
     slider.setBorder('none', true);
-    var track = slider.getRendered().firstChild.firstChild;
-    expect(track.style.width).toEqual('198px');
     slider.setLength(300, true);
     length = slider.getLength();
     expect(length).toEqual(300);
-    track = slider.getRendered().firstChild.firstChild;
+    track = slider.getRendered().querySelector('.jsx30slider_track');
     expect(track.style.width).toEqual('300px');
   });
 
   it("should be bae to set and get the orientation of this slider", function() {
     var orientation = slider.getOrientation();
     expect(orientation).toEqual(Slider.HORIZONTAL);
-    var track = slider.getRendered().firstChild.firstChild;
+    var track = slider.getRendered().querySelector('.jsx30slider_track');
     expect(track.style.width).toEqual('198px');
     expect(track.style.height).toEqual('5px');
     slider.setOrientation(Slider.VERTICAL);
     slider.repaint();
     orientation = slider.getOrientation();
     expect(orientation).toEqual(Slider.VERTICAL);
-    track = slider.getRendered().firstChild.firstChild;
+    track = slider.getRendered().querySelector('.jsx30slider_track');
     expect(track.style.width).toEqual('5px');
     expect(track.style.height).toEqual('198px');
   });
@@ -91,12 +81,13 @@ describe("jsx3.gui.Slider", function(){
   it("should be able to set and get whether the track is painted", function() {
     var paintTrack = slider.getPaintTrack();
     expect(paintTrack).toEqual(jsx3.Boolean.TRUE);
-    var track = slider.getRendered().firstChild.firstChild;
+    var track = slider.getRendered().querySelector('.jsx30slider_track');
+    expect(track.style.visibility).toEqual('');
     slider.setPaintTrack(jsx3.Boolean.FALSE);
     slider.repaint();
     paintTrack = slider.getPaintTrack();
     expect(paintTrack).toEqual(jsx3.Boolean.FALSE);
-    track = slider.getRendered().firstChild.firstChild;
+    track = slider.getRendered().querySelector('.jsx30slider_track');
     expect(track.style.visibility).toEqual('hidden');
   });
 
@@ -114,24 +105,11 @@ describe("jsx3.gui.Slider", function(){
   });
 
   it("should be able to set and get whether clicking the track moves the handle to that point", function() {
-    // var trackClickable = slider.getTrackClickable();
-    // expect(trackClickable).toEqual(jsx3.Boolean.TRUE);
-    // var handle = slider.getRendered().firstChild.childNodes[1];//This is a handle.
-    // expect(handle.style.left).toEqual('0px');
-    // var track = slider.getRendered().firstChild.firstChild;
-    // track.click();
-    // handle = slider.getRendered().firstChild.childNodes[1];//This is a handle.
-    // var left_prev = handle.style.left;
-    // expect(left_prev).toBeGreaterThan('0px');
-    // slider.setTrackClickable(jsx3.Boolean.FALSE);
-    // slider.repaint();
-    // trackClickable = slider.getTrackClickable();
-    // expect(trackClickable).toEqual(jsx3.Boolean.FALSE);
-    // track = slider.getRendered().firstChild.firstChild;
-    // track.click();
-    // handle = slider.getRendered().firstChild.childNodes[1];//This is a handle.
-    // var left_next = handle.style.left;
-    // expect(left_prev).toEqual(left_next);
+    var trackClickable = slider.getTrackClickable();
+    expect(trackClickable).toEqual(jsx3.Boolean.TRUE);
+    slider.setTrackClickable(jsx3.Boolean.FALSE);
+    trackClickable = slider.getTrackClickable();
+    expect(trackClickable).toEqual(jsx3.Boolean.FALSE);
   });
 
   it("should clean up", function() {

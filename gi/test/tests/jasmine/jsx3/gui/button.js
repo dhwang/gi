@@ -39,10 +39,6 @@ describe("jsx3.gui.Button", function() {
     value = button.getValue();
     expect(value).toEqual('test');
     expect(button.getText()).toEqual('test');
-    // button.setText('@#%$¢ÃË');
-    // value = button.getValue();
-    // expect(value).toEqual('@#%$¢ÃË');
-    // expect(button.getText()).toEqual('@#%$¢ÃË');
   });
 
   it("should be able to trigger action when clicked", function() {
@@ -56,19 +52,20 @@ describe("jsx3.gui.Button", function() {
   });
 
   it('should be able to be disabled', function() {
+    expect(button._clickCounter).toEqual(0);
     button.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
-    expect(/onclick|onkeydown/.test(button.getRendered())).toBe(false);
+    button.getRendered().click();
+    expect(button._clickCounter).toEqual(0);
+    button.setEnabled(jsx3.gui.Form.STATEENABLED, true);
+    button.getRendered().click();
+    expect(button._clickCounter).toEqual(1);
   });
 
   it("should be able to display different styled buttons", function() {
     button.setFontName("Verdana,Arial,sans-serif");
     button.repaint();
     var fontFamily = button.getRendered().style.fontFamily;
-    if (fontFamily === "Verdana, Arial, sans-serif") {
-      expect(fontFamily).toEqual("Verdana, Arial, sans-serif");
-    } else if (fontFamily === "Verdana,Arial,sans-serif") {
-      expect(fontFamily).toEqual("Verdana,Arial,sans-serif");
-    }
+    expect(fontFamily).toMatch(/Verdana|Arial|sans-serif/);
     button.setFontSize(18);
     button.repaint();
     expect(button.getRendered().style.fontSize).toEqual('18px');

@@ -39,17 +39,28 @@ describe("jsx3.gui.ColorPicker", function(){
   it("should able to set and get the color axis shown on the right side of the control", function() {
     var Axis = colorPicker.getAxis();
     expect(Axis).toEqual(ColorPicker.HUE);
+    var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
+    expect(gradient.style.backgroundColor).toEqual('rgb(255, 0, 0)');
     colorPicker.setAxis(ColorPicker.SATURATION);
-    Axis = colorPicker.getAxis();
-    expect(Axis).toEqual(ColorPicker.SATURATION);
+    colorPicker.repaint();
+    expect(colorPicker.getAxis()).toEqual(ColorPicker.SATURATION);
+    colorPicker.setAxis(ColorPicker.BRIGHTNESS);
+    colorPicker.repaint();
+    expect(colorPicker.getAxis()).toEqual(ColorPicker.BRIGHTNESS);
+    gradient = colorPicker.getRendered().firstChild.childNodes[0].childNodes[2];
+    expect(gradient.style.backgroundColor).toEqual('rgb(0, 0, 0)');
   });
 
   it("the currently selected color by RGB", function() {
     var RGB = colorPicker.getRGB();
     expect(RGB).toEqual(16711680);
+    var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
+    expect(gradient.style.backgroundColor).toEqual('rgb(255, 0, 0)');
     colorPicker.setRGB(10000000);
     RGB = colorPicker.getRGB();
     expect(RGB).toEqual(10000000);
+    gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
+    expect(gradient.style.backgroundColor).toEqual('rgb(255, 234, 0)');
   });
 
   it("should able to set and get the RGB value of the currently selected color as an integer", function() {
