@@ -15,6 +15,7 @@ describe("jsx3.gui.Dialog", function(){
       var root = s.getBodyBlock().load("data/dialog.xml");
       return root.getChild(0);
     };    
+
     beforeEach(function () {
       t._server = (!t._server) ? t.newServer("data/server_dialog.xml", ".", true): t._server;
       t._server.setDynamicProperty('@Max Icon', 'jsx:///images/dialog/max.gif',true);
@@ -82,7 +83,7 @@ describe("jsx3.gui.Dialog", function(){
 
     it("should abe to get an object handle to the jsx3.gui.WindowBar instance", function() {
       expect(dialog.getCaptionBar()).toBeDefined();
-      dialog.removeChild(0);
+      dialog.removeChild(0);//windowBar removed
       expect(dialog.getCaptionBar()).toBeNull();
     });
 
@@ -93,7 +94,8 @@ describe("jsx3.gui.Dialog", function(){
       dialog.repaint();
       contentBorder = dialog.getContentBorder();
       expect(contentBorder).toEqual('border: solid 1px #ff0000');
-      expect(dialog.getRendered().childNodes[1].style.border).toEqual('1px solid rgb(255, 0, 0)');
+      var dialog_content = dialog.getRendered().childNodes[1];
+      expect(dialog_content.style.border).toEqual('1px solid rgb(255, 0, 0)');
     });
 
     it("should not take invalid contentBorder value", function() {
@@ -101,15 +103,21 @@ describe("jsx3.gui.Dialog", function(){
       dialog.repaint();
       contentBorder = dialog.getContentBorder();
       expect(contentBorder).toEqual('solid1 1px #ff0000');
-      expect(dialog.getRendered().childNodes[1].style.border).toEqual('');
+      var dialog_content = dialog.getRendered().childNodes[1];
+      expect(dialog_content.style.border).toEqual('');
     });
 
     it("should able to set and get whether a dialog displays as modal or not", function() {
       var modal = dialog.getModal();
       expect(modal).toEqual(Dialog.NONMODAL);
+      var dialog_modal = document.querySelector('.jsx30dialog_modal');
+      expect(dialog_modal).toBeNull();
       dialog.setModal(Dialog.MODAL);
+      dialog.repaint();
       modal = dialog.getModal();
       expect(modal).toEqual(Dialog.MODAL);
+      var dialog_modal = document.querySelector('.jsx30dialog_modal');
+      expect(dialog_modal.className).toMatch(/jsx30dialog_modal/);
     });
 
     it("should able to set and get whether the dialog can be resized or not", function() {
@@ -123,12 +131,14 @@ describe("jsx3.gui.Dialog", function(){
     it("should able to set and get state of the window", function() {
       var windowState = dialog.getWindowState();
       expect(windowState).toEqual(Dialog.MAXIMIZED);
-      expect(dialog.getRendered().childNodes[1].style.display).toEqual('');
+      var dialog_content = dialog.getRendered().childNodes[1];
+      expect(dialog_content.style.display).toEqual('');
       dialog.setWindowState(Dialog.MINIMIZED);
       dialog.repaint();
       windowState = dialog.getWindowState();
       expect(windowState).toEqual(Dialog.MINIMIZED);
-      expect(dialog.getRendered().childNodes[1].style.display).toEqual('none');
+      dialog_content = dialog.getRendered().childNodes[1];
+      expect(dialog_content.style.display).toEqual('none');
     });
 
     it("should able to get and set numeric multiplier for the dialog's z-index", function() {
@@ -147,10 +157,12 @@ describe("jsx3.gui.Dialog", function(){
 
     it("should able to toggle the window's state between full-size and window-shaded", function() {
       dialog.doToggleState();
-      expect(dialog.getRendered().childNodes[1].style.display).toEqual('none');
+      var dialog_content = dialog.getRendered().childNodes[1];
+      expect(dialog_content.style.display).toEqual('none');
       expect(dialog.getRendered().style.height).toEqual('26px');
       dialog.doToggleState();
-      expect(dialog.getRendered().childNodes[1].style.display).toEqual('');
+      dialog_content = dialog.getRendered().childNodes[1];
+      expect(dialog_content.style.display).toEqual('');
       expect(dialog.getRendered().style.height).toEqual('312px');
     });
 
@@ -165,9 +177,9 @@ describe("jsx3.gui.Dialog", function(){
     it("should be able to be moved to an absolute position on screen", function() {
       expect(dialog.getAbsolutePosition().L).toEqual(0);
       dialog.setLeft(100,true);
-      expect(dialog.getAbsolutePosition().L).toEqual(100);
+      expect(dialog.getRendered().style.left).toEqual('100px');
       dialog.setTop(100,true);
-      expect(dialog.getAbsolutePosition().T).toEqual(100);
+      expect(dialog.getRendered().style.top).toEqual('100px');
     });
 
     it("should clean up", function() {
@@ -285,10 +297,20 @@ describe("jsx3.gui.Dialog", function(){
     it("should be able to minimize to task bar when toggled with a task bar", function() {
       dialog4.doToggleState();
       expect(dialog4.getRendered().style.display).toEqual('none');
-      dialog4.getNextSibling().getRendered().firstChild.click();
+      var toolbarbutton = document.querySelector('.jsx30toolbarbutton');
+      toolbarbutton.click();
       expect(dialog4.getRendered().style.display).toEqual('');
-      dialog4.getNextSibling().getRendered().firstChild.click();
+      toolbarbutton = document.querySelector('.jsx30toolbarbutton');
+      toolbarbutton.click();
       expect(dialog4.getRendered().style.display).toEqual('none');
+    });
+
+    it("should not have the toolbarbutton when the dialog closed", function() {
+      var toolbarbutton = document.querySelector('.jsx30toolbarbutton');
+      expect(toolbarbutton).toBeDefined();
+      dialog4.doClose();
+      toolbarbutton = document.querySelector('.jsx30toolbarbutton');
+      expect(toolbarbutton).toBeNull();
     });
 
     it("should clean up", function() {

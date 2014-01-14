@@ -130,10 +130,6 @@ describe("jsx3.gui.DatePicker", function() {
     datePicker.repaint();
     var value = datePicker.getValue();
     expect(value).toEqual('MMM d, yyyy');
-    datePicker.setValue(-1);
-    datePicker.repaint();
-    value = datePicker.getValue();
-    expect(value).toEqual('Jan 1, 1970');
   });
 
   it("should able to show the calendar for this date picker", function() {
