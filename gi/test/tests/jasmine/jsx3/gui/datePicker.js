@@ -125,7 +125,7 @@ describe("jsx3.gui.DatePicker", function() {
     expect(value).toEqual('Jan 1, 1970');
   });
 
-  it("should not take invalide date value", function() {
+  it("should not take invalid date value", function() {
     datePicker.setValue(Math.NaN);
     datePicker.repaint();
     var value = datePicker.getValue();
