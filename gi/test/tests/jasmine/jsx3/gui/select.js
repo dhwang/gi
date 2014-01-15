@@ -114,7 +114,8 @@ describe("jsx3.gui.Select", function() {
       expect(selectText).toEqual('-City-');
     });
 
-    /*it("should able to dispaly scroll pointer blocks for drop down list", function() {
+    /*
+    it("should able to display scroll pointer blocks for drop down list", function() {
       var cdf3 = newCDF("data/countries.xml");
       select.setSourceXML(cdf3);
       select.repaint();
@@ -174,11 +175,11 @@ describe("jsx3.gui.Select", function() {
         t._server2.getBodyBlock().removeChildren();
     });
 
-    it("should be able to deserialize", function() {
+    it("should be able to deserialize instance of select combo", function() {
       expect(select2).toBeInstanceOf(Select);
     });
 
-    it("should able to set and get type", function() {
+    it("should able to set and get type from combo select to simple select", function() {
       expect(select2.getType()).toEqual(Select.TYPECOMBO);
       select2.setType(Select.TYPESELECT);
       expect(select2.getType()).toEqual(Select.TYPESELECT);
