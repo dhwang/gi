@@ -97,15 +97,15 @@ describe("jsx3.gui.CDF", function() {
 
   // should have more form type, to test the read/write method in each gui class
   it("should be able to read/write from datepicker", function() {
-    expect(cdf).toBeNull(); // fail
+    expect().toBeDefined();
   });
 
   it("should be able to read/write from timepicker", function() {
-    expect(cdf).toBeNull(); // fail
+    expect().toBeDefined();
   });
 
   it("should be able to read/write from slider", function() {
-    expect(cdf).toBeNull(); // fail
+    expect().toBeDefined();
   });
 
   it("should clean up", function() {
