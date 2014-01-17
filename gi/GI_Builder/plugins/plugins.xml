@@ -58,5 +58,5 @@
   <plugin id="jsx3.ide.xmpp"/>
   <plugin id="jsx3.ide.jabber"/>
   <plugin id="net.sf.editarea"/>
-  <plugin id="com.google.gears"/>
+  <!--<plugin id="com.google.gears"/>-->
 </plugins>
