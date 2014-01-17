@@ -4,7 +4,7 @@
   <record jsxid="jsxversion" type="string">3.2</record>
   <record jsxid="caption" type="string">Flikr Image search</record>
   <record jsxid="mode" type="boolean">true</record>
-  <record jsxid="namespace" type="string">testJSON</record>
+  <record jsxid="namespace" type="string">eg.service.APP</record>
   <record jsxid="cancelerror" type="boolean">true</record>
   <record jsxid="cancelrightclick" type="boolean">true</record>
   <record jsxid="left" type="number">0</record>
@@ -31,30 +31,31 @@
       <record jsxid="src" type="string">js/logic.js</record>
     </record>
     <record jsxid="2" type="map">
-      <record jsxid="id" type="string">travel_map_xml</record>
-      <record jsxid="type" type="string">services</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">rules/travel_map.xml</record>
-    </record>
-    <record jsxid="3" type="map">
       <record jsxid="id" type="string">testjson_xml</record>
       <record jsxid="type" type="string">services</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">rules/testjson.xml</record>
     </record>
-    <record jsxid="4" type="map">
+    <record jsxid="3" type="map">
       <record jsxid="id" type="string">flickr_search_js</record>
       <record jsxid="type" type="string">script</record>
       <record jsxid="load" type="number">1</record>
       <record jsxid="src" type="string">js/flickr_search.js</record>
     </record>
-    <record jsxid="5" type="map">
+    <record jsxid="4" type="map">
       <record jsxid="id" type="string">imgBlock_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/imgBlock.xml</record>
     </record>
+    <record jsxid="5" type="map">
+      <record jsxid="id" type="string">source_xml</record>
+      <record jsxid="type" type="string">xml</record>
+      <record jsxid="load" type="number">0</record>
+      <record jsxid="src" type="string">xml/source.xml</record>
+    </record>
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>
   <record jsxid="onunload" type="string"></record>
+  <record jsxid="addins" type="array"></record>
 </data>

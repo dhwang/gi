@@ -2,13 +2,21 @@
   <name><![CDATA[Dialog]]></name>
   <icon><![CDATA[images/prototypes/dialog.gif]]></icon>
   <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
+  <onBeforeDeserialize><![CDATA[var record = eg.service.getSelectedRecord();
+if (record != null) {
+var windowbar = objXML.selectSingleNode("//jsx1:strings[@jsxname='windowBar']" );
+if (windowbar) windowbar.setAttribute("jsxtext",record.title);
+var imgsrc = objXML.selectSingleNode("//jsx1:object[@type='jsx3.gui.Image']/jsx1:strings");
+imgsrc.setAttribute("jsxsrc", record.url);
+}]]></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
   <object type="jsx3.gui.Dialog">
-    <variants jsxwidth="500" jsxheight="500" jsxwindowstate="1" jsxzindex="5000" jsxleft="412" jsxtop="181"></variants>
+    <variants jsxwidth="500" jsxheight="500" jsxwindowstate="1" jsxzindex="5000" jsxleft="69" jsxtop="38"></variants>
     <strings jsxname="dialog"></strings>
     <dynamics jsxbgcolor="@Solid Medium"></dynamics>
     <object type="jsx3.gui.WindowBar">
       <variants></variants>
-      <strings jsxname="windowBar" jsxtext="[Picture]"></strings>
+      <strings jsxname="windowBar" jsxtext=""></strings>
       <object type="jsx3.gui.ToolbarButton">
         <variants></variants>
         <strings jsxname="btnMinimize"></strings>
@@ -30,7 +38,11 @@
     </object>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="3" jsxloadtype="1" jsxrelativeposition="0"></variants>
-      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxleft="" jsxtop="" jsxdisplay="" jsxbgcolor=""></strings>
+      <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxbgcolor="" jsxtext=""></strings>
+      <object type="jsx3.gui.Image">
+        <variants jsxoverflow="2" jsxrelativeposition="1"></variants>
+        <strings jsxname="image" jsxsrc="jsx:///images/icons/logo_234_18.gif"></strings>
+      </object>
     </object>
   </object>
 </serialization>

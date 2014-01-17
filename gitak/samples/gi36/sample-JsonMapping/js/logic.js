@@ -1,16 +1,28 @@
-testJSON.loadInclude("http://cdn.jsdelivr.net/json2/0.1/json2.min.js","json","script");
+if (!window.JSON)
+eg.service.APP.loadInclude("http://cdn.jsdelivr.net/json2/0.1/json2.min.js","json","script");
+
+jsx3.require( "jsx3.net.Service");
 jsx3.lang.Package.definePackage(
   "eg.service",                //the full name of the package to create
-  function(service) {          //name the argument of this function
+  function(service) { 
 
+    service.APP;
+    service.MODE = 1;
+    //name the argument of this function
     //call this method to begin the service call (eg.service.call();)
     service.call = function(appServer) {
-      var objService = testJSON.loadResource("testjson_xml");
+      appServer.getBodyBlock().showMask("<h1 style='left:100px;white-space:nowrap;'>Sent request; Loading..</h1>");
+      var objService = service.APP.loadResource("testjson_xml");
+      //live or static
+      objService.setMode(service.MODE);
+      objService.setInboundURL("xml/source.json");//locally saved static response
+
+      //service operation name, REST has no name ""
       objService.setOperation("");
 
       var url = 'http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20flickr.photos.search%20where%20has_geo%3D%22true%22%20and%20text%3D%22'+
-       testJSON.getJSXByName('textbox').getValue()      
-      +'%22%20and%20api_key%3D%2292bd0de55a63046155c09f1a06876875%22%3B&format=json&diagnostics=true&callback=';
+       service.APP.getJSXByName('textbox').getValue()      
+      +'%22%20and%20api_key%3D%2292bd0de55a63046155c09f1a06876875%22%3B&format=json&diagnostics=true';
       objService.setEndpointURL(url);
           
       //subscribe
@@ -18,16 +30,24 @@ jsx3.lang.Package.definePackage(
       objService.subscribe(jsx3.net.Service.ON_ERROR, service.onError);
       objService.subscribe(jsx3.net.Service.ON_INVALID, service.onInvalid);
 
-      //call the service
+      //call the services
       objService.doCall();
     };
 
     service.getMatrix = function () {
-      return testJSON.getJSXByName('matrix1');
+      return service.APP.getJSXByName('matrix1');
     }
+    
+    service.getSelectedRecord = function () {
+      var table = service.getMatrix();
+      if (table) {
+        return table.getRecord(table.getValue());
+      }
+    }
+    
     service.onSuccess = function(objEvent) {
+     objEvent.target.getServer().getBodyBlock().hideMask();
       var mtx = service.getMatrix();
-      
       // convert the returned codes into actual picture URL, see 
       jsx3.$A(mtx.getRecordIds()).each(function(x) {
          
@@ -37,45 +57,37 @@ jsx3.lang.Package.definePackage(
          mtx.insertRecordProperty(x, "url", url);         
          mtx.insertRecordProperty(x, "jsximg", small);
       });
-      //mtx.repaint(); // XML Bind is enabled, no repaint needed
-      var aBegin = [];
-      jsx3.$A(mtx.getRecordIds()).each(function(x){
-         var rec = mtx.getRecord(x);
-         //alert(rec.jsximg);
-         var objRecord = {
-                jsximg : rec.jsximg,
-                owner : rec.owner,
-                url : rec.url,
-                title : rec.title,
-                jsxid: rec.id
-         };
-         aBegin.push(objRecord);
 
-      });
-      service.aBegin = aBegin;
+      service.APP.getCache().setDocument("service_copy",mtx.getXML().cloneDocument());
+      
     };
-    
-    //call this method to search results by the owner. 
-    service.queryByOwner = function(objQuery){
-      var queryValue = objQuery.getServer().getJSXByName("textOwner").getValue();
+
+    service.static = function() {
       var mtx = service.getMatrix();
-         if(queryValue!=""){
-          jsx3.$A(mtx.getRecordIds()).each(function(x) {
-            var rec = mtx.getRecord(x);
-            var owner = rec.owner;
-            if(queryValue!=owner){
-            mtx.deleteRecord(x,true);
-            }
-          });
-         }else{
-          for(var i =0,length = service.aBegin.length;i<length;i++){
-            mtx.insertRecord(service.aBegin[i],service.aBegin[i].jsxid,true); 
-          }
-         };
+      mtx.clearXmlData();
+      var cdfStatic = (new jsx3.xml.CDF.Document()).load(service.APP.resolveURI("xml/source.xml"));
 
-      //});
-    } 
+      var children = cdfStatic.getChildNodes();
+      var length = children.size();
+      
 
+      for(var i = 0; i<length; i++){
+        var child = children.get(i);
+        var insertRecordId = child.getAttribute("jsxid");
+        var url = "http://farm"+child.getAttribute('farm')+".staticflickr.com/"+child.getAttribute('server')+"/"+child.getAttribute('jsxid')+"_"+child.getAttribute('secret')+".jpg",
+         small = "http://farm"+child.getAttribute('farm')+".staticflickr.com/"+child.getAttribute('server')+"/"+child.getAttribute('jsxid')+"_"+child.getAttribute('secret')+"_s.jpg";
+        var objRecord = {
+            jsximg : small,
+            owner : child.getAttribute('owner'),
+            url : url,
+            title : child.getAttribute('title'),
+            jsxid : child.getAttribute('jsxid')
+         }
+         mtx.insertRecord(objRecord, insertRecordId, true);
+
+      };
+      
+    };
 
     service.onError = function(objEvent) {
       var myStatus = objEvent.target.getRequest().getStatus();
@@ -85,13 +97,16 @@ jsx3.lang.Package.definePackage(
     service.onInvalid = function(objEvent) {
       objEvent.target.getServer().alert("Invalid","The following message node just failed validation:\n\n" + objEvent.message);
     };
+    
+    service.dlgTop = 100;
+    service.dlgLeft = 0;
 
     service.showImage = function(imgUrl) {
-        var imgBlock = testJSON.getBodyBlock().load("components/imgBlock.xml", true);
-        //testJSON.getBodyBlock().insertHTML(imgBlock);
-        imgBlock.getChildren()[1].setText("<img src='" + imgUrl + "'/>");
-        imgBlock.getChildren()[1].repaint();
-    //alert(imgUrl);
+      var imgBlock = service.APP.getBodyBlock().load("components/imgBlock.xml", true);
+      imgBlock.repaint();
+      service.dlgTop+=10;
+      service.dlgLeft+=10;
+      imgBlock.setLeft(service.dlgLeft).setTop(service.dlgTop);
     };
   }
 

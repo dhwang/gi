@@ -16,27 +16,32 @@
         <dynamics jsxborder="@Outset"></dynamics>
         <object type="jsx3.gui.TextBox">
           <variants jsxheight="18"></variants>
-          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Beijing" jsxwidth="100%"></strings>
+          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Beijing restaurant" jsxwidth="100%"></strings>
           <dynamics jsxborder="@Inset"></dynamics>
         </object>
         <object type="jsx3.gui.Button">
-          <variants jsxindex="0" jsxheight="18"></variants>
-          <strings jsxname="btnService" jsxtext="Search picture by jsx3.net.Service" jsxmargin="0 4 0 0" jsxkeycode="enter"></strings>
-          <events jsxexecute="eg.service.call();"></events>
+          <variants jsxindex="0" jsxheight="18" jsxwidth="200"></variants>
+          <strings jsxname="btnService" jsxtext="Search by Mapped Service" jsxmargin="0 4 0 0" jsxkeycode="enter" jsxtip="Search picture by jsx3.net.Service"></strings>
+          <events jsxexecute="eg.service.MODE = 1;eg.service.call(this.getServer());"></events>
         </object>
         <object type="jsx3.gui.Button">
-          <variants jsxindex="0" jsxheight="18"></variants>
-          <strings jsxname="btnRequest" jsxtext="Search picture by jsx3.net.Request" jsxmargin="0 4 0 0"></strings>
-          <events jsxexecute="eg.request.send();"></events>
+          <variants jsxindex="0" jsxheight="18" jsxwidth="200"></variants>
+          <strings jsxname="btnRequest" jsxtext="Search by Direct Request" jsxmargin="0 4 0 0" jsxtip="Search picture by jsx3.net.Request"></strings>
+          <events jsxexecute="eg.request.send(this.getServer());"></events>
         </object>
-        <object type="jsx3.gui.TextBox">
+        <object type="jsx3.gui.CDF">
           <variants jsxheight="18"></variants>
-          <strings jsxname="textOwner" jsxmargin="0 4 0 0" jsxwidth="100%" jsxvalue=""></strings>
-        </object>
-        <object type="jsx3.gui.Button">
-          <variants jsxindex="0" jsxheight="18"></variants>
-          <strings jsxname="btnQuery" jsxtext="Search by owner" jsxmargin="0 4 0 0"></strings>
-          <events jsxexecute="eg.service.queryByOwner(this);"></events>
+          <strings jsxname="cdf" jsxwidth="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA;  &lt;record jsxid=&quot;1&quot; first=&quot;john&quot; last=&quot;public&quot; middle=&quot;q&quot;/&gt;&#xA;&lt;/data&gt;"></strings>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"></variants>
+            <strings jsxname="radio" jsxtext="live" jsxgroupname="group1" jsxmargin="0 4 0 0"></strings>
+            <events jsxselect="eg.service.MODE = 1;&#xA;eg.service.call(this.getServer());"></events>
+          </object>
+          <object type="jsx3.gui.RadioButton">
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"></variants>
+            <strings jsxname="radio" jsxtext="static" jsxgroupname="group1" jsxmargin="0 4 0 0"></strings>
+            <events jsxselect="eg.service.MODE = 0;&#xA;eg.service.call(this.getServer());"></events>
+          </object>
         </object>
       </object>
       <object type="jsx3.gui.Block">
@@ -45,8 +50,8 @@
         <dynamics jsxborder="@Outset"></dynamics>
         <object type="jsx3.gui.Matrix">
           <variants jsxpagingmodel="1" jsxselectionmodel="2" jsxscalewidth="1" jsxjsxxmlasync="1" jsxrowheight="0" jsxresize="1" jsxxmlbind="1" jsxxmlasync="1"></variants>
-          <strings jsxname="matrix1" jsxbodyborder="1px solid #dfdfef" jsxheaderborder="1px solid #dfdfef" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxmlid="testjson_xml" jsxsortpath="jsxdate" jsxsorttype="number" jsxsortdirection="descending"></strings>
-          <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);" jsxspy="if(objCOLUMN.getPath() != 'Url') false; else { rec = this.getRecord(strRECORDID); '&lt;dt&gt;Summary&lt;/dt&gt;&lt;dl&gt;' + rec.Summary + ' &lt;/dl&gt; &lt;dt&gt; Author &lt;/dt&gt;&lt;dl&gt;' + rec.Author + '&lt;/dl&gt; &lt;a href=&quot;' + rec.Url + '&quot;&gt;' + rec.Url + '&lt;/a&gt;';}"></events>
+          <strings jsxname="matrix1" jsxbgcolor="#efefff" jsxfocusstyle="font-weight:bold;" jsxxmlid="testjson_xml" jsxsortpath="url" jsxsorttype="text" jsxsortdirection="descending"></strings>
+          <events jsxexecute="jsx3.log('EVENT: (jsxexecute). Record: ' + strRECORDID);" jsxspy="if(objCOLUMN.getPath() != 'url') false; else { rec = this.getRecord(strRECORDID); '&lt;dt&gt;Title&lt;/dt&gt;&lt;dl&gt;' + rec.title+ ' &lt;/dl&gt; &lt;dt&gt; Owner&lt;/dt&gt;&lt;dl&gt;' + rec.owner + '&lt;/dl&gt; &lt;img src=&quot;' + rec.jsximg+ '&quot;&gt;' ;}"></events>
           <xslparameters jsx_rowbg1="#ffffff" jsx_rowbg2="#efefff"></xslparameters>
           <object type="jsx3.gui.Matrix.Column">
             <variants jsxwidth="100"></variants>
@@ -54,13 +59,13 @@
             <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
           </object>
           <object type="jsx3.gui.Matrix.Column">
-            <variants></variants>
-            <strings jsxname="textColumn" jsxwidth="100" jsxtext="Owner" jsxpadding="2" jsxcellpadding="3" jsxpath="owner"></strings>
+            <variants jsxwidth="140"></variants>
+            <strings jsxname="textColumn" jsxtext="Owner" jsxpadding="2" jsxcellpadding="3" jsxpath="owner"></strings>
             <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
           </object>
           <object type="jsx3.gui.Matrix.Column">
-            <variants jsxwidth="153"></variants>
-            <strings jsxname="htmlColumn" jsxtext="Link" jsxpadding="2" jsxcellpadding="2" jsxpath="url" jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;   &lt;xsl:param name=&quot;jsx_row_number&quot;/&gt;   &lt;xsl:if test=&quot;@jsxcellstyle&quot;&gt;     &lt;xsl:attribute name=&quot;style&quot;&gt;       &lt;xsl:value-of select=&quot;@jsxcellstyle&quot;/&gt;     &lt;/xsl:attribute&gt;   &lt;/xsl:if&gt;    &lt;xsl:choose&gt;     &lt;xsl:when test=&quot;@url&quot;&gt;       &lt;xsl:element name=&quot;span&quot;&gt;         &lt;xsl:attribute name=&quot;style&quot;&gt;cursor:pointer;cursor:hand;text-decoration:underline;color:#346693&lt;/xsl:attribute&gt;         &lt;xsl:attribute name=&quot;onclick&quot;&gt;eg.service.showImage('           &lt;xsl:value-of select=&quot;@url&quot;/&gt;           ');&lt;/xsl:attribute&gt;         &lt;xsl:value-of select=&quot;@url&quot;/&gt;       &lt;/xsl:element&gt;     &lt;/xsl:when&gt;   &lt;/xsl:choose&gt;  &lt;/xsl:template&gt;" jsxformathandler="@unescape"></strings>
+            <variants jsxwidth="358"></variants>
+            <strings jsxname="htmlColumn" jsxtext="Link" jsxpadding="2" jsxcellpadding="2" jsxpath="url" jsxvaluetemplate="&lt;xsl:template xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;   &lt;xsl:param name=&quot;jsx_row_number&quot;/&gt;   &lt;xsl:if test=&quot;@jsxcellstyle&quot;&gt;     &lt;xsl:attribute name=&quot;style&quot;&gt;       &lt;xsl:value-of select=&quot;@jsxcellstyle&quot;/&gt;     &lt;/xsl:attribute&gt;   &lt;/xsl:if&gt;    &lt;xsl:choose&gt;     &lt;xsl:when test=&quot;@url&quot;&gt;       &lt;xsl:element name=&quot;span&quot;&gt;         &lt;xsl:attribute name=&quot;style&quot;&gt;cursor:pointer;cursor:hand;text-decoration:underline;color:#346693&lt;/xsl:attribute&gt;         &lt;xsl:attribute name=&quot;onclick&quot;&gt;eg.service.showImage('    &lt;xsl:value-of select=&quot;@url&quot;/&gt;           ',this);&lt;/xsl:attribute&gt;         &lt;xsl:value-of select=&quot;@url&quot;/&gt;       &lt;/xsl:element&gt;     &lt;/xsl:when&gt;   &lt;/xsl:choose&gt;  &lt;/xsl:template&gt;" jsxformathandler="@unescape"></strings>
             <dynamics jsxborder="@Outset" jsxbg="@Bevel TopDown" jsxbgcolor="@Solid Disabled"></dynamics>
           </object>
           <object type="jsx3.gui.Matrix.Column">
