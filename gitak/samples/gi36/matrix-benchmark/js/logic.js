@@ -1,4 +1,3 @@
-
 var matrixTests = [
   {name:"Load classes", fct: function(objServer) {
     jsx3.require("jsx3.gui.Matrix");
@@ -188,7 +187,7 @@ function reset(objBtn) {
   var mPane = objServer.getJSXByName("matrixPane");
   mPane.removeChildren();
 
-  delete jsx3.gui.Matrix.Column;
+  /*delete jsx3.gui.Matrix.Column;
   delete jsx3.gui.Matrix;
-  delete jsx3.xml.Cacheable;
+  delete jsx3.xml.Cacheable;*/
 };
