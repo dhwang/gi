@@ -1,4 +1,4 @@
-<serialization jsxversion="3.7" xmlns="urn:tibco.com/v3.0">
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Layout (--)]]></name>
   <icon></icon>
   <description><![CDATA[2 top-over-bottom panes in an adaptive layout grid.]]></description>
@@ -135,7 +135,7 @@
     </object>
     <object type="jsx3.gui.Menu">
       <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
-      <strings jsxname="mnuDeleteRowMenu" jsxtext="deleteMenu" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;   &lt;record jsxid=&quot;1&quot; jsxtext=&quot;Delete&quot; /&gt;&lt;record jsxid=&quot;add&quot; jsxtext=&quot;Add&quot; /&gt; &lt;/data&gt;" jsxdisplay="none"></strings>
+      <strings jsxname="mnuDeleteRowMenu" jsxtext="deleteMenu" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&lt;record jsxid=&quot;1&quot; jsxtext=&quot;Delete&quot;  /&gt;&lt;/data&gt;" jsxdisplay="none"></strings>
       <events jsxexecute="if (strRECORDID =='1') eg.addRemoveCDF.doDeleteRecord(this, this.getContextRecordId());"></events>
     </object>
   </object>
