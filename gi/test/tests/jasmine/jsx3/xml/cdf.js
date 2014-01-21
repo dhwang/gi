@@ -11,7 +11,7 @@ describe("jsx3.xml.CDF", function () {
     return (new jsx3.xml.CDF.Document()).load(t.resolveURI(strURL));
   };
 
-  it("should be able to instantiate new instance of jsx3.app.CDF", function () {
+  it("should be able to instantiate new instance of jsx3.xml.CDF", function () {
     var cdf = newCDF("data/cdf1.xml");
     expect(cdf.instanceOf(jsx3.xml.CDF)).toBeTruthy();
   });
