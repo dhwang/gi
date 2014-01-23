@@ -1,0 +1,31 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="2" jsxheight="300"></variants>
+      <strings jsxname="blkAsynchTextPane" jsxwidth="100%"></strings>
+      <object type="jsx3.gui.TextBox">
+        <variants jsxheight="180" jsxtype="1" jsxrelativeposition="1"></variants>
+        <strings jsxname="txtSubmitScriptTextArea" jsxmargin="" jsxwidth="100%" jsxvalue="/*create http request object */  var objHTTP = new jsx3.net.Request();   /*open connection; pass true for async */ objHTTP.open(&quot;GET&quot;,&quot;http://www.baidu.com&quot;,true); /* subscribe to 'response' event */  objHTTP.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE,function(objEvent) {    /* get handle to the http object (this is accessible via the event's 'target' field */    var objHTTP = objEvent.target;    var alertWindow = new Object();     alertWindow.width = 400;     alertWindow.height = 400;     alertWindow.scrollbar = true;    var msg = objHTTP.getResponseText();     /*alert user to the underlying source for the page    //publish */     eg.pubsub.logger.info(&quot;Example2 Subscriber: Received asynchronous response from web link&quot; ,null);    eg.pubsub.getServer().alert(&quot;Response notified&quot;, jsx3.util.strEscapeHTML(msg), null, &quot;OK&quot;, alertWindow); }); /* send the request */  objHTTP.send();  " jsxcolor="DarkGreen" jsxdisplay=""></strings>
+        <dynamics jsxfontname="@Script FN" jsxfontsize="@Script FS"></dynamics>
+      </object>
+      <object type="jsx3.gui.Button">
+        <variants jsxindex="0" jsxheight="18"></variants>
+        <strings jsxname="btnSubmitButton" jsxtext="Submit" jsxmargin="margin-right:4px;"></strings>
+        <events jsxexecute="jsx3.eval(eg.pubsub.getServer().getJSXByName(&quot;txtSubmitScriptTextArea&quot;).getValue());"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxwidth="200" jsxheight="72" jsxtype="1"></variants>
+      <strings jsxname="subarea" jsxmargin="0 4 0 0" jsxvalue=""></strings>
+    </object>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxwidth="200" jsxheight="72" jsxtype="1"></variants>
+      <strings jsxname="pubarea" jsxmargin="0 4 0 0" jsxvalue=""></strings>
+    </object>
+  </object>
+</serialization>

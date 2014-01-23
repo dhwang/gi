@@ -13,8 +13,8 @@ jsx3.lang.Package.definePackage(
   pubsub.subHandler = function(e) {
   pubsub.logger.log(e.code, "Example1 Subscriber: received message '" + e.description + "'",3,false); 
   //pubsub.getServer().alert("Example","Example1 Subscriber:received message '" + e.description + "'");
-  var out = pubsub.APP.getJSXByName("pubarea"), oldtext = out.getValue();
-  out.setValue(oldtext+"Example1 Subscriber:received message: " + e.description);
+  var out = pubsub.APP.getJSXByName("output"), oldtext = out.getValue();
+  out.setValue(oldtext + e.description);
 };
   /**
    * Returns the application server object which by default is the application

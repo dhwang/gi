@@ -1,0 +1,30 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.Splitter">
+      <variants jsxleft="0" jsxtop="0"></variants>
+      <strings jsxname="splitterV" jsxsubcontainer1pct="45.94383775351014%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="1" jsxwidth="600"></variants>
+        <strings jsxname="block" jsxheight="100%" jsxrelativeposition="1"></strings>
+        <object type="jsx3.gui.Block">
+          <variants jsxoverflow="1"></variants>
+          <strings jsxname="paneRight" jsxwidth="50%" jsxheight="100%"></strings>
+          <dynamics jsxborder="@Inset"></dynamics>
+          <object type="jsx3.gui.TextBox">
+            <variants jsxwidth="200" jsxheight="72" jsxtype="1"></variants>
+            <strings jsxname="textright" jsxmargin="0 4 0 0"></strings>
+          </object>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="blkSubscribeTextPane" jsxwidth="100%" jsxheight="100%"></strings>
+      </object>
+    </object>
+  </object>
+</serialization>
