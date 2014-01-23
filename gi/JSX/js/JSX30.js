@@ -1603,7 +1603,7 @@ window['jsx_main'] = function() {
         element.setAttribute("type", 'text/javascript');
 
         // set up onload handler
-        if (jsx3.CLASS_LOADER.IE && !jsx3.CLASS_LOADER.IE11) {
+        if (jsx3.CLASS_LOADER.IE && (!document.documentMode || document.documentMode <=10)) {
           element.onreadystatechange = function() {
             var state = this.readyState;
             if (state == "loaded" || state == "interactive" || state == "complete") {

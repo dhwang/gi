@@ -333,7 +333,7 @@ jsx3.Class.defineClass("jsx3.gui.Event", null, null, function(Event, Event_proto
   };
 
   Event.preventSelection = function(objDocument) {
-    objDocument.selection.createRange();
+    objDocument.selection ? objDocument.selection.createRange() : "";
   };
 
 /* @JSC */ } else {

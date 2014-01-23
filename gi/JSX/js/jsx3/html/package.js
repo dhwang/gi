@@ -1150,87 +1150,144 @@ jsx3.Class.defineClass('jsx3.html.Selection', null, null, function(Selection, Se
   var html = jsx3.html;
   
 /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+  if(document.documentMode >= 11){
+     Selection_prototype.init = function(objTextElm) {
+        /* @jsxobf-clobber */
+        this._selection = {elm:objTextElm, start:objTextElm.selectionStart, end:objTextElm.selectionEnd,
+            scrollt:objTextElm.scrollTop, scrolll:objTextElm.scrollLeft};
+      };
 
-  Selection_prototype.init = function(objTextElm) {
-    /* @jsxobf-clobber */
-    this._selection = objTextElm.ownerDocument.selection.createRange().duplicate();
-    /* @jsxobf-clobber */
-    this._input = objTextElm;
-  };
+      Selection_prototype.getStartIndex = function() {
+        return this._selection.start;
+      };
 
-  Selection_prototype.getStartIndex = function() {
-    var range = this._input.ownerDocument.selection.createRange();
-    var dupRange = null;
-    if (html._tn(this._input) == "textarea") {
-      dupRange = range.duplicate();
-      dupRange.moveToElementText(this._input);
-    } else { // tagName == "input"
-      dupRange = this._input.createTextRange();
-    }
-    dupRange.setEndPoint('EndToEnd', range);
-    return dupRange.text.length - range.text.length;
-  };
+      Selection_prototype.getEndIndex = function() {
+        return this._selection.end;
+      };
 
-  Selection_prototype.getEndIndex = function() {
-    var range = this._input.ownerDocument.selection.createRange();
-    var dupRange = null;
-    if (html._tn(this._input) == "textarea") {
-      dupRange = range.duplicate();
-      dupRange.moveToElementText(this._input);
-    } else { // tagName == "input"
-      dupRange = this._input.createTextRange();
-    }
-    dupRange.setEndPoint('EndToEnd', range);
-    return dupRange.text.length;
-  };
+      Selection_prototype.setRange = function(intStart, intEnd) {
+        this._selection.start = intStart;
+        this._selection.end = intEnd;
+        this._selection.elm.setSelectionRange(intStart, intEnd);
+      };
 
-  Selection_prototype.setRange = function(intStart, intEnd) {
-    var value = this._input.value;
-//    jsx3.log("set range to {" + intStart + "," + intEnd + "} " +
-//        value.substring(intStart-10, intStart) + "|" + value.substring(intStart, intEnd) +  "|" +
-//        value.substring(intEnd, intEnd + 10));
-    var regexp = /\r\n|\r|\n/g;
-    regexp.lastIndex = 0; // NOTE: The obfuscator can expose a bug here if lastIndex is not pre-set.
+      Selection_prototype.getOffsetLeft = function() {
+        if (this._selection.pos == null)
+          this._selection.pos = jsx3.html.getRelativePosition(null, this._selection.elm);
+        return this._selection.pos.L;
+      };
 
-    var origEnd = intEnd;
-    while (regexp.test(value) && regexp.lastIndex <= origEnd) {
-      intStart -= 1;
-      intEnd -= 1;
-    }
-//    jsx3.log("adjust range to {" + intStart + "," + intEnd + "}");
+      Selection_prototype.getOffsetTop = function() {
+        if (this._selection.pos == null)
+          this._selection.pos = jsx3.html.getRelativePosition(null, this._selection.elm);
+        return this._selection.pos.T;
+      };
 
-    var range = this._input.createTextRange();
-    range.collapse(true);
-    range.moveStart("character", intStart);
-    range.moveEnd("character", intEnd - intStart);
-    range.select();
-  };
+      Selection_prototype.getText = function() {
+        return this._selection.elm.value.substring(this._selection.start, this._selection.end);
+      };
 
-  Selection_prototype.getOffsetLeft = function() {
-    return this._selection.offsetLeft;
-  };
+      Selection_prototype.setText = function(strText) {
+        this._selection.elm.value = this._selection.elm.value.substring(0, this._selection.start) +
+            strText + this._selection.elm.value.substring(this._selection.end);
+        this._selection.elm.setSelectionRange(this._selection.start, this._selection.start + strText.length);
+        this._selection.elm.end = this._selection.elm.selectionEnd;
+      };
 
-  Selection_prototype.getOffsetTop = function() {
-    return this._selection.offsetTop;
-  };
+      Selection_prototype.insertCaret = function(strWhere) {
+        this._selection.elm.focus();
 
-  Selection_prototype.getText = function() {
-    return this._selection.text;
-  };
+        if (strWhere == "end") {
+          this._selection.elm.setSelectionRange(this._selection.elm.end, this._selection.elm.end);
+        } else {
+          throw new jsx3.Exception();
+        }
 
-  Selection_prototype.setText = function(strText) {
-    this._selection.text = strText;
-  };
+        this._selection.elm.scrollTop = this._selection.scrollt;
+        this._selection.elm.scrollLeft = this._selection.scrolll;
+      };
+  } else {
 
-  Selection_prototype.insertCaret = function(strWhere) {
-    if (strWhere == "end") {
-      this._selection.collapse();
-      this._selection.select();
-    } else {
-      throw new jsx3.Exception();
-    }
-  };
+    Selection_prototype.init = function(objTextElm) {
+      /* @jsxobf-clobber */
+      this._selection = objTextElm.ownerDocument.selection.createRange().duplicate();
+      /* @jsxobf-clobber */
+      this._input = objTextElm;
+    };
 
+    Selection_prototype.getStartIndex = function() {
+      var range = this._input.ownerDocument.selection.createRange();
+      var dupRange = null;
+      if (html._tn(this._input) == "textarea") {
+        dupRange = range.duplicate();
+        dupRange.moveToElementText(this._input);
+      } else { // tagName == "input"
+        dupRange = this._input.createTextRange();
+      }
+      dupRange.setEndPoint('EndToEnd', range);
+      return dupRange.text.length - range.text.length;
+    };
+
+    Selection_prototype.getEndIndex = function() {
+      var range = this._input.ownerDocument.selection.createRange();
+      var dupRange = null;
+      if (html._tn(this._input) == "textarea") {
+        dupRange = range.duplicate();
+        dupRange.moveToElementText(this._input);
+      } else { // tagName == "input"
+        dupRange = this._input.createTextRange();
+      }
+      dupRange.setEndPoint('EndToEnd', range);
+      return dupRange.text.length;
+    };
+
+    Selection_prototype.setRange = function(intStart, intEnd) {
+      var value = this._input.value;
+  //    jsx3.log("set range to {" + intStart + "," + intEnd + "} " +
+  //        value.substring(intStart-10, intStart) + "|" + value.substring(intStart, intEnd) +  "|" +
+  //        value.substring(intEnd, intEnd + 10));
+      var regexp = /\r\n|\r|\n/g;
+      regexp.lastIndex = 0; // NOTE: The obfuscator can expose a bug here if lastIndex is not pre-set.
+
+      var origEnd = intEnd;
+      while (regexp.test(value) && regexp.lastIndex <= origEnd) {
+        intStart -= 1;
+        intEnd -= 1;
+      }
+  //    jsx3.log("adjust range to {" + intStart + "," + intEnd + "}");
+
+      var range = this._input.createTextRange();
+      range.collapse(true);
+      range.moveStart("character", intStart);
+      range.moveEnd("character", intEnd - intStart);
+      range.select();
+    };
+
+    Selection_prototype.getOffsetLeft = function() {
+      return this._selection.offsetLeft;
+    };
+
+    Selection_prototype.getOffsetTop = function() {
+      return this._selection.offsetTop;
+    };
+
+    Selection_prototype.getText = function() {
+      return this._selection.text;
+    };
+
+    Selection_prototype.setText = function(strText) {
+      this._selection.text = strText;
+    };
+
+    Selection_prototype.insertCaret = function(strWhere) {
+      if (strWhere == "end") {
+        this._selection.collapse();
+        this._selection.select();
+      } else {
+        throw new jsx3.Exception();
+      }
+    };
+  }
 /* @JSC */ } else {
 
   Selection_prototype.init = function(objTextElm) {
