@@ -48,21 +48,22 @@ if (!gi.test.jasmine) gi.test.jasmine = new Object();
     }
 
     // Microsoft Internet Explorer v6-9+
-    this.ie = agt.indexOf("msie") >= 0 && !this.op;
+    this.ie = agt.indexOf("msie") >= 0 && !this.op||!!document.documentMode;
     if (this.ie) {
-      vers = this._getVersionAfter('msie ');
+      vers = this._getVersionAfter('msie ')||this._getVersionAfter("rv:");
       this.ie6 = vers >= 6 && vers < 7;
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
       this.ie9 = vers >= 9 && vers < 10;
       this.ie9s = vers >= 9 && document.documentMode >= 9;
-      this.ie10 = vers >= 10;
+      this.ie10 = vers >= 10 && vers < 11;
+      this.ie11 = vers >= 11;
     }
   };
 
   /* @jsxobf-clobber */
   BrowserDetect._ORDER = [
-      "ie10", "ie9s", "ie9", "ie8", "ie7", "ie6",
+      "ie11","ie10", "ie9s", "ie9", "ie8", "ie7", "ie6",
       "fx4", "fx3", "fx2", "fx1_5",
       "gc1", "sf4", "sf3",
       "op10", "op9",
@@ -89,6 +90,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     ie9:["IE","IE9","VML"],
     ie9s:["IE","IE9","SVG"],
     ie10:["IE","IE10","SVG"],
+    ie11:["IE","IE11","SVG"],
     fx1_5:["FX","SVG","GKO"],
     fx2:["FX","FX2","SVG","GKO"],
     fx3:["FX","FX3","SVG","GKO"],
