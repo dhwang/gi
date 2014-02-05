@@ -13,14 +13,14 @@ window['jsx_main'] = function() {
 
   /* Browser detection, the result of which is setting the strPath variable. */
   var BrowserDetect = function() {
-    var agt = this.agt = navigator.userAgent.toLowerCase();
+    var vers, agt = this.agt = navigator.userAgent.toLowerCase();
 
     this.gk = agt.indexOf('gecko') >= 0;
 
     // Mozilla Firefox v1.5-4
     this.fx = this.gk && (agt.indexOf('firefox') >= 0 || agt.indexOf('granparadiso') >= 0);
     if (this.fx) {
-      var vers = this._getVersionAfter('firefox/') || this._getVersionAfter('granparadiso/');
+      vers = this._getVersionAfter('firefox/') || this._getVersionAfter('granparadiso/');
       this.fx1_5 = vers >= 1.5 && vers < 2;
       this.fx2 = vers >= 2 && vers < 3;
       this.fx3 = vers >= 3 && vers < 4;
@@ -33,7 +33,7 @@ window['jsx_main'] = function() {
       if (agt.indexOf('chrome/') >= 0) {
         this.gc1 = true;
       } else {
-        var vers = this._getVersionAfter('version/');
+        vers = this._getVersionAfter('version/');
         this.sf3 = vers >= 3 && vers < 4;
         this.sf4 = vers >= 4;
       }
@@ -42,30 +42,30 @@ window['jsx_main'] = function() {
     // Opera v9-10
     this.op = agt.indexOf("opera") >= 0;
     if (this.op) {
-      var vers = this._getVersionAfter('opera/') || this._getVersionAfter('opera ');
+      vers = this._getVersionAfter('opera/') || this._getVersionAfter('opera ');
       this.op9 = vers >= 9 && vers < 10;
       this.op10 = vers >= 10;
     }
 
-    // Microsoft Internet Explorer v6-8
+    // Microsoft Internet Explorer v11
     var trident = agt.match(/trident/i);
+    // Microsoft Internet Explorer v6-8
     this.ie = (agt.indexOf("msie") >= 0 && !this.op)||(!!trident);
     if (this.ie) {
-      var vers = this._getVersionAfter('msie ')|| this._getVersionAfter("rv:");
+      vers = this._getVersionAfter('msie ')|| this._getVersionAfter("rv:");
       this.ie6 = vers >= 6 && vers < 7;
       this.ie7 = vers >= 7 && vers < 8;
       this.ie8 = vers >= 8 && vers < 9;
       this.ie9 = vers >= 9 && vers < 10;
-      this.ie9s = this.ie9 && document.compatMode == "CSS1Compat";
-      //ie9 standard mode
-      this.ie10 = vers >=10 && vers < 11;
-      this.ie11 = vers>=11;
+      this.ie9s = vers >= 9 && document.documentMode == 9; // IE9 standards mode
+      this.ie10 = vers >= 10 && vers < 11;
+      this.ie11 = vers >= 11;
     }
   };
 
   /* @jsxobf-clobber */
   BrowserDetect._ORDER = [
-      "ie11","ie10","ie9s", "ie9", "ie8", "ie7", "ie6",
+      "ie11", "ie10", "ie9s", "ie9", "ie8", "ie7", "ie6",
       "fx4", "fx3", "fx2", "fx1_5",
       "gc1", "sf4", "sf3",
       "op10", "op9",
@@ -1138,7 +1138,10 @@ window['jsx_main'] = function() {
        *   <li><code>ie6</code> - Microsoft Internet Explorer versions 6.x</li>
        *   <li><code>ie7</code> - Microsoft Internet Explorer versions 7.x</li>
        *   <li><code>ie8</code> - Microsoft Internet Explorer versions 8.x</li>
-       *   <li><code>ie9</code> - Microsoft Internet Explorer all versions above 8.x</li>
+       *   <li><code>ie9</code> - Microsoft Internet Explorer versions 9.x</li>
+       *   <li><code>ie9s</code> - Microsoft Internet Explorer 9 standards mode</li>
+       *   <li><code>ie10</code> - Microsoft Internet Explorer versions 10.x</li>
+       *   <li><code>ie11</code> - Microsoft Internet Explorer versions 11 and above</li>
        *   <li><code>ie</code> - Microsoft Internet Explorer earlier or unrecognized version</li>
        *   <li><code>fx1_5</code> - Mozilla Firefox versions 1.5.x</li>
        *   <li><code>fx2</code> - Mozilla Firefox versions 2.x</li>
