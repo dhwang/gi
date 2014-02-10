@@ -97,7 +97,8 @@ function(manipulateCDF) {          //name the argument of this function
       manipulateCDF.repaintXMLBlocks()
       // deselect lists and menus
       manipulateCDF.resetRecordSelection(objSOURCE);
-      manipulateCDF.resetRecordSelection(listFiltered);
+      //manipulateCDF.resetRecordSelection(listFiltered);
+      manipulateCDF.resetRecordSelection(manipulateCDF.getServer().getJSXByName("listFiltered"));
       manipulateCDF.resetRecordSelection(manipulateCDF.getServer().getJSXByName("listMultiSelect"))
     }
 
