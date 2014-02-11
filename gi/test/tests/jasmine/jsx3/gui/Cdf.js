@@ -15,7 +15,7 @@ describe("jsx3.gui.CDF", function() {
   var cdf, app;
 
   var _jsxname = function(jsxname) {
-   return app.getJSXByName(jsxname)
+   return app.getJSXByName(jsxname);
   };
 
   var getCDF = function(s) {
@@ -68,7 +68,7 @@ describe("jsx3.gui.CDF", function() {
     _jsxname('firstName').setCDFAttribute('middle');
     cdfAttr = _jsxname('firstName').getCDFAttribute();
     expect(cdfAttr).toEqual('middle');
-    expect(_jsxname('firstName').getValue()).toEqual('R')
+    expect(_jsxname('firstName').getValue()).toEqual('R');
 
   });
 
@@ -82,31 +82,58 @@ describe("jsx3.gui.CDF", function() {
     expect(_jsxname('lastName').getValue()).toEqual(record2.getAttribute('last'));
   });
 
-  it("should change form CDF xml when form value changes", function() {
+  it("should be able to change form CDF xml when form value changes", function() {
     var text = cdf.getRecord('1').first;
     expect(text).toEqual('Bob');
-    cdf.repaint();
     var firstName = _jsxname('firstName');
     var matrix = _jsxname('matrix1');
     cdf.setCDFId('1');
     firstName.setValue('summer');
-    matrix.insertRecordProperty(cdf.getCDFId(),firstName.getCDFAttribute(),firstName.getValue(),true); 
+    matrix.insertRecordProperty(cdf.getCDFId(),firstName.getCDFAttribute(),firstName.getValue(),true);
     text = cdf.getRecord('1').first;
     expect(text).toEqual('summer');
   });
 
+  it("should be able to update the source CDF document with values returned from mapped descendants", function() {
+    cdf.setCDFId('2');
+    _jsxname('firstName').setValue("Summer");
+    var cdfXML = cdf.getXML();
+    var record2 = cdfXML.selectSingleNode("//record[@jsxid='2']");
+    expect(record2.getAttribute('first')).toEqual('Tom');
+    cdf.write();
+    expect(record2.getAttribute('first')).toEqual('Summer');
+  });
+
+  // it("should be able to update all mapped descendants with values from the source CDF Document", function() {
+  //   var cdfXML = cdf.getXML();
+  //   var record2 = cdfXML.selectSingleNode("//record[@jsxid='2']");
+  //   record2.setAttribute('first', 'Summer');
+  //   // cdf.read(true, '1');
+  //   cdf.setCDFId('2');
+  //   expect(_jsxname('firstName').getValue()).toEqual();
+  //   // var text = cdf.getRecord('2').first;
+  //   // expect(text).toEqual(); 
+  // });
+
   // should have more form type, to test the read/write method in each gui class
-  it("should be able to read/write from datepicker", function() {
-    expect().toBeDefined();
-  });
+  // it("should be able to read/write from datepicker", function() {
+  //   var cdfXML = cdf.getXML();
+  //   var record2 = cdfXML.selectSingleNode("//record[@jsxid='2']");
+  //   cdf.setCDFId('2');
+  //   var datepicker = getServer().getJSXByName('datePicker');
+  //   var d = new Date('January 6, 2013');
+  //   datePicker.setDate(d);
+  //   cdf.write();
+  //   expect(record2.getAttribute('date')).toEqual();
+  // });
 
-  it("should be able to read/write from timepicker", function() {
-    expect().toBeDefined();
-  });
+  // it("should be able to read/write from timepicker", function() {
+  //   expect().toBeDefined();
+  // });
 
-  it("should be able to read/write from slider", function() {
-    expect().toBeDefined();
-  });
+  // it("should be able to read/write from slider", function() {
+  //   expect().toBeDefined();
+  // });
 
   it("should clean up", function() {
     t._server.destroy();
