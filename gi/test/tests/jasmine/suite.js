@@ -28,6 +28,9 @@ var specs = [
   /* XML suite 2 */
   "jsx3/xml/cdf.js", "jsx3/xml/processor.js","jsx3/xml/template.js",
 
+  /* HTML suite */
+  "jsx3/html/dom.js",
+
   /* Server suite */
   "jsx3/net/request.js",
   "jsx3/app/model.js", "jsx3/xml/cacheable.js",
@@ -41,7 +44,8 @@ var specs = [
   "jsx3/gui/layoutgrid.js", "jsx3/gui/numberinput.js", 
   "jsx3/gui/block.js", "jsx3/gui/gui_layout.js", "jsx3/gui/select.js", "jsx3/gui/textbox.js","jsx3/gui/cdf.js",
   "jsx3/gui/button.js","jsx3/gui/checkbox.js","jsx3/gui/colorPicker.js","jsx3/gui/datePicker.js","jsx3/gui/dialog.js",
-  "jsx3/gui/timePicker.js", "jsx3/gui/radioButton.js", "jsx3/gui/slider.js", "jsx3/gui/matrix.js"/*, "jsx3/gui/label.js"*/
+  "jsx3/gui/timePicker.js", "jsx3/gui/radioButton.js", "jsx3/gui/slider.js", "jsx3/gui/matrix.js", "jsx3/gui/label.js",
+  "jsx3/gui/table.js"
 
 ];
 
