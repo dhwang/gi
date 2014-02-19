@@ -44,7 +44,7 @@ var specs = [
   "jsx3/gui/layoutgrid.js", "jsx3/gui/numberinput.js", 
   "jsx3/gui/block.js", "jsx3/gui/gui_layout.js", "jsx3/gui/select.js", "jsx3/gui/textbox.js","jsx3/gui/cdf.js",
   "jsx3/gui/button.js","jsx3/gui/checkbox.js","jsx3/gui/colorPicker.js","jsx3/gui/datePicker.js","jsx3/gui/dialog.js",
-  "jsx3/gui/timePicker.js", "jsx3/gui/radioButton.js", "jsx3/gui/slider.js", "jsx3/gui/matrix.js", "jsx3/gui/label.js",
+  "jsx3/gui/timePicker.js", "jsx3/gui/radioButton.js", "jsx3/gui/slider.js", "jsx3/gui/matrix.js","jsx3/gui/matrix_column.js", "jsx3/gui/label.js",
   "jsx3/gui/table.js"
 
 ];
