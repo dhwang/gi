@@ -2,8 +2,8 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.gui.Matrix", function(){
-  
+describe("jsx3.gui.Matrix", function() {
+
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Matrix");
   var t = new _jasmine_test.App("jsx3.gui.Matrix");
@@ -11,16 +11,16 @@ describe("jsx3.gui.Matrix", function(){
 
   describe("matrix_grid", function() {
     var matrix1;
-    var getMatrix1 = function(s){
-    var root1 = s.getBodyBlock().load("data/matrix_grid.xml");
-      return root1.getChild(0);
-    };  
+    var getMatrix1 = function(s) {
+      var root1 = s.getBodyBlock().load("data/matrix_grid.xml");
+      return root1.getServer().getJSXByName('matrix1');
+    };
 
-    beforeEach(function () {
-      t._server = (!t._server) ? t.newServer("data/server_matrix_grid.xml", ".", true): t._server;
+    beforeEach(function() {
+      t._server = (!t._server) ? t.newServer("data/server_matrix_grid.xml", ".", true) : t._server;
       matrix1 = getMatrix1(t._server);
-      if(!Matrix) {
-         Matrix = jsx3.gui.Matrix;
+      if (!Matrix) {
+        Matrix = jsx3.gui.Matrix;
       }
 
       waitsFor(function() {
@@ -29,14 +29,14 @@ describe("jsx3.gui.Matrix", function(){
       runs(function() {
         expect(document.getElementsByTagName('table')[1]).toBeDefined();
       });
-    });   
+    });
 
     afterEach(function() {
       if (t._server)
         t._server.getBodyBlock().removeChildren();
-    });   
+    });
 
-    it("should be able to instance", function(){
+    it("should be able to instance", function() {
       expect(matrix1).toBeInstanceOf(Matrix);
     });
 
@@ -63,11 +63,12 @@ describe("jsx3.gui.Matrix", function(){
       matrix1.repaint();
       autoRow = matrix1.getAutoRow();
       expect(autoRow).toEqual(Matrix.AUTOROW_FIRST_ROW);
+
       waitsFor(function() {
-        return document.getElementById(matrix1.getId()+'_jsx_jsxautorow') != null;
+        return document.getElementById(matrix1.getId() + '_jsx_jsxautorow') != null;
       });
       runs(function() {
-        expect(document.getElementById(matrix1.getId()+'_jsx_jsxautorow')).toBeDefined();
+        expect(document.getElementById(matrix1.getId() + '_jsx_jsxautorow')).toBeDefined();
       });
     });
 
@@ -91,55 +92,12 @@ describe("jsx3.gui.Matrix", function(){
       expect(canReorder).toEqual(jsx3.Boolean.FALSE);
     });
 
-    it("should able to set and get whether the list will render with sortable columns", function() {
-      var canSort = matrix1.getCanSort();
-      expect(canSort).toBeUndefined();
-      var recordId = matrix1.getSortedIds();
-      var recordId = matrix1.getSortedIds()[0];
-      var jsxText = matrix1.getRecord(recordId).jsxtext;
-      expect(jsxText).toEqual('Afghanistan');
-      // matrix1.getRendered().getElementsByTagName('table')[0].tBodies[0].rows[0].childNodes[1].firstChild.click();
-      matrix1.getChild(1).getRendered().click();
-      recordId = matrix1.getSortedIds()[0];
-      jsxText = matrix1.getRecord(recordId).jsxtext;
-      // expect(jsxText).toEqual('Afghanistan');
-      matrix1.setCanSort(jsx3.Boolean.FALSE);
-      matrix1.repaint();
-      canSort = matrix1.getCanSort();
-      expect(canSort).toEqual(jsx3.Boolean.FALSE);
-      // var recordId = matrix1.getSortedIds()[0];
-      // var jsxText = matrix1.getRecord(recordId).jsxtext;
-      // expect(jsxText).toEqual('United States');
-      // matrix1.getChild(1).getRendered().click();
-      // recordId = matrix1.getSortedIds()[0];
-      // jsxText = matrix1.getRecord(recordId).jsxtext;
-      // expect(jsxText).toEqual('Afghanistan');
-    });
-
     it("should able to set and get the zero-based index of the on-screen column(s), to the left of which will be fixed and cannot be reordered", function() {
       var fixedColumnIndex = matrix1.getFixedColumnIndex();
       expect(fixedColumnIndex).toBeNull();
-      matrix1.setFixedColumnIndex(10);
+      matrix1.setFixedColumnIndex(2);
       fixedColumnIndex = matrix1.getFixedColumnIndex();
-      expect(fixedColumnIndex).toEqual(10);
-    });
-
-    it("should able to set and get the CSS string to apply to a Row/Cell when it has focus", function() {
-      var focusStyle =  matrix1.getFocusStyle();
-      expect(focusStyle).toBeNull();
-      matrix1.setFocusStyle('color: red');
-      matrix1.repaint();
-      focusStyle =  matrix1.getFocusStyle();
-      expect(focusStyle).toEqual('color: red');
-      // waitsFor(function() {
-      //   return document.getElementById(matrix1.getId()+'_jsx_AG') != null;
-      // });
-      // runs(function() {
-      //   var cell = document.getElementById(matrix1.getId()+'_jsx_AG').firstChild;
-      //   cell.click();
-      //   // expect(cell.style.color).toEqual();
-      // });
-      
+      expect(fixedColumnIndex).toEqual(2);
     });
 
     it("should able to set and get CSS property value(s) for a border", function() {
@@ -157,7 +115,7 @@ describe("jsx3.gui.Matrix", function(){
       var headerHeight = matrix1.getHeaderHeight();
       expect(headerHeight).toBeNull();
       matrix1.setHeaderBorder('border, none');
-      matrix1.setHeaderHeight(30,true);
+      matrix1.setHeaderHeight(30, true);
       matrix1.repaint();
       headerHeight = matrix1.getHeaderHeight();
       expect(headerHeight).toEqual(30);
@@ -184,7 +142,7 @@ describe("jsx3.gui.Matrix", function(){
     it("should able to set and get the jsxid of the CDF record that will serve as the origin when rendering the data on-screen", function() {
       var renderingContext = matrix1.getRenderingContext();
       expect(renderingContext).toBeNull();
-      matrix1.setRenderingContext('a1',true);
+      matrix1.setRenderingContext('a1', true);
       renderingContext = matrix1.getRenderingContext();
       expect(renderingContext).toEqual('a1');
     });
@@ -192,26 +150,9 @@ describe("jsx3.gui.Matrix", function(){
     it("should able to set and get the rendering model (how rows will be painted on-screen)", function() {
       var renderingModel = matrix1.getRenderingModel();
       expect(renderingModel).toBeNull();
-      matrix1.setRenderingModel(Matrix.REND_HIER,true);
+      matrix1.setRenderingModel(Matrix.REND_HIER, true);
       renderingModel = matrix1.getRenderingModel();
       expect(renderingModel).toEqual('hierarchical');
-    });
-
-    it("should able to set and get the icon to use for those CDF records that do not explicitly specify an icon via the jsximg attribute", function() {
-      var icon = matrix1.getIcon();
-      expect(icon).toBeNull();
-      matrix1.setIcon(Matrix.ICON);
-      icon = matrix1.getIcon();
-      expect(icon).toEqual('jsx:///images/matrix/file.gif');
-    });
-
-    it("should able to set and get whether or not to render the navigation controls that are applied to the first column when rendering model is hierarchical", function() {
-      matrix1.setRenderingModel(Matrix.REND_HIER,true);
-      var renderNavigators = matrix1.getRenderNavigators();
-      expect(renderNavigators).toBeNull();
-      matrix1.setRenderNavigators(jsx3.Boolean.TRUE);
-      renderNavigators = matrix1.getRenderNavigators();
-      expect(renderNavigators).toEqual(jsx3.Boolean.TRUE);
     });
 
     it("should able to set and get whether or not this column can be resized by the user", function() {
@@ -225,10 +166,10 @@ describe("jsx3.gui.Matrix", function(){
     it("should able to set and get the row height", function() {
       var rowHeight = matrix1.getRowHeight();
       expect(rowHeight).toBeNull();
-      var row = document.getElementById(matrix1.getId()+'_jsx_US');
-      expect(row.firstChild.style.height).toEqual('16px')
-      matrix1.setRowHeight(50,true);
-      matrix1.repaint()
+      var row = document.getElementById(matrix1.getId() + '_jsx_US');
+      expect(row.firstChild.style.height).toEqual('16px');
+      matrix1.setRowHeight(50, true);
+      matrix1.repaint();
       rowHeight = matrix1.getRowHeight();
       expect(rowHeight).toEqual(50);
       waitsFor(function() {
@@ -238,7 +179,6 @@ describe("jsx3.gui.Matrix", function(){
         row = matrix1.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
         expect(row.firstChild.style.height).toEqual("46px");
       });
-      
     });
 
     it("should able to set snd get whether or not the column widths should be adjusted (decremented) such that all columns fit within the viewport", function() {
@@ -266,15 +206,14 @@ describe("jsx3.gui.Matrix", function(){
       expect(scrollTop).toEqual(0);
       matrix1.setScrollTop(20);
       scrollTop = matrix1.getScrollTop();
-      // expect(scrollTop).toEqual(20);
       expect(matrix1.getRendered().childNodes[2].scrollTop).toEqual(20);
     });
 
     it("should abe to set and get the name of the CDF attribute to sort on", function() {
-      var sortPath =  matrix1.getSortPath();
+      var sortPath = matrix1.getSortPath();
       expect(sortPath).toEqual('jsxtext');
       matrix1.setSortPath('jsxid');
-      sortPath =  matrix1.getSortPath();
+      sortPath = matrix1.getSortPath();
       expect(sortPath).toEqual('jsxid');
     });
 
@@ -309,12 +248,11 @@ describe("jsx3.gui.Matrix", function(){
       matrix1.insertBefore(column2, column1, true);
       column1 = matrix1.getChild(0);
       expect(column1.getName()).toEqual('mc1');
-      column2 = matrix1.getChild(1);
     });
 
     it("should be able to insert a new property into an existing record with jsxid equal to strRecordId", function() {
       expect(matrix1.getRecord("AG").prop).toBeUndefined();
-      matrix1.insertRecordProperty('AG','prop','val', true);
+      matrix1.insertRecordProperty('AG', 'prop', 'val', true);
       expect(matrix1.getRecord("AG").prop).toEqual('val');
     });
 
@@ -322,33 +260,71 @@ describe("jsx3.gui.Matrix", function(){
       t._server.destroy();
       t.destroy();
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
-      expect(t._server.getBodyBlock().getRendered()).toBeNull();
       delete t._server;
     });
   });
 
   describe("matrix_list", function() {
     var matrix2;
-    var getMatrix2 = function(s){
-    var root2 = s.getBodyBlock().load("data/matrix_list.xml");
-      return root2.getChild(0);
-    };  
+    var getMatrix2 = function(s) {
+      var root2 = s.getBodyBlock().load("data/matrix_list.xml");
+      return root2.getServer().getJSXByName('matrix1');
+    };
 
-    beforeEach(function () {
-      t._server = (!t._server) ? t.newServer("data/server_matrix_list.xml", ".", true): t._server;
+    beforeEach(function() {
+      t._server = (!t._server) ? t.newServer("data/server_matrix_list.xml", ".", true) : t._server;
       matrix2 = getMatrix2(t._server);
-      if(!Matrix) {
-         Matrix = jsx3.gui.Matrix;
+      if (!Matrix) {
+        Matrix = jsx3.gui.Matrix;
       }
-    });   
+    });
 
     afterEach(function() {
       if (t._server)
         t._server.getBodyBlock().removeChildren();
-    });   
+    });
 
-    it("should be able to instance", function(){
+    it("should be able to instance", function() {
       expect(matrix2).toBeInstanceOf(Matrix);
+    });
+
+    // it("should be able to apply focus to the on-screen ce", function() {
+    //   waitsFor(function() {
+    //     return matrix2.getRendered().childNodes[1].getElementsByTagName('table')[0] != undefined;
+    //   });
+    //   runs(function() {
+    //     matrix2.focusCellById('AZ', 'jsxtext');
+    //     var cell = matrix2.getRendered().childNodes[1].getElementsByTagName('table')[0].tBodies[0].rows[0].cells[1];
+    //     expect(cell.style.backgroundImage).toEqual('url("../JSX/images/matrix/select.gif")');
+    //   });
+    // });
+
+    it("should be able to deselect all selected CDF records", function() {
+      waitsFor(function() {
+        return matrix2.getRendered().childNodes[1].getElementsByTagName('table')[0] != undefined;
+      });
+      runs(function() {
+        matrix2.setValue(['AZ', 'AG']);
+        var cell = matrix2.getRendered().childNodes[1].getElementsByTagName('table')[0].tBodies[0].rows[0].cells[1];
+        expect(cell.style.backgroundImage).toMatch(/JSX\/images\/matrix\/select.gif/);
+        matrix2.deselectAllRecords();
+        cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
+        expect(cell.style.backgroundImage).toEqual('');
+      });
+    });
+
+    it("should be able to select and deselect a CDF record within the Matrix", function() {
+      waitsFor(function() {
+        return matrix2.getRendered().childNodes[1].firstChild.childNodes[1] != undefined;
+      });
+      runs(function() {
+        matrix2.selectRecord('AZ');
+        var cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
+        expect(cell.style.backgroundImage).toMatch(/JSX\/images\/matrix\/select.gif/);
+        matrix2.deselectRecord('AZ');
+        cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
+        expect(cell.style.backgroundImage).toEqual('');
+      });
     });
 
     it("should able to set and get the direction for the sorted column", function() {
@@ -356,7 +332,7 @@ describe("jsx3.gui.Matrix", function(){
       expect(sortDirection).toEqual("descending");
       var recordId = matrix2.getSortedIds()[0];
       var jsxText = matrix2.getRecord(recordId).jsxtext;
-      expect(jsxText).toEqual('Azerbaijan')
+      expect(jsxText).toEqual('Azerbaijan');
       matrix2.setSortDirection("ascending");
       matrix2.repaint();
       sortDirection = matrix2.getSortDirection();
@@ -364,6 +340,14 @@ describe("jsx3.gui.Matrix", function(){
       recordId = matrix2.getSortedIds()[0];
       jsxText = matrix2.getRecord(recordId).jsxtext;
       expect(jsxText).toEqual('Afghanistan');
+    });
+
+    it("should able to set and get whether the list will render with sortable columns", function() {
+      var canSort = matrix2.getCanSort();
+      expect(canSort).toBeUndefined();
+      matrix2.setCanSort(jsx3.Boolean.FALSE);
+      canSort = matrix2.getCanSort();
+      expect(canSort).toEqual(jsx3.Boolean.FALSE);
     });
 
     it("should be able to sort according to the current sort path", function() {
@@ -384,6 +368,31 @@ describe("jsx3.gui.Matrix", function(){
       expect(matrix2.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
     });
 
+    it("should able to set and get the CSS string to apply to a Row/Cell when it has focus", function() {
+      var focusStyle = matrix2.getFocusStyle();
+      expect(focusStyle).toEqual('font-weight:bold;');
+      matrix2.setFocusStyle('color: red;');
+      focusStyle = matrix2.getFocusStyle();
+      expect(focusStyle).toEqual('color: red;');
+
+      // waitsFor(function() {
+      //   return matrix2.getRendered().getElementsByTagName('table')[1] != null;
+      // });
+      // runs(function() {
+      //   matrix2.focusCellByIndex('AZ', 1);
+      //   var cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
+      //   expect(cell.style.color).toEqual('red');
+      // });
+    });
+
+    it("should be able to get the jsxid(s) for the selected record(s)", function() {
+      expect(matrix2.getSelectedIds()).toEqual([]);
+      matrix2.selectRecord('AZ');
+      expect(matrix2.getSelectedIds()).toEqual(['AZ']);
+      matrix2.setValue(['AZ', 'AG']);
+      expect(matrix2.getSelectedIds()).toEqual(['AG', 'AZ']);
+    });
+
     it("should able to set and get the data type to be used for sorting this list", function() {
       var sortType = matrix2.getSortType();
       expect(sortType).toEqual('text');
@@ -394,8 +403,7 @@ describe("jsx3.gui.Matrix", function(){
 
     it("should clean up", function() {
       t._server.destroy();
-      t.destroy();1
-      expect(t._server.getBodyBlock().getRendered()).toBeNull();
+      t.destroy();
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
       delete t._server;
     });
@@ -403,46 +411,42 @@ describe("jsx3.gui.Matrix", function(){
 
   describe("matrix_multiSelect", function() {
     var matrix3;
-    var getMatrix3 = function(s){
-    var root3 = s.getBodyBlock().load("data/matrix_multiSelect.xml");
-      return root3.getChild(0);
-    };  
+    var getMatrix3 = function(s) {
+      var root3 = s.getBodyBlock().load("data/matrix_multiSelect.xml");
+      return root3.getServer().getJSXByName('matrix1');
+    };
 
-    beforeEach(function () {
-      t._server = (!t._server) ? t.newServer("data/server_matrix_multiSelect.xml", ".", true): t._server;
+    beforeEach(function() {
+      t._server = (!t._server) ? t.newServer("data/server_matrix_multiSelect.xml", ".", true) : t._server;
       matrix3 = getMatrix3(t._server);
-      if(!Matrix) {
-         Matrix = jsx3.gui.Matrix;
+      if (!Matrix) {
+        Matrix = jsx3.gui.Matrix;
       }
-    });  
+    });
 
     afterEach(function() {
       if (t._server)
         t._server.getBodyBlock().removeChildren();
-    });   
+    });
 
-    it("should be able to instance", function(){
+    it("should be able to instance", function() {
       expect(matrix3).toBeInstanceOf(Matrix);
     });
 
     it("should able to set and get the CSS string to apply to a Row/Cell when it has focus", function() {
       var selectionBG = matrix3.getSelectionBG();
       expect(selectionBG).toBeNull();
-      matrix3.setSelectionBG('jsx:///images/matrix/select.gif');
+      matrix3.setSelectionBG(Matrix.SELECTION_BG);
       selectionBG = matrix3.getSelectionBG();
-      expect(selectionBG).toEqual('jsx:///images/matrix/select.gif');
+      expect(selectionBG).toEqual(Matrix.SELECTION_BG);
       waitsFor(function() {
         return matrix3.getRendered().getElementsByTagName('table')[1] != null;
       });
       runs(function() {
         var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
-        selectRow.click();
+        matrix3.selectRecord('AG');
         var rowBg = selectRow.firstChild.style.backgroundImage;
-        if(rowBg === 'url("../JSX/images/matrix/select.gif")') {
-          expect(rowBg).toEqual('url("../JSX/images/matrix/select.gif")');
-        } else if( rowBg === 'url(http://localhost/GI/JSX/images/matrix/select.gif)') {
-          expect(rowBg).toEqual('url(http://localhost/GI/JSX/images/matrix/select.gif)');
-        } 
+        expect(rowBg).toMatch(/\/JSX\/images\/matrix\/select.gif/);
       });
     });
 
@@ -457,7 +461,7 @@ describe("jsx3.gui.Matrix", function(){
       });
       runs(function() {
         var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
-        selectRow.click();
+        matrix3.selectRecord('AG');
         expect(selectRow.firstChild.style.backgroundImage).toEqual('');
       });
     });
@@ -467,7 +471,7 @@ describe("jsx3.gui.Matrix", function(){
       expect(value).toEqual([]);
       matrix3.setValue(['AG', 'AB']);
       value = matrix3.getValue();
-      expect(value).toEqual([ 'AG', 'AB' ]);
+      expect(value).toEqual(['AG', 'AB']);
     });
 
     it("should clean up", function() {
@@ -481,25 +485,25 @@ describe("jsx3.gui.Matrix", function(){
 
   describe("matrix_paginatedList", function() {
     var matrix4;
-    var getMatrix4 = function(s){
-    var root4 = s.getBodyBlock().load("data/matrix_paginatedList.xml");
+    var getMatrix4 = function(s) {
+      var root4 = s.getBodyBlock().load("data/matrix_paginatedList.xml");
       return root4.getChild(0);
-    };  
+    };
 
-    beforeEach(function () {
-      t._server = (!t._server) ? t.newServer("data/server_matrix_paginatedList.xml", ".", true): t._server;
+    beforeEach(function() {
+      t._server = (!t._server) ? t.newServer("data/server_matrix_paginatedList.xml", ".", true) : t._server;
       matrix4 = getMatrix4(t._server);
-      if(!Matrix) {
-         Matrix = jsx3.gui.Matrix;
+      if (!Matrix) {
+        Matrix = jsx3.gui.Matrix;
       }
-    });   
+    });
 
     afterEach(function() {
       if (t._server)
         t._server.getBodyBlock().removeChildren();
-    });   
+    });
 
-    it("should be able to instance", function(){
+    it("should be able to instance", function() {
       expect(matrix4).toBeInstanceOf(Matrix);
     });
 
@@ -522,7 +526,7 @@ describe("jsx3.gui.Matrix", function(){
     it("should able to set and get the number of rows each panel should contain", function() {
       var rowsPerPanel = matrix4.getRowsPerPanel();
       expect(rowsPerPanel).toEqual(50);
-      matrix4.setRowsPerPanel(20,true);
+      matrix4.setRowsPerPanel(20, true);
       rowsPerPanel = matrix4.getRowsPerPanel();
       expect(rowsPerPanel).toEqual(20);
     });
@@ -539,33 +543,40 @@ describe("jsx3.gui.Matrix", function(){
       t._server.destroy();
       t.destroy();
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
-      expect(t._server.getBodyBlock().getRendered()).toBeNull();
       delete t._server;
     });
   });
 
   describe("matrix_tree", function() {
     var matrix5;
-    var getMatrix5 = function(s){
-    var root5 = s.getBodyBlock().load("data/matrix_tree.xml");
-      return root5.getChild(0);
-    };  
+    var getMatrix5 = function(s) {
+      var root5 = s.getBodyBlock().load("data/matrix_tree.xml");
+      return root5.getServer().getJSXByName('matrix1');
+    };
 
-    beforeEach(function () {
-      t._server = (!t._server) ? t.newServer("data/server_matrix_tree.xml", ".", true): t._server;
+    beforeEach(function() {
+      t._server = (!t._server) ? t.newServer("data/server_matrix_tree.xml", ".", true) : t._server;
       matrix5 = getMatrix5(t._server);
-      if(!Matrix) {
-         Matrix = jsx3.gui.Matrix;
+      if (!Matrix) {
+        Matrix = jsx3.gui.Matrix;
       }
-    });   
+    });
 
     afterEach(function() {
       if (t._server)
         t._server.getBodyBlock().removeChildren();
-    });   
+    });
 
-    it("should be able to instance", function(){
+    it("should be able to instance", function() {
       expect(matrix5).toBeInstanceOf(Matrix);
+    });
+
+    it("should able to set and get the icon to use for those CDF records that do not explicitly specify an icon via the jsximg attribute", function() {
+      var icon = matrix5.getIcon();
+      expect(icon).toBeNull();
+      matrix5.setIcon(Matrix.ICON);
+      icon = matrix5.getIcon();
+      expect(icon).toEqual('jsx:///images/matrix/file.gif');
     });
 
     it("should able to set and get the icon to use when the given tree node is in an open state", function() {
@@ -574,7 +585,7 @@ describe("jsx3.gui.Matrix", function(){
       matrix5.setIconMinus(Matrix.ICON_MINUS);
       iconMinus = matrix5.getIconMinus();
       expect(iconMinus).toEqual('jsx:///images/matrix/minus.gif');
-    }); 
+    });
 
     it("should able to set and get the icon to use when the given tree node is in a closed state", function() {
       var iconPlus = matrix5.getIconPlus();
@@ -584,10 +595,21 @@ describe("jsx3.gui.Matrix", function(){
       expect(iconPlus).toEqual('jsx:///images/matrix/plus.gif');
     });
 
+    it("should able to set and get whether or not to render the navigation controls that are applied to the first column when rendering model is hierarchical", function() {
+      var renderNavigators = matrix5.getRenderNavigators();
+      expect(renderNavigators).toBeNull();
+      var folderImg = matrix5.getRendered().getElementsByTagName('table')[1].getElementsByTagName('img')[0];
+      expect(folderImg).toBeDefined();
+      matrix5.setRenderNavigators(jsx3.Boolean.FALSE);
+      renderNavigators = matrix5.getRenderNavigators();
+      expect(renderNavigators).toEqual(jsx3.Boolean.FALSE);
+      folderImg = matrix5.getRendered().getElementsByTagName('table')[1].getElementsByTagName('img')[0];
+      expect(folderImg).toBeUndefined();
+    });
+
     it("should clean up", function() {
       t._server.destroy();
       t.destroy();
-      expect(t._server.getBodyBlock().getRendered()).toBeNull();
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
       delete t._server;
     });
