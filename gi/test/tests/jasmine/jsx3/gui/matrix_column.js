@@ -47,7 +47,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.border).toEqual('1px solid red');
+      expect(cell.style.border).toMatch(/1px|solid|red/);
     });
   });
 

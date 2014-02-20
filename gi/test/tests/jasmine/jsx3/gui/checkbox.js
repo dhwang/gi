@@ -91,7 +91,9 @@ describe("jsx3.gui.CheckBox", function(){
   it("The label is offset over the input checkbox by using padding on IE", function() {
     var label = checkBox.getRendered().firstChild.childNodes[1];
     var span = label.parentNode.parentNode;
-    if(window.navigator.userAgent.indexOf('MSIE') > -1) {
+    var agt = window.navigator.userAgent.toLowerCase();
+    var index = agt.indexOf('msie');
+    if(parseFloat(agt.substring(index+'msie'.length)) > 8) {
       label.click();
       expect(checkBox.getChecked()).toEqual(CheckBox.UNCHECKED);
       span.click();

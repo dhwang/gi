@@ -76,14 +76,6 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
       expect(rows).toEqual('5,2,3');
     });
 
-    /*
-    it("should able to return array of true sizes (not what the developer specified in code, but what it evaluates to according to the browser",function(){
-    	var lows=layout.getRows();
-    	var sTruesize=(layout._getTrueSizeArray(lows)).join();
-    	var truesize=sTruesize.replace(/\,0\,/,",*,");
-    	expect(truesize).toEqual(lows);	
-    });*/
-
     it("should able to get the size of the canvas for a given child (the true drawspace)", function() {
       var layChild = layout.getChild(1);
       var clientDimension = layout.getClientDimensions(layChild);
@@ -95,29 +87,15 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
       expect(clientDimension.top).toEqual(layChild.getTop());
     });
 
-    //The following is the adding test
-
-
-    // it("should have the padding property of the top area",function(){
-    // 	var topArea=layout.getChild(0);
-    // 	expect(topArea).toBeInstanceOf("jsx3.gui.Block");
-    // 	expect(topArea.getRendered().style.backgroundColor).toEqual("rgb(144, 238, 144)");
-    // 	topArea.repaint();
-    // 	alert(topArea);
-    // 	topArea.setPadding("8 8 8 8",true);
-    // 	expect(topArea.getPadding()).toEqual("8 8 8 8");
-    // 	expect(topArea.getRendered().style.padding).toEqual("8px 8px 8px 8px");
-    // });
-
     it("should have a block at left inside the second row for the navigation", function() {
       var leftPane = layout.getChild(1).getChild(0).getChild(0);
       expect(leftPane).toBeInstanceOf("jsx3.gui.Block");
       var bgColor = leftPane.getRendered().style.backgroundColor;
-      if(bgColor === "pink") {
+      if (bgColor === "pink") {
         expect(bgColor).toEqual("pink");
-      } else if(bgColor === "rgb(255, 192, 203)") {
+      } else if (bgColor === "rgb(255, 192, 203)") {
         expect(leftPane.getRendered().style.backgroundColor).toEqual("rgb(255, 192, 203)");
-      }      
+      }
       expect(leftPane.getRendered().style.width).toEqual("100px");
     });
 
@@ -130,7 +108,7 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
     it("should have a block in the third row for the copyright notice", function() {
       expect(layout.getChild(2)).toBeInstanceOf("jsx3.gui.Block");
       var bgColor = layout.getChild(2).getRendered().style.backgroundColor;
-      if(bgColor === "lightblue") {
+      if (bgColor === "lightblue") {
         expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("lightblue");
       } else if (bgColor === "rgb(173, 216, 230)") {
         expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("rgb(173, 216, 230)");
@@ -163,15 +141,12 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
       dialog2.repaint();
       expect(dialog2.getRendered().style.width).not.toEqual("350px");
       expect(dialog2.getRendered().style.height).not.toEqual("170px");
-
       dialog2.setBorder("0px solid");
       dialog2.setBuffer("0");
       dialog2.repaint();
-
       expect(dialog2.getRendered().style.width).toEqual("350px");
       expect(dialog2.getRendered().style.height).toEqual("170px");
     });
-
 
     it("should clean up", function() {
       t._server.destroy();
@@ -179,8 +154,8 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
       expect(t._server.getBodyBlock().getRendered()).toBeNull();
       delete t._server;
     });
-
   });
+
   describe("Second canvas", function() {
     var layout2, block2, dialog;
     var getBlock2 = function(s) {
@@ -236,15 +211,11 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
       dialog.setHeight(350);
       expect(dialog.getHeight()).toEqual(350);
       dialog.repaint();
-
-
       expect(dialog.getRendered().style.width).not.toEqual("450px");
       expect(dialog.getRendered().style.height).not.toEqual("350px");
-
       dialog.setBorder("0px solid");
       dialog.setBuffer("0");
       dialog.repaint();
-
       expect(dialog.getRendered().style.width).toEqual("450px");
       expect(dialog.getRendered().style.height).toEqual("350px");
     });
@@ -255,6 +226,5 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
       expect(t._server2.getBodyBlock().getRendered()).toBeNull();
       delete t._server2;
     });
-
   });
 });

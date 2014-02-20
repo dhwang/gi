@@ -40,7 +40,14 @@ describe("jsx3.gui.ColorPicker", function(){
     var Axis = colorPicker.getAxis();
     expect(Axis).toEqual(ColorPicker.HUE);
     var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
-    expect(gradient.style.backgroundColor).toEqual('rgb(255, 0, 0)');
+    var bgColor = gradient.style.backgroundColor;
+
+    if(bgColor.indexOf('#') != -1) {
+      expect(bgColor).toEqual('#ff0000');
+    } else {
+      expect(bgColor).toEqual('rgb(255, 0, 0)');
+    }
+
     colorPicker.setAxis(ColorPicker.SATURATION);
     colorPicker.repaint();
     expect(colorPicker.getAxis()).toEqual(ColorPicker.SATURATION);
@@ -48,19 +55,37 @@ describe("jsx3.gui.ColorPicker", function(){
     colorPicker.repaint();
     expect(colorPicker.getAxis()).toEqual(ColorPicker.BRIGHTNESS);
     gradient = colorPicker.getRendered().firstChild.childNodes[0].childNodes[2];
-    expect(gradient.style.backgroundColor).toEqual('rgb(0, 0, 0)');
+
+    bgColor = gradient.style.backgroundColor;
+    if(bgColor.indexOf('#') != -1) {
+      expect(bgColor).toEqual('#000000');
+    } else {
+      expect(bgColor).toEqual('rgb(0, 0, 0)');
+    }
   });
 
   it("the currently selected color by RGB", function() {
     var RGB = colorPicker.getRGB();
     expect(RGB).toEqual(16711680);
     var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
-    expect(gradient.style.backgroundColor).toEqual('rgb(255, 0, 0)');
+    
+    var bgColor = gradient.style.backgroundColor;
+    if(bgColor.indexOf('#') != -1) {
+      expect(bgColor).toEqual('#ff0000');
+    } else {
+      expect(bgColor).toEqual('rgb(255, 0, 0)');
+    }
+
     colorPicker.setRGB(10000000);
     RGB = colorPicker.getRGB();
     expect(RGB).toEqual(10000000);
     gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
-    expect(gradient.style.backgroundColor).toEqual('rgb(255, 234, 0)');
+    bgColor = gradient.style.backgroundColor;
+    if(bgColor.indexOf('#') != -1) {
+      expect(bgColor).toEqual('#ffea00');
+    } else {
+      expect(bgColor).toEqual('rgb(255, 234, 0)');
+    }
   });
 
   it("should able to set and get the RGB value of the currently selected color as an integer", function() {

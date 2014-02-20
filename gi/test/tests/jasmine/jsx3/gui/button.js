@@ -76,9 +76,20 @@ describe("jsx3.gui.Button", function() {
     expect(button.getRendered().style.color).toEqual('red');
     button.setBackgroundColor('#f00');
     button.repaint();
-    expect(button.getRendered().style.backgroundColor).toEqual('rgb(255, 0, 0)');
+
+    var bgColor = button.getRendered().style.backgroundColor;
+    if(bgColor.indexOf('#') != -1) {
+      expect(bgColor).toEqual('#f00');
+    } else {
+      expect(bgColor).toEqual('rgb(255, 0, 0)');
+    }
     button.setBorder('border: inset 3px #000000', true);
-    expect(button.getRendered().style.border).toEqual('3px inset rgb(0, 0, 0)');
+    var border = button.getRendered().style.border;
+    if(border.indexOf('#') != -1) {
+      expect(border).toEqual('#000000 3px inset');
+    } else {
+      expect(border).toEqual('3px inset rgb(0, 0, 0)');
+    }
   });
 
   it("should be able to set and get the font color to use when this control is disabled", function() {
@@ -87,14 +98,26 @@ describe("jsx3.gui.Button", function() {
     button.setDisabledColor('#ff0000');
     button.repaint();
     expect(button.getDisabledColor()).toEqual('#ff0000');
-    expect(button.getRendered().style.color).toEqual('rgb(255, 0, 0)');
+
+    var disabledColor = button.getRendered().style.color;
+    if(disabledColor.indexOf('#') != -1) {
+      expect(disabledColor).toEqual('#ff0000');
+    } else {
+      expect(disabledColor).toEqual('rgb(255, 0, 0)');
+    }
   });
 
   it("should be able to set and get the background color when it is disabled", function() {
     button.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
     expect(button.getDisabledBackgroundColor()).toBeUndefined();
     //Input box has default disabled color 'rgb(216, 216, 229)'
-    expect(button.getRendered().style.backgroundColor).toEqual('rgb(216, 216, 229)');
+    
+    var disabledColor = button.getRendered().style.backgroundColor;
+    if(disabledColor.indexOf('#') != -1) {
+      expect(disabledColor).toEqual('#d8d8e5');
+    } else {
+      expect(disabledColor).toEqual('rgb(216, 216, 229)');
+    }
     button.setDisabledBackgroundColor('grey');
     button.repaint();
     expect(button.getDisabledBackgroundColor()).toEqual('grey');

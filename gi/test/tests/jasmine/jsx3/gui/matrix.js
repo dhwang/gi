@@ -73,14 +73,17 @@ describe("jsx3.gui.Matrix", function() {
     });
 
     it("should able to set and get CSS property value(s) for a border", function() {
-      var bodyBorder = matrix1.getBodyBorder();
-      expect(bodyBorder).toEqual('1px solid #dfdfef');
+      expect(matrix1.getBodyBorder()).toEqual('1px solid #dfdfef');
       matrix1.setBodyBorder('1px dashed #000000', true);
       matrix1.repaint();
-      bodyBorder = matrix1.getBodyBorder();
-      expect(bodyBorder).toEqual('1px dashed #000000');
-      var matrix_body = matrix1.getRendered().childNodes[1];
-      expect(matrix_body.style.border).toEqual('1px dashed rgb(0, 0, 0)');
+      expect(matrix1.getBodyBorder()).toEqual('1px dashed #000000');
+      var bodyBorder = matrix1.getRendered().childNodes[1].style.border;
+
+      if(bodyBorder.indexOf('#') != -1) {
+        expect(bodyBorder).toEqual('#000000 1px dashed');
+      } else {
+        expect(bodyBorder).toEqual('1px dashed rgb(0, 0, 0)');
+      }
     });
 
     it("should able to set and get whether the columns in the list can be re-ordered via user interaction with the VIEW", function() {
@@ -101,14 +104,17 @@ describe("jsx3.gui.Matrix", function() {
     });
 
     it("should able to set and get CSS property value(s) for a border", function() {
-      var headerBorder = matrix1.getHeaderBorder();
-      expect(headerBorder).toEqual('1px solid #dfdfef');
+      expect(matrix1.getHeaderBorder()).toEqual('1px solid #dfdfef');
       matrix1.setHeaderBorder('2px dashed #000000');
       matrix1.repaint();
-      headerBorder = matrix1.getHeaderBorder();
-      expect(headerBorder).toEqual('2px dashed #000000');
-      var matrix_head = matrix1.getRendered().childNodes[0];
-      expect(matrix_head.style.border).toEqual('2px dashed rgb(0, 0, 0)');
+      expect(matrix1.getHeaderBorder()).toEqual('2px dashed #000000');
+
+      var headerBorder = matrix1.getRendered().childNodes[0].style.border;
+      if(headerBorder.indexOf('#') != -1) {
+        expect(headerBorder).toEqual('#000000 2px dashed');
+      } else {
+        expect(headerBorder).toEqual('2px dashed rgb(0, 0, 0)');
+      }
     });
 
     it("should able to set and get the height of the header row in pixels", function() {

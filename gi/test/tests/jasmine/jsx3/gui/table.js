@@ -38,7 +38,7 @@ describe("jsx3.gui.Table", function() {
   it("should be able to select and deselect a CDF record within the Table", function() {
     table.selectRecord(1);
     var select_cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
-    expect(select_cell.style.backgroundImage).toEqual('url("../JSX/images/table/select.gif")');
+    expect(select_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/select.gif/);
     table.deselectRecord(1);
     select_cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
     expect(select_cell.style.backgroundImage).toEqual('');
@@ -47,10 +47,10 @@ describe("jsx3.gui.Table", function() {
   it("should be able to sort according to the current sort path", function() {    
     var header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toEqual('url("../JSX/images/table/sort_desc.gif")');
+    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
     table.doSort("ascending");
     header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
-    expect(header_cell.style.backgroundImage).toEqual('url("../JSX/images/table/sort_asc.gif")');
+    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_asc.gif/);
   });
 
   it("should be able to validate the Table", function() {
@@ -88,13 +88,13 @@ describe("jsx3.gui.Table", function() {
     expect(canSort).toBeUndefined();
      var header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toEqual('url("../JSX/images/table/sort_desc.gif")');
+    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
     table.setCanSort(jsx3.Boolean.FALSE);
     table.repaint();
     canSort = table.getCanSort();
     expect(canSort).toEqual(jsx3.Boolean.FALSE);
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toEqual('url("../JSX/images/table/sort_desc.gif")');
+    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
   });
 
   it("should be able to set and get the CSS rule that will be applied to every HTML cell in the body of the table", function() {
@@ -116,7 +116,7 @@ describe("jsx3.gui.Table", function() {
     table.setCellStyle('border: 1px solid red');
     table.repaint();
     var cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
-    expect(cell.style.border).toEqual('1px solid red');
+    expect(cell.style.border).toMatch(/1px|solid|red/);
   });
 
   it("should be able to set and get the string of XML in CDF format representing the Column Profile Document", function() {
@@ -223,13 +223,13 @@ describe("jsx3.gui.Table", function() {
     var header_cell = table.getRendered().childNodes[1].firstChild.firstChild;
     header_cell.click();
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toEqual('url("../JSX/images/table/sort_asc.gif")');
+    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_asc.gif/);
     table.setSortDirection("descending");
     sortDirection = table.getSortDirection();
     expect(sortDirection).toEqual("descending");
     table.repaintHead();
     header_cell = table.getRendered().childNodes[1].firstChild.firstChild;
-    expect(header_cell.style.backgroundImage).toEqual('url("../JSX/images/table/sort_desc.gif")');
+    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
   });
 
   it("should be able to set and get the name of the CDF attribute to sort on", function() {
@@ -255,7 +255,7 @@ describe("jsx3.gui.Table", function() {
     value = table.getValue();
     expect(value).toEqual('1');
     var select_cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
-    expect(select_cell.style.backgroundImage).toEqual('url("../JSX/images/table/select.gif")');
+    expect(select_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/select.gif/);
   });
 
   it("should be able to set and get the user-defined XSL template", function() {

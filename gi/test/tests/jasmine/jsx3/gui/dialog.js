@@ -49,13 +49,17 @@ describe("jsx3.gui.Dialog", function(){
     });
 
     it("should able to set and get the outer border that surrounds the entire dialog", function() {
-      var border = dialog.getBorder();
-      expect(border).toBeUndefined();
+      expect(dialog.getBorder()).toBeUndefined();
       dialog.setBorder('solid 1px #000000');
       dialog.repaint();
-      border = dialog.getBorder();
-      expect(border).toEqual('solid 1px #000000');
-      expect(dialog.getRendered().style.border).toEqual('1px solid rgb(0, 0, 0)');
+      expect(dialog.getBorder()).toEqual('solid 1px #000000');
+
+      var border = dialog.getRendered().style.border;
+      if(border.indexOf('#') != -1) {
+        expect(border).toEqual('#000000 1px solid');
+      } else {
+        expect(border).toEqual('1px solid rgb(0, 0, 0)');
+      }
     });
 
     it("should not take invalid border value", function() {
@@ -88,14 +92,17 @@ describe("jsx3.gui.Dialog", function(){
     });
 
     it("should able to set and get the border that surrounds the dialog content", function() {
-      var contentBorder = dialog.getContentBorder();
-      expect(contentBorder).toBeUndefined();
+      expect(dialog.getContentBorder()).toBeUndefined();
       dialog.setContentBorder('border: solid 1px #ff0000');
       dialog.repaint();
-      contentBorder = dialog.getContentBorder();
-      expect(contentBorder).toEqual('border: solid 1px #ff0000');
-      var dialog_content = dialog.getRendered().childNodes[1];
-      expect(dialog_content.style.border).toEqual('1px solid rgb(255, 0, 0)');
+      expect(dialog.getContentBorder()).toEqual('border: solid 1px #ff0000');
+      var contentBorder = dialog.getRendered().childNodes[1].style.border;
+
+      if(contentBorder.indexOf('#') != -1) {
+        expect(contentBorder).toEqual('#ff0000 1px solid');
+      } else {
+        expect(contentBorder).toEqual('1px solid rgb(255, 0, 0)');
+      }
     });
 
     it("should not take invalid contentBorder value", function() {

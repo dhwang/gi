@@ -68,13 +68,6 @@ describe("jsx3.gui.DatePicker", function() {
     expect(date).toEqual(d);
   });
 
-  // it("should throw exception on setting invalid date value", function() {
-  //   datePicker.setValue("Mar 1, 1999");
-  //   datePicker.repaint();
-  //   expect(datePicker.getValue()).toEqual("Mar 1, 1999");
-  //   expect(datePicker.setValue(1999)).toThrow(jsx3.lang.Exception);
-  // });
-
   it("should abe to set and get the text label to show in this date picker when no date is selected", function() {
     var defaultText = datePicker.getDefaultText();
     expect(defaultText).toBeUndefined();
@@ -91,8 +84,12 @@ describe("jsx3.gui.DatePicker", function() {
     var weekStart = datePicker.getFirstDayOfWeek();
     expect(weekStart).toEqual(DatePicker.DEFAULT_WEEK_START);
     datePicker.focusCalendar();
-    expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('S');
-    expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('M');
+    var agt = window.navigator.userAgent.toLowerCase();
+    var index = agt.indexOf('msie');
+    if(parseFloat(agt.substring(index+'msie'.length)) > 8) {
+      expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('S');
+      expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('M');
+    }
   });
 
   it("should able to set the jsxfirstweekday field", function() {
@@ -100,8 +97,12 @@ describe("jsx3.gui.DatePicker", function() {
     weekStart = datePicker.getFirstDayOfWeek();
     expect(weekStart).toEqual(1);
     datePicker.focusCalendar();
-    expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('M');
-    expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('T');
+    var agt = window.navigator.userAgent.toLowerCase();
+    var index = agt.indexOf('msie');
+    if(parseFloat(agt.substring(index+'msie'.length)) > 8) {
+      expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('M');
+      expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('T');
+    }
   });
 
   it("should able to set and get the format of this date picker", function() {
