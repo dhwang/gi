@@ -132,10 +132,12 @@ jsx3.Package.definePackage("jsx3.vector", function(vector){
 
       }
 
-      objElm.setProperty("onclick", "if(evt.detail%2==0){if(this.getAttribute('_dblclick'))" +
+      objElm.setProperty("onclick", "if (!this._clicked){ this._clicked = 0; } var elm=this; setTimeout(function(){ delete elm._clicked; }, 300);" +
+                 "if(this._clicked > 0){if(this.getAttribute('_dblclick'))" +
                  "jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_dblclick'));}" +
                  "else{if(this.getAttribute('_click'))" +
-                 "jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_click'));}");
+                 "jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_click'));}" +
+                 "this._clicked+=1;");
 
       return;
     }
