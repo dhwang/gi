@@ -15,7 +15,7 @@ describe("jsx3.gui.CDF", function() {
   var cdf, app;
 
   var _jsxname = function(jsxname) {
-   return app.getJSXByName(jsxname);
+    return app.getJSXByName(jsxname);
   };
 
   var getCDF = function(s) {
@@ -89,7 +89,7 @@ describe("jsx3.gui.CDF", function() {
     var matrix = _jsxname('matrix1');
     cdf.setCDFId('1');
     firstName.setValue('summer');
-    matrix.insertRecordProperty(cdf.getCDFId(),firstName.getCDFAttribute(),firstName.getValue(),true);
+    matrix.insertRecordProperty(cdf.getCDFId(), firstName.getCDFAttribute(), firstName.getValue(), true);
     text = cdf.getRecord('1').first;
     expect(text).toEqual('summer');
   });

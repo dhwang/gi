@@ -61,16 +61,13 @@ describe("jsx3.gui.Block", function() {
     });
 
     it("should not take invalid font-family value", function() {
-      block.setFontName(1);
-      block.repaint();
-      var fontName = block.getFontName();
-      expect(fontName).toEqual(1);
-      var fontFamily = block.getRendered().style.fontFamily;
-
-      if (fontFamily.indexOf('1') > -1) {
-        expect(fontFamily).toEqual('1');
-      } else {
-        expect(fontFamily).toEqual("");
+      if (jsx3.CLASS_LOADER.getVersion() > 8) { // run only if this is not IE8
+        block.setFontName(1);
+        block.repaint();
+        var fontName = block.getFontName();
+        expect(fontName).toEqual(1);
+        var fontFamily = block.getRendered().style.fontFamily;
+        expect(fontFamily).toEqual(""); // IE8 gets 1, we can't fix that. Browser issue.
       }
     });
 
@@ -181,8 +178,8 @@ describe("jsx3.gui.Block", function() {
     });
 
     it("should not take the invalid updateGUI value", function() {
-      block.updateGUI("margin", "9px");
-      expect(block.getRendered().style.margin).toEqual("9px");
+      block.updateGUI("margin", null);
+      expect(block.getRendered().style.margin).toEqual("");
     });
 
     it("should able to set and get the css z-index property", function() {
@@ -238,9 +235,7 @@ describe("jsx3.gui.Block", function() {
     it("should not take invalid cursor value", function() {
       block.setCursor("col-hand", true);
       var cursor = block.getRendered().style.cursor;
-      if(cursor != '') {
-        expect(block.getRendered().style.cursor).toEqual("col-hand");
-      } else {
+      if (jsx3.CLASS_LOADER.getVersion() > 8) {
         expect(block.getRendered().style.cursor).toEqual("");
       }
     });
@@ -253,9 +248,9 @@ describe("jsx3.gui.Block", function() {
     });
 
     it("should not take invalid padding value", function() {
-      block.setPadding("px", true);
-      expect(block.getPadding()).toEqual("px");
-      expect(block.getRendered().style.padding).toEqual("0px");
+      block.setPadding(null, true);
+      expect(block.getPadding()).toEqual(null);
+      expect(block.getRendered().style.padding).toEqual("");
     });
 
     it("should able to set and get CSS text to override the standard instance properties on the painted block", function() {
@@ -380,7 +375,7 @@ describe("jsx3.gui.Block", function() {
       expect(block.getBackgroundColor()).toEqual('#f00');
 
       var bgColor = block.getRendered().style.backgroundColor;
-      if(bgColor.indexOf('#') != -1) {
+      if (bgColor.indexOf('#') != -1) {
         expect(bgColor).toEqual('#f00');
       } else {
         expect(bgColor).toEqual('rgb(255, 0, 0)');
@@ -401,7 +396,7 @@ describe("jsx3.gui.Block", function() {
       expect(block.getBorder()).toEqual('border: solid 1px #000000');
 
       var border = block.getRendered().style.border;
-      if(border.indexOf('#') != -1) {
+      if (border.indexOf('#') != -1) {
         expect(border).toEqual('#000000 1px solid');
       } else {
         expect(border).toEqual('1px solid rgb(0, 0, 0)');

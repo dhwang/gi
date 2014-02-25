@@ -11,7 +11,7 @@ describe("jsx3.gui.Label", function(){
 
   var getLabel = function(s){
     var root = s.getBodyBlock().load("data/form_components.xml");
-    return root.getServer().getJSXByName('selectLabel');
+    return root.getServer().getJSXByName('formLabel');
   };
 
   beforeEach(function () {

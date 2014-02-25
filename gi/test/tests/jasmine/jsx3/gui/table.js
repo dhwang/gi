@@ -17,8 +17,8 @@ describe("jsx3.gui.Table", function() {
     t._server = (!t._server) ? t.newServer("data/server_table.xml", ".", true) : t._server;
     table = getTable(t._server);
     if (!Table) {
-        Table = jsx3.gui.Table;
-      }
+      Table = jsx3.gui.Table;
+    }
   });
 
   afterEach(function() {
@@ -38,19 +38,19 @@ describe("jsx3.gui.Table", function() {
   it("should be able to select and deselect a CDF record within the Table", function() {
     table.selectRecord(1);
     var select_cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
-    expect(select_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/select.gif/);
+    expect(select_cell.style.backgroundImage).toMatch(/select\.gif/);
     table.deselectRecord(1);
     select_cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
     expect(select_cell.style.backgroundImage).toEqual('');
   });
 
-  it("should be able to sort according to the current sort path", function() {    
+  it("should be able to sort according to the current sort path", function() {
     var header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
+    expect(header_cell.style.backgroundImage).toMatch(/sort_desc\.gif/);
     table.doSort("ascending");
     header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
-    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_asc.gif/);
+    expect(header_cell.style.backgroundImage).toMatch(/sort_asc\.gif/);
   });
 
   it("should be able to validate the Table", function() {
@@ -86,15 +86,15 @@ describe("jsx3.gui.Table", function() {
   it("should be able to set and get whether the table is sortable", function() {
     var canSort = table.getCanSort();
     expect(canSort).toBeUndefined();
-     var header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
+    var header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
+    expect(header_cell.style.backgroundImage).toMatch(/sort_desc\.gif/);
     table.setCanSort(jsx3.Boolean.FALSE);
     table.repaint();
     canSort = table.getCanSort();
     expect(canSort).toEqual(jsx3.Boolean.FALSE);
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
+    expect(header_cell.style.backgroundImage).toMatch(/sort_desc\.gif/);
   });
 
   it("should be able to set and get the CSS rule that will be applied to every HTML cell in the body of the table", function() {
@@ -111,7 +111,7 @@ describe("jsx3.gui.Table", function() {
   });
 
   it("should be able to set and get the CSS properties that will be inlined on every HTML cell in the body of the table", function() {
-    var cellStyle =  table.getCellStyle();
+    var cellStyle = table.getCellStyle();
     expect(cellStyle).toEqual('border-right:solid 1px gray;border-bottom:solid 1px gray;padding:4px;padding-bottom:3px;cursor:default;word-wrap:break-word;');
     table.setCellStyle('border: 1px solid red');
     table.repaint();
@@ -147,7 +147,7 @@ describe("jsx3.gui.Table", function() {
     expect(headerHeight).toEqual(29);
     var header = table.getRendered().childNodes[1];
     expect(header.style.height).toEqual('29px');
-    table.setHeaderHeight(50,true);
+    table.setHeaderHeight(50, true);
     table.repaint();
     headerHeight = table.getHeaderHeight();
     expect(headerHeight).toEqual(50);
@@ -217,19 +217,19 @@ describe("jsx3.gui.Table", function() {
     expect(select_cell.style.backgroundImage).toEqual('');
   });
 
-  it("should be able to set and get the direction (ascending or descending) for the sorted column", function() {    
+  it("should be able to set and get the direction (ascending or descending) for the sorted column", function() {
     var sortDirection = table.getSortDirection();
     expect(sortDirection).toEqual('ascending');
     var header_cell = table.getRendered().childNodes[1].firstChild.firstChild;
     header_cell.click();
     header_cell.click();
-    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_asc.gif/);
+    expect(header_cell.style.backgroundImage).toMatch(/sort_asc\.gif/);
     table.setSortDirection("descending");
     sortDirection = table.getSortDirection();
     expect(sortDirection).toEqual("descending");
     table.repaintHead();
     header_cell = table.getRendered().childNodes[1].firstChild.firstChild;
-    expect(header_cell.style.backgroundImage).toMatch(/JSX\/images\/table\/sort_desc.gif/);
+    expect(header_cell.style.backgroundImage).toMatch(/sort_desc\.gif/);
   });
 
   it("should be able to set and get the name of the CDF attribute to sort on", function() {

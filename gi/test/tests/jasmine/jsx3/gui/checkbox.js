@@ -2,8 +2,8 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.gui.CheckBox", function(){
-  
+describe("jsx3.gui.CheckBox", function() {
+
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.CheckBox");
   var t = new _jasmine_test.App("jsx3.gui.CheckBox");
@@ -15,10 +15,10 @@ describe("jsx3.gui.CheckBox", function(){
     return root.getServer().getJSXByName('checkbox');
   };
 
-  beforeEach(function () {
-    t._server = (!t._server) ? t.newServer("data/server_checkbox.xml", ".", true): t._server;
+  beforeEach(function() {
+    t._server = (!t._server) ? t.newServer("data/server_checkbox.xml", ".", true) : t._server;
     checkBox = getCheckBox(t._server);
-    if(!CheckBox) {
+    if (!CheckBox) {
       CheckBox = jsx3.gui.CheckBox;
     }
   });
@@ -28,16 +28,16 @@ describe("jsx3.gui.CheckBox", function(){
       t._server.getBodyBlock().removeChildren();
   });
 
-  it("should be able to instance", function(){
+  it("should be able to instance", function() {
     expect(checkBox).toBeInstanceOf(CheckBox);
   });
 
-  it("should be able to paint", function(){
+  it("should be able to paint", function() {
     expect(checkBox.getRendered()).not.toBeNull();
     expect(checkBox.getRendered().nodeName.toLowerCase()).toEqual("span");
   });
 
-  it("should able to do validate", function(){
+  it("should able to do validate", function() {
     expect(checkBox.doValidate()).toEqual(jsx3.gui.Form.STATEVALID);
     checkBox.setRequired(jsx3.gui.Form.REQUIRED);
     expect(checkBox.doValidate()).toEqual(jsx3.gui.Form.STATEINVALID);
@@ -76,14 +76,16 @@ describe("jsx3.gui.CheckBox", function(){
   it("should able to set the current state Partial of checkbox", function() {
     var checkbox = {};
     checkbox.imgpartial = checkBox.getRendered().firstChild.childNodes[0].childNodes[1];
-    checkbox.ispartial = function() { return checkbox.imgpartial.style.visibility == "visible"; }
+    checkbox.ispartial = function() {
+      return checkbox.imgpartial.style.visibility == "visible";
+    }
     expect(checkbox.ispartial()).toBeFalsy();
     checkBox.setChecked(CheckBox.PARTIAL);
     expect(checkbox.ispartial()).toBeTruthy();
   });
 
   it('should be able to be disabled', function() {
-    checkBox.setEnabled(jsx3.gui.Form.STATEDISABLED,true);
+    checkBox.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
     checkBox.getRendered().click();
     expect(checkBox.getValue()).toEqual(0);
   });
@@ -91,9 +93,7 @@ describe("jsx3.gui.CheckBox", function(){
   it("The label is offset over the input checkbox by using padding on IE", function() {
     var label = checkBox.getRendered().firstChild.childNodes[1];
     var span = label.parentNode.parentNode;
-    var agt = window.navigator.userAgent.toLowerCase();
-    var index = agt.indexOf('msie');
-    if(parseFloat(agt.substring(index+'msie'.length)) > 8) {
+    if (jsx3.CLASS_LOADER.getVersion() > 8) {
       label.click();
       expect(checkBox.getChecked()).toEqual(CheckBox.UNCHECKED);
       span.click();

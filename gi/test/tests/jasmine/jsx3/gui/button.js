@@ -78,14 +78,14 @@ describe("jsx3.gui.Button", function() {
     button.repaint();
 
     var bgColor = button.getRendered().style.backgroundColor;
-    if(bgColor.indexOf('#') != -1) {
+    if (bgColor.indexOf('#') != -1) {
       expect(bgColor).toEqual('#f00');
     } else {
       expect(bgColor).toEqual('rgb(255, 0, 0)');
     }
     button.setBorder('border: inset 3px #000000', true);
     var border = button.getRendered().style.border;
-    if(border.indexOf('#') != -1) {
+    if (border.indexOf('#') != -1) {
       expect(border).toEqual('#000000 3px inset');
     } else {
       expect(border).toEqual('3px inset rgb(0, 0, 0)');
@@ -100,7 +100,7 @@ describe("jsx3.gui.Button", function() {
     expect(button.getDisabledColor()).toEqual('#ff0000');
 
     var disabledColor = button.getRendered().style.color;
-    if(disabledColor.indexOf('#') != -1) {
+    if (disabledColor.indexOf('#') != -1) {
       expect(disabledColor).toEqual('#ff0000');
     } else {
       expect(disabledColor).toEqual('rgb(255, 0, 0)');
@@ -111,9 +111,9 @@ describe("jsx3.gui.Button", function() {
     button.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
     expect(button.getDisabledBackgroundColor()).toBeUndefined();
     //Input box has default disabled color 'rgb(216, 216, 229)'
-    
+
     var disabledColor = button.getRendered().style.backgroundColor;
-    if(disabledColor.indexOf('#') != -1) {
+    if (disabledColor.indexOf('#') != -1) {
       expect(disabledColor).toEqual('#d8d8e5');
     } else {
       expect(disabledColor).toEqual('rgb(216, 216, 229)');

@@ -2,23 +2,23 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.gui.RadioButton", function(){
-  
+describe("jsx3.gui.RadioButton", function() {
+
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.RadioButton");
   var t = new _jasmine_test.App("jsx3.gui.RadioButton");
   var radioButton;
   var RadioButton;
 
-  var getRadioButton = function(s){
+  var getRadioButton = function(s) {
     var root = s.getBodyBlock().load("data/form_components.xml");
     return root.getServer().getJSXByName('radioButton');
   };
 
-  beforeEach(function () {
-    t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true): t._server;
+  beforeEach(function() {
+    t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
     radioButton = getRadioButton(t._server);
-    if(!RadioButton) {
+    if (!RadioButton) {
       RadioButton = jsx3.gui.RadioButton;
     }
   });
@@ -28,11 +28,11 @@ describe("jsx3.gui.RadioButton", function(){
       t._server.getBodyBlock().removeChildren();
   });
 
-  it("should be able to instance", function(){
+  it("should be able to instance", function() {
     expect(radioButton).toBeInstanceOf(RadioButton);
   });
 
-  it("should be able to paint", function(){
+  it("should be able to paint", function() {
     expect(radioButton.getRendered()).not.toBeNull();
     expect(radioButton.getRendered().nodeName.toLowerCase()).toEqual("span");
   });
@@ -61,7 +61,7 @@ describe("jsx3.gui.RadioButton", function(){
     groupName = radioButton.getGroupName();
     expect(groupName).toEqual('group2');
     radioButton.repaint();
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild;//Obtain the input element of radio button.
+    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
     expect(radioInput.getAttribute('name')).toEqual('group2');
   });
 
@@ -76,7 +76,7 @@ describe("jsx3.gui.RadioButton", function(){
     radioButton.repaint();
     groupValue = radioButton.getGroupValue();
     expect(groupValue).toEqual('sex');
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild;//Obtain the input element of radio button.
+    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
     expect(radioInput.getAttribute('value')).toEqual('sex');
   });
 
@@ -87,7 +87,7 @@ describe("jsx3.gui.RadioButton", function(){
     selected = radioButton.getSelected();
     radioButton.repaint();
     expect(selected).toEqual(RadioButton.SELECTED);
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild;//Obtain the input element of radio button.
+    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
     expect(radioInput.getAttribute('checked')).toEqual('checked');
   });
 
@@ -98,7 +98,7 @@ describe("jsx3.gui.RadioButton", function(){
     radioButton.repaint();
     value = radioButton.getValue();
     expect(value).toEqual('name');
-     var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild;//Obtain the input element of radio button.
+    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
     expect(radioInput.getAttribute('value')).toEqual('name');
   });
 

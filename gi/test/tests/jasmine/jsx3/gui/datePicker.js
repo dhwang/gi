@@ -84,12 +84,8 @@ describe("jsx3.gui.DatePicker", function() {
     var weekStart = datePicker.getFirstDayOfWeek();
     expect(weekStart).toEqual(DatePicker.DEFAULT_WEEK_START);
     datePicker.focusCalendar();
-    var agt = window.navigator.userAgent.toLowerCase();
-    var index = agt.indexOf('msie');
-    if(parseFloat(agt.substring(index+'msie'.length)) > 8) {
-      expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('S');
-      expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('M');
-    }
+    expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('S');
+    expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('M');
   });
 
   it("should able to set the jsxfirstweekday field", function() {
@@ -97,12 +93,8 @@ describe("jsx3.gui.DatePicker", function() {
     weekStart = datePicker.getFirstDayOfWeek();
     expect(weekStart).toEqual(1);
     datePicker.focusCalendar();
-    var agt = window.navigator.userAgent.toLowerCase();
-    var index = agt.indexOf('msie');
-    if(parseFloat(agt.substring(index+'msie'.length)) > 8) {
-      expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('M');
-      expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('T');
-    }
+    expect(document.querySelectorAll('.jsx3_dp_month th')[0].textContent).toEqual('M');
+    expect(document.querySelectorAll('.jsx3_dp_month th')[1].textContent).toEqual('T');
   });
 
   it("should able to set and get the format of this date picker", function() {
@@ -148,7 +140,7 @@ describe("jsx3.gui.DatePicker", function() {
     expect(icon).toBeUndefined();
     datePicker.setIcon("jsx:///images/jsxdatepicker/open.gif");
     expect(datePicker.getIcon().toString()).toEqual(datePicker.getServer().resolveURI("jsx:///images/jsxdatepicker/open.gif").toString());
-    expect(document.querySelector('.open').style.backgroundImage).toMatch(/JSX\/images\/jsxdatepicker\/open.gif/);
+    expect(document.querySelector('.open').style.backgroundImage).toMatch(/open\.gif/);
   });
 
   it("should not show the calendar for this date picker when disabled", function() {

@@ -2,36 +2,36 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.gui.ColorPicker", function(){
-  
+describe("jsx3.gui.ColorPicker", function() {
+
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.ColorPicker");
   var t = new _jasmine_test.App("jsx3.gui.ColorPicker");
   var colorPicker;
   var ColorPicker;
 
-  var getColorPicker = function(s){
+  var getColorPicker = function(s) {
     var root = s.getBodyBlock().load("data/colorPicker.xml");
     return root.getChild(0).getDescendantOfName('colorPicker');
-  };    
-  beforeEach(function () {
-    t._server = (!t._server) ? t.newServer("data/server_colorPicker.xml", ".", true): t._server;
+  };
+  beforeEach(function() {
+    t._server = (!t._server) ? t.newServer("data/server_colorPicker.xml", ".", true) : t._server;
     colorPicker = getColorPicker(t._server);
-    if(!ColorPicker) {
+    if (!ColorPicker) {
       ColorPicker = jsx3.gui.ColorPicker;
     }
-  });   
+  });
 
   afterEach(function() {
     if (t._server)
       t._server.getBodyBlock().removeChildren();
-  });   
+  });
 
-  it("should be able to instance", function(){
+  it("should be able to instance", function() {
     expect(colorPicker).toBeInstanceOf(ColorPicker);
   });
 
-  it("should be able to paint", function(){
+  it("should be able to paint", function() {
     expect(colorPicker.getRendered()).not.toBeNull();
     expect(colorPicker.getRendered().nodeName.toLowerCase()).toEqual("span");
   });
@@ -42,7 +42,7 @@ describe("jsx3.gui.ColorPicker", function(){
     var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
     var bgColor = gradient.style.backgroundColor;
 
-    if(bgColor.indexOf('#') != -1) {
+    if (bgColor.indexOf('#') != -1) {
       expect(bgColor).toEqual('#ff0000');
     } else {
       expect(bgColor).toEqual('rgb(255, 0, 0)');
@@ -57,7 +57,7 @@ describe("jsx3.gui.ColorPicker", function(){
     gradient = colorPicker.getRendered().firstChild.childNodes[0].childNodes[2];
 
     bgColor = gradient.style.backgroundColor;
-    if(bgColor.indexOf('#') != -1) {
+    if (bgColor.indexOf('#') != -1) {
       expect(bgColor).toEqual('#000000');
     } else {
       expect(bgColor).toEqual('rgb(0, 0, 0)');
@@ -68,9 +68,9 @@ describe("jsx3.gui.ColorPicker", function(){
     var RGB = colorPicker.getRGB();
     expect(RGB).toEqual(16711680);
     var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
-    
+
     var bgColor = gradient.style.backgroundColor;
-    if(bgColor.indexOf('#') != -1) {
+    if (bgColor.indexOf('#') != -1) {
       expect(bgColor).toEqual('#ff0000');
     } else {
       expect(bgColor).toEqual('rgb(255, 0, 0)');
@@ -80,8 +80,9 @@ describe("jsx3.gui.ColorPicker", function(){
     RGB = colorPicker.getRGB();
     expect(RGB).toEqual(10000000);
     gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
+
     bgColor = gradient.style.backgroundColor;
-    if(bgColor.indexOf('#') != -1) {
+    if (bgColor.indexOf('#') != -1) {
       expect(bgColor).toEqual('#ffea00');
     } else {
       expect(bgColor).toEqual('rgb(255, 234, 0)');
@@ -101,7 +102,7 @@ describe("jsx3.gui.ColorPicker", function(){
   });
 
   it("should able to set the currently selected color by HSB components", function() {
-    colorPicker.setHSB(0.1,0.2,0.3);
+    colorPicker.setHSB(0.1, 0.2, 0.3);
     expect(colorPicker.getRGB()).toEqual(5064253);
     expect(colorPicker.getValue()).toEqual(5064253);
   });

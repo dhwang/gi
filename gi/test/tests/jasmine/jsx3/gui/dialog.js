@@ -175,10 +175,10 @@ describe("jsx3.gui.Dialog", function(){
 
     it("should able to toggle the state of the dialog between 'maximized' and its 'initial state'", function() {
       var maxButtonElm = dialog.selectDescendants('#btnMaximize')[0].getRendered().childNodes[0];
-      expect(maxButtonElm.style.backgroundImage).toMatch(/JSX\/images\/dialog\/max.gif/);
+      expect(maxButtonElm.style.backgroundImage).toMatch(/max\.gif/);
       dialog.doMaximize(dialog.getDescendantOfName('btnMaximize'));
       maxButtonElm = dialog.selectDescendants('#btnMaximize')[0].getRendered().childNodes[0];
-      expect(maxButtonElm.style.backgroundImage).toMatch(/JSX\/images\/dialog\/restore.gif/);
+      expect(maxButtonElm.style.backgroundImage).toMatch(/restore\.gif/);
     });
 
     it("should be able to be moved to an absolute position on screen", function() {

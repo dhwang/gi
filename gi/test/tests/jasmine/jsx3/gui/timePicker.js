@@ -2,23 +2,23 @@
  * Copyright (c) 2001-2013, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
-describe("jsx3.gui.TimePicker", function(){
-  
+describe("jsx3.gui.TimePicker", function() {
+
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.TimePicker");
   var t = new _jasmine_test.App("jsx3.gui.TimePicker");
   var timePicker;
   var TimePicker;
 
-  var getTimePicker = function(s){
+  var getTimePicker = function(s) {
     var root = s.getBodyBlock().load("data/form_components.xml");
     return root.getServer().getJSXByName('timePicker');
   };
 
-  beforeEach(function () {
-    t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true): t._server;
+  beforeEach(function() {
+    t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
     timePicker = getTimePicker(t._server);
-    if(!TimePicker) {
+    if (!TimePicker) {
       TimePicker = jsx3.gui.TimePicker;
     }
   });
@@ -28,11 +28,11 @@ describe("jsx3.gui.TimePicker", function(){
       t._server.getBodyBlock().removeChildren();
   });
 
-  it("should be able to instance", function(){
+  it("should be able to instance", function() {
     expect(timePicker).toBeInstanceOf(TimePicker);
   });
 
-  it("should be able to paint", function(){
+  it("should be able to paint", function() {
     expect(timePicker.getRendered()).not.toBeNull();
     expect(timePicker.getRendered().nodeName.toLowerCase()).toEqual("span");
   });
@@ -105,11 +105,11 @@ describe("jsx3.gui.TimePicker", function(){
   });
 
   it("should be able to set and get the second (0-60) of the time value of this time picker", function() {
-    var second =  timePicker.getSeconds();
+    var second = timePicker.getSeconds();
     expect(second).toEqual(0);
     expect(timePicker.getShowSeconds()).toEqual(0);
     timePicker.setSeconds(30);
-    second =  timePicker.getSeconds();
+    second = timePicker.getSeconds();
     expect(second).toEqual(30);
     expect(timePicker.getValue()).toEqual('12:00 AM');
     timePicker.setShowSeconds(true);
@@ -128,10 +128,12 @@ describe("jsx3.gui.TimePicker", function(){
     timePicker.setShowMillis(true);
     timePicker.setShowSeconds(true);
     timePicker.setValue('12:00:30.999 AM');
-    if(timePicker.getValue() === '12:NaN:NaN.NaN ') {
-      expect(timePicker.getValue()).toEqual('12:NaN:NaN.NaN ');
-    } else if (timePicker.getValue() === '12:00:30.999 AM') {
-      expect(timePicker.getValue()).toEqual('12:00:30.999 AM');
+
+    var value = timePicker.getValue();
+    if (value === '12:NaN:NaN.NaN ') {
+      expect(value).toEqual('12:NaN:NaN.NaN ');
+    } else if (value === '12:00:30.999 AM') {
+      expect(value).toEqual('12:00:30.999 AM');
     }
   });
 
@@ -162,12 +164,12 @@ describe("jsx3.gui.TimePicker", function(){
   });
 
   it("The value should be changed by clicking triangle button when it is disabled", function() {
-    timePicker.setEnabled(jsx3.gui.Form.STATEDISABLED,true);
+    timePicker.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
     var inputHours = timePicker.getRendered().childNodes[0].childNodes[0];
     expect(inputHours.getAttribute("disabled")).toBe('disabled');
     expect(timePicker.getValue()).toEqual('12:00 AM');
-    var btnUptick = timePicker.getRendered().firstChild.childNodes[5].childNodes[0];//The up triangle button
-    var btnDowntick = timePicker.getRendered().firstChild.childNodes[5].childNodes[1];//The down triangle button
+    var btnUptick = timePicker.getRendered().firstChild.childNodes[5].childNodes[0]; //The up triangle button
+    var btnDowntick = timePicker.getRendered().firstChild.childNodes[5].childNodes[1]; //The down triangle button
     btnUptick.click();
     expect(timePicker.getValue()).toEqual('12:00 AM');
     btnDowntick.click();
