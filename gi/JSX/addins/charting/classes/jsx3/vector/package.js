@@ -132,14 +132,14 @@ jsx3.Package.definePackage("jsx3.vector", function(vector){
 
       }
 
-      if (jsx3.CLASS_LOADER.IE && jsx3.CLASS_LOADER.getVersion() < 11) {
+      if (jsx3.CLASS_LOADER.IE && jsx3.CLASS_LOADER.getVersion() > 10) {
+      // IE11 returns no value in evt.detail, cannot simulate double click
+        objElm.setProperty("onclick", "if(this.getAttribute('_click')) { jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_click')); }");
+      } else {
         objElm.setProperty("onclick", "if(evt.detail%2==0){if(this.getAttribute('_dblclick'))" +
                  "jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_dblclick'));}" +
                  "else{if(this.getAttribute('_click'))" +
                  "jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_click'));}");
-      }
-      else {  // IE11 returns no value in evt.detail, cannot simulate double click
-        objElm.setProperty("onclick", "jsx3.GO('" + obj.getId() + "')."+vector._BRIDGE+"(evt,this,this.getAttribute('_click'));}");
       }
 
 
