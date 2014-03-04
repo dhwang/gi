@@ -168,6 +168,9 @@ describe("jsx3.gui.Select", function() {
     beforeEach(function() {
       t._server2 = (!t._server2) ? t.newServer("data/server_comboSelect.xml", ".", true) : t._server2;
       select2 = getSelect2(t._server2);
+      if (!Select) {
+        Select = jsx3.gui.Select;
+      }
     });
 
     afterEach(function() {
