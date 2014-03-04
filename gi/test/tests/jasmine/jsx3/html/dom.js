@@ -80,7 +80,7 @@ describe("jsx3.html.DOM", function() {
       expect(bgColor).toEqual('rgb(162, 159, 159)');
     }
     jsx3.html.DOM.removeEventListener(dom.getRendered(), 'onclick')
-    jsx3.gui.Event.dispatchMouseEvent(dom.getRendered(), "click", {});
+    dom.getRendered().click();
     bgColor = dom.getRendered().style.backgroundColor;
 
     if (window.navigator.userAgent.indexOf('MSIE') > -1) {
