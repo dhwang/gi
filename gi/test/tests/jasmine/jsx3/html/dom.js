@@ -79,16 +79,14 @@ describe("jsx3.html.DOM", function() {
     } else {
       expect(bgColor).toEqual('rgb(162, 159, 159)');
     }
-    jsx3.html.DOM.removeEventListener(dom.getRendered(), 'onclick')
+    jsx3.html.DOM.removeEventListener(dom.getRendered(), 'onclick');
     dom.getRendered().click();
     bgColor = dom.getRendered().style.backgroundColor;
 
-    if (window.navigator.userAgent.indexOf('MSIE') > -1) {
-      if (bgColor.indexOf('#') > -1) {
-        expect(bgColor).toEqual('#a29f9f');
-      } else {
-        expect(bgColor).toEqual('rgb(162, 159, 159)');
-      }
+    if (bgColor.indexOf('#') > -1) {
+      expect(bgColor).toEqual('#a29f9f');
+    } else if (bgColor.indexOf('rgb') > -1) {
+      expect(bgColor).toEqual('rgb(162, 159, 159)');
     } else {
       expect(bgColor).toEqual('red');
     }
