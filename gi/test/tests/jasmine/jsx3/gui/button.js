@@ -45,10 +45,8 @@ describe("jsx3.gui.Button", function() {
     expect(button._clickCounter).toEqual(0);
     button.doExecute();
     expect(button._clickCounter).toEqual(1);
-    jsx3.gui.Event.dispatchMouseEvent(button.getRendered(), "click", {});
-    expect(button._clickCounter).toEqual(2);
     button.getRendered().click();
-    expect(button._clickCounter).toEqual(3);
+    expect(button._clickCounter).toEqual(2);
   });
 
   it('should be able to be disabled', function() {
