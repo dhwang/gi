@@ -60,16 +60,17 @@ describe("jsx3.gui.Block", function() {
       expect(block.getRendered().style.fontFamily).toMatch(/Verdana|Arial|sans-serif/);
     });
 
-    it("should not take invalid font-family value", function() {
-      if (jsx3.CLASS_LOADER.getVersion() > 8) { // run only if this is not IE8
+    if (! _jasmine_test.IE8) {
+      it("should not take invalid font-family value", function() {
+        // run only if this is not IE8
         block.setFontName(1);
         block.repaint();
         var fontName = block.getFontName();
         expect(fontName).toEqual(1);
         var fontFamily = block.getRendered().style.fontFamily;
         expect(fontFamily).toEqual(""); // IE8 gets 1, we can't fix that. Browser issue.
-      }
-    });
+      });
+    }
 
     it("should able to set and get the dimensions in an array of four int values", function() {
       var dimensions = block.getDimensions();
