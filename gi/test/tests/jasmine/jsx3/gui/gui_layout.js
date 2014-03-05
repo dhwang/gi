@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2001-2014, TIBCO Software Inc.
+ * Use, modification, and distribution subject to terms of license.
+ */
+
 describe("Application screen layout GI components like blocks, layout, dialog, menus", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.LayoutGrid", "jsx3.gui.Button");

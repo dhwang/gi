@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2013, TIBCO Software Inc.
+ * Copyright (c) 2001-2014, TIBCO Software Inc.
  * Use, modification, and distribution subject to terms of license.
  */
 describe("jsx3.app.DOM - Registers all DOM nodes in an instance of jsx3.app.Server and publishes related event", function () {
