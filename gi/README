@@ -56,7 +56,7 @@ Contributing to the Open Source Project
 
   To contribute new code for bug fixes, new components, extensions to
   existing components, and so on, request a Community Contribution
-  License Agreement from gi@tibco.com.
+  License Agreement 
 
 ======================================================================
 Testing
@@ -79,17 +79,12 @@ General Interface Framework
   General Interface Framework and General Interface applications run
   on the following browsers.
 
-  Internet Explorer 8.0 and 7.0 for:
+  Internet Explorer 8, 9, 10 and 11 for:
     Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1, SP2 and SP3
       Windows Vista
+      Windows 7 / 8
 
-  Internet Explorer 9.0 and 8.0 for:
-    Microsoft Windows (x86)
-      Windows 7
-
-  Firefox 3.0-3.6 and 4.0 for:
+  Firefox 26+ for (*see below for Builder IDE support):
     Linux (x86)
       Red Hat Enterprise Linux 3
       Red Hat Enterprise Linux 4
@@ -99,59 +94,39 @@ General Interface Framework
       Mac OS X (x86) 10.3 and later
       Mac OS X (PowerPC) 10.3 and later
     Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1, SP2 and SP3
       Windows Vista
-      Windows 7
+      Windows 7 / 8
 
-  Safari 5.0, 4.0 and 3.2.2 for:
+  Safari 5, 6 for:
     Apple Mac (x86 and PowerPC)
-      Mac OS X (x86) 10.3, 10.4 and 10.5
-      Mac OS X (PowerPC) 10.3, 10.4 and 10.5
-    Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1, SP2 and SP3
-      Windows Vista
-      Windows 7
+      Mac OS X (x86) 10.x
+      Mac OS X (PowerPC) 10.x
 
-  Google Chrome 8-11 for:
+  Google Chrome 31+ for:
     Microsoft Windows (x86)
-      Windows XP Professional SP1, SP2 and SP3
       Windows Vista
-      Windows 7
+      Windows 7 / 8
 
 ---------------------------------
 General Interface Builder
 
   General Interface Builder runs on the following browsers.
 
-  Internet Explorer 8.0 and 7.0 for:
+  Internet Explorer 8.0, 9, 10, 11 for:
     Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1, SP2 and SP3
       Windows Vista
-
-  Internet Explorer 9.0 and 8.0 for:
+      Windows 7 / 8
+      
+  Firefox 4.0-10ESR for:
     Microsoft Windows (x86)
-      Windows 7
-
-  Firefox 3.0-3.6 and 4.0 for:
-    Microsoft Windows (x86)
-      Windows 2003 Server
-      Windows XP Professional SP1, SP2 and SP3
       Windows Vista
-      Windows 7
+      Windows 7 / 8
 
 ======================================================================
 Minimum Disk Space and Memory Requirements
-
----------------------------------
-TIBCO General Interface Framework
 
   Free disk space: 100 MB 
   Memory: Required 1024 MB; but we recommend 2048 MB
 
 ======================================================================
-Copyright
-
 Copyright (C) 2001-2014 TIBCO Software Inc. ALL RIGHTS RESERVED.
