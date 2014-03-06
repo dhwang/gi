@@ -125,13 +125,23 @@ This test excercise the table navigation locators : cellbyindex, cellbyid.
      </tr> 
      <tr>
       <td>storeElementWidth</td>
-      <td>gi=tblTable,column,0.1</td>
+      <td>gi=tblTable,column,0</td>
       <td>firstHeadercellWidth</td>
      </tr>
      <tr>
       <td>storeElementWidth</td>
       <td>gi=tblTable,cellbyindex,0.0</td>
       <td>firstColumn</td>
+     </tr>
+    <tr>
+      <td>echo</td>
+      <td>${firstColumn}</td>
+      <td>&nbsp;</td>
+     </tr>
+    <tr>
+      <td>echo</td>
+      <td>${firstHeadercellWidth}</td>
+      <td>&nbsp;</td>
      </tr>
      <tr>
       <td>assertEval</td>
@@ -140,7 +150,7 @@ This test excercise the table navigation locators : cellbyindex, cellbyid.
      </tr>
      <tr>
       <td>storeElementWidth</td>
-      <td>gi=tblTable,column,2.1</td>
+      <td>gi=tblTable,column,2</td>
       <td>thirdHeadercellWidth</td>
      </tr>
      <tr>
