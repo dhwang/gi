@@ -4,8 +4,8 @@
   ~ Use, modification, and distribution subject to terms of license.
   -->
 <data>
-  <record jsxid="version" type="string">3.9.2</record>
-  <record jsxid="jsxversion" type="string">3.9.2</record>
+  <record jsxid="version" type="string">3.9.3</record>
+  <record jsxid="jsxversion" type="string">3.9.3</record>
   <record jsxid="caption" type="string">@gi.productname.full.text@</record>
   <record jsxid="mode" type="number">1</record>
   <record jsxid="namespace" type="string">jsx3.IDE</record>
