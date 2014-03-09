@@ -3,7 +3,7 @@
  * Use, modification, and distribution subject to terms of license.
  */
 
-describe("Application screen layout GI components like blocks, layout, dialog, menus", function() {
+describe("jsx3.gui.LayoutGrid - application screen layout GI components like blocks, layout, dialog, menus", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.LayoutGrid", "jsx3.gui.Button");
   var t = new _jasmine_test.App("jsx3.gui.LayoutGrid");
@@ -28,11 +28,16 @@ describe("Application screen layout GI components like blocks, layout, dialog, m
     it("should have a layout grid with three rows", function() {
       expect(layout).toBeInstanceOf(jsx3.gui.LayoutGrid);
       expect(layout.getRows()).toEqual('150,*,50');
+      expect(layout.getRendered().style.width).toEqual("640px");
+      expect(layout.getRendered().style.height).toEqual("480px");
     });
 
     it("should have one block inside the first row with 150px height", function() {
       expect(layout.getChild(0)).toBeInstanceOf(jsx3.gui.Block);
       expect(parseInt(layout.getChild(0).getRendered().style.height)).toEqual(150);
+      expect(parseInt(layout.getChild(1).getRendered().style.height)).toEqual(280);
+      expect(parseInt(layout.getChild(2).getRendered().style.height)).toEqual(50);
+
     });
 
     it("should have a layout grid inside the second row with two columns", function() {

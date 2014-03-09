@@ -5,8 +5,8 @@
   <onBeforeDeserialize/>
   <onAfterDeserialize/>
   <object type="jsx3.gui.Block">
-    <variants jsxoverflow="1"/>
-    <strings jsxname="blkCanvas1RootPane" jsxwidth="100%" jsxheight="100%"/>
+    <variants jsxoverflow="1" jsxwidth="640" jsxheight="480"/>
+    <strings jsxname="blkCanvas1RootPane" />
     <object type="jsx3.gui.LayoutGrid">
       <variants jsxrepeat="3" jsxsizearray="['150','*','50']" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2" jsxbestguess="1" jsxorientation="0"/>
       <strings jsxname="lytCanvas1Layout" jsxwidth="100%" jsxheight="100%"/>
