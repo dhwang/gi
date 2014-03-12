@@ -53,7 +53,7 @@ describe("jsx3.gui.Tab", function(){
     it("should be able to set and get the CSS background-color when the tab is active",function(){
       expect(tab2.getActiveColor()).toBeUndefined();
       tab2.setActiveColor("#ff0000");
-      tab2.getRendered().click();
+      tab2.doShow();
       expect(tab2.getActiveColor()).toEqual("#ff0000");
       expect(tab2.getRendered().style.backgroundColor).toEqual('rgb(255, 0, 0)');
     });
@@ -72,12 +72,12 @@ describe("jsx3.gui.Tab", function(){
     });
 
     it("should be able to set and get the enabled/disabled state for the tab control",function(){
-      tab2.getRendered().click();
+      tab2.doShow();
       expect(tab2.isFront()).toBeTruthy();
-      tab3.getRendered().click();
+      tab3.doShow();
       tab2.setEnabled(0);
       tab2.repaint();
-      tab2.getRendered().click();
+      tab2.doShow();
       expect(tab2.isFront()).toBeFalsy();
     });
 
