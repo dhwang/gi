@@ -58,15 +58,16 @@ describe("jsx3.gui.Tab", function(){
       expect(tab2.getRendered().style.backgroundColor).toEqual('rgb(255, 0, 0)');
     });
 
-    // it("should be able to set and get the background image that will underlay each tab to provide an outset-type border",function(){
-    //   expect(tab1.getBevel()).toBeUndefined();
-    //   tab1.setBevel("JSX/images/tab/bevel.gif");
-    //   expect(tab1.getBevel()).toEqual("JSX/images/tab/bevel.gif");
-    // });
+    it("should be able to set and get the background image that will underlay each tab to provide an outset-type border",function(){
+      expect(tab1.getBevel()).toBeUndefined();
+      tab1.setBevel("data/nav-bg.png");
+      tab1.repaint();
+      expect(tab1.getBevel()).toEqual("data/nav-bg.png");
+    });
 
     it("should be able to return the child of this tab",function(){
       var childPane = tab1.getContentChild();
-      expect(childPane.getName()).toEqual("pane");
+      expect(childPane.getName()).toEqual("pane1");
       expect(childPane.getRendered().nodeName.toLowerCase()).toEqual("div");
     });
 
@@ -83,13 +84,23 @@ describe("jsx3.gui.Tab", function(){
     it("should be able to set and get the CSS background-color when the tab is inactive",function(){
       expect(tab2.isFront()).toBeFalsy();
       tab2.setInactiveColor("ff0000");
+      tab2.repaint();
       expect(tab2.getInactiveColor()).toEqual("ff0000");
+      //expect(tab2.getRendered().style.backgroundColor).toEqual("ff0000");
     });
 
     it("should be able to return whether or not this stack is the active stack",function(){
       expect(tab1.isFront()).toBeTruthy();
       tab3.doShow();
       expect(tab1.isFront()).toBeFalsy();
+    });
+
+    it("should be able to called when an item is about to be set",function(){
+      var parent = tab1.getParent();
+      var parentblock = parent.getParent();
+      expect(parent.getName()).toEqual("tabbedpane");
+      expect(tab1.onSetParent(parent)).toBeTruthy();
+      expect(tab1.onSetParent(parentblock)).toBeFalsy();
     });
 
     it("should be able to set and get the text/HTML for the control to be disabled on-screen",function(){
@@ -109,19 +120,15 @@ describe("jsx3.gui.Tab", function(){
     //adding TabbedPane test in the following
 
     it("should be able to return the zero-based child index of the active child tab",function(){
-      expect(tab2.isFront()).toBeFalsy();
+      expect(tabpane.getSelectedIndex()).toEqual(0);
       tab2.doShow();
       expect(tabpane.getSelectedIndex()).toEqual(1);
-    });
-
-    it("should be able to set and get the active tab of tabbed pane",function(){
-      expect(tab2.isFront()).toBeFalsy();
-      tabpane.setSelectedIndex(1);
-      expect(tabpane.getSelectedIndex()).toEqual(1);
+      tabpane.setSelectedIndex(2);
+      expect(tabpane.getSelectedIndex()).toEqual(2);
     });
 
     it("should be able to set/get whether or not to show the tabs of the tabbed pane",function(){
-      expect(tabpane.getRendered().style.display).not.toBeNull();
+      expect(tabpane.getRendered()).not.toBeNull();
       tabpane.setShowTabs(0);
       var block = tabpane.getParent();
       block.repaint();  

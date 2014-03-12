@@ -14,7 +14,7 @@
           <strings jsxname="tab1" jsxtext="Tab 1" jsxbgcolor="#d8d8e5"></strings>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
-            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="visible" jsxdisplay="none"></strings>
+            <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%" jsxvisibility="visible" jsxdisplay="none"></strings>
             <dynamics jsxbgcolor="@Solid Medium"></dynamics>
           </object>
         </object>
@@ -24,7 +24,7 @@
           <events jsxexecute="if(!this._clickCounter)this._clickCounter=0;this._clickCounter++"></events>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"></variants>
-            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="visible"></strings>
+            <strings jsxname="pane2" jsxwidth="100%" jsxheight="100%" jsxdisplay="" jsxvisibility="visible"></strings>
             <dynamics jsxbgcolor="@Solid Medium"></dynamics>
           </object>
         </object>
@@ -33,7 +33,7 @@
           <strings jsxname="tab3" jsxtext="Tab 3" jsxbgcolor="#d8d8e5" jsxactivecolor="#415283"></strings>
           <object type="jsx3.gui.Block">
             <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxloadtype="4"></variants>
-            <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible"></strings>
+            <strings jsxname="pane3" jsxwidth="100%" jsxheight="100%" jsxdisplay="none" jsxvisibility="visible"></strings>
             <dynamics jsxbgcolor="@Solid Medium"></dynamics>
           </object>
         </object>
