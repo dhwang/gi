@@ -77,7 +77,7 @@ describe("jsx3.gui.Tab", function(){
       tab3.doShow();
       tab2.setEnabled(0);
       tab2.repaint();
-      tab2.doShow();
+      tab2.getRendered().click(); 
       expect(tab2.isFront()).toBeFalsy();
     });
 
@@ -130,8 +130,7 @@ describe("jsx3.gui.Tab", function(){
     it("should be able to set/get whether or not to show the tabs of the tabbed pane",function(){
       expect(tabpane.getRendered()).not.toBeNull();
       tabpane.setShowTabs(0);
-      var block = tabpane.getParent();
-      block.repaint();  
+      tabpane.repaint(); 
       expect(tabpane.getShowTabs()).toEqual(0);
       expect(tab1.getRendered()).toBeNull();
     });
@@ -142,6 +141,7 @@ describe("jsx3.gui.Tab", function(){
       tabpane.repaint();
       expect(tabpane.getTabHeight()).toEqual(30);
       expect(tab1.getRendered().style.height).toEqual('27px');
+      expect(parseInt(tab1.getRendered().style.height) + parseInt(tab1.getRendered().style.paddingTop)).toEqual(30);
     });
 
     it("should clean up", function() {
