@@ -21,125 +21,108 @@ Copyright 2006-2013 TIBCO Software Inc.
   <title>Test pubsub</title>
 </head>
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-<caption>Test the publish/subscribe of EventDispatcher.</caption>
-  <tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test publish and subscribe of EventDispatcher<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-	<tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/36sample-pubsub</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForTextPresent</td>
-      <td>PubSub</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-       <td>assertTextPresent</td>
-       <td>PubSub</td>
-       <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>Execute Subscribe code</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>Execute Subscribe code</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>Exceute Publish code</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>JsxName=subarea</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>JsxName=pubarea</td>
-      <td></td>
-    </tr>
-    <tr>
-       <td>assertJsxValueEqual</td>
-       <td>subarea</td>
-       <td></td>
-    </tr>
-    <tr>
-       <td>assertJsxValueEqual</td>
-       <td>pubarea</td>
-       <td></td>
-    </tr>
-    <tr>
-       <td>click</td>
-       <td>JsxButtonText=Execute Subscribe code</td>
-       <td>&nbsp;</td>
-    </tr>
-    <tr>
-       <td>assertJsxValueEqual</td>
-       <td>subarea</td>
-       <td>Example1 Subscriber: create Subscription:0 to listen messages with subject 'sometopic'</td>
-     </tr>
-    <tr>
-       <td>click</td>
-       <td>JsxButtonText=Exceute Publish code</td>
-       <td>&nbsp;</td>
-    </tr>
-    <tr>
-       <td>assertJsxValueEqual</td>
-       <td>pubarea</td>
-       <td>Example1 Subscriber:received message: This is a test message on subject sometopic.</td>
-     </tr>
-    <tr>
-       <td>click</td>
-       <td>JsxButtonText=Execute Subscribe code</td>
-       <td>&nbsp;</td>
-    </tr>
-    <tr>
-       <td>assertJsxValueEqual</td>
-       <td>subarea</td>
-       <td>Example1 Subscriber: create Subscription:1 to listen messages with subject 'sometopic'</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>JsxName=pubarea</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Exceute Publish code</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-       <td>assertJsxValueEqual</td>
-       <td>subarea</td>
-       <td>Example1 Subscriber: create Subscription:1 to listen messages with subject 'sometopic'</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Submit</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxAlertCaption="Response notified"</td>
-      <td>5000</td>
-    </tr>
-  </tbody>
+  <table cellpadding="1" cellspacing="1" border="1">
+    <caption>Test the publish/subscribe of EventDispatcher.</caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test publish and subscribe of EventDispatcher
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/36sample-pubsub
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>JsxButtonName=clearButton</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>JsxButtonName=clearButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>JsxButtonName=btnSubscribeButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>JsxButtonName=btnPublishButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxButtonText=Execute Subscribe code</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>output</td>
+        <td>Example1 Subscriber: create Subscription:0 to listen messages with subject 'sometopic'</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxButtonText=Exceute Publish code</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>output</td>
+        <td>
+          This is a test message on subject sometopic. 1
+        </td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxButtonText=Execute Subscribe code</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>output</td>
+        <td>
+          Example1 Subscriber: create Subscription:2 to listen messages with subject 'sometopic'
+        </td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxButtonText=Exceute Publish code</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>output</td>
+        <td>This is a test message on subject sometopic. 3
+This is a test message on subject sometopic. 3</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>JsxTabName=tab2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxButtonText=Execute code below</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>JsxAlertCaption="Response notified"</td>
+        <td>5000</td>
+      </tr>
+    </tbody>
 
-</table>
+  </table>
 </body>
 </html>
