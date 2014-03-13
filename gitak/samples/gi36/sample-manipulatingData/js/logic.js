@@ -1,6 +1,11 @@
+// make a short cut
+jsx3.app.Server.prototype.get = jsx3.app.Server.prototype.getJSXByName;
+
 jsx3.lang.Package.definePackage(
 "eg.manipulateCDF",                //the full name of the package to create
 function(manipulateCDF) {          //name the argument of this function
+
+  var Block = jsx3.gui.Block;
 
     /**
     * Returns the application server object which by default is the application
@@ -40,7 +45,7 @@ function(manipulateCDF) {          //name the argument of this function
     */
     manipulateCDF.calculate = function(){
       // New CDF Document ( later add modified records to this Object)
-      var objFiltered = jsx3.xml.CDF.newDocument();
+      var appServer = this.getServer(), objFiltered = jsx3.xml.CDF.newDocument();
       var objRoot = objFiltered.getRootNode();
       var objEndresult = objRoot.createNode(jsx3.xml.Entity.TYPEELEMENT,"record");
       objEndresult.setAttribute("jsxid",jsx3.xml.CDF.getKey())
@@ -51,18 +56,15 @@ function(manipulateCDF) {          //name the argument of this function
       var resultTotalY = ( manipulateCDF.fYType == "sum") ? 0 : 1;
       var resultTotalZ = ( manipulateCDF.fZType == "sum") ? 0 : 1;
       // Place holder for selected record
-      var objNode ;
+      var objNode;
       // Place holders for attributes X and Y and their result
-      var xint ;
-      var yint ;
-      var resultXY ;
+      var xint, yint, resultXY ;
       // Object list
-      var objSOURCE   = manipulateCDF.getServer().getJSXByName("srcList");
+      var objSOURCE = appServer.get("srcList");
       var selectedRECORDS = objSOURCE.getSelectedNodes();
       // Gets all records if none is selected
       if (!selectedRECORDS.hasNext()){
-        var objXML = objSOURCE.getXML();
-        var selectedRECORDS = objXML.selectNodes("//data/*");
+        selectedRECORDS = objSOURCE.getXML().selectNodes("//data/*");
       }
       while (selectedRECORDS.hasNext()){
         objNode = selectedRECORDS.next();
@@ -92,14 +94,13 @@ function(manipulateCDF) {          //name the argument of this function
       objRoot.appendChild(objEndresult);
 
       // Adds the document to the cache
-      manipulateCDF.getServer().getCache().setDocument("cachedFiltered",objFiltered);
-      manipulateCDF.getServer().getJSXByName("listFiltered").repaintData();
+      appServer.getCache().setDocument("cachedFiltered",objFiltered);
+      //appServer.get("listFiltered").repaintData(); // changed matrix "bind" to automatically refresh
       manipulateCDF.repaintXMLBlocks()
       // deselect lists and menus
       manipulateCDF.resetRecordSelection(objSOURCE);
-      //manipulateCDF.resetRecordSelection(listFiltered);
-      manipulateCDF.resetRecordSelection(manipulateCDF.getServer().getJSXByName("listFiltered"));
-      manipulateCDF.resetRecordSelection(manipulateCDF.getServer().getJSXByName("listMultiSelect"))
+      manipulateCDF.resetRecordSelection(appServer.get("listFiltered"));
+      manipulateCDF.resetRecordSelection(appServer.get("listMultiSelect"))
     }
 
   /**
@@ -132,7 +133,7 @@ function(manipulateCDF) {          //name the argument of this function
     * @param intY  {int}
     */
    manipulateCDF.addToEndResult = function(intX,intY,intZ){
-    var objSOURCE   = manipulateCDF.getServer().getJSXByName("endResultIist");
+    var objSOURCE   = manipulateCDF.getServer().get("endResultIist");
     var objRecordNode = objSOURCE.getRecordNode("unique")
     objRecordNode.setAttribute("jsxfX",intX);
     objRecordNode.setAttribute("jsxfY",intY);
@@ -141,7 +142,7 @@ function(manipulateCDF) {          //name the argument of this function
    }
 
    manipulateCDF.resetRecordSelection = function(listOBJ){
-    if (!listOBJ) listOBJ = manipulateCDF.getServer().getJSXByName("srcList");
+    if (!listOBJ) listOBJ = manipulateCDF.getServer().get("srcList");
      listOBJ.deselectAllRecords()
    }
 
@@ -150,17 +151,17 @@ function(manipulateCDF) {          //name the argument of this function
    }
 
    manipulateCDF.repaintXMLBlocks = function(){
-    var blockXfiltered = manipulateCDF.getServer().getJSXByName("blockXfiltered");
-    var blockXmodified = manipulateCDF.getServer().getJSXByName("blockXmodified");
+    var blockXfiltered = manipulateCDF.getServer().get("blockXfiltered");
+    var blockXmodified = manipulateCDF.getServer().get("blockXmodified");
 
-    var radioFiltered = manipulateCDF.getServer().getJSXByName("radioFiltered");
+    var radioFiltered = manipulateCDF.getServer().get("radioFiltered");
     if(radioFiltered.getSelected()==jsx3.gui.RadioButton.SELECTED){
-      blockXmodified.setDisplay(jsx3.gui.Block.DISPLAYNONE  ,false);
-      blockXfiltered.setDisplay(jsx3.gui.Block.DISPLAYBLOCK ,false);
+      blockXmodified.setDisplay(Block.DISPLAYNONE  ,false);
+      blockXfiltered.setDisplay(Block.DISPLAYBLOCK ,false);
     }
     else{
-      blockXfiltered.setDisplay(jsx3.gui.Block.DISPLAYNONE ,false);
-      blockXmodified.setDisplay(jsx3.gui.Block.DISPLAYBLOCK,false);
+      blockXfiltered.setDisplay(Block.DISPLAYNONE ,false);
+      blockXmodified.setDisplay(Block.DISPLAYBLOCK,false);
     }
     //blockXmodified.repaint();
     //blockXfiltered.repaint();
@@ -181,11 +182,11 @@ function(manipulateCDF) {          //name the argument of this function
   */
 manipulateCDF.launchSimple = function(url,name) {
    
-   var objDialog = manipulateCDF.getServer().getBodyBlock().getChild(name);
+   var mainBlock = manipulateCDF.getServer().getBodyBlock(), objDialog = mainBlock.getChild(name);
    if (!objDialog){
-    objDialog = manipulateCDF.getServer().getBodyBlock().load(url,false);
+    objDialog = mainBlock.load(url,false);
     this.onlyOne.push(objDialog);
-    manipulateCDF.getServer().getBodyBlock().paintChild(objDialog);
+    mainBlock.paintChild(objDialog);
    }
    else{
     objDialog.focus();
