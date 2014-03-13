@@ -28,27 +28,29 @@ jsx3.lang.Package.definePackage(
     };
 
     request.onSuccess = function(objEvent) {
-      server.getBodyBlock().hideMask();
-      eg.flag = false;
-      var json = r.getResponseText();
-      var mtx = request.getMatrix();
-      var objJson = JSON.parse(json);
-      var aPhoto = objJson.query.results.photo;
-      if (objJson) {
-        for (var i = 0; i < aPhoto.length; i++) {
-          var url = "http://farm" + aPhoto[i].farm + ".staticflickr.com/" + aPhoto[i].server + "/" + aPhoto[i].id + "_" + aPhoto[i].secret + ".jpg",
-          small = "http://farm" + aPhoto[i].farm + ".staticflickr.com/" + aPhoto[i].server + "/" + aPhoto[i].id + "_" + aPhoto[i].secret + "_s.jpg";
-          var objRecord = {
-            jsximg: small,
-            owner: aPhoto[i].owner,
-            url: url,
-            title: aPhoto[i].title,
-            jsxid: aPhoto[i].id
-          };
-          mtx.insertRecord(objRecord, i, true); 
+      if (r.getStatus() == 200) {
+        server.getBodyBlock().hideMask();
+        eg.flag = false;
+        var json = r.getResponseText();
+        var mtx = request.getMatrix();
+        var objJson = JSON.parse(json);
+        var aPhoto = objJson.query.results.photo;
+        if (objJson) {
+          for (var i = 0; i < aPhoto.length; i++) {
+            var url = "http://farm" + aPhoto[i].farm + ".staticflickr.com/" + aPhoto[i].server + "/" + aPhoto[i].id + "_" + aPhoto[i].secret + ".jpg",
+            small = "http://farm" + aPhoto[i].farm + ".staticflickr.com/" + aPhoto[i].server + "/" + aPhoto[i].id + "_" + aPhoto[i].secret + "_s.jpg";
+            var objRecord = {
+              jsximg: small,
+              owner: aPhoto[i].owner,
+              url: url,
+              title: aPhoto[i].title,
+              jsxid: aPhoto[i].id
+            };
+            mtx.insertRecord(objRecord, i, (i+1 == aPhoto.length) ); // repaint only when inserting last record
+            // The matrix has bind event enabled, which repaints the matrix automatically on XML data change.
+          }
         }
-      }
-       
+     }
     };
 
     request.onTimeout = function(objEvent){
