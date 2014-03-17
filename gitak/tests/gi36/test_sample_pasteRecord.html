@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--
+Copyright 2006-2008 TIBCO Software Inc.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Test Sample pasteRecord</title>
+</head>
+<body>
+  <table border="1">
+    <caption>
+      Sample pasteRecord, shows how to enable a right-click context menu to copy a jsx3.gui.Matrix List record to the clipboard as formatted text
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test Sample pasteRecord
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-pasteRecord
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>show JavaScript Source</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>show JavaScript Source</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>JsxDialogCaption=JavaScript Source</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxToolbarButton</td>
+        <td>close button</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>rightClickJsxElement</td>
+        <td>JsxMatrixRowText=list,*Alamogordo*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxMenuItem</td>
+        <td>JsxMenuItemId=cityStateZipMenu,copyRecords_01</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>rightClickJsxElement</td>
+        <td>gi=textarea</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxMenuItem</td>
+        <td>JsxMenuItemId=pasteMenu,pasteRecords_01</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>textarea</td>
+        <td>city: Alamogordo
+state: NM
+zip: 88310
+</td>
+      </tr>
+      <tr>
+        <td>rightClickJsxElement</td>
+        <td>JsxMatrixRowText=list,*Birmingham*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxMenuItem</td>
+        <td>JsxMenuItemId=cityStateZipMenu,copyRecords_01</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>rightClickJsxElement</td>
+        <td>gi=textarea</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxMenuItem</td>
+        <td>JsxMenuItemId=pasteMenu,pasteRecords_01</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>textarea</td>
+        <td>city: Birmingham
+state: AL
+zip: 35201
+</td>
+      </tr>
+
+  </tbody>
+
+</table>
+</body>
+</html>
