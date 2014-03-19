@@ -256,7 +256,12 @@ _jsxlookups.jsx3_gui_TabbedPane    = {
                                      };
 _jsxlookups.jsx3_gui_Table    = {
                                   undefined:{dom:"",events:"mouseup,mousedown,mouseover,click,dblclick"},
-                                  header: {dom:"",events:"mouseup"},
+                                  header: {dom:"1,0",events:"mouseup,click"},
+                                  column: {
+                                    dom:function(objJSX,intColIndex) {
+                                      var objGUI = objJSX.getRendered();
+                                      return objGUI.childNodes[1].childNodes[0].childNodes[intColIndex]; // table_header_port.childNodes[0]
+                                    }, events:"mouseup,click" },
                                   rows:{dom:function(objJSX) {
                                               return _jsxlookups.jsx3_gui_Table_getIterableRows(objJSX.getRendered());
                                             },events:""},
@@ -490,7 +495,16 @@ function Dialog_getRenderedDialog(objJSX) {
        return objGUI;
      }
    } 
- };
- 
+ }
+
+function defineJsxLookup(className, objLookup) {
+  if (typeof(className) == "string") {
+    className = className.replace(".", "_");
+  } else if (className && className.getClass) {
+    className = className.getClass().getName().replace(".", "_");
+  }
+  _jsxlookups[className] = objLookup;
+}
+
 
 
