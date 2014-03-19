@@ -495,8 +495,16 @@ function Dialog_getRenderedDialog(objJSX) {
        return objGUI;
      }
    } 
- };
- 
+ }
+
+function defineJsxLookup(className, objLookup) {
+  if (typeof(className) == "string") {
+    className = className.replace(".", "_");
+  } else if (className && className.getClass) {
+    className = className.getClass().getName().replace(".", "_");
+  }
+  _jsxlookups[className] = objLookup;
+}
 
 
 
@@ -1945,7 +1953,7 @@ Selenium.prototype.doTypeJsxKeys = function(locator, text) {
  this.element = element;
  setTimeout( function () { triggerEvent(element, 'blur', false); }, 100);
 
-}
+};
 Selenium.prototype.doTypeJsxTextbox = function(locator, text) {
  /**
   * Type text into a jsx3.gui.TextBox, DatePicker box, TimePicker box. Unlike the "type" command we trigger blur event
@@ -3624,9 +3632,11 @@ PageBot.prototype.locateElementByJsxMatrixTreeItemText = function(text, inDocume
    {
        var objRow = matrixRows[i];
        var objGUI = objRow.childNodes[0]; // cell node
-       while(objGUI && objGUI.getAttribute &&  objGUI.getAttribute("jsxtype") != "plusminus" &&
-                objGUI.getAttribute("jsxtype") != "paged")
-                objGUI = objGUI.childNodes[0];
+       while(objGUI && objGUI.getAttribute &&
+             objGUI.getAttribute("jsxtype") != "plusminus" &&
+             objGUI.getAttribute("jsxtype") != "paged") {
+          objGUI = objGUI.childNodes[0];
+       }
        textNode = objGUI.parentNode.childNodes[2];
        //LOG.debug('matrix row = ' + currentRow.innerHTML);
        var elementText = getText(textNode);
@@ -3638,7 +3648,7 @@ PageBot.prototype.locateElementByJsxMatrixTreeItemText = function(text, inDocume
    }
    //LOG.debug('row ' + jsx3.html.getOuterHTML(row));
    return null; // matrix cell is the selectable element
-}
+};
 
 PageBot.prototype.locateElementByJsxMatrixTreeItemIndex = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Matrix TreeItem by text label.
@@ -3663,7 +3673,7 @@ PageBot.prototype.locateElementByJsxMatrixTreeItemIndex = function(text, inDocum
        textNode = objGUI.parentNode.childNodes[2];
    //LOG.debug('row ' + jsx3.html.getOuterHTML(row));
    return textNode; // matrix cell is the selectable element
-}
+};
 
 PageBot.prototype.locateElementByJsxMatrixTreeItemId = function(text, inDocument, inWindow) {
 /** Locate jsx3.gui.Matrix TreeItem with  jsxname,record jsxid
@@ -3727,7 +3737,7 @@ PageBot.prototype.locateElementByJsxMenuWindowId = function (hwID, inDocument, i
 
    var PREFIX = "jsx30curvisiblemenu_";
    return inDocument.getElementById(PREFIX + hwID);
-}
+};
 
 PageBot.prototype.locateElementByJsxMenuItemText = function(text, inDocument, inWindow) {
   LOG.debug("locateElementByMenuItem Text =" + text  );
@@ -4608,7 +4618,7 @@ Selenium.prototype._doRecorderAction = function (strAction, objTarget, value) {
       objTarget.doEvent(strAction, ctx);
 	  }
 	}
-}
+};
 
 /*
 * _doJsxAction : dispatch recorder commands 
@@ -4715,7 +4725,7 @@ CommandHandlerFactory.prototype._jsxAssertionFromPredicate = function(predicateB
         Assert.fail(result.message);
     }
   };
-}
+};
 
 CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicateBlock) {
   // Convert into a jsxwait_blah(target, value) function.
@@ -4734,7 +4744,7 @@ CommandHandlerFactory.prototype._jsxwaitActionForPredicate = function (predicate
     return Selenium.decorateFunctionWithTimeout(terminationCondition, this.defaultTimeout);
   };
 
-}
+};
 // Register jsxassert_ and jsxwait_ commands
 CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
   for (var functionName in recorder._VERBS) {
@@ -4758,7 +4768,7 @@ CommandHandlerFactory.prototype._registerJsxAssert = function(seleniumApi) {
       this.registerAction("jsxwait_" + baseName, waitForActionBlock, false, true);
     }
   }
-}
+};
 // Override the default registration method
 CommandHandlerFactory.prototype.registerAll = function(seleniumApi) {
       this._registerAllAccessors(seleniumApi);
@@ -4766,7 +4776,7 @@ CommandHandlerFactory.prototype.registerAll = function(seleniumApi) {
       this._registerAllAsserts(seleniumApi);
       this._registerJsxActions(seleniumApi);
       this._registerJsxAssert(seleniumApi);
-}
+};
 
 var recorder = classCreate();
 recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",

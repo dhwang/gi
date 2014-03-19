@@ -1070,10 +1070,8 @@ function hasJavascriptHref(element) {
     if (! element.href) {
         return false;
     }
-    if (! /\s*javascript:/i.test(element.href)) {
-        return false;
-    }
-    return true;
+    return /\s*javascript:/i.test(element.href);
+
 }
 
 /**
@@ -1153,7 +1151,7 @@ function parse_locator(locator)
 function eval_xpath(xpath, inDocument, opts)
 {
     if (!opts) {
-        var opts = {};
+        opts = {};
     }
     var contextNode = opts.contextNode
         ? opts.contextNode : inDocument;
@@ -1242,7 +1240,7 @@ function eval_xpath(xpath, inDocument, opts)
     catch (e) {
         throw new SeleniumError("Invalid xpath [3]: " + extractExceptionMessage(e));
     }
-    var xpathResult = xpathObj.evaluate(context);
+    xpathResult = xpathObj.evaluate(context);
     if (xpathResult && xpathResult.value) {
         for (var i = 0; i < xpathResult.value.length; ++i) {
             results.push(xpathResult.value[i]);
@@ -1410,6 +1408,7 @@ function clone(orig) {
         case 'object':
             copy = (orig.length) ? [] : {};
             for (var attr in orig) {
+              if (orig.hasOwnProperty(attr))
                 copy[attr] = clone(orig[attr]);
             }
             break;
@@ -1468,11 +1467,13 @@ function print_r(object, maxDepth, indent)
         else {
             str += "Object (\r\n";
             for (attr in object) {
+              if (object.hasOwnProperty(attr)) {
                 str += indent + "[" + attr + "] => ";
                 if (maxDepth == 0)
                     str += "...\r\n";
                 else
                     str += print_r(object[attr], maxDepth, indent);
+              }
             }
             str += parentIndent + ")\r\n";
         }
@@ -1523,7 +1524,7 @@ function keys(object)
 function range(start, end)
 {
     if (arguments.length == 1) {
-        var end = start;
+        end = start;
         start = 0;
     }
     
@@ -1549,7 +1550,7 @@ function range(start, end)
  */
 function parse_kwargs(kwargs)
 {
-    var args = new Object();
+    var args = {};
     var pairs = kwargs.split(/,/);
     for (var i = 0; i < pairs.length;) {
         if (i > 0 && pairs[i].indexOf('=') == -1) {
@@ -1586,7 +1587,7 @@ function to_kwargs(args, sortedKeys)
 {
     var s = '';
     if (!sortedKeys) {
-        var sortedKeys = keys(args).sort();
+        sortedKeys = keys(args).sort();
     }
     for (var i = 0; i < sortedKeys.length; ++i) {
         var k = sortedKeys[i];
@@ -1650,7 +1651,7 @@ function parseUri (str) {
     });
 
     return uri;
-};
+}
 
 parseUri.options = {
     strictMode: false,
