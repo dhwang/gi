@@ -20,6 +20,18 @@ describe("jsx3.gui.ToolbarButton", function(){
       toolbarbtn1 = taskbar.getChild(0);
       toolbarbtn2 = taskbar.getChild(1);
       toolbarbtn3 = taskbar.getChild(2);
+
+      this.addMatchers({
+        toHaveStyle: function(stylename,value) {
+          if(!!this.actual.style[stylename]){ 
+            var reg = new RegExp(value);
+            return reg.test(this.actual.style[stylename]);
+          }else{
+            return false;
+          } 
+        }
+      });
+
     });
 
       afterEach(function() {
@@ -54,7 +66,9 @@ describe("jsx3.gui.ToolbarButton", function(){
     it("should be able to set and get whether this toolbar button renders a visual divider on its left side",function(){
       expect(toolbarbtn1.getDivider()).toBeFalsy();
       toolbarbtn1.setDivider(1);
+      toolbarbtn1.repaint();
       expect(toolbarbtn1.getDivider()).toBeTruthy();
+      expect(toolbarbtn1.getRendered().style.borderWidth).toMatch(/1px/);
     });
 
     it("should be able to set and get the name of the group to which this radio button belongs",function(){
@@ -71,9 +85,6 @@ describe("jsx3.gui.ToolbarButton", function(){
       expect(toolbarbtn1.getGroupName()).toEqual("radioGroup");
       expect(toolbarbtn2.getGroupName()).toEqual("radioGroup");
       expect(toolbarbtn3.getGroupName()).toEqual("radioGroup");
-      toolbarbtn1.setState(1);
-      expect(toolbarbtn2.getState()).toEqual(0);
-      expect(toolbarbtn3.getState()).toEqual(0);
     });
 
     it("should be able to set and get the URL of the image to use to render this button",function(){
@@ -81,34 +92,43 @@ describe("jsx3.gui.ToolbarButton", function(){
       toolbarbtn1.setImage("data/dispic.png");
       toolbarbtn1.repaint();
       expect(toolbarbtn1.getImage()).toEqual("data/dispic.png");
-      if(navigator.userAgent.indexOf("Chrome") > 0) {
-        expect(toolbarbtn1.getRendered().firstChild.style.backgroundImage).toEqual('url(http://localhost/gi/test/tests/jasmine/jsx3/gui/data/dispic.png)');
-      }else{
-        expect(toolbarbtn1.getRendered().firstChild.style.backgroundImage).toEqual('url("tests/jasmine/jsx3/gui/data/dispic.png")');
-      }
+      expect(toolbarbtn1.getRendered().firstChild).toHaveStyle("backgroundImage","data/dispic.png");
     });
 
-    it("should be able to set and get the state of this button",function(){
-      //when the type is TYPENORMAL
-      expect(toolbarbtn1.getType()).toEqual(0);
-      expect(toolbarbtn1.getState()).toEqual(0);
-      //when the type is TYPERADIO
+    it("should be able to get the state always as zero when the type is Normal ",function(){
+      toolbarbtn1.setType(0);
+      toolbarbtn1.setState(0);
+      expect(toolbarbtn1.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
+      toolbarbtn1.setState(1);
+      expect(toolbarbtn1.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
+    });
+
+    it("should be able to be different to set the state of this button when the type is Check/Toggle",function(){
+      toolbarbtn2.setType(1);
+      toolbarbtn2.setState(0);
+      expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
+      toolbarbtn2.getRendered().click();
+      expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEON);
+      expect(toolbarbtn2.getRendered().style.backgroundImage).toMatch(/on.gif/);
+    });
+
+    it("should be able to select only one button at a time when the type is RadioGroup",function(){
       toolbarbtn1.setType(2);
       toolbarbtn2.setType(2);
       toolbarbtn3.setType(2);
       toolbarbtn1.setGroupName("radioGroup");
       toolbarbtn2.setGroupName("radioGroup");
       toolbarbtn3.setGroupName("radioGroup");
-      toolbarbtn2.setState(1);
-      expect(toolbarbtn1.getState()).toEqual(0);
-      expect(toolbarbtn3.getState()).toEqual(0);
-      expect(toolbarbtn2.getRendered().style.backgroundImage).not.toEqual("");
-      expect(toolbarbtn1.getRendered().style.backgroundImage).toEqual("");
-      //when the type is TYPECHECK
-      toolbarbtn2.setType(1);
-      toolbarbtn2.setState(1);
-      expect(toolbarbtn2.getState()).toEqual(1);
-      expect(toolbarbtn2.getRendered().style.backgroundImage).not.toEqual("");
+      toolbarbtn1.getRendered().click();
+      expect(toolbarbtn1.getState()).toBe(jsx3.ToolbarButton.STATEON);
+      expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
+      expect(toolbarbtn3.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
+      expect(toolbarbtn1.getRendered().style.backgroundImage).toMatch(/on.gif/);
+      expect(toolbarbtn2.getRendered().style.backgroundImage).toEqual("");
+      toolbarbtn2.getRendered().click();
+      expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEON);
+      expect(toolbarbtn1.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
+      expect(toolbarbtn3.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
     });
 
     it("should be able to set and get the type of this button",function(){
