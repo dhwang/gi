@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2013 TIBCO Software Inc.
+Copyright 2006-2014 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -43,27 +43,32 @@ Copyright 2006-2013 TIBCO Software Inc.
       </tr>
       <tr>
         <td>waitForJsxButtonPresent</td>
-        <td>JsxButtonName=clearButton</td>
+        <td>gi=clearButton</td>
         <td>5000</td>
       </tr>
       <tr>
         <td>assertJsxButtonPresent</td>
-        <td>JsxButtonName=clearButton</td>
+        <td>gi=clearButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>assertJsxButtonPresent</td>
-        <td>JsxButtonName=btnSubscribeButton</td>
+        <td>gi=btnSubscribeButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>assertJsxButtonPresent</td>
-        <td>JsxButtonName=btnPublishButton</td>
+        <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>click</td>
-        <td>JsxButtonText=Execute Subscribe code</td>
+        <td>clickJsxElement</td>
+        <td>gi=clearButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnSubscribeButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -72,8 +77,8 @@ Copyright 2006-2013 TIBCO Software Inc.
         <td>Example1 Subscriber: create Subscription:0 to listen messages with subject 'sometopic'</td>
       </tr>
       <tr>
-        <td>click</td>
-        <td>JsxButtonText=Exceute Publish code</td>
+        <td>clickJsxElement</td>
+        <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -84,8 +89,8 @@ Copyright 2006-2013 TIBCO Software Inc.
         </td>
       </tr>
       <tr>
-        <td>click</td>
-        <td>JsxButtonText=Execute Subscribe code</td>
+        <td>clickJsxElement</td>
+        <td>gi=btnSubscribeButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -96,8 +101,8 @@ Copyright 2006-2013 TIBCO Software Inc.
         </td>
       </tr>
       <tr>
-        <td>click</td>
-        <td>JsxButtonText=Exceute Publish code</td>
+        <td>clickJsxElement</td>
+        <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -108,12 +113,12 @@ This is a test message on subject sometopic. 3</td>
       </tr>
       <tr>
         <td>clickJsxElement</td>
-        <td>JsxTabName=tab2</td>
+        <td>gi=tab2</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>click</td>
-        <td>JsxButtonText=Execute code below</td>
+        <td>clickJsxElement</td>
+        <td>gi=btnSubmitButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
