@@ -21,5 +21,25 @@
       <record jsxid="type" type="string">component</record>
       <record jsxid="src" type="string">data/dialog.xml</record>
     </record>
+    <record jsxid="0" type="map">
+      <record jsxid="id" type="string">dialog</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="src" type="string">data/dialog2.xml</record>
+    </record>
+    <record jsxid="0" type="map">
+      <record jsxid="id" type="string">dialog</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="src" type="string">data/dialog3.xml</record>
+    </record>
+    <record jsxid="0" type="map">
+      <record jsxid="id" type="string">dialog</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="src" type="string">data/dialog4.xml</record>
+    </record>
+    <record jsxid="0" type="map">
+      <record jsxid="id" type="string">dialog</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="src" type="string">data/dialog5.xml</record>
+    </record>
   </record>
 </data>

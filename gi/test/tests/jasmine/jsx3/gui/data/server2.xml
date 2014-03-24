@@ -22,5 +22,15 @@
       <record jsxid="type" type="string">component</record>
       <record jsxid="src" type="string">data/block.xml</record>
     </record>
+    <record jsxid="0" type="map">
+      <record jsxid="id" type="string">block</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="src" type="string">data/block2.xml</record>
+    </record>
+    <record jsxid="0" type="map">
+      <record jsxid="id" type="string">block</record>
+      <record jsxid="type" type="string">component</record>
+      <record jsxid="src" type="string">data/block3.xml</record>
+    </record>
   </record>
 </data>

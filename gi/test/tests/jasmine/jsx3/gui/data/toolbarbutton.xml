@@ -14,12 +14,10 @@
       <object type="jsx3.gui.ToolbarButton">
         <variants jsxtype="0" jsxstate="0"></variants>
         <strings jsxname="toolBarBtn2" jsximage="jsx:///images/tbb/open.gif" jsxtext="[text]"></strings>
-        <events jsxexecute="window.alert('button clicked');"></events>
       </object>
       <object type="jsx3.gui.ToolbarButton">
         <variants jsxtype="0" jsxstate="0"></variants>
         <strings jsxname="toolBarBtn3" jsximage="jsx:///images/tbb/open.gif" jsxtext="[text]"></strings>
-        <events jsxexecute="window.alert('button clicked');"></events>
       </object>
     </object>
   </object>

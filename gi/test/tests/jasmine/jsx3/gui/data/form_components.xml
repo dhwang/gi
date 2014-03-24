@@ -106,9 +106,9 @@
         <variants jsxoverflow="1"></variants>
         <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1" jsxpadding="20"></strings>
         <object type="jsx3.gui.Button">
-          <variants jsxindex="0" jsxheight="18"></variants>
-          <strings jsxname="button" jsxtext="submit" jsxmargin="0 4 0 0"></strings>
-          <events jsxexecute="alert('hello');"></events>
+          <variants jsxindex="0" jsxheight="18" _clickCounter="0"></variants>
+          <strings jsxname="submit" jsxtext="submit" jsxmargin="0 4 0 0"></strings>
+          <events jsxexecute="if(!this._clickCounter)this._clickCounter=0;this._clickCounter++;"></events>
         </object>
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18"></variants>
