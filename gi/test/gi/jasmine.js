@@ -11,93 +11,93 @@ if (!window.gi) window.gi = new Object();
 if (!gi.test) gi.test = new Object();
 if (!gi.test.jasmine) gi.test.jasmine = new Object();
 
-  /* Browser detection, the result of which is setting the strPath variable. */
-  var BrowserDetect = function() {
-    var vers, agt = this.agt = navigator.userAgent.toLowerCase();
+/* Browser detection, the result of which is setting the strPath variable. */
+var BrowserDetect = function() {
+  var vers, agt = this.agt = navigator.userAgent.toLowerCase();
 
-    this.gk = agt.indexOf('gecko') >= 0;
+  this.gk = agt.indexOf('gecko') >= 0;
 
-    // Mozilla Firefox v1.5-4
-    this.fx = this.gk && (agt.indexOf('firefox') >= 0 || agt.indexOf('granparadiso') >= 0);
-    if (this.fx) {
-      vers = this._getVersionAfter('firefox/') || this._getVersionAfter('granparadiso/');
-      this.fx1_5 = vers >= 1.5 && vers < 2;
-      this.fx2 = vers >= 2 && vers < 3;
-      this.fx3 = vers >= 3 && vers < 4;
-      this.fx4 = vers >= 4;
+  // Mozilla Firefox v1.5-4
+  this.fx = this.gk && (agt.indexOf('firefox') >= 0 || agt.indexOf('granparadiso') >= 0);
+  if (this.fx) {
+    vers = this._getVersionAfter('firefox/') || this._getVersionAfter('granparadiso/');
+    this.fx1_5 = vers >= 1.5 && vers < 2;
+    this.fx2 = vers >= 2 && vers < 3;
+    this.fx3 = vers >= 3 && vers < 4;
+    this.fx4 = vers >= 4;
+  }
+
+  // Apple WebKit (Safari) v3-4
+  this.sf = agt.indexOf('applewebkit') >= 0;
+  if (this.sf) {
+    if (agt.indexOf('chrome/') >= 0) {
+      this.gc1 = true;
+    } else {
+      vers = this._getVersionAfter('version/');
+      this.sf3 = vers >= 3 && vers < 4;
+      this.sf4 = vers >= 4;
     }
+  }
 
-    // Apple WebKit (Safari) v3-4
-    this.sf = agt.indexOf('applewebkit') >= 0;
-    if (this.sf) {
-      if (agt.indexOf('chrome/') >= 0) {
-        this.gc1 = true;
-      } else {
-        vers = this._getVersionAfter('version/');
-        this.sf3 = vers >= 3 && vers < 4;
-        this.sf4 = vers >= 4;
-      }
-    }
+  // Opera v9-10
+  this.op = agt.indexOf("opera") >= 0;
+  if (this.op) {
+    vers = this._getVersionAfter('opera/') || this._getVersionAfter('opera ');
+    this.op9 = vers >= 9 && vers < 10;
+    this.op10 = vers >= 10;
+  }
 
-    // Opera v9-10
-    this.op = agt.indexOf("opera") >= 0;
-    if (this.op) {
-      vers = this._getVersionAfter('opera/') || this._getVersionAfter('opera ');
-      this.op9 = vers >= 9 && vers < 10;
-      this.op10 = vers >= 10;
-    }
+  // Microsoft Internet Explorer v6-9+
+  this.ie = agt.indexOf("msie") >= 0 && !this.op || !! document.documentMode;
+  if (this.ie) {
+    vers = this._getVersionAfter('msie ') || this._getVersionAfter("rv:");
+    this.ie6 = vers >= 6 && vers < 7;
+    this.ie7 = vers >= 7 && vers < 8;
+    this.ie8 = vers >= 8 && vers < 9;
+    this.ie9 = vers >= 9 && vers < 10;
+    this.ie9s = vers >= 9 && document.documentMode >= 9;
+    this.ie10 = vers >= 10 && vers < 11;
+    this.ie11 = vers >= 11;
+  }
+};
 
-    // Microsoft Internet Explorer v6-9+
-    this.ie = agt.indexOf("msie") >= 0 && !this.op||!!document.documentMode;
-    if (this.ie) {
-      vers = this._getVersionAfter('msie ')||this._getVersionAfter("rv:");
-      this.ie6 = vers >= 6 && vers < 7;
-      this.ie7 = vers >= 7 && vers < 8;
-      this.ie8 = vers >= 8 && vers < 9;
-      this.ie9 = vers >= 9 && vers < 10;
-      this.ie9s = vers >= 9 && document.documentMode >= 9;
-      this.ie10 = vers >= 10 && vers < 11;
-      this.ie11 = vers >= 11;
-    }
-  };
+/* @jsxobf-clobber */
+BrowserDetect._ORDER = [
+  "ie11", "ie10", "ie9s", "ie9", "ie8", "ie7", "ie6",
+  "fx4", "fx3", "fx2", "fx1_5",
+  "gc1", "sf4", "sf3",
+  "op10", "op9",
+  "ie", "fx", "sf", "op", "gk"
+];
 
-  /* @jsxobf-clobber */
-  BrowserDetect._ORDER = [
-      "ie11","ie10", "ie9s", "ie9", "ie8", "ie7", "ie6",
-      "fx4", "fx3", "fx2", "fx1_5",
-      "gc1", "sf4", "sf3",
-      "op10", "op9",
-      "ie", "fx", "sf", "op", "gk"
-  ];
+/* @jsxobf-clobber */
+BrowserDetect.prototype._getVersionAfter = function(strToken) {
+  var index = this.agt.indexOf(strToken);
+  return index >= 0 ? parseFloat(this.agt.substring(index + strToken.length)) : 0;
+};
 
-  /* @jsxobf-clobber */
-  BrowserDetect.prototype._getVersionAfter = function(strToken) {
-    var index = this.agt.indexOf(strToken);
-    return index >= 0 ? parseFloat(this.agt.substring(index+strToken.length)) : 0;
-  };
-
-  BrowserDetect.prototype.getType = function() {
-    for (var i = 0; i < BrowserDetect._ORDER.length; i++)
-      if (this[BrowserDetect._ORDER[i]])
-        return BrowserDetect._ORDER[i];
-    return "xx";
-  };
+BrowserDetect.prototype.getType = function() {
+  for (var i = 0; i < BrowserDetect._ORDER.length; i++)
+    if (this[BrowserDetect._ORDER[i]])
+      return BrowserDetect._ORDER[i];
+  return "xx";
+};
 
 gi.test.jasmine._init = function(_jasmine, undefined) {
   var _BROWSERS = {
-    ie7:["IE","IE7","VML"],
-    ie8:["IE","IE8","VML"],
-    ie9:["IE","IE9","VML"],
-    ie9s:["IE","IE9","SVG"],
-    ie10:["IE","IE10","SVG"],
-    ie11:["IE","IE11","SVG"],
-    fx1_5:["FX","SVG","GKO"],
-    fx2:["FX","FX2","SVG","GKO"],
-    fx3:["FX","FX3","SVG","GKO"],
-    fx4:["FX","FX4","SVG","GKO"],
-    gc1:["SAF","SAF4","SVG","WBK","GOG"],
-    sf3:["SAF","SAF3","SVG","WBK"],
-    sf4:["SAF","SAF4","SVG","WBK"]
+    ie7: ["IE", "IE7", "VML"],
+    ie8: ["IE", "IE8", "VML"],
+    ie9: ["IE", "IE9", "VML"],
+    ie9s: ["IE", "IE9", "SVG"],
+    ie10: ["IE", "IE10", "SVG"],
+    ie11: ["IE", "IE11", "SVG"],
+    fx1_5: ["FX", "SVG", "GKO"],
+    fx2: ["FX", "FX2", "SVG", "GKO"],
+    fx3: ["FX", "FX3", "SVG", "GKO"],
+    fx4: ["FX", "FX4", "SVG", "GKO"],
+    gc1: ["SAF", "SAF4", "SVG", "WBK", "GOG"],
+    sf3: ["SAF", "SAF3", "SVG", "WBK"],
+    sf4: ["SAF", "SAF4", "SVG", "WBK"]
   };
 
   _jasmine.FILE_SCHEME = String(document.location.protocol).indexOf("file") == 0;
@@ -124,7 +124,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     for (var i = 0; i < strText.length; i++) {
       var chr = strText.charAt(i);
       if (chr == "%") {
-        var octet = strText.substring(i+1, i+3);
+        var octet = strText.substring(i + 1, i + 3);
         if (octet.match(/[^a-fA-F0-9]/)) {
           decoded[j++] = chr;
         } else {
@@ -143,7 +143,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     var params = {};
     var index = strURL.indexOf("?");
     if (index < 0) return params;
-    var query = strURL.substring(index+1);
+    var query = strURL.substring(index + 1);
     var pairs = query.split(/&/g);
     for (var i = 0; i < pairs.length; i++) {
       var nv = pairs[i].split("=", 2);
@@ -190,8 +190,9 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
   };
 
   _jasmine.loadGI = function() {
-    _jasmine.loadScript(_jasmine.JSX_JS_BASE + "JSX30.js", _jasmine._doneLoadingJSX30,
-        {jsxappempty:"true"});
+    _jasmine.loadScript(_jasmine.JSX_JS_BASE + "JSX30.js", _jasmine._doneLoadingJSX30, {
+      jsxappempty: "true"
+    });
   };
 
   _jasmine.App = function(strPrefix) {
@@ -199,7 +200,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     this._prefix = tokens.join("_");
     tokens.pop();
     this._path = tokens.join("/") + "/";
-    this._id = this.getPrefix()+document.body.childNodes.length;
+    this._id = this.getPrefix() + document.body.childNodes.length;
   };
 
   _jasmine.App.prototype.getPrefix = function() {
@@ -246,9 +247,10 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
    *
    */
   _jasmine.makeTestFunction = function(fctBody, arg1) {
-    var a = [], jasmineEnv = jasmine.getEnv();
+    var a = [],
+      jasmineEnv = jasmine.getEnv();
     for (var i = 1; i < arguments.length; i++)
-      a[i-1] = arguments[i];
+      a[i - 1] = arguments[i];
     fctBody['args'] = a;
 
     return jasmineEnv.it(arg1, fctBody);
@@ -268,7 +270,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     for (var i = 0; i < arguments.length; i++) {
       try {
         var name = arguments[i];
-        if (!_jasmine._required[name] &&eval(name) == null) {
+        if (!_jasmine._required[name] && eval(name) == null) {
           _jasmine._waiting.push(name);
           _jasmine._required[name] = true;
         }
@@ -436,11 +438,12 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     return result;
   };
 
-  _jasmine.toHaveStyle = function(stylename,value) {
-    if(!!this.actual.style[stylename]){
+  _jasmine.toHaveStyle = function(stylename, value) {
+    var styleName = this.actual.style[stylename];
+    if ( styleName || styleName === '' ) {
       var reg = new RegExp(value);
-      return reg.test(this.actual.style[stylename]);
-    }else{
+      return reg.test(styleName) || styleName === value;
+    } else {
       return false;
     }
   };
@@ -459,7 +462,9 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
    */
   _jasmine.log = function() {
     if (window.log) log.apply(null, arguments);
-    if (window.console) try { window.console.log.apply(window.console, arguments); } catch (e) {}
+    if (window.console) try {
+      window.console.log.apply(window.console, arguments);
+    } catch (e) {}
   };
 
   /**
@@ -467,7 +472,9 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
    */
   _jasmine.warn = function() {
     if (window.warn) warn.apply(null, arguments);
-    if (window.console) try { window.console.warn.apply(window.console, arguments); } catch (e) {}
+    if (window.console) try {
+      window.console.warn.apply(window.console, arguments);
+    } catch (e) {}
   };
 
   /**
@@ -475,7 +482,9 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
    */
   _jasmine.inform = function() {
     if (window.inform) inform.apply(null, arguments);
-    if (window.console) try { window.console.info.apply(window.console, arguments); } catch (e) {}
+    if (window.console) try {
+      window.console.info.apply(window.console, arguments);
+    } catch (e) {}
   };
 
   /**
@@ -483,7 +492,9 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
    */
   _jasmine.debug = function() {
     if (window.debug) debug.apply(null, arguments);
-    if (window.console) try { window.console.log.apply(window.console, arguments); } catch (e) {}
+    if (window.console) try {
+      window.console.log.apply(window.console, arguments);
+    } catch (e) {}
   };
 
 
@@ -495,5 +506,5 @@ delete gi.test.jasmine._init;
 // Automatically add GI matchers, so you don't need to do this everytime in beforeEach()
 if (jasmine && jasmine.Matchers) {
   for (var method in gi.test.jasmine.matchers)
-     jasmine.Matchers.prototype[method] = gi.test.jasmine.matchers[method];
+    jasmine.Matchers.prototype[method] = gi.test.jasmine.matchers[method];
 }
