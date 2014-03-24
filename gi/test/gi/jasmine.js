@@ -436,11 +436,21 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     return result;
   };
 
+  _jasmine.toHaveStyle = function(stylename,value) {
+    if(!!this.actual.style[stylename]){
+      var reg = new RegExp(value);
+      return reg.test(this.actual.style[stylename]);
+    }else{
+      return false;
+    }
+  };
+
   _jasmine.matchers = {
     toBeInstanceOf: _jasmine.assertInstanceOf,
     toBeTypeOf: _jasmine.assertTypeOf,
     toEquals: _jasmine.assertEquals,
-    toThrowException: _jasmine.assertThrows
+    toThrowException: _jasmine.assertThrows,
+    toHaveStyle: _jasmine.toHaveStyle
   };
   // Logging functions
 
@@ -475,6 +485,7 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     if (window.debug) debug.apply(null, arguments);
     if (window.console) try { window.console.log.apply(window.console, arguments); } catch (e) {}
   };
+
 
 };
 
