@@ -12,8 +12,22 @@ describe("jsx3.gui.ColorPicker", function() {
 
   var getColorPicker = function(s) {
     var root = s.getBodyBlock().load("data/colorPicker.xml");
-    return root.getChild(0).getDescendantOfName('colorPicker');
+    return root.getServer().getJSXByName('colorPicker');
   };
+
+  var getRendered = function(colorPicker) {
+    var hue, saturation, brightness;
+    hue = colorPicker.getRendered().firstChild.childNodes[0].childNodes[0];
+    saturation = colorPicker.getRendered().firstChild.childNodes[0].childNodes[1];
+    brightness = colorPicker.getRendered().firstChild.childNodes[0].childNodes[2];
+
+    return {
+      hue: hue,
+      saturation: saturation,
+      brightness: brightness
+    };
+  };
+
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_colorPicker.xml", ".", true) : t._server;
     colorPicker = getColorPicker(t._server);
@@ -39,53 +53,57 @@ describe("jsx3.gui.ColorPicker", function() {
   it("should able to set and get the color axis shown on the right side of the control", function() {
     var Axis = colorPicker.getAxis();
     expect(Axis).toEqual(ColorPicker.HUE);
-    var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
-    var bgColor = gradient.style.backgroundColor;
+    var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
 
     if (bgColor.indexOf('#') != -1) {
-      expect(bgColor).toEqual('#ff0000');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', '#ff0000');
     } else {
-      expect(bgColor).toEqual('rgb(255, 0, 0)');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', 'rgb(255, 0, 0)');
     }
 
     colorPicker.setAxis(ColorPicker.SATURATION);
     colorPicker.repaint();
     expect(colorPicker.getAxis()).toEqual(ColorPicker.SATURATION);
+    bgColor = getRendered(colorPicker).saturation.style.backgroundColor;
+
+    if (bgColor.indexOf('#') != -1) {
+      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', '#ffffff');
+    } else {
+      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', 'rgb(255, 255, 255)');
+    }
+
     colorPicker.setAxis(ColorPicker.BRIGHTNESS);
     colorPicker.repaint();
     expect(colorPicker.getAxis()).toEqual(ColorPicker.BRIGHTNESS);
-    gradient = colorPicker.getRendered().firstChild.childNodes[0].childNodes[2];
+    bgColor = getRendered(colorPicker).brightness.style.backgroundColor;
 
-    bgColor = gradient.style.backgroundColor;
     if (bgColor.indexOf('#') != -1) {
-      expect(bgColor).toEqual('#000000');
+      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', '#000000');
     } else {
-      expect(bgColor).toEqual('rgb(0, 0, 0)');
+      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', 'rgb(0, 0, 0)');
     }
   });
 
   it("the currently selected color by RGB", function() {
     var RGB = colorPicker.getRGB();
     expect(RGB).toEqual(16711680);
-    var gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
+    var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
 
-    var bgColor = gradient.style.backgroundColor;
     if (bgColor.indexOf('#') != -1) {
-      expect(bgColor).toEqual('#ff0000');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', '#ff0000');
     } else {
-      expect(bgColor).toEqual('rgb(255, 0, 0)');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', 'rgb(255, 0, 0)');
     }
 
     colorPicker.setRGB(10000000);
     RGB = colorPicker.getRGB();
     expect(RGB).toEqual(10000000);
-    gradient = colorPicker.getRendered().firstChild.childNodes[0].firstChild;
+    var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
 
-    bgColor = gradient.style.backgroundColor;
     if (bgColor.indexOf('#') != -1) {
-      expect(bgColor).toEqual('#ffea00');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', '#ffea00');
     } else {
-      expect(bgColor).toEqual('rgb(255, 234, 0)');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', 'rgb(255, 234, 0)');
     }
   });
 

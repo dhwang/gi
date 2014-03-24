@@ -104,16 +104,14 @@ describe("jsx3.gui.CDF", function() {
     expect(record2.getAttribute('first')).toEqual('Summer');
   });
 
-  // it("should be able to update all mapped descendants with values from the source CDF Document", function() {
-  //   var cdfXML = cdf.getXML();
-  //   var record2 = cdfXML.selectSingleNode("//record[@jsxid='2']");
-  //   record2.setAttribute('first', 'Summer');
-  //   // cdf.read(true, '1');
-  //   cdf.setCDFId('2');
-  //   expect(_jsxname('firstName').getValue()).toEqual();
-  //   // var text = cdf.getRecord('2').first;
-  //   // expect(text).toEqual(); 
-  // });
+  it("should be able to update all mapped descendants with values from the source CDF Document", function() {
+    var cdfXML = cdf.getXML();
+    var record2 = cdfXML.selectSingleNode("//record[@jsxid='2']");
+    record2.setAttribute('first', 'Summer');
+    cdf.read(true, '2');
+    cdf.setCDFId('2');
+    expect(_jsxname('firstName').getValue()).toEqual('Summer');
+  });
 
   // should have more form type, to test the read/write method in each gui class
   // it("should be able to read/write from datepicker", function() {

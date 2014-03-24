@@ -11,12 +11,27 @@ describe("jsx3.gui.CheckBox", function() {
   var CheckBox;
 
   var getCheckBox = function(s) {
-    var root = s.getBodyBlock().load("data/checkbox.xml");
+    var root = s.getBodyBlock().load("data/form_components.xml");
     return root.getServer().getJSXByName('checkbox');
   };
 
+  var getRendered = function(checkBox) {
+    var objInput, imgpartial, objLabel, objSpan;
+    objInput = checkBox.getRendered().firstChild.firstChild.firstChild;
+    imgpartial = checkBox.getRendered().firstChild.childNodes[0].childNodes[1];
+    objLabel = checkBox.getRendered().firstChild.childNodes[1];
+    objSpan = objLabel.parentNode.parentNode;
+
+    return {
+      objInput: objInput,
+      imgpartial: imgpartial,
+      objLabel: objLabel,
+      objSpan: objSpan
+    };
+  };
+
   beforeEach(function() {
-    t._server = (!t._server) ? t.newServer("data/server_checkbox.xml", ".", true) : t._server;
+    t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
     checkBox = getCheckBox(t._server);
     if (!CheckBox) {
       CheckBox = jsx3.gui.CheckBox;
@@ -61,8 +76,7 @@ describe("jsx3.gui.CheckBox", function() {
     checkBox.repaint();
     checked = checkBox.getChecked();
     expect(checked).toEqual(CheckBox.CHECKED);
-    var input = checkBox.getRendered().firstChild.firstChild.firstChild;
-    expect(input.getAttribute('checked')).toEqual('checked');
+    expect(getRendered(checkBox).objInput.getAttribute('checked')).toEqual('checked');
   });
 
   it("should able to get and set the state of checkbox when it is first initialized", function() {
@@ -75,9 +89,8 @@ describe("jsx3.gui.CheckBox", function() {
 
   it("should able to set the current state Partial of checkbox", function() {
     var checkbox = {};
-    checkbox.imgpartial = checkBox.getRendered().firstChild.childNodes[0].childNodes[1];
     checkbox.ispartial = function() {
-      return checkbox.imgpartial.style.visibility == "visible";
+      return getRendered(checkBox).imgpartial.style.visibility === 'visible';
     }
     expect(checkbox.ispartial()).toBeFalsy();
     checkBox.setChecked(CheckBox.PARTIAL);
@@ -90,16 +103,14 @@ describe("jsx3.gui.CheckBox", function() {
     expect(checkBox.getValue()).toEqual(0);
   });
 
-  it("The label is offset over the input checkbox by using padding on IE", function() {
-    var label = checkBox.getRendered().firstChild.childNodes[1];
-    var span = label.parentNode.parentNode;
-    if (jsx3.CLASS_LOADER.getVersion() > 8) {
-      label.click();
+  if (!_jasmine_test.IE8) {
+    it("The label is offset over the input checkbox by using padding on IE", function() {
+      getRendered(checkBox).objLabel.click();
       expect(checkBox.getChecked()).toEqual(CheckBox.UNCHECKED);
-      span.click();
+      getRendered(checkBox).objSpan.click();
       expect(checkBox.getChecked()).toEqual(CheckBox.CHECKED);
-    }
-  });
+    });
+  }
 
   it("should clean up", function() {
     t._server.destroy();

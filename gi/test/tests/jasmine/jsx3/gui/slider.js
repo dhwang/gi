@@ -33,6 +33,7 @@ describe("jsx3.gui.Slider", function() {
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_slider.xml", ".", true) : t._server;
     slider = getSlider(t._server);
+    // slider = t._server.getJSXByName('slider');
     if (!Slider) {
       Slider = jsx3.gui.Slider;
     }

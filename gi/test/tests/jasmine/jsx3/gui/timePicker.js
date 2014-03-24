@@ -15,6 +15,19 @@ describe("jsx3.gui.TimePicker", function() {
     return root.getServer().getJSXByName('timePicker');
   };
 
+  var getRendered = function(timePicker) {
+    var btnUptick, btnDowntick, inputHours;
+    btnUptick = timePicker.getRendered().firstChild.childNodes[5].childNodes[0];
+    btnDowntick = timePicker.getRendered().firstChild.childNodes[5].childNodes[1];
+    inputHours = timePicker.getRendered().childNodes[0].childNodes[0];
+
+    return {
+      btnUptick: btnUptick,
+      btnDowntick: btnDowntick,
+      inputHours: inputHours
+    }
+  };
+
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
     timePicker = getTimePicker(t._server);
@@ -155,24 +168,19 @@ describe("jsx3.gui.TimePicker", function() {
 
   it("The value should be changed when the triangle button click", function() {
     expect(timePicker.getValue()).toEqual('12:00 AM');
-    var btnUptick = timePicker.getRendered().firstChild.childNodes[5].childNodes[0];
-    var btnDowntick = timePicker.getRendered().firstChild.childNodes[5].childNodes[1];
-    btnUptick.click();
+    getRendered(timePicker).btnUptick.click();
     expect(timePicker.getValue()).toEqual('1:00 AM');
-    btnDowntick.click();
+    getRendered(timePicker).btnDowntick.click();
     expect(timePicker.getValue()).toEqual('12:00 AM');
   });
 
   it("The value should be changed by clicking triangle button when it is disabled", function() {
     timePicker.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
-    var inputHours = timePicker.getRendered().childNodes[0].childNodes[0];
-    expect(inputHours.getAttribute("disabled")).toBe('disabled');
+    expect(getRendered(timePicker).inputHours.getAttribute("disabled")).toBe('disabled');
     expect(timePicker.getValue()).toEqual('12:00 AM');
-    var btnUptick = timePicker.getRendered().firstChild.childNodes[5].childNodes[0]; //The up triangle button
-    var btnDowntick = timePicker.getRendered().firstChild.childNodes[5].childNodes[1]; //The down triangle button
-    btnUptick.click();
+    getRendered(timePicker).btnUptick.click();
     expect(timePicker.getValue()).toEqual('12:00 AM');
-    btnDowntick.click();
+    getRendered(timePicker).btnDowntick.click();
     expect(timePicker.getValue()).toEqual('12:00 AM');
   });
 

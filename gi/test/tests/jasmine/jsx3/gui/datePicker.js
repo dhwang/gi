@@ -11,12 +11,16 @@ describe("jsx3.gui.DatePicker", function() {
   var DatePicker;
 
   var getDatePicker = function(s) {
-    var root = s.getBodyBlock().load("data/datePicker.xml");
+    var root = s.getBodyBlock().load("data/form_components.xml");
     return root.getServer().getJSXByName('datePicker');
   };
 
+  var dpcalendar = function(objJSX) {
+    return document.getElementById("jsxDatePicker" + objJSX.getId());
+  };
+
   beforeEach(function() {
-    t._server = (!t._server) ? t.newServer("data/server_datePicker.xml", ".", true) : t._server;
+    t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
     datePicker = getDatePicker(t._server);
     if (!DatePicker) {
       DatePicker = jsx3.gui.DatePicker;
@@ -28,7 +32,7 @@ describe("jsx3.gui.DatePicker", function() {
       } else {
         return false;
       }
-    }
+    };
   });
 
   afterEach(function() {
@@ -86,7 +90,7 @@ describe("jsx3.gui.DatePicker", function() {
     datePicker.focusCalendar();
     var dp_month_th1 = document.querySelectorAll('.jsx3_dp_month th')[0];
     var dp_month_th2 = document.querySelectorAll('.jsx3_dp_month th')[1];
-    if (! _jasmine_test.IE8) {
+    if (!_jasmine_test.IE8) {
       expect(dp_month_th1.textContent).toEqual('S');
       expect(dp_month_th2.textContent).toEqual('M');
     } else {
@@ -102,7 +106,7 @@ describe("jsx3.gui.DatePicker", function() {
     datePicker.focusCalendar();
     var dp_month_th1 = document.querySelectorAll('.jsx3_dp_month th')[0];
     var dp_month_th2 = document.querySelectorAll('.jsx3_dp_month th')[1];
-    if (! _jasmine_test.IE8) {
+    if (!_jasmine_test.IE8) {
       expect(dp_month_th1.textContent).toEqual('M');
       expect(dp_month_th2.textContent).toEqual('T');
     } else {
@@ -140,9 +144,6 @@ describe("jsx3.gui.DatePicker", function() {
   });
 
   it("should able to show the calendar for this date picker", function() {
-    var dpcalendar = function(objJSX) {
-      return document.getElementById("jsxDatePicker" + objJSX.getId());
-    };
     expect(dpcalendar(datePicker)).toBeNull();
     datePicker.focusCalendar();
     expect(dpcalendar(datePicker)).toBeDefined();
@@ -154,13 +155,10 @@ describe("jsx3.gui.DatePicker", function() {
     expect(icon).toBeUndefined();
     datePicker.setIcon("jsx:///images/jsxdatepicker/open.gif");
     expect(datePicker.getIcon().toString()).toEqual(datePicker.getServer().resolveURI("jsx:///images/jsxdatepicker/open.gif").toString());
-    expect(document.querySelector('.open').style.backgroundImage).toMatch(/open\.gif/);
+    expect(document.querySelector('.open')).toHaveStyle('backgroundImage', 'open.gif');
   });
 
   it("should not show the calendar for this date picker when disabled", function() {
-    var dpcalendar = function(objJSX) {
-      return document.getElementById("jsxDatePicker" + objJSX.getId());
-    };
     datePicker.setEnabled(jsx3.gui.Form.STATEDISABLED, true);
     datePicker.focusCalendar();
     expect(dpcalendar(datePicker)).toBeNull();
