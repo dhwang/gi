@@ -438,14 +438,14 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     return result;
   };
 
-  _jasmine.toHaveStyle = function(stylename, value) {
-    var styleName = this.actual.style[stylename];
-    if ( styleName || styleName === '' ) {
-      var reg = new RegExp(value);
-      return reg.test(styleName) || styleName === value;
-    } else {
-      return false;
+  _jasmine.toHaveStyle = function(stylename, regExp) {
+    var styleValue = this.actual.style[stylename];
+    var reg = new RegExp(regExp);
+    
+    if(styleValue.length && styleValue.length !==0){
+      return reg.test(styleValue);
     }
+    return false;
   };
 
   _jasmine.matchers = {
