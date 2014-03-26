@@ -20,18 +20,6 @@ describe("jsx3.gui.ToolbarButton", function() {
     toolbarbtn1 = taskbar.getChild(0);
     toolbarbtn2 = taskbar.getChild(1);
     toolbarbtn3 = taskbar.getChild(2);
-
-    // this.addMatchers({
-    //   toHaveStyle: function(stylename,value) {
-    //     if(!!this.actual.style[stylename]){ 
-    //       var reg = new RegExp(value);
-    //       return reg.test(this.actual.style[stylename]);
-    //     }else{
-    //       return false;
-    //     } 
-    //   }
-    // });
-
   });
 
   afterEach(function() {
@@ -68,7 +56,7 @@ describe("jsx3.gui.ToolbarButton", function() {
     toolbarbtn1.setDivider(1);
     toolbarbtn1.repaint();
     expect(toolbarbtn1.getDivider()).toBeTruthy();
-    expect(toolbarbtn1.getRendered()).toHaveStyle("borderWidth", "1px");
+    expect(toolbarbtn1.getRendered()).toHaveStyle("borderWidth", /1px/);
   });
 
   it("should be able to set and get the name of the group to which this radio button belongs", function() {
@@ -92,7 +80,7 @@ describe("jsx3.gui.ToolbarButton", function() {
     toolbarbtn1.setImage("data/dispic.png");
     toolbarbtn1.repaint();
     expect(toolbarbtn1.getImage()).toEqual("data/dispic.png");
-    expect(toolbarbtn1.getRendered().firstChild).toHaveStyle("backgroundImage", "data/dispic.png");
+    expect(toolbarbtn1.getRendered().firstChild).toHaveStyle("backgroundImage", /dispic\.png/);
   });
 
   it("should be able to get the state always as zero when the type is Normal ", function() {
@@ -109,7 +97,7 @@ describe("jsx3.gui.ToolbarButton", function() {
     expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
     toolbarbtn2.getRendered().click();
     expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEON);
-    expect(toolbarbtn2.getRendered()).toHaveStyle("backgroundImage", "on.gif");
+    expect(toolbarbtn2.getRendered()).toHaveStyle("backgroundImage", /on\.gif/);
   });
 
   it("should be able to select only one button at a time when the type is RadioGroup", function() {
@@ -123,7 +111,7 @@ describe("jsx3.gui.ToolbarButton", function() {
     expect(toolbarbtn1.getState()).toBe(jsx3.ToolbarButton.STATEON);
     expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
     expect(toolbarbtn3.getState()).toBe(jsx3.ToolbarButton.STATEOFF);
-    expect(toolbarbtn1.getRendered().style.backgroundImage).toMatch(/on.gif/);
+    expect(toolbarbtn1.getRendered()).toHaveStyle("backgroundImage", /on\.gif/);
     expect(toolbarbtn2.getRendered().style.backgroundImage).toEqual("");
     toolbarbtn2.getRendered().click();
     expect(toolbarbtn2.getState()).toBe(jsx3.ToolbarButton.STATEON);

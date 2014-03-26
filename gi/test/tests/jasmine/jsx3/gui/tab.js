@@ -20,9 +20,6 @@ describe("jsx3.gui.Tab", function(){
       tab1 = tabpane.getChild(0);
       tab2 = tabpane.getChild(1);
       tab3 = tabpane.getChild(2);
-      // if(!Tab) {
-      //    Tab = jsx3.gui.Tab;
-      // }
   });
 
       afterEach(function() {
@@ -55,7 +52,7 @@ describe("jsx3.gui.Tab", function(){
       tab2.setActiveColor("#ff0000");
       tab2.doShow();
       expect(tab2.getActiveColor()).toEqual("#ff0000");
-      expect(tab2.getRendered().style.backgroundColor).toEqual('rgb(255, 0, 0)');
+      expect(tab2.getRendered()).toHaveStyle('backgroundColor',/rgb\(255, 0, 0\)/);
     });
 
     it("should be able to set and get the background image that will underlay each tab to provide an outset-type border",function(){
