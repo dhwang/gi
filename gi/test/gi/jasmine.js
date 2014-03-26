@@ -440,10 +440,8 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
 
   _jasmine.toHaveStyle = function(stylename, regExp) {
     var styleValue = this.actual.style[stylename];
-    var reg = new RegExp(regExp);
-    
     if( (styleValue.length && styleValue.length !==0) || styleValue === '' ){
-      return reg.test(styleValue);
+      return regExp.test(styleValue);
     }
     return false;
   };
