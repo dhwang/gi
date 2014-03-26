@@ -7,7 +7,7 @@ describe("jsx3.gui.Table", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Table");
   var t = new _jasmine_test.App("jsx3.gui.Table");
-  var table, Table;
+  var table, Table, testspace;
 
   var getTable = function(s) {
     var root = s.getBodyBlock().load("data/table.xml");
@@ -41,6 +41,8 @@ describe("jsx3.gui.Table", function() {
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_table.xml", ".", true) : t._server;
     table = getTable(t._server);
+    testspace = new RegExp("");
+
     if (!Table) {
       Table = jsx3.gui.Table;
     }
@@ -62,17 +64,17 @@ describe("jsx3.gui.Table", function() {
 
   it("should be able to select and deselect a CDF record within the Table", function() {
     table.selectRecord(1);
-    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', 'select.gif');
+    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', /select.gif/);
     table.deselectRecord(1);
-    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', '');
+    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage',testspace);
   });
 
   it("should be able to sort according to the current sort path", function() {
     getRendered(table).header_cell.click();
-    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', 'sort_desc.gif');
+    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', /sort_desc.gif/);
     table.doSort("ascending");
     header_cell = table.getRendered().childNodes[1].firstChild.childNodes[0];
-    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', 'sort_asc.gif');
+    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', /sort_asc.gif/);
   });
 
   it("should be able to validate the Table", function() {
@@ -100,20 +102,20 @@ describe("jsx3.gui.Table", function() {
     table.repaint();
     alternateRowStyle = table.getAlternateRowStyle();
     expect(alternateRowStyle).toEqual('background-color:blue;');
-    expect(getRendered(table).alternateRow).toHaveStyle('backgroundColor', 'blue')
+    expect(getRendered(table).alternateRow).toHaveStyle('backgroundColor', /blue/);
   });
 
   it("should be able to set and get whether the table is sortable", function() {
     var canSort = table.getCanSort();
     expect(canSort).toBeUndefined();
     getRendered(table).header_cell.click();
-    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', 'sort_desc.gif');
+    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', /sort_desc.gif/);
     table.setCanSort(jsx3.Boolean.FALSE);
     table.repaint();
     canSort = table.getCanSort();
     expect(canSort).toEqual(jsx3.Boolean.FALSE);
     getRendered(table).header_cell.click();
-    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', 'sort_desc.gif');
+    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', /sort_desc.gif/);
   });
 
   it("should be able to set and get the CSS rule that will be applied to every HTML cell in the body of the table", function() {
@@ -132,7 +134,7 @@ describe("jsx3.gui.Table", function() {
     expect(cellStyle).toEqual('border-right:solid 1px gray;border-bottom:solid 1px gray;padding:4px;padding-bottom:3px;cursor:default;word-wrap:break-word;');
     table.setCellStyle('border: 1px solid red');
     table.repaint();
-    expect(getRendered(table).cell).toHaveStyle('border', 'red');
+    expect(getRendered(table).cell).toHaveStyle('border', /red/);
   });
 
   it("should be able to set and get the string of XML in CDF format representing the Column Profile Document", function() {
@@ -158,12 +160,12 @@ describe("jsx3.gui.Table", function() {
   it("should be able to set and get the height of the header row in pixels. Set to zero (0) to hide the header row and only render the body rows", function() {
     var headerHeight = table.getHeaderHeight();
     expect(headerHeight).toEqual(29);
-    expect(getRendered(table).header).toHaveStyle('height', '29px');
+    expect(getRendered(table).header).toHaveStyle('height', /29px/);
     table.setHeaderHeight(50, true);
     table.repaint();
     headerHeight = table.getHeaderHeight();
     expect(headerHeight).toEqual(50);
-    expect(getRendered(table).header).toHaveStyle('height', '50px');
+    expect(getRendered(table).header).toHaveStyle('height', /50px/);
   });
 
   it("should be able to set and get the CSS style properties for the HTML row containing the column headers", function() {
@@ -173,7 +175,7 @@ describe("jsx3.gui.Table", function() {
     table.repaint();
     headerStyle = table.getHeaderStyle();
     expect(headerStyle).toEqual('background-color:red;');
-    expect(getRendered(table).header_pane).toHaveStyle('backgroundColor', 'red');
+    expect(getRendered(table).header_pane).toHaveStyle('backgroundColor', /red/);
   });
 
   it("should be able to set and get the jsxid of the CDF record that will serve as the origin when rendering the data on-screen", function() {
@@ -201,7 +203,7 @@ describe("jsx3.gui.Table", function() {
     table.repaint();
     rowStyle = table.getRowStyle();
     expect(rowStyle).toEqual('background-color:red;');
-    expect(getRendered(table).row).toHaveStyle('backgroundColor', 'red');
+    expect(getRendered(table).row).toHaveStyle('backgroundColor', /red/);
   });
 
   it("should be able to set and get the URL for the image to use (as the repeating background image) to denote selection", function() {
@@ -221,20 +223,20 @@ describe("jsx3.gui.Table", function() {
     selectionModel = table.getSelectionModel();
     expect(selectionModel).toEqual(Table.SELECTION_UNSELECTABLE);
     table.selectRecord(1);
-    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', '');
+    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', testspace);
   });
 
   it("should be able to set and get the direction (ascending or descending) for the sorted column", function() {
     var sortDirection = table.getSortDirection();
     expect(sortDirection).toEqual('ascending');
-    getRendered(table).header_cell.click()
     getRendered(table).header_cell.click();
-    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', 'sort_asc.gif');
+    getRendered(table).header_cell.click();
+    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', /sort_asc.gif/);
     table.setSortDirection("descending");
     sortDirection = table.getSortDirection();
     expect(sortDirection).toEqual("descending");
     table.repaintHead();
-    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', 'sort_desc.gif');
+    expect(getRendered(table).header_cell).toHaveStyle('backgroundImage', /sort_desc.gif/);
   });
 
   it("should be able to set and get the name of the CDF attribute to sort on", function() {
@@ -259,7 +261,7 @@ describe("jsx3.gui.Table", function() {
     table.setValue('1');
     value = table.getValue();
     expect(value).toEqual('1');
-    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', 'select.gif');
+    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', /select.gif/);
   });
 
   it("should be able to set and get the user-defined XSL template", function() {

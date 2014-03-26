@@ -155,7 +155,7 @@ describe("jsx3.gui.DatePicker", function() {
     expect(icon).toBeUndefined();
     datePicker.setIcon("jsx:///images/jsxdatepicker/open.gif");
     expect(datePicker.getIcon().toString()).toEqual(datePicker.getServer().resolveURI("jsx:///images/jsxdatepicker/open.gif").toString());
-    expect(document.querySelector('.open')).toHaveStyle('backgroundImage', 'open.gif');
+    expect(document.querySelector('.open')).toHaveStyle('backgroundImage', /open.gif/);
   });
 
   it("should not show the calendar for this date picker when disabled", function() {

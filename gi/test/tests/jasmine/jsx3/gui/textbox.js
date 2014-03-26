@@ -11,7 +11,7 @@ describe("jsx3.gui.TextBox", function(){
 
   var getTextbox = function(s){
     var root = s.getBodyBlock().load("data/form_components.xml");
-    return root.getChild(0).getDescendantOfName('textbox');
+    return root.getServer().getJSXByName('textbox');
   };    
   beforeEach(function () {
     t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true): t._server;
@@ -132,7 +132,7 @@ describe("jsx3.gui.TextBox", function(){
     textbox.setValue("4444-4444");
     expect(textbox.doValidate()).toBeFalsy();
     textbox.setValue("123456");
-    expect(textbox.doValidate()).toBeTruthy();    
+    expect(textbox.doValidate()).toBeTruthy();
   });  
 
   it("should be able to get ValidationExpression ", function(){

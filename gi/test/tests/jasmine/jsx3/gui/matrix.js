@@ -16,6 +16,23 @@ describe("jsx3.gui.Matrix", function() {
       return root1.getServer().getJSXByName('matrix1');
     };
 
+    var getRendered = function(matrix) {
+      var matrix_body, matrix_head, matrix_row, scrollerH, scrollerV;
+      matrix_body = matrix.getRendered().childNodes[1];
+      matrix_head = matrix.getRendered().childNodes[0];
+      // matrix_row = matrix.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].firstChild;
+      scrollerH = matrix.getRendered().childNodes[3];
+      scrollerV = matrix.getRendered().childNodes[2];
+
+      return {
+        matrix_body: matrix_body,
+        matrix_head: matrix_head,
+        matrix_row: matrix_row,
+        scrollerH: scrollerH,
+        scrollerV: scrollerV
+      };
+    };
+
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server_matrix_grid.xml", ".", true) : t._server;
       matrix1 = getMatrix1(t._server);
@@ -70,12 +87,12 @@ describe("jsx3.gui.Matrix", function() {
       matrix1.setBodyBorder('1px dashed #000000', true);
       matrix1.repaint();
       expect(matrix1.getBodyBorder()).toEqual('1px dashed #000000');
-      var bodyBorder = matrix1.getRendered().childNodes[1].style.border;
+      var matrix1_body = getRendered(matrix1).matrix_body;
 
-      if (bodyBorder.indexOf('#') != -1) {
-        expect(bodyBorder).toEqual('#000000 1px dashed');
+      if (matrix1_body.style.border.indexOf('#') != -1) {
+        expect(matrix1_body).toHaveStyle('border',/#000000 1px dashed/);
       } else {
-        expect(bodyBorder).toEqual('1px dashed rgb(0, 0, 0)');
+        expect(matrix1_body).toHaveStyle('border',/1px dashed rgb\(0, 0, 0\)/);
       }
     });
 
@@ -88,7 +105,7 @@ describe("jsx3.gui.Matrix", function() {
       expect(canReorder).toEqual(jsx3.Boolean.FALSE);
     });
 
-    it("should able to set and get the zero-based index of the on-screen column(s), to the left of which will be fixed and cannot be reordered", function() {
+    it("should able to set and get the zero-basedojod index of the on-screen column(s), to the left of which will be fixed and cannot be reordered", function() {
       var fixedColumnIndex = matrix1.getFixedColumnIndex();
       expect(fixedColumnIndex).toBeNull();
       matrix1.setFixedColumnIndex(2);
@@ -102,11 +119,11 @@ describe("jsx3.gui.Matrix", function() {
       matrix1.repaint();
       expect(matrix1.getHeaderBorder()).toEqual('2px dashed #000000');
 
-      var headerBorder = matrix1.getRendered().childNodes[0].style.border;
-      if (headerBorder.indexOf('#') != -1) {
-        expect(headerBorder).toEqual('#000000 2px dashed');
+      var matrix1_header = getRendered(matrix1).matrix_head;
+      if (matrix1_header.style.border.indexOf('#') != -1) {
+        expect(matrix1_header).toHaveStyle('border', /#000000 2px dashed/);
       } else {
-        expect(headerBorder).toEqual('2px dashed rgb(0, 0, 0)');
+        expect(matrix1_header).toHaveStyle('border', /2px dashed rgb\(0, 0, 0\)/);
       }
     });
 
@@ -118,8 +135,7 @@ describe("jsx3.gui.Matrix", function() {
       matrix1.repaint();
       headerHeight = matrix1.getHeaderHeight();
       expect(headerHeight).toEqual(30);
-      var matrix_head = matrix1.getRendered().childNodes[0];
-      expect(matrix_head.style.height).toEqual('30px');
+      expect(getRendered(matrix1).matrix_head).toHaveStyle('height', /30px/);
     });
 
     it("should able to set and get how data should be painted on-screen", function() {
@@ -173,9 +189,10 @@ describe("jsx3.gui.Matrix", function() {
       waitsFor(function() {
         return matrix1.getRendered().getElementsByTagName('table')[1] != null;
       });
+
       runs(function() {
         row = matrix1.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
-        expect(row.firstChild.style.height).toEqual("46px");
+        expect(row.firstChild).toHaveStyle('height', /46px/);
       });
     });
 
@@ -195,7 +212,7 @@ describe("jsx3.gui.Matrix", function() {
       matrix1.setScrollLeft(100);
       scrollLeft = matrix1.getScrollLeft();
       expect(scrollLeft).toEqual(100);
-      expect(matrix1.getRendered().childNodes[3].scrollLeft).toEqual(100);
+      expect(getRendered(matrix1).scrollerH.scrollLeft).toEqual(100);
     });
 
     // it("should able to set and get the vertical scroll position", function() {

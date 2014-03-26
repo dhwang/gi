@@ -15,6 +15,11 @@ describe("jsx3.gui.RadioButton", function() {
     return root.getServer().getJSXByName('radioButton');
   };
 
+  var getRendered = function(radioButton) {
+    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
+    return radioInput;
+  }
+
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
     radioButton = getRadioButton(t._server);
@@ -61,8 +66,7 @@ describe("jsx3.gui.RadioButton", function() {
     groupName = radioButton.getGroupName();
     expect(groupName).toEqual('group2');
     radioButton.repaint();
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
-    expect(radioInput.getAttribute('name')).toEqual('group2');
+    expect(getRendered(radioButton).getAttribute('name')).toEqual('group2');
   });
 
   it("should be able to set and get the value of the selected radio button in the radio group of this radio button", function() {
@@ -76,8 +80,7 @@ describe("jsx3.gui.RadioButton", function() {
     radioButton.repaint();
     groupValue = radioButton.getGroupValue();
     expect(groupValue).toEqual('sex');
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
-    expect(radioInput.getAttribute('value')).toEqual('sex');
+    expect(getRendered(radioButton).getAttribute('value')).toEqual('sex');
   });
 
   it("should be able to set and get the current selection state of this radio button", function() {
@@ -87,8 +90,7 @@ describe("jsx3.gui.RadioButton", function() {
     selected = radioButton.getSelected();
     radioButton.repaint();
     expect(selected).toEqual(RadioButton.SELECTED);
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
-    expect(radioInput.getAttribute('checked')).toEqual('checked');
+    expect(getRendered(radioButton).getAttribute('checked')).toEqual('checked');
   });
 
   it("should be able to set and get the value of this radio button", function() {
@@ -98,8 +100,7 @@ describe("jsx3.gui.RadioButton", function() {
     radioButton.repaint();
     value = radioButton.getValue();
     expect(value).toEqual('name');
-    var radioInput = radioButton.getRendered().firstChild.firstChild.firstChild; //Obtain the input element of radio button.
-    expect(radioInput.getAttribute('value')).toEqual('name');
+    expect(getRendered(radioButton).getAttribute('value')).toEqual('name');
   });
 
   it("should clean up", function() {

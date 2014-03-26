@@ -63,36 +63,36 @@ describe("jsx3.gui.Button", function() {
   it("should be able to display different styled buttons", function() {
     button.setFontName("Verdana,Arial,sans-serif");
     button.repaint();
-    expect(button.getRendered()).toHaveStyle('fontFamily', 'Arial');
+    expect(button.getRendered()).toHaveStyle('fontFamily', /Arial/);
 
     button.setFontSize(18);
     button.repaint();
-    expect(button.getRendered()).toHaveStyle('fontSize', '18px');
+    expect(button.getRendered()).toHaveStyle('fontSize', /18px/);
 
     button.setFontWeight('bold');
     button.repaint();
-    expect(button.getRendered()).toHaveStyle('fontWeight', 'bold');
+    expect(button.getRendered()).toHaveStyle('fontWeight', /bold/);
 
     button.setColor('red', true);
-    expect(button.getRendered()).toHaveStyle('color', 'red');
+    expect(button.getRendered()).toHaveStyle('color', /red/);
     
     button.setBackgroundColor('#f00');
     button.repaint();
 
     var bgColor = button.getRendered().style.backgroundColor;
     if (bgColor.indexOf('#') != -1) {
-      expect(button.getRendered()).toHaveStyle('backgroundColor', '#f00');
+      expect(button.getRendered()).toHaveStyle('backgroundColor', /#f00/);
     } else {
-      expect(button.getRendered()).toHaveStyle('backgroundColor', 'rgb(255, 0, 0)');
+      expect(button.getRendered()).toHaveStyle('backgroundColor', /rgb\(255, 0, 0\)/);
     }
 
     button.setBorder('border: inset 3px #000000', true);
     var border = button.getRendered().style.border;
 
     if (border.indexOf('#') != -1) {
-      expect(button.getRendered()).toHaveStyle('border', '#000000 3px inset');
+      expect(button.getRendered()).toHaveStyle('border', /#000000 3px inset/);
     } else {
-      expect(button.getRendered()).toHaveStyle('border', '3px inset rgb(0, 0, 0)');
+      expect(button.getRendered()).toHaveStyle('border', /3px inset rgb\(0, 0, 0\)/);
     }
   });
 
@@ -106,9 +106,9 @@ describe("jsx3.gui.Button", function() {
     var disabledColor = button.getRendered().style.color;
 
     if (disabledColor.indexOf('#') != -1) {
-      expect(button.getRendered()).toHaveStyle('color', '#ff0000');
+      expect(button.getRendered()).toHaveStyle('color', /#ff0000/);
     } else {
-      expect(button.getRendered()).toHaveStyle('color', 'rgb(255, 0, 0)');
+      expect(button.getRendered()).toHaveStyle('color', /rgb\(255, 0, 0\)/);
     }
   });
 
@@ -120,15 +120,15 @@ describe("jsx3.gui.Button", function() {
     var disabledColor = button.getRendered().style.backgroundColor;
 
     if (disabledColor.indexOf('#') != -1) {
-      expect(button.getRendered()).toHaveStyle('backgroundColor', '#d8d8e5');
+      expect(button.getRendered()).toHaveStyle('backgroundColor', /#d8d8e5/);
     } else {
-      expect(button.getRendered()).toHaveStyle('backgroundColor', 'rgb(216, 216, 229)');
+      expect(button.getRendered()).toHaveStyle('backgroundColor', /rgb\(216, 216, 229\)/);
     }
 
     button.setDisabledBackgroundColor('grey');
     button.repaint();
     expect(button.getDisabledBackgroundColor()).toEqual('grey');
-    expect(button.getRendered()).toHaveStyle('backgroundColor', 'gre');
+    expect(button.getRendered()).toHaveStyle('backgroundColor', /grey/);
   });
 
   it("should clean up", function() {

@@ -20,6 +20,11 @@ describe("jsx3.gui.Select", function() {
       return root.getServer().getJSXByName('select');
     };
 
+    var getRendered = function(select) {
+      var select_node = select.getRendered().childNodes[0];
+      return select_node;
+    }
+
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
       select = getSelect(t._server);
@@ -101,7 +106,7 @@ describe("jsx3.gui.Select", function() {
 
     it("should not select an option using an invalid id", function() {
       select.setValue('invalidid');
-      var selectText = select.getRendered().childNodes[0].innerText || select.getRendered().childNodes[0].textContent;
+      var selectText = getRendered(select).innerText || getRendered(select).textContent;
       expect(selectText).toEqual('- Select -');
     });
 
@@ -110,7 +115,7 @@ describe("jsx3.gui.Select", function() {
       select.setDefaultText("-City-");
       select.repaint();
       expect(select.getDefaultText()).toEqual("-City-");
-      var selectText = select.getRendered().childNodes[0].innerText || select.getRendered().childNodes[0].textContent;
+      var selectText = getRendered(select).innerText || getRendered(select).textContent;
       expect(selectText).toEqual('-City-');
     });
 

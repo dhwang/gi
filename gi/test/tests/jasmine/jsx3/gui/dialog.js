@@ -7,7 +7,8 @@ describe("jsx3.gui.Dialog", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Dialog");
   var t = new _jasmine_test.App("jsx3.gui.Dialog");
-  var Dialog;
+  var Dialog, testspace;
+  testspace = new RegExp("");
 
   describe("dialog with window bar ", function() {
     var dialog;
@@ -70,9 +71,9 @@ describe("jsx3.gui.Dialog", function() {
 
       var border = dialog.getRendered().style.border;
       if (border.indexOf('#') != -1) {
-        expect(dialog.getRendered()).toHaveStyle('border', '#000000 1px solid');
+        expect(dialog.getRendered()).toHaveStyle('border', /#000000 1px solid/);
       } else {
-        expect(dialog.getRendered()).toHaveStyle('border', '1px solid rgb(0, 0, 0)');
+        expect(dialog.getRendered()).toHaveStyle('border', /1px solid rgb\(0, 0, 0\)/);
       }
     });
 
@@ -81,7 +82,7 @@ describe("jsx3.gui.Dialog", function() {
       dialog.repaint();
       var border = dialog.getBorder();
       expect(border).toEqual('solid1 1px #000000');
-      expect(dialog.getRendered()).toHaveStyle('border', '');
+      expect(dialog.getRendered()).toHaveStyle('border', testspace);
     });
 
     it("should able to set and get the uniform buffer", function() {
@@ -113,9 +114,9 @@ describe("jsx3.gui.Dialog", function() {
       var contentBorder = getRendered(dialog).content.style.border;
 
       if (contentBorder.indexOf('#') != -1) {
-        expect(getRendered(dialog).content).toHaveStyle('border', '#ff0000 1px solid');
+        expect(getRendered(dialog).content).toHaveStyle('border', /#ff0000 1px solid/);
       } else {
-        expect(getRendered(dialog).content).toHaveStyle('border', '1px solid rgb(255, 0, 0)');
+        expect(getRendered(dialog).content).toHaveStyle('border', /1px solid rgb\(255, 0, 0\)/);
       }
     });
 
@@ -124,7 +125,7 @@ describe("jsx3.gui.Dialog", function() {
       dialog.repaint();
       contentBorder = dialog.getContentBorder();
       expect(contentBorder).toEqual('solid1 1px #ff0000');
-      expect(getRendered(dialog).content).toHaveStyle('border', '');
+      expect(getRendered(dialog).content.style.border.length).toEqual(0);
     });
 
     it("should able to set and get whether a dialog displays as modal or not", function() {
@@ -149,12 +150,11 @@ describe("jsx3.gui.Dialog", function() {
     it("should able to set and get state of the window", function() {
       var windowState = dialog.getWindowState();
       expect(windowState).toEqual(Dialog.MAXIMIZED);
-      expect(getRendered(dialog).content).toHaveStyle('display', '');
       dialog.setWindowState(Dialog.MINIMIZED);
       dialog.repaint();
       windowState = dialog.getWindowState();
       expect(windowState).toEqual(Dialog.MINIMIZED);
-      expect(getRendered(dialog).content).toHaveStyle('display', 'none');
+      expect(getRendered(dialog).content).toHaveStyle('display', /none/);
     });
 
     it("should able to get and set numeric multiplier for the dialog's z-index", function() {
@@ -173,23 +173,23 @@ describe("jsx3.gui.Dialog", function() {
 
     it("should able to toggle the window's state between full-size and window-shaded", function() {
       dialog.doToggleState();
-      expect(getRendered(dialog).content).toHaveStyle('display', 'none');
+      expect(getRendered(dialog).content).toHaveStyle('display', /none/);
       dialog.doToggleState();
-      expect(getRendered(dialog).content).toHaveStyle('display', '');
+      expect(getRendered(dialog).content.style.display.length).toEqual(0);
     });
 
     it("should able to toggle the state of the dialog between 'maximized' and its 'initial state'", function() {
-      expect(getRendered(dialog).maxButtonElm).toHaveStyle('backgroundImage', 'max.gif');
+      expect(getRendered(dialog).maxButtonElm).toHaveStyle('backgroundImage', /max.gif/);
       dialog.doMaximize(dialog.getDescendantOfName('btnMaximize'));
-      expect(getRendered(dialog).maxButtonElm).toHaveStyle('backgroundImage', 'restore.gif');
+      expect(getRendered(dialog).maxButtonElm).toHaveStyle('backgroundImage', /restore.gif/);
     });
 
     it("should be able to be moved to an absolute position on screen", function() {
       expect(dialog.getAbsolutePosition().L).toEqual(0);
       dialog.setLeft(100, true);
-      expect(dialog.getRendered()).toHaveStyle('left', '100px');
+      expect(dialog.getRendered()).toHaveStyle('left', /100px/);
       dialog.setTop(100, true);
-      expect(dialog.getRendered()).toHaveStyle('top', '100px');
+      expect(dialog.getRendered()).toHaveStyle('top', /100px/);
     });
 
     it("should clean up", function() {
@@ -221,9 +221,9 @@ describe("jsx3.gui.Dialog", function() {
 
     it("should able to toggle the window's state between full-size and minimize without window bar", function() {
       dialog2.doToggleState();
-      expect(dialog2.getRendered()).toHaveStyle('height', '0px');
+      expect(dialog2.getRendered()).toHaveStyle('height', /0px/);
       dialog2.doToggleState();
-      expect(dialog2.getRendered()).toHaveStyle('height', '312px');
+      expect(dialog2.getRendered()).toHaveStyle('height', /312px/);
     });
 
     it("should not have a window bar", function() {
@@ -312,11 +312,12 @@ describe("jsx3.gui.Dialog", function() {
 
     it("should be able to minimize to task bar when toggled with a task bar", function() {
       dialog4.doToggleState();
-      expect(dialog4.getRendered()).toHaveStyle('display', 'none');
+      expect(dialog4.getRendered()).toHaveStyle('display', /none/);
       getRendered(dialog4).click();
-      expect(dialog4.getRendered()).toHaveStyle('display', '');
+      var reg = new RegExp('')
+      expect(dialog4.getRendered()).toHaveStyle('display', testspace);
       getRendered(dialog4).click();
-      expect(dialog4.getRendered()).toHaveStyle('display', 'none');
+      expect(dialog4.getRendered()).toHaveStyle('display', /none/);
     });
 
     it("should not have the toolbarbutton when the dialog closed", function() {

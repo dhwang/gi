@@ -56,9 +56,9 @@ describe("jsx3.gui.ColorPicker", function() {
     var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
 
     if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', '#ff0000');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /#ff0000/);
     } else {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', 'rgb(255, 0, 0)');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /rgb\(255, 0, 0\)/);
     }
 
     colorPicker.setAxis(ColorPicker.SATURATION);
@@ -67,9 +67,9 @@ describe("jsx3.gui.ColorPicker", function() {
     bgColor = getRendered(colorPicker).saturation.style.backgroundColor;
 
     if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', '#ffffff');
+      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', /#ffffff/);
     } else {
-      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', 'rgb(255, 255, 255)');
+      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', /rgb\(255, 255, 255\)/);
     }
 
     colorPicker.setAxis(ColorPicker.BRIGHTNESS);
@@ -78,9 +78,9 @@ describe("jsx3.gui.ColorPicker", function() {
     bgColor = getRendered(colorPicker).brightness.style.backgroundColor;
 
     if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', '#000000');
+      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', /#000000/);
     } else {
-      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', 'rgb(0, 0, 0)');
+      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', /rgb\(0, 0, 0\)/);
     }
   });
 
@@ -90,9 +90,9 @@ describe("jsx3.gui.ColorPicker", function() {
     var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
 
     if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', '#ff0000');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /#ff0000/);
     } else {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', 'rgb(255, 0, 0)');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /rgb\(255, 0, 0\)/);
     }
 
     colorPicker.setRGB(10000000);
@@ -101,9 +101,9 @@ describe("jsx3.gui.ColorPicker", function() {
     var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
 
     if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', '#ffea00');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /#ffea00/);
     } else {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', 'rgb(255, 234, 0)');
+      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /rgb\(255, 234, 0\)/);
     }
   });
 
