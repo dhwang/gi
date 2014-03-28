@@ -47,7 +47,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.border).toMatch(/1px|solid|red/);
+      expect(cell).toHaveStyle('border', /1px|solid|red/);
     });
   });
 
@@ -61,7 +61,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.cursor).toEqual('pointer');
+      expect(cell).toHaveStyle('cursor', /pointer/);
     });
   });
 
@@ -75,7 +75,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.fontFamily).toEqual('Arial');
+      expect(cell).toHaveStyle('fontFamily', /Arial/);
     });
   });
 
@@ -89,7 +89,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.fontSize).toEqual('16px');
+      expect(cell).toHaveStyle('fontSize', /16px/);
     });
   });
 
@@ -103,7 +103,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.fontWeight).toEqual('bold');
+      expect(cell).toHaveStyle('fontWeight', /bold/);
     });
   });
 
@@ -117,7 +117,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.padding).toEqual('8px 4px');
+      expect(cell).toHaveStyle('padding', /8px 4px/);
     });
   });
 
@@ -131,7 +131,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.firstChild.style.textAlign).toEqual('center');
+      expect(cell.firstChild).toHaveStyle('textAlign', /center/);
     });
   });
 
@@ -145,7 +145,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[1].tBodies[0].rows[0].cells[0];
-      expect(cell.style.verticalAlign).toEqual('top');
+      expect(cell).toHaveStyle('verticalAlign', /top/);
     });
   });
 
@@ -223,7 +223,7 @@ describe("jsx3.gui.Matrix.Column", function() {
     });
     runs(function() {
       var cell = document.getElementsByTagName('table')[0].tBodies[0].rows[0].cells[0];
-      expect(cell.style.verticalAlign).toEqual('top');
+      expect(cell).toHaveStyle('verticalAlign', /top/);
     });
   });
 

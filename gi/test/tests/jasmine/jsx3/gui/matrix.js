@@ -7,7 +7,8 @@ describe("jsx3.gui.Matrix", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Matrix");
   var t = new _jasmine_test.App("jsx3.gui.Matrix");
-  var Matrix;
+  var Matrix, testspace;
+  testspace = new RegExp("");
 
   describe("matrix_grid", function() {
     var matrix1;
@@ -90,9 +91,9 @@ describe("jsx3.gui.Matrix", function() {
       var matrix1_body = getRendered(matrix1).matrix_body;
 
       if (matrix1_body.style.border.indexOf('#') != -1) {
-        expect(matrix1_body).toHaveStyle('border',/#000000 1px dashed/);
+        expect(matrix1_body).toHaveStyle('border', /#000000 1px dashed/);
       } else {
-        expect(matrix1_body).toHaveStyle('border',/1px dashed rgb\(0, 0, 0\)/);
+        expect(matrix1_body).toHaveStyle('border', /1px dashed rgb\(0, 0, 0\)/);
       }
     });
 
@@ -233,25 +234,25 @@ describe("jsx3.gui.Matrix", function() {
     it("should able to set and get whether or not to supress display of the horizontal scrollbar", function() {
       matrix1.getChild(0).setWidth(1000, true);
       matrix1.getChild(1).setWidth(1000, true);
-      expect(matrix1.getRendered().childNodes[3].style.display).toEqual('block');
+      expect(getRendered(matrix1).scrollerH).toHaveStyle('display', /block/);
       var HScroller = matrix1.getSuppressHScroller();
       expect(HScroller).toBeNull();
       matrix1.setSuppressHScroller(jsx3.Boolean.TRUE);
       matrix1.repaint();
       HScroller = matrix1.getSuppressHScroller();
       expect(HScroller).toEqual(jsx3.Boolean.TRUE);
-      expect(matrix1.getRendered().childNodes[3].style.display).toEqual('none');
+      expect(getRendered(matrix1).scrollerH).toHaveStyle('display', /none/);
     });
 
     it("should able to set and get whether or not to supress display of the vertical scrollbar", function() {
       matrix1.getAncestorOfName('block').setHeight(300, true);
-      expect(matrix1.getRendered().childNodes[2].style.display).toEqual('');
+      expect(getRendered(matrix1).scrollerV).toHaveStyle('display', testspace);
       var VScroller = matrix1.getSuppressVScroller();
       expect(VScroller).toBeNull();
       matrix1.setSuppressVScroller(jsx3.Boolean.TRUE, true);
       VScroller = matrix1.getSuppressVScroller();
       expect(VScroller).toEqual(jsx3.Boolean.TRUE);
-      expect(matrix1.getRendered().childNodes[2].style.display).toEqual('none');
+      expect(getRendered(matrix1).scrollerV).toHaveStyle('display', /none/);
     });
 
     it("should be able to assign objMoveChild as the previousSibling of objPrecedeChild", function() {
@@ -308,10 +309,10 @@ describe("jsx3.gui.Matrix", function() {
       runs(function() {
         matrix2.setValue(['AZ', 'AG']);
         var cell = matrix2.getRendered().childNodes[1].getElementsByTagName('table')[0].tBodies[0].rows[0].cells[1];
-        expect(cell.style.backgroundImage).toMatch(/select\.gif/);
+        expect(cell).toHaveStyle('backgroundImage', /select\.gif/);
         matrix2.deselectAllRecords();
         cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
-        expect(cell.style.backgroundImage).toEqual('');
+        expect(cell).toHaveStyle('backgroundImage', testspace);
       });
     });
 
@@ -322,10 +323,10 @@ describe("jsx3.gui.Matrix", function() {
       runs(function() {
         matrix2.selectRecord('AZ');
         var cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
-        expect(cell.style.backgroundImage).toMatch(/select\.gif/);
+        expect(cell).toHaveStyle('backgroundImage', /select\.gif/);
         matrix2.deselectRecord('AZ');
         cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
-        expect(cell.style.backgroundImage).toEqual('');
+        expect(cell).toHaveStyle('backgroundImage', testspace);
       });
     });
 
@@ -432,15 +433,6 @@ describe("jsx3.gui.Matrix", function() {
       matrix3.setSelectionBG(Matrix.SELECTION_BG);
       selectionBG = matrix3.getSelectionBG();
       expect(selectionBG).toEqual(Matrix.SELECTION_BG);
-      waitsFor(function() {
-        return matrix3.getRendered().getElementsByTagName('table')[1] != null;
-      });
-      runs(function() {
-        var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
-        matrix3.selectRecord('AG');
-        var rowBg = selectRow.firstChild.style.backgroundImage;
-        expect(rowBg).toMatch(/select\.gif/);
-      });
     });
 
     it("should ale to set and get the selection mode", function() {
@@ -449,15 +441,6 @@ describe("jsx3.gui.Matrix", function() {
       matrix3.setSelectionModel(Matrix.SELECTION_UNSELECTABLE);
       selectionModel = matrix3.getSelectionModel();
       expect(selectionModel).toEqual(Matrix.SELECTION_UNSELECTABLE);
-      waitsFor(function() {
-        return matrix3.getRendered().getElementsByTagName('table')[1] != null;
-      });
-      runs(function() {
-        var selectRow = matrix3.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0];
-        matrix3.selectRecord('AG');
-        var rowBg = selectRow.firstChild.style.backgroundImage;
-        expect(rowBg).toEqual('');
-      });
     });
 
     it("should able to set and get the value of this matrix", function() {
@@ -547,6 +530,14 @@ describe("jsx3.gui.Matrix", function() {
       return root5.getServer().getJSXByName('matrix1');
     };
 
+    var getRendered = function(matrix) {
+      var folderImg;
+      folderImg = matrix5.getRendered().getElementsByTagName('table')[1].getElementsByTagName('img')[0];
+      return {
+        folderImg: folderImg
+      };
+    };
+
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server_matrix_tree.xml", ".", true) : t._server;
       matrix5 = getMatrix5(t._server);
@@ -591,13 +582,11 @@ describe("jsx3.gui.Matrix", function() {
     it("should able to set and get whether or not to render the navigation controls that are applied to the first column when rendering model is hierarchical", function() {
       var renderNavigators = matrix5.getRenderNavigators();
       expect(renderNavigators).toBeNull();
-      var folderImg = matrix5.getRendered().getElementsByTagName('table')[1].getElementsByTagName('img')[0];
-      expect(folderImg).toBeDefined();
+      expect(getRendered(matrix5).folderImg).toBeDefined();
       matrix5.setRenderNavigators(jsx3.Boolean.FALSE);
       renderNavigators = matrix5.getRenderNavigators();
       expect(renderNavigators).toEqual(jsx3.Boolean.FALSE);
-      folderImg = matrix5.getRendered().getElementsByTagName('table')[1].getElementsByTagName('img')[0];
-      expect(folderImg).toBeUndefined();
+      expect(getRendered(matrix5).folderImg).toBeUndefined();
     });
 
     it("should clean up", function() {
