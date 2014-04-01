@@ -1139,7 +1139,7 @@ jsx3.lang.Class.defineClass("jsx3.amp.Engine", null, [jsx3.util.EventDispatcher]
           }
           break;
         case "css":
-          if (jsx3.CLASS_LOADER.IE &&(!document.documentMode || document.documentMode <=10)) {
+          if (jsx3.CLASS_LOADER.IE && jsx3.CLASSS_LOADER.getVersion() <= 10) {
             var styleNode = document.createElement("style");
             styleNode.setAttribute("type", "text/css");
             document.getElementsByTagName("head")[0].appendChild(styleNode);
