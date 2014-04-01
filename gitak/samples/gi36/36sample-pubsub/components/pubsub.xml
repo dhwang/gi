@@ -47,7 +47,7 @@
                 <dynamics jsxborder="@Outset"></dynamics>
                 <object type="jsx3.gui.TextBox">
                   <variants jsxtype="1" jsxrelativeposition="0"></variants>
-                  <strings jsxname="txtSubscribeScriptTextArea" jsxmargin="" jsxwidth="100%" jsxheight="100%" jsxvalue="eg.pubsub.getServer().unsubscribe(&quot;sometopic&quot;,eg.pubsub.subHandler);&#xA;eg.pubsub.getServer().subscribe(&quot;sometopic&quot;,eg.pubsub.subHandler);&#xA;&#xA;eg.pubsub.getServer().getJSXByName(&quot;subarea&quot;).setValue(&quot;Example1 Subscriber: create Subscription:&quot; + (eg.pubsub.subscriber_count++) + &quot; to listen messages with subject 'sometopic'&quot; ,null) ;" jsxcolor="DarkGreen"></strings>
+                  <strings jsxname="txtSubscribeScriptTextArea" jsxmargin="" jsxwidth="100%" jsxheight="100%" jsxvalue="var server = eg.pubsub.getServer();&#xA;&#xA;/*server.unsubscribe(&quot;sometopic&quot;,eg.pubsub.subHandler);*/&#xA;&#xA;server.subscribe(&quot;sometopic&quot;,eg.pubsub.subHandler);&#xA;&#xA;server.getJSXByName(&quot;output&quot;).setValue(&quot;Example1 Subscriber: create Subscription:&quot; + (eg.pubsub.subscriber_count++) + &quot; to listen messages with subject 'sometopic'&quot; ,null) ;" jsxcolor="DarkGreen"></strings>
                   <dynamics jsxfontname="@Script FN" jsxfontsize="@Script FS"></dynamics>
                 </object>
               </object>
@@ -76,7 +76,7 @@
                 <dynamics jsxborder="@Outset"></dynamics>
                 <object type="jsx3.gui.TextBox">
                   <variants jsxtype="1" jsxrelativeposition="0"></variants>
-                  <strings jsxname="txtPublishScriptTextArea" jsxmargin="" jsxwidth="100%" jsxheight="100%" jsxvalue="eg.pubsub.APP.getJSXByName(&quot;output&quot;).setValue(&quot;&quot;);&#xA;var publishEvent = new Object();&#xA;publishEvent.subject = &quot;sometopic&quot;;&#xA;publishEvent.code = jsx3.util.Logger.INFO;&#xA;publishEvent.description = &quot;This is a test message on subject sometopic.&quot;;&#xA;eg.pubsub.getServer().getJSXByName(&quot;pubarea&quot;).setValue(&quot;Example1 Publisher:publishing a message with subject 'sometopic'&quot; + &quot;and the received message will be shown &quot; + (eg.pubsub.subscriber_count) + &quot; times in the System Log&quot;,null);&#xA;eg.pubsub.getServer().publish(publishEvent); " jsxcolor="DarkGreen"></strings>
+                  <strings jsxname="txtPublishScriptTextArea" jsxmargin="" jsxwidth="100%" jsxheight="100%" jsxvalue="var server = eg.pubsub.getServer();&#xA;server.getJSXByName(&quot;output&quot;).setValue(&quot;&quot;);&#xA;var publishEvent = {&#xA;  subject: &quot;sometopic&quot;,&#xA;  code: jsx3.util.Logger.INFO,&#xA;  description: &quot;This is a test message on subject sometopic. &quot; + (eg.pubsub.count++)&#xA;};&#xA;&#xA;server.publish(publishEvent); " jsxcolor="DarkGreen"></strings>
                   <dynamics jsxfontname="@Script FN" jsxfontsize="@Script FS"></dynamics>
                 </object>
               </object>

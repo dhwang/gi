@@ -43,14 +43,16 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>waitForJsxButtonPresent</td>
-        <td>gi=clearButton</td>
+        <td>gi=btnPublishButton</td>
         <td>5000</td>
       </tr>
+<!--
       <tr>
         <td>assertJsxButtonPresent</td>
         <td>gi=clearButton</td>
         <td>&nbsp;</td>
       </tr>
+-->
       <tr>
         <td>assertJsxButtonPresent</td>
         <td>gi=btnSubscribeButton</td>
@@ -61,63 +63,63 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
+<!--
       <tr>
         <td>clickJsxElement</td>
         <td>gi=clearButton</td>
         <td>&nbsp;</td>
       </tr>
+-->
       <tr>
         <td>clickJsxElement</td>
         <td>gi=btnSubscribeButton</td>
         <td>&nbsp;</td>
       </tr>
+      
       <tr>
-        <td>assertText</td>
-        <td>output</td>
-        <td>Example1 Subscriber: create Subscription:0 to listen messages with subject 'sometopic'</td>
+        <td>assertValue</td>
+        <td>jsxselector=#output</td>
+        <td>Example1 Subscriber: create Subscription:1 to listen messages with subject 'sometopic'</td>        
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
+        <td>assertJsxValue</td>
         <td>output</td>
-        <td>
-          This is a test message on subject sometopic. 1
-        </td>
+        <td>This is a test message on subject sometopic. 1</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnSubscribeButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
+        <td>assertValue</td>
         <td>output</td>
         <td>
           Example1 Subscriber: create Subscription:2 to listen messages with subject 'sometopic'
         </td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
+        <td>assertJsxValueMatches</td>
         <td>output</td>
-        <td>This is a test message on subject sometopic. 3
-This is a test message on subject sometopic. 3</td>
+        <td>*This is a test message on subject sometopic. 2*This is a test message on subject sometopic. 2</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=tab2</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnSubmitButton</td>
         <td>&nbsp;</td>
       </tr>

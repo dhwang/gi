@@ -57,11 +57,11 @@
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/asyncSub.xml</record>
     </record>
-    <record jsxid="7" type="map">
-      <record jsxid="id" type="string">sub_js</record>
-      <record jsxid="type" type="string">script</record>
+    <record jsxid="8" type="map">
+      <record jsxid="id" type="string">test1_html</record>
+      <record jsxid="type" type="string">gitak</record>
       <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">js/sub.js</record>
+      <record jsxid="src" type="string">test/test1.html</record>
     </record>
   </record>
   <record jsxid="eventsvers" type="string">3.1</record>

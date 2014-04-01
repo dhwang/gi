@@ -1,2 +1,0 @@
-eg.pubsub.getServer().subscribe{"sometopic",eg.pubsub.subHandler };
-eg.pubsub.getServer().getJSXByName("subarea").setValue("Example1 Subscriber: create Subscribtion:" + (eg.pubsub.subscriber_count++) + "to listen message with subject 'sometopic'",null);

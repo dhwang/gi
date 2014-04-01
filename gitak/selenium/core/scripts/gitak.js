@@ -432,6 +432,10 @@ _jsxlookups.jsx3_gui_Table_getIterableRows = function(objGUI) {
 //Returns a native HTML object that can be acted upon per a given control type
 //For example, if objJSX is an instance of jsx3.gui.Slider element and STYPE is handle, the return is a DIV object (e.g., [native_gui_object].childNodes[0].childNodes[1])
 //to get the day object for Jan 1, 2006, call:   getActionableObject(yourDatePickerInstance,"day","2006-0-1");   Note that the format is yyy-m-d
+// gi=mnuTest
+// <object type="jsx3.gui.Menu" > <string jsxname="mnuTest" /> </object>
+// gi=mnuTest,itembyjsxid,open
+// <record jsxid="open" jsxtext="File Open" />
 function getActionableObject(objJSX,STYPE) {
   if(objJSX) {
     var objClass = objJSX.getClass();
@@ -2469,7 +2473,7 @@ Example
     return (objGUI) ? true : false;
 };
 
-Selenium.prototype.isJsxValueEqual= function(locator, value) {
+Selenium.prototype.isJsxValueMatches= function(locator, value) {
 /**
  * Is the value in control with given jsxname equal to value specified
  * assertJsxValueEquals - generic version of above.
@@ -2483,7 +2487,7 @@ Selenium.prototype.isJsxValueEqual= function(locator, value) {
     return PatternMatcher.matches(value, actualValue);
 };
 
-Selenium.prototype.isJsxTextEqual= function(locator, value) {
+Selenium.prototype.isJsxTextMatches= function(locator, value) {
 /**
  * Is the text in control with given jsxname equal to value specified
  * assertJsxValueEquals - generic version of above.
@@ -4994,11 +4998,7 @@ recorder.actions = ["jsxmenu", "jsxtoggle", "jsxchange",
   recorder._VERBS = {
     jsxdo_exists: function(locator) {
       var o = selenium.browserbot.findJsxObject(locator);
-      if (o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1") {
-        return true;
-       } else {
-        return false;
-	   }
+      return o && o.getRendered() && o.getRendered().getAttribute("jsxdomholder") != "1";
 	},
     jsxget_value: function(locator, value) {
       var target = selenium.browserbot.findJsxObject(locator);

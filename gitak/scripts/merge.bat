@@ -1,1 +1,1 @@
-copy jsxlookups.js + extensions.js ..\selenium\core\scripts\gitak.js
+copy jsxlookups.js + extensions.js gitak.js

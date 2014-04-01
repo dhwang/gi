@@ -8,14 +8,15 @@ jsx3.lang.Package.definePackage(
 // Application Server
  pubsub.APP;
 
+/* Global message count */
+  pubsub.count = 1;
 /* Global to count number of subscriptions*/
-  pubsub.subscriber_count = 0;
+  pubsub.subscriber_count = 1;
   pubsub.subHandler = function(e) {
-  pubsub.logger.log(e.code, "Example1 Subscriber: received message '" + e.description + "'",3,false); 
-  //pubsub.getServer().alert("Example","Example1 Subscriber:received message '" + e.description + "'");
-  var out = pubsub.APP.getJSXByName("output"), oldtext = out.getValue();
-  out.setValue(oldtext + e.description);
-};
+    pubsub.logger.log(e.code, "Example1 Subscriber: received message '" + e.description + "'",3,false);     
+    var out = pubsub.APP.getJSXByName("output");
+    out.setValue( (out.getValue().length ? out.getValue()+"\n" : "") + e.description);
+  };
   /**
    * Returns the application server object which by default is the application
    * namespace as specified in Project->Deployment Options.
@@ -36,10 +37,7 @@ jsx3.lang.Package.definePackage(
   //subscribe the function to the mr_subject topic
   //pubsub.APP.subscribe("mr_subject",eg,"myCallback");
 
-
-
   //.....here is yet another way to subscribe....
-
   //create a callback function
   pubsub.myCallback = function(e) {
     var msg = e.code.escapeHTML();
