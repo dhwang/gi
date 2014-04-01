@@ -8,7 +8,7 @@ describe("jsx3.html.DOM", function() {
   _jasmine_test.require("jsx3.html.DOM");
   var t = new _jasmine_test.App("jsx3.html.DOM");
 
-  var dom;
+  var dom, testspace;
   var getDOM = function(s) {
     var root = s.getBodyBlock().loadAndCache("data/block.xml");
     return root.getChild(0);
@@ -17,6 +17,7 @@ describe("jsx3.html.DOM", function() {
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server.xml", ".", true) : t._server;
     dom = getDOM(t._server);
+    testspace = new RegExp("");
   });
 
   afterEach(function() {
@@ -25,11 +26,11 @@ describe("jsx3.html.DOM", function() {
   });
 
   it("should be able to clear a string of multiple CSS style properties to a DOM element", function() {
-    expect(dom.getRendered().style.width).toEqual('100px');
-    expect(dom.getRendered().style.height).toEqual('30px');
+    expect(dom.getRendered()).toHaveStyle('width', /100px/);
+    expect(dom.getRendered()).toHaveStyle('height', /30px/);
     jsx3.html.DOM.clearStyles(dom.getRendered(), "width: 100; height: 30;");
-    expect(dom.getRendered().style.width).toEqual('');
-    expect(dom.getRendered().style.height).toEqual('');
+    expect(dom.getRendered()).toHaveStyle('width', testspace);
+    expect(dom.getRendered()).toHaveStyle('height', testspace);
   });
 
   it("should be able to apply a single CSS style to a DOM node", function() {
@@ -40,12 +41,12 @@ describe("jsx3.html.DOM", function() {
       expect(bgColor).toEqual('rgb(162, 159, 159)');
     }
     jsx3.html.DOM.setStyle(dom.getRendered(), 'backgroundColor', 'red');
-    expect(dom.getRendered().style.backgroundColor).toEqual('red');
+    expect(dom.getRendered()).toHaveStyle('backgroundColor', /red/);
   });
 
   it("should be able to apply a string of multiple CSS style properties to a DOM element", function() {
-    expect(dom.getRendered().style.width).toEqual('100px');
-    expect(dom.getRendered().style.height).toEqual('30px');
+    expect(dom.getRendered()).toHaveStyle('width', /100px/);
+    expect(dom.getRendered()).toHaveStyle('height', /30px/);
     var bgColor = dom.getRendered().style.backgroundColor;
     if (bgColor.indexOf('#') > -1) {
       expect(bgColor).toEqual('#a29f9f');
@@ -53,9 +54,9 @@ describe("jsx3.html.DOM", function() {
       expect(bgColor).toEqual('rgb(162, 159, 159)');
     }
     jsx3.html.DOM.setStyles(dom.getRendered(), 'backgroundColor: red; width: 200px; height: 50px;');
-    expect(dom.getRendered().style.width).toEqual('200px');
-    expect(dom.getRendered().style.height).toEqual('50px');
-    expect(dom.getRendered().style.backgroundColor).toEqual('red');
+    expect(dom.getRendered()).toHaveStyle('width', /200px/);
+    expect(dom.getRendered()).toHaveStyle('height', /50px/);
+    expect(dom.getRendered()).toHaveStyle('backgroundColor', /red/);
   });
 
   it("should be able to get the true offset height for the element including: margin, padding, border, and content", function() {
@@ -81,6 +82,7 @@ describe("jsx3.html.DOM", function() {
     }
     jsx3.html.DOM.removeEventListener(dom.getRendered(), 'onclick');
     dom.getRendered().click();
+    
     bgColor = dom.getRendered().style.backgroundColor;
 
     if (bgColor.indexOf('#') > -1) {
