@@ -21,9 +21,15 @@ describe("jsx3.gui.Select", function() {
     };
 
     var getRendered = function(select) {
-      var select_node = select.getRendered().childNodes[0];
-      return select_node;
-    }
+      var select_node, combo_input;
+      select_node = select.getRendered().childNodes[0];
+      combo_input = select.getRendered().childNodes[0].childNodes[0].childNodes[0];
+
+      return {
+        select_node: select_node,
+        combo_input: combo_input
+      };
+    };
 
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server_formComponent.xml", ".", true) : t._server;
@@ -79,9 +85,7 @@ describe("jsx3.gui.Select", function() {
       select.repaint();
       expect(select.getType()).toEqual(Select.TYPECOMBO);
       expect(select.getText()).toEqual('');
-      select.show();
-      var showText = document.querySelector('.jsx30select_option').firstChild;
-      expect(showText.innerText || showText.textContent).toEqual('- No Match Found -');
+      expect(getRendered(select).combo_input.tagName).toEqual('INPUT');
     });
 
     it("should able to set and get the value", function() {
@@ -106,7 +110,7 @@ describe("jsx3.gui.Select", function() {
 
     it("should not select an option using an invalid id", function() {
       select.setValue('invalidid');
-      var selectText = getRendered(select).innerText || getRendered(select).textContent;
+      var selectText = getRendered(select).select_node.innerText || getRendered(select).select_node.textContent;
       expect(selectText).toEqual('- Select -');
     });
 
@@ -115,7 +119,7 @@ describe("jsx3.gui.Select", function() {
       select.setDefaultText("-City-");
       select.repaint();
       expect(select.getDefaultText()).toEqual("-City-");
-      var selectText = getRendered(select).innerText || getRendered(select).textContent;
+      var selectText = getRendered(select).select_node.innerText || getRendered(select).select_node.textContent;
       expect(selectText).toEqual('-City-');
     });
 
