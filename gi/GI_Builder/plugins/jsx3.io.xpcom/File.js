@@ -5,14 +5,12 @@
 
 jsx3.Class.defineClass("jsx3.io.XPCOMFileSystem", jsx3.io.FileSystem, null, function(XPCOMFileSystem, XPCOMFileSystem_prototype) {
 
-  var ep = function(p) {
-      try {
-      if (window.netscape && netscape.security.hasOwnProperty())
-        netscape.security.PrivilegeManager.enablePrivilege(p);
-      } catch (e) {
-      }
+  try {
+    if (window.netscape && window.netscape.security.PrivilegeManager.enablePrivilege)
+      var ep = netscape.security.PrivilegeManager.enablePrivilege;
+    } catch (e) {
+  }
 
-     };
      //netscape.security.PrivilegeManager.enablePrivilege;
   /** @private @jsxobf-clobber */
   XPCOMFileSystem._PERM = "UniversalXPConnect";
@@ -118,14 +116,11 @@ jsx3.Class.defineClass("jsx3.io.XPCOMFile", jsx3.io.File, null, function(XPCOMFi
 
   XPCOMFile._LOADED = false;
 
-  var ep = function(p) {
-      try {
-      if (window.netscape && netscape.security.hasOwnProperty())
-        netscape.security.PrivilegeManager.enablePrivilege(p);
-      } catch (e) {
-      }
-
-     };
+  try {
+    if (window.netscape && window.netscape.security.PrivilegeManager.enablePrivilege)
+      var ep = netscape.security.PrivilegeManager.enablePrivilege;
+    } catch (e) {
+  }
   /** @private @jsxobf-clobber */
   XPCOMFile._PERM = "UniversalXPConnect";
   
