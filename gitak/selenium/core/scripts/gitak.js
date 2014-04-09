@@ -2503,7 +2503,7 @@ Selenium.prototype.isJsxTextMatches= function(locator, value) {
 };
 
 
-Selenium.prototype.assertJsxAlertOK= function(text) {
+Selenium.prototype.getJsxAlertOK= function(text) {
 /** Find alert and dismiss with OK. works with prompt also.
  * @param text {String} The alert text in dialog window bar or body text.
  */

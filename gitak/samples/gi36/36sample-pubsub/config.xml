@@ -28,36 +28,24 @@
       <record jsxid="src" type="string">components/appCanvas.xml</record>
     </record>
     <record jsxid="2" type="map">
-      <record jsxid="id" type="string">appChat_xml</record>
-      <record jsxid="type" type="string">component</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/appChat.xml</record>
-    </record>
-    <record jsxid="3" type="map">
       <record jsxid="id" type="string">pubsub_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/pubsub.xml</record>
     </record>
-    <record jsxid="4" type="map">
-      <record jsxid="id" type="string">appCanvasOld_xml</record>
-      <record jsxid="type" type="string">component</record>
-      <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">components/appCanvasOld.xml</record>
-    </record>
-    <record jsxid="5" type="map">
+    <record jsxid="3" type="map">
       <record jsxid="id" type="string">tabPanesLayout_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/tabPanesLayout.xml</record>
     </record>
-    <record jsxid="6" type="map">
+    <record jsxid="4" type="map">
       <record jsxid="id" type="string">asyncSub_xml</record>
       <record jsxid="type" type="string">component</record>
       <record jsxid="load" type="number">0</record>
       <record jsxid="src" type="string">components/asyncSub.xml</record>
     </record>
-    <record jsxid="8" type="map">
+    <record jsxid="5" type="map">
       <record jsxid="id" type="string">test1_html</record>
       <record jsxid="type" type="string">gitak</record>
       <record jsxid="load" type="number">0</record>
