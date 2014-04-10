@@ -21,77 +21,74 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Dialog Modified</title>
 </head>
 <body>
-<table border="1">
-<caption>Test handling modified dialogs, with no caption bar, no button, constrained size.</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample-dialog modified<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>btnPDOM</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>*Property*</td>
-      <td>&nbsp;</td>
-    </tr>
-	<tr>
-      <td>checkJsx</td>
-      <td>JsxName=chkDocPane</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=*Property*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxButtonText=*Changing*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=*Changing*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>verifyElementPresent</td>
-      <td>JsxToolbarButtonText=*Toolbar Button*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=*Modal*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxElement</td>
-      <td>JsxButtonText=*Constraining Size*</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <!--tr>
-      <td>verityWidth</td>
-      <td>JsxDialogName=dlgContstrainSize</td>
-      <td>500</td>
-    </tr-->
+  <table border="1">
+    <caption>
+      Test handling modified dialogs, with no caption bar, no button, constrained size.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample-dialog modified
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>btnPDOM</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>*Property*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>gi=chkDocPane</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnPDOM</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>btnChangeButtonsButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnChangeButtonsButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=tbbCloseButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnModalButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnConstrainSizeButton</td>
+        <td>&nbsp;</td>
+      </tr>
   </tbody>
-
 </table>
 </body>
 </html>

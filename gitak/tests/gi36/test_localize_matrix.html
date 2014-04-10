@@ -19,48 +19,41 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test sample localization</title>
 </head>
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-<caption>Locolization test for Datepicker, TimePicker, and Select/Combo box form control and as part of Matrix mask </caption>
-  <tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test DatePicker, TimePicker and Select control localization<br>
-      </td>
-    </tr>
-      <!--tr>
-        <td>setInterval</td>
-        <td>100</td>
+  <table cellpadding="1" cellspacing="1" border="1">
+    <caption>
+      Locolization test for Datepicker, TimePicker, and Select/Combo box form control and as part of Matrix mask
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test DatePicker, TimePicker and Select control localization
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
         <td>&nbsp;</td>
-      </tr-->
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-localization</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-       <td>waitForElementPresent</td>
-       <td>JsxMenuName=mnuLocaleSelectMenu</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>lytMainLayout</td>
-      <td>0,*</td>
-    </tr>
-<!--     <tr>
-      <td>unsubscribeJsxResize</td>
-      <td>// disable resize event to work around IE bug, which affects all Heaveyweight drop down windows.</td>
-      <td>&nbsp;</td>
-    </tr> -->
-	<tr>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-localization
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>lytMainLayout</td>
+        <td>0,*</td>
+      </tr>
+      <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -73,12 +66,12 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenuItem</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,fr</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,fr</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>assertElementPresent</td>
-        <td>JsxStackText=*sans arbres de kaki*</td>
+        <td>gi=stkStack3/[@jsxtext="sans arbres de kaki"]</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -91,12 +84,12 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,zh_TW</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,zh_TW</td>
       </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>JsxStackText=*沒有一家*</td>
+        <td>gi=stkStack2/[@jsxtext="沒有一家"]</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -104,22 +97,15 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>JsxMenuItemText=mnuLocaleSelectMenu,*Default*</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,-1</td>
       </tr>
       <tr>
         <td>waitForElementPresent</td>
         <td>JsxStackText=*without*</td>
         <td>&nbsp;</td>
-      </
-    <!-- assert list row length = +1 -->
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+      </td>
+    </tbody>
+  </table>
 </body>
 </html>

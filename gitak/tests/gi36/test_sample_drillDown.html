@@ -21,100 +21,89 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Tree drill down</title>
 </head>
 <body>
-<table border="1">
-<caption>Test jsx3.gui.Tree navigation and lazy load drill down. This sample implements an Async load for sub tree node data. </caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test tree and lazy load drill down<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-drillDown</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForTextPresent</td>
-      <td>Drill Down</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>assertTextPresent</td>
-      <td>Drill Down</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxTreeName=tree</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>verifyNotVisible</td>
-      <td>JsxTreeItemId=tree,8</td>
-      <td>&nbsp;</td>
-    </tr>
-    
-    <tr>
-      <td>clickJsxTreeToggle</td>
-      <td>JsxTreeItemId=tree,7</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxTreeItem</td>
-      <td>JsxTreeItemId=tree,7</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxTreeItemId=tree,b</td>
-      <td>&nbsp;</td>
-    </tr>   
-    <tr>
-      <td>verifyVisible</td>
-      <td>JsxTreeItemId=tree,b</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <tr>
-      <td>clickJsxTreeToggle</td>
-      <td>JsxTreeItemId=tree,3</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxTreeItem</td>
-      <td>JsxTreeItemId=tree,3</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxTreeItemId=tree,a</td>
-      <td>&nbsp;</td>
-    </tr>   
-    <tr>
-      <td>verifyVisible</td>
-      <td>JsxTreeItemId=tree,a</td>
-      <td>&nbsp;</td>
-    </tr>
-<tr>
-<td>clickJsxTreeItem</td>
-<td>JsxTreeItemText=tree,*node f*</td>
-<td> </td>
-</tr>     
-    <tr>
-      <td>verifyJsxValue</td>
-      <td>jsxname=tree</td>
-      <td>7</td>
-    </tr>
-
-
-  </tbody>
-
-</table>
+  <table border="1">
+    <caption>
+      Test jsx3.gui.Tree navigation and lazy load drill down. This sample implements an Async load for sub tree node data.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test tree and lazy load drill down
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-drillDown
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForTextPresent</td>
+        <td>Drill Down</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>Drill Down</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=tree</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertNotVisible</td>
+        <td>gi=tree,itembyjsxid,8</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxTreeToggle</td>
+        <td>gi=tree,togglerbyjsxid,7</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=tree,itembyjsxid,b</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=tree,itembyjsxid,b</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxTreeToggle</td>
+        <td>gi=tree,togglerbyjsxid,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=tree,itembyjsxid,a</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=tree,itembyjsxid,a</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxTreeItem</td>
+        <td>gi=tree,itembyjsxid,7</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>assertJsxValue</td>
+        <td>gi=tree</td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

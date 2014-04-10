@@ -40,8 +40,8 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxMatrixName=mtxEditableTable</td>
-       <td>5000</td>
+      <td>gi=mtxEditableTable</td>
+      <td>5000</td>
      </tr>    
     <tr>
       <td>assertTextPresent</td>
@@ -50,33 +50,52 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>checkJsx</td>
-      <td>JsxName=chkDocPane</td>
+      <td>gi=chkDocPane</td>
       <td>&nbsp;</td>
-    </tr>
-    
+    </tr>   
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxDateInput=dpkrDateInput</td>
-      <td>01/01/2006</td>
+      <td>css=.jsx30datepicker input</td>
+      <td>Jan 1, 2006</td>
+    </tr>
+    <tr>
+      <td>assertValue</td>
+      <td>css=.jsx30datepicker input</td>
+      <td>Jan 1, 2006</td>
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxTextboxName=txtSecurityInput</td>
+      <td>gi=txtSecurityInput</td>
+      <td>XYZX</td>
+    </tr>
+    <tr>
+      <td>assertValue</td>
+      <td>gi=txtSecurityInput</td>
       <td>XYZX</td>
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxTextboxName=txtOpenInput</td>
+      <td>gi=txtOpenInput</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>assertValue</td>
+      <td>gi=txtOpenInput</td>
       <td>2</td>
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxTextboxName=txtHighInput</td>
+      <td>gi=txtHighInput</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>assertValue</td>
+      <td>gi=txtHighInput</td>
       <td>3</td>
     </tr>
     <tr>
       <td>click</td>
-      <td>JsxButtonName=btnAddRowButton</td>
+      <td>gi=btnAddRowButton</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -86,7 +105,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>assertElementPresent</td>
-      <td>JsxMatrixRowText=mtxUpdatableTable,*XYZX*</td>
+      <td>css=.jsx30matrixcolumn_cell_value:contains(XYZX)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -96,24 +115,19 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>rightClickJsxElement</td>
-      <td>JsxMatrixRowText=mtxUpdatableTable,*ORCL*</td>
-      <td>&nbsp</td>
+      <td>gi=mtxEditableTable,cellbyindex,4.0</td>
+      <td>&nbsp;</td>
     </tr>
     <!-- do not use additional command on JsxMenuWindowId as it causes the shown menu to close in GI 3.4-->
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxMenuWindowId=1</td>
+      <td>gi=mnuAddRowMenu</td>
       <td>&nbsp;</td>
     </tr>
 
     <tr>
-      <td>clickJsxMenuItem</td>
-      <td>JsxMenuItemId=mnuDeleteRowMenu,1</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxMatrixCellId=mtxEditableTable.ORCL.1</td>
+      <td>click</td>
+      <td>gi=mnuAddRowMenu</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -161,12 +175,12 @@ Copyright 2006-2008 TIBCO Software Inc.
     <tr>
       <td>rightClickJsxElement</td>
       <td>JsxMatrixRowText=mtxEditableTable,*TIBX*</td>
-      <td>&nbsp</td>
+      <td>&nbsp;</td>
     </tr>
     <!-- do not use additional command on JsxMenuWindowId as it causes the shown menu to close in GI 3.4-->
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxMenuWindowId=1</td>
+      <td>gi=mnuAddRowMenu</td>
       <td>&nbsp;</td>
     </tr>
     <tr>

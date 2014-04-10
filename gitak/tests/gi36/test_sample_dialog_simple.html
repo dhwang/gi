@@ -21,116 +21,97 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Open</title>
 </head>
 <body>
-<table border="1">
-<caption>Open some simple dialog and test the dialog drag to move.</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample-dialog and dialog drag<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>Simple Dialog</td>
-       <td>5000</td>
-     </tr>
+  <table border="1">
+    <caption>Open some simple dialog and test the dialog drag to move.</caption>
+    <tbody>
       <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>"Simple Dialog"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>checkJsx</td>
-      <td>JsxName=chkDocPane</td>
-      <td>&nbsp;</td>
-    </tr>	
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText="Simple Dialog"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxDialogName=dlgSimpleDialog</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>dragJsxDialogResize</td>
-      <td>JsxDialogName=dlgSimpleDialog</td>
-      <td>15,10</td>
-    </tr>
-    <tr>
-      <td>dragJsxDialogTo</td>
-      <td>JsxDialogName=dlgSimpleDialog</td>
-      <td>150,100</td>
-    </tr>
-     <!--tr>
-      <td>pause</td>
-      <td>1000</td>
-      <td>&nbsp;</td>
-    </tr-->
-    <tr>
-      <td>clickJsxElement</td>
-      <td>JsxToolbarButtonName=tbbMaximizeButton</td>
-      <td>&nbsp;</td>
-    </tr>
-    <!--tr>
-      <td>pause</td>
-      <td>1000</td>
-      <td>&nbsp;</td>
-    </tr-->
-    <tr>
-      <td>clickJsxToolbarButton</td>
-      <td>"tbbMinimizeButton"</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>verifyNotVisible</td>
-      <td>JsxDialogBody=dlgSimpleDialog</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxToolbarButton</td>
-      <td>"tbbMaximizeButton"</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>verifyVisible</td>
-      <td>JsxDialogBody=dlgSimpleDialog</td>
-      <td>&nbsp;</td>
-    </tr>
-     <!--tr>
-      <td>pause</td>
-      <td>500</td>
-      <td>&nbsp;</td>
-    </tr-->
-   <tr>
-      <td>clickJsxToolbarButton</td>
-      <td>"tbbCloseButton"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementNotPresent</td>
-      <td>JsxDialogName=dlgSimpleDialog</td>
-      <td>&nbsp;</td>
-    </tr>
-    <!--tr>
-      <td>jsxopen</td>
-      <td>../gi32/tests/testTearDown.html</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+        <td rowspan="1" colspan="3">
+          Test sample-dialog and dialog drag
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>Simple Dialog</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>"Simple Dialog"</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>gi=chkDocPane</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnSD</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=dlgSimpleDialog</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>dragJsxDialogResize</td>
+        <td>gi=dlgSimpleDialog</td>
+        <td>15,10</td>
+      </tr>
+      <tr>
+        <td>dragJsxDialogTo</td>
+        <td>gi=dlgSimpleDialog</td>
+        <td>150,100</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=tbbMaximizeButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxToolbarButton</td>
+        <td>"tbbMinimizeButton"</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertNotVisible</td>
+        <td>css=.jsx30dialog_content</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxToolbarButton</td>
+        <td>"tbbMaximizeButton"</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>css=.jsx30dialog_content</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxToolbarButton</td>
+        <td>"tbbCloseButton"</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementNotPresent</td>
+        <td>gi=dlgSimpleDialog</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

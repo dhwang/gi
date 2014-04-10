@@ -21,113 +21,120 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Multi instance</title>
 </head>
 <body>
-<table border="1">
-<caption>Opening multiple dialogs</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample-dialog multi instance<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>"Multi-instance & Focus"</td>
-       <td>5000</td>
-     </tr>
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>"Multi-instance & Focus"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>checkJsx</td>
-      <td>JsxName=chkDocPane</td>
-      <td>&nbsp;</td>
-    </tr>	
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText="Multi-instance & Focus"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxMatrixRowIndex=mtxTable,3</td>
-      <td>&nbsp</td>
-    </tr>
+  <table border="1">
+    <caption>Opening multiple dialogs</caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample-dialog multi instance
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>btnFocus</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>btnFocus</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>gi=chkDocPane</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnFocus</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>JsxMatrixRowIndex=mtxTable,3</td>
+        <td>&nbsp;</td>
+      </tr>
       <tr>
         <td>assertElementPresent</td>
+        <td>gi=mtxTable,rowbyindex,1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>doubleClick</td>
         <td>JsxMatrixRowText=mtxTable,*RIMM*</td>
         <td></td>
       </tr>
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowText=mtxTable,*RIMM*</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>verifyElementPresent</td>
-      <td>JsxDialogCaption="RIMM"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowText=mtxTable,*SUNW*</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>verifyElementPresent</td>
-      <td>JsxDialogCaption="SUNW"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowText=mtxTable,*GOOG*</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>verifyElementPresent</td>
-      <td>JsxDialogCaption="GOOG"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr><td>!-- clickDialogButton locator searches all dialog with given caption text, or body text. -- </td></tr>
-    <tr>
-      <td>clickJsxDialogButton</td>
-      <td>GOOG</td>
-      <td>tbbCloseButton</td>
-    </tr>
-    <tr>
-      <td>clickJsxToolbarButton</td>
-      <td>RIMM</td>
-      <td>bring to front</td>
-    </tr>
-    <tr><td>!-- Taskbar button are same as Toolbar button --</td></tr>
-    <tr>
-      <td>clickJsxToolbarButton</td>
-      <td>RIMM</td>
-      <td>* minimize from taskbar *</td>
-    </tr>
       <tr>
-          <td>pause</td>
-          <td>1500</td>
-          <td>&nbsp;</td>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30windowbar:contains("RIMM")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doubleClick</td>
+        <td>JsxMatrixRowText=mtxTable,*SUNW*</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30windowbar:contains("SUNW")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doubleClick</td>
+        <td>JsxMatrixRowText=mtxTable,*GOOG*</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30windowbar:contains("GOOG")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          !-- clickDialogButton locator searches all dialog with given caption text, or body text. --
+        </td>
+      </tr>
+      <tr>
+        <td>clickJsxDialogButton</td>
+        <td>GOOG</td>
+        <td>tbbCloseButton</td>
+      </tr>
+      <tr>
+        <td>clickJsxToolbarButton</td>
+        <td>RIMM</td>
+        <td>bring to front</td>
+      </tr>
+      <tr>
+        <td>!-- Taskbar button are same as Toolbar button --</td>
+      </tr>
+      <tr>
+        <td>clickJsxToolbarButton</td>
+        <td>RIMM</td>
+        <td>* minimize from taskbar *</td>
+      </tr>
+      <tr>
+        <td>pause</td>
+        <td>1500</td>
+        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>clickJsxToolbarButton</td>
         <td>RIMM</td>
         <td>* restore from taskbar *</td>
       </tr>
-
-  </tbody>
-
-</table>
+    </tbody>
+  </table>
 </body>
 </html>

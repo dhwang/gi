@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2013 TIBCO Software Inc.
+Copyright 2006-2014 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -59,7 +59,7 @@ Copyright 2006-2013 TIBCO Software Inc.
      <td>5000</td>
     </tr>
     <tr>
-     <td>assertJsxValueMatches</td>
+     <td>assertJsxValueEqual</td>
      <td>textbox</td>
      <td>Beijing restaurant</td>
     </tr>
@@ -70,7 +70,7 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr>
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Search by Mapped Service</td>
+      <td>gi=btnService</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -85,12 +85,12 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxName=textbox</td>
+      <td>gi=textbox</td>
       <td>London</td>
     </tr>
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Search by Direct Request</td>
+      <td>gi=btnRequest</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -120,22 +120,22 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr> -->
     <tr>
       <td>checkJsx</td>
-      <td>JsxRadioText=static</td>
+      <td>css=.jsx30radio:nth(1)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxMatrixCellText=matrix1,Beijing 2013</td>
+      <td>gi=matrix1,rowbyindex,9</td>
       <td>5000</td>
     </tr>
     <tr>
       <td>assertElementPresent</td>
-      <td>JsxMatrixCellText=matrix1,Beijing 2013</td>
+      <td>gi=matrix1,rowbyindex,9</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>checkJsx</td>
-      <td>JsxRadioText=live</td>
+      <td>css=.jsx30radio:nth(0)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -150,7 +150,7 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr>
     <tr>
       <td>click</td>
-      <td>JsxMatrixCellIndex=matrix1.1.2</td>
+      <td>gi=matrix1,cellbyindex,1.2</td>
       <td></td>
     </tr>
   </tbody>

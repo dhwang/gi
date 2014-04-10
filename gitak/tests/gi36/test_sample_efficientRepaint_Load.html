@@ -56,8 +56,8 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>        
     <tr>
       <td>click</td>
-      <td>JsxText=Example 1*</td>
-      <td>&nbsp</td> 
+      <td>gi=label1</td>
+      <td>&nbsp;</td> 
     </tr>        
     <tr>
       <td>recordStartTime</td>
@@ -66,7 +66,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>         
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Load 20 * (efficient)</td>
+      <td>gi=button/[@jsxtext='Load 20 Dialogs (efficient)']</td>
       <td>&nbsp;</td>
     </tr>     
     <tr>
@@ -91,7 +91,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr> 
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Reset*</td>
+      <td>css=.jsx30button:contains(Reset (remove dialogs))</td>
       <td>&nbsp;</td>
     </tr>        
     <tr>
@@ -101,7 +101,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>         
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Load 20 *inefficient*</td>
+      <td>css=.jsx30button:contains(Load 20 Dialogs (inefficient))</td>
       <td>This is going to take a very long time.&nbsp;</td>
     </tr>     
     <tr>
@@ -129,14 +129,8 @@ Copyright 2006-2008 TIBCO Software Inc.
       <td>assertEval</td>
       <td>${dlgLoading2} > ${dlgLoading}</td>
       <td>true</td>
-    </tr>         
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
+    </tr>
   </tbody>
-
 </table>
 </body>
 </html>

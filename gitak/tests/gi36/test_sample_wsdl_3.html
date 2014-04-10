@@ -45,12 +45,12 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>assertElementPresent</td>
-      <td>JsxTextboxName=txtSymbolInput</td>
+      <td>gi=txtSymbolInput</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxTextboxName=txtSymbolInput</td>
+      <td>gi=txtSymbolInput</td>
       <td>CSCO,YHOO,SUNW,TIBX</td>
     </tr>
     <tr>
@@ -61,12 +61,12 @@ Copyright 2006-2008 TIBCO Software Inc.
         
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Query Service</td>
+      <td>gi=btnQueryButton</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxDialogCaption=*Success*</td>
+      <td>css=.jsx30windowbar_lbl:contains("Success")</td>
       <td>5000</td>
     </tr>   
     <tr>
@@ -76,32 +76,32 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxMatrixCellText=mtxResultsList,*SUNW*</td>
+      <td>gi=mtxResultsList,rowbyindex,2</td>
       <td>5000</td>
     </tr>
     <tr>
       <td>doubleClickJsxElement</td>
-      <td>JsxMatrixCellText=mtxResultsList,*SUNW*</td>
+      <td>gi=mtxResultsList,rowbyindex,2</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxDialogCaption=*SUNW*</td>
+      <td>css=.jsx30windowbar:contains(Today's closing price for: SUNW)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>verifyElementPresent</td>
-      <td>JsxDialogCaption=*SUNW*</td>
+      <td>assertElementPresent</td>
+      <td>css=.jsx30windowbar:contains(Today's closing price for: SUNW)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowText=mtxResultsList,*TIBX*</td>
+      <td>gi=mtxResultsList,rowbyindex,1</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>verifyElementPresent</td>
-      <td>JsxDialogCaption=*TIBX*</td>
+      <td>assertElementPresent</td>
+      <td>css=.jsx30windowbar:contains(Today's closing price for: TIBX)</td>
       <td>&nbsp;</td>
     </tr>
     <!--tr>

@@ -41,12 +41,12 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxSelectName=slctOptions</td>
+      <td>gi=slctOptions</td>
       <td>5000</td>
     </tr>
     <tr>
        <td>assertElementPresent</td>
-       <td>JsxSelectName=slctOptions</td>
+       <td>gi=slctOptions</td>
        <td>&nbsp;</td>
     </tr>
 <!--     <tr>
@@ -56,12 +56,12 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr> -->
     <!--tr>
       <td>clickJsxSelect</td>
-      <td>JsxSelectName=slctOptions</td>
+      <td>gi=slctOptions</td>
       <td>JsxSelectItemIndex=slctOptions,4</td>
     </tr-->
     <tr>
       <td>clickJsxSelect</td>
-      <td>JsxSelectName=slctOptions</td>
+      <td>gi=slctOptions</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -88,7 +88,7 @@ Copyright 2006-2008 TIBCO Software Inc.
 	<!-- Test JsxSelectItemId -->	
     <tr>
        <td>clickJsxSelect</td>
-       <td>JsxSelectName=slctOptions</td>
+       <td>gi=slctOptions</td>
        <td>JsxSelectItemId=slctOptions,a</td>
     </tr>
     <tr>
@@ -98,7 +98,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
        <td>clickJsxSelect</td>
-       <td>JsxSelectName=slctOptions</td>
+       <td>gi=slctOptions</td>
        <td>JsxSelectItemId=slctOptions,b</td>
     </tr>
     <tr>
@@ -109,7 +109,7 @@ Copyright 2006-2008 TIBCO Software Inc.
 	<!-- Test JsxSelectItemText-->
     <tr>
       <td>clickJsxSelect</td>
-      <td>JsxSelectName=slctOptions</td>
+      <td>gi=slctOptions</td>
       <td>JsxSelectItemText=slctOptions,abc</td>
     </tr>
     <tr>
@@ -119,7 +119,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>clickJsxSelect</td>
-      <td>JsxSelectName=slctOptions</td>
+      <td>gi=slctOptions</td>
       <td>JsxSelectItemText=slctOptions,ab*</td>
     </tr>
     <tr>
@@ -131,7 +131,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     <!-- Test Combo select -->
     <tr>
        <td>clickJsxSelect</td>
-       <td>JsxSelectName=cmbOptions</td>
+       <td>gi=cmbOptions</td>
        <td>JsxSelectItemId=cmbOptions,AE</td>
     </tr>
     <tr>
@@ -141,22 +141,22 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
        <td>clickJsxSelect</td>
-       <td>JsxSelectName=cmbOptions</td>
+       <td>gi=cmbOptions</td>
        <td>JsxSelectItemId=cmbOptions,AZ</td>
     </tr>
     <tr>
        <td>clickJsxSelect</td>
-       <td>JsxSelectName=slctOptions</td>
+       <td>gi=slctOptions</td>
        <td>JsxSelectItemText=slctOptions,abcdefghijk</td>
     </tr>
     <tr>
-       <td>verifyEval</td>
+       <td>assertEval</td>
        <td>selenium.browserbot.findByJsxName('cmbOptions').getValue();</td>
        <td>AZ</td>
     </tr>
     <tr>
        <td>typeJsxTextbox</td>
-       <td>JsxComboInputName=cmbOptions</td>
+       <td>gi=cmbOptions</td>
        <td>Wyoming</td>
 	   <td>Type each key as user would. Needed to set proper focus and blur.</td>
     </tr>
@@ -170,9 +170,7 @@ Copyright 2006-2008 TIBCO Software Inc.
        <td>0</td>
        <td>&nbsp;</td>
     </tr>
-
   </tbody>
-
 </table>
 </body>
 </html>

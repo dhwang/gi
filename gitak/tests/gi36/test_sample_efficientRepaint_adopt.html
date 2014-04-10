@@ -21,140 +21,149 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Efficient Adopt</title>
 </head>
 <body>
-<table border="1">
-<caption> Test different method of moving GUI component (adopt) from one GUI parent to another. </caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test Efficient Adopt<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-	<tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-efficientRepainting</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForTextPresent</td>
-      <td>Efficient Painting</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>assertTextPresent</td>
-      <td>Efficient Painting</td>
-      <td>&nbsp;</td>
-    </tr>     
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>layoutSample (--)</td>
-      <td>1,*</td> 
-    </tr>        
-    <tr>
-      <td>click</td>
-      <td>JsxText=Example 1*</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>click</td>
-      <td>JsxText=Example 2*</td>
-      <td>&nbsp;</td>
-    </tr>     
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Load One Item</td>
-      <td>&nbsp;</td>
-    </tr>    
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxName=matrix1</td>
-      <td>5000</td>
-    </tr>             
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxName=matrix1</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>recordStartTime</td>
-      <td>stackLoading</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>checkJsx</td>
-      <td>JsxRadioText=Stack</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Load One Item</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Load One Item</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>waitForCondition</td>
-      <td>stackLength = selenium.page().findByJsxName('mystackcontainer').getDescendantsOfType('jsx3.gui.Stack').length; stackLength == 3;</td>
-      <td>10000</td>
-    </tr>             
-    <tr>
-      <td>assertEval</td>
-      <td>stackLength == 3;</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>recordEndTime</td>
-      <td>stackLoading</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>showElapseTime</td>
-      <td>stackLoading</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>recordStartTime</td>
-      <td>tabLoading</td>
-      <td>&nbsp;</td>
-    </tr>         
+  <table border="1">
+    <caption>
+      Test different method of moving GUI component (adopt) from one GUI parent to another.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test Efficient Adopt
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-efficientRepainting
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForTextPresent</td>
+        <td>Efficient Painting</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>Efficient Painting</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>layoutSample (--)</td>
+        <td>1,*</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=label1</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=label2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button/[@jsxtext="Load One Item"]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix1</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=matrix1</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>recordStartTime</td>
+        <td>stackLoading</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>css=.jsx30radio:nth(1)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button/[@jsxtext="Load One Item"]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button/[@jsxtext="Load One Item"]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForCondition</td>
+        <td>
+          stackLength = selenium.page().findByJsxName('mystackcontainer').getDescendantsOfType('jsx3.gui.Stack').length; stackLength == 3;
+        </td>
+        <td>10000</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>stackLength == 3;</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>recordEndTime</td>
+        <td>stackLoading</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>showElapseTime</td>
+        <td>stackLoading</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>recordStartTime</td>
+        <td>tabLoading</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <tr>
-      <td>checkJsx</td>
-      <td>JsxRadioText=Tab</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForCondition</td>
-      <td>alltabs = selenium.page().findByJsxName('mytabcontainer').getDescendantsOfType('jsx3.gui.Tab'); alltabs.length == 3;</td>
-      <td>10000</td>
-    </tr>
-    <tr>
-      <td>assertEval</td>
-      <td>alltabs.length == 3;</td>
-      <td>true</td>
-    </tr>
-    <tr>
-      <td>recordEndTime</td>
-      <td>tabLoading</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>showElapseTime</td>
-      <td>tabLoading</td>
-      <td>&nbsp;</td>
-    </tr>         
-    <tr>
-      <td>click</td>
-      <td>JsxTabText=[caption]</td>
-      <td>&nbsp;</td> 
-    </tr>        
-    <!--tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>css=.jsx30radio:nth(2)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForCondition</td>
+        <td>
+          alltabs = selenium.page().findByJsxName('mytabcontainer').getDescendantsOfType('jsx3.gui.Tab'); alltabs.length == 3;
+        </td>
+        <td>10000</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>alltabs.length == 3;</td>
+        <td>true</td>
+      </tr>
+      <tr>
+        <td>recordEndTime</td>
+        <td>tabLoading</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>showElapseTime</td>
+        <td>tabLoading</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>css=.jsx30tab:nth(0)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!--tr>
       <td>jsxopen</td>
       <td>about:blank</td>
       <td>&nbsp;</td>

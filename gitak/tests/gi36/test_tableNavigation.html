@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2013 TIBCO Software Inc.
+Copyright 2006-2014 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,161 +21,159 @@ Copyright 2006-2013 TIBCO Software Inc.
   <title>Test Table control</title>
 </head>
 <body>
-<table border="1">
-<!-- caption will be used for test descriptions-->
-<caption>
-This test excercise the table navigation locators : cellbyindex, cellbyid.
-</caption>
-<caption></caption>
-<tbody>   
-    <tr>
-      <td rowspan="1" colspan="3">Test Table Control</td>
-    </tr>    
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxToolbarButtonName=tbbTable</td>
-      <td>5000</td>
-     </tr>    
-
-	 <tr>
-        <td>clickJsxElement</td>
-        <td>JsxToolbarButtonText=Table</td>
+  <table border="1">
+    <!-- caption will be used for test descriptions-->
+    <caption>
+      This test excercise the table navigation locators : cellbyindex, cellbyid.
+    </caption>
+    <caption></caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">Test Table Control</td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
         <td>&nbsp;</td>
-    </tr>    
-    <tr>
-      <td>storeJsxElementName</td>
-      <td>JsxToolbarButtonText=Table</td>
-      <td>objJSX</td>
-     </tr>    
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=//toolBar/[@jsxtext="List"]</td>
-      <td>&nbsp;</td>
-     </tr>    
-    <tr>
-      <td>echo</td>
-      <td>${LASTJSXNAME}</td>
-      <td>&nbsp;</td>
-     </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=//[@jsxtext="List"]</td>
-      <td>&nbsp;</td>
-     </tr>    
-    <tr>
-      <td>echo</td>
-      <td>${LASTJSXNAME}</td>
-      <td>&nbsp;</td>
-     </tr>
-     <tr>
-      <td>assertElementPresent</td>
-      <td>gi=//toolBar/jsx3.gui.ToolbarButton</td>
-      <td>&nbsp;</td>
-     </tr> 
-     <tr>
-      <td>assertElementPresent</td>
-      <td>gi=toolBar/jsx3.gui.ToolbarButton[3]</td>
-      <td>&nbsp;</td>
-     </tr>    
-     
-    <tr>
-      <td>echo</td>
-      <td>${LASTJSXNAME}</td>
-      <td>&nbsp;</td>
-     </tr>    
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=blockMain/*/tblTable,rowbyindex,1</td>
-      <td>&nbsp;</td>
-     </tr>    
-    <tr>
-      <td>click</td>
-      <td>gi=tblTable,rowbyindex,0</td>
-      <td>&nbsp;</td>
-     </tr>    
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=tblTable,cellbyjsxid,1.2</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxElement</td>
-      <td>gi=tblTable,cellbyindex,4.2</td>
-      <td>&nbsp;</td>
-     </tr>    
-    <tr>
-      <td>assertText</td>
-      <td>gi=tblTable,column,0</td>
-      <td>Col 1</td>
-    </tr>
-    <tr>
-      <td>echo</td>
-      <td>${LASTJSXNAME}</td>
-      <td>&nbsp;</td>
-     </tr> 
-     <tr>
-      <td>storeElementWidth</td>
-      <td>gi=tblTable,column,0</td>
-      <td>firstHeadercellWidth</td>
-     </tr>
-     <tr>
-      <td>storeElementWidth</td>
-      <td>gi=tblTable,cellbyindex,0.0</td>
-      <td>firstColumn</td>
-     </tr>
-    <tr>
-      <td>echo</td>
-      <td>${firstColumn}</td>
-      <td>&nbsp;</td>
-     </tr>
-    <tr>
-      <td>echo</td>
-      <td>${firstHeadercellWidth}</td>
-      <td>&nbsp;</td>
-     </tr>
-     <tr>
-      <td>assertEval</td>
-      <td>${firstColumn}</td>
-      <td>${firstHeadercellWidth}</td>
-     </tr>
-     <tr>
-      <td>storeElementWidth</td>
-      <td>gi=tblTable,column,2</td>
-      <td>thirdHeadercellWidth</td>
-     </tr>
-     <tr>
-      <td>storeElementWidth</td>
-      <td>gi=tblTable,cellbyindex,0.2</td>
-      <td>thirdColumn</td>
-     </tr>
-     <tr>
-      <td>assertEval</td>
-      <td>${thirdColumn}</td>
-      <td>${thirdHeadercellWidth}</td>
-     </tr>
-     <tr>
-      <td>click</td>
-      <td>gi=tblTable,column,1.1</td>
-      <td>&nbsp</td>
-     </tr>
-     <tr>
-      <td>assertText</td>
-      <td>gi=tblTable,cellbyindex,0.1</td>
-      <td>Argentina</td>
-     </tr>
-             
-    <!-- assert list row length = +1 -->
-    <!--tr>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=tbbTable</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=tbbTable</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!-- <tr>
+        <td>storeJsxElementName</td>
+        <td>gi=tbbTable</td>
+        <td>objJSX</td>
+      </tr> -->
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=//toolBar/[@jsxtext="List"]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!-- <tr>
+        <td>echo</td>
+        <td>${LASTJSXNAME}</td>
+        <td>&nbsp;</td>
+      </tr> -->
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=//[@jsxtext="List"]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!-- <tr>
+        <td>echo</td>
+        <td>${LASTJSXNAME}</td>
+        <td>&nbsp;</td>
+      </tr> -->
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=//toolBar/jsx3.gui.ToolbarButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=toolBar/jsx3.gui.ToolbarButton[3]</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!-- <tr>
+        <td>echo</td>
+        <td>${LASTJSXNAME}</td>
+        <td>&nbsp;</td>
+      </tr> -->
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=blockMain/*/tblTable,rowbyindex,1</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=tblTable,rowbyindex,0</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=tblTable,cellbyjsxid,1.2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=tblTable,cellbyindex,4.2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>gi=tblTable,column,0</td>
+        <td>Col 1</td>
+      </tr>
+      <!-- <tr>
+        <td>echo</td>
+        <td>${LASTJSXNAME}</td>
+        <td>&nbsp;</td>
+      </tr> -->
+      <tr>
+        <td>storeElementWidth</td>
+        <td>gi=tblTable,column,0</td>
+        <td>firstHeadercellWidth</td>
+      </tr>
+      <tr>
+        <td>storeElementWidth</td>
+        <td>gi=tblTable,cellbyindex,0.0</td>
+        <td>firstColumn</td>
+      </tr>
+      <tr>
+        <td>echo</td>
+        <td>${firstColumn}</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>echo</td>
+        <td>${firstHeadercellWidth}</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>${firstColumn}</td>
+        <td>${firstHeadercellWidth}</td>
+      </tr>
+      <tr>
+        <td>storeElementWidth</td>
+        <td>gi=tblTable,column,2</td>
+        <td>thirdHeadercellWidth</td>
+      </tr>
+      <tr>
+        <td>storeElementWidth</td>
+        <td>gi=tblTable,cellbyindex,0.2</td>
+        <td>thirdColumn</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>${thirdColumn}</td>
+        <td>${thirdHeadercellWidth}</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=tblTable,column,1.1</td>
+        <td>&nbsp</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>gi=tblTable,cellbyindex,0.1</td>
+        <td>Argentina</td>
+      </tr>
+
+      <!-- assert list row length = +1 -->
+      <!--tr>
       <td>jsxopen</td>
       <td>about:blank</td>
       <td>&nbsp;</td>

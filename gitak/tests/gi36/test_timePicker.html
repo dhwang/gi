@@ -17,178 +17,163 @@ Copyright 2006-2008 TIBCO Software Inc.
 <html>
 
 <head>
-<title>Timepicker</title>
+  <title>Timepicker</title>
 </head>
 
 <body>
-<table border="1">
-<caption>Test to excercize timepicker control commands</caption>
-<tbody>
+  <table border="1">
+    <caption>Test to excercize timepicker control commands</caption>
+    <tbody>
 
-<tr>
-    <td rowspan="1" colspan="3">Test Timepicker control</td>
-</tr>
+      <tr>
+        <td rowspan="1" colspan="3">Test Timepicker control</td>
+      </tr>
 
-<!-- Load Test Setup File Below -->
-<tr>
-    <td>include</td>
-    <td>testSetup.html</td>
-    <td>&nbsp;</td>
-</tr>
+      <!-- Load Test Setup File Below -->
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
 
-<!-- Load Test Application Below -->
-<tr>
-    <td>jsxopen</td>
-    <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
-    <td>&nbsp;</td>
-</tr>
-<!-- start tests -->
-<tr>
-  <td>waitForElementPresent</td>
-  <td>JsxName=tpTime</td>
-  <td>5000</td>
-</tr>
-<tr>
-  <td>assertElementPresent</td>
-  <td>JsxName=tpTime</td>
-  <td>&nbsp;</td>
-</tr>
+      <!-- Load Test Application Below -->
+      <tr>
+        <td>jsxopen</td>
+        <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!-- start tests -->
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=tpTime</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=tpTime</td>
+        <td>&nbsp;</td>
+      </tr>
 
-<tr>
-  <td>pickJsxTime</td>
-  <td>tpTime</td>
-  <td>11:59:59</td>
-</tr>
-<tr>
-  <td>assertEval</td>
-  <td>selenium.page().findByJsxName('tpTime').getMinutes();</td>
-  <td>59</td>
-</tr>
-<tr>
-  <td>assertEval</td>
-  <td>selenium.page().findByJsxName('tpTime').getSeconds();</td>
-  <td>0</td>
-</tr>
-    <tr>
-      <td>verifyEval</td>
-      <td>selenium.page().findByJsxName('tpTime').setShowSeconds(true).repaint();
-      selenium.page().findByJsxName('tpTime').getShowSeconds();</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>pickJsxTime</td>
-      <td>tpTime</td>
-      <td>11:59:59</td>
-    </tr>
-    <tr>
-      <td>assertEval</td>
-      <td>selenium.page().findByJsxName('tpTime').getSeconds();</td>
-      <td>59</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>JsxTimePickerAmPm=tpTime</td>
-      <td>PM</td>
-    </tr>
-    <tr>
-      <td>assertEval</td>
-      <td>selenium.page().findByJsxName('tpTime').getHours();</td>
-      <td>23</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>JsxTimePickerAmPm=tpTime</td>
-      <td>AM</td>
-    </tr>
-    <tr>
-      <td>assertEval</td>
-      <td>selenium.page().findByJsxName('tpTime').getHours();</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxTimePickerHours=tpTime</td>
-      <td>&nbsp;</td>
-    </tr>
-  <tr>
-    <td>verifyEval</td>
-    <td>selenium.page().findByJsxName('tpTime').setShowMillis(true).repaint();
-    selenium.page().findByJsxName('tpTime').getShowMillis();</td>
-    <td>1</td>
-  </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxTimePickerSpinDown=tpTime</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertEval</td>
-      <td>selenium.page().findByJsxName('tpTime').getHours();</td>
-      <td>10</td>
-    </tr>
-  <tr>
-    <td>verifyEval</td>
-    <td>selenium.page().findByJsxName('tpTime').setShowSeconds(false).repaint();
-    selenium.page().findByJsxName('tpTime').getShowSeconds();</td>
-    <td>0</td>
-  </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxTimePickerSpinUp=tpTime</td>
-      <td>&nbsp;</td>
-    </tr>
-  <tr>
-    <td>typeJsxTextbox</td>
-    <td>JsxTimePickerAmPm=tpTime</td>
-    <td>PM</td>
-  </tr>
-    <tr>
-      <td>verifyEval</td>
-      <td>selenium.page().findByJsxName('tpTime').set24Hour(true).repaint();
-      selenium.page().findByJsxName('tpTime').is24Hour();</td>
-      <td>1</td>
-    </tr>
-  <tr>
-    <td>pause</td>
-    <td>1500</td>
-    <td>&nbsp;</td>
-  </tr>
+      <tr>
+        <td>pickJsxTime</td>
+        <td>tpTime</td>
+        <td>11:59:59</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getMinutes();</td>
+        <td>59</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getSeconds();</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>
+          selenium.page().findByJsxName('tpTime').setShowSeconds(true).repaint();
+      selenium.page().findByJsxName('tpTime').getShowSeconds();
+        </td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>pickJsxTime</td>
+        <td>tpTime</td>
+        <td>11:59:59</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getSeconds();</td>
+        <td>59</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>JsxTimePickerAmPm=tpTime</td>
+        <td>PM</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getHours();</td>
+        <td>23</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>JsxTimePickerAmPm=tpTime</td>
+        <td>AM</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getHours();</td>
+        <td>11</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxTimePickerHours=tpTime</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>
+          selenium.page().findByJsxName('tpTime').setShowMillis(true).repaint();
+    selenium.page().findByJsxName('tpTime').getShowMillis();
+        </td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxTimePickerSpinDown=tpTime</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getHours();</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>
+          selenium.page().findByJsxName('tpTime').setShowSeconds(false).repaint();
+    selenium.page().findByJsxName('tpTime').getShowSeconds();
+        </td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxTimePickerSpinUp=tpTime</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>JsxTimePickerAmPm=tpTime</td>
+        <td>PM</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>
+          selenium.page().findByJsxName('tpTime').set24Hour(true).repaint();
+      selenium.page().findByJsxName('tpTime').is24Hour();
+        </td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>pause</td>
+        <td>1500</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <tr>
-      <td>click</td>
-      <td>JsxTimePickerSpinUp=tpTime</td>
-      <td>&nbsp;</td>
-    </tr>
+      <tr>
+        <td>click</td>
+        <td>JsxTimePickerSpinUp=tpTime</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <tr>
-      <td>assertEval</td>
-      <td>selenium.page().findByJsxName('tpTime').getHours();</td>
-      <td>0</td>
-    </tr>
-</tbody>
-</table>
+      <tr>
+        <td>assertEval</td>
+        <td>selenium.page().findByJsxName('tpTime').getHours();</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

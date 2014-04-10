@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2013 TIBCO Software Inc.
+Copyright 2006-2014 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -39,27 +39,27 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr>
     <tr>
       <td>waitForJsxButtonPresent</td>
-      <td>button</td>
+      <td>setSampleData</td>
       <td>5000</td>
     </tr>    
     <tr>
-      <td>click</td>
-      <td>JsxButtonText=Set Sample Data</td>
+      <td>clickJsxElement</td>
+      <td>gi=setSampleData</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>click</td>
-      <td>JsxButtonText=Update</td>  
+      <td>clickJsxElement</td>
+      <td>gi=update</td>  
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxName=textarea1</td>
+      <td>gi=textarea1</td>
       <td>5000</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxName=textarea2</td>
+      <td>gi=textarea2</td>
       <td>5000</td>
     </tr>
     <tr>
@@ -104,22 +104,22 @@ Copyright 2006-2013 TIBCO Software Inc.
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxName=textarea1</td>
+      <td>gi=textarea1</td>
       <td>line one<br/>
       	line two<br/>
       	line three<br/></td>
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxName=textarea2</td>
+      <td>gi=textarea2</td>
       <td>line one<br/>
       	line two<br/>
       	adding line<br/>
       	line three<br/></td>
     </tr>
     <tr>
-      <td>click</td>
-      <td>JsxText=Update</td>  
+      <td>clickJsxElement</td>
+      <td>gi=update</td>  
       <td>&nbsp;</td>
     </tr>
     <tr>

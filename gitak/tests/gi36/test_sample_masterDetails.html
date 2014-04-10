@@ -21,79 +21,84 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test sample Master Detail</title>
 </head>
 <body>
-<table border="1">
-<caption>Test sample showing how to do master details storage and display of data from single CDF XML data set.</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample CDF Master Detail<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
+  <table border="1">
+    <caption>
+      Test sample showing how to do master details storage and display of data from single CDF XML data set.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample CDF Master Detail
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-CDFMasterDetail</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-       <td>waitForElementPresent</td>
-       <td>JsxMatrixName=mtxResultsTable</td>
-       <td>5000</td>
-     </tr>    
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-CDFMasterDetail
+        </td>
+        <td>&nbsp;</td>
+      </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>JsxMatrixRowIndex=mtxResultsTable,8</td>
+        <td>gi=mtxResultsTable</td>
         <td>5000</td>
       </tr>
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>lytMainLayout</td>
-      <td>1,*</td> 
-    </tr>        
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowId=mtxResultsTable,IDAEAZAB</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxDialogCaption=Jame*</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowText=mtxResultsTable,*Ken*</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxDialogCaption=*Ken*</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>JsxMatrixRowIndex=mtxResultsTable,3</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxDialogCaption=*Michelle*</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>verifyAllImagesComplete</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxDialogButton</td>
-      <td>*Michelle*</td>
-      <td>tbbCloseButton</td>
-    </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=mtxResultsTable,rowbyindex,8</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>lytMainLayout</td>
+        <td>1,*</td>
+      </tr>
+      <tr>
+        <td>doubleClickJsxElement</td>
+        <td>gi=mtxResultsTable,rowbyjsxid,IDAEAZAB</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30windowbar:contains("Jame Paulis")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doubleClickJsxElement</td>
+        <td>gi=mtxResultsTable,rowbyjsxid,IDA3AZAB</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30windowbar:contains("Ken123 Wiebkie")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doubleClickJsxElement</td>
+        <td>gi=mtxResultsTable,rowbyindex,1</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30windowbar:contains("Michelle Lewis")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertAllImagesComplete</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxDialogButton</td>
+        <td>*Michelle*</td>
+        <td>tbbCloseButton</td>
+      </tr>
       <tr>
         <td>clickJsxDialogButton</td>
         <td>*Ken*</td>
@@ -106,10 +111,10 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <!-- not working -->
       <!--tr>
-        <td>multiSelectJsxMatrix</td>
-        <td>mtxResultsTable</td>
-        <td>5-8</td>
-      </tr-->
+      <td>multiSelectJsxMatrix</td>
+      <td>mtxResultsTable</td>
+      <td>5-8</td>
+    </tr-->
   </tbody>
 
 </table>

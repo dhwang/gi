@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--
-Copyright 2006-2013 TIBCO Software Inc.
+Copyright 2006-2014 TIBCO Software Inc.
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -21,131 +21,137 @@ Copyright 2006-2013 TIBCO Software Inc.
   <title>Test Matrix Freeze Pane</title>
 </head>
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-<!--caption stores the test description for result reporting -->
-<caption>Test freeze pane with a hierarchical (tree) matrix on left pane and multi column list matrix on the right</caption>
-  <tbody>   
-<!--The first comment row is the Test Name used in result reporting -->
-    <tr>
-      <td rowspan="1" colspan="3">Test Matrix Freeze Pane</td>
-    </tr>    
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxToolbarButtonName=tbbFPane</td>
-      <td>5000</td>
-     </tr>    
-    <tr>
+  <table cellpadding="1" cellspacing="1" border="1">
+    <!--caption stores the test description for result reporting -->
+    <caption>
+      Test freeze pane with a hierarchical (tree) matrix on left pane and multi column list matrix on the right
+    </caption>
+    <tbody>
+      <!--The first comment row is the Test Name used in result reporting -->
+      <tr>
+        <td rowspan="1" colspan="3">Test Matrix Freeze Pane</td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/test-matrix</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=tbbFPane</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=tbbFPane</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
         <td>click</td>
-        <td>JsxToolbarButtonText=Freeze Pane</td>
+        <td>gi=tbbFPane</td>
         <td>&nbsp;</td>
-    </tr>    
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxMatrixCellText=matrix1,rootnode</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxMatrixCellText=matrix2,1</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-       <td>assertElementNotPresent</td>
-       <td>JsxMatrixCellText=matrix2,3</td>
-       <td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyElementNotPresent</td>
-    	<td>JsxMatrixTreeItemId=matrix1,3</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>clickJsxMatrixTreeToggle</td>
-    	<td>JsxMatrixTreeItemId=matrix1,2</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixTreeItemId=matrix1,3</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixTreeItemText=matrix1,node e</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixCellText=matrix2,3</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>clickJsxMatrixTreeToggle</td>
-    	<td>JsxMatrixTreeItemId=matrix1,3</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixTreeItemText=matrix1,node c</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixCellText=matrix2,4</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>clickJsxMatrixTreeToggle</td>
-    	<td>JsxMatrixTreeItemId=matrix1,4</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixTreeItemText=matrix1,node d</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>verifyVisible</td>
-    	<td>JsxMatrixCellText=matrix2,5</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>clickJsxMatrixTreeToggle</td>
-    	<td>JsxMatrixTreeItemId=matrix1,6</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>clickJsxMatrixTreeToggle</td>
-    	<td>JsxMatrixTreeItemId=matrix1,7</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-    	<td>assertVisible</td>
-    	<td>JsxMatrixTreeItemText=matrix1,node g</td>
-    	<td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td>clickJsxElement</td>
-        <td>JsxMatrixTreeItemId=matrix1,3</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix1,rowbyjsxid,1</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix2,rowbyindex,1</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertElementNotPresent</td>
+        <td>gi=matrix2,rowbyindex,2</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
+        <td>assertElementNotPresent</td>
+        <td>gi=matrix1,toggler,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,toggler,2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix1,toggler,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix1,toggler,6</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix2,rowbyindex,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,toggler,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix1,toggler,4</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix2,rowbyindex,4</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,toggler,4</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix2,rowbyindex,5</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix2,rowbyindex,5</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,toggler,6</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,toggler,7</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertVisible</td>
+        <td>gi=matrix1,toggler,8</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,rowbyjsxid,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
         <td>assertJsxSelectedId</td>
         <td>matrix2</td>
         <td>3</td>
-    </tr>
-  </tbody>
-
-</table>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

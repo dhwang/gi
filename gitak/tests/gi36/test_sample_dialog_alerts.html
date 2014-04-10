@@ -21,164 +21,154 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Dialog Alerts</title>
 </head>
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-<caption>Test dialogs, alerts, and confirmation dialog assertion and canel commands</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample-dialog alerts and confirmation<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
+  <table cellpadding="1" cellspacing="1" border="1">
+    <caption>
+      Test dialogs, alerts, and confirmation dialog assertion and canel commands
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample-dialog alerts and confirmation
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>Alerts</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>Alerts</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>gi=chkDocPane</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnAlert</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30stack_textv:contains(Server Alert)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnServerAlertButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>css=.jsx30windowbar:contains(My Alert)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>My Alert</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>
+          css=.jsx30stack_textv:contains(Confirm and Prompt Alerts; Callback Functions)
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>
+          css=.jsx30stack_textv:contains(Confirm and Prompt Alerts; Callback Functions)
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnConfirmButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>Confirm Alert</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnPromptButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxPromptOK</td>
+        <td>Prompt Alert</td>
+        <td>test</td>
+      </tr>
+      <tr>
+        <td>assertAlert</td>
+        <td>test</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnConfirmButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>chooseJsxCancelConfirmPrompt</td>
+        <td>Confirm Alert</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnPromptButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>chooseJsxCancelConfirmPrompt</td>
+        <td>Prompt Alert</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-dialogs</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>Alerts</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>Alerts</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>checkJsx</td>
-      <td>JsxName=chkDocPane</td>
-      <td>&nbsp;</td>
-    </tr>	
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Alerts</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxStackText=Server Alert</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Alert</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>JsxAlertCaption="My Alert"</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>My Alert</td>
-      <td>&nbsp;</td>
-    </tr>    
-  
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxStackText=Confirm and Prompt Alerts*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxStackText=Confirm and Prompt Alerts*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Confirm</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>Confirm Alert</td>
-      <td>&nbsp;</td>
-    </tr>    
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Prompt</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxPromptOK</td>
-      <td>Prompt Alert</td>
-      <td>test</td>
-    </tr>    
-    <tr>
-      <td>assertAlert</td>
-      <td>test</td>
-      <td>&nbsp;</td>
-    </tr> 
-       
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Confirm</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>chooseJsxCancelConfirmPrompt</td>
-      <td>Confirm Alert</td>
-      <td>&nbsp;</td>
-    </tr>    
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Prompt</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>chooseJsxCancelConfirmPrompt</td>
-      <td>Prompt Alert</td>
-      <td>&nbsp;</td>
-    </tr>    
-    
-    <tr>
-      <td>assertElementPresent</td>
-      <td>JsxStackText=Dialog Alert</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxStack</td>
-      <td>JsxStackText=Dialog Alert</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickJsxStack</td>
-      <td>JsxStackName=stkServerAlert</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=Alert</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>My Alert</td>
-      <td>&nbsp;</td>
-    </tr>    
-    <!--tr>
-      <td>click</td>
-      <td>JsxButtonText=Alert without*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>*showNoTitleServerAlert*</td>
-      <td>&nbsp;</td>
-    </tr-->  
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>css=.jsx30stack_textv:contains(Dialog Alert)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>css=.jsx30stack_textv:contains(Dialog Alert)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=stkServerAlert</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnServerAlertButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>My Alert</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

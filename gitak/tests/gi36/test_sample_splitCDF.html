@@ -41,7 +41,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
      <tr>
        <td>waitForElementPresent</td>
-       <td>JsxToolbarButtonName=tbbClear</td>
+       <td>gi=tbbClear</td>
        <td>5000</td>
      </tr>
       <tr>
@@ -50,27 +50,27 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>outputBlock</td>
       </tr>
       <tr>
-        <td>verifyEval</td>
+        <td>assertEval</td>
         <td>storedVars['outputBlock'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
         <td>0</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
-        <td>JsxToolbarButtonName=tbbSplitViaJS</td>
+        <td>click</td>
+        <td>gi=tbbSplitViaJS</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>verifyEval</td>
+        <td>assertEval</td>
         <td>storedVars['outputBlock'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
         <td>2</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
-        <td>JsxToolbarButtonName=tbbClear</td>
+        <td>click</td>
+        <td>gi=tbbClear</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>verifyEval</td>
+        <td>assertEval</td>
         <td>storedVars['outputBlock'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
         <td>0</td>
       </tr>
@@ -86,43 +86,41 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
 
       <tr>
-        <td>clickJsxElement</td>
-        <td>JsxToolbarButtonName=tbbSplitViaMapper</td>
+        <td>click</td>
+        <td>gi=tbbSplitViaMapper</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>verifyEval</td>
+        <td>assertEval</td>
         <td>storedVars['outputBlock2'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
         <td>4</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
-        <td>JsxToolbarButtonName=tbbClear</td>
+        <td>click</td>
+        <td>gi=tbbClear</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>verifyEval</td>
+        <td>assertEval</td>
         <td>storedVars['outputBlock2'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
         <td>0</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
-        <td>JsxToolbarButtonName=tbbSplitViaXSLT</td>
+        <td>click</td>
+        <td>gi=tbbSplitViaXSLT</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>verifyEval</td>
+        <td>assertEval</td>
         <td>storedVars['outputBlock'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
         <td>2</td>
       </tr>
     <tr>
-      <td>verifyEval</td>
+      <td>assertEval</td>
       <td>storedVars['outputBlock2'].getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
       <td>4</td>
     </tr>
-
   </tbody>
-
 </table>
 </body>
 </html>

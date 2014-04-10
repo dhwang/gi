@@ -51,12 +51,12 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
     <tr>
       <td>assertElementPresent</td>
-      <td>JsxTextboxName=symbol</td>
+      <td>gi=symbol</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>typeJsxTextbox</td>
-      <td>JsxTextboxName=symbol</td>
+      <td>gi=symbol</td>
       <td>CSCO,YHOO,SUNW,TIBX</td>
     </tr>
       <tr>
@@ -87,24 +87,24 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>clickJsxElement</td>
-      <td>JsxDateDay=startDate,13</td>
+      <td>click</td>
+      <td>css=.jsx3_dp_month tr:nth(3) td:nth(4)</td>
       <td>&nbsp;</td>
     </tr>
     <!--IE BUG on resize event cause HW window to collapse -->
     <tr>
       <td>click</td>
-      <td>JsxButtonText=Query Service</td>
+      <td>gi=Query</td>
       <td>//data returned are static</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxMatrixRowIndex=gridResults,4</td>
+      <td>gi=gridResults,rowbyindex,4</td>
       <td>5000</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>JsxAlertCaption="Success"</td>
+      <td>css=.jsx30windowbar:contains("Success")</td>
       <td>&nbsp;</td>
     </tr> 
     <tr>
@@ -114,7 +114,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
       <tr>
         <td>assertElementPresent</td>
-        <td>JsxMatrixRowText=gridResults,*TIBX*</td>
+        <td>gi=gridResults,rowbyindex,4</td>
         <td>&nbsp;</td>
       </tr>
  <!-- test for returned doc type new 3.3.0 -->

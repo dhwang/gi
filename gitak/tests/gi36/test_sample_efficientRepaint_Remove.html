@@ -21,62 +21,60 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test efficient remove and paint</title>
 </head>
 <body>
-<table border="1">
-<caption> Demonstrate efficient component removal and refresh </caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test efficient remove and paint<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
+  <table border="1">
+    <caption>Demonstrate efficient component removal and refresh</caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test efficient remove and paint
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
 
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-efficientRepainting</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-      <td>waitForTextPresent</td>
-      <td>Efficient Painting</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>assertTextPresent</td>
-      <td>Efficient Painting</td>
-      <td>&nbsp;</td>
-    </tr>     
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>layoutSample (--)</td>
-      <td>1,*</td> 
-    </tr>        
-    <tr>
-      <td>click</td>
-      <td>JsxText=Example 3*</td>
-      <td>&nbsp</td> 
-    </tr>        
-    <tr>
-      <td>click</td>
-      <td>JsxButtonText=*Remove*</td>
-      <td>&nbsp;</td> 
-    </tr>     
-    <tr>
-      <td>assertEval</td>
-      <td>jsx3.GO('JSXBODY').getDescendantsOfType('jsx3.gui.Stack').length</td>
-      <td>2</td>
-    </tr>         
-       
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-efficientRepainting
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForTextPresent</td>
+        <td>Efficient Painting</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>Efficient Painting</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>layoutSample (--)</td>
+        <td>1,*</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=label3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>css=.jsx30button:contains(Remove Current Stack Item)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertEval</td>
+        <td>
+          jsx3.GO('JSXBODY').getDescendantsOfType('jsx3.gui.Stack').length
+        </td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

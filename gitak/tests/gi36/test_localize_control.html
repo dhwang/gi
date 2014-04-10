@@ -46,7 +46,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr>
      <tr>
        <td>waitForElementPresent</td>
-       <td>JsxMenuName=mnuLocaleSelectMenu</td>
+       <td>gi=mnuLocaleSelectMenu</td>
        <td>5000</td>
      </tr>    
     <tr>
@@ -61,7 +61,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     </tr> -->
 	<tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -74,12 +74,12 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenuItem</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,fr</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,fr</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>assertElementPresent</td>
-        <td>JsxStackText=*sans arbres de kaki*</td>
+        <td>gi=stkStack3/[@jsxtext="sans arbres de kaki"]</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -97,18 +97,17 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>datePicker</td>
         <td>17 avr 2008</td>
       </tr>
-      
-      <tr>
+      <tr>                  
         <td colspan="3">!-- Test Chinese locale--</td>
       </tr>
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,zh_TW</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,zh_TW</td>
       </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>JsxStackText=*沒有一家*</td>
+        <td>gi=stkStack2/[@jsxtext="沒有一家"]</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -131,12 +130,12 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>JsxMenuItemText=mnuLocaleSelectMenu,*Default*</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,-1</td>
       </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>JsxStackText=*without*</td>
+        <td>gi=stkStack2/[@jsxtext="not a single house"]</td>
         <td>&nbsp;</td>
       </tr>
       <tr>

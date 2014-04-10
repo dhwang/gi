@@ -43,16 +43,14 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>waitForJsxButtonPresent</td>
-        <td>gi=btnPublishButton</td>
+        <td>gi=clearButton</td>
         <td>5000</td>
       </tr>
-<!--
-      <tr>
+      <!-- <tr>
         <td>assertJsxButtonPresent</td>
         <td>gi=clearButton</td>
         <td>&nbsp;</td>
-      </tr>
--->
+      </tr> -->
       <tr>
         <td>assertJsxButtonPresent</td>
         <td>gi=btnSubscribeButton</td>
@@ -63,33 +61,32 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>gi=btnPublishButton</td>
         <td>&nbsp;</td>
       </tr>
-<!--
-      <tr>
-        <td>clickJsxElement</td>
+      <!-- <tr>
+        <td>click</td>
         <td>gi=clearButton</td>
         <td>&nbsp;</td>
-      </tr>
--->
-      <tr>
-        <td>clickJsxElement</td>
-        <td>gi=btnSubscribeButton</td>
-        <td>&nbsp;</td>
-      </tr>
-      
-      <tr>
-        <td>assertValue</td>
-        <td>jsxselector=#output</td>
-        <td>Example1 Subscriber: create Subscription:1 to listen messages with subject 'sometopic'</td>        
-      </tr>
+      </tr> -->
       <tr>
         <td>click</td>
-        <td>gi=btnPublishButton</td>
+        <td>gi=btnSubscribeButton</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertJsxValue</td>
+        <td>assertText</td>
         <td>output</td>
-        <td>This is a test message on subject sometopic. 1</td>
+        <td>Example1 Subscriber: create Subscription:0 to listen messages with subject 'sometopic'</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnPublishButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>output</td>
+        <td>
+          This is a test message on subject sometopic. 1
+        </td>
       </tr>
       <tr>
         <td>click</td>
@@ -97,7 +94,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertValue</td>
+        <td>assertText</td>
         <td>output</td>
         <td>
           Example1 Subscriber: create Subscription:2 to listen messages with subject 'sometopic'
@@ -109,9 +106,10 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertJsxValueMatches</td>
+        <td>assertText</td>
         <td>output</td>
-        <td>*This is a test message on subject sometopic. 2*This is a test message on subject sometopic. 2</td>
+        <td>This is a test message on subject sometopic. 3
+This is a test message on subject sometopic. 3</td>
       </tr>
       <tr>
         <td>click</td>
@@ -125,11 +123,10 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>JsxAlertCaption="Response notified"</td>
+        <td>css=.jsx30windowbar:contains("Response notified")</td>
         <td>5000</td>
       </tr>
     </tbody>
-
   </table>
 </body>
 </html>

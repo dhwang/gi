@@ -20,72 +20,57 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test sample localization</title>
 </head>
 <body>
-<table border="1">
-<caption> Test localization feature of General Interface </caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample localization<br>
-      </td>
-    </tr>
-      <!--tr>
-        <td>setInterval</td>
-        <td>100</td>
-        <td>&nbsp;</td>
-      </tr-->
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-localization</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-       <td>waitForElementPresent</td>
-       <td>JsxMenuName=mnuLocaleSelectMenu</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>lytMainLayout</td>
-      <td>0,*</td>
-    </tr>
-    <tr>
-      <td>unsubscribeJsxResize</td>
-      <td>// disable resize event to work around IE bug</td>
-      <td>&nbsp;</td>
-    </tr>
-	<tr>
-        <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,fr</td>
+  <table border="1">
+    <caption>Test localization feature of General Interface</caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample localization
+          <br></td>
       </tr>
-      <!-- two step menu, could be useful if menu content is delayed in loading -->
-      <!--tr>
-        <td>waitForJsxMenuWindowPresent</td>
-        <td>1</td>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>clickJsxMenuItem</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,fr</td>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-localization
+        </td>
         <td>&nbsp;</td>
-      </tr-->
+      </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>JsxStackText=*sans arbres de kaki*</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>lytMainLayout</td>
+        <td>0,*</td>
+      </tr>
+      <tr>
+        <td>unsubscribeJsxResize</td>
+        <td>// disable resize event to work around IE bug</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxMenu</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,fr</td>
+      </tr>
+      <tr>
+        <td>waitForTextPresent</td>
+        <td>*sans arbres de kaki*</td>
         <td>&nbsp;</td>
       </tr>
 
-	<!-- Test new clickJsxMenu single command form with two parameters-->
+      <!-- Test new clickJsxMenu single command form with two parameters-->
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
-        <td>JsxMenuItemId=mnuLocaleSelectMenu,zh_TW</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu,itembyjsxid,zh_TW</td>
       </tr>
       <tr>
         <td>pause</td>
@@ -94,11 +79,11 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>waitForElementPresent</td>
+        <td>waitForTextPresent</td>
         <td>JsxMenuItemText=mnuLocaleSelectMenu,*Default*</td>
         <td>&nbsp;</td>
       </tr>
@@ -114,7 +99,7 @@ Copyright 2006-2008 TIBCO Software Inc.
       </tr>
       <tr>
         <td>clickJsxMenu</td>
-        <td>JsxMenuName=mnuLocaleSelectMenu</td>
+        <td>gi=mnuLocaleSelectMenu</td>
         <td>JsxMenuItemIndex=mnuLocaleSelectMenu,3</td>
       </tr>
       <tr>
@@ -123,14 +108,8 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
 
-    <!-- assert list row length = +1 -->
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
+    </tbody>
 
-</table>
+  </table>
 </body>
 </html>
