@@ -23,12 +23,13 @@ jsx3.lang.Package.definePackage(
       objRecord.email = objServer.getJSXByName("regEmail").getValue();
       // var male = objServer.getJSXByName("male").getSelected();
       // var female = objServer.getJSXByName("female").getSelected();
-      objRecord.city = objServer.getJSXByName("regCity").getValue();
+      objRecord.city = objServer.getJSXByName("regCity").getText();
       objRecord.birth = objServer.getJSXByName("regBirth").getValue();
-      objRecord.reading = objServer.getJSXByName("reading").getValue();
-      objRecord.cooking = objServer.getJSXByName("cooking").getValue();
-      objRecord.traveling = objServer.getJSXByName("traveling").getValue();
-      objRecord.studying = objServer.getJSXByName("studying").getValue();
+      
+      //objRecord.reading = objServer.getJSXByName("reading").getText();
+      //objRecord.cooking = objServer.getJSXByName("cooking").getText();
+      //objRecord.traveling = objServer.getJSXByName("traveling").getText();
+      //objRecord.studying = objServer.getJSXByName("studying").getText();
 
       objServer.getJSXByName("cdf").setAttribute('first', objRecord.first);
       objServer.getJSXByName("cdf").setAttribute('last', objRecord.last);
@@ -42,8 +43,10 @@ jsx3.lang.Package.definePackage(
       objServer.getJSXByName("cdf").setAttribute('studying', objRecord.studying);
       objServer.getJSXByName("cdf").write();
       mtxView.insertRecord(objRecord, null, true);
+
+      
       //reset the form
-      // request.doReset();
+      request.doReset(objJSX);
     };
 
     request.doReset = function(objJSX) {
@@ -52,14 +55,19 @@ jsx3.lang.Package.definePackage(
       //clean-up visible form elements
       objServer.getJSXByName("regFirstName").setValue("");
       objServer.getJSXByName("regLastName").setValue("");
-      objServer.getJSXByName("password").setValue("");
+      objServer.getJSXByName("regPassword").setValue("");
       objServer.getJSXByName("regPhone").setValue("");
       objServer.getJSXByName("regEmail").setValue("");
-      // objServer.getJSXByName("male").setSelected(0);
-      // objServer.getJSXByName("female").setSelected(0);
+      objServer.getJSXByName("male").setSelected(jsx3.gui.RadioButton.UNSELECTED);
+      objServer.getJSXByName("female").setSelected(jsx3.gui.RadioButton.UNSELECTED);
+      
+      objServer.getJSXByName("reading").setChecked(jsx3.gui.CheckBox.UNCHECKED);
+      objServer.getJSXByName("cooking").setChecked(jsx3.gui.CheckBox.UNCHECKED);
+      objServer.getJSXByName("traveling").setChecked(jsx3.gui.CheckBox.UNCHECKED);
+      objServer.getJSXByName("studying").setChecked(jsx3.gui.CheckBox.UNCHECKED);
+      
       objServer.getJSXByName("regCity").setValue("");
       objServer.getJSXByName("regBirth").setValue("");
-      objServer.getJSXByName("regTime").setValue("");
       objServer.getJSXByName("reading").setValue("");
       objServer.getJSXByName("cooking").setValue("");
       objServer.getJSXByName("traveling").setValue("");
