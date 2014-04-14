@@ -1,0 +1,22 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name></name>
+  <icon></icon>
+  <description></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="2"></variants>
+    <strings jsxheight="90%" jsxname="blkAsynchTextPane" jsxwidth="100%" jsxpadding="4"></strings>
+    <object type="jsx3.gui.Button">
+      <variants jsxindex="0" jsxheight="18"></variants>
+      <strings jsxname="btnSubmitButton" jsxtext="Submit" jsxmargin="4 0 4 0"></strings>
+      <events jsxexecute="jsx3.eval(eg.pubsub.getServer().getJSXByName('txtSubmitScriptTextArea').getValue());"></events>
+    </object>
+    <object type="jsx3.gui.TextBox">
+      <variants jsxtype="1" jsxrelativeposition="1"></variants>
+      <strings jsxheight="100%" jsxname="txtSubmitScriptTextArea" jsxmargin="" jsxwidth="100%" jsxvalue=" /*create http request object */&#xA;  var objHTTP = new jsx3.net.Request();&#xA;&#xA; /*open connection; pass true for async */&#xA; objHTTP.open('GET', location.href, true);&#xA;&#xA; /* subscribe to 'response' event */&#xA;  objHTTP.subscribe(jsx3.net.Request.EVENT_ON_RESPONSE,function(objEvent) {&#xA;    /* get handle to the http object (this is accessible via the event's 'target' field */&#xA;    var objHTTP = objEvent.target;&#xA;    var alertWindow = {&#xA;     width:400,&#xA;     height:400,&#xA;     scrollbar:true&#xA;    };&#xA;&#xA;    var msg = objHTTP.getResponseText();&#xA;     /*alert user to the underlying source for the page    //publish */&#xA;    eg.pubsub.logger.info('Example2 Subscriber: Received asynchronous response from web link' ,null);&#xA;    eg.pubsub.getServer().alert('Response notified', jsx3.util.strEscapeHTML(msg), null, 'OK', alertWindow);&#xA; });&#xA;&#xA; /* send the request */&#xA; objHTTP.send();&#xA;  " jsxcolor="DarkGreen" jsxdisplay=""></strings>
+      <dynamics jsxfontname="@Script FN" jsxfontsize="@Script FS" jsxbg="@Grid Lines"></dynamics>
+      <properties spellcheck="false"></properties>
+    </object>
+  </object>
+</serialization>

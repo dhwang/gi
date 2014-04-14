@@ -1,0 +1,27 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Sample App Template]]></name>
+  <icon></icon>
+  <description><![CDATA[Basic template for sample applications.  Contains a top block for descriptions, and a bottom block for the sample app.]]></description>
+  <onBeforeDeserialize></onBeforeDeserialize>
+  <onAfterDeserialize></onAfterDeserialize>
+  <object type="jsx3.gui.LayoutGrid">
+    <variants jsxrepeat="2" jsxsizearray="['170','*']" jsxrelativeposition="0" jsxleft="0" jsxtop="-1" jsxoverflow="2" jsxbestguess="1" jsxorientation="0"></variants>
+    <strings jsxname="lytMainLayout" jsxwidth="100%" jsxheight="100%" jsxrows="170,*"></strings>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"></variants>
+      <strings jsxname="blkDescriptionPane" jsxwidth="100%" jsxheight="100%" jsxtext="&lt;p align=&quot;left&quot;&gt;&#xA;  &lt;p align=&quot;right&quot;&gt;&lt;b&gt;PubSub: version 4.0&lt;/b&gt;&lt;br/&gt; JSX version: 3.9.2&lt;/p&gt;&#xA;  &lt;p&gt;A General Interface project, when run, is an instance of the &lt;b&gt;jsx3.app.Server&lt;/b&gt; class.  This class (as well as Alerts, HttpRequest, HttpForm, ERROR, etc) implements the &lt;b&gt;jsx3.util.EventDispatcher&lt;/b&gt; mixin.  The EventDispatcher is the &lt;i&gt;publish/subscribe&lt;/i&gt; mechanism for General Interface and allows for, among other things, asynchronous messaging.  Wheras &lt;i&gt;request/response&lt;/i&gt; is the most common and best understood Web communication model, publish and subscribe does play a necessary role.&lt;/p&gt;&#xA;  &lt;p&gt;To demonstrate how the EventDispatcher can be used, two examples will be shown. (see also logic.js)&lt;/p&gt;  &#xA;  &lt;p&gt;The first one shows how one can subscribe to an arbitrary subject running on a jsx3.app.Server instance.  An event is then published to that subject, notifying all subscribers. Each time the Subscribe button is clicked, a new subscription is created, meaning multiple clicks will result in multiple subscribed clients.Click &lt;i&gt;subscribe&lt;/i&gt; followed by &lt;i&gt;publish&lt;/i&gt; and observe the system messages in System log (GI Builder).&lt;/p&gt;&#xA;  &lt;p&gt;The second example contacts the TIBCO home page, using the &lt;b&gt;jsx3.net.Request&lt;/b&gt; object. This call is asynchronous, so the &quot;response&quot; subject must be subscribed to in order to be notified when the server eventually responds.&lt;/p&gt;&#xA;  &lt;p&gt;Logging api calls used to display trace messages.&lt;/p&gt;&#xA;&lt;/p&gt;"></strings>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel" jsxbgcolor="@Solid Medium"></dynamics>
+      <object type="jsx3.gui.CheckBox">
+        <variants jsxheight="18" jsxchecked="0" jsxdefaultchecked="0" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+        <strings jsxname="chkMinDoc" jsxtext="Minimize doc pane" jsxmargin="0 4 0 0" jsxstyleoverride="float:left;" jsxdisplay=""></strings>
+        <events jsxtoggle="if(intCHECKED)&#xA;this.getParent().getParent().setRows('20,*',true);else&#xA;this.getParent().getParent().setRows('170,*',true);"></events>
+      </object>
+    </object>
+    <object type="jsx3.gui.Block">
+      <variants jsxoverflow="1"></variants>
+      <strings jsxname="blkAppPane" jsxwidth="100%" jsxheight="100%"></strings>
+      <dynamics jsxborder="@Outset" jsxpadding="@8Pixel"></dynamics>
+      <include src="components/tabPanesLayout.xml" async="true"></include>
+    </object>
+  </object>
+</serialization>

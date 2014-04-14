@@ -1,0 +1,63 @@
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
+  <name><![CDATA[Block - 100%]]></name>
+  <icon><![CDATA[images/prototypes/block.gif]]></icon>
+  <description><![CDATA[Simple block, relatively positioned with overflow=scroll.]]></description>
+  <object type="jsx3.gui.Block">
+    <variants jsxoverflow="1"></variants>
+    <strings jsxname="block" jsxwidth="100%" jsxheight="100%" jsxrelativeposition="1"></strings>
+    <object type="jsx3.gui.LayoutGrid">
+      <variants jsxrelativeposition="0" jsxleft="0" jsxtop="0" jsxoverflow="2"></variants>
+      <strings jsxname="layoutRows" jsxrows="100,*" jsxwidth="100%" jsxheight="100%"></strings>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2"></variants>
+        <strings jsxname="pane1" jsxwidth="100%" jsxheight="100%"></strings>
+        <dynamics jsxpadding="@8Pixel"></dynamics>
+        <object type="jsx3.gui.TextBox">
+          <variants jsxtype="1"></variants>
+          <strings jsxheight="100%" jsxwidth="100%" jsxname="output" jsxmargin="0 4 0 0" jsxvalue="" jsxoverflow="auto"></strings>
+        </object>
+      </object>
+      <object type="jsx3.gui.Block">
+        <variants jsxoverflow="2" jsxrelativeposition="0" jsxleft="0" jsxtop="0"></variants>
+        <strings jsxname="pane" jsxwidth="100%" jsxheight="100%" jsxvisibility="visible" jsxdisplay=""></strings>
+        <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+        <object type="jsx3.gui.Splitter">
+          <variants jsxleft="0" jsxtop="0"></variants>
+          <strings jsxname="splitterV" jsxsubcontainer1pct="50%"></strings>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="paneLeft" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18"></variants>
+              <strings jsxname="btnSubscribeButton" jsxtext="Execute Subscribe" jsxmargin="4"></strings>
+              <events jsxexecute="jsx3.eval(eg.pubsub.getServer().getJSXByName(&quot;txtSubscribeScriptTextArea&quot;).getValue(), null);"></events>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxtype="1" jsxrelativeposition="1"></variants>
+              <strings jsxname="txtSubscribeScriptTextArea" jsxmargin="" jsxwidth="100%" jsxheight="90%" jsxvalue="var server = eg.pubsub.getServer();&#xA;&#xA;/*server.unsubscribe(&quot;sometopic&quot;,eg.pubsub.subHandler);*/&#xA;&#xA;server.subscribe(&quot;sometopic&quot;,eg.pubsub.subHandler);&#xA;&#xA;server.getJSXByName(&quot;output&quot;).setValue(&quot;Example1 Subscriber: create Subscription:&quot; + (eg.pubsub.subscriber_count++) + &quot; to listen messages with subject 'sometopic'&quot; ,null) ;" jsxcolor="#009F02" jsxdisplay=""></strings>
+              <dynamics jsxfontname="@Script FN" jsxfontsize="@Script FS"></dynamics>
+              <properties spellcheck="false"></properties>
+            </object>
+          </object>
+          <object type="jsx3.gui.Block">
+            <variants jsxoverflow="2"></variants>
+            <strings jsxname="paneRight" jsxwidth="100%" jsxheight="100%"></strings>
+            <dynamics jsxbgcolor="@Transparent BG"></dynamics>
+            <object type="jsx3.gui.Button">
+              <variants jsxindex="0" jsxheight="18" jsxwidth="100"></variants>
+              <strings jsxname="btnPublishButton" jsxtext="Execute Publish" jsxmargin="4"></strings>
+              <events jsxexecute="jsx3.eval(eg.pubsub.getServer().getJSXByName(&quot;txtPublishScriptTextArea&quot;).getValue(), null);"></events>
+            </object>
+            <object type="jsx3.gui.TextBox">
+              <variants jsxtype="1" jsxrelativeposition="1"></variants>
+              <strings jsxname="txtPublishScriptTextArea" jsxmargin="" jsxwidth="100%" jsxheight="90%" jsxvalue="var server = eg.pubsub.getServer();&#xA;&#xA;&#xA;server.getJSXByName(&quot;output&quot;).setValue(&quot;&quot;);&#xA;&#xA;var publishEvent = {&#xA;  subject: &quot;sometopic&quot;,&#xA;  code: jsx3.util.Logger.INFO,&#xA;  description: &quot;This is a test message on subject sometopic. &quot; + (eg.pubsub.count++)&#xA;};&#xA;&#xA;server.publish(publishEvent); " jsxcolor="#009F02" jsxdisplay=""></strings>
+              <dynamics jsxfontname="@Script FN" jsxfontsize="@Script FS"></dynamics>
+              <properties spellcheck="false"></properties>
+            </object>
+          </object>
+        </object>
+      </object>
+    </object>
+  </object>
+</serialization>
