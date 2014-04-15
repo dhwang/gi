@@ -37,30 +37,30 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/DiffDemo</td>
       <td>&nbsp;</td>
     </tr>
-    <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>setSampleData</td>
+   <tr>
+      <td>waitForJsxPresent</td>
+      <td>button</td>
       <td>5000</td>
-    </tr>    
-    <tr>
-      <td>clickJsxElement</td>
-      <td>gi=setSampleData</td>
-      <td>&nbsp;</td>
     </tr>
     <tr>
       <td>clickJsxElement</td>
-      <td>gi=update</td>  
+      <td>gi=button/[@jsxtext='Set Sample Data']</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>gi=textarea1</td>
+      <td>textarea1</td>
       <td>5000</td>
     </tr>
     <tr>
       <td>waitForElementPresent</td>
-      <td>gi=textarea2</td>
+      <td>textarea2</td>
       <td>5000</td>
+    </tr>
+    <tr>
+      <td>clickJsxElement</td>
+      <td>gi=[@jsxtext='Update']</td>  
+      <td>&nbsp;</td>
     </tr>
     <tr>
       <td>assertText</td>
@@ -119,7 +119,7 @@ Copyright 2006-2014 TIBCO Software Inc.
     </tr>
     <tr>
       <td>clickJsxElement</td>
-      <td>gi=update</td>  
+      <td>gi=[@jsxtext='Update']</td>  
       <td>&nbsp;</td>
     </tr>
     <tr>
