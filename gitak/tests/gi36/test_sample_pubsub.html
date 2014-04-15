@@ -37,20 +37,15 @@ Copyright 2006-2014 TIBCO Software Inc.
       <tr>
         <td>jsxopen</td>
         <td>
-          ${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/36sample-pubsub
+          ${GIPATH}/${LAUNCHER}?jsxapppath=${SAMPLESPATH}/sample-pubsub
         </td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>waitForJsxButtonPresent</td>
-        <td>gi=clearButton</td>
+        <td>waitForJsxPresent</td>
+        <td>gi=btnSubscribeButton</td>
         <td>5000</td>
       </tr>
-      <!-- <tr>
-        <td>assertJsxButtonPresent</td>
-        <td>gi=clearButton</td>
-        <td>&nbsp;</td>
-      </tr> -->
       <tr>
         <td>assertJsxButtonPresent</td>
         <td>gi=btnSubscribeButton</td>
@@ -72,9 +67,9 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
-        <td>output</td>
-        <td>Example1 Subscriber: create Subscription:0 to listen messages with subject 'sometopic'</td>
+        <td>assertJsxValue</td>
+        <td>gi=output</td>
+        <td>Example1 Subscriber: create Subscription:1 to listen messages with subject 'sometopic'</td>
       </tr>
       <tr>
         <td>click</td>
@@ -82,8 +77,8 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
-        <td>output</td>
+        <td>assertJsxValue</td>
+        <td>gi=output</td>
         <td>
           This is a test message on subject sometopic. 1
         </td>
@@ -94,8 +89,8 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
-        <td>output</td>
+        <td>assertJsxValue</td>
+        <td>gi=output</td>
         <td>
           Example1 Subscriber: create Subscription:2 to listen messages with subject 'sometopic'
         </td>
@@ -106,10 +101,9 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertText</td>
-        <td>output</td>
-        <td>This is a test message on subject sometopic. 3
-This is a test message on subject sometopic. 3</td>
+        <td>assertJsxValue</td>
+        <td>gi=output</td>
+        <td>*This is a test message on subject sometopic. 2*</td>
       </tr>
       <tr>
         <td>click</td>
@@ -122,9 +116,9 @@ This is a test message on subject sometopic. 3</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>waitForElementPresent</td>
-        <td>css=.jsx30windowbar:contains("Response notified")</td>
-        <td>5000</td>
+      <td>assertJsxAlertOK</td>
+      <td>Response notified</td>
+      <td>OK</td>
       </tr>
     </tbody>
   </table>
