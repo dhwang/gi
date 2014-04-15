@@ -61,18 +61,20 @@
 				<td>gi=treeBreedSelection,labelbyjsxid,c</td>
 				<td>gi=txtBreed</td>
 			</tr>
+      <!-- JsxValueMatches allows glob wild card pattern -->
 			<tr>
-				<td>assertJsxValueEqual</td>
+				<td>assertJsxValueMatches</td>
 				<td>txtBreed</td>
-				<td>Poodle</td>
+				<td>*Poodle*</td>
 			</tr>
 			<tr>
 				<td>dragJsxToJsx</td>
 				<td>gi=treeBreedSelection,labelbyjsxid,e</td>
 				<td>gi=blkRightPane</td>
 			</tr>
+      <tr><td colspan="3">--- alternative way of asserting textbox value ---<td></tr>
 			<tr>
-				<td>assertJsxValueEqual</td>
+				<td>assertValue</td>
 				<td>txtBreed</td>
 				<td>Mutt</td>
 			</tr>
