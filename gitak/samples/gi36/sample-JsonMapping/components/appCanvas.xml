@@ -22,7 +22,7 @@
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18" jsxwidth="200"></variants>
           <strings jsxname="btnService" jsxtext="Search by Mapped Service" jsxmargin="0 4 0 0" jsxkeycode="enter" jsxtip="Search picture by jsx3.net.Service"></strings>
-          <events jsxexecute="eg.service.MODE = 1;eg.service.call(this.getServer());"></events>
+          <events jsxexecute="eg.service.call(this.getServer());"></events>
         </object>
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18" jsxwidth="200"></variants>
@@ -33,14 +33,12 @@
           <variants jsxheight="18"></variants>
           <strings jsxname="cdf" jsxwidth="100%" jsxcdfid="1" jsxxml="&lt;data jsxid=&quot;jsxroot&quot;&gt;&#xA;  &lt;record jsxid=&quot;1&quot; first=&quot;john&quot; last=&quot;public&quot; middle=&quot;q&quot;/&gt;&#xA;&lt;/data&gt;"></strings>
           <object type="jsx3.gui.RadioButton">
-            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"></variants>
-            <strings jsxname="radio" jsxtext="live" jsxgroupname="group1" jsxmargin="0 4 0 0"></strings>
-            <events jsxselect="eg.service.MODE = 1;&#xA;eg.service.call(this.getServer());"></events>
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"></variants>
+            <strings jsxname="radLive" jsxtext="live" jsxgroupname="group1" jsxmargin="0 4 0 0"></strings>
           </object>
           <object type="jsx3.gui.RadioButton">
-            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="0" jsxrelativeposition="1"></variants>
-            <strings jsxname="radio" jsxtext="static" jsxgroupname="group1" jsxmargin="0 4 0 0"></strings>
-            <events jsxselect="eg.service.MODE = 0;&#xA;eg.service.call(this.getServer());"></events>
+            <variants jsxheight="18" jsxdefaultselected="1" jsxselected="1" jsxrelativeposition="1"></variants>
+            <strings jsxname="radStatic" jsxtext="static" jsxgroupname="group1" jsxmargin="0 4 0 0"></strings>
           </object>
         </object>
       </object>

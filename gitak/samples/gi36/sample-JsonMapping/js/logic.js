@@ -7,14 +7,13 @@ jsx3.lang.Package.definePackage(
   function(service) { 
 
     service.APP;
-    service.MODE = 1;
     //name the argument of this function
     //call this method to begin the service call (eg.service.call();)
     service.call = function(appServer) {
       appServer.getBodyBlock().showMask("<h1 style='left:100px;white-space:nowrap;'>Sent request; Loading..</h1>");
       var objService = service.APP.loadResource("testjson_xml");
       //live or static
-      objService.setMode(service.MODE);
+      objService.setMode(eg.service.APP.getJSXByName("radLive").getSelected());
       objService.setInboundURL("xml/source.json");//locally saved static response
 
       //service operation name, REST has no name ""
@@ -59,33 +58,6 @@ jsx3.lang.Package.definePackage(
       });
 
       service.APP.getCache().setDocument("service_copy",mtx.getXML().cloneDocument());
-      
-    };
-
-    service.static = function() {
-      var mtx = service.getMatrix();
-      mtx.clearXmlData();
-      var cdfStatic = (new jsx3.xml.CDF.Document()).load(service.APP.resolveURI("xml/source.xml"));
-
-      var children = cdfStatic.getChildNodes();
-      var length = children.size();
-      
-
-      for(var i = 0; i<length; i++){
-        var child = children.get(i);
-        var insertRecordId = child.getAttribute("jsxid");
-        var url = "http://farm"+child.getAttribute('farm')+".staticflickr.com/"+child.getAttribute('server')+"/"+child.getAttribute('jsxid')+"_"+child.getAttribute('secret')+".jpg",
-         small = "http://farm"+child.getAttribute('farm')+".staticflickr.com/"+child.getAttribute('server')+"/"+child.getAttribute('jsxid')+"_"+child.getAttribute('secret')+"_s.jpg";
-        var objRecord = {
-            jsximg : small,
-            owner : child.getAttribute('owner'),
-            url : url,
-            title : child.getAttribute('title'),
-            jsxid : child.getAttribute('jsxid')
-         }
-         mtx.insertRecord(objRecord, insertRecordId, true);
-
-      };
       
     };
 
