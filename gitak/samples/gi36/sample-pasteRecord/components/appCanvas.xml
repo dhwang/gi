@@ -1,4 +1,4 @@
-<serialization jsxversion="3.5" xmlns="urn:tibco.com/v3.0">
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[appCanvas]]></name>
   <icon></icon>
   <description><![CDATA[Sample for copy and pasting records from jsx3.gui.List to jsx3.gui.Textbox.]]></description>
@@ -9,7 +9,7 @@
     <strings jsxname="layout (--)" jsxwidth="100%" jsxheight="100%" jsxrows="220,*,15"></strings>
     <object type="jsx3.gui.Block">
       <variants jsxoverflow="1"></variants>
-      <strings jsxname="description" jsxwidth="100%" jsxheight="100%" jsxtext="&lt;P align=&quot;right&quot;&gt; &lt;B&gt;Copy and Paste Formatted Text from List: version 2.1&lt;/B&gt;&lt;BR&gt;&#xA;JSX version: 3.4.0 +later&lt;/P&gt;&#xA;&#xA;&lt;P&gt;This sample application shows how to enable a right-click context menu to copy a jsx3.gui.Matrix List record to the clipboard as formatted text.&lt;/P&gt;The use case is to allow the application user the ability to right mouse a record, select from a menu to copy the entire record to the clipboard and then allow a &amp;lt;CONTROL&amp;gt;&amp;lt;V&amp;gt; keyboard sequence to insert the formatted text from the clipboard to any text area.&lt;/p&gt;&lt;p&gt;Show Source Button will retrieve the logic.js file using jsx3.net.Request for display.&lt;/p&gt;"></strings>
+      <strings jsxname="description" jsxwidth="100%" jsxheight="100%" jsxtext="&lt;p align=&quot;right&quot;&gt; &lt;B&gt;Copy and Paste Formatted Text from List: version 2.2&lt;/B&gt;&lt;BR/&gt;&#xA;JSX version: 3.9.0 +later&lt;/p&gt;&#xA;&#xA;&lt;p&gt;This sample application shows how to enable a right-click context menu to copy a jsx3.gui.Matrix List record to the clipboard as formatted text.  There's no system clipboard access on platform other than IE,  so we directly set value from copy.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;The use case is to allow the application user the ability to right mouse a record, select from a menu to copy the entire record to the clipboard and then allow a &amp;lt;CONTROL&amp;gt;&amp;lt;V&amp;gt; keyboard sequence to insert the formatted text from the clipboard to any text area.&lt;/p&gt;&#xA;&lt;p&gt;Show Source Button will retrieve the logic.js file using jsx3.net.Request for display.&lt;/p&gt;"></strings>
       <dynamics jsxborder="@Outset" jsxpadding="@8Pixel" jsxbgcolor="@Solid Medium"></dynamics>
       <object type="jsx3.gui.Button">
         <variants jsxindex="0" jsxheight="18"></variants>
@@ -77,7 +77,7 @@
         </object>
         <object type="jsx3.gui.Block">
           <variants jsxleft="340" jsxtop="290" jsxwidth="290" jsxheight="40" jsxoverflow="1" jsxrelativeposition="0"></variants>
-          <strings jsxname="resultBlockText" jsxtextalign="center" jsxtext="Text area for right click context menu paste or &amp;lt;CONTROL&amp;gt;&amp;lt;V&amp;gt; paste." jsxpadding="padding-top:4px;"></strings>
+          <strings jsxname="resultBlockText" jsxtextalign="center" jsxtext="Text area for right click context menu paste (or IE only, use &amp;lt;CONTROL+V&amp;gt; to paste)." jsxpadding="padding-top:4px;"></strings>
           <dynamics jsxbgcolor="@Solid Medium" jsxborder="@Inset"></dynamics>
         </object>
       </object>

@@ -1,4 +1,4 @@
-<serialization jsxversion="3.5" xmlns="urn:tibco.com/v3.0">
+<serialization jsxversion="3.9" xmlns="urn:tibco.com/v3.0">
   <name><![CDATA[Dialog]]></name>
   <icon></icon>
   <description><![CDATA[Dialog box.  (Set Modal property for a modal dialog).]]></description>
@@ -39,7 +39,8 @@
     </object>
     <object type="jsx3.gui.TextBox">
       <variants jsxtype="1"></variants>
-      <strings jsxname="txt_logic_js" jsxmargin="margin-right:4px;" jsxwidth="100%" jsxheight="99%"></strings>
+      <strings jsxname="txt_logic_js" jsxwidth="100%" jsxheight="99%" jsxstyleoverride="background-image:url(JSX/images/icons/gridlines.gif);font-size:1.2em;font-family:courier;margin-right:4px;" jsxvalue=""></strings>
+      <properties spellcheck="false"></properties>
     </object>
   </object>
 </serialization>
