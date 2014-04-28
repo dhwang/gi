@@ -49,10 +49,10 @@
       <record jsxid="src" type="string">components/imgBlock.xml</record>
     </record>
     <record jsxid="5" type="map">
-      <record jsxid="id" type="string">source_xml</record>
-      <record jsxid="type" type="string">xml</record>
+      <record jsxid="id" type="string">source_json</record>
+      <record jsxid="type" type="string">json</record>
       <record jsxid="load" type="number">0</record>
-      <record jsxid="src" type="string">xml/source.xml</record>
+      <record jsxid="src" type="string">xml/source.json</record>
     </record>
   </record>
   <record jsxid="bodyhotkeys" type="boolean">false</record>

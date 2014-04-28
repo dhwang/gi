@@ -16,8 +16,9 @@
         <dynamics jsxborder="@Outset"></dynamics>
         <object type="jsx3.gui.TextBox">
           <variants jsxheight="18"></variants>
-          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Beijing restaurant" jsxwidth="100%"></strings>
+          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="" jsxwidth="100%"></strings>
           <dynamics jsxborder="@Inset"></dynamics>
+          <properties placeholder="Flickr: enter keyword"></properties>
         </object>
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18" jsxwidth="200"></variants>
