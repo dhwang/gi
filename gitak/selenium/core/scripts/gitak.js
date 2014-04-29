@@ -2272,6 +2272,10 @@ Selenium.prototype.getJsxOfType = function(text) {
   return (pObj) ? pObj.getDescendantsOfType(type) : [];  
 }
 
+Selenium.prototype.getJsxElement = function(locator) {
+  return this.browserbot.findElement(locator); 
+}
+
 Selenium.prototype.getJsxElementId = function(locator) {
 /**
  * Return the <b>jsxid</b> of an rendered JSX Object
@@ -2431,6 +2435,7 @@ Selenium.prototype.isJsxButtonPresent = function(text) {
         return (element) ? true : false;
     } catch (e) {
       LOG.debug("exception caught in isJsxButtonPresent");
+      return false;
     }
     return false;
 };
