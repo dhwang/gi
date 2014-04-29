@@ -360,11 +360,29 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   /**
    * @package
    */
-  html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
-    objElement.insertAdjacentHTML(strWhere, strHTML);
-    return strHTML;
-  };
+  // html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
+  //   objElement.insertAdjacentHTML(strWhere, strHTML);
+  //   return strHTML;
+  // };
 
+  html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
+    if (strWhere.toLowerCase() == "beforeend") {
+      var r = objElement.ownerDocument.createRange();
+      r.setStartAfter(objElement);
+      var df = r.createContextualFragment(strHTML);
+      objElement.appendChild(df);
+      return strHTML;
+    } else if (strWhere.toLowerCase() == "beforebegin") {
+      var r = objElement.ownerDocument.createRange();
+      r.setStartBefore(objElement);
+      var df = r.createContextualFragment(strHTML);
+      objElement.parentNode.insertBefore(df,objElement);
+      return strHTML;
+    } else {
+      throw new jsx3.Exception(jsx3._msg("html.adj", strWhere));
+    }
+  };
+  
   html._FOCUSABLE = {input:true, textarea:true, select:true, body:true, a:true, img:true, button:true, frame:true,
       iframe:true, object:true};
 
@@ -518,23 +536,23 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     objElement.appendChild(objElement.ownerDocument.createTextNode(strText));
   };
 
-  html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
-    if (strWhere.toLowerCase() == "beforeend") {
-      var r = objElement.ownerDocument.createRange();
-      r.setStartAfter(objElement);
-      var df = r.createContextualFragment(strHTML);
-      objElement.appendChild(df);
-      return strHTML;
-    } else if (strWhere.toLowerCase() == "beforebegin") {
-      var r = objElement.ownerDocument.createRange();
-      r.setStartBefore(objElement);
-      var df = r.createContextualFragment(strHTML);
-      objElement.parentNode.insertBefore(df,objElement);
-      return strHTML;
-    } else {
-      throw new jsx3.Exception(jsx3._msg("html.adj", strWhere));
-    }
-  };
+  // html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
+  //   if (strWhere.toLowerCase() == "beforeend") {
+  //     var r = objElement.ownerDocument.createRange();
+  //     r.setStartAfter(objElement);
+  //     var df = r.createContextualFragment(strHTML);
+  //     objElement.appendChild(df);
+  //     return strHTML;
+  //   } else if (strWhere.toLowerCase() == "beforebegin") {
+  //     var r = objElement.ownerDocument.createRange();
+  //     r.setStartBefore(objElement);
+  //     var df = r.createContextualFragment(strHTML);
+  //     objElement.parentNode.insertBefore(df,objElement);
+  //     return strHTML;
+  //   } else {
+  //     throw new jsx3.Exception(jsx3._msg("html.adj", strWhere));
+  //   }
+  // };
 
 /* @JSC */ }
 
@@ -701,56 +719,12 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
 
 /* @JSC */ }
 
-/* @JSC */ if (jsx3.CLASS_LOADER.FX) {
-
-  html.copy = function(strText) {
-    //get an instance of the clipboard
-    netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
-    var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
-    if(clip) {
-      //make sure clipboard is accessible
-      var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
-      if(trans) {
-        //specify Unicode as the string format
-        trans.addDataFlavor('text/unicode');
-
-        //instance a native String
-        var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
-        str.data = strText;
-
-        //(is this due to unicode double-byte?)
-        trans.setTransferData("text/unicode",str,strText.length*2);
-
-        var clipid = Components.interfaces.nsIClipboard;
-        clip.setData(trans,null,clipid.kGlobalClipboard);
-      }
-    }
-  };
-
-  html.paste = function() {
-    netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
-    var clip = Components.classes["@mozilla.org/widget/clipboard;1"].getService(Components.interfaces.nsIClipboard);
-    if(clip) {
-      var trans = Components.classes["@mozilla.org/widget/transferable;1"].createInstance(Components.interfaces.nsITransferable);
-      if(trans) {
-        trans.addDataFlavor("text/unicode");
-        clip.getData(trans,clip.kGlobalClipboard);
-        var str = {};
-        var strLength = {};
-        trans.getTransferData("text/unicode",str,strLength);
-
-        if(str) str = str.value.QueryInterface(Components.interfaces.nsISupportsString);
-        return ((str) ? str.data.substring(0,strLength.value / 2) : null);
-      }
-    }
-    return null;
-  };
-
-/* @JSC */ } else {
+/* @JSC */ if (jsx3.CLASS_LOADER.IE) {
 
   /**
    * Copies the given string of text to the clipboard
    * @param strText {String} text to copy
+   * @deprecated - Not supported on Platform other than IE
    */
   html.copy = function(strText) {
     //for now only allow the text data type
@@ -760,6 +734,7 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   /**
    * Returns the current text content of the clipboard
    * @return {String}
+   * @deprecated - Not supported on Platform other than IE
    */
   html.paste = function() {
     //for now only allow the text data type
