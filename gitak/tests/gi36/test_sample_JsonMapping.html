@@ -39,24 +39,24 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>&nbsp;</td>
     </tr>
     <tr>
-     <td>waitForJsxButtonPresent</td>
+     <td>waitForElementPresent</td>
+     <td>gi=[@jsxtext='Search by Mapped Service']</td>
+     <td>5000</td>
+    </tr>
+    <tr>
+     <td>assertJsxTextMatches</td>
+     <td>gi=${LASTJSXNAME}</td>
      <td>Search by Mapped Service</td>
-     <td>5000</td>
     </tr>
     <tr>
-     <td>waitForJsxButtonPresent</td>
-     <td>Search by Direct Request</td>
-     <td>5000</td>
+     <td>assertJsxValueMatches</td>
+     <td>textbox</td>
+     <td></td>
     </tr>
     <tr>
-     <td>assertJsxButtonPresent</td>
-     <td>Search by Mapped Service</td>
-     <td>5000</td>
-    </tr>
-    <tr>
-     <td>assertJsxButtonPresent</td>
-     <td>Search by Direct Request</td>
-     <td>5000</td>
+     <td>typeJsxTextbox</td>
+     <td>textbox</td>
+     <td>Beijing restaurant</td>
     </tr>
     <tr>
      <td>assertJsxValueMatches</td>
@@ -123,12 +123,8 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>css=.jsx30radio:nth(1)</td>
       <td>&nbsp;</td>
     </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>5000</td>
-    </tr>
-    <tr>
+<!--
+     <tr>
       <td>assertElementPresent</td>
       <td>gi=matrix1,rowbyindex,9</td>
       <td>&nbsp;</td>
@@ -148,10 +144,21 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>gi=matrix1,rowbyindex,9</td>
       <td>&nbsp;</td>
     </tr>
+    -->
+    <tr>
+      <td>storeJsxElement</td>
+      <td>gi=matrix1,cellbyindex,1.2</td>
+      <td>linkCell</td>
+    </tr>
+    <tr>
+      <td>storeEval</td>
+      <td>storedVars['linkCell'].childNodes[0].childNodes[0]</td>
+      <td>link</td>
+    </tr>
     <tr>
       <td>click</td>
-      <td>gi=matrix1,cellbyindex,1.2</td>
-      <td></td>
+      <td>dom=storedVars['link']</td>
+      <td/>
     </tr>
   </tbody>
 
