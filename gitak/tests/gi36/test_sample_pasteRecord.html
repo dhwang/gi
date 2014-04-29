@@ -74,13 +74,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>storeEval</td>
-        <td>'city: '+selenium.page().findByJsxName('list').getXML().selectSingleNode("//record[@jsxid='city_01']").getAttribute('city')+
-          '\nstate: '+selenium.page().findByJsxName('list').getXML().selectSingleNode("//record[@jsxid='city_01']").getAttribute('state')+
-          '\nzip: '+selenium.page().findByJsxName('list').getXML().selectSingleNode("//record[@jsxid='city_01']").getAttribute('zip')</td>
-        <td>record_01</td>
-      </tr>
-      <tr>
         <td>click</td>
         <td>gi=cityStateZipMenu,itembyjsxid,copyRecords_01</td>
         <td>&nbsp;</td>
@@ -94,11 +87,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>click</td>
         <td>gi=pasteMenu,itembyjsxid,pasteRecords_01</td>
         <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>typeJsxTextbox</td>
-        <td>gi=textarea</td>
-        <td>${record_01}</td>
       </tr>
       <tr>
         <td>assertValue</td>
@@ -111,13 +99,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>storeEval</td>
-        <td>'city: '+selenium.page().findByJsxName('list').getXML().selectSingleNode("//record[@jsxid='city_02']").getAttribute('city')+
-          '\nstate: '+selenium.page().findByJsxName('list').getXML().selectSingleNode("//record[@jsxid='city_02']").getAttribute('state')+
-          '\nzip: '+selenium.page().findByJsxName('list').getXML().selectSingleNode("//record[@jsxid='city_02']").getAttribute('zip')</td>
-        <td>record_02</td>
-      </tr>
-      <tr>
         <td>click</td>
         <td>gi=cityStateZipMenu,itembyjsxid,copyRecords_01</td>
         <td>&nbsp;</td>
@@ -131,11 +112,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>click</td>
         <td>gi=pasteMenu,itembyjsxid,pasteRecords_01</td>
         <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>typeJsxTextbox</td>
-        <td>gi=textarea</td>
-        <td>${record_02}</td>
       </tr>
       <tr>
         <td>assertValue</td>
