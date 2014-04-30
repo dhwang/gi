@@ -19,47 +19,40 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test sample localization</title>
 </head>
 <body>
-<table border="1">
-<caption>Locolization test for Datepicker, TimePicker, and Select/Combo box form control and as part of Matrix mask </caption>
-<caption></caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">GUI components localization<br>
-      </td>
-    </tr>
-      <!--tr>
-        <td>setInterval</td>
-        <td>100</td>
+  <table border="1">
+    <caption>
+      Locolization test for Datepicker, TimePicker, and Select/Combo box form control and as part of Matrix mask
+    </caption>
+    <caption></caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          GUI components localization
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
         <td>&nbsp;</td>
-      </tr-->
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-localization</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-       <td>waitForElementPresent</td>
-       <td>gi=mnuLocaleSelectMenu</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>lytMainLayout</td>
-      <td>0,*</td>
-    </tr>
-<!--     <tr>
-      <td>unsubscribeJsxResize</td>
-      <td>// disable resize event to work around IE bug, which affects all Heaveyweight drop down windows.</td>
-      <td>&nbsp;</td>
-    </tr> -->
-	<tr>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-localization
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=mnuLocaleSelectMenu</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>lytMainLayout</td>
+        <td>0,*</td>
+      </tr>
+      <tr>
         <td>clickJsxMenu</td>
         <td>gi=mnuLocaleSelectMenu</td>
         <td>&nbsp;</td>
@@ -97,7 +90,7 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>datePicker</td>
         <td>17 avr 2008</td>
       </tr>
-      <tr>                  
+      <tr>
         <td colspan="3">!-- Test Chinese locale--</td>
       </tr>
       <tr>
@@ -114,11 +107,11 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>assertJsxText</td>
         <td>select</td>
         <td>- 選擇 -</td>
-      </tr>      
+      </tr>
       <tr>
         <td>assertJsxValue</td>
         <td>timePicker</td>
-        <td>12时00 AM</td>
+        <td>12时00 上午</td>
       </tr>
       <tr>
         <td>assertJsxValue</td>
@@ -153,15 +146,7 @@ Copyright 2006-2008 TIBCO Software Inc.
         <td>datePicker</td>
         <td>Apr 17, 2008</td>
       </tr>
-      
-    <!-- assert list row length = +1 -->
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+    </tbody>
+  </table>
 </body>
 </html>

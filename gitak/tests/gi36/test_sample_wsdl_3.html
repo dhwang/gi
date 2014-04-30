@@ -21,97 +21,100 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Sample WSDL Mapping 3</title>
 </head>
 <body>
-<table border="1">
-<caption>WSDL sample 3, sends a second service request for additional close price information on a retrieved stock quote</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample WSDL mapping 3<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-WSDL_Mapping_3</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>Query Service</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=txtSymbolInput</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>gi=txtSymbolInput</td>
-      <td>CSCO,YHOO,SUNW,TIBX</td>
-    </tr>
-    <tr>
-      <td>pickJsxDate</td>
-      <td>dpkrStartDatePicker</td>
-      <td>2005/07/15</td>
-    </tr>
-        
-    <tr>
-      <td>click</td>
-      <td>gi=btnQueryButton</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>css=.jsx30windowbar_lbl:contains("Success")</td>
-      <td>5000</td>
-    </tr>   
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>*success*</td>
-      <td>&nbsp;</td>      
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=mtxResultsList,rowbyindex,2</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>gi=mtxResultsList,rowbyindex,2</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>css=.jsx30windowbar:contains(Today's closing price for: SUNW)</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>css=.jsx30windowbar:contains(Today's closing price for: SUNW)</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>doubleClickJsxElement</td>
-      <td>gi=mtxResultsList,rowbyindex,1</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>css=.jsx30windowbar:contains(Today's closing price for: TIBX)</td>
-      <td>&nbsp;</td>
-    </tr>
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-    
-  </tbody>
-
-</table>
+  <table border="1">
+    <caption>
+      WSDL sample 3, sends a second service request for additional close price information on a retrieved stock quote
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample WSDL mapping 3
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-WSDL_Mapping_3
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>Query Service</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=txtSymbolInput</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>gi=txtSymbolInput</td>
+        <td>CSCO,YHOO,SUNW,TIBX</td>
+      </tr>
+      <tr>
+        <td>pickJsxDate</td>
+        <td>dpkrStartDatePicker</td>
+        <td>2005/07/15</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnQueryButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>css=.jsx30windowbar_lbl:contains("Success")</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>*success*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=mtxResultsList,rowbyindex,2</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>doubleClickJsxElement</td>
+        <td>gi=mtxResultsList,rowbyindex,2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>
+          css=.jsx30windowbar:contains(Today's closing price for: SUNW)
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>
+          css=.jsx30windowbar:contains(Today's closing price for: SUNW)
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>doubleClickJsxElement</td>
+        <td>gi=mtxResultsList,rowbyindex,1</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>
+          css=.jsx30windowbar:contains(Today's closing price for: TIBX)
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

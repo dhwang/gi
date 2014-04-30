@@ -21,40 +21,38 @@ Copyright 2006-2014 TIBCO Software Inc.
   <title>Test XML to CDF</title>
 </head>
 <body>
-<table border="1">
-<caption>This sample does an XML to CDF transformation using XSLT</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample XML To CDF Transform<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <!--tr>
-        <td>echo</td>
-        <td>${GIPATH}</td>
-        <td bgcolor="lime">testSetup.html must be edited with installed GI path</td>
-    </tr-->
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-XMLToCDFTransform</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-       <td>waitForElementPresent</td>
-       <td>gi=mtxResultsTable</td>
-       <td>5000</td>
-     </tr>
+  <table border="1">
+    <caption>This sample does an XML to CDF transformation using XSLT</caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample XML To CDF Transform
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-XMLToCDFTransform
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=mtxResultsTable</td>
+        <td>5000</td>
+      </tr>
       <tr>
         <td>assertEval</td>
-        <td>selenium.page().findByJsxName('xblkOutputPane').getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
+        <td>
+          selenium.page().findByJsxName('xblkOutputPane').getXML().selectSingleNode('//data').getChildNodes().getLength()
+        </td>
         <td>0</td>
       </tr>
-
       <tr>
         <td>type</td>
         <td>gi=txtXMLFileInput</td>
@@ -77,7 +75,9 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>assertNotEval</td>
-        <td>selenium.page().findByJsxName('xblkOutputPane').getXML().selectSingleNode('//data').getChildNodes().getLength()</td>
+        <td>
+          selenium.page().findByJsxName('xblkOutputPane').getXML().selectSingleNode('//data').getChildNodes().getLength()
+        </td>
         <td>0</td>
       </tr>
       <tr>
@@ -85,9 +85,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>gi=mtxResultsTable,rowbyindex,2</td>
         <td>&nbsp;</td>
       </tr>
-
-  </tbody>
-
-</table>
+    </tbody>
+  </table>
 </body>
 </html>

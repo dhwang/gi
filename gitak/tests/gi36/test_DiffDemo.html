@@ -38,13 +38,13 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>&nbsp;</td>
     </tr>
    <tr>
-      <td>waitForJsxPresent</td>
-      <td>button</td>
+      <td>waitForElementPresent</td>
+      <td>gi=textarea2</td>
       <td>5000</td>
     </tr>
     <tr>
-      <td>clickJsxElement</td>
-      <td>gi=button/[@jsxtext='Set Sample Data']</td>
+      <td>click</td>
+      <td>css=.jsx30button:nth(0)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -58,8 +58,8 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>5000</td>
     </tr>
     <tr>
-      <td>clickJsxElement</td>
-      <td>gi=[@jsxtext='Update']</td>  
+      <td>click</td>
+      <td>css=.jsx30button:nth(1)</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -67,16 +67,6 @@ Copyright 2006-2014 TIBCO Software Inc.
       <td>css=.new:nth(1)</td>
       <td>Cesarem legato alacrem eorum.</td>
     </tr>
-    <!-- <tr>
-      <td>store</td>
-      <td>css=td span:contains("Cesarem legato alacrem eorum.")</td>
-      <td>newObj</td>
-    </tr>
-    <tr>
-      <td>echo</td>
-      <td>${newObj}</td>
-      <td></td>
-    </tr>  --> 
     <tr>
       <td>assertText</td>
       <td>css=.changed:nth(0)</td>
@@ -118,7 +108,7 @@ Copyright 2006-2014 TIBCO Software Inc.
       	line three<br/></td>
     </tr>
     <tr>
-      <td>clickJsxElement</td>
+      <td>click</td>
       <td>gi=[@jsxtext='Update']</td>  
       <td>&nbsp;</td>
     </tr>

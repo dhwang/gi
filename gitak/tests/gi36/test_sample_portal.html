@@ -21,135 +21,134 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test XML to CDF</title>
 </head>
 <body>
-<table border="1">
-<caption>Test multiple app on the same page, communicating with PageBus.</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test Portal Multiple Apps<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-<!--         <td bgcolor="lime">testSetup.html must be edited with installed GI path</td> -->
-    <tr>
+  <table border="1">
+    <caption>
+      Test multiple app on the same page, communicating with PageBus.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test Portal Multiple Apps
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
         <td>echo</td>
         <td>${GIPATH}</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${SAMPLESPATH}/sample-portal/sample-portal.html?gipath=${GIPATH}</td>
-      <td>&nbsp;</td>
-    </tr>
-     <tr>
-       <td>waitForTextPresent</td>
-       <td>*Product Sales Chart*</td>
-       <td>5000</td>
-     </tr>
-     <tr>
-       <td>setJsxNamespace</td>
-       <td>eg.portletA.APP</td>
-       <td>&nbsp;</td>
-     </tr>  
-     <tr>
-       <td>assertTextPresent</td>
-       <td>Data Table</td>
-       <td>&nbsp;</td>
-     </tr>     
- 
-    <tr>
-      <td colspan="3">-- show widget B --</td>
-    </tr>
-     <tr>
-       <td>click</td>
-       <td>gi=listWidgetList,rowbyindex,1</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>click</td>
-       <td>gi=btnShowChart</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>setJsxNamespace</td>
-       <td>eg.portletB.APP</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>assertTextPresent</td>
-       <td>*Sales - Widget B*</td>
-       <td>&nbsp;</td>
-     </tr>     
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${SAMPLESPATH}/sample-portal/sample-portal.html?gipath=${GIPATH}
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForTextPresent</td>
+        <td>*Product Sales Chart*</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>setJsxNamespace</td>
+        <td>eg.portletA.APP</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>Data Table</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3">-- show widget B --</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=listWidgetList,rowbyindex,1</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnShowChart</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>setJsxNamespace</td>
+        <td>eg.portletB.APP</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>*Sales - Widget B*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3">-- show widget C --</td>
+      </tr>
+      <tr>
+        <td>setJsxNamespace</td>
+        <td>eg.portletA.APP</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=listWidgetList,rowbyindex,2</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnShowChart</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>setJsxNamespace</td>
+        <td>eg.portletB.APP</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>*Sales - Widget C*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3">-- show widget D --</td>
+      </tr>
 
-    <tr>
-      <td colspan="3">-- show widget C --</td>
-    </tr>
-     
-     <tr>
-       <td>setJsxNamespace</td>
-       <td>eg.portletA.APP</td>
-       <td>&nbsp;</td>
-     </tr>  
-     <tr>
-       <td>click</td>
-       <td>gi=listWidgetList,rowbyindex,2</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>click</td>
-       <td>gi=btnShowChart</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>setJsxNamespace</td>
-       <td>eg.portletB.APP</td>
-       <td>&nbsp;</td>
-     </tr>        
-     <tr>
-       <td>assertTextPresent</td>
-       <td>*Sales - Widget C*</td>
-       <td>&nbsp;</td>
-     </tr>     
-    
-    <tr>
-      <td colspan="3">-- show widget D --</td>
-    </tr>
-     
-     <tr>
-       <td>setJsxNamespace</td>
-       <td>eg.portletA.APP</td>
-       <td>&nbsp;</td>
-     </tr>  
-     <tr>
-       <td>click</td>
-       <td>gi=listWidgetList,rowbyindex,3</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>click</td>
-       <td>gi=btnShowChart</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>setJsxNamespace</td>
-       <td>eg.portletB.APP</td>
-       <td>&nbsp;</td>
-     </tr>        
-     <tr>
-       <td>assertTextPresent</td>
-       <td>*Sales - Widget D*</td>
-       <td>&nbsp;</td>
-     </tr>     
-     <tr>
-       <td>include</td>
-       <td>testTearDown.html</td>
-       <td>&nbsp;</td>
-     </tr>  
-  </tbody>
-
-</table>
+      <tr>
+        <td>setJsxNamespace</td>
+        <td>eg.portletA.APP</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=listWidgetList,rowbyindex,3</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnShowChart</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>setJsxNamespace</td>
+        <td>eg.portletB.APP</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>*Sales - Widget D*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testTearDown.html</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

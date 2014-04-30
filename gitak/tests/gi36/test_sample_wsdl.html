@@ -21,97 +21,101 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Sample WSDL Mapping 1</title>
 </head>
 <body>
-<table border="1">
-<caption>Simple WSDL service sample showing retrieval of City+State information using zipcode, then county name with additional asynchronous call.</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample WSDL mapping 1<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/WSDL_Mapping_1</td>
-      <td>// WSDL_Mapping_1 now run in static mode</td>
-    </tr>
-     <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>Find City and State</td>
-       <td>5000</td>
-     </tr>
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>Find City and State</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=zip</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertValue</td>
-      <td>gi=zip</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>gi=zip</td>
-      <td>94304</td>
-    </tr>
-    <tr>
-      <td>assertValue</td>
-      <td>gi=zip</td>
-      <td>94304</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=lookupButton</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>css=.jsx30windowbar:contains("Success")</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>*success*</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertValue</td>
-      <td>gi=state</td>
-      <td>CA</td>
-    </tr>
-    <tr>
-      <td>assertValue</td>
-      <td>gi=city</td>
-      <td>PALO ALTO</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=buttonCounty</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>css=.jsx30windowbar:contains("Server alert box showing county")</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>*SANTA CLARA*</td>
-      <td>&nbsp;</td>
-    </tr>
-    
-  </tbody>
-
-</table>
+  <table border="1">
+    <caption>
+      Simple WSDL service sample showing retrieval of City+State information using zipcode, then county name with additional asynchronous call.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample WSDL mapping 1
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/WSDL_Mapping_1
+        </td>
+        <td>// WSDL_Mapping_1 now run in static mode</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>Find City and State</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>Find City and State</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=zip</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertValue</td>
+        <td>gi=zip</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>gi=zip</td>
+        <td>94304</td>
+      </tr>
+      <tr>
+        <td>assertValue</td>
+        <td>gi=zip</td>
+        <td>94304</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=lookupButton</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>css=.jsx30windowbar:contains("Success")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>*success*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertValue</td>
+        <td>gi=state</td>
+        <td>CA</td>
+      </tr>
+      <tr>
+        <td>assertValue</td>
+        <td>gi=city</td>
+        <td>PALO ALTO</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=buttonCounty</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>
+          css=.jsx30windowbar:contains("Server alert box showing county")
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>*SANTA CLARA*</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

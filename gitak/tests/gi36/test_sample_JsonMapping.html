@@ -19,149 +19,116 @@ Copyright 2006-2014 TIBCO Software Inc.
   <meta content="text/html; charset=ISO-8859-1"
  http-equiv="content-type">
   <title>Test JsonMapping</title>
-</head> 
+</head>
 <body>
-<table border="1">
-<caption>Simple matrix sample with Json service, testing the data showing.</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test JsonMapping<br>
-      </td>
-    </tr>
-    <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-JsonMapping</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-     <td>waitForElementPresent</td>
-     <td>gi=[@jsxtext='Search by Mapped Service']</td>
-     <td>5000</td>
-    </tr>
-    <tr>
-     <td>assertJsxTextMatches</td>
-     <td>gi=${LASTJSXNAME}</td>
-     <td>Search by Mapped Service</td>
-    </tr>
-    <tr>
-     <td>assertJsxValueMatches</td>
-     <td>textbox</td>
-     <td></td>
-    </tr>
-    <tr>
-     <td>typeJsxTextbox</td>
-     <td>textbox</td>
-     <td>Beijing restaurant</td>
-    </tr>
-    <tr>
-     <td>assertJsxValueMatches</td>
-     <td>textbox</td>
-     <td>Beijing restaurant</td>
-    </tr>
-    <tr>
-      <td>assertElementNotPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=btnService</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>gi=textbox</td>
-      <td>London</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=btnRequest</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>&nbsp;</td>
-    </tr>
-    <!-- <tr>
-      <td>storeEval</td>
-      <td>selenium.browserbot.locateElementByJsxLookup("matrix1,cellbyindex,1.2").childNodes[0].childNodes[0].innerHTML</td>
-      <td>linkcell</td>
-    </tr>
-    <tr>
-      <td>echo</td>
-      <td>${linkcell}</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>clickAt</td>
-      <td>${linkcell}</td>
-      <td>&nbsp;</td>
-    </tr> -->
-    <tr>
-      <td>checkJsx</td>
-      <td>css=.jsx30radio:nth(1)</td>
-      <td>&nbsp;</td>
-    </tr>
-<!--
-     <tr>
-      <td>assertElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>checkJsx</td>
-      <td>css=.jsx30radio:nth(0)</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=matrix1,rowbyindex,9</td>
-      <td>&nbsp;</td>
-    </tr>
-    -->
-    <tr>
-      <td>storeJsxElement</td>
-      <td>gi=matrix1,cellbyindex,1.2</td>
-      <td>linkCell</td>
-    </tr>
-    <tr>
-      <td>storeEval</td>
-      <td>storedVars['linkCell'].childNodes[0].childNodes[0]</td>
-      <td>link</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>dom=storedVars['link']</td>
-      <td/>
-    </tr>
-  </tbody>
-
-</table>
+  <table border="1">
+    <caption>
+      Simple matrix sample with Json service, testing the data showing.
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test JsonMapping
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-JsonMapping
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=[@jsxtext='Search by Mapped Service']</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxTextMatches</td>
+        <td>gi=${LASTJSXNAME}</td>
+        <td>Search by Mapped Service</td>
+      </tr>
+      <tr>
+        <td>assertJsxValueMatches</td>
+        <td>textbox</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>textbox</td>
+        <td>Beijing restaurant</td>
+      </tr>
+      <tr>
+        <td>assertJsxValueMatches</td>
+        <td>textbox</td>
+        <td>Beijing restaurant</td>
+      </tr>
+      <tr>
+        <td>assertElementNotPresent</td>
+        <td>gi=matrix1,rowbyindex,9</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnService</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix1,rowbyindex,9</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=matrix1,rowbyindex,9</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>gi=textbox</td>
+        <td>London</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=btnRequest</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix1,rowbyindex,9</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=matrix1,rowbyindex,9</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>css=.jsx30radio:nth(1)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>storeJsxElement</td>
+        <td>gi=matrix1,cellbyindex,1.2</td>
+        <td>linkCell</td>
+      </tr>
+      <tr>
+        <td>storeEval</td>
+        <td>storedVars['linkCell'].childNodes[0].childNodes[0]</td>
+        <td>link</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>dom=storedVars['link']</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

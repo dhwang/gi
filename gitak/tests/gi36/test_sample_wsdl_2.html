@@ -21,117 +21,108 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Sample WSDL Mapping 2</title>
 </head>
 <body>
-<table border="1">
-<caption> Sample demonstrate a WSDL service that returns sequence of data to be displayed in a Matrix table</caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test sample WSDL mapping 2<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/WSDL_Mapping_2</td>
-      <td>// WSDL_Mapping_2 now run in static mode</td>
-    </tr>
-     <tr>
-      <td>waitForJsxButtonPresent</td>
-      <td>Query Service</td>
-       <td>5000</td>
-     </tr>
-    <tr>
-      <td>assertJsxButtonPresent</td>
-      <td>Query Service</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>assertElementPresent</td>
-      <td>gi=symbol</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>gi=symbol</td>
-      <td>CSCO,YHOO,SUNW,TIBX</td>
-    </tr>
+  <table border="1">
+    <caption>
+      Sample demonstrate a WSDL service that returns sequence of data to be displayed in a Matrix table
+    </caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test sample WSDL mapping 2
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/WSDL_Mapping_2
+        </td>
+        <td>// WSDL_Mapping_2 now run in static mode</td>
+      </tr>
+      <tr>
+        <td>waitForJsxButtonPresent</td>
+        <td>Query Service</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertJsxButtonPresent</td>
+        <td>Query Service</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertElementPresent</td>
+        <td>gi=symbol</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>gi=symbol</td>
+        <td>CSCO,YHOO,SUNW,TIBX</td>
+      </tr>
       <tr>
         <td>pickJsxDate</td>
         <td>startDate</td>
         <td>2007/10/13</td>
       </tr>
-	<!-- IE BUG on resize event cause HW window to collapse -->  
-<!--     <tr>
-      <td>unsubscribeJsxResize</td>
-      <td>// disable resize event subscription to work around IE bug</td>
-      <td>&nbsp;</td>
-    </tr> -->	
-    <tr>
-      <td>clickJsxDateIcon</td>
-      <td>blkInputPane/startDate</td>
-      <td></td>
-    </tr>
-    
-    <tr>
-      <td>clickJsxDatePrevYear</td>
-      <td>blkInputPane/startDate</td>
-      <td>&nbsp;</td>
-    </tr>
+      <tr>
+        <td>clickJsxDateIcon</td>
+        <td>blkInputPane/startDate</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>clickJsxDatePrevYear</td>
+        <td>blkInputPane/startDate</td>
+        <td>&nbsp;</td>
+      </tr>
       <tr>
         <td>clickJsxDatePrevMonth</td>
         <td>blkInputPane/startDate</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>css=.jsx3_dp_month tr:nth(3) td:nth(4)</td>
-      <td>&nbsp;</td>
-    </tr>
-    <!--IE BUG on resize event cause HW window to collapse -->
-    <tr>
-      <td>click</td>
-      <td>gi=Query</td>
-      <td>//data returned are static</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>gi=gridResults,rowbyindex,4</td>
-      <td>5000</td>
-    </tr>
-    <tr>
-      <td>waitForElementPresent</td>
-      <td>css=.jsx30windowbar:contains("Success")</td>
-      <td>&nbsp;</td>
-    </tr> 
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>*success*</td>
-      <td>&nbsp;</td>
-    </tr>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>css=.jsx3_dp_month tr:nth(3) td:nth(4)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <!--IE BUG on resize event cause HW window to collapse -->
+      <tr>
+        <td>click</td>
+        <td>gi=Query</td>
+        <td>//data returned are static</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=gridResults,rowbyindex,4</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>css=.jsx30windowbar:contains("Success")</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>*success*</td>
+        <td>&nbsp;</td>
+      </tr>
       <tr>
         <td>assertElementPresent</td>
         <td>gi=gridResults,rowbyindex,4</td>
         <td>&nbsp;</td>
       </tr>
- <!-- test for returned doc type new 3.3.0 -->
+      <!-- test for returned doc type new 3.3.0 -->
       <tr>
         <td>assertEval</td>
-        <td>selenium.page().findByJsxName("gridResults").getXML().getClass()</td>
+        <td>
+          selenium.page().findByJsxName("gridResults").getXML().getClass()
+        </td>
         <td>jsx3.xml.CDF.Document</td>
       </tr>
-
-    <!--tr>
-      <td>jsxopen</td>
-      <td>../gi/tests/gi32/testTearDown.html</td>
-      <td>&nbsp;</td>
-    </tr-->
-    
-  </tbody>
-
-</table>
+    </tbody>
+  </table>
 </body>
 </html>

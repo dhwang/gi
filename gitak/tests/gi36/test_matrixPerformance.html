@@ -17,88 +17,66 @@ Copyright 2006-2008 TIBCO Software Inc.
 <html>
 
 <head>
-<title>Matrix Performance Test</title>
+  <title>Matrix Performance Test</title>
 </head>
 
 <body>
-<table cellpadding="1" cellspacing="1" border="1">
-<caption></caption>
-<tbody>
-<!--The first comment row is the Test Name used in result reporting -->
-    <tr>
-        <td colspan="3">Matrix Performance Test
-        </td>
-    </tr>
-<!-- Load Test Setup File Below -->
-    <tr>
+  <table cellpadding="1" cellspacing="1" border="1">
+    <caption></caption>
+    <tbody>
+      <!--The first comment row is the Test Name used in result reporting -->
+      <tr>
+        <td colspan="3">Matrix Performance Test</td>
+      </tr>
+      <!-- Load Test Setup File Below -->
+      <tr>
         <td>include</td>
         <td>testSetup.html</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>jsxopen</td>
-        <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/matrix-benchmark</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/matrix-benchmark
+        </td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>waitForJsxButtonPresent</td>
         <td>button</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>recordStartTime</td>
         <td>matrix_perf</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td>clickJsxElement</td>
+      </tr>
+      <tr>
+        <td>click</td>
         <td>gi=button/[@jsxtext='Run Matrix']</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>waitForTextPresent</td>
         <td>Total</td>
         <td>20000</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>recordEndTime</td>
         <td>matrix_perf</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>showElapseTime</td>
         <td>matrix_perf</td>
         <td>&nbsp;</td>
-    </tr>
-    <tr>
+      </tr>
+      <tr>
         <td>assertTextPresent</td>
         <td>Total</td>
         <td>20000</td>
-    </tr>
-</tbody>
-    </table>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -51,31 +51,16 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>gi=tbbTable</td>
         <td>&nbsp;</td>
       </tr>
-      <!-- <tr>
-        <td>storeJsxElementName</td>
-        <td>gi=tbbTable</td>
-        <td>objJSX</td>
-      </tr> -->
       <tr>
         <td>assertElementPresent</td>
         <td>gi=//toolBar/[@jsxtext="List"]</td>
         <td>&nbsp;</td>
       </tr>
-      <!-- <tr>
-        <td>echo</td>
-        <td>${LASTJSXNAME}</td>
-        <td>&nbsp;</td>
-      </tr> -->
       <tr>
         <td>assertElementPresent</td>
         <td>gi=//[@jsxtext="List"]</td>
         <td>&nbsp;</td>
       </tr>
-      <!-- <tr>
-        <td>echo</td>
-        <td>${LASTJSXNAME}</td>
-        <td>&nbsp;</td>
-      </tr> -->
       <tr>
         <td>assertElementPresent</td>
         <td>gi=//toolBar/jsx3.gui.ToolbarButton</td>
@@ -86,11 +71,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>gi=toolBar/jsx3.gui.ToolbarButton[3]</td>
         <td>&nbsp;</td>
       </tr>
-      <!-- <tr>
-        <td>echo</td>
-        <td>${LASTJSXNAME}</td>
-        <td>&nbsp;</td>
-      </tr> -->
       <tr>
         <td>waitForElementPresent</td>
         <td>gi=blockMain/*/tblTable,rowbyindex,1</td>
@@ -116,11 +96,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>gi=tblTable,column,0</td>
         <td>Col 1</td>
       </tr>
-      <!-- <tr>
-        <td>echo</td>
-        <td>${LASTJSXNAME}</td>
-        <td>&nbsp;</td>
-      </tr> -->
       <tr>
         <td>storeElementWidth</td>
         <td>gi=tblTable,column,0</td>
@@ -164,22 +139,14 @@ Copyright 2006-2014 TIBCO Software Inc.
       <tr>
         <td>click</td>
         <td>gi=tblTable,column,1.1</td>
-        <td>&nbsp</td>
+        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>assertText</td>
         <td>gi=tblTable,cellbyindex,0.1</td>
         <td>Argentina</td>
       </tr>
-
-      <!-- assert list row length = +1 -->
-      <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+    </tbody>
+  </table>
 </body>
 </html>

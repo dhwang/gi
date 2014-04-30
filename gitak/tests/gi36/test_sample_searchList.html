@@ -21,113 +21,106 @@ Copyright 2006-2008 TIBCO Software Inc.
   <title>Test Search List</title>
 </head>
 <body>
-<table border="1">
-<caption>This sample searches in a matrix list using XSL filter</caption>
-<caption></caption>
-<tbody>
-    <tr>
-      <td rowspan="1" colspan="3">Test Search matrix with XSL filter<br>
-      </td>
-    </tr>
-   <tr>
-      <td>include</td>
-      <td>testSetup.html</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>jsxopen</td>
-      <td>${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-searchInList</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForJsxPresent</td>
-      <td>list</td>
-       <td>5000</td>
-     </tr>    
-    <tr>
-      <td>resizeJsxLayout</td>
-      <td>layoutSample (--)</td>
-      <td>0,*</td>
-    </tr>     
-     
-    <tr>
-      <td>assertTextPresent</td>
-      <td>*Search in list*</td>
-      <td>&nbsp;</td>
-    </tr>
-  
-    <tr>
-      <td>typeJsxTextbox</td>
-      <td>gi=searchbox</td>
-      <td>Content 0</td>
-    </tr>
-    <tr>
-    <td>setInterval</td>
-    <td>200</td>
-    <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=button</td>
-      <td>//search &nbsp;</td>
-    </tr>
-    <tr>
-          <td colspan="3">//list is the matrix control </td>
-    </tr>
-    <tr>
-      <td>waitForJsxSelectedId</td>
-      <td>list</td>
-      <td>unique0</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=button</td>
-      <td>//search &nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForJsxSelectedId</td>
-      <td>gi=list</td>
-      <td>unique1</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=button</td>
-      <td>//search &nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForJsxSelectedId</td>
-      <td>gi=list</td>
-      <td>unique2</td>
-    </tr>
-    <tr>
-      <td>click</td>
-      <td>gi=button</td>
-      <td>//search &nbsp;</td>
-    </tr>
-    <tr>
-      <td>waitForJsxSelectedId</td>
-      <td>gi=list</td>
-      <td>unique2</td>
-    </tr>
-     
-    <tr>
-      <td>assertJsxAlertOK</td>
-      <td>End of search</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-    <td>setInterval</td>
-    <td>0</td>
-    <td>&nbsp;</td>
-    </tr>
-    <!-- assert list row length = +1 -->
-    <!--tr>
-      <td>jsxopen</td>
-      <td>about:blank</td>
-      <td>&nbsp;</td>
-    </tr-->
-  </tbody>
-
-</table>
+  <table border="1">
+    <caption>This sample searches in a matrix list using XSL filter</caption>
+    <caption></caption>
+    <tbody>
+      <tr>
+        <td rowspan="1" colspan="3">
+          Test Search matrix with XSL filter
+          <br></td>
+      </tr>
+      <tr>
+        <td>include</td>
+        <td>testSetup.html</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>jsxopen</td>
+        <td>
+          ${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/sample-searchInList
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxPresent</td>
+        <td>list</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>resizeJsxLayout</td>
+        <td>layoutSample (--)</td>
+        <td>0,*</td>
+      </tr>
+      <tr>
+        <td>assertTextPresent</td>
+        <td>*Search in list*</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>typeJsxTextbox</td>
+        <td>gi=searchbox</td>
+        <td>Content 0</td>
+      </tr>
+      <tr>
+        <td>setInterval</td>
+        <td>200</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button</td>
+        <td>//search &nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3">//list is the matrix control</td>
+      </tr>
+      <tr>
+        <td>waitForJsxSelectedId</td>
+        <td>list</td>
+        <td>unique0</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button</td>
+        <td>//search &nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxSelectedId</td>
+        <td>gi=list</td>
+        <td>unique1</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button</td>
+        <td>//search &nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxSelectedId</td>
+        <td>gi=list</td>
+        <td>unique2</td>
+      </tr>
+      <tr>
+        <td>click</td>
+        <td>gi=button</td>
+        <td>//search &nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForJsxSelectedId</td>
+        <td>gi=list</td>
+        <td>unique2</td>
+      </tr>
+      <tr>
+        <td>assertJsxAlertOK</td>
+        <td>End of search</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>setInterval</td>
+        <td>0</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
