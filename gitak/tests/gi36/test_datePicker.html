@@ -24,18 +24,15 @@ Copyright 2006-2014 TIBCO Software Inc.
   <table border="1">
     <caption>Test to exercise Datepicker control commands</caption>
     <tbody>
-
       <tr>
         <td rowspan="1" colspan="3">Test jsx3.gui.DatePicker</td>
       </tr>
-
       <!-- Load Test Setup File Below -->
       <tr>
         <td>include</td>
         <td>testSetup.html</td>
         <td>&nbsp;</td>
       </tr>
-
       <!-- Load Test Application Below -->
       <tr>
         <td>jsxopen</td>
@@ -81,7 +78,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>dpDate</td>
         <td></td>
       </tr>
-
       <tr>
         <td>clickJsxDatePrevYear</td>
         <td>dpDate</td>
@@ -94,7 +90,7 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>click</td>
-        <td>css=.jsx3_dp_month tr:nth(3) td:nth(4)</td>
+        <td>JsxDateDay=dpDate,13</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -132,7 +128,7 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>click</td>
-        <td>css=.jsx3_dp_month tr:nth(3) td:nth(0)</td>
+        <td>JsxDateDay=dpDate,13</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -140,7 +136,6 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>css=.jsx30datepicker input</td>
         <td>Jan 13, 2013</td>
       </tr>
-
       <!-- assert list row length = +1 -->
       <tr>
         <td>setInterval</td>
