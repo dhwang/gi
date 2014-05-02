@@ -360,29 +360,11 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
   /**
    * @package
    */
-  // html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
-  //   objElement.insertAdjacentHTML(strWhere, strHTML);
-  //   return strHTML;
-  // };
-
   html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
-    if (strWhere.toLowerCase() == "beforeend") {
-      var r = objElement.ownerDocument.createRange();
-      r.setStartAfter(objElement);
-      var df = r.createContextualFragment(strHTML);
-      objElement.appendChild(df);
-      return strHTML;
-    } else if (strWhere.toLowerCase() == "beforebegin") {
-      var r = objElement.ownerDocument.createRange();
-      r.setStartBefore(objElement);
-      var df = r.createContextualFragment(strHTML);
-      objElement.parentNode.insertBefore(df,objElement);
-      return strHTML;
-    } else {
-      throw new jsx3.Exception(jsx3._msg("html.adj", strWhere));
-    }
+    objElement.insertAdjacentHTML(strWhere, strHTML);
+    return strHTML;
   };
-  
+
   html._FOCUSABLE = {input:true, textarea:true, select:true, body:true, a:true, img:true, button:true, frame:true,
       iframe:true, object:true};
 
@@ -536,23 +518,23 @@ jsx3.Package.definePackage('jsx3.html', function(html) {
     objElement.appendChild(objElement.ownerDocument.createTextNode(strText));
   };
 
-  // html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
-  //   if (strWhere.toLowerCase() == "beforeend") {
-  //     var r = objElement.ownerDocument.createRange();
-  //     r.setStartAfter(objElement);
-  //     var df = r.createContextualFragment(strHTML);
-  //     objElement.appendChild(df);
-  //     return strHTML;
-  //   } else if (strWhere.toLowerCase() == "beforebegin") {
-  //     var r = objElement.ownerDocument.createRange();
-  //     r.setStartBefore(objElement);
-  //     var df = r.createContextualFragment(strHTML);
-  //     objElement.parentNode.insertBefore(df,objElement);
-  //     return strHTML;
-  //   } else {
-  //     throw new jsx3.Exception(jsx3._msg("html.adj", strWhere));
-  //   }
-  // };
+  html.insertAdjacentHTML = function(objElement, strWhere, strHTML) {
+    if (strWhere.toLowerCase() == "beforeend") {
+      var r = objElement.ownerDocument.createRange();
+      r.setStartAfter(objElement);
+      var df = r.createContextualFragment(strHTML);
+      objElement.appendChild(df);
+      return strHTML;
+    } else if (strWhere.toLowerCase() == "beforebegin") {
+      var r = objElement.ownerDocument.createRange();
+      r.setStartBefore(objElement);
+      var df = r.createContextualFragment(strHTML);
+      objElement.parentNode.insertBefore(df,objElement);
+      return strHTML;
+    } else {
+      throw new jsx3.Exception(jsx3._msg("html.adj", strWhere));
+    }
+  };
 
 /* @JSC */ }
 
