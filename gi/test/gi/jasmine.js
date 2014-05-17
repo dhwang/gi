@@ -59,7 +59,10 @@ var BrowserDetect = function() {
     this.ie10 = vers >= 10 && vers < 11;
     this.ie11 = vers >= 11;
   }
-};
+   
+    BrowserDetect.version = vers;
+    
+  };
 
 /* @jsxobf-clobber */
 BrowserDetect._ORDER = [
@@ -107,7 +110,8 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
   _jasmine.HTTP_BASE = _jasmine.FILE_SCHEME ? "http://www.generalinterface.org/tests" : "../test/server";
   _jasmine.NETWORK = true;
   _jasmine.NONETWORK = !_jasmine.NETWORK;
-  var _browser = _jasmine._type = (new BrowserDetect()).getType();
+  _jasmine.BROWSER = new BrowserDetect();
+  var _browser = _jasmine._type = _jasmine.BROWSER.getType();
 
   var defines = _BROWSERS[_browser];
   for (var i = 0; i < defines.length; i++)
