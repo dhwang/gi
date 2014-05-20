@@ -103,6 +103,14 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
     // NOTE: see http://bugs.webkit.org/show_bug.cgi?id=14835
     if (strNS == null || strNS == "") strNS = null;
     if (intType == 2) {
+      if (!Document.prototype.createAttributeNS) {
+        Document.prototype.createAttributeNS = function(namespaceURI, qualifiedName) {
+          var dummy = this.createElement('dummy');
+          dummy.setAttributeNS(namespaceURI, qualifiedName, '');
+          var attr = dummy.attributes[0];
+          return attr;
+        };
+      }
       objNode = objDoc.createAttributeNS(strNS, strNodeName);
     } else if (intType == 3) {
       objNode = objDoc.createTextNode(strNodeName);
