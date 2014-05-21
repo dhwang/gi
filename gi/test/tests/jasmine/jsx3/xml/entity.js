@@ -206,11 +206,12 @@ describe("jsx3.xml.Entity", function () {
   });
 
   it("should set the attribute object as a child of the element", function () {
-    var d = new jsx3.xml.Document().loadXML('<data/>');
-    var n = d.createNode(jsx3.xml.Entity.TYPEATTRIBUTE, "a1");
+    var d1 = new jsx3.xml.Document().loadXML('<data/>');
+    var d2 = new jsx3.xml.Document().loadXML("<data/>");
+    var n = d1.createNode(jsx3.xml.Entity.TYPEATTRIBUTE, "a1");
     n.setValue("v1");
-    d.setAttributeNode(n);
-    expect(d.getAttribute("a1")).toEqual("v1");
+    d2.setAttributeNode(n);
+    expect(d2.getAttribute("a1")).toEqual("v1");
   });
 
   it("should return  zero or more JavaScript Objects with the following Properties: script, type, system", function () {
