@@ -105,9 +105,9 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
     if (intType == 2) {
       if (!Document.prototype.createAttributeNS) {
         Document.prototype.createAttributeNS = function(namespaceURI, qualifiedName) {
-          var dummy = this.createElement('dummy');
-          dummy.setAttributeNS(namespaceURI, qualifiedName, '');
-          var attr = dummy.attributes[0];
+          var dummyNode = this.createElement('dummy');
+          dummyNode.setAttributeNS(namespaceURI, qualifiedName, '');
+          var attr = dummyNode.attributes[0];
           return attr;
         };
       }
