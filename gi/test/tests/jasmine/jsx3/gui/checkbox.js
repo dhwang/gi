@@ -103,7 +103,7 @@ describe("jsx3.gui.CheckBox", function() {
     expect(checkBox.getValue()).toEqual(0);
   });
 
-  if (!_jasmine_test.IE8) {
+  if (_jasmine_test.IE && !_jasmine_test.IE8) {
     it("The label is offset over the input checkbox by using padding on IE", function() {
       getRendered(checkBox).objLabel.click();
       expect(checkBox.getChecked()).toEqual(CheckBox.UNCHECKED);

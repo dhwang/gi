@@ -28,28 +28,27 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
     it("should have a layout grid with three rows", function() {
       expect(layout).toBeInstanceOf(jsx3.gui.LayoutGrid);
       expect(layout.getRows()).toEqual('150,*,50');
-
-      // Outer most layout has fixed height and width.
-      var layoutStyle = layout.getRendered().style;
-      expect(layoutStyle.width).toEqual("640px");
-      expect(layoutStyle.height).toEqual("480px");
+      expect(layout.getRendered()).toHaveStyle('width', /640/);
+      expect(layout.getRendered()).toHaveStyle('height', /480/);
     });
 
-    it("should have three rows with height 150px, 280px and 50px", function() {
+    it("should have one block inside the first row with 150px height", function() {
       expect(layout.getChild(0)).toBeInstanceOf(jsx3.gui.Block);
-
-      //expect(layout.getRows()).toEqual('150,*,50');
-      var childBlocks = layout.getChildren().map( function (a) { return a.getRendered()});
-      expect(parseInt(childBlocks[0].style.height)).toEqual(150);
-      expect(parseInt(childBlocks[1].style.height)).toEqual(280);
-      expect(parseInt(childBlocks[2].style.height)).toEqual(50);
+      expect(parseInt(layout.getChild(0).getRendered().style.height)).toEqual(150);
+      expect(parseInt(layout.getChild(1).getRendered().style.height)).toEqual(280);
+      expect(parseInt(layout.getChild(2).getRendered().style.height)).toEqual(50);
 
     });
 
     it("should have a layout grid inside the second row with two columns", function() {
-      var middle = t._server.getJSXByName("lytCanvas1MiddlePaneLayout");
-      expect(middle).toBeInstanceOf(jsx3.gui.LayoutGrid);
-      expect(middle.getCols()).toEqual('100,*');
+      expect(layout.getChild(1).getChild(0)).toBeInstanceOf(jsx3.gui.LayoutGrid);
+      expect(layout.getChild(1).getChild(0).getCols()).toEqual('100,*');
+    });
+
+    it("should have one block inside the last row with 50px height", function() {
+      expect(layout.getChild(2)).toBeInstanceOf(jsx3.gui.Block);
+      //expect(parseInt(layout.getChild(2).getRendered().style.height)).toEqual(50);
+      expect(layout.getChild(2).getRendered()).toHaveStyle('height',/50/);
     });
 
     it("should able to set whether the layout grid will render items top-over (--) or side-by-side (|)", function() {
@@ -60,10 +59,8 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
 
     it("should able to leverage an HTML Table for its on-screen VIEW", function() {
       layout.setBestGuess(jsx3.gui.LayoutGrid.ADAPTIVE);
-      var layoutHTML = layout.repaint();
       var bestGuess = layout.getBestGuess();
       expect(bestGuess).toEqual(jsx3.gui.LayoutGrid.ADAPTIVE);
-      expect(layoutHTML).toMatch(/table/);
     });
 
     it("should able to set the number of cells to draw before starting a new row/column of cells", function() {
@@ -105,12 +102,12 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
       var leftPane = layout.getChild(1).getChild(0).getChild(0);
       expect(leftPane).toBeInstanceOf("jsx3.gui.Block");
       var bgColor = leftPane.getRendered().style.backgroundColor;
-      if (bgColor === "pink") {
+      if(bgColor.indexOf('rgb') !== -1) {
+        expect(leftPane.getRendered()).toHaveStyle('backgroundColor',/rgb\(255, 192, 203\)/);
+      } else {
         expect(bgColor).toEqual("pink");
-      } else if (bgColor === "rgb(255, 192, 203)") {
-        expect(leftPane.getRendered().style.backgroundColor).toEqual("rgb(255, 192, 203)");
       }
-      expect(leftPane.getRendered().style.width).toEqual("100px");
+      expect(leftPane.getRendered()).toHaveStyle('width',/100px/);
     });
 
     it("should have a block at right inside the second row for the main content", function() {
@@ -122,44 +119,45 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
     it("should have a block in the third row for the copyright notice", function() {
       expect(layout.getChild(2)).toBeInstanceOf("jsx3.gui.Block");
       var bgColor = layout.getChild(2).getRendered().style.backgroundColor;
-      if (bgColor === "lightblue") {
-        expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("lightblue");
-      } else if (bgColor === "rgb(173, 216, 230)") {
-        expect(layout.getChild(2).getRendered().style.backgroundColor).toEqual("rgb(173, 216, 230)");
+
+      if(bgColor.indexOf('rgb') !== -1) {
+        expect(layout.getChild(2).getRendered()).toHaveStyle('backgroundColor',/rgb\(173, 216, 230\)/);
+      } else {
+        expect(layout.getChild(2).getRendered()).toHaveStyle('backgroundColor',/lightblue/);
       }
-      expect(layout.getChild(2).getRendered().style.height).toEqual("50px");
+      expect(layout.getChild(2).getRendered()).toHaveStyle('height',/50px/);
     });
 
     it("should have a floating pane above others for the prompt message", function() {
       var floatPane = block.getChild(1);
       expect(floatPane).toBeInstanceOf("jsx3.gui.Block");
-      expect(floatPane.getRendered().style.position).toEqual("absolute");
-      expect(floatPane.getRendered().style.left).toEqual("60px");
-      expect(floatPane.getRendered().style.top).toEqual("290px");
-      expect(floatPane.getRendered().style.width).toEqual("180px");
-      expect(floatPane.getRendered().style.height).toEqual("150px");
+      expect(floatPane.getRendered()).toHaveStyle('position',/absolute/);
+      expect(floatPane.getRendered()).toHaveStyle('left',/60px/);
+      expect(floatPane.getRendered()).toHaveStyle('top',/290px/);
+      expect(floatPane.getRendered()).toHaveStyle('width',/180px/);
+      expect(floatPane.getRendered()).toHaveStyle('height',/150px/);
     });
 
     it("should have a dialog width fixed T,L,W,H", function() {
       var dialog2 = block.getChild(2);
       expect(dialog2).toBeInstanceOf("jsx3.gui.Dialog");
       expect(dialog2.getLeft()).toEqual(311);
-      expect(dialog2.getRendered().style.left).toEqual("311px");
+      expect(dialog2.getRendered()).toHaveStyle('left',/311px/);
       expect(dialog2.getTop()).toEqual(213);
-      expect(dialog2.getRendered().style.top).toEqual("213px");
-      expect(dialog2.getRendered().style.position).toEqual("absolute");
+      expect(dialog2.getRendered()).toHaveStyle('top',/213px/);
+      expect(dialog2.getRendered()).toHaveStyle('position',/absolute/);
       dialog2.setWidth(350);
       expect(dialog2.getWidth()).toEqual(350);
       dialog2.setHeight(170);
       expect(dialog2.getHeight()).toEqual(170);
       dialog2.repaint();
-      expect(dialog2.getRendered().style.width).not.toEqual("350px");
-      expect(dialog2.getRendered().style.height).not.toEqual("170px");
+      expect(dialog2.getRendered()).not.toHaveStyle('width',/350px/);
+      expect(dialog2.getRendered()).not.toHaveStyle('height',/170px/);
       dialog2.setBorder("0px solid");
       dialog2.setBuffer("0");
       dialog2.repaint();
-      expect(dialog2.getRendered().style.width).toEqual("350px");
-      expect(dialog2.getRendered().style.height).toEqual("170px");
+      expect(dialog2.getRendered()).toHaveStyle('width',/350px/);
+      expect(dialog2.getRendered()).toHaveStyle('height',/170px/);
     });
 
     it("should clean up", function() {
@@ -216,22 +214,22 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
     it("should have a dialog box with fixed T,L,W,H", function() {
       expect(dialog).toBeInstanceOf("jsx3.gui.Dialog");
       expect(dialog.getLeft()).toEqual(48);
-      expect(dialog.getRendered().style.left).toEqual("48px");
+      expect(dialog.getRendered()).toHaveStyle('left',/48px/);
       expect(dialog.getTop()).toEqual(126);
       expect(dialog.getRendered().style.top).toEqual("126px");
-      expect(dialog.getRendered().style.position).toEqual("absolute");
+      expect(dialog.getRendered()).toHaveStyle('position',/absolute/);
       dialog.setWidth(450);
       expect(dialog.getWidth()).toEqual(450);
       dialog.setHeight(350);
       expect(dialog.getHeight()).toEqual(350);
       dialog.repaint();
-      expect(dialog.getRendered().style.width).not.toEqual("450px");
-      expect(dialog.getRendered().style.height).not.toEqual("350px");
+      expect(dialog.getRendered()).not.toHaveStyle('width',/450px/);
+      expect(dialog.getRendered()).not.toHaveStyle('height',/350px/);
       dialog.setBorder("0px solid");
       dialog.setBuffer("0");
       dialog.repaint();
-      expect(dialog.getRendered().style.width).toEqual("450px");
-      expect(dialog.getRendered().style.height).toEqual("350px");
+      expect(dialog.getRendered()).toHaveStyle('width',/450px/);
+      expect(dialog.getRendered()).toHaveStyle('height',/350px/);
     });
 
     it("should clean up", function() {
