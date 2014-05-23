@@ -49,14 +49,14 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>5000</td>
       </tr>
       <tr>
-        <td>assertJsxTextMatches</td>
-        <td>gi=${LASTJSXNAME}</td>
-        <td>Search by Mapped Service</td>
+        <td>assertElementPresent</td>
+        <td>gi=[@jsxtext='Search by Mapped Service']</td>
+        <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>assertJsxValueMatches</td>
-        <td>textbox</td>
-        <td></td>
+        <td>assertElementPresent</td>
+        <td>gi=[@jsxtext='Search by Direct Request']</td>
+        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>typeJsxTextbox</td>
@@ -74,7 +74,22 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>click</td>
+        <td>clickJsxElement</td>
+        <td>gi=btnService</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>gi=matrix1,cellbyindex,9.1</td>
+        <td>17642366@N00</td>
+      </tr>
+      <tr>
+        <td>checkJsx</td>
+        <td>css=.jsx30radio:nth(0)</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
         <td>gi=btnService</td>
         <td>&nbsp;</td>
       </tr>
@@ -89,12 +104,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>typeJsxTextbox</td>
-        <td>gi=textbox</td>
-        <td>London</td>
-      </tr>
-      <tr>
-        <td>click</td>
+        <td>clickJsxElement</td>
         <td>gi=btnRequest</td>
         <td>&nbsp;</td>
       </tr>
@@ -114,6 +124,21 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
+        <td>clickJsxElement</td>
+        <td>gi=btnRequest</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix1,rowbyindex,9</td>
+        <td>5000</td>
+      </tr>
+      <tr>
+        <td>assertText</td>
+        <td>gi=matrix1,cellbyindex,9.1</td>
+        <td>17642366@N00</td>
+      </tr>
+      <tr>
         <td>storeJsxElement</td>
         <td>gi=matrix1,cellbyindex,1.2</td>
         <td>linkCell</td>
@@ -124,7 +149,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>link</td>
       </tr>
       <tr>
-        <td>click</td>
+        <td>clickJsxElement</td>
         <td>dom=storedVars['link']</td>
         <td>&nbsp;</td>
       </tr>
