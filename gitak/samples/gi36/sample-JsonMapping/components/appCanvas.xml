@@ -16,7 +16,7 @@
         <dynamics jsxborder="@Outset"></dynamics>
         <object type="jsx3.gui.TextBox">
           <variants jsxheight="18"></variants>
-          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="" jsxwidth="100%"></strings>
+          <strings jsxname="textbox" jsxmargin="0 4 0 0" jsxvalue="Beijing" jsxwidth="100%"></strings>
           <dynamics jsxborder="@Inset"></dynamics>
           <properties placeholder="Flickr: enter keyword"></properties>
         </object>
@@ -28,7 +28,7 @@
         <object type="jsx3.gui.Button">
           <variants jsxindex="0" jsxheight="18" jsxwidth="200"></variants>
           <strings jsxname="btnRequest" jsxtext="Search by Direct Request" jsxmargin="0 4 0 0" jsxtip="Search picture by jsx3.net.Request"></strings>
-          <events jsxexecute="eg.request.send(this.getServer());"></events>
+          <events jsxexecute="eg.request.doRequest(this.getServer());"></events>
         </object>
         <object type="jsx3.gui.CDF">
           <variants jsxheight="18"></variants>

@@ -3,7 +3,7 @@ jsx3.lang.Package.definePackage(
   "eg.request", //the full name of the package to create
   function(request) { //name the argument of this function
 
-    var server, r, ruser; // private scope variable, not global.
+    var server, r, ruser, r2; // private scope variable, not global.
     
     request.getMatrix = function(objServer) {
       if(!objServer) objServer = eg.service.APP;
@@ -33,7 +33,26 @@ jsx3.lang.Package.definePackage(
           }
         }
 
-    }
+    };
+
+    request.getR2text = function(){
+      r2 = new XMLHttpRequest();
+      r2.open("GET","http://localhost/gitak/samples/gi36/sample-JsonMapping/xml/source.json",false);
+      r2.send();
+      return r2.responseText;
+    };
+
+    request.doRequest = function(objServer){
+      if(eg.service.APP.getJSXByName("radStatic").getSelected()){      
+        this.resTest = (!this.resTest) ? this.getR2text() : this.resTest;
+        request.repaintData(this.resTest);
+        this.getMatrix().repaint();
+      }else{
+        request.send(objServer);
+        this.getMatrix().repaint();
+      }
+    };
+
     request.send = function(objServer) {
       server = objServer;
       var searchText = server.getJSXByName('textbox').getValue();
