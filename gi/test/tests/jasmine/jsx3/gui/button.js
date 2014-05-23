@@ -119,7 +119,7 @@ describe("jsx3.gui.Button", function() {
 
     var disabledColor = button.getRendered().style.backgroundColor;
 
-    if (disabledColor.indexOf('#') != -1) {
+    if (disabledColor.indexOf('#') !== -1) {
       expect(button.getRendered()).toHaveStyle('backgroundColor', /#d8d8e5/);
     } else {
       expect(button.getRendered()).toHaveStyle('backgroundColor', /rgb\(216, 216, 229\)/);
@@ -128,7 +128,13 @@ describe("jsx3.gui.Button", function() {
     button.setDisabledBackgroundColor('grey');
     button.repaint();
     expect(button.getDisabledBackgroundColor()).toEqual('grey');
-    expect(button.getRendered()).toHaveStyle('backgroundColor', /grey/);
+
+    var disabledColor = button.getRendered().style.backgroundColor;
+    if (disabledColor.indexOf('rgb') !== -1) {
+      expect(button.getRendered()).toHaveStyle('backgroundColor', /rgb\(128, 128, 128\)/);
+    } else {
+      expect(button.getRendered()).toHaveStyle('backgroundColor', /grey/);
+    }  
   });
 
   it("should clean up", function() {
