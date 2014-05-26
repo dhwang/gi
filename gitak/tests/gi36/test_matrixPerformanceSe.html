@@ -28,7 +28,7 @@ Copyright 2006-2008 TIBCO Software Inc.
     |open|${GIPATH}/shell.html?jsxapppath=${SAMPLESPATH}/matrix-benchmark||
     // start tests
     |waitForJsxButtonPresent|button|5000|
-    |click|JsxButtonText=Run Matrix||
+    |clickJsxElement|JsxButtonText=Run Matrix||
     |recordStartTime|matrix_perf||
     |waitForTextPresent|Total|20000|
     |recordEndTime|matrix_perf||
