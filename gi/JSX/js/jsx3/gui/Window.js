@@ -194,7 +194,7 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
   Window_prototype.close = function() {
     if (this._jsxwindow != null && !this._jsxwindow.closed) {
       var objWindow = this._jsxwindow;
-      if(jsx3.CLASS_LOADER.IE) {
+      /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
         objWindow.location = "about:blank";
       }
       var me = this;
