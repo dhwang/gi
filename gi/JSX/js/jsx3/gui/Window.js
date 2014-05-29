@@ -196,7 +196,7 @@ jsx3.Class.defineClass('jsx3.gui.Window', jsx3.app.Model, null, function(Window,
       var objWindow = this._jsxwindow;
       /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
         objWindow.location = "about:blank";
-      }
+      /* @JSC */} //IE specific code
       var me = this;
       window.setTimeout(function() {
         try {
