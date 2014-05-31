@@ -109,7 +109,7 @@ objJSX._tryEAInit = function() {
       matchBrackets: true
     });
     
-    //this._codemirror.setSize(null, "100%");    
+    this._codemirror.setSize(null, "100%");    
     this._codemirror.on("keydown", function(cm, evt) { objJSX.publish({subject:"keyDown"}); });
     
     this._eacomplete = true;
