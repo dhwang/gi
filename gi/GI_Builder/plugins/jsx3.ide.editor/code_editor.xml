@@ -6,14 +6,21 @@
 <serialization xmlns="urn:tibco.com/v3.0">
   <onAfterDeserialize><![CDATA[
 
-var TYPE_MAP = {script:"js", css:"css", xml:"xml", xsl:"xml", cache:"xml"};
+var TYPE_MAP = {script:"javascript", css:"css", xml:"xml", xsl:"xml", cache:"xml"};
 
 objJSX.doIncrSearch = function(strFind, strReplace, bCase, bReg) {
   if (!this._eainited)
     this._tryEAInit();
 
-  if (this._eacomplete)
-    return editAreaLoader.doIncrSearch(jsxcodeeditor_content.getRendered().id, strFind, strReplace, bCase, bReg);
+  if (this._eacomplete) {
+    var cursor = this._codemirror.getSearchCursor(strFind, null, bCase);
+    if (strReplace != null)
+      return cursor.replace(strReplace);
+    else
+      return cursor.findNext();
+  }
+    //return editAreaLoader.doIncrSearch(jsxcodeeditor_content.getRendered().id, strFind, strReplace, bCase, bReg);
+    
 };
 
 objJSX.getTextArea = function() {
@@ -21,26 +28,26 @@ objJSX.getTextArea = function() {
 };
 
 objJSX.getTextValue = function() {
-  return typeof(editAreaLoader) != "undefined" && jsxcodeeditor_content.getRendered() ?
-      editAreaLoader.getValue(jsxcodeeditor_content.getRendered().id) :
+  return typeof(this._codemirror) != "undefined" && jsxcodeeditor_content.getRendered() ?
+      this._codemirror.getValue() :
       jsxcodeeditor_content.getValue();
 };
 
 objJSX.setTextValue = function(s) {
-  typeof(editAreaLoader) != "undefined" ?
+  typeof(this._codemirror) != "undefined" ?
       this._setEAVal(s) :
       jsxcodeeditor_content.setValue(s);
 };
 
 objJSX._setEAVal = function(s) {
   if (jsxcodeeditor_content.getRendered())
-    editAreaLoader.setValue(jsxcodeeditor_content.getRendered().id, s);
+    this._codemirror.setValue(s);
   else {
     // set this value so that an immediate call to getTextValue() returns the right thing
     jsxcodeeditor_content.setValue(s);
     jsx3.sleep(function() {
-      if (jsxcodeeditor_content.getRendered())
-        editAreaLoader.setValue(jsxcodeeditor_content.getRendered().id, s);
+      if (jsxcodeeditor_content.getRendered())        
+        this._codemirror.setValue(s);
     });
   }
 };
@@ -55,8 +62,8 @@ objJSX._getPlugIn = function() {
 };
 
 objJSX.initAsType = function(strType) {
-  var eaType = TYPE_MAP[strType] || "txt";
-  var eaPI = this._getPlugIn().getEngine().getPlugIn("net.sf.editarea");
+  var eaType = TYPE_MAP[strType] || "javascript";
+  var eaPI = this._getPlugIn().getEngine().getPlugIn("net.sf.codemirror");
 
   if (eaPI) {
     eaPI.load().when(jsx3.$F(function() {
@@ -82,47 +89,31 @@ objJSX._tryEAInit = function() {
     this._eainited = true;
     this._eacomplete = false;
     var me = this;
+    var type = this._eatype || "javascript";
 
-    editAreaLoader.window_loaded();
-    editAreaLoader.init({
-      id: textarea.id,
-      start_highlight: true,
-      allow_resize: "no",
-      allow_toggle: false,
-      language: "en",
-      syntax: this._eatype,
-      browsers: "all",
-      allow_toggle: false,
-      replace_tab_by_spaces: 4,
-      font_size: 11,
-      font_family: "Monaco, Courier New, monospace",
-
-      EA_load_callback: function() {
-        // private API
-        var editArea = window.frames["frame_" + textarea.id].editArea;
-
-        // private API hack
-        editArea.settings.plugins.push("keycapture");
-
-        window.frames["frame_" + textarea.id].editArea.add_plugin("keycapture", {onkeydown:function(e) {
-          var objEvent = jsx3.gui.Event.wrap(e);
-          
-          if (objEvent.hasModifier()) {
-            var node = objJSX;
-            while (node) {
-              if (node.checkHotKeys(objEvent)) {
-                return false;
-              }
-              node = node.getParent();
-            }
-          }
-
-          objJSX._onKeyDown();
-        }});
-
-        me._eacomplete = true;
-      }
+    if (type == "xml" || type == "htmlmixed") {
+      this._codemirror = CodeMirror.fromTextArea(textarea, {
+        mode: type,
+        tabSize: 2,
+        lineNumbers: true,
+        matchTags: {bothTags: true},
+        extraKeys: {"Ctrl-J": "toMatchingTag"}
+      });
+    
+    } else 
+    this._codemirror = CodeMirror.fromTextArea(textarea, {
+      mode: type,
+      tabSize: 2,
+      keyMap: "sublime",
+      lineNumbers: true,
+      matchBrackets: true
     });
+    
+    //this._codemirror.setSize(null, "100%");    
+    this._codemirror.on("keydown", function(cm, evt) { objJSX.publish({subject:"keyDown"}); });
+    
+    this._eacomplete = true;
+    
   }
 };
 

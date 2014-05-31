@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (c) 2001-2014, TIBCO Software Inc.
+  ~ Use, modification, and distribution subject to terms of license.
+  -->
+
+<plugin xmlns="http://www.generalinterface.org/gi/amp"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.generalinterface.org/gi/amp http://www.generalinterface.org/xsd/plugin.xsd"
+        id="net.sf.codemirror"
+        name="Code Mirror Library Plug-In"
+        version="1.0">
+
+  <requires>
+  </requires>
+
+  <resources>
+    <script id="main" path="codemirror.js"/>
+    
+    <script id="xmlfold" path="addon/fold/xml-fold.js"></script>
+    <script id="matchtags" path="addon/edit/matchtags.js"></script>
+    <script id="close" path="addon/edit/closebrackets.js"></script>
+    <script id="closetags" path="addon/edit/closetags.js"></script>
+    
+    <script id="matchbrackets" path="addon/edit/matchbrackets.js"></script>
+    <script id="contcomment" path="addon/comment/continuecomment.js"></script>
+    <script id="comment" path="addon/comment/comment.js"></script>
+<!--     <script id="dialog" path="addon/dialog/dialog.js"></script> -->
+    <script id="search" path="addon/search/search.js"></script>
+    <script id="searchcursor" path="addon/search/searchcursor.js"></script>
+    <script id="sublime" path="keymap/sublime.js"></script>   
+
+    <script id="modejs" path="mode/javascript/javascript.js"/>
+    <script id="modehtml" path="mode/htmlmixed/htmlmixed.js"/>
+    <script id="modecss" path="mode/css/css.js"/>
+    <script id="modexml" path="mode/xml/xml.js"/>
+    
+    <css id="edcss" path="codemirror.css"/>
+  </resources>
+
+</plugin>

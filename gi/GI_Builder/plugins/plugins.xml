@@ -39,7 +39,7 @@
   <plugin id="jsx3.ide.deploytool"/>
   <!--<plugin id="jsx3.ide.evaluator"/>-->
   <plugin id="jsx3.ide.jsconsole"/>
-  <plugin id="jsx3.ide.find"/>
+  <!-- <plugin id="jsx3.ide.find"/> -->
   <plugin id="jsx3.ide.ui.license"/>
   <plugin id="jsx3.ide.xsltool"/>
   <plugin id="jsx3.ide.welcome"/>
@@ -57,6 +57,6 @@
   <plugin id="jsx3.ide.recorder.gitak"/>
   <plugin id="jsx3.ide.xmpp"/>
   <plugin id="jsx3.ide.jabber"/>
-  <plugin id="net.sf.editarea"/>
+  <plugin id="net.sf.codemirror" />
   <!--<plugin id="com.google.gears"/>-->
 </plugins>
