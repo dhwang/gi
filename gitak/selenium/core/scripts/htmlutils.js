@@ -272,15 +272,15 @@ function normalizeSpaces(text)
     // Replace &nbsp; with a space
     var nbspPattern = new RegExp(String.fromCharCode(160), "g");
     if (browserVersion.isSafari) {
-	return replaceAll(text, String.fromCharCode(160), " ");
+      return replaceAll(text, String.fromCharCode(160), " ");
     } else {
-	return text.replace(nbspPattern, " ");
+      return text.replace(nbspPattern, " ");
     }
 }
 
 function replaceAll(text, oldText, newText) {
     while (text.indexOf(oldText) != -1) {
-	text = text.replace(oldText, newText);
+      text = text.replace(oldText, newText);
     }
     return text;
 }

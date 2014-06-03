@@ -78,7 +78,7 @@ var BrowserVersion = function() {
     
     
 
-    if (this.name == "Microsoft Internet Explorer") {
+    if (this.name == "Microsoft Internet Explorer" || document.documentMode != null) {
         this.browser = BrowserVersion.IE;
         this.isIE = true;
         try {
