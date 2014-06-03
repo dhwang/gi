@@ -2208,7 +2208,9 @@ MozillaBrowserBot.prototype._fireEventOnElement = function(eventType, element, c
 
     // Perform the link action if preventDefault was set.
     // In chrome URL, the link action is already executed by triggerMouseEvent.
-    if (!browserVersion.isChrome && savedEvent != null && !(savedEvent.getPreventDefault && savedEvent.getPreventDefault())) {
+    var isDefaultPrevented = savedEvent.defaultPrevented || savedEvent.defaultPrevented === undefined && ( savedEvent.returnValue === false || savedEvent.getPreventDefault && savedEvent.getPreventDefault() );
+            
+    if (!browserVersion.isChrome && savedEvent != null && !isDefaultPrevented) {
         var targetWindow = this.browserbot._getTargetWindow(element);
         if (element.href) {
             targetWindow.location.href = element.href;
