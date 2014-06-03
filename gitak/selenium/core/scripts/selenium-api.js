@@ -266,7 +266,9 @@ Selenium.prototype.doClick = function(locator) {
         // 2) the page changed the href value on us
         // 3) the elementWithHref was removed from the document
 
-        if (savedEvent && savedEvent.getPreventDefault()) {
+        var isDefaultPrevented = savedEvent.defaultPrevented || savedEvent.defaultPrevented === undefined && ( savedEvent.returnValue === false || savedEvent.getPreventDefault && savedEvent.getPreventDefault() ); 
+
+        if (savedEvent && isDefaultPrevented) {
           // click was canceled by event listener
           win._executingJavascriptHref = undefined;
         } else if (elementWithHref.href != newHref) {
