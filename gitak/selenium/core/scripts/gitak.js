@@ -95,13 +95,26 @@ _jsxlookups.jsx3_gui_Matrix        = {
                                                       return objJSX.getIterableRows();
                                                     },events:""},
                                       rowbyindex:{dom:function(objJSX,intRowIndex) {
-                                                      return _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX)[intRowIndex];
+                                                      // matrix cell is the selectable element
+                                                      return _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX)[intRowIndex].childNodes[0];
                                                     },events:"mousedown"},
                                       rowbyjsxid:{dom:function(objJSX,strJsxId) {
                                                       var strId = objJSX.getId() + "_jsx_" + strJsxId;
                                                       var objDoc = objJSX.getServer().getDocumentOf();
-                                                      return objDoc.getElementById(strId);
+                                                      // matrix cell is the selectable element
+                                                      return objDoc.getElementById(strId).childNodes[0];
                                                     },events:"mousedown"},
+                                      rowbytext: {dom: function(objJSX, rowText) {
+                                         var matrixRows = _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX);
+                                         for (var i=0; matrixRows && (i < matrixRows.length); i++) {
+                                             var elementText = getText(matrixRows[i]);
+                                              LOG.debug(rowText +'=element text=' + elementText);
+                                              if (PatternMatcher.matches(rowText, elementText) ) {
+                                                // matrix cell is the selectable element
+                                                return matrixRows[i].childNodes[0]; 
+                                              }
+                                         }
+                                      }, events:"mousedown"},
                                       cellbyindex:{dom:function(objJSX,intRowIndex,intColumnIndex) {
                                                       var objRow = _jsxlookups.jsx3_gui_Matrix.rowbyindex.dom(objJSX,intRowIndex);
                                                       if(objRow != null)
