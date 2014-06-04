@@ -118,12 +118,12 @@ _jsxlookups.jsx3_gui_Matrix        = {
                                       cellbyindex:{dom:function(objJSX,intRowIndex,intColumnIndex) {
                                                       var objRow = _jsxlookups.jsx3_gui_Matrix.rowbyindex.dom(objJSX,intRowIndex);
                                                       if(objRow != null)
-                                                        return objRow.childNodes[intColumnIndex];
+                                                        return objRow.parentNode.childNodes[intColumnIndex];
                                                     },events:"mousedown"},
                                       cellbyjsxid:{dom:function(objJSX,strJsxId,intColumnIndex) {
                                                       var objRow = _jsxlookups.jsx3_gui_Matrix.rowbyjsxid.dom(objJSX,strJsxId);
                                                       if(objRow != null)
-                                                        return objRow.childNodes[intColumnIndex];
+                                                        return objRow.parentNode.childNodes[intColumnIndex];
                                                     },events:"mousedown"},
                                       toggler:{dom:function(objJSX,strJsxId) {
                                                       //this is the plus/minus icon that the user clicks to expand/close the tree
