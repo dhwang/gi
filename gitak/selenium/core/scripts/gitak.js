@@ -96,13 +96,14 @@ _jsxlookups.jsx3_gui_Matrix        = {
                                                     },events:""},
                                       rowbyindex:{dom:function(objJSX,intRowIndex) {
                                                       // matrix cell is the selectable element
-                                                      return _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX)[intRowIndex].childNodes[0];
+                                                      var row = _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX)[intRowIndex];
+                                                      return (!row) ? null : row.childNodes[0];
                                                     },events:"mousedown"},
                                       rowbyjsxid:{dom:function(objJSX,strJsxId) {
                                                       var strId = objJSX.getId() + "_jsx_" + strJsxId;
-                                                      var objDoc = objJSX.getServer().getDocumentOf();
+                                                      var row = objJSX.getServer().getDocumentOf().getElementById(strId);
                                                       // matrix cell is the selectable element
-                                                      return objDoc.getElementById(strId).childNodes[0];
+                                                      return (!row) ? null : row.childNodes[0];
                                                     },events:"mousedown"},
                                       rowbytext: {dom: function(objJSX, rowText) {
                                          var matrixRows = _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX);
@@ -127,7 +128,7 @@ _jsxlookups.jsx3_gui_Matrix        = {
                                                     },events:"mousedown"},
                                       toggler:{dom:function(objJSX,strJsxId) {
                                                       //this is the plus/minus icon that the user clicks to expand/close the tree
-                                                      var objRow = _jsxlookups.jsx3_gui_Matrix.rowbyjsxid.dom(objJSX,strJsxId);
+                                                      var objRow = _jsxlookups.jsx3_gui_Matrix.rowbyjsxid.dom(objJSX,strJsxId);                                         
                                                       // what about row by index
                                                       if(objRow != null) {
                                                         var objGUI = objRow.childNodes[0];
