@@ -310,7 +310,15 @@ jsx3.Class.defineClass("jsx3.xml.Entity", null, null, function(Entity, Entity_pr
     }
 /* @JSC */ }
 
+     /* @JSC */ if (jsx3.CLASS_LOADER.IE) {
+
     this._entity.setAttributeNode(e);
+  /* @JSC */ } else {
+      if (!Element.prototype.setAttributeNodeNS) {
+         Element.prototype.setAttributeNodeNS = Element.prototype.setAttributeNode;
+      }
+      this._entity.setAttributeNodeNS(e);
+      /* @JSC */ }
 
     return this;
   };
