@@ -126,6 +126,22 @@ _jsxlookups.jsx3_gui_Matrix        = {
                                                       if(objRow != null)
                                                         return objRow.parentNode.childNodes[intColumnIndex];
                                                     },events:"mousedown"},
+                                      cellbytext: {dom:function(objJSX,cellText,intColumnIndex) {
+                                        var matrixRows = _jsxlookups.jsx3_gui_Matrix.rows.dom(objJSX);
+                                        for (var i=0; matrixRows && (i < matrixRows.length); i++) {
+                                          var matrixCells = matrixRows[i].childNodes;
+                                          if (PatternMatcher.matches(cellText, getText(matrixRows[i]))) {
+                                            for (var j=0; matrixCells && (j < matrixCells.length); j++) {
+                                              var elementText = getText(matrixCells[j]);
+                                              LOG.debug(cellText +'=element text=' + elementText);
+                                              if (PatternMatcher.matches(cellText, elementText)) {
+                                                // matrix cell is the selectable element
+                                                return matrixCells[j];
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }, events:"mousedown"},
                                       toggler:{dom:function(objJSX,strJsxId) {
                                                       //this is the plus/minus icon that the user clicks to expand/close the tree
                                                       var objRow = _jsxlookups.jsx3_gui_Matrix.rowbyjsxid.dom(objJSX,strJsxId);                                         
