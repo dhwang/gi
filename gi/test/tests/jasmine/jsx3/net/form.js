@@ -378,7 +378,7 @@ describe("jsx3.net.Form", function () {
       }, "timeout event to trigger", 5000);
       runs(function () {
         expect(evt.target).toBeDefined();
-        expect(evt.subject).toEqual("timeout")
+        expect(evt.subject).toEqual("timeout");
       });
     });
   //t.testTimeout._skip_unless = "NETWORK";
@@ -454,7 +454,7 @@ describe("jsx3.net.Form", function () {
       }, "text value should have been received", 750);
 
       runs(function () {
-        expect(/^File data.(\n|\r\n|\r)?$/.test(text)).toBeTruthy();
+        expect(/File data./.test(text)).toBeTruthy();
         f.destroy();
       });
     });
@@ -535,7 +535,7 @@ describe("jsx3.net.Form", function () {
         expect(rec).not.toBeNull();
         expect(recValue.replace(/&#(\d+);/g, function ($0, $1) {
           return String.fromCharCode($1);
-        })).toEquals(value1);
+        })).toEqual(value1);
       });
     });
 
