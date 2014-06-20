@@ -45,17 +45,17 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>waitForElementPresent</td>
-        <td>gi=[@jsxtext='Search by Mapped Service']</td>
+        <td>gi=btnService</td>
         <td>5000</td>
       </tr>
       <tr>
         <td>assertElementPresent</td>
-        <td>gi=[@jsxtext='Search by Mapped Service']</td>
+        <td>gi=btnService</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>assertElementPresent</td>
-        <td>gi=[@jsxtext='Search by Direct Request']</td>
+        <td>gi=btnRequest</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -74,9 +74,14 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnService</td>
         <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>waitForElementPresent</td>
+        <td>gi=matrix1,cellbyindex,9.1</td>
+        <td>5000</td>
       </tr>
       <tr>
         <td>assertText</td>
@@ -89,7 +94,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnService</td>
         <td>&nbsp;</td>
       </tr>
@@ -104,7 +109,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnRequest</td>
         <td>&nbsp;</td>
       </tr>
@@ -124,7 +129,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>gi=btnRequest</td>
         <td>&nbsp;</td>
       </tr>
@@ -149,7 +154,7 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>link</td>
       </tr>
       <tr>
-        <td>clickJsxElement</td>
+        <td>click</td>
         <td>dom=storedVars['link']</td>
         <td>&nbsp;</td>
       </tr>
