@@ -23,13 +23,18 @@ Copyright 2006-2014 TIBCO Software Inc.
 <body>
   <table border="1">
     <caption>
-      Simple matrix sample with Json service, testing the data showing.
+      Simple matrix sample with Json service using REST to return Flickr image related to the search term
     </caption>
     <tbody>
       <tr>
         <td rowspan="1" colspan="3">
-          Test JsonMapping
+          Test Flickr search using JSON Mapping
           <br></td>
+      </tr>
+      <tr>
+        <td>setInterval</td>
+        <td>300</td>
+        <td>slow down to allow images to load</td>
       </tr>
       <tr>
         <td>include</td>
@@ -60,12 +65,12 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>typeJsxTextbox</td>
-        <td>textbox</td>
+        <td>gi=textbox</td>
         <td>Beijing restaurant</td>
       </tr>
       <tr>
         <td>assertJsxValueMatches</td>
-        <td>textbox</td>
+        <td>gi=textbox</td>
         <td>Beijing restaurant</td>
       </tr>
       <tr>
@@ -89,8 +94,8 @@ Copyright 2006-2014 TIBCO Software Inc.
         <td>17642366@N00</td>
       </tr>
       <tr>
-        <td>checkJsx</td>
-        <td>css=.jsx30radio:nth(0)</td>
+        <td>click</td>
+        <td>gi=radLive</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -125,6 +130,7 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>checkJsx</td>
+        <td>gi=radStatic</td>
         <td>css=.jsx30radio:nth(1)</td>
         <td>&nbsp;</td>
       </tr>
@@ -145,9 +151,20 @@ Copyright 2006-2014 TIBCO Software Inc.
       </tr>
       <tr>
         <td>storeJsxElement</td>
-        <td>gi=matrix1,cellbyindex,1.2</td>
+        <td>gi=matrix1,cellbyindex,5.2</td>
         <td>linkCell</td>
       </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>dom=storedVars['linkCell']</td>
+        <td>focus on link cell</td>
+      </tr>
+      <tr>
+        <td>verifyJsxNotPresent</td>
+        <td>gi=dialog/image</td>
+        <td></td>
+      </tr>
+      
       <tr>
         <td>storeEval</td>
         <td>storedVars['linkCell'].childNodes[0].childNodes[0]</td>
@@ -156,9 +173,57 @@ Copyright 2006-2014 TIBCO Software Inc.
       <tr>
         <td>click</td>
         <td>dom=storedVars['link']</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>waitForJsxPresent</td>
+        <td>gi=dialog</td>
+        <td></td>
+      </tr>      
+      <tr>
+        <td>assertJsxPresent</td>
+        <td>gi=dialog/image</td>
+        <td></td>
+      </tr>      
+      <tr>
+        <td>click</td>
+        <td>gi=dialog/btnClose</td>
         <td>&nbsp;</td>
       </tr>
-    </tbody>
+<tr>
+<td>addLocationStrategy</td>
+<td>linkcell</td>
+<td>
+var cell = selenium.browserbot.locateElementByJsxLookup(locator, inDocument, inWindow);
+return (cell) ? cell.childNodes[0].childNodes[0] : null;</td>
+</tr>
+      <tr>
+        <td>click</td>
+        <td>gi=matrix1,cellbyindex,0.2</td>
+        <td>cell needs focus first</td>
+      </tr>
+      <tr>
+        <td>clickJsxElement</td>
+        <td>linkcell=matrix1,cellbyindex,0.2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>waitForJsxPresent</td>
+        <td>gi=dialog</td>
+        <td></td>
+      </tr>      
+      <tr>
+        <td>assertJsxPresent</td>
+        <td>gi=dialog/image</td>
+        <td></td>
+      </tr>      
+      <tr>
+        <td>setInterval</td>
+        <td>10</td>
+        <td>reset speed inteval</td>
+      </tr>
+
+      </tbody>
   </table>
 </body>
 </html>
