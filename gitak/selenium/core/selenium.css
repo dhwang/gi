@@ -21,8 +21,9 @@
     padding: 0px;
 }
 
-body {
+html, body {
     overflow: auto;
+    height:100%;
 }
 
 td {
@@ -44,6 +45,7 @@ tr {
 }
 
 iframe {
+  display:block;
     border: 0px;
     width: 100%;
     height: 100%;
