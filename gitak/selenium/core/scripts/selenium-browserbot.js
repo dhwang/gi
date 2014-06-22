@@ -2048,7 +2048,12 @@ IEBrowserBot.prototype.modifySeparateTestWindowToDetectPageLoads = function(wind
     var pageUnloadDetector = function() {
         self.pageUnloading = true;
     };
-    windowObject.attachEvent("onbeforeunload", pageUnloadDetector);
+    if(windowObject.attachEvent) {
+        windowObject.attachEvent("onbeforeunload", pageUnloadDetector);
+    } else {
+        windowObject.addEventListener("beforeunload", pageUnloadDetector, false);
+    }
+    
     BrowserBot.prototype.modifySeparateTestWindowToDetectPageLoads.call(this, windowObject);
 };
 
@@ -2303,7 +2308,13 @@ IEBrowserBot.prototype._fireEventOnElement = function(eventType, element, client
     var pageUnloadDetector = function() {
         pageUnloading = true;
     };
-    win.attachEvent("onbeforeunload", pageUnloadDetector);
+
+    if(win.attachEvent) {
+        win.attachEvent("onbeforeunload", pageUnloadDetector);
+    } else {
+        win.addEventListener("beforeunload", pageUnloadDetector, false);
+    }
+
     this._modifyElementTarget(element);
     if (element[eventType]) {
         element[eventType]();
@@ -2316,7 +2327,12 @@ IEBrowserBot.prototype._fireEventOnElement = function(eventType, element, client
     // If the page is going to unload - still attempt to fire any subsequent events.
     // However, we can't guarantee that the page won't unload half way through, so we need to handle exceptions.
     try {
-        win.detachEvent("onbeforeunload", pageUnloadDetector);
+        if(win.detachEvent) {
+            win.detachEvent("onbeforeunload", pageUnloadDetector);
+        } else {
+            win.removeEventListener("beforeunload", pageUnloadDetector, false);
+        }
+        
 
         if (this._windowClosed(win)) {
             return;
