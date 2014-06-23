@@ -825,33 +825,6 @@ Selenium.prototype.doJsxopen = function (url) {
     return Selenium.decorateFunctionWithTimeout(isJsxLoaded, this.defaultTimeout);
 };
 
-//Copy input element value or text.
-Selenium.prototype.doCopy = function(locator) {
-/**
- * Copy the text or input element value of a locator.
- * @param locator {String} locator string for element to retrieve text from
- */
- var element = this.browserbot.findElement(locator);
- var clip = element.value || getText(element);
- jsx3.html.copy(clip);
-};
-
-Selenium.prototype.doPaste = function(locator, storeName) {
-/**
- * Paste current clipboard content to an input box
- * @param locator {String} locator string for element to paste to
- * @param storeName 
- *
-*/
-  var clip = jsx3.html.paste();
-  if (storeName) {
-    storedVars[storeName] = clip; // save the clipboard content to ${storedName}
-  }
-  var element = this.browserbot.findElement(locator);
-  if (element && element.tagName == "input") {
-    this.browserbot.replaceText(element, clip);
-  }
-};
 
 Selenium.prototype.doFireRightMouse = function(locator, eventName) {
 	/**
