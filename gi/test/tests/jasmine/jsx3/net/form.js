@@ -8,7 +8,7 @@ describe("jsx3.net.Form", function () {
   var f, t = new _jasmine_test.App("jsx3.net.Form");
   var ACTION = _jasmine_test.HTTP_BASE + "/formdata.cgi";
 
-  it("should return the HTTP method of this form.", function () {
+  it("should return the Form method of this form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, false);
     try {
       expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_POST);
@@ -26,7 +26,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should test if this form is multipart: if it can upload files", function () {
+  it("should test if this form (MultiPart) can upload files", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, ACTION, true);
     try {
       expect(f.getMultipart()).toBeTruthy();
@@ -35,7 +35,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should set the method of this form", function () {
+  it("should set the get/post method of this form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_POST, "", false);
     try {
       expect(f.getMethod()).toEqual(jsx3.net.Form.METHOD_POST);
@@ -46,7 +46,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should test  the action of this form, the URL that this form is submitted to", function () {
+  it("should set the action of this form, the URL that this form is submitted to", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "#", false);
     try {
       f.setAction(ACTION);
@@ -70,8 +70,11 @@ describe("jsx3.net.Form", function () {
   it("should reveal and hide the IFRAME containing this form after it has been shown by calling reveal()", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "", false);
     try {
+      //expect(f.getIFrame()).not.toBeVisible();
       f.reveal();
+      //expect(f.getIFrame()).toBeVisible();
       f.conceal();
+      //expect(f.getIFrame()).not.toBeVisible();
     } finally {
       f.destroy();
     }
@@ -86,7 +89,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should be able to set  the value of a field in this form", function () {
+  it("should be able to set the value of a field in this form", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "", false);
     try {
       f.setField("field", "value");
@@ -267,7 +270,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should return  the value of a field in this form", function () {
+  it("should return the value of a field in this form", function () {
     var f = new jsx3.net.Form.newFromFragment('<form action="#"><input type="hidden" name="field" value="value"/></form>');
     try {
       expect(f.getField("field")).toEqual("value");
@@ -286,7 +289,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should test the value of a field in this form", function () {
+  it("should be able to get the fields by name in this form", function () {
     var f = new jsx3.net.Form.newFromFragment('<form action="#">' +
       '<input type="text" name="field1" value="value1"/><input type="text" name="field2" value="value2"/></form>');
     try {
@@ -297,7 +300,7 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should test the value of a field in this form", function () {
+  it("should get value of a textarea field by name in this form", function () {
     var f = new jsx3.net.Form.newFromFragment('<form action="#">' +
       '<textarea name="field">value</textarea></form>');
     try {
