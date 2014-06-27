@@ -363,7 +363,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
   /* @jsxobf-clobber */
   Form_prototype.responsePoll = function(bContinue, bReloaded) {
     try {
-      // this._iframe.document.readyState == ""; // empty statement may trigger exception
+      this._iframe.document.readyState == ""; // empty statement may trigger exception
     } catch (e) {
       window.clearInterval(this._intervalId);
       this._intervalId = null;
@@ -371,32 +371,17 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
       return;
     }
 
-    /* @JSC */ if(jsx3.CLASS_LOADER.IE) { //IE specific code
-      if (bReloaded && (this._iframe.document.readyState == "complete" || this._iframe.document.readyState == "loaded")) {
-        window.clearInterval(this._intervalId);
-        this._intervalId = null;
-        this.onResponseLoad();
-      } else if (! bContinue) {
-        window.clearInterval(this._intervalId);
-        this._intervalId = null;
-        this.destroy();
-        this.publish({subject:Form.EVENT_ON_TIMEOUT});
-      } 
-    /* @JSC */ } else {
-      if (bReloaded) {
-        this._iframe.onload = function() {
-          window.clearInterval(this._intervalId);
-          this._intervalId = null;
-          this.onResponseLoad();
-        }
-      } else if (! bContinue) {
-        window.clearInterval(this._intervalId);
-        this._intervalId = null;
-        this.destroy();
-        this.publish({subject:Form.EVENT_ON_TIMEOUT});
-      } 
-    /* @JSC */ }
-    
+    if (bReloaded && (this._iframe.document.readyState == "complete" || this._iframe.document.readyState == "loaded")) {
+//    if (this._iframe.contentDocument && (this._iframe.contentDocument.readyState == "complete" || this._iframe.contentDocument.readyState == "loaded")) {
+      window.clearInterval(this._intervalId);
+      this._intervalId = null;
+      this.onResponseLoad();
+    } else if (! bContinue) {
+      window.clearInterval(this._intervalId);
+      this._intervalId = null;
+      this.destroy();
+      this.publish({subject:Form.EVENT_ON_TIMEOUT});
+    }
   };
 
   /** @private @jsxobf-clobber */
@@ -526,7 +511,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
   };
 
   Form_prototype.getResponseText = function() {
-    var dcmt = this._iframe.contentDocument || this._iframe.contentWindow.document;
+    var dcmt = this._iframe.contentDocument;
 
     if (dcmt instanceof XMLDocument) {
       return (new XMLSerializer()).serializeToString(dcmt);
@@ -539,7 +524,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
   };
 
   Form_prototype.getResponseXML = function() {
-    var dcmt = this._iframe.contentDocument || this._iframe.contentWindow.docu;
+    var dcmt = this._iframe.contentDocument;
 
     var doc = new jsx3.xml.Document();
 
