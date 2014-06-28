@@ -70,11 +70,11 @@ describe("jsx3.net.Form", function () {
   it("should reveal and hide the IFRAME containing this form after it has been shown by calling reveal()", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "", false);
     try {
-      //expect(f.getIFrame()).not.toBeVisible();
+      expect(f.getRenderedSpan()).toHaveStyle("left", /-50px/);
       f.reveal();
-      //expect(f.getIFrame()).toBeVisible();
+      expect(f.getRenderedSpan()).toHaveStyle("left", /0px/);
       f.conceal();
-      //expect(f.getIFrame()).not.toBeVisible();
+      expect(f.getRenderedSpan()).toHaveStyle("left", /-50px/);
     } finally {
       f.destroy();
     }
