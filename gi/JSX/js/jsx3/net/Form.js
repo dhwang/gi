@@ -342,7 +342,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
     if (intPollInterval == null) intPollInterval = Form.DEFAULT_POLL;
     if (intTimeout == null) intTimeout = Form.DEFAULT_TIMEOUT;
 
-    var originalDoc = this._iframe.document;
+    var originalDoc = this._iframe.document || this._iframe.contentWindow.document;
     this._form.submit();
 
     var count = 0;
@@ -352,7 +352,8 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
     /* @jsxobf-clobber */
     var tid = this._intervalId = window.setInterval(function() {
       try {
-        var reloaded = (originalDoc !== me._iframe.document);
+        var dcmt = me._iframe.document || me._iframe.contentWindow.document;
+        var reloaded = (originalDoc !== dcmt);
         me.responsePoll(++count < max, reloaded);
       } catch(e) {
         me.responsePoll(++count < max, true);
@@ -362,8 +363,11 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
 
   /* @jsxobf-clobber */
   Form_prototype.responsePoll = function(bContinue, bReloaded) {
+    var dcmt = this._iframe.document || this._iframe.contentWindow.document;
     try {
-      this._iframe.document.readyState == ""; // empty statement may trigger exception
+       var readyState = dcmt.readyState;
+       // empty statement may trigger exception
+       readyState == "";
     } catch (e) {
       window.clearInterval(this._intervalId);
       this._intervalId = null;
@@ -371,8 +375,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
       return;
     }
 
-    if (bReloaded && (this._iframe.document.readyState == "complete" || this._iframe.document.readyState == "loaded")) {
-//    if (this._iframe.contentDocument && (this._iframe.contentDocument.readyState == "complete" || this._iframe.contentDocument.readyState == "loaded")) {
+    if (bReloaded && (readyState == "complete" || readyState == "loaded")) {
       window.clearInterval(this._intervalId);
       this._intervalId = null;
       this.onResponseLoad();
@@ -402,7 +405,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
    * @return {String}
    */
   Form_prototype.getResponseText = function() {
-    var dcmt = this._iframe.document;
+    var dcmt = this._iframe.document || this._iframe.contentWindow.document;
     var docElm = dcmt ? dcmt.documentElement : null;
 
     //first check form invalid header info returned from the server (mimeType fails in these cases)
@@ -420,7 +423,7 @@ jsx3.Class.defineClass("jsx3.net.Form", null, [jsx3.util.EventDispatcher], funct
    * @return {jsx3.xml.Document}
    */
   Form_prototype.getResponseXML = function() {
-    var dcmt = this._iframe.document;
+    var dcmt = this._iframe.document || this._iframe.contentWindow.document;
 
     var doc = new jsx3.xml.Document();
 
