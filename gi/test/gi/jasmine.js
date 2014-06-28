@@ -445,7 +445,10 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
   _jasmine.toHaveStyle = function(stylename, regExp) {
     var styleValue = this.actual.style[stylename];
     if( (styleValue.length && styleValue.length !==0) || styleValue === '' ){
-      return regExp.test(styleValue);
+      if (typeof(regExp) == "object")
+        return regExp.test(styleValue);
+      else
+        return styleValue == regExp;
     }
     return false;
   };
