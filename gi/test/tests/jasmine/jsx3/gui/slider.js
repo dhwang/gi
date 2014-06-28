@@ -33,9 +33,7 @@ describe("jsx3.gui.Slider", function() {
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_slider.xml", ".", true) : t._server;
     slider = getSlider(t._server);
-    testspace = new RegExp("");
 
-    // slider = t._server.getJSXByName('slider');
     if (!Slider) {
       Slider = jsx3.gui.Slider;
     }
@@ -97,7 +95,7 @@ describe("jsx3.gui.Slider", function() {
   it("should be able to set and get whether the track is painted", function() {
     var paintTrack = slider.getPaintTrack();
     expect(paintTrack).toEqual(jsx3.Boolean.TRUE);
-    expect(getRendered(slider).track).toHaveStyle('visibility', testspace);
+    expect(getRendered(slider).track).toHaveStyle('visibility', '');
 
     slider.setPaintTrack(jsx3.Boolean.FALSE);
     slider.repaint();
