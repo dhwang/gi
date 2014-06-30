@@ -28,9 +28,18 @@ describe("jsx3.html.DOM", function() {
   it("should be able to clear a string of multiple CSS style properties to a DOM element", function() {
     expect(dom.getRendered()).toHaveStyle('width', /100px/);
     expect(dom.getRendered()).toHaveStyle('height', /30px/);
-    jsx3.html.DOM.clearStyles(dom.getRendered(), "width: 100; height: 30;");
-    expect(dom.getRendered()).toHaveStyle('width', testspace);
-    expect(dom.getRendered()).toHaveStyle('height', testspace);
+// * @param strCSS {String} string of CSS. One of two variants are supported:  <code>left:10px;height:20px;width:100px;</code>
+    jsx3.html.DOM.clearStyles(dom.getRendered(), "width: 100px; height: 30px;");
+    expect(dom.getRendered()).toHaveStyle('width', /\s*/);
+    expect(dom.getRendered()).toHaveStyle('height', /\s*/);
+
+    jsx3.html.DOM.setStyles(dom.getRendered(), 'backgroundColor: red; width: 200px; height: 50px;');
+    expect(dom.getRendered()).toHaveStyle('width', /200px/);
+    expect(dom.getRendered()).toHaveStyle('height', /50px/);
+//   or  <code>left:;height:;width:;</code>
+    jsx3.html.DOM.clearStyles(dom.getRendered(), "width:; height:;");
+    expect(dom.getRendered()).toHaveStyle('width', /\s*/);
+    expect(dom.getRendered()).toHaveStyle('height', /\s*/);
   });
 
   it("should be able to apply a single CSS style to a DOM node", function() {
@@ -80,17 +89,20 @@ describe("jsx3.html.DOM", function() {
     } else {
       expect(bgColor).toEqual('rgb(162, 159, 159)');
     }
-    jsx3.html.DOM.removeEventListener(dom.getRendered(), 'onclick');
+    jsx3.html.DOM.removeEventListener(dom.getRendered(), 'onclick', new Function());
+    jsx3.html.DOM.removeBridgedEvent(dom.getRendered(), 'onclick', new Function());
+    //dom.getRendered().setAttribute('onclick', '');
     dom.getRendered().click();
-    
+    //console.log(dom.getRendered())
+
     bgColor = dom.getRendered().style.backgroundColor;
 
     if (bgColor.indexOf('#') > -1) {
       expect(bgColor).toEqual('#a29f9f');
     } else if (bgColor.indexOf('rgb') > -1) {
       expect(bgColor).toEqual('rgb(162, 159, 159)');
-    } else {
-      expect(bgColor).toEqual('red');
     }
+    expect(bgColor).not.toEqual('red'); // this test was not suppose to trigger after removeEventListener
+
   });
 });
