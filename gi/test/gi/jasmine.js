@@ -452,10 +452,21 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
     }
     return false;
   };
+  
+  _jasmine.toBeVisible = function() { 
+    var style = window.getComputedStyle ? getComputedStyle(this.actual) : this.actual.style;
+    var notopaque = ( style.opacity && style.opacity > 0 ) || !style.opacity;    
+    var height = parseInt(style.height), width = parseInt(style.width), 
+      left = parseInt(style.left), top = parseInt(style.top);
+    
+    return (style.display != "none" && style.visibility != "hidden" &&
+            left > 0 && top > 0 && left < left+width && top < top+height && notopaque);
+  };
 
   _jasmine.matchers = {
     toBeInstanceOf: _jasmine.assertInstanceOf,
     toBeTypeOf: _jasmine.assertTypeOf,
+    toBeVisible: _jasmine.toBeVisible,
     toEquals: _jasmine.assertEquals,
     toThrowException: _jasmine.assertThrows,
     toHaveStyle: _jasmine.toHaveStyle

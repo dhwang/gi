@@ -67,14 +67,17 @@ describe("jsx3.net.Form", function () {
     }
   });
 
-  it("should reveal and hide the IFRAME containing this form after it has been shown by calling reveal()", function () {
+  it("should reveal and hide the IFRAME containing this form using Form.reveal()/conceal()", function () {
     var f = new jsx3.net.Form(jsx3.net.Form.METHOD_GET, "", false);
     try {
-      expect(f.getRenderedSpan()).toHaveStyle("left", /-50px/);
+      //expect(f.getRenderedSpan()).toHaveStyle("left", /-50px/);
+      expect(f.getRenderedSpan()).not.toBeVisible();
       f.reveal();
-      expect(f.getRenderedSpan()).toHaveStyle("left", /0px/);
+      expect(f.getRenderedSpan()).toBeVisible();
+      //expect(f.getRenderedSpan()).toHaveStyle("left", /0px/);
       f.conceal();
-      expect(f.getRenderedSpan()).toHaveStyle("left", /-50px/);
+      expect(f.getRenderedSpan()).not.toBeVisible();
+      //expect(f.getRenderedSpan()).toHaveStyle("left", /-50px/);
     } finally {
       f.destroy();
     }
