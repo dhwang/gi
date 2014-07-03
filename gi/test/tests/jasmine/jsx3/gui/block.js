@@ -10,7 +10,7 @@ describe("jsx3.gui.Block", function() {
   var Block;
 
   describe("Member methods", function() {
-    var block, testspace;
+    var block;
     var getBlock = function(s) {
       var root = s.getBodyBlock().loadAndCache("data/block.xml");
       return root.getChild(0);
@@ -19,7 +19,6 @@ describe("jsx3.gui.Block", function() {
     beforeEach(function() {
       t._server = (!t._server) ? t.newServer("data/server2.xml", ".", true) : t._server;
       block = getBlock(t._server);
-      testspace = new RegExp("");
 
       if (!Block) {
         Block = jsx3.gui.Block;
@@ -69,7 +68,7 @@ describe("jsx3.gui.Block", function() {
         block.repaint();
         var fontName = block.getFontName();
         expect(fontName).toEqual(1);
-        expect(block.getRendered()).toHaveStyle('fontFamily', testspace); // IE8 gets 1, we can't fix that. Browser issue.
+        expect(block.getRendered()).toHaveStyle('fontFamily', ''); // IE8 gets 1, we can't fix that. Browser issue.
       });
     }
 
@@ -141,7 +140,7 @@ describe("jsx3.gui.Block", function() {
       block.setBackground("no-repeat");
       block.repaint();
       expect(block.getBackground()).toBe('no-repeat');
-      expect(block.getRendered()).toHaveStyle('background', testspace);
+      expect(block.getRendered()).toHaveStyle('background', 'rgb\(162, 159, 159\)');
     });
 
     it("should able to set and get valid css property value for color", function() {
@@ -154,7 +153,7 @@ describe("jsx3.gui.Block", function() {
     it('should not take invalid color value', function() {
       block.setColor('redd', true);
       expect(block.getColor()).toBe('redd');
-      expect(block.getRendered()).toHaveStyle('color', testspace);
+      expect(block.getRendered()).toHaveStyle('color', '');
     });
 
     it("should able to set and get the width property", function() {
@@ -190,7 +189,7 @@ describe("jsx3.gui.Block", function() {
     it("should not take invalid z-index value", function() {
       block.setZIndex('a', true);
       expect(block.getZIndex()).toEqual('a');
-      expect(block.getRendered()).toHaveStyle('zIndex', testspace);
+      expect(block.getRendered()).toHaveStyle('zIndex', '');
     });
 
     it("should able to set and get HTML tag name to use when rendering the object on-screen", function() {
@@ -234,7 +233,7 @@ describe("jsx3.gui.Block", function() {
       it("should not take invalid cursor value", function() {
         block.setCursor("col-hand", true);
         var cursor = block.getRendered().style.cursor;
-        expect(block.getRendered()).toHaveStyle('cursor', testspace);
+        expect(block.getRendered()).toHaveStyle('cursor', '');
       });
     }
 
@@ -248,7 +247,7 @@ describe("jsx3.gui.Block", function() {
     it("should not take invalid padding value", function() {
       block.setPadding(null, true);
       expect(block.getPadding()).toEqual(null);
-      expect(block.getRendered()).toHaveStyle('padding', testspace);
+      expect(block.getRendered()).toHaveStyle('padding', '');
     });
 
     it("should able to set and get CSS text to override the standard instance properties on the painted block", function() {
@@ -263,7 +262,7 @@ describe("jsx3.gui.Block", function() {
       block.setCSSOverride("margin:10");
       block.repaint();
       expect(block.getCSSOverride()).toEqual("margin:10");
-      expect(block.getRendered()).toHaveStyle('margin', testspace);
+      expect(block.getRendered()).toHaveStyle('margin', '');
     });
 
     it("should able to set and get the named CSS rule(s) to apply to the painted block", function() {
@@ -342,7 +341,7 @@ describe("jsx3.gui.Block", function() {
       block.setFontSize(-10);
       block.repaint();
       expect(block.getFontSize()).toEqual(-10);
-      expect(block.getRendered()).toHaveStyle('fontSize', testspace);
+      expect(block.getRendered()).toHaveStyle('fontSize', '');
     });
 
     it("should able to set and get the css font-weight", function() {
@@ -360,20 +359,14 @@ describe("jsx3.gui.Block", function() {
       block.repaint();
       fontWeight = block.getFontWeight();
       expect(fontWeight).toEqual("bold1");
-      expect(block.getRendered()).toHaveStyle('fontWeight', testspace);
+      expect(block.getRendered()).toHaveStyle('fontWeight', '');
     });
 
     it("should able set and get backgroundColor", function() {
       expect(block.getBackgroundColor()).toEqual('#A29F9F');
       block.setBackgroundColor('#f00', true);
       expect(block.getBackgroundColor()).toEqual('#f00');
-
-      var bgColor = block.getRendered().style.backgroundColor;
-      if (bgColor.indexOf('#') != -1) {
-        expect(block.getRendered()).toHaveStyle('backgroundColor', /#f00/);
-      } else {
-        expect(block.getRendered()).toHaveStyle('backgroundColor', /rgb\(255, 0, 0\)/);
-      }
+      expect(block.getRendered()).toHaveBackgroundColor('#f00', 'rgb(255, 0, 0)');
     });
 
     it("should not take invalid backgroundColor value", function() {
@@ -381,7 +374,7 @@ describe("jsx3.gui.Block", function() {
       block.repaint();
       bgColor = block.getBackgroundColor();
       expect(bgColor).toEqual('#f0000000');
-      expect(block.getRendered()).toHaveStyle('backgroundColor', testspace);
+      expect(block.getRendered()).toHaveStyle('backgroundColor', '');
     });
 
     it('should able to set and get valid css property value for the border', function() {
@@ -437,7 +430,7 @@ describe("jsx3.gui.Block", function() {
     it("should not accept or take invalid values", function() {
       block.setTextAlign("foo");
       expect(block.getTextAlign()).toEqual('foo');
-      expect(block.getRendered()).toHaveStyle('textAlign', testspace);
+      expect(block.getRendered()).toHaveStyle('textAlign', '');
     });
 
     it("should able to set and get the tooltip", function() {

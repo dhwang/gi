@@ -7,7 +7,7 @@ describe("jsx3.gui.Table", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Table");
   var t = new _jasmine_test.App("jsx3.gui.Table");
-  var table, Table, testspace;
+  var table, Table;
 
   var getTable = function(s) {
     var root = s.getBodyBlock().load("data/table.xml");
@@ -41,7 +41,6 @@ describe("jsx3.gui.Table", function() {
   beforeEach(function() {
     t._server = (!t._server) ? t.newServer("data/server_table.xml", ".", true) : t._server;
     table = getTable(t._server);
-    testspace = new RegExp("");
 
     if (!Table) {
       Table = jsx3.gui.Table;
@@ -66,7 +65,7 @@ describe("jsx3.gui.Table", function() {
     table.selectRecord(1);
     expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', /select.gif/);
     table.deselectRecord(1);
-    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage',testspace);
+    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage','');
   });
 
   it("should be able to sort according to the current sort path", function() {
@@ -223,7 +222,7 @@ describe("jsx3.gui.Table", function() {
     selectionModel = table.getSelectionModel();
     expect(selectionModel).toEqual(Table.SELECTION_UNSELECTABLE);
     table.selectRecord(1);
-    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', testspace);
+    expect(getRendered(table).select_cell).toHaveStyle('backgroundImage', '');
   });
 
   it("should be able to set and get the direction (ascending or descending) for the sorted column", function() {

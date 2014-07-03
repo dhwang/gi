@@ -53,58 +53,25 @@ describe("jsx3.gui.ColorPicker", function() {
   it("should able to set and get the color axis shown on the right side of the control", function() {
     var Axis = colorPicker.getAxis();
     expect(Axis).toEqual(ColorPicker.HUE);
-    var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
-
-    if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /#ff0000/);
-    } else {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /rgb\(255, 0, 0\)/);
-    }
-
+    expect(getRendered(colorPicker).hue).toHaveBackgroundColor('#ff0000', 'rgb(255, 0, 0)');
     colorPicker.setAxis(ColorPicker.SATURATION);
     colorPicker.repaint();
     expect(colorPicker.getAxis()).toEqual(ColorPicker.SATURATION);
-    bgColor = getRendered(colorPicker).saturation.style.backgroundColor;
-
-    if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', /#ffffff/);
-    } else {
-      expect(getRendered(colorPicker).saturation).toHaveStyle('backgroundColor', /rgb\(255, 255, 255\)/);
-    }
-
+    expect(getRendered(colorPicker).saturation).toHaveBackgroundColor('#ffffff', 'rgb(255, 255, 255)');
     colorPicker.setAxis(ColorPicker.BRIGHTNESS);
     colorPicker.repaint();
     expect(colorPicker.getAxis()).toEqual(ColorPicker.BRIGHTNESS);
-    bgColor = getRendered(colorPicker).brightness.style.backgroundColor;
-
-    if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', /#000000/);
-    } else {
-      expect(getRendered(colorPicker).brightness).toHaveStyle('backgroundColor', /rgb\(0, 0, 0\)/);
-    }
+    expect(getRendered(colorPicker).brightness).toHaveBackgroundColor('#000000', 'rgb(0, 0, 0)');
   });
 
   it("the currently selected color by RGB", function() {
     var RGB = colorPicker.getRGB();
     expect(RGB).toEqual(16711680);
-    var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
-
-    if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /#ff0000/);
-    } else {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /rgb\(255, 0, 0\)/);
-    }
-
+    expect(getRendered(colorPicker).hue).toHaveBackgroundColor('#ff0000', 'rgb(255, 0, 0)');
     colorPicker.setRGB(10000000);
     RGB = colorPicker.getRGB();
     expect(RGB).toEqual(10000000);
-    var bgColor = getRendered(colorPicker).hue.style.backgroundColor;
-
-    if (bgColor.indexOf('#') != -1) {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /#ffea00/);
-    } else {
-      expect(getRendered(colorPicker).hue).toHaveStyle('backgroundColor', /rgb\(255, 234, 0\)/);
-    }
+    expect(getRendered(colorPicker).hue).toHaveBackgroundColor('#ffea00', 'rgb(255, 234, 0)'); 
   });
 
   it("should able to set and get the RGB value of the currently selected color as an integer", function() {

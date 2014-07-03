@@ -7,8 +7,7 @@ describe("jsx3.gui.Dialog", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Dialog");
   var t = new _jasmine_test.App("jsx3.gui.Dialog");
-  var Dialog, testspace;
-  testspace = new RegExp("");
+  var Dialog;
 
   describe("dialog with window bar ", function() {
     var dialog;
@@ -82,7 +81,7 @@ describe("jsx3.gui.Dialog", function() {
       dialog.repaint();
       var border = dialog.getBorder();
       expect(border).toEqual('solid1 1px #000000');
-      expect(dialog.getRendered()).toHaveStyle('border', testspace);
+      expect(dialog.getRendered()).toHaveStyle('border', '');
     });
 
     it("should able to set and get the uniform buffer", function() {
@@ -315,7 +314,7 @@ describe("jsx3.gui.Dialog", function() {
       expect(dialog4.getRendered()).toHaveStyle('display', /none/);
       getRendered(dialog4).click();
       var reg = new RegExp('')
-      expect(dialog4.getRendered()).toHaveStyle('display', testspace);
+      expect(dialog4.getRendered()).toHaveStyle('display', '');
       getRendered(dialog4).click();
       expect(dialog4.getRendered()).toHaveStyle('display', /none/);
     });

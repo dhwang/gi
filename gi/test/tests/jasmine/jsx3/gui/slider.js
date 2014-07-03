@@ -7,8 +7,7 @@ describe("jsx3.gui.Slider", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Slider");
   var t = new _jasmine_test.App("jsx3.gui.Slider");
-  var slider, testspace;
-  var Slider;
+  var slider, Slider;
 
   var getSlider = function(s) {
     var root = s.getBodyBlock().load("data/slider.xml");

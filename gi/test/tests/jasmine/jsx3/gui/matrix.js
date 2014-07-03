@@ -7,8 +7,7 @@ describe("jsx3.gui.Matrix", function() {
   var _jasmine_test = gi.test.jasmine;
   _jasmine_test.require("jsx3.gui.Matrix");
   var t = new _jasmine_test.App("jsx3.gui.Matrix");
-  var Matrix, testspace;
-  testspace = new RegExp("");
+  var Matrix;
 
   describe("matrix_grid", function() {
     var matrix1;
@@ -246,7 +245,7 @@ describe("jsx3.gui.Matrix", function() {
 
     it("should able to set and get whether or not to supress display of the vertical scrollbar", function() {
       matrix1.getAncestorOfName('block').setHeight(300, true);
-      expect(getRendered(matrix1).scrollerV).toHaveStyle('display', testspace);
+      expect(getRendered(matrix1).scrollerV).toHaveStyle('display', '');
       var VScroller = matrix1.getSuppressVScroller();
       expect(VScroller).toBeNull();
       matrix1.setSuppressVScroller(jsx3.Boolean.TRUE, true);
@@ -312,7 +311,7 @@ describe("jsx3.gui.Matrix", function() {
         expect(cell).toHaveStyle('backgroundImage', /select\.gif/);
         matrix2.deselectAllRecords();
         cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
-        expect(cell).toHaveStyle('backgroundImage', testspace);
+        expect(cell).toHaveStyle('backgroundImage', '');
       });
     });
 
@@ -326,7 +325,7 @@ describe("jsx3.gui.Matrix", function() {
         expect(cell).toHaveStyle('backgroundImage', /select\.gif/);
         matrix2.deselectRecord('AZ');
         cell = matrix2.getRendered().getElementsByTagName('table')[1].tBodies[0].rows[0].cells[1];
-        expect(cell).toHaveStyle('backgroundImage', testspace);
+        expect(cell).toHaveStyle('backgroundImage', '');
       });
     });
 

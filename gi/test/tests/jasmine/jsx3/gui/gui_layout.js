@@ -101,12 +101,7 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
     it("should have a block at left inside the second row for the navigation", function() {
       var leftPane = layout.getChild(1).getChild(0).getChild(0);
       expect(leftPane).toBeInstanceOf("jsx3.gui.Block");
-      var bgColor = leftPane.getRendered().style.backgroundColor;
-      if(bgColor.indexOf('rgb') !== -1) {
-        expect(leftPane.getRendered()).toHaveStyle('backgroundColor',/rgb\(255, 192, 203\)/);
-      } else {
-        expect(bgColor).toEqual("pink");
-      }
+      expect(leftPane.getRendered()).toHaveBackgroundColor('pink', 'rgb(255, 192, 203)');
       expect(leftPane.getRendered()).toHaveStyle('width',/100px/);
     });
 
@@ -118,13 +113,7 @@ describe("jsx3.gui.LayoutGrid - application screen layout GI components like blo
 
     it("should have a block in the third row for the copyright notice", function() {
       expect(layout.getChild(2)).toBeInstanceOf("jsx3.gui.Block");
-      var bgColor = layout.getChild(2).getRendered().style.backgroundColor;
-
-      if(bgColor.indexOf('rgb') !== -1) {
-        expect(layout.getChild(2).getRendered()).toHaveStyle('backgroundColor',/rgb\(173, 216, 230\)/);
-      } else {
-        expect(layout.getChild(2).getRendered()).toHaveStyle('backgroundColor',/lightblue/);
-      }
+      expect(layout.getChild(2).getRendered()).toHaveBackgroundColor('lightblue', 'rgb(173, 216, 230)');
       expect(layout.getChild(2).getRendered()).toHaveStyle('height',/50px/);
     });
 
