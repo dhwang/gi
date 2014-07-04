@@ -463,13 +463,42 @@ gi.test.jasmine._init = function(_jasmine, undefined) {
             left > 0 && top > 0 && left < left+width && top < top+height && notopaque);
   };
 
+  _jasmine.toHaveBackgroundColor = function(colorValue, rgbcolorValue) {
+    var bgColor = this.actual.style.backgroundColor;
+    if(bgColor.indexOf('rgb') > -1) {
+      return bgColor == rgbcolorValue; 
+    } else {
+      return bgColor == colorValue;
+    }
+  };
+
+  _jasmine.toHaveComputedStyle = function(stylename,regExp) {
+    var styleValue, 
+        this = this.actual;
+    if(window.currentStyle) {
+      styleValue = this.currentStyle[stylename];
+    } else if (window.getComputedStyle) {
+      styleValue = window.getComputedStyle(this, null)[stylename];
+    }
+
+    if( (styleValue.length && styleValue.length !==0) || styleValue === '' ){
+      if (typeof(regExp) == "object")
+        return regExp.test(styleValue);
+      else
+        return styleValue == regExp;
+    }
+    return false;
+  };
+
   _jasmine.matchers = {
     toBeInstanceOf: _jasmine.assertInstanceOf,
     toBeTypeOf: _jasmine.assertTypeOf,
     toBeVisible: _jasmine.toBeVisible,
     toEquals: _jasmine.assertEquals,
     toThrowException: _jasmine.assertThrows,
-    toHaveStyle: _jasmine.toHaveStyle
+    toHaveStyle: _jasmine.toHaveStyle,
+    toHaveBackgroundColor: _jasmine.toHaveBackgroundColor,
+    toHaveComputedStyle: _jasmine.toHaveComputedStyle
   };
   // Logging functions
 
